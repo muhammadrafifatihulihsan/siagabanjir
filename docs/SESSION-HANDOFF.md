@@ -8,6 +8,18 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+Permintaan pemilik pada 20 Oktober 2026 mengarahkan README utama untuk pembaca
+umum: menjelaskan aplikasi, tujuan, pengguna, fitur yang direncanakan, dan
+status pengembangan. Perintah validasi kini berada di
+[panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd), sedangkan status
+versi dan struktur proyek berada di [WORKSPACE](WORKSPACE.md#status-dan-versi).
+Navigasi teknis memakai [indeks dokumentasi](INDEX.md); rujukan dalam rules,
+skill workspace, versioning, dan register keterlacakan diselaraskan.
+Perubahan ini bersifat editorial, tanpa perubahan fungsi atau kontrak produk.
+Hasil pemeriksaan: [audit README](WORKSPACE.md#readme-publik).
+
+## Publikasi baseline v0.1.0
+
 [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008)
 mencakup kelanjutan sesi, penutupan verifikasi, push melalui Git Bash,
 publikasi v0.1.0, dan pembersihan ekspor session setelah penutupan terverifikasi.

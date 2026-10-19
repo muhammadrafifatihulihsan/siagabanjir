@@ -7,6 +7,13 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+### Diubah
+
+- README utama memperkenalkan tujuan, pengguna, fitur yang direncanakan, dan
+  status SiagaBanjir dengan bahasa untuk pembaca umum.
+- Panduan validasi dipindahkan ke GITHUB-WORKFLOW; status versi dan struktur
+  proyek berada di WORKSPACE. Indeks serta rujukan teknis diselaraskan.
+
 ## [0.1.0] - 2026-10-20
 
 Rilis awal baseline dokumentasi dan workspace SiagaBanjir.

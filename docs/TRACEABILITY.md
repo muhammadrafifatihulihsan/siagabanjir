@@ -1648,7 +1648,7 @@ Penutupan 20 agenda berada pada [FRD §27](FRD.md#frd-open): 15 fungsi menjadi b
 
 ## 35. Audit final FRD v1.0.0
 
-**Hasil aktual: PASS, 18 Oktober 2026.** Auditor pada pemeriksaan historis tidak disertakan dalam repository. Pemeriksaan aktif mengikuti [README](../README.md#otomatisasi-cicd). Enam dokumen diperiksa: 30 bagian FRD, 68 FR, 136 AC, 156 TC, seluruh 57 sumber PRD-F dan 10 PRD-NF, serta 2.163 tautan lokal. Tidak ditemukan tautan/anchor rusak, ID hilang/ganda, ketidaksesuaian sumber FR–RTM, atau lebar tabel FRD yang tidak konsisten.
+**Hasil aktual: PASS, 18 Oktober 2026.** Auditor pada pemeriksaan historis tidak disertakan dalam repository. Pemeriksaan aktif mengikuti [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd). Enam dokumen diperiksa: 30 bagian FRD, 68 FR, 136 AC, 156 TC, seluruh 57 sumber PRD-F dan 10 PRD-NF, serta 2.163 tautan lokal. Tidak ditemukan tautan/anchor rusak, ID hilang/ganda, ketidaksesuaian sumber FR–RTM, atau lebar tabel FRD yang tidak konsisten.
 
 38 catatan keputusan tetap sama pada kedua register dan arsip sebelum finalisasi; 12 paket standar mempunyai otoritas delegasi terpisah. Seluruh 20 agenda mempunyai disposisi final (15 fungsi, 4 bukti, 1 SRS). Hash BRD, PRD dan empat ekspor sesi tetap sama; delapan bagian discovery yang dimigrasi tetap utuh. Pemeriksaan semantik juga menyelaraskan metadata FR, aturan bisnis, status/izin, pemulihan kode pengganti, expiry inbox yang sudah diketahui saat offline, dan retry penghapusan dokumen privat oleh pemilik. **Uji aplikasi/provider/perangkat/UAT tetap NOT_RUN.**
 
@@ -1821,7 +1821,7 @@ Tidak ada credential, akun layanan, panggilan provider, perangkat fisik, SDK/ser
 
 ## 38. Audit SRS v1.0.0
 
-Pemeriksaan historis SRS mencakup sumber, FR/NF/TC, route/role/schema/ref, contoh payload, metadata, tabel, dan tautan. Auditor lama tidak disertakan; pemeriksaan aktif mengikuti [README](../README.md#otomatisasi-cicd). Hasil di bawah adalah catatan audit pada tahap SRS. Semua pengujian aplikasi tetap NOT_RUN.
+Pemeriksaan historis SRS mencakup sumber, FR/NF/TC, route/role/schema/ref, contoh payload, metadata, tabel, dan tautan. Auditor lama tidak disertakan; pemeriksaan aktif mengikuti [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd). Hasil di bawah adalah catatan audit pada tahap SRS. Semua pengujian aplikasi tetap NOT_RUN.
 
 <!-- srs-audit-summary:start -->
 **Hasil aktual: PASS.** 68 kebutuhan fungsional dan 10 NFR tercakup; 72 operasi API, 166 schema, serta 41 contoh valid/invalid lolos pemeriksaan. Seluruh 156 skenario FRD terpetakan dan 24 skenario teknis tambahan tersedia. 3536 tautan lokal diperiksa; BRD/PRD/FRD serta riwayat sumber terlindungi tetap utuh. Audit FRD juga PASS; tidak ada error auditor.

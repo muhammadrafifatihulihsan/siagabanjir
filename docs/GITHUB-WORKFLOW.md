@@ -1,10 +1,20 @@
-# Kontribusi dan publikasi GitHub
+# Panduan pengembangan dan publikasi GitHub
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
+
+[![CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
 
 Repository: [muhammadrafifatihulihsan/siagabanjir](https://github.com/muhammadrafifatihulihsan/siagabanjir).
 Branch utama adalah main. Repository berisi spesifikasi dan workspace demo
 akademik; backend serta Flutter diinisialisasi tim.
+
+Status versi, struktur, dan dukungan OS/IDE ada di [WORKSPACE](WORKSPACE.md).
+[Indeks dokumentasi](INDEX.md) memetakan spesifikasi dan panduan aktif;
+[README aplikasi](../apps/README.md) menetapkan tanggung jawab inisialisasi tim.
+Agent mengikuti [AGENTS](../AGENTS.md), menuntaskan
+[bacaan lengkap](../rules/workflow.md#baca-lengkap), lalu memakai prosedur dari
+[katalog delapan skill](../SKILL.md) sesuai tugas. Setiap perubahan menyelaraskan
+[dokumen yang terdampak](../rules/documentation.md#living-documents).
 
 ## Sebelum mengubah berkas
 
@@ -29,9 +39,42 @@ akademik; backend serta Flutter diinisialisasi tim.
 Publikasi langsung ke main dapat dilakukan bila mandat pemilik mencakupnya.
 Jangan mengubah identitas Git, konfigurasi global, atau remote yang sudah benar.
 
+<a id="otomatisasi-cicd"></a>
+
+## Validasi lokal dan CI
+
+[CI](../.github/workflows/ci.yml) memeriksa dokumentasi, format, dan kontrak pada
+push serta pull request ke main. Pemeriksaan memakai Python 3.10+ (CI: 3.12),
+Node 24, dan EditorConfig Checker 4.0.2.
+
+Pasang dependensi Python dalam environment terisolasi. Perintah berikut
+dijalankan dari root repository; dependensinya hanya untuk pemeriksaan workspace.
+
+```bash
+python -m pip install -r .github/requirements-validation.txt
+python -B -X utf8 .github/scripts/validate_links.py
+python -B -X utf8 .github/scripts/validate_skills.py
+python -B -X utf8 .github/scripts/validate_contracts.py
+python -B -X utf8 -m unittest discover -s .github/scripts -p 'test_*.py'
+npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md' '#**/codex-session-*.md' '#archive/**'
+npx -y @redocly/cli@2.64.1 lint docs/openapi.json --config .redocly.yaml
+editorconfig-checker
+git diff --check
+```
+
+Lint Markdown dan validator tautan mengecualikan ekspor lokal
+`codex-session-*.md` serta arsip privat. [Handoff aktif](SESSION-HANDOFF.md)
+tetap diperiksa seperti dokumentasi lainnya.
+
+EditorConfig Checker tersedia dari [rilis resmi v4.0.2](https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/v4.0.2).
+Pemeriksaan default mencakup berkas tracked; periksa berkas baru setelah staging
+atau berikan path-nya secara eksplisit. Redocly menggunakan
+[konfigurasi proyek](../.redocly.yaml) untuk menemukan kesalahan kontrak dan komponen
+yang tidak dirujuk. Validasi skema tidak menggantikan tes perilaku aplikasi.
+
 ## Pemeriksaan dan commit
 
-Jalankan seluruh [validasi lokal](../README.md#otomatisasi-cicd), lalu tinjau
+Jalankan seluruh [validasi lokal](#otomatisasi-cicd), lalu tinjau
 diff dan dampak dokumentasi. Kontrak dalam docs ikut Git; rahasia, data pribadi,
 dependensi, artefak build, dan arsip percakapan lokal mengikuti .gitignore.
 

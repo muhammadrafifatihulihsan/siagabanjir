@@ -13,19 +13,45 @@ Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 penutupan verifikasi, perbaikan, dan publikasi baseline. Backend dan Flutter
 disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 
+README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
+dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
+dipelihara pada [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd).
+
+## Status dan versi
+
+| Komponen | Baseline |
+|---|---|
+| BRD / PRD | v0.1.0 APPROVED |
+| FRD / SRS / kontrak API | v1.0.0 APPROVED |
+| Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
+| Backend / Flutter | Belum tersedia; folder aplikasi berisi penanda kosong |
+| Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
+
+Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
+dan backend bersama. Persetujuan spesifikasi berbeda dari penerimaan implementasi.
+Baseline v0.1.0 tidak menyediakan APK atau aplikasi siap pakai.
+[CHANGELOG](../CHANGELOG.md) mencatat perubahan sesuai [versioning](VERSIONING.md);
+[GitHub Releases](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases)
+menyediakan catatan rilis dan arsip repository pada tag terkait.
+
+## Struktur dan panduan workspace
+
 | Artefak | Tanggung jawab |
 |---|---|
+| [docs](INDEX.md) | Spesifikasi, kontrak API, desain, keputusan, dan panduan kerja |
 | [AGENTS](../AGENTS.md) | Sumber instruksi bersama dan routing tugas |
 | [SKILL](../SKILL.md) | Katalog delapan skill; prosedur pada sumber masing-masing |
+| [skills](../skills/) | Delapan prosedur tugas yang dirujuk AGENTS |
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | server/app untuk setup tim, saat ini hanya penanda kosong |
+| [apps](../apps/README.md) | apps/server dan apps/app untuk setup tim, saat ini hanya penanda kosong |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
 | [.gitignore](../.gitignore) | Rahasia, artefak lokal dan seluruh archive/ dikecualikan Git; tidak ada indeks arsip publik |
 | [GitHub](GITHUB-WORKFLOW.md) dan [versioning](VERSIONING.md) | Commit/push/PR dan identitas repo; bukti pada audit final/handoff |
+| [.github](../.github/) | CI, rilis, validator, dan template pull request |
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
 Scaffold aplikasi lama sudah ditarik. Wadah apps yang sekarang berisi tempat
@@ -270,3 +296,21 @@ aplikasi, dan kebijakan versioning tidak terdampak karena requirement,
 kontrak, prosedur persetujuan serta target implementasi tidak berubah.
 Pengujian aplikasi/provider/perangkat/UAT dan pemuatan IDE tetap NOT_RUN;
 penempatan skill native Codex tetap terhalang izin lokasi yang dicatat sebelumnya.
+
+<a id="readme-publik"></a>
+
+## README untuk pembaca umum — 20 Oktober 2026
+
+Pemilik meminta README utama menjelaskan aplikasi dan manfaatnya dengan bahasa
+umum. Isi pengembangan dipindahkan ke panduan yang sudah ada: validasi/CI ke
+GITHUB-WORKFLOW, status versi dan struktur ke WORKSPACE, serta navigasi melalui
+INDEX. Penanda living document README memakai komentar HTML sesuai aturan
+dokumentasi. Rujukan aktif mengikuti lokasi baru.
+
+Pemeriksaan lokal PASS: 36 Markdown dan tautan internal, delapan skill,
+EditorConfig, diff, 25 tes regresi, serta validasi 165 skema/54 contoh dan
+Redocly. Blok perintah validasi cocok dengan README sebelumnya; pencarian
+rujukan aktif tidak menemukan tautan ke bagian teknis README yang telah dipindahkan.
+Spesifikasi, kontrak/contoh, DESIGN, AGENTS, adapter IDE, dan README aplikasi
+tidak memerlukan perubahan karena fungsi, akses data, platform, dan setup tim
+tetap. Riwayat persetujuan serta hasil TC produk tidak berubah.

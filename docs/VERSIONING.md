@@ -31,7 +31,7 @@ Sumber: [GitHub Releases](https://docs.github.com/en/repositories/releasing-proj
 1. Perbarui entri versi pada [CHANGELOG](../CHANGELOG.md) dengan tanggal
    publikasi, perubahan, dan batas hasil aktual. Bagian Unreleased menampung
    perubahan untuk rilis berikutnya.
-2. Jalankan [pemeriksaan lokal](../README.md#otomatisasi-cicd), review diff,
+2. Jalankan [pemeriksaan lokal](GITHUB-WORKFLOW.md#otomatisasi-cicd), review diff,
    commit, lalu push main melalui [panduan GitHub](GITHUB-WORKFLOW.md).
 3. Tunggu seluruh pekerjaan CI berhasil pada SHA commit yang akan dirilis.
    Pastikan tag versi tersebut belum ada di lokal maupun remote.

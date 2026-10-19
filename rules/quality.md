@@ -51,7 +51,7 @@ memakai tooling yang sudah tersedia dan tidak menginisialisasi aplikasi.
 
 ## Arti perintah pemeriksaan
 
-Gate workspace dan perintah lokal ada pada [README](../README.md#otomatisasi-cicd).
+Gate workspace dan perintah lokal ada pada [panduan pengembangan](../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd).
 Validator harus gagal bila akar/cakupan sumber keliru. Tes regresi validator
 menangkap YAML rusak, tautan/case, contoh tidak sesuai, serta replay rahasia
 SRS-IF-004. Hasil tersebut tidak menggantikan tes API atau perangkat.

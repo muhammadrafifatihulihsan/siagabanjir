@@ -53,7 +53,7 @@ tautan yang benar; bukan sekadar rencana.
    privat, serta template PR. Kontrak dalam docs tetap sumber normatif, bukan
    artefak generated. Menyiapkan panduan saja tidak memberi mandat push/merge;
    instruksi pengguna untuk publikasi mengotorisasi commit/remote/push terkait.
-   Jalankan validator dan tes regresinya sesuai README; jangan menaikkan hasil
+   Jalankan validator dan tes regresinya sesuai [panduan pengembangan](../../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd); jangan menaikkan hasil
    statis menjadi bukti runtime aplikasi.
 8. Perbarui README/handoff dan hasil pemeriksaan singkat pada dokumen workspace.
 

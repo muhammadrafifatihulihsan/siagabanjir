@@ -22,8 +22,10 @@ mengganti isi yang benar atau menyentuh semua file demi jumlah perubahan.
 Perubahan manusia juga diperiksa dampaknya ketika AI melanjutkan tugas.
 
 Setiap Markdown aktif mencantumkan penanda living document yang merujuk aturan
-ini; SKILL mempertahankan YAML sebagai bagian pertama, template PR boleh memakai
-komentar HTML. JSON/config mengikuti aturan yang sama tanpa menyisipkan Markdown.
+ini; SKILL mempertahankan YAML sebagai bagian pertama. README utama untuk
+pembaca umum dan template PR boleh memakai komentar HTML agar penanda kerja
+tidak mengganggu isi yang ditampilkan. JSON/config mengikuti aturan yang sama
+tanpa menyisipkan Markdown.
 Sumber baru wajib masuk inventaris bacaan, navigasi dan matriks dampak.
 
 Status approved tidak dibatalkan oleh perbaikan metadata/tautan. Perubahan makna

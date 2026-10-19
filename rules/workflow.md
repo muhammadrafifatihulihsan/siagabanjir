@@ -73,7 +73,7 @@ mandiri. Status pelaksanaan tetap mengikuti bukti aktual.
 - CI di [GitHub Actions](../.github/workflows/ci.yml) memvalidasi
   Markdown, link/case, skill YAML, format, OpenAPI/contoh dan regresi validator.
 - Script validasi lokal tersedia di `.github/scripts/`; versi dependensi dan
-  perintah ada pada [README](../README.md#otomatisasi-cicd). Jalankan sebelum commit.
+  perintah ada pada [panduan pengembangan](../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd). Jalankan sebelum commit.
 
 ## Unit perubahan
 

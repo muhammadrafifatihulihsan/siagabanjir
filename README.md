@@ -1,99 +1,62 @@
 # SiagaBanjir
 
-> **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](rules/documentation.md#living-documents).
+<!-- Living document: pemeliharaan mengikuti rules/documentation.md#living-documents. -->
 
-[![CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
+SiagaBanjir dirancang untuk membantu warga melaporkan banjir, melihat ringkasan
+kondisi lokasi yang dilaporkan, dan menyiapkan kebutuhan keluarga menghadapi
+banjir. Proyek akademik ini mengambil konteks Kota Padang.
 
-SiagaBanjir adalah proyek akademik untuk pelaporan dan pemantauan banjir dalam
-konteks Kota Padang. Rancangan produk mencakup Flutter Android untuk warga,
-Flutter Web untuk admin, dan backend bersama.
+## Mengapa SiagaBanjir?
 
-Repository ini menyediakan spesifikasi, kontrak API, panduan desain, dan
-instruksi kerja tim. **Backend dan aplikasi Flutter belum diimplementasikan.**
-Tim menginisialisasi keduanya di [apps/](apps/README.md).
+Laporan dari banyak warga perlu disusun agar kejadian yang saling berkaitan
+lebih mudah dipahami. SiagaBanjir menghubungkan laporan warga dengan proses
+peninjauan pengelola, lalu menyajikan ringkasan yang mudah dibaca.
 
-## Dokumentasi
+Selain pelaporan, SiagaBanjir dirancang sebagai tempat untuk menyiapkan tas
+siaga, menyimpan salinan dokumen penting, serta menemukan kontak dan panduan
+kesiapsiagaan.
 
-| Kebutuhan | Acuan |
-|---|---|
-| Tujuan dan kebutuhan produk | [BRD](docs/BRD.md) dan [PRD](docs/PRD.md) |
-| Perilaku, aturan, dan penerimaan | [FRD](docs/FRD.md) |
-| Arsitektur, data, dan antarmuka | [SRS](docs/SRS.md), [OpenAPI](docs/openapi.json), [contoh payload](docs/examples.json) |
-| Desain layar dan aksesibilitas | [DESIGN](docs/DESIGN.md) |
-| Keputusan dan keterlacakan | [DECISIONS](docs/DECISIONS.md) dan [TRACEABILITY](docs/TRACEABILITY.md) |
-| Kontribusi dan publikasi | [Panduan GitHub](docs/GITHUB-WORKFLOW.md) dan [versioning](docs/VERSIONING.md) |
-| Konfigurasi dan status pekerjaan | [WORKSPACE](docs/WORKSPACE.md) dan [handoff](docs/SESSION-HANDOFF.md) |
+## Untuk siapa?
 
-[Indeks dokumentasi](docs/INDEX.md) memuat seluruh sumber aktif.
-Agent mengikuti [AGENTS](AGENTS.md), menuntaskan
-[bacaan lengkap](rules/workflow.md#baca-lengkap), lalu menjalankan prosedur dari
-[katalog delapan skill](SKILL.md) sesuai tugas. Setiap perubahan menyelaraskan
-[dokumen yang terdampak](rules/documentation.md#living-documents).
+- **Warga**, melalui aplikasi Android, untuk melapor, mengikuti perkembangan
+  laporan sendiri, memantau lokasi yang dilaporkan, dan menyiapkan kebutuhan keluarga.
+- **Pengelola (admin)**, melalui aplikasi web, untuk memeriksa laporan,
+  memperbarui hasil tinjauan, mencatat tindak lanjut, dan menyampaikan informasi
+  kepada warga.
 
-## Status dan versi
+## Fitur yang direncanakan
 
-| Komponen | Baseline |
-|---|---|
-| BRD / PRD | v0.1.0 APPROVED |
-| FRD / SRS / kontrak API | v1.0.0 APPROVED |
-| Workspace | v0.1.0 |
-| Backend / Flutter | Belum tersedia; folder aplikasi berisi penanda kosong |
-| Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
+- **Laporan banjir** — kirim foto atau video beserta lokasi dan keterangan,
+  lalu ikuti status serta hasil tinjauannya melalui riwayat pribadi.
+- **Pantau lokasi** — baca ringkasan lokasi yang dilaporkan, indikasi tingkat
+  kondisi, waktu pembaruan, dan penanda tinjauan pengelola, termasuk tanpa akun.
+- **Tas siaga keluarga** — susun kebutuhan dari daftar barang yang disesuaikan
+  dengan keluarga, tambahkan barang sendiri, dan tandai yang sudah disiapkan.
+- **Dokumen pribadi** — simpan salinan dokumen penting dan kelola informasi
+  keluarga dengan akses yang dibatasi untuk pemilik akun.
+- **Kontak dan panduan** — temukan kontak umum, simpan kontak pribadi, dan baca
+  panduan kesiapsiagaan dengan pilihan suara sesuai dukungan perangkat.
+- **Pesan pengelola** — baca informasi dan peringatan melalui kotak masuk aplikasi.
 
-Persetujuan spesifikasi berbeda dari penerimaan implementasi.
-Baseline v0.1.0 berisi dokumentasi dan workspace; tidak menyediakan APK
-atau aplikasi siap pakai. Catatan versi ada di [CHANGELOG](CHANGELOG.md).
-[GitHub Releases](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases)
-menyediakan catatan rilis dan arsip repository pada tag terkait.
+Analisis AI akan membantu memeriksa kesesuaian bukti laporan. Laporan yang
+berkaitan dikelompokkan agar lebih mudah ditinjau. Pengelola dapat mengoreksi
+hasil dan mencatat tindak lanjut yang bisa dibaca pelapor.
 
-<a id="otomatisasi-cicd"></a>
+Pantau bersumber dari laporan yang masuk. Lokasi tanpa laporan tidak otomatis
+berarti aman; kondisi yang belum dapat dinilai ditampilkan sebagai **Belum dinilai**.
+Ringkasan publik tidak menampilkan identitas pelapor maupun foto dan video
+laporan pribadi.
 
-## Validasi lokal dan CI
+## Status proyek
 
-[CI](.github/workflows/ci.yml) memeriksa dokumentasi, format, dan kontrak pada
-push serta pull request ke main. Pemeriksaan memakai Python 3.10+ (CI: 3.12),
-Node 24, dan EditorConfig Checker 4.0.2.
+**Aplikasi belum tersedia untuk digunakan.** Saat ini proyek berada pada tahap
+spesifikasi dan persiapan pengembangan. Fitur di atas merupakan rancangan untuk
+demo akademik; rilis yang tersedia masih berisi dokumentasi proyek.
 
-Pasang dependensi Python dalam environment terisolasi. Perintah berikut
-dijalankan dari root repository; dependensinya hanya untuk pemeriksaan workspace.
+## Informasi pengembangan
 
-```bash
-python -m pip install -r .github/requirements-validation.txt
-python -B -X utf8 .github/scripts/validate_links.py
-python -B -X utf8 .github/scripts/validate_skills.py
-python -B -X utf8 .github/scripts/validate_contracts.py
-python -B -X utf8 -m unittest discover -s .github/scripts -p 'test_*.py'
-npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md' '#**/codex-session-*.md' '#archive/**'
-npx -y @redocly/cli@2.64.1 lint docs/openapi.json --config .redocly.yaml
-editorconfig-checker
-git diff --check
-```
-
-Lint Markdown dan validator tautan mengecualikan ekspor lokal
-`codex-session-*.md` serta arsip privat. [Handoff aktif](docs/SESSION-HANDOFF.md)
-tetap diperiksa seperti dokumentasi lainnya.
-
-EditorConfig Checker tersedia dari [rilis resmi v4.0.2](https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/v4.0.2).
-Pemeriksaan default mencakup berkas tracked; periksa berkas baru setelah staging
-atau berikan path-nya secara eksplisit. Redocly menggunakan
-[konfigurasi proyek](.redocly.yaml) untuk menemukan kesalahan kontrak dan komponen
-yang tidak dirujuk. Validasi skema tidak menggantikan tes perilaku aplikasi.
-
-## Struktur workspace
-
-| Lokasi | Isi |
-|---|---|
-| apps/server dan apps/app | Lokasi backend dan Flutter yang disiapkan tim |
-| docs | Spesifikasi, desain, keputusan, kontrak, dan panduan kerja |
-| rules | Aturan bersama untuk alur kerja, mutu, dan dokumentasi |
-| skills | Delapan prosedur tugas yang dirujuk AGENTS |
-| .github | CI, rilis, validator, dan template pull request |
-| CLAUDE.md dan .aiassistant/rules | Adapter instruksi IDE |
-| .vscode/extensions.json | Rekomendasi ekstensi opsional |
-
-Konfigurasi EditorConfig dan Git attributes menjaga format lintas OS.
-Dukungan IDE dan batas pengujiannya tercatat pada
-[matriks workspace](docs/WORKSPACE.md#ide).
+Rincian perencanaan tersedia di [indeks dokumentasi](docs/INDEX.md).
+Tim pengembang dapat mengikuti [panduan pengembangan dan publikasi](docs/GITHUB-WORKFLOW.md).
 
 ## Lisensi
 

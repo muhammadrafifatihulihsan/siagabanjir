@@ -2,6 +2,9 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
+[README utama](../README.md) memperkenalkan SiagaBanjir untuk pembaca umum.
+Indeks ini menjadi pintu masuk spesifikasi dan panduan bagi tim pengembang.
+
 ## Spesifikasi dan desain
 
 | Dokumen | Fungsi |
@@ -23,9 +26,9 @@ Persetujuan tersebut berlaku untuk spesifikasi; pengujian aplikasi tetap NOT_RUN
 |---|---|
 | [DECISIONS](DECISIONS.md) | Keputusan, alasan, otorisasi, dan perubahan |
 | [TRACEABILITY](TRACEABILITY.md) | Pemetaan sumber, requirement, penerimaan, dan bukti |
-| [WORKSPACE](WORKSPACE.md) | Peta sumber, konfigurasi, dukungan OS/IDE, dan verifikasi |
+| [WORKSPACE](WORKSPACE.md) | Status versi, struktur, peta sumber, konfigurasi, dukungan OS/IDE, dan verifikasi |
 | [SKILL-RESEARCH](SKILL-RESEARCH.md) | Seleksi referensi dan skenario evaluasi skill |
-| [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Commit, push, pull request, dan pemeriksaan CI |
+| [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Panduan pengembangan, perintah validasi lokal/CI, commit, push, dan pull request |
 | [VERSIONING](VERSIONING.md) | Kebijakan versi dan prosedur rilis |
 | [SESSION-HANDOFF](SESSION-HANDOFF.md) | Kondisi terkini dan pekerjaan berikutnya |
 
