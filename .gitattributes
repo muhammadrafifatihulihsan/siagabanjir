@@ -1,0 +1,15 @@
+# Format kerja bersama tanpa mengubah konfigurasi Git global.
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.mp4 binary
+*.woff2 binary
+*.ttf binary

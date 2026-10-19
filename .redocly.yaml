@@ -1,0 +1,9 @@
+# Living document: pemeliharaan mengikuti rules/documentation.md.
+extends:
+  - recommended
+rules:
+  # SRS juga menyimpan tipe internal yang belum dirujuk operasi HTTP.
+  no-unused-components: off
+  info-license: error
+  operation-4xx-response: error
+  no-required-schema-properties-undefined: error

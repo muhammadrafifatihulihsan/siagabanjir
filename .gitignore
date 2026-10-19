@@ -1,0 +1,47 @@
+# Rahasia dan data demo pribadi
+.env
+.env.*
+!.env.example
+.local/
+*.jks
+*.keystore
+**/android/key.properties
+**/android/local.properties
+
+# Artefak yang dapat dibuat kembali setelah tim menyiapkan proyek
+node_modules/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+dist/
+coverage/
+.cache/
+__pycache__/
+*.pyc
+*.log
+
+# Data lokal dan virtual environment
+.venv/
+.DS_Store
+Thumbs.db
+
+# Metadata pribadi editor/OS; adapter instruksi tetap menjadi source bersama
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+*.swp
+*.swo
+*~
+.DS_Store?
+._*
+desktop.ini
+
+# Sesi percakapan AI (disimpan lokal, tidak di-push)
+codex-session-*.md
+archive/

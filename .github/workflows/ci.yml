@@ -1,0 +1,84 @@
+# CI otomatis SiagaBanjir — validasi dokumentasi dan kontrak
+# Living document: pemeliharaan mengikuti rules/documentation.md
+
+name: SiagaBanjir CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate-docs:
+    name: Validasi Dokumentasi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install dependensi validasi
+        run: python -m pip install -r .github/requirements-validation.txt
+
+      - name: Lint Markdown
+        run: npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md'
+
+      - name: Validasi link internal
+        run: python -B -X utf8 .github/scripts/validate_links.py
+
+      - name: Validasi YAML skill
+        run: python -B -X utf8 .github/scripts/validate_skills.py
+
+      - name: Regresi validator
+        run: python -B -X utf8 -m unittest discover -s .github/scripts -p 'test_*.py'
+
+  validate-contracts:
+    name: Validasi Kontrak API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependensi validasi
+        run: python -m pip install -r .github/requirements-validation.txt
+
+      - name: Validasi OpenAPI schema
+        run: npx -y @redocly/cli@2.64.1 lint docs/openapi.json --config .redocly.yaml
+
+      - name: Validasi contoh dan invariant kontrak
+        run: python -B -X utf8 .github/scripts/validate_contracts.py
+
+  check-format:
+    name: Cek Format EditorConfig
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup EditorConfig Checker
+        uses: editorconfig-checker/action-editorconfig-checker@7e30171fc973d78099d7dfc78e27c07d3c4a639f
+        with:
+          version: v4.0.2
+
+      - name: EditorConfig check
+        run: editorconfig-checker

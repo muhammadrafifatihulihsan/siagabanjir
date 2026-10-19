@@ -1,0 +1,664 @@
+[
+  {
+    "name": "signup-valid",
+    "schema": "Signup",
+    "payload": {
+      "displayName": "Warga Sintetis",
+      "email": "w01@example.test",
+      "password": "contoh-sandi-sintetis"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "signup-short-password",
+    "schema": "Signup",
+    "payload": {
+      "displayName": "Warga",
+      "email": "w01@example.test",
+      "password": "pendek"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "signup-role-injection",
+    "schema": "Signup",
+    "payload": {
+      "displayName": "Warga",
+      "email": "w01@example.test",
+      "password": "contoh-sandi-sintetis",
+      "role": "ADMIN"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-N-0",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaCount": 0
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-N-1",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaCount": 1
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-N-20",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaCount": 20
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-N-21",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaCount": 21
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-H-0",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaHours": 0
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-H-1",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaHours": 1
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-H-24",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaHours": 24
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "quota-H-25",
+    "schema": "SettingsUpdate",
+    "payload": {
+      "quotaHours": 25
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "settings-empty",
+    "schema": "SettingsUpdate",
+    "payload": {},
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "point--90--180",
+    "schema": "Point",
+    "payload": {
+      "latitude": -90,
+      "longitude": -180,
+      "source": "MANUAL"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "point-90-180",
+    "schema": "Point",
+    "payload": {
+      "latitude": 90,
+      "longitude": 180,
+      "source": "MANUAL"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "point-90.001-0",
+    "schema": "Point",
+    "payload": {
+      "latitude": 90.001,
+      "longitude": 0,
+      "source": "MANUAL"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "point-0--180.001",
+    "schema": "Point",
+    "payload": {
+      "latitude": 0,
+      "longitude": -180.001,
+      "source": "MANUAL"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "submission-valid",
+    "schema": "Submission",
+    "payload": {
+      "uploadIds": [
+        "10000000-0000-4000-8000-000000000001"
+      ],
+      "description": "Contoh genangan sintetis",
+      "point": {
+        "latitude": -0.95,
+        "longitude": 100.35,
+        "source": "MANUAL"
+      },
+      "occurredAt": null,
+      "deviceSignals": {
+        "mockLocation": "UNKNOWN",
+        "developerMode": "UNKNOWN",
+        "observedAt": "2026-10-18T01:00:00.000Z",
+        "buildId": "demo-fixture"
+      }
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "submission-empty-media",
+    "schema": "Submission",
+    "payload": {
+      "uploadIds": [],
+      "description": "Contoh genangan sintetis",
+      "point": {
+        "latitude": -0.95,
+        "longitude": 100.35,
+        "source": "MANUAL"
+      },
+      "occurredAt": null,
+      "deviceSignals": {
+        "mockLocation": "UNKNOWN",
+        "developerMode": "UNKNOWN",
+        "observedAt": "2026-10-18T01:00:00.000Z",
+        "buildId": "demo-fixture"
+      }
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "submission-three-media",
+    "schema": "Submission",
+    "payload": {
+      "uploadIds": [
+        "10000000-0000-4000-8000-000000000001",
+        "10000000-0000-4000-8000-000000000002",
+        "10000000-0000-4000-8000-000000000003"
+      ],
+      "description": "Contoh genangan sintetis",
+      "point": {
+        "latitude": -0.95,
+        "longitude": 100.35,
+        "source": "MANUAL"
+      },
+      "occurredAt": null,
+      "deviceSignals": {
+        "mockLocation": "UNKNOWN",
+        "developerMode": "UNKNOWN",
+        "observedAt": "2026-10-18T01:00:00.000Z",
+        "buildId": "demo-fixture"
+      }
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "submission-duplicate-media",
+    "schema": "Submission",
+    "payload": {
+      "uploadIds": [
+        "10000000-0000-4000-8000-000000000001",
+        "10000000-0000-4000-8000-000000000001"
+      ],
+      "description": "Contoh genangan sintetis",
+      "point": {
+        "latitude": -0.95,
+        "longitude": 100.35,
+        "source": "MANUAL"
+      },
+      "occurredAt": null,
+      "deviceSignals": {
+        "mockLocation": "UNKNOWN",
+        "developerMode": "UNKNOWN",
+        "observedAt": "2026-10-18T01:00:00.000Z",
+        "buildId": "demo-fixture"
+      }
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "submission-extra-owner",
+    "schema": "Submission",
+    "payload": {
+      "uploadIds": [
+        "10000000-0000-4000-8000-000000000001"
+      ],
+      "description": "Contoh genangan sintetis",
+      "point": {
+        "latitude": -0.95,
+        "longitude": 100.35,
+        "source": "MANUAL"
+      },
+      "occurredAt": null,
+      "deviceSignals": {
+        "mockLocation": "UNKNOWN",
+        "developerMode": "UNKNOWN",
+        "observedAt": "2026-10-18T01:00:00.000Z",
+        "buildId": "demo-fixture"
+      },
+      "ownerId": "10000000-0000-4000-8000-000000000002"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "note-valid",
+    "schema": "NoteInput",
+    "payload": {
+      "body": "Catatan contoh"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "note-correction-without-reason",
+    "schema": "NoteInput",
+    "payload": {
+      "body": "Koreksi contoh",
+      "correctionOf": "10000000-0000-4000-8000-000000000001"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "note-correction-valid",
+    "schema": "NoteInput",
+    "payload": {
+      "body": "Koreksi contoh",
+      "correctionOf": "10000000-0000-4000-8000-000000000001",
+      "correctionReason": "Perbaikan keterangan"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "reset-all-valid",
+    "schema": "QuotaReset",
+    "payload": {
+      "scope": "ALL"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "reset-account-missing-id",
+    "schema": "QuotaReset",
+    "payload": {
+      "scope": "ACCOUNT"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "reset-all-with-id",
+    "schema": "QuotaReset",
+    "payload": {
+      "scope": "ALL",
+      "accountId": "10000000-0000-4000-8000-000000000001"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "family-unknown-valid",
+    "schema": "MemberAdd",
+    "payload": {
+      "op": "ADD",
+      "clientMemberId": "10000000-0000-4000-8000-000000000001",
+      "displayName": "Anggota contoh",
+      "ageGroup": "UNKNOWN",
+      "specialNeeds": []
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "family-nik-forbidden",
+    "schema": "MemberAdd",
+    "payload": {
+      "op": "ADD",
+      "clientMemberId": "10000000-0000-4000-8000-000000000001",
+      "displayName": "Anggota contoh",
+      "ageGroup": "ADULT",
+      "specialNeeds": [],
+      "nik": "SYNTHETIC"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "read-valid",
+    "schema": "ReadInput",
+    "payload": {
+      "contentVersion": 1
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "read-zero-version",
+    "schema": "ReadInput",
+    "payload": {
+      "contentVersion": 0
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "public-monitor-valid",
+    "schema": "MonitorItem",
+    "payload": {
+      "locationName": "Lokasi laporan DEMO",
+      "level": "UNRATED",
+      "updatedAt": "2026-10-18T01:00:00.000Z",
+      "reviewState": "NEEDS_REVIEW"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "public-monitor-coordinate-forbidden",
+    "schema": "MonitorItem",
+    "payload": {
+      "locationName": "Lokasi laporan DEMO",
+      "level": "HIGH",
+      "updatedAt": "2026-10-18T01:00:00.000Z",
+      "reviewState": "NEEDS_REVIEW",
+      "latitude": -0.95
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "message-ends-null",
+    "schema": "MessageCreate",
+    "payload": {
+      "title": "Contoh",
+      "body": "Pesan sintetis",
+      "endsAt": null
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "message-overlong-title",
+    "schema": "MessageCreate",
+    "payload": {
+      "title": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "body": "Pesan sintetis",
+      "endsAt": null
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "report-upload-file-origin-forbidden",
+    "schema": "UploadInput",
+    "payload": {
+      "file": "binary-placeholder",
+      "purpose": "REPORT",
+      "origin": "FILE"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "document-upload-file-origin-valid",
+    "schema": "UploadInput",
+    "payload": {
+      "file": "binary-placeholder",
+      "purpose": "DOCUMENT",
+      "origin": "FILE"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "source-script-url-forbidden",
+    "schema": "SourceInfo",
+    "payload": {
+      "label": "Contoh",
+      "url": "javascript:alert(1)",
+      "checkedAt": null,
+      "state": "EXAMPLE"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "family-result-incomplete-visible",
+    "schema": "Job",
+    "payload": {
+      "id": "10000000-0000-4000-8000-000000000010",
+      "kind": "FAMILY_EXTRACTION",
+      "state": "SUCCEEDED",
+      "sourceId": "10000000-0000-4000-8000-000000000010",
+      "attempt": 1,
+      "completedUnits": 1,
+      "totalUnits": 1,
+      "updatedAt": "2026-10-18T01:00:00.000Z",
+      "errorCode": null,
+      "expiresAt": "2026-10-19T01:00:00.000Z",
+      "ktpResult": null,
+      "suggestions": [],
+      "incomplete": true
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "family-result-incomplete-string-forbidden",
+    "schema": "Job",
+    "payload": {
+      "id": "10000000-0000-4000-8000-000000000010",
+      "kind": "FAMILY_EXTRACTION",
+      "state": "SUCCEEDED",
+      "sourceId": "10000000-0000-4000-8000-000000000010",
+      "attempt": 1,
+      "completedUnits": 1,
+      "totalUnits": 1,
+      "updatedAt": "2026-10-18T01:00:00.000Z",
+      "errorCode": null,
+      "expiresAt": "2026-10-19T01:00:00.000Z",
+      "ktpResult": null,
+      "suggestions": [],
+      "incomplete": "true"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "family-result-pending-null",
+    "schema": "Job",
+    "payload": {
+      "id": "10000000-0000-4000-8000-000000000010",
+      "kind": "FAMILY_EXTRACTION",
+      "state": "QUEUED",
+      "sourceId": "10000000-0000-4000-8000-000000000010",
+      "attempt": 0,
+      "completedUnits": 0,
+      "totalUnits": 1,
+      "updatedAt": "2026-10-18T01:00:00.000Z",
+      "errorCode": null,
+      "expiresAt": null,
+      "ktpResult": null,
+      "suggestions": null,
+      "incomplete": null
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-empty",
+    "schema": "CredentialsUpdate",
+    "payload": {},
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-currentPassword",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "current-demo"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-email",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "email": "user@example.test"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-newPassword",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "newPassword": "new-demo-password"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-currentPassword-email",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "current-demo",
+      "email": "user@example.test"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-currentPassword-newPassword",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "current-demo",
+      "newPassword": "new-demo-password"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-email-newPassword",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "email": "user@example.test",
+      "newPassword": "new-demo-password"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-currentPassword-email-newPassword",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "current-demo",
+      "email": "user@example.test",
+      "newPassword": "new-demo-password"
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-unexpected-field",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "x",
+      "unexpected": true
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-invalid-email",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "x",
+      "email": "bad"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "credentials-short-password",
+    "schema": "CredentialsUpdate",
+    "payload": {
+      "currentPassword": "x",
+      "newPassword": "short"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "secret-replay-conflict",
+    "schema": "Error",
+    "payload": {
+      "code": "RESULT_ALREADY_COMMITTED",
+      "message": "Aksi sudah tersimpan; ikuti pemulihan login atau rotasi kode sesuai SRS.",
+      "requestId": "10000000-0000-4000-8000-000000000099",
+      "retryable": false,
+      "fields": [],
+      "currentVersion": null,
+      "retryAfterSeconds": null
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "secret-replay-leak-forbidden",
+    "schema": "Error",
+    "payload": {
+      "code": "RESULT_ALREADY_COMMITTED",
+      "message": "Aksi sudah tersimpan; ikuti pemulihan login atau rotasi kode sesuai SRS.",
+      "requestId": "10000000-0000-4000-8000-000000000099",
+      "retryable": false,
+      "fields": [],
+      "currentVersion": null,
+      "retryAfterSeconds": null,
+      "recoveryCode": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  }
+]
