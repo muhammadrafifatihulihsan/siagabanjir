@@ -11,12 +11,12 @@
 | Status FRD | **APPROVED — versi `v1.0.0`; FRD-APPROVAL-01 melalui delegasi finalisasi** |
 | Status SRS | **APPROVED — v1.0.0 melalui SRS-DLG-001; uji produk NOT_RUN** |
 | Kesiapan | Spesifikasi approved; panduan workspace tersedia; backend/Flutter disiapkan tim |
-| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-RELEASE-CLOSE-008; riwayat dipertahankan |
+| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-LOCAL-COMMIT-009; riwayat dipertahankan |
 | Otoritas keputusan bisnis | Pemilik proyek/pengguna |
-| Otorisasi pekerjaan saat ini | Verifikasi/perbaikan, push melalui Git Bash, publikasi v0.1.0 dan pembersihan ekspor session setelah penutupan terverifikasi; WORKSPACE-RELEASE-CLOSE-008 |
+| Otorisasi pekerjaan saat ini | Commit lokal setiap unit perubahan AI tanpa konfirmasi, gerbang tree bersih, panduan tim pemula, dan push pembaruan aturan; WORKSPACE-LOCAL-COMMIT-009 |
 | Dokumen terkait | [BRD](BRD.md) · [PRD](PRD.md) · [FRD](FRD.md) · [Sumber, pertanyaan dan keterlacakan](TRACEABILITY.md) |
 
-**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §36. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
+**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §37. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
 
 Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Catatan keputusan menggunakan parafrasa; ID sumber, tanggal, cakupan, dan urutan otorisasi dipertahankan.
 
@@ -895,3 +895,27 @@ Mandat ini tidak mengubah approval spesifikasi, requirement produk, maupun
 status tes aplikasi. [Bukti](WORKSPACE.md#audit-release-close) dan
 [keterlacakan](TRACEABILITY.md#workspace-release-close-traceability) mencatat
 hasil aktual tanpa mengubah pemeriksaan yang belum dijalankan menjadi PASS.
+
+<a id="workspace-local-commit-009"></a>
+
+## 37. Commit lokal otomatis oleh AI dan panduan tim — 20 Oktober 2026
+
+**WORKSPACE-LOCAL-COMMIT-009 — CURRENT_USER_CONFIRMED.**
+Pemilik meminta AI selalu membuat commit lokal untuk perubahan sekecil apa pun
+tanpa menunggu konfirmasi, menjaga working tree bersih sebelum unit berikut atau
+penutupan tugas/sesi, menjelaskan kemungkinan kendala untuk teman yang belum
+mengenal Git/GitHub, dan push pembaruan setelah terverifikasi.
+
+Ketentuan berikut menerapkan mandat tersebut dengan menjaga pekerjaan tim dan
+batas akses; bukan persetujuan produk baru.
+
+| ID | Keputusan dan batas pelaksanaan |
+|---|---|
+| WS-DEC-041 | Semua perubahan AI dalam mandat, termasuk typo, dicommit lokal per unit utuh setelah review/pemeriksaan. Tidak perlu konfirmasi baru; tugas baca tanpa diff tidak membuat commit kosong. |
+| WS-DEC-042 | Gerbang penutupan/unit berikut memeriksa status Git yang berhasil tanpa keluaran, termasuk file untracked. Perubahan milik orang lain/rahasia dan kendala Git dilaporkan BLOCKED; tidak dibuang, disembunyikan, atau ikut dicommit demi clean. Checkpoint WIP lokal hanya untuk penghentian terencana sesuai workflow, bukan hasil selesai. |
+| WS-DEC-043 | Push/merge/tag/release/deploy tetap mengikuti mandat tersendiri. Pertahankan riwayat commit kecil; jangan otomatis amend/squash/rebase/force push. Preferensi penggabungan PR mempertahankan commit bila kebijakan repository mengizinkan. |
+| WS-DEC-044 | Instruksi utama, workflow, adapter dan panduan pemula dirujuk bersama. Tidak memasang hook, mengubah Git identity/global config, proteksi branch, atau izin untuk menerapkan aturan ini. Kepatuhan semua IDE tidak diklaim telah diuji. |
+
+Prosedur ada pada [workflow](../rules/workflow.md#commit-lokal), contoh dan
+kendala pada [panduan tim](GITHUB-WORKFLOW.md#mulai-untuk-tim), dan hasil
+pemeriksaan pada [WORKSPACE](WORKSPACE.md#commit-lokal-tim).

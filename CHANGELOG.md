@@ -9,6 +9,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- AI wajib commit lokal setiap unit perubahan, termasuk typo, tanpa konfirmasi
+  tambahan; working tree diperiksa bersih sebelum unit berikut atau penutupan.
+- Panduan tim mencakup dasar Git/GitHub, branch, commit, push/PR, konflik,
+  pekerjaan awal, checkpoint, kendala akses, dan batas bukti hasil pemeriksaan.
+- Adapter IDE, katalog skill, template PR dan skenario evaluasi mengikuti
+  aturan commit bersama; push dan publikasi tetap sesuai mandat.
 - README utama memperkenalkan tujuan, pengguna, fitur yang direncanakan, dan
   status SiagaBanjir dengan bahasa untuk pembaca umum.
 - Panduan validasi dipindahkan ke GITHUB-WORKFLOW; status versi dan struktur

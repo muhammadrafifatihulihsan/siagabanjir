@@ -9,8 +9,8 @@ Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 
 ## Cakupan dan sumber bersama
 
-[Mandat pemeliharaan](DECISIONS.md#workspace-release-close-008) mencakup
-penutupan verifikasi, perbaikan, dan publikasi baseline. Backend dan Flutter
+[Mandat pemeliharaan](DECISIONS.md#workspace-local-commit-009) mencakup
+commit lokal AI, gerbang tree bersih, panduan tim, dan publikasi pembaruan. Backend dan Flutter
 disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
@@ -314,3 +314,30 @@ rujukan aktif tidak menemukan tautan ke bagian teknis README yang telah dipindah
 Spesifikasi, kontrak/contoh, DESIGN, AGENTS, adapter IDE, dan README aplikasi
 tidak memerlukan perubahan karena fungsi, akses data, platform, dan setup tim
 tetap. Riwayat persetujuan serta hasil TC produk tidak berubah.
+
+<a id="commit-lokal-tim"></a>
+
+## Commit lokal dan panduan tim — 20 Oktober 2026
+
+Mandat [WORKSPACE-LOCAL-COMMIT-009](DECISIONS.md#workspace-local-commit-009)
+diterapkan melalui AGENTS, workflow, aturan dokumentasi, katalog/skill workspace,
+adapter Claude/JetBrains, template PR, dan panduan GitHub. Semua perubahan AI
+dicommit lokal per unit utuh tanpa konfirmasi; tree bersih diperiksa sebelum
+unit berikut atau penutupan. Push, merge dan rilis tetap mengikuti mandat.
+
+Panduan untuk pemula mencakup istilah, clone/branch, identitas, bantuan AI,
+validasi, commit, push/PR, dan kondisi gagal. Kendala data/izin dilaporkan
+tanpa memaksa clean dengan kehilangan pekerjaan. SK-E25–SK-E32 mencatat
+skenario positif/negatif. Tidak ada hook auto-commit atau perubahan konfigurasi
+global/identitas/remote/proteksi branch; instruksi tidak membuktikan kepatuhan
+semua harness. Pengujian agent terpisah dan pemuatan IDE tetap NOT_RUN.
+
+Pemeriksaan lokal PASS: 36 Markdown dan tautan, delapan skill, EditorConfig,
+diff, 25 tes regresi, 165 skema/54 contoh serta Redocly. Inspeksi statis
+SK-E25–SK-E32 memeriksa konsistensi mandat commit, kondisi clean, perlindungan
+perubahan awal, checkpoint dan batas push. Ini tidak menaikkan evaluasi perilaku
+agent terpisah menjadi PASS. SHA commit, status tree, hasil push dan CI terbaru
+diverifikasi saat penutupan; riwayat tersedia di Git dan GitHub Actions.
+README publik, spesifikasi/kontrak/contoh, DESIGN, README aplikasi dan workflow
+CI/rilis tidak terdampak; perilaku produk serta pemicu otomatisasi tetap.
+Keputusan, keterlacakan, indeks, changelog dan handoff diperbarui bersama.

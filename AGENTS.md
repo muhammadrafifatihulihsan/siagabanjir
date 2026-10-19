@@ -67,6 +67,29 @@ membedakan dukungan dokumentasi dari pemuatan yang benar-benar diuji.
   Perubahan dicatat di [CHANGELOG](CHANGELOG.md). Tag `vX.X.X`
   otomatis membuat [GitHub Release](.github/workflows/release.yml).
 
+## Commit lokal wajib tanpa menunggu konfirmasi
+
+Mandat tetap pemilik: **AI wajib membuat commit lokal untuk setiap unit perubahan
+yang selesai, sekecil apa pun, termasuk typo dan dokumentasi**, tanpa menunggu
+pengguna meminta atau menyetujui commit lagi. Tinjau diff, jalankan pemeriksaan
+sesuai dampak, lalu commit perubahan tugas beserta dokumentasi terkait.
+Satu commit memuat satu maksud yang utuh; tidak perlu commit tiap penekanan tombol
+atau membuat commit kosong untuk tugas baca saja.
+
+Sebelum berpindah ke unit pekerjaan berikut, menyerahkan hasil, atau menutup
+tugas/sesi, jalankan `git status --porcelain=v1 --untracked-files=all` dan
+pastikan perintah berhasil tanpa keluaran. Jika belum bersih, selesaikan
+perubahan tugas terlebih dahulu. Jangan memakai reset, clean, stash, ignore
+tambahan, atau memasukkan perubahan orang lain hanya untuk membuat status bersih.
+Jika keselamatan data atau izin menghalangi, laporkan **BLOCKED**, path dan
+penyebabnya; jangan mengklaim selesai/clean.
+
+Push tetap mengikuti mandat pengguna; commit lokal tidak mengotorisasi push,
+merge PR, tag, release, atau deploy. Detail checkpoint pekerjaan belum selesai,
+perubahan awal, dan bukti penutupan ada pada
+[aturan commit](rules/workflow.md#commit-lokal) dan
+[panduan tim pemula](docs/GITHUB-WORKFLOW.md#mulai-untuk-tim).
+
 ## Syarat pekerjaan selesai
 
 AI wajib memperbarui living documents secara proaktif tanpa menunggu pengingat,
@@ -77,6 +100,8 @@ perubahan yang sama. Yang tidak terdampak cukup dijelaskan singkat; jangan
 membuat perubahan kosmetik atau salinan baru hanya untuk terlihat lengkap.
 Tautan/path, petunjuk kerja dan status bukti harus sesuai hasil aktual.
 Keterbatasan atau konflik yang belum selesai harus disebut, bukan disembunyikan.
+Syarat selesai juga mencakup commit lokal, working tree bersih, serta pelaporan
+branch, SHA commit, hasil pemeriksaan, dan status push sesuai aturan di atas.
 
 ## Code Review Rules
 

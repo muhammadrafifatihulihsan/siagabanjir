@@ -78,6 +78,9 @@ bukan diselesaikan dengan mengganti dokumen agar sesuai bug.
 6. Pekerjaan substantif memperbarui handoff. Edit kecil boleh cukup memperbarui
    sumber dan menyebut dampaknya pada hasil akhir. Jangan menambah changelog
    atau salinan audit untuk setiap typo.
+7. Sertakan pembaruan dokumentasi dalam commit unit terkait menurut
+   [aturan commit lokal](workflow.md#commit-lokal), termasuk perubahan kecil.
+   Tuntaskan catatan bukti sebelum commit penutup, lalu verifikasi tree bersih.
 
 ## Review dan keterbatasan
 

@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Versi: **0.1.0**\
-Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §46**\
+Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §47**\
 Tanggal pencatatan: **20 Oktober 2026**\
 Dokumen terkait: [BRD.md](BRD.md), [PRD.md](PRD.md), [DECISIONS.md](DECISIONS.md), dan [FRD.md](FRD.md).
 
@@ -11,7 +11,7 @@ Dokumen ini memetakan sumber, keputusan, requirement, dan bukti penerimaan. USER
 
 **Status historis:** catatan draf/pertanyaan/riset di bawah mempertahankan waktu pencatatannya. Status final mengikuti [penutupan v1.0.0](#frd-finalization-trace), bukan status terbuka pada putaran lama.
 
-**Kondisi workspace terbaru:** lihat [§46](#workspace-release-close-traceability). Auditor
+**Kondisi workspace terbaru:** lihat [§47](#workspace-local-commit-traceability). Auditor
 dan perintah pemeriksaan pada catatan tahap lama adalah riwayat; berkasnya
 tidak tersedia dalam workspace publik. Jangan menjalankannya langsung pada
 struktur workspace baru; validator aktif ada pada .github/scripts/.
@@ -1994,3 +1994,20 @@ Mandat: [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008).
 
 Tidak ada perubahan fitur, kontrak, atau approval produk. 156 TC FRD dan
 24 TC-SRS tetap NOT_RUN pada aplikasi.
+
+<a id="workspace-local-commit-traceability"></a>
+
+## 47. Commit lokal AI dan panduan tim — 20 Oktober 2026
+
+Mandat: [WORKSPACE-LOCAL-COMMIT-009](DECISIONS.md#workspace-local-commit-009).
+
+| Kebutuhan | Penerapan dan batas bukti |
+|---|---|
+| Perubahan sekecil apa pun dicommit tanpa konfirmasi | AGENTS dan [workflow](../rules/workflow.md#commit-lokal); satu tujuan per commit, termasuk typo; tidak membuat commit kosong untuk tugas baca. |
+| Bersih sebelum unit berikut/tugas/sesi berakhir | Status porcelain mencakup untracked, harus berhasil tanpa keluaran; perubahan sesudah commit memerlukan commit lanjutan. Kendala nyata tidak ditutupi dengan reset/stash/ignore. |
+| Teman belum mengenal Git | [Panduan pemula](GITHUB-WORKFLOW.md#mulai-untuk-tim) menjelaskan istilah, clone, identitas, branch, bantuan AI, commit dan push/PR. |
+| Kemungkinan lain dan keselamatan pekerjaan | [Tabel kondisi](GITHUB-WORKFLOW.md#kondisi-git) mencakup perubahan awal, rahasia, WIP, konflik, login, offline, branch berbeda, signing/hook, izin, lock dan CI gagal. |
+| Berlaku melalui berbagai agent | Katalog, workspace skill, adapter Claude/JetBrains dan template PR menunjuk aturan yang sama; skenario SK-E25–SK-E32 pada riset. Pemuatan IDE lain dan perilaku agent terpisah tetap NOT_RUN. |
+| Push pembaruan setelah jelas | Pemeriksaan lokal, commit, push, pencocokan SHA main dan CI terbaru mengikuti mandat sesi; bukti lokal pada [WORKSPACE](WORKSPACE.md#commit-lokal-tim). |
+
+Tidak ada perubahan kebutuhan aplikasi, kontrak atau hasil TC produk.

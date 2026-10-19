@@ -26,6 +26,9 @@ perlu mengingatkan pembacaan maupun sinkronisasi dokumentasi.
 Diagnosis masalah memakai debug; perubahan kode tetap mengikuti backend/Flutter.
 Review memeriksa perubahan; verification dipakai jika tugasnya merancang atau
 menjalankan paket tes/penerimaan. Edit teks kecil cukup pemeriksaan terarah.
+Semua prosedur mengikuti [commit lokal wajib dan gerbang tree bersih](rules/workflow.md#commit-lokal).
+Perubahan kecil tetap dicommit tanpa konfirmasi; tugas baca tanpa diff tidak
+memerlukan commit kosong. Push mengikuti mandat yang tersedia.
 [Riset pemilihan](docs/SKILL-RESEARCH.md) dan [aturan sumber](rules/research.md)
 menjaga cakupan skill tetap sesuai proyek. [Seleksi Software-BK](docs/SKILL-RESEARCH.md#softwarebk)
 memperkuat prosedur yang ada; tidak memerlukan skill baru atau penggantian stack.

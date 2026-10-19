@@ -8,6 +8,17 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+[WORKSPACE-LOCAL-COMMIT-009](DECISIONS.md#workspace-local-commit-009) menetapkan
+commit lokal setiap unit perubahan AI tanpa menunggu konfirmasi, termasuk typo.
+Sebelum unit berikut atau penutupan tugas/sesi, periksa working tree bersih dan
+laporkan SHA. Push tetap mengikuti mandat. Kendala, pekerjaan awal milik rekan,
+dan checkpoint belum selesai mengikuti [workflow](../rules/workflow.md#commit-lokal).
+[Panduan pemula](GITHUB-WORKFLOW.md#mulai-untuk-tim) menjelaskan istilah, langkah,
+dan kondisi Git; adapter, katalog, template PR dan skenario evaluasi diselaraskan.
+Bukti perubahan: [WORKSPACE](WORKSPACE.md#commit-lokal-tim).
+
+## README untuk pembaca umum
+
 Permintaan pemilik pada 20 Oktober 2026 mengarahkan README utama untuk pembaca
 umum: menjelaskan aplikasi, tujuan, pengguna, fitur yang direncanakan, dan
 status pengembangan. Perintah validasi kini berada di

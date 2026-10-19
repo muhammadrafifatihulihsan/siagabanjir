@@ -4,6 +4,8 @@
 
 [README utama](../README.md) memperkenalkan SiagaBanjir untuk pembaca umum.
 Indeks ini menjadi pintu masuk spesifikasi dan panduan bagi tim pengembang.
+Baru memakai Git? Mulai dari [panduan anggota tim](GITHUB-WORKFLOW.md#mulai-untuk-tim)
+dan [penanganan kondisi Git](GITHUB-WORKFLOW.md#kondisi-git).
 
 ## Spesifikasi dan desain
 
@@ -28,7 +30,7 @@ Persetujuan tersebut berlaku untuk spesifikasi; pengujian aplikasi tetap NOT_RUN
 | [TRACEABILITY](TRACEABILITY.md) | Pemetaan sumber, requirement, penerimaan, dan bukti |
 | [WORKSPACE](WORKSPACE.md) | Status versi, struktur, peta sumber, konfigurasi, dukungan OS/IDE, dan verifikasi |
 | [SKILL-RESEARCH](SKILL-RESEARCH.md) | Seleksi referensi dan skenario evaluasi skill |
-| [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Panduan pengembangan, perintah validasi lokal/CI, commit, push, dan pull request |
+| [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Panduan Git untuk pemula, commit lokal AI, kendala umum, validasi, push dan pull request |
 | [VERSIONING](VERSIONING.md) | Kebijakan versi dan prosedur rilis |
 | [SESSION-HANDOFF](SESSION-HANDOFF.md) | Kondisi terkini dan pekerjaan berikutnya |
 

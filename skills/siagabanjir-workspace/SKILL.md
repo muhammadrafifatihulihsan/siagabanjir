@@ -51,11 +51,14 @@ tautan yang benar; bukan sekadar rencana.
 7. Untuk persiapan publikasi, ikuti [panduan GitHub](../../docs/GITHUB-WORKFLOW.md):
    periksa calon file commit, aturan ignore, tautan pada hasil clone tanpa arsip
    privat, serta template PR. Kontrak dalam docs tetap sumber normatif, bukan
-   artefak generated. Menyiapkan panduan saja tidak memberi mandat push/merge;
-   instruksi pengguna untuk publikasi mengotorisasi commit/remote/push terkait.
+   artefak generated. Commit lokal setiap unit sudah diotorisasi oleh
+   [aturan bersama](../../rules/workflow.md#commit-lokal); push/merge tetap
+   memerlukan mandat yang mencakup tindakan tersebut.
    Jalankan validator dan tes regresinya sesuai [panduan pengembangan](../../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd); jangan menaikkan hasil
    statis menjadi bukti runtime aplikasi.
 8. Perbarui README/handoff dan hasil pemeriksaan singkat pada dokumen workspace.
+   Commit perubahan beserta rujukan terdampak tanpa menunggu konfirmasi; periksa
+   working tree bersih sebelum unit berikut atau penutupan, lalu laporkan SHA.
 
 ## Jika terhalang
 
