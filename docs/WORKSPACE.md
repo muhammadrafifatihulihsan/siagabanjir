@@ -2,15 +2,15 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 19 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
+Kondisi 20 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
 Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
 
 ## Cakupan dan sumber bersama
 
-[Mandat pemeliharaan](DECISIONS.md#workspace-editorial-release-007) mencakup
-standardisasi dokumen, validasi, dan publikasi baseline. Backend dan Flutter
+[Mandat pemeliharaan](DECISIONS.md#workspace-release-close-008) mencakup
+penutupan verifikasi, perbaikan, dan publikasi baseline. Backend dan Flutter
 disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 
 | Artefak | Tanggung jawab |
@@ -209,11 +209,48 @@ adapter, validator, dan workflow. Hasil pemeriksaan lokal setelah penyuntingan t
 dan [workflow rilis](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/release.yml)
 menyimpan status per commit/tag. Prosedur publikasi mensyaratkan seluruh
 pekerjaan CI berhasil pada SHA yang akan diberi tag.
-[Rilis v0.1.0](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases/tag/v0.1.0)
-memuat baseline dokumentasi dan workspace.
+Status publikasi baseline dokumentasi dan workspace v0.1.0 tercatat pada
+[audit penutupan](#audit-release-close).
 
 Konfigurasi EditorConfig, Git attributes/ignore, Markdownlint, Redocly,
 CI, dan adapter IDE dipertahankan karena masih dipakai atau mendukung target
 workspace. Rencana SRS yang telah selesai dan notes pembuatan repository
 digabung ke sumber aktif; kontrak tetap dipelihara dalam docs.
 Tidak ada perubahan izin, konfigurasi global, SDK, atau inisialisasi aplikasi.
+
+<a id="audit-release-close"></a>
+
+## Penutupan verifikasi dan rilis — 20 Oktober 2026
+
+Mandat: [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008).
+Seluruh sumber aktif dibaca pada rangkaian tugas ini. Ekspor sesi lokal dan
+catatan sesi terakhir digunakan sebagai konteks kelanjutan, bukan sumber
+normatif baru. Ekspor lokal tetap tersedia selama pemeriksaan perbaikan.
+
+Temuan awal: ekspor codex-session-*.md yang diabaikan Git ikut dipindai,
+menyebabkan 7.057 laporan tautan, 318 laporan Markdown, dan satu kegagalan
+regresi. Pemeriksaan terisolasi terhadap 36 Markdown aktif tidak menemukan
+kesalahan tersebut. Validator dan perintah lint kini mengecualikan ekspor;
+regresi baru memastikan handoff aktif tetap diperiksa.
+
+| Pemeriksaan perubahan | Hasil lokal, 20 Oktober 2026 |
+|---|---|
+| Markdown dan tautan internal | PASS: 36 Markdown aktif, tanpa error; ekspor session masih tersedia saat tes |
+| YAML skill | PASS: seluruh delapan skill |
+| Kontrak dan Redocly 2.64.1 | PASS: 165 skema, 54 contoh, referensi dan invariant replay rahasia; Redocly tanpa error |
+| Regresi validator dan ekstraksi catatan rilis | PASS: 25 tes, termasuk pengecualian ekspor dan deteksi tautan rusak pada handoff aktif |
+| EditorConfig Checker 4.0.2 dan git diff --check | PASS |
+
+Eksekusi lokal memakai Python 3.10.8 dengan dependensi validator terisolasi;
+versi CI tetap Python 3.12. Status publikasi: belum ada tag atau Release saat
+pemeriksaan awal. Tiga pekerjaan
+[CI commit 3c727fc](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39281672439)
+sudah berhasil; bukti tersebut tidak menggantikan CI commit perbaikan baru.
+
+Dampak living documents: README, CHANGELOG, keputusan, keterlacakan, handoff,
+dan catatan ini diperbarui bersama validator serta CI. BRD/PRD/FRD/SRS,
+OpenAPI/contoh, DESIGN, AGENTS, rules, delapan skill, adapter IDE, README
+aplikasi, dan kebijakan versioning tidak terdampak karena requirement,
+kontrak, prosedur persetujuan serta target implementasi tidak berubah.
+Pengujian aplikasi/provider/perangkat/UAT dan pemuatan IDE tetap NOT_RUN;
+penempatan skill native Codex tetap terhalang izin lokasi yang dicatat sebelumnya.

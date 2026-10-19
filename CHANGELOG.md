@@ -7,7 +7,7 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-10-19
+## [0.1.0] - 2026-10-20
 
 Rilis awal baseline dokumentasi dan workspace SiagaBanjir.
 Backend dan Flutter belum diimplementasikan. Rilis ini tidak menyediakan APK
@@ -23,6 +23,9 @@ atau layanan siap pakai; pengujian aplikasi/provider/perangkat/UAT tetap NOT_RUN
 
 ### Diperbaiki
 
+- Ekspor session lokal dikecualikan dari lint Markdown dan validator tautan;
+  tes regresi memastikan handoff aktif tetap diperiksa.
+- Label ringkasan persetujuan diselaraskan dengan keputusan editorial.
 - Redaksi dokumentasi menjadi catatan profesional; transkrip percakapan diganti
   ringkasan keputusan dengan identitas, tanggal, dan cakupan otorisasi tetap.
 - Rujukan SRS, navigasi dokumen, petunjuk GitHub, dan informasi status workspace.

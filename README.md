@@ -41,7 +41,7 @@ Agent mengikuti [AGENTS](AGENTS.md), menuntaskan
 | Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
 
 Persetujuan spesifikasi berbeda dari penerimaan implementasi.
-Rilis v0.1.0 adalah baseline dokumentasi dan workspace; tidak menyediakan APK
+Baseline v0.1.0 berisi dokumentasi dan workspace; tidak menyediakan APK
 atau aplikasi siap pakai. Catatan versi ada di [CHANGELOG](CHANGELOG.md).
 [GitHub Releases](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases)
 menyediakan catatan rilis dan arsip repository pada tag terkait.
@@ -63,11 +63,15 @@ python -B -X utf8 .github/scripts/validate_links.py
 python -B -X utf8 .github/scripts/validate_skills.py
 python -B -X utf8 .github/scripts/validate_contracts.py
 python -B -X utf8 -m unittest discover -s .github/scripts -p 'test_*.py'
-npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md'
+npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md' '#**/codex-session-*.md' '#archive/**'
 npx -y @redocly/cli@2.64.1 lint docs/openapi.json --config .redocly.yaml
 editorconfig-checker
 git diff --check
 ```
+
+Lint Markdown dan validator tautan mengecualikan ekspor lokal
+`codex-session-*.md` serta arsip privat. [Handoff aktif](docs/SESSION-HANDOFF.md)
+tetap diperiksa seperti dokumentasi lainnya.
 
 EditorConfig Checker tersedia dari [rilis resmi v4.0.2](https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/v4.0.2).
 Pemeriksaan default mencakup berkas tracked; periksa berkas baru setelah staging

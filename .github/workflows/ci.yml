@@ -34,7 +34,7 @@ jobs:
         run: python -m pip install -r .github/requirements-validation.txt
 
       - name: Lint Markdown
-        run: npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md'
+        run: npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md' '#**/codex-session-*.md' '#archive/**'
 
       - name: Validasi link internal
         run: python -B -X utf8 .github/scripts/validate_links.py

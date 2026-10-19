@@ -3,15 +3,15 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Versi: **0.1.0**\
-Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §45**\
-Tanggal pencatatan: **19 Oktober 2026**\
+Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §46**\
+Tanggal pencatatan: **20 Oktober 2026**\
 Dokumen terkait: [BRD.md](BRD.md), [PRD.md](PRD.md), [DECISIONS.md](DECISIONS.md), dan [FRD.md](FRD.md).
 
 Dokumen ini memetakan sumber, keputusan, requirement, dan bukti penerimaan. USER-IMPLEMENT mengotorisasi draf BRD; BRD-APPROVAL kemudian menetapkan persetujuan final dan kelanjutan PRD. Otorisasi tahap berikutnya mengikuti [register keputusan](DECISIONS.md), termasuk [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Catatan tahap lama dibaca sesuai tanggalnya.
 
 **Status historis:** catatan draf/pertanyaan/riset di bawah mempertahankan waktu pencatatannya. Status final mengikuti [penutupan v1.0.0](#frd-finalization-trace), bukan status terbuka pada putaran lama.
 
-**Kondisi workspace terbaru:** lihat [§45](#workspace-editorial-release-traceability). Auditor
+**Kondisi workspace terbaru:** lihat [§46](#workspace-release-close-traceability). Auditor
 dan perintah pemeriksaan pada catatan tahap lama adalah riwayat; berkasnya
 tidak tersedia dalam workspace publik. Jangan menjalankannya langsung pada
 struktur workspace baru; validator aktif ada pada .github/scripts/.
@@ -439,7 +439,7 @@ Bagian 4–8 mempertahankan riwayat tahap 1. Bagian 10 dan seterusnya mencatat k
 
 ### BRD-APPROVAL-01
 
-**Pernyataan pengguna, kutipan persis:**
+**Ringkasan persetujuan pengguna:**
 
 Pemilik proyek menyetujui BRD v0.1.0 dan mengotorisasi penyusunan PRD.
 
@@ -1240,7 +1240,7 @@ Semua modul tetap DRAFT. Integrasi/notifikasi/audit yang tidak memerlukan fungsi
 ### 16.5 Bukti tambahan dan perubahan register
 
 - Dua ekspor lokal dibaca/dicocokkan dengan mempertahankan konteks historis. Ekspor kedua merekam sesi audit sebelumnya; tidak menambahkan keputusan produk baru.
-- Pesan aktif terbaru dikutip pada [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Tidak diklaim sudah ada pada file ekspor.
+- Mandat pada tahap tersebut dirangkum pada [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Tidak diklaim sudah ada pada file ekspor.
 - [PRD-CHG-010](DECISIONS.md#prd-open-normalization) memetakan 14 baris agenda PRD lama ke 12 ID register dan approval yang sudah ditutup.
 - FRD-CHG-001 menambahkan klaim/RTM ini tanpa menimpa 85 klaim, 43 jawaban, 43 keputusan PRD, atau riwayat BRD.
 
@@ -1977,3 +1977,20 @@ Sumber otorisasi: [WORKSPACE-EDITORIAL-RELEASE-007](DECISIONS.md#workspace-edito
 156 TC FRD dan 24 TC-SRS tetap NOT_RUN pada aplikasi. Pemeriksaan dokumen,
 skema, dan validator tidak menjadi bukti eksekusi backend, Flutter, provider,
 perangkat, aksesibilitas perangkat, atau UAT.
+
+<a id="workspace-release-close-traceability"></a>
+
+## 46. Penutupan verifikasi dan publikasi v0.1.0 — 20 Oktober 2026
+
+Mandat: [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008).
+
+| Kebutuhan | Penerapan dan bukti |
+|---|---|
+| Lanjutkan sesi terakhir dan periksa yang belum jelas | Dokumentasi aktif serta konteks sesi dibaca; CI commit sebelumnya diverifikasi. Hasil audit baru dipisahkan pada [WORKSPACE](WORKSPACE.md#audit-release-close). |
+| Perbaiki kegagalan lokal | Ekspor session diabaikan validator tautan dan lint Markdown; regresi mencakup ekspor di root/subfolder dan tautan rusak dalam handoff aktif. Perintah README dan CI selaras. |
+| Jaga kejelasan persetujuan | Label kutipan persis diganti ringkasan sesuai WS-DEC-032; sumber dan cakupan approval tetap. |
+| Push dan buat Release | Publikasi melalui Git Bash, CI pada SHA tag, lalu workflow rilis mengambil catatan CHANGELOG v0.1.0. Status aktual dicatat dalam bukti penutupan. |
+| Hapus session setelah benar-benar selesai | Hanya ekspor lokal yang dibersihkan setelah publikasi dan commit penutupan terverifikasi; docs/SESSION-HANDOFF.md tetap menjadi sumber aktif. |
+
+Tidak ada perubahan fitur, kontrak, atau approval produk. 156 TC FRD dan
+24 TC-SRS tetap NOT_RUN pada aplikasi.

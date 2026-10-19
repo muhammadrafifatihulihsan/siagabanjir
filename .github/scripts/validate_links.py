@@ -34,11 +34,14 @@ def slugify(heading_text: str) -> str:
 
 
 def collect_markdown_files() -> list[Path]:
-    """Kumpulkan semua file .md aktif, skip folder yang tidak relevan."""
+    """Kumpulkan Markdown aktif tanpa folder arsip dan ekspor session lokal."""
     files = []
     for md in ROOT.rglob('*.md'):
         parts = md.relative_to(ROOT).parts
         if any(d in SKIP_DIRS for d in parts):
+            continue
+        # Selaras dengan .gitignore; handoff aktif tetap diperiksa.
+        if md.match('codex-session-*.md'):
             continue
         files.append(md)
     return sorted(files)

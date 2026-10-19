@@ -5,18 +5,18 @@
 | Metadata | Nilai |
 |---|---|
 | Versi | `v0.1.0` |
-| Tanggal | 19 Oktober 2026 |
+| Tanggal | 20 Oktober 2026 |
 | Status BRD | **APPROVED — versi `v0.1.0` disetujui pengguna** |
 | Status PRD | **APPROVED — versi `v0.1.0`; PRD-APPROVAL-01** |
 | Status FRD | **APPROVED — versi `v1.0.0`; FRD-APPROVAL-01 melalui delegasi finalisasi** |
 | Status SRS | **APPROVED — v1.0.0 melalui SRS-DLG-001; uji produk NOT_RUN** |
 | Kesiapan | Spesifikasi approved; panduan workspace tersedia; backend/Flutter disiapkan tim |
-| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-EDITORIAL-RELEASE-007; riwayat dipertahankan |
+| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-RELEASE-CLOSE-008; riwayat dipertahankan |
 | Otoritas keputusan bisnis | Pemilik proyek/pengguna |
-| Otorisasi pekerjaan saat ini | Standardisasi dokumentasi, perbaikan, commit/push dan rilis baseline v0.1.0; WORKSPACE-EDITORIAL-RELEASE-007 |
+| Otorisasi pekerjaan saat ini | Verifikasi/perbaikan, push melalui Git Bash, publikasi v0.1.0 dan pembersihan ekspor session setelah penutupan terverifikasi; WORKSPACE-RELEASE-CLOSE-008 |
 | Dokumen terkait | [BRD](BRD.md) · [PRD](PRD.md) · [FRD](FRD.md) · [Sumber, pertanyaan dan keterlacakan](TRACEABILITY.md) |
 
-**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §35. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
+**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §36. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
 
 Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Catatan keputusan menggunakan parafrasa; ID sumber, tanggal, cakupan, dan urutan otorisasi dipertahankan.
 
@@ -354,7 +354,7 @@ ID `PRD-OPEN-xxx` adalah agenda detail lanjutan, **bukan nomor pertanyaan yang s
 
 ## 15. Change Log Tahap 2
 
-Urutan ini mengikuti interview dan konsolidasi pada 18 Oktober 2026. Semua uraian jawaban merupakan parafrasa kecuali kutipan persetujuan BRD pada metadata.
+Urutan ini mengikuti interview dan konsolidasi pada 18 Oktober 2026. Uraian jawaban dan persetujuan merupakan parafrasa; identitas persetujuan tetap dirujuk pada register ini.
 
 | ID | Pemicu | Perubahan dan dampak |
 |---|---|---|
@@ -372,7 +372,7 @@ Urutan ini mengikuti interview dan konsolidasi pada 18 Oktober 2026. Semua uraia
 
 | Gerbang/bukti | Keadaan saat register diperbarui |
 |---|---|
-| Baseline BRD `v0.1.0` | **APPROVED** melalui pernyataan eksplisit yang dikutip di metadata; tidak meminta persetujuan yang sama ulang. |
+| Baseline BRD `v0.1.0` | **APPROVED** melalui BRD-APPROVAL pada register ini; tidak meminta persetujuan yang sama ulang. |
 | Interview produk PRD | 43 jawaban tercatat pada PRD-DEC-001–043 dan register PRD-Q di TRACEABILITY; delegasi/koreksi dibedakan. |
 | Konsolidasi untuk draf | Diterima melalui PRD-Q043; bukan persetujuan final dokumen. |
 | Penulisan dokumen tahap 2 | PRD-IMPLEMENT mengotorisasi dokumentasi dan pemeriksaan konsistensi dokumen. |
@@ -875,3 +875,23 @@ FRD/SRS v1.0.0 tetap. Cakupan, keputusan produk, AC/TC, dan status NOT_RUN
 implementasi tidak berubah. [Bukti pemeriksaan](WORKSPACE.md#audit-final) dan
 [keterlacakan perubahan](TRACEABILITY.md#workspace-editorial-release-traceability)
 memisahkan hasil validasi workspace dari pengujian produk.
+
+<a id="workspace-release-close-008"></a>
+
+## 36. Penutupan verifikasi dan publikasi v0.1.0 — 20 Oktober 2026
+
+**WORKSPACE-RELEASE-CLOSE-008 — CURRENT_USER_CONFIRMED.**
+Pemilik meminta kelanjutan sesi yang terhenti: pastikan workspace jelas dan
+terverifikasi, perbaiki temuan, push melalui Git Bash yang sudah login, dan
+terbitkan GitHub Release pertama. Rencana pelaksanaan disetujui pada sesi ini.
+
+| ID | Keputusan dan batas |
+|---|---|
+| WS-DEC-038 | Kecualikan ekspor lokal codex-session-*.md dari validator tautan dan lint Markdown sesuai .gitignore. Dokumentasi aktif, termasuk SESSION-HANDOFF, tetap diperiksa; tambahkan regresi untuk batas ini. |
+| WS-DEC-039 | Pertahankan v0.1.0 sebagai rilis dokumentasi/workspace. Gunakan tanggal publikasi aktual pada CHANGELOG; tag dibuat pada commit yang seluruh pekerjaan CI-nya berhasil. Catat SHA, CI, tag dan hasil workflow rilis sebelum penutupan. |
+| WS-DEC-040 | Hapus hanya ekspor session lokal yang telah dibaca setelah publikasi dan commit penutupan terverifikasi di GitHub. Handoff aktif dan riwayat keputusan tetap dipelihara. |
+
+Mandat ini tidak mengubah approval spesifikasi, requirement produk, maupun
+status tes aplikasi. [Bukti](WORKSPACE.md#audit-release-close) dan
+[keterlacakan](TRACEABILITY.md#workspace-release-close-traceability) mencatat
+hasil aktual tanpa mengubah pemeriksaan yang belum dijalankan menjadi PASS.

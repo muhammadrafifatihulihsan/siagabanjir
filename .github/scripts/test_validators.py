@@ -66,6 +66,16 @@ class LinksTests(unittest.TestCase):
         (archive / 'private.md').write_text('[Broken](missing.md)\n', encoding='utf-8')
         self.assertEqual(links.validate(), [])
 
+    def test_session_exports_are_excluded_but_active_handoff_is_checked(self):
+        for name in ('codex-session-root.md', 'docs/codex-session-nested.md'):
+            (self.root / name).write_text('[Broken](missing.md)\n', encoding='utf-8')
+        self.assertEqual(links.validate(), [])
+        handoff = self.root / 'docs/SESSION-HANDOFF.md'
+        handoff.write_text('[Broken](missing.md)\n', encoding='utf-8')
+        errors = links.validate()
+        self.assertEqual(len(errors), 1)
+        self.assertIn('SESSION-HANDOFF.md', errors[0])
+
 
 class SkillsTests(unittest.TestCase):
     def setUp(self):
