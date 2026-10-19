@@ -7,8 +7,7 @@ description: Menelaah atau mengubah requirement, AC/TC, kontrak dan keterlacakan
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 ## Masukan
 
@@ -31,8 +30,9 @@ Gunakan [domain](../../rules/domain.md) sebagai peta risiko.
    Pertahankan ID stabil; jangan menghapus keterlacakan historis diam-diam.
    Periksa [OpenAPI](../../docs/openapi.json) dan
    [contoh](../../docs/examples.json) untuk perubahan payload/route.
-5. Catat keputusan baru secara append-only pada register, dengan asal mandat
-   yang sebenarnya. Approval baseline tidak otomatis menjadi approval untuk
+5. Tambahkan keputusan baru pada register dengan asal mandat yang sebenarnya.
+   Perapian redaksi mengikuti aturan dokumentasi; identitas, tanggal, cakupan
+   otorisasi dan urutan keputusan historis harus tetap dapat ditelusuri. Approval baseline tidak otomatis menjadi approval untuk
    perluasan fungsi baru di luar mandat.
 6. Periksa rujukan ID/anchor/RTM, aturan akses dan kasus batas. Validasi schema
    hanya jika kontrak berubah; jangan mengubah contoh supaya menyembunyikan
@@ -47,8 +47,3 @@ mengubah TC aplikasi menjadi PASS. Keputusan provider/perangkat yang terjadwal
 tetap memerlukan bukti nyata, tanpa membuka ulang pilihan fungsi yang approved.
 Jika instruksi benar-benar bertentangan, tunjukkan ID/teks konflik dan minta
 klarifikasi hanya untuk keputusan yang tidak tercakup mandat.
-
-## Penutupan
-
-Terapkan [matriks dokumentasi](../../rules/documentation.md), perbarui sumber
-terdampak dan laporkan pemeriksaan aktual beserta keterbatasannya.

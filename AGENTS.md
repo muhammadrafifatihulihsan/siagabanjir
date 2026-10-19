@@ -36,8 +36,8 @@ debug, implementasi memakai backend/Flutter, dan pemeriksaan mengikuti dampak.
 Membaca semua skill tidak mewajibkan semua workflow/tes dijalankan untuk setiap tugas.
 
 [SKILL](SKILL.md) adalah katalog. `skills/` dibaca melalui routing di sini;
-bukan klaim penemuan otomatis Codex. Penulisan `.agents/` ditolak pada sesi
-penyusunan; gunakan izin aktual, jangan menerobosnya. Adapter IDE hanya menunjuk
+bukan klaim penemuan otomatis Codex. Gunakan lokasi dan izin yang tersedia
+pada lingkungan aktual. Adapter IDE hanya menunjuk
 ke sumber bersama, tidak menyalin seluruh aturan. [Matriks IDE](docs/WORKSPACE.md#ide)
 membedakan dukungan dokumentasi dari pemuatan yang benar-benar diuji.
 

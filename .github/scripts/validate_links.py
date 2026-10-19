@@ -157,12 +157,12 @@ def main():
     print('Validasi link internal Markdown...')
     errors = validate()
     if errors:
-        print(f'\n❌ Ditemukan {len(errors)} link bermasalah:\n')
+        print(f'\nFAIL: Ditemukan {len(errors)} link bermasalah:\n')
         for e in errors:
             print(f'  {e}')
         sys.exit(1)
     else:
-        print(f'✅ Link internal valid dalam {len(collect_markdown_files())} Markdown.')
+        print(f'PASS: Link internal valid dalam {len(collect_markdown_files())} Markdown.')
         sys.exit(0)
 
 

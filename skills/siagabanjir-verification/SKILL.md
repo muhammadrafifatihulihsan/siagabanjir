@@ -7,8 +7,7 @@ description: Menyusun atau menjalankan rencana tes, regresi dan bukti penerimaan
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 Baca [mutu](../../rules/quality.md), bagian [FRD](../../docs/FRD.md)/
 [SRS](../../docs/SRS.md) terkait dan [RTM](../../docs/TRACEABILITY.md).

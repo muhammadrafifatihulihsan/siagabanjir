@@ -13,8 +13,8 @@ untuk typo, pekerjaan kecil, satu skill yang disebut, atau kelanjutan sesi baru:
 1. AGENTS, README, handoff dan WORKSPACE.
 2. Seluruh rules, katalog SKILL dan setiap SKILL.md di skills, beserta resources
    aktif yang kelak ditambahkan. Saat ini ada tujuh rules dan delapan skills.
-3. Seluruh docs, termasuk BRD, PRD, FRD, SRS, SRS-PLAN, DECISIONS, TRACEABILITY,
-   DESIGN, riset, panduan GitHub dan notes. Lampiran historis di dalam dokumen
+3. Seluruh docs, termasuk BRD, PRD, FRD, SRS, DECISIONS, TRACEABILITY,
+   DESIGN, riset, panduan GitHub dan versioning. Lampiran historis di dalam dokumen
    aktif tetap dibaca, dengan membedakan keputusan lama dan yang berlaku.
 4. Kontrak OpenAPI/contoh dalam docs, README aplikasi, adapter Claude/JetBrains, template PR,
    .editorconfig, .gitattributes, .gitignore, dan konfigurasi editor bersama.
@@ -50,7 +50,7 @@ Setelah bacaan lengkap, tentukan keluaran dan pilih prosedur dari
 tugas; membaca semua sumber tidak berarti menjalankan seluruh workflow atau
 paket tes. Selesaikan pilihan rutin dalam mandat pengguna. Tanyakan hanya
 informasi yang benar-benar menghalangi pekerjaan sambil melanjutkan bagian
-mandiri. Aturan ini menggantikan routing bacaan selektif pada audit terdahulu.
+mandiri. Status pelaksanaan tetap mengikuti bukti aktual.
 
 ## Batas pekerjaan
 
@@ -70,7 +70,7 @@ mandiri. Aturan ini menggantikan routing bacaan selektif pada audit terdahulu.
 
 - Ikuti [Semantic Versioning](../docs/VERSIONING.md) untuk tag dan release.
 - Perbarui [CHANGELOG](../CHANGELOG.md) pada setiap perubahan signifikan.
-- CI/CD di [GitHub Actions](../.github/workflows/ci.yml) memvalidasi
+- CI di [GitHub Actions](../.github/workflows/ci.yml) memvalidasi
   Markdown, link/case, skill YAML, format, OpenAPI/contoh dan regresi validator.
 - Script validasi lokal tersedia di `.github/scripts/`; versi dependensi dan
   perintah ada pada [README](../README.md#otomatisasi-cicd). Jalankan sebelum commit.

@@ -9,13 +9,9 @@ Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 
 ## Cakupan dan sumber bersama
 
-[Mandat terbaru](DECISIONS.md#workspace-audit-push-006) mengotorisasi audit,
-perbaikan, commit dan push melalui Git Bash. Bacaan penuh dan living documents
-tetap mengikuti [mandat sebelumnya](DECISIONS.md#workspace-publish-005).
-[Seleksi sebelumnya](DECISIONS.md#workspace-reference-004) memakai setup-softwarebk. [Riset skill sebelumnya](DECISIONS.md#workspace-skills-003)
-tetap menjadi dasar panduan. [Mandat apps/UI](DECISIONS.md#workspace-quality-002),
-portabilitas dan pembaruan informasi tetap berlaku. Scope panduan pada
-[keputusan sebelumnya](DECISIONS.md#workspace-scope-001) tetap berlaku.
+[Mandat pemeliharaan](DECISIONS.md#workspace-editorial-release-007) mencakup
+standardisasi dokumen, validasi, dan publikasi baseline. Backend dan Flutter
+disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 
 | Artefak | Tanggung jawab |
 |---|---|
@@ -29,7 +25,7 @@ portabilitas dan pembaruan informasi tetap berlaku. Scope panduan pada
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
 | [.gitignore](../.gitignore) | Rahasia, artefak lokal dan seluruh archive/ dikecualikan Git; tidak ada indeks arsip publik |
-| [GitHub](GITHUB-WORKFLOW.md) dan [notes](GITHUB-NOTES.md) | Commit/push/PR dan identitas repo; bukti pada audit final/handoff |
+| [GitHub](GITHUB-WORKFLOW.md) dan [versioning](VERSIONING.md) | Commit/push/PR dan identitas repo; bukti pada audit final/handoff |
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
 Scaffold aplikasi lama sudah ditarik. Wadah apps yang sekarang berisi tempat
@@ -44,7 +40,7 @@ Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
 
 | Kebutuhan | Sumber bersama | Cara menilai perbedaannya |
 |---|---|---|
-| Tujuan dan batas produk | [BRD](BRD.md), [PRD](PRD.md), mandat terbaru pada [DECISIONS](DECISIONS.md) | Kutipan/keputusan historis tetap dibaca sesuai tanggal dan statusnya |
+| Tujuan dan batas produk | [BRD](BRD.md), [PRD](PRD.md), mandat terbaru pada [DECISIONS](DECISIONS.md) | Keputusan historis tetap dibaca sesuai tanggal dan statusnya |
 | Fungsi dan penerimaan | [FRD](FRD.md), AC/TC | Approval spesifikasi tidak membuktikan implementasi lulus |
 | Arsitektur/stack dan batas lapisan | [SRS konteks](SRS.md#srs-context) | Manifest/kode aktual menunjukkan yang sudah dibuat; perbedaan perlu ditelusuri |
 | Model data/integritas | [SRS data](SRS.md#srs-data) | Cocokkan dengan migrasi SQL/constraint setelah tim membuatnya |
@@ -137,7 +133,7 @@ folder kosong. Editor lain tetap dapat memakai panduan bersama tanpa .vscode.
 ## Skill dan aturan izin
 
 Delapan skill menggunakan metadata YAML name/description. Skills di `skills/`
-dibaca langsung melalui AGENTS. Pada sesi ini penulisan `.agents/` ditolak;
+dibaca langsung melalui AGENTS. Penempatan native belum tersedia pada lingkungan yang diperiksa;
 penemuan native Codex di `.agents/skills/` tetap BLOCKED.
 Sumber: [Skills Codex](https://learn.chatgpt.com/docs/build-skills).
 
@@ -164,234 +160,60 @@ Sumber: [Rules Codex](https://learn.chatgpt.com/docs/agent-configuration/rules).
 Kesesuaian tabel dinilai dari isi instruksi; pemilihan runtime belum diuji.
 [Skenario rinci](SKILL-RESEARCH.md#evaluasi) memuat contoh positif, negatif,
 ambiguitas dan batas bukti. **Seluruh delapan skill wajib dibaca penuh** sebelum
-menjalankan prosedur terpilih. Audit lama di bawah mencatat aturan saat itu;
-mandat baca lengkap terbaru menggantikan arahan bacaan selektif terdahulu.
+menjalankan prosedur terpilih. Prosedur pelaksanaan dipilih sesuai keluaran tugas.
 
 <a id="verifikasi"></a>
 
-## Verifikasi
+## Verifikasi workspace
 
-Catatan audit berikut mempertahankan hasil pada waktu masing-masing.
-Jumlah berkas, lokasi arsip dan keadaan Git lama bukan status terkini.
-Gunakan [audit final](#audit-final) untuk kondisi publikasi saat ini.
-
-### Riwayat 18 Oktober 2026
-
-Sebelum rename, audit lima skill memeriksa 3.622 tautan. Putaran sesudah rename
-menghasilkan tabel berikut; ini bukti versi 18 Oktober, bukan versi terbaru.
-
-| Pemeriksaan | Hasil |
-|---|---|
-| quick_validate.py dari skill-creator, Python -B -X utf8 | PASS, enam SKILL.md |
-| Routing AGENTS/katalog, enam rules dan gate dokumentasi di semua skill | PASS inspeksi struktur/isi; bukan pemilihan runtime |
-| Tautan lokal dan anchor di 29 Markdown aktif, termasuk adapter tersembunyi | PASS, 3.697 tautan; kapitalisasi path diperiksa persis |
-| Path relatif, nama aman lintas OS dan benturan kapitalisasi | PASS inspeksi; 21 panduan tanpa path mesin tertentu atau rujukan folder lama |
-| git check-attr pada path representatif | PASS: LF umum/shell, CRLF bat/cmd; arsip tidak dikonversi |
-| git check-ignore pada secret, cache dan metadata IDE pribadi | PASS; AGENTS/CLAUDE/adapter serta sumber panduan tetap terlihat Git |
-| SHA-256 dokumen approved, kontrak, ekspor sesi vs awal putaran | PASS, 10 berkas tidak berubah: 4 dokumen, 2 kontrak, 4 sesi |
-| Snapshot asli vs ukuran/SHA-256 manifest | PASS, 40 entry |
-| Root dan wadah aplikasi | PASS: apps/server dan apps/app hanya .gitkeep; folder lama serta utilitas/cache aktif tidak ada |
-| Review arahan UI terhadap sumber resmi | PASS inspeksi panduan dan nama ikon; belum tes visual/aplikasi |
-
-Pemeriksaan 18 Oktober dilakukan melalui perintah sementara sesi tanpa menambah runner,
-folder reports atau cache. Pencarian path lokal membedakan URL sumber dari
-path drive OS. Tidak ada commit, push, instalasi atau inisialisasi aplikasi.
-
-Dokumentasi: README, AGENTS, katalog/skills, rules terkait, DESIGN, adapter,
-WORKSPACE, DECISIONS, TRACEABILITY dan handoff diselaraskan. Baseline fungsi,
-kontrak serta rule domain tidak berubah karena scope putaran ini adalah
-struktur dan panduan kerja/visual. Riwayat keputusan nama lama tetap tersimpan
-sebagai sejarah, sementara tautan aktif mengarah ke lokasi sekarang.
-
-### Audit 19 Oktober 2026 — sebelum adaptasi Software-BK
-
-Riset menemukan 138 SKILL.md di 26 direktori paket lokal; 15 dibaca penuh dan
-3 secara terpilih, dilengkapi sumber resmi serta tiga skill tim Flutter.
-Keputusan adaptasi ada di [SKILL-RESEARCH](SKILL-RESEARCH.md). Dua skill baru
-menutup kebutuhan debugging dan verifikasi; tujuh rules menjaga sumber bersama.
-Impor Claude diperbaiki; tidak ada instalasi plugin atau source aplikasi.
-
-<!-- workspace-audit-19:start -->
-| Pemeriksaan aktual | Hasil |
-|---|---|
-| Validator skill-creator, Python -B -X utf8 | PASS untuk delapan SKILL.md; masing-masing 41–58 baris |
-| Routing dan isi terhadap SK-E01–SK-E14 | PASS inspeksi: cakupan, keluaran, batas mandat serta pemicu positif/negatif konsisten; bukan eksekusi agent |
-| Tautan lokal/anchor pada 33 Markdown aktif | PASS, 3.753 tautan; kapitalisasi path diperiksa persis di dalam workspace |
-| Nama/path portabel dan format teks | PASS inspeksi: UTF-8 terbaca, tanpa benturan case/nama terlarang; 25 panduan tanpa path mesin atau rujukan wadah lama |
-| Impor CLAUDE | PASS statis: @AGENTS.md merujuk file root yang ada, tanpa impor balik; pemuatan client belum diuji |
-| Dokumentasi dan gate bersama | PASS: delapan skill merujuk matriks dokumentasi; katalog/AGENTS/tujuh rules selaras |
-| Keutuhan baseline, kontrak dan ekspor sesi | PASS SHA-256 vs sebelum edit: 10 berkas identik |
-| Snapshot asli vs manifest | PASS ukuran dan SHA-256 untuk 40 entry |
-| Kebersihan root dan apps | PASS: app/server hanya .gitkeep; tidak ada project/tools/reports/cache/database/node_modules aktif |
-| Inventaris referensi lokal | PASS hitung file: 138 SKILL.md dalam 26 direktori paket; cakupan bacaan dijelaskan terpisah |
-
-Metode: validator bawaan skill-creator dan pemeriksaan Python inline melalui
-PowerShell, tanpa menyimpan runner/cache/report. Inspeksi isi menelusuri
-skenario ke instruksi yang relevan; tidak ada percobaan sesi agent baru.
-Git belum mempunyai baseline commit; file untracked tidak dipakai sebagai
-bukti semua berkas dibuat pada putaran ini. Konfigurasi EOL/ignore tidak diubah;
-hasil git attributes/ignore tetap dirujuk sebagai audit 18 Oktober.
-<!-- workspace-audit-19:end -->
-
-Dokumentasi terdampak: README, AGENTS, katalog/delapan skills, rules terkait,
-CLAUDE, DESIGN, riset, WORKSPACE, keputusan/RTM dan handoff. BRD/PRD/FRD/SRS,
-kontrak dan domain tidak berubah: prosedur kerja diperjelas tanpa perubahan
-fungsi, payload atau hak akses. Adapter JetBrains tetap menunjuk AGENTS sehingga
-tidak perlu salinan perubahan. Apps/README dan format repo tetap sesuai scope.
-
-Pemuatan IDE, macOS/Linux runtime, UI aktual, aplikasi, database, provider AI,
-perangkat serta evaluasi perilaku agent terpisah: NOT_RUN.
-Penempatan skill native Codex: BLOCKED oleh izin sesi pada .agents/.
-Validasi berkas/pembacaan melalui AGENTS tersedia, bukan bukti native loading.
+Bukti dibedakan menurut lapisannya. Validasi dokumen dan kontrak tidak
+membuktikan perilaku aplikasi atau kepatuhan runtime agent.
 
 <a id="audit-softwarebk"></a>
 
-### Audit adaptasi Software-BK — 19 Oktober 2026
+### Riwayat adaptasi referensi — 19 Oktober 2026
 
-[Seleksi referensi](SKILL-RESEARCH.md#softwarebk) menghasilkan peta sumber,
-penguatan batas client API/data, petunjuk perintah aktual, pemisahan lapisan
-pemeriksaan dan rekomendasi editor opsional. Delapan skill/tujuh rules tetap;
-tidak ada dokumen arsitektur/API baru yang menggandakan SRS.
-
-<!-- workspace-audit-bk:start -->
-| Pemeriksaan | Hasil aktual |
-|---|---|
-| Validator skill-creator, Python -B -X utf8 | PASS, delapan SKILL.md; tidak menambah skill baru |
-| Routing/isi dan SK-E15–SK-E18 | PASS inspeksi: seleksi referensi, arti script, prasyarat task dan konflik sumber tercakup; bukan percobaan agent |
-| Tautan lokal dan anchor pada 33 Markdown aktif | PASS, 3.797 tautan; path dan kapitalisasi diperiksa dari lokasi file sumber |
-| Path/nama dan encoding | PASS inspeksi, 25 panduan tanpa path mesin atau wadah lama; tidak ada benturan case/nama terlarang |
-| extensions.json | PASS parse JSON, dua ID rekomendasi sesuai sumber; tidak ada tasks/settings/launch baru |
-| git check-ignore | PASS: rekomendasi editor dapat masuk Git; settings pribadi dan .env aplikasi tetap diabaikan |
-| Baseline/kontrak/sesi vs awal putaran | PASS SHA-256, 10 berkas identik |
-| Snapshot vs manifest | PASS ukuran/SHA-256, 40 entry |
-| Referensi setup-softwarebk vs sebelum edit workspace | PASS SHA-256 dan daftar file, 17 berkas tetap identik |
-| Apps dan kebersihan root | PASS, app/server hanya .gitkeep; tidak ada project/tools/reports/cache/database/node_modules aktif |
-
-Metode: pemeriksaan inline melalui Python/PowerShell, validator skill yang sudah
-tersedia dan pemeriksaan ignore Git. Tidak menyimpan runner atau report baru.
-Source berstatus untracked sejak sebelum pekerjaan; tidak ada klaim diff commit
-atau hasil runtime dari keadaan tersebut. Konfigurasi EOL/ignore tidak diubah.
-<!-- workspace-audit-bk:end -->
-
-Sumber terdampak diselaraskan: README, AGENTS, katalog, rules workflow/
-documentation/quality/portability, lima skill terkait, apps/README,
-extensions.json, riset, WORKSPACE, DECISIONS/TRACEABILITY dan handoff.
-FRD/SRS/BRD/PRD, kontrak, domain, DESIGN dan adapter Claude/JetBrains tetap:
-perubahan ini prosedur engineering/editor, tanpa perubahan fungsi atau visual.
-
-Native skill Codex tetap BLOCKED oleh izin .agents/. Pemuatan IDE, pemasangan
-ekstensi, macOS/Linux runtime, tes aplikasi/provider/perangkat dan evaluasi sesi
-agent terpisah tetap NOT_RUN. Tidak menjalankan task dari proyek referensi.
+Referensi setup-softwarebk digunakan untuk memperjelas peta sumber,
+unit perubahan, API client bersama, dan README aplikasi berdasarkan manifest.
+Stack dan aturan persetujuannya tidak diadopsi. Keputusan tersimpan pada
+[WORKSPACE-REFERENCE-004](DECISIONS.md#workspace-reference-004) dan
+[riset skill](SKILL-RESEARCH.md#softwarebk).
 
 <a id="audit-publikasi"></a>
 
-## Persiapan GitHub dan living documents — 19 Oktober 2026
+### Riwayat persiapan publikasi — 19 Oktober 2026
 
-**Checkpoint historis sebelum restrukturisasi:** indeks arsip dan angka 44
-berkas di bagian ini sudah tidak menggambarkan workspace saat audit final.
-Riwayat hasil tidak ditulis ulang; [audit final](#audit-final) menggantikannya
-sebagai status terkini.
-
-[Mandat kelima](DECISIONS.md#workspace-publish-005) menggantikan bacaan selektif:
-semua dokumentasi/instruksi aktif wajib dibaca penuh. Prosedur kerja/tes tetap
-sesuai dampak. Penanda living document di Markdown menunjuk satu aturan
-pemeliharaan; AI wajib memperbarui sumber terdampak tanpa pengingat.
-
-[GitHub workflow](GITHUB-WORKFLOW.md) dan template PR menutup kebutuhan
-commit/push/review. [Notes GitHub](GITHUB-NOTES.md) disiapkan setelah pemeriksaan.
-.gitignore sekarang mengecualikan seluruh isi arsip selain README; tautan
-sumber privat di baseline mengarah ke indeks arsip dengan identitas sumber.
-Keputusan ini menjaga riwayat lokal sekaligus membuat clone mandiri.
-
-contracts tetap digunakan SRS: 72 operasi, 166 schema, 41 contoh pada baseline.
-Tidak ada alasan menghapusnya sebagai sampah. SRS-PLAN masih merekam rencana
-tahap yang telah selesai; tetap diberi status historis, bukan agenda setup baru.
-FRD/SRS tidak mendapat perubahan requirement atau approval baru karena perapian.
-
-<!-- workspace-audit-publish:start -->
-| Pemeriksaan aktual | Hasil |
-|---|---|
-| Validator bawaan skill-creator, Python -B -X utf8 | PASS, seluruh delapan SKILL.md |
-| Kandidat Git sebelum staging | PASS, 44 berkas; satu-satunya isi archive yang ikut adalah README.md |
-| Markdown, tautan lokal dan anchor | PASS, 36 Markdown dan 3.868 tautan; case tepat, target tersedia dalam calon clone, tanpa tautan ke arsip privat |
-| Living document dan gate bacaan | PASS statis: 36 marker, delapan skill merujuk protokol baca penuh dan matriks dokumentasi; bukan bukti kepatuhan runtime |
-| Format, metadata dan portabilitas | PASS: UTF-8/JSON valid, 28 panduan operasional tanpa path mesin, tidak ada benturan case/nama terlarang; impor Claude tetap @AGENTS.md |
-| .gitignore dan .gitattributes | PASS git check-ignore/check-attr: arsip mentah/secret/metadata pribadi diabaikan; indeks arsip LF, byte arsip mentah tidak dikonversi |
-| Keutuhan kontrak dan arsip lokal | PASS SHA-256: dua kontrak dan 47 berkas arsip mentah identik dengan sebelum perapian |
-| Keutuhan isi baseline/rencana | PASS: lima dokumen cocok dengan hash awal setelah membalik hanya marker/rujukan yang diubah secara sengaja; isi requirement tidak diganti |
-| Riwayat DECISIONS/TRACEABILITY | PASS hash bagian awal setelah membalik metadata/rujukan; hanya tambahan keputusan terbaru dan penunjuk kondisi terkini |
-| Snapshot pemulihan | PASS, ukuran/SHA-256 seluruh 40 entry sesuai manifest |
-| Referensi Software-BK | PASS, daftar dan hash 17 berkas tidak berubah |
-| Pemindaian credential terarah pada kandidat | Tidak ditemukan pola private key, token GitHub/provider atau URL bercredential; ini bukan audit keamanan menyeluruh |
-| Apps dan kebersihan root | PASS, server/app hanya .gitkeep; tidak ada source aplikasi, installer, runner, tools/reports/cache aktif baru |
-| Keadaan Git | main belum memiliki commit, tidak ada remote; tidak dilakukan staging, commit, push, PR atau merge |
-
-Metode: pembacaan panduan, inspeksi isi, validator skill tersedia, pemeriksaan
-Python inline dan perintah Git read-only. Tidak menyimpan runner/cache/report.
-Karena seluruh sumber masih untracked, pemeriksaan memakai snapshot sebelum
-edit serta daftar kandidat Git; git diff kosong tidak dipakai sebagai bukti.
-Notes dibuat sesudah pemeriksaan utama lalu disertakan dalam pemeriksaan akhir.
-<!-- workspace-audit-publish:end -->
-
-Audit putaran ini berfokus pada panduan kerja/publikasi, keterhubungan seluruh
-dokumen dan keutuhan isi baseline. Bukan pengujian ulang semantik seluruh
-requirement atau evaluasi kepatuhan AI di setiap harness. Pemuatan IDE,
-runtime macOS/Linux, aplikasi/provider/perangkat dan percobaan agent terpisah
-tetap NOT_RUN. Native skill Codex tetap BLOCKED oleh izin .agents/.
+WORKSPACE-PUBLISH-005 menetapkan bacaan lengkap, living documents, dan panduan
+GitHub. Publikasi awal kemudian diotorisasi melalui WORKSPACE-AUDIT-PUSH-006.
+[CI publikasi awal](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39273616792)
+berhasil pada commit 71459a6. Catatan ini merupakan bukti historis untuk commit
+tersebut, bukan hasil otomatis bagi commit berikutnya.
 
 <a id="audit-final"></a>
 
-## Audit final setup ? 19 Oktober 2026
+## Pemeriksaan baseline v0.1.0 — 19 Oktober 2026
 
-Mandat [WORKSPACE-AUDIT-PUSH-006](DECISIONS.md#workspace-audit-push-006)
-mencakup perbaikan dan push melalui Git Bash. Seluruh 52 sumber aktif awal
-sudah dibaca penuh pada rangkaian tugas ini, termasuk tujuh rules, delapan
-skills, spesifikasi, kontrak, adapter dan konfigurasi. File baru validator/tes
-masuk cakupan inspeksi berikutnya. Snapshot sementara sebelum edit menjadi
-pembanding; kondisi untracked tidak dianggap diff yang membuktikan perubahan.
+Cakupan: dokumentasi aktif, tujuh rules, delapan skill, kontrak, konfigurasi,
+adapter, validator, dan workflow. Hasil pemeriksaan lokal setelah penyuntingan tercatat pada tabel berikut.
 
-**Temuan sebelum perbaikan:** akar kedua validator menunjuk .github, bukan
-repo; link checker memeriksa satu Markdown, skill checker gagal menemukan
-skills, dan YAML rusak lolos regex. Markdownlint menghasilkan 287 error,
-EditorConfig 103 laporan, dan Redocly 74 warning. Kontrak signup menawarkan
-replay recovery code yang bertentangan dengan SRS-IF-004.
-
-Perbaikan menambah gate cakupan, parsing YAML nyata, kasus regresi, respons
-error aman, pemeriksaan contoh dan langkah EditorConfig yang benar-benar
-berjalan. Baseline 72 operasi/166 schema tetap; corpus menjadi 54 contoh
-(41 lama + 11 kredensial + 2 konflik rahasia). Versi tool serta dependensi
-pemeriksaan dikunci pada CI/requirements, bukan dipasang ke aplikasi.
-Pemeriksa format opsional jsonschema dilengkapi melalui extra format; gate
-menolak environment yang belum mendukung tanggal/URI agar tidak melewati
-validasi diam-diam. Instalasi audit memakai environment sementara terisolasi.
-
-| Pemeriksaan | Hasil pada checkpoint ini |
+| Pemeriksaan | Status |
 |---|---|
-| Validator tautan/case dan YAML | PASS pada Windows: 38 Markdown dan delapan skills |
-| Schema/contoh/referensi dan SRS-IF-004 | PASS: 166 schema dan 54 contoh, termasuk format date-time/email/URI/UUID; environment Python terisolasi |
-| Regresi validator | PASS: 20 tes, Python 3.10.8 Windows; meliputi dependensi format hilang dan tanggal/URI tidak sah |
-| Markdownlint, Redocly dan EditorConfig setelah edit final | PASS: Markdownlint 0.17.2, 38 Markdown/0 error; Redocly 2.64.1, 0 error/warning; EditorConfig Checker 4.0.2, seluruh 56 kandidat/0 pelanggaran |
-| Review perubahan vs snapshot dan kandidat publikasi | PASS: isi non-whitespace FRD/SRS/SRS-PLAN tetap, riwayat register tetap, 41 contoh asli tetap; 56 file, 38 marker living document, pola credential terarah tidak ditemukan |
-| Git Bash / akses remote awal | PASS: Git 2.47.1.windows.2, identitas Git tersedia, remote tujuan dapat diakses tanpa branch |
-| Commit/push dan CI remote | PASS pada commit awal 71459a6: push main melalui Git Bash, SHA lokal/remote cocok, [run CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39273616792) sukses |
-| Aplikasi/provider/perangkat/UAT dan pemuatan IDE | NOT_RUN; apps hanya .gitkeep, native skill masih BLOCKED oleh izin .agents |
+| Markdown, tautan/case, YAML delapan skill, EditorConfig | PASS: 36 Markdown, delapan skill, 56 berkas kandidat |
+| 165 skema, 54 contoh dan invariant kontrak | PASS: validator kontrak dan Redocly tanpa error |
+| Regresi validator dan ekstraksi catatan rilis | PASS: 24 tes, termasuk versi hilang/ganda, entri kosong, tag tidak sah dan isolasi catatan versi |
+| Konsistensi ID/anchor dan struktur kontrak terhadap baseline Git | PASS: seluruh anchor BRD/PRD/FRD/SRS/keputusan/RTM lama tetap; 144 perubahan teks API dan penghapusan satu skema tak terpakai, struktur wire tetap |
+| Pemilihan skill oleh agent terpisah dan pemuatan IDE | NOT_RUN |
+| Backend, Flutter, provider, perangkat, aksesibilitas perangkat, dan UAT | NOT_RUN |
 
-Koreksi format pada FRD/SRS tidak mengubah requirement. BRD/PRD hanya mendapat
-metadata status terkini selain perapian format. DECISIONS/TRACEABILITY menambah
-catatan terbaru dan mempertahankan riwayat lama. README, AGENTS, rules terkait,
-skill workspace, panduan GitHub/versioning, riset, konfigurasi dan handoff
-mengikuti perubahan. DESIGN, aturan domain, isi fungsi skill lain, adapter
-Claude/JetBrains dan wadah apps tidak memerlukan perubahan perilaku.
+[CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
+dan [workflow rilis](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/release.yml)
+menyimpan status per commit/tag. Prosedur publikasi mensyaratkan seluruh
+pekerjaan CI berhasil pada SHA yang akan diberi tag.
+[Rilis v0.1.0](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases/tag/v0.1.0)
+memuat baseline dokumentasi dan workspace.
 
-Publikasi awal: commit `71459a6566bab8595785ffafb2c0988dd588eba8` di
-[repo tujuan](https://github.com/muhammadrafifatihulihsan/siagabanjir).
-Staged diff lulus pemeriksaan whitespace; seluruh 56 blob index sama dengan
-file yang direview, tanpa file untracked atau arsip dalam commit. Identitas dan
-konfigurasi Git global dipertahankan; safe.directory dipakai hanya per perintah.
-Tidak membuat tag/release/deploy. Hasil CI di atas merujuk commit awal;
-[workflow CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
-menampilkan status commit lanjutan, termasuk pembaruan catatan publikasi.
-
-Arsip privat tidak tersedia dalam workspace saat audit; hasil hash arsip pada
-checkpoint lama tidak diulang atau diklaim berlaku sekarang. Format/CI/schema
-lulus tidak membuktikan keamanan atau kesiapan runtime aplikasi.
+Konfigurasi EditorConfig, Git attributes/ignore, Markdownlint, Redocly,
+CI, dan adapter IDE dipertahankan karena masih dipakai atau mendukung target
+workspace. Rencana SRS yang telah selesai dan notes pembuatan repository
+digabung ke sumber aktif; kontrak tetap dipelihara dalam docs.
+Tidak ada perubahan izin, konfigurasi global, SDK, atau inisialisasi aplikasi.

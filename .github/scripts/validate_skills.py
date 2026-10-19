@@ -177,12 +177,12 @@ def main():
     all_errors = validate()
 
     if all_errors:
-        print(f'\n❌ Ditemukan {len(all_errors)} masalah:\n')
+        print(f'\nFAIL: Ditemukan {len(all_errors)} masalah:\n')
         for e in all_errors:
             print(f'  {e}')
         sys.exit(1)
     else:
-        print(f'✅ Seluruh {len(EXPECTED_SKILLS)} skill valid.')
+        print(f'PASS: Seluruh {len(EXPECTED_SKILLS)} skill valid.')
         sys.exit(0)
 
 

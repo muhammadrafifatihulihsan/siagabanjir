@@ -1,6 +1,4 @@
-# Release otomatis SiagaBanjir — membuat GitHub Release dari tag
-# Living document: pemeliharaan mengikuti rules/documentation.md
-
+# Living document: pemeliharaan mengikuti rules/documentation.md.
 name: Release
 
 on:
@@ -15,19 +13,22 @@ jobs:
     name: Buat GitHub Release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
         with:
-          fetch-depth: 0
+          python-version: '3.12'
+
+      - name: Ambil catatan versi dari CHANGELOG
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python -B -X utf8 .github/scripts/release_notes.py "$RELEASE_TAG" "$RUNNER_TEMP/siagabanjir-release-notes.md"
 
       - name: Buat Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
-          generate_release_notes: true
+          name: SiagaBanjir ${{ github.ref_name }}
+          body_path: ${{ runner.temp }}/siagabanjir-release-notes.md
+          generate_release_notes: false
           draft: false
-          body: |
-            ## Perubahan
-
-            Lihat [CHANGELOG.md](${{ github.server_url }}/${{ github.repository }}/blob/${{ github.ref_name }}/CHANGELOG.md) untuk detail perubahan pada versi ini.
-
-            ---
-            _Release otomatis oleh GitHub Actions._
+          prerelease: false

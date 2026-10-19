@@ -6,10 +6,10 @@
 |---|---|
 | ID / versi / tanggal | SRS-SIAGABANJIR / v1.0.0 / 18 Oktober 2026 |
 | Status | **APPROVED melalui delegasi pelaksanaan/finalisasi SRS-DLG-001; baseline spesifikasi** |
-| Tahap | 4 — SRS; berikutnya workspace setup dan implementasi sesuai milestone PRD |
+| Tahap | Baseline teknis; implementasi mengikuti milestone PRD dan panduan workspace |
 | Pemilik / penyusun | Pemilik proyek berwenang atas produk; asisten menyusun pilihan teknis dalam mandat demo sederhana |
 | Sumber | BRD/PRD v0.1.0 dan FRD v1.0.0 APPROVED; tidak diubah oleh penyusunan SRS |
-| Otoritas | [SRS-DLG-001 / SRS-APPROVAL-01](DECISIONS.md#srs-dlg-001); bukan jawaban individual atau sign-off baru yang dikarang |
+| Otoritas | [SRS-DLG-001 / SRS-APPROVAL-01](DECISIONS.md#srs-dlg-001); cakupan delegasi mengikuti register keputusan |
 | Implementasi / bukti | Belum ada implementasi aplikasi pada tahap ini; provider, perangkat dan UAT **NOT_RUN** |
 | Kontrak mesin | [OpenAPI 3.1](openapi.json); definisi request/response dibaca bersama aturan semantik di sini |
 
@@ -19,7 +19,7 @@ Navigasi: [konteks](#srs-context), [katalog fungsi](#srs-functions), [proses](#s
 
 SRS ini menjadi kontrak kerja tiga anggota tim: backend/AI/maintainer, Flutter warga, dan Flutter admin. Semua fitur demo PRD tetap wajib; spesifikasi melengkapi cara data/antarmuka/proses memenuhi FRD. Keputusan desain yang dipilih di sini mempunyai alasan dan sumber mandat, terpisah dari fakta kemampuan pustaka/provider yang harus dibuktikan.
 
-Urutan otoritas: instruksi pemilik terbaru → keputusan/FRD final → batasan PRD/BRD → kontrak teknis SRS. Konflik yang mengubah fungsi diselesaikan lewat perubahan tercatat, bukan menimpa keputusan lama. Lampiran discovery FRD §30.1–19 bersifat historis; STD-001–012 adalah rincian final. Panduan `4.PROMPT_SRS.md` dipakai secara adaptif; persetujuan sumber yang sudah ada dan delegasi terbaru tidak dibuka kembali sebagai ratusan pertanyaan konfirmasi.
+Urutan otoritas: instruksi pemilik terbaru → keputusan/FRD final → batasan PRD/BRD → kontrak teknis SRS. Konflik yang mengubah fungsi diselesaikan lewat perubahan tercatat, bukan menimpa keputusan lama. Lampiran discovery FRD §30.1–19 bersifat historis; STD-001–012 adalah rincian final. Panduan `4.PROMPT_SRS.md` dipakai secara adaptif; persetujuan sumber yang sudah ada dan delegasi terbaru tetap menjadi dasar penyusunan.
 
 `APPROVED` berarti kontrak spesifikasi diselesaikan dalam mandat pemilik. `DOCUMENT_CHECKED` berarti pemeriksaan artefak. `DOCUMENTED_SUPPORT` berarti dokumentasi vendor dibaca. `NOT_RUN` berarti belum ada eksekusi aplikasi/provider/perangkat. Keempatnya tidak saling menggantikan.
 
@@ -63,6 +63,12 @@ SRS-CON-001: sistem wajib mempertahankan cakupan lokal, platform dan peran PRD. 
 
 ## 3. Kebutuhan fungsional
 
+Ketentuan bersama: batas akses mengikuti [matriks FRD](FRD.md#16-matriks-hak-akses),
+platform mengikuti [modul FRD](FRD.md#9-modul-prioritas-dan-dependensi),
+data mengikuti §4, serta kontrak dan pengecualian mengikuti §3.8/5.1.
+SRS-IF-001–010 dan SRS-DEC-001–012 berlaku sesuai tanggung jawab komponen;
+Pemilik teknis mengikuti record; jika tidak dicantumkan, tanggung jawab bersama tim Backend dan Flutter.
+
 <a id="srs-functions"></a>
 
 ### 3.1 Katalog requirement atomik
@@ -73,164 +79,150 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-AUTH-001 — menyediakan bacaan umum tanpa registrasi dan meminta login untuk aksi pribadi
 
-- **Sumber / tujuan:** [FR-AUTH-001](FRD.md#fr-auth-001); [PRD-F-001](PRD.md#prd-f-001); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka Pantau, kontak umum atau panduan tanpa sesi.
+- **Sumber / tujuan:** [FR-AUTH-001](FRD.md#fr-auth-001); [PRD-F-001](PRD.md#prd-f-001).
+- **Aktor / pemicu:** Tamu. Pemicu: Membuka Pantau, kontak umum atau panduan tanpa sesi.
 - **Kewajiban:** Router publik dan serializer publik wajib menyediakan hanya Pantau/konten umum; pembacaan resource pribadi selalu melalui middleware sesi dan pemeriksaan objek.
-- **Kontrak input/output dan izin:** [getMeta](#srs-api-getmeta). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getMeta](#srs-api-getmeta).
 - **Verifikasi / penerimaan:** [AC-AUTH-001-01](FRD.md#ac-auth-001-01), [AC-AUTH-001-02](FRD.md#ac-auth-001-02); [TC-AUTH-001-01](FRD.md#tc-auth-001-01), [TC-AUTH-001-02](FRD.md#tc-auth-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-002"></a>
 
 #### SRS-FR-AUTH-002 — membuat akun warga dari pendaftaran yang memenuhi aturan, tanpa kewajiban verifikasi email pada demo
 
-- **Sumber / tujuan:** [FR-AUTH-002](FRD.md#fr-auth-002); [PRD-F-002](PRD.md#prd-f-002); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Calon warga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mengirim pendaftaran email/sandi.
+- **Sumber / tujuan:** [FR-AUTH-002](FRD.md#fr-auth-002); [PRD-F-002](PRD.md#prd-f-002).
+- **Aktor / pemicu:** Calon warga. Pemicu: Mengirim pendaftaran email/sandi.
 - **Kewajiban:** Signup wajib menormalisasi email, memaksakan unique constraint dan membuat role CITIZEN dalam transaksi; parameter role dari klien ditolak.
-- **Kontrak input/output dan izin:** [signup](#srs-api-signup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [signup](#srs-api-signup).
 - **Verifikasi / penerimaan:** [AC-AUTH-002-01](FRD.md#ac-auth-002-01), [AC-AUTH-002-02](FRD.md#ac-auth-002-02); [TC-AUTH-002-01](FRD.md#tc-auth-002-01), [TC-AUTH-002-02](FRD.md#tc-auth-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-003"></a>
 
 #### SRS-FR-AUTH-003 — membatasi fitur pribadi kepada sesi sah pemilik
 
-- **Sumber / tujuan:** [FR-AUTH-003](FRD.md#fr-auth-003); [PRD-F-003](PRD.md#prd-f-003); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga; hak hanya akun yang diautentikasi; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Meminta sesi atau fitur privat.
+- **Sumber / tujuan:** [FR-AUTH-003](FRD.md#fr-auth-003); [PRD-F-003](PRD.md#prd-f-003).
+- **Aktor / pemicu:** Warga; hak hanya akun yang diautentikasi. Pemicu: Meminta sesi atau fitur privat.
 - **Kewajiban:** Middleware wajib memverifikasi digest token, expiry 7 hari dan credential epoch pada setiap permintaan pribadi; role/owner diambil dari database.
-- **Kontrak input/output dan izin:** [login](#srs-api-login), [getAccount](#srs-api-getaccount). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [login](#srs-api-login), [getAccount](#srs-api-getaccount).
 - **Verifikasi / penerimaan:** [AC-AUTH-003-01](FRD.md#ac-auth-003-01), [AC-AUTH-003-02](FRD.md#ac-auth-003-02); [TC-AUTH-003-01](FRD.md#tc-auth-003-01), [TC-AUTH-003-02](FRD.md#tc-auth-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-004"></a>
 
 #### SRS-FR-AUTH-004 — menerapkan perubahan profil hanya pada akun pemilik yang sah
 
-- **Sumber / tujuan:** [FR-AUTH-004](FRD.md#fr-auth-004); [PRD-F-004](PRD.md#prd-f-004); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik akun; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka atau menyimpan profil sendiri setelah login.
+- **Sumber / tujuan:** [FR-AUTH-004](FRD.md#fr-auth-004); [PRD-F-004](PRD.md#prd-f-004).
+- **Aktor / pemicu:** Pemilik akun. Pemicu: Membuka atau menyimpan profil sendiri setelah login.
 - **Kewajiban:** Mutasi profil wajib memakai If-Match; perubahan email/sandi memerlukan sandi lama benar dan atomik menaikkan credential epoch serta mencabut semua sesi.
-- **Kontrak input/output dan izin:** [getAccount](#srs-api-getaccount), [updateProfile](#srs-api-updateprofile), [updateCredentials](#srs-api-updatecredentials). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getAccount](#srs-api-getaccount), [updateProfile](#srs-api-updateprofile), [updateCredentials](#srs-api-updatecredentials).
 - **Verifikasi / penerimaan:** [AC-AUTH-004-01](FRD.md#ac-auth-004-01), [AC-AUTH-004-02](FRD.md#ac-auth-004-02); [TC-AUTH-004-01](FRD.md#tc-auth-004-01), [TC-AUTH-004-02](FRD.md#tc-auth-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-005"></a>
 
 #### SRS-FR-AUTH-005 — memberikan kode pemulihan kepada pemilik untuk disimpan sendiri
 
-- **Sumber / tujuan:** [FR-AUTH-005](FRD.md#fr-auth-005); [PRD-F-005](PRD.md#prd-f-005); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik saat pendaftaran; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Pendaftaran akun berhasil.
+- **Sumber / tujuan:** [FR-AUTH-005](FRD.md#fr-auth-005); [PRD-F-005](PRD.md#prd-f-005).
+- **Aktor / pemicu:** Warga pemilik saat pendaftaran. Pemicu: Pendaftaran akun berhasil.
 - **Kewajiban:** Generator wajib membuat 20 byte acak menjadi 32 karakter base32; hanya verifier tersimpan. Respons kode tampil sekali; login+sandi saat ini menyediakan rotasi bila respons hilang.
-- **Kontrak input/output dan izin:** [signup](#srs-api-signup), [rotateRecoveryCode](#srs-api-rotaterecoverycode). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [signup](#srs-api-signup), [rotateRecoveryCode](#srs-api-rotaterecoverycode).
 - **Verifikasi / penerimaan:** [AC-AUTH-005-01](FRD.md#ac-auth-005-01), [AC-AUTH-005-02](FRD.md#ac-auth-005-02); [TC-AUTH-005-01](FRD.md#tc-auth-005-01), [TC-AUTH-005-02](FRD.md#tc-auth-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-006"></a>
 
 #### SRS-FR-AUTH-006 — mengizinkan penggantian sandi melalui kode pemulihan sah milik akun
 
-- **Sumber / tujuan:** [FR-AUTH-006](FRD.md#fr-auth-006); [PRD-F-005](PRD.md#prd-f-005); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik yang membuktikan kode sah; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Meminta pemulihan sandi.
+- **Sumber / tujuan:** [FR-AUTH-006](FRD.md#fr-auth-006); [PRD-F-005](PRD.md#prd-f-005).
+- **Aktor / pemicu:** Pemilik yang membuktikan kode sah. Pemicu: Meminta pemulihan sandi.
 - **Kewajiban:** Reset wajib memverifikasi kode dan mengganti sandi, menghabiskan kode, menerbitkan pengganti serta mencabut sesi lama dalam satu transaksi; dua reset memakai kode sama hanya satu berhasil.
-- **Kontrak input/output dan izin:** [resetPassword](#srs-api-resetpassword), [rotateRecoveryCode](#srs-api-rotaterecoverycode). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [resetPassword](#srs-api-resetpassword), [rotateRecoveryCode](#srs-api-rotaterecoverycode).
 - **Verifikasi / penerimaan:** [AC-AUTH-006-01](FRD.md#ac-auth-006-01), [AC-AUTH-006-02](FRD.md#ac-auth-006-02); [TC-AUTH-006-01](FRD.md#tc-auth-006-01), [TC-AUTH-006-02](FRD.md#tc-auth-006-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-007"></a>
 
 #### SRS-FR-AUTH-007 — memberikan hak admin setara kepada dua akun demo yang disiapkan tim
 
-- **Sumber / tujuan:** [FR-AUTH-007](FRD.md#fr-auth-007); [PRD-F-006](PRD.md#prd-f-006); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Dua admin disiapkan tim; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Admin login lalu meminta fungsi pengelolaan.
+- **Sumber / tujuan:** [FR-AUTH-007](FRD.md#fr-auth-007); [PRD-F-006](PRD.md#prd-f-006).
+- **Aktor / pemicu:** Dua admin disiapkan tim. Pemicu: Admin login lalu meminta fungsi pengelolaan.
 - **Kewajiban:** Seed wajib menghasilkan dua akun ADMIN berbeda tanpa kredensial baku di repo; seluruh operasi admin memakai kewenangan setara dan menolak signup publik sebagai admin.
-- **Kontrak input/output dan izin:** [login](#srs-api-login). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [login](#srs-api-login).
 - **Verifikasi / penerimaan:** [AC-AUTH-007-01](FRD.md#ac-auth-007-01), [AC-AUTH-007-02](FRD.md#ac-auth-007-02); [TC-AUTH-007-01](FRD.md#tc-auth-007-01), [TC-AUTH-007-02](FRD.md#tc-auth-007-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-auth-008"></a>
 
 #### SRS-FR-AUTH-008 — mengakhiri akses sesi setelah logout serta mencegah pembukaan data akun lama oleh sesi lain
 
-- **Sumber / tujuan:** [FR-AUTH-008](FRD.md#fr-auth-008); [PRD-F-057](PRD.md#prd-f-057); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik sesi; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih logout atau kemudian masuk sebagai akun lain.
+- **Sumber / tujuan:** [FR-AUTH-008](FRD.md#fr-auth-008); [PRD-F-057](PRD.md#prd-f-057).
+- **Aktor / pemicu:** Pemilik sesi. Pemicu: Memilih logout atau kemudian masuk sebagai akun lain.
 - **Kewajiban:** Logout wajib menghapus akses token lokal/memori, mengosongkan pratinjau, menghentikan tugas klien dan membatasi callback pada session generation; offline menyimpan hanya kemampuan pencabutan sesi.
-- **Kontrak input/output dan izin:** [revokeOfflineSession](#srs-api-revokeofflinesession), [logout](#srs-api-logout); SessionCoordinator §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [revokeOfflineSession](#srs-api-revokeofflinesession), [logout](#srs-api-logout); SessionCoordinator §5.4.
 - **Verifikasi / penerimaan:** [AC-AUTH-008-01](FRD.md#ac-auth-008-01), [AC-AUTH-008-02](FRD.md#ac-auth-008-02); [TC-AUTH-008-01](FRD.md#tc-auth-008-01), [TC-AUTH-008-02](FRD.md#tc-auth-008-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-001"></a>
 
 #### SRS-FR-REPORT-001 — memvalidasi jumlah dan jenis kombinasi media sesuai batas laporan
 
-- **Sumber / tujuan:** [FR-REPORT-001](FRD.md#fr-report-001); [PRD-F-007](PRD.md#prd-f-007); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih media lalu mencoba kirim.
+- **Sumber / tujuan:** [FR-REPORT-001](FRD.md#fr-report-001); [PRD-F-007](PRD.md#prd-f-007).
+- **Aktor / pemicu:** Warga pemilik draf. Pemicu: Memilih media lalu mencoba kirim.
 - **Kewajiban:** Penerimaan wajib memeriksa manifest media dan hasil decode/probe aktual: 1–2 foto atau satu video, jumlah/ukuran/codec/durasi sesuai STD-002; media tidak dicampur.
-- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [submitReport](#srs-api-submitreport). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [submitReport](#srs-api-submitreport).
 - **Verifikasi / penerimaan:** [AC-REPORT-001-01](FRD.md#ac-report-001-01), [AC-REPORT-001-02](FRD.md#ac-report-001-02); [TC-REPORT-001-01](FRD.md#tc-report-001-01), [TC-REPORT-001-02](FRD.md#tc-report-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-002"></a>
 
 #### SRS-FR-REPORT-002 — memerlukan tiga unsur wajib dan mencatat waktu kirim otomatis terpisah dari waktu kejadian
 
-- **Sumber / tujuan:** [FR-REPORT-002](FRD.md#fr-report-002); [PRD-F-008](PRD.md#prd-f-008); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menekan Kirim setelah mengisi laporan.
+- **Sumber / tujuan:** [FR-REPORT-002](FRD.md#fr-report-002); [PRD-F-008](PRD.md#prd-f-008).
+- **Aktor / pemicu:** Warga pemilik draf. Pemicu: Menekan Kirim setelah mengisi laporan.
 - **Kewajiban:** Penerimaan wajib memvalidasi deskripsi, titik dan waktu kejadian terhadap satu timestamp server yang juga menjadi accepted_at; applied_time dan time_source disimpan terpisah.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport).
 - **Verifikasi / penerimaan:** [AC-REPORT-002-01](FRD.md#ac-report-002-01), [AC-REPORT-002-02](FRD.md#ac-report-002-02); [TC-REPORT-002-01](FRD.md#tc-report-002-01), [TC-REPORT-002-02](FRD.md#tc-report-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-003"></a>
 
 #### SRS-FR-REPORT-003 — menerima pilihan titik manual termasuk lokasi lain serta membedakannya dari pengisian GPS
 
-- **Sumber / tujuan:** [FR-REPORT-003](FRD.md#fr-report-003); [PRD-F-009](PRD.md#prd-f-009); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mengisi titik melalui GPS atau pilihan manual.
+- **Sumber / tujuan:** [FR-REPORT-003](FRD.md#fr-report-003); [PRD-F-009](PRD.md#prd-f-009).
+- **Aktor / pemicu:** Warga pemilik draf. Pemicu: Mengisi titik melalui GPS atau pilihan manual.
 - **Kewajiban:** Pemilih titik wajib menyimpan GPS/MANUAL eksplisit; GPS gagal menyediakan input koordinat/pin manual tanpa geofence, tidak menganggap titik bawaan sudah dipilih.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); Pemilih titik GPS/manual §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); Pemilih titik GPS/manual §5.4.
 - **Verifikasi / penerimaan:** [AC-REPORT-003-01](FRD.md#ac-report-003-01), [AC-REPORT-003-02](FRD.md#ac-report-003-02); [TC-REPORT-003-01](FRD.md#tc-report-003-01), [TC-REPORT-003-02](FRD.md#tc-report-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-004"></a>
 
 #### SRS-FR-REPORT-004 — menahan pengiriman saat kondisi terlarang terdeteksi, termasuk untuk titik manual
 
-- **Sumber / tujuan:** [FR-REPORT-004](FRD.md#fr-report-004); [PRD-F-010](PRD.md#prd-f-010); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pada APK demo; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Kirim atau retry dengan mock GPS/mode developer berhasil terdeteksi.
+- **Sumber / tujuan:** [FR-REPORT-004](FRD.md#fr-report-004); [PRD-F-010](PRD.md#prd-f-010).
+- **Aktor / pemicu:** Warga pada APK demo. Pemicu: Kirim atau retry dengan mock GPS/mode developer berhasil terdeteksi.
 - **Kewajiban:** Penerimaan wajib menolak mock DETECTED dan developer DETECTED pada build demo; jalur manual memakai evaluasi sinyal yang sama, tanpa klaim anti-spoof universal.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); DeviceSignalProvider §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); DeviceSignalProvider §5.4.
 - **Verifikasi / penerimaan:** [AC-REPORT-004-01](FRD.md#ac-report-004-01), [AC-REPORT-004-02](FRD.md#ac-report-004-02); [TC-REPORT-004-01](FRD.md#tc-report-004-01), [TC-REPORT-004-02](FRD.md#tc-report-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-005"></a>
 
 #### SRS-FR-REPORT-005 — mempertahankan arti unknown dan tidak memblokir kirim semata-mata karena unknown mode developer
 
-- **Sumber / tujuan:** [FR-REPORT-005](FRD.md#fr-report-005); [PRD-F-010](PRD.md#prd-f-010); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga; sistem pemeriksa perangkat; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Status mode developer tidak dapat diperiksa.
+- **Sumber / tujuan:** [FR-REPORT-005](FRD.md#fr-report-005); [PRD-F-010](PRD.md#prd-f-010).
+- **Aktor / pemicu:** Warga; sistem pemeriksa perangkat. Pemicu: Status mode developer tidak dapat diperiksa.
 - **Kewajiban:** Adapter wajib mempertahankan UNKNOWN bila API tidak memberi sinyal terpercaya; nilai 0 dari Settings.Global saja tidak menjadi bukti developer mode mati.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); DeviceSignalProvider §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); DeviceSignalProvider §5.4.
 - **Verifikasi / penerimaan:** [AC-REPORT-005-01](FRD.md#ac-report-005-01), [AC-REPORT-005-02](FRD.md#ac-report-005-02); [TC-REPORT-005-01](FRD.md#tc-report-005-01), [TC-REPORT-005-02](FRD.md#tc-report-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-006"></a>
 
 #### SRS-FR-REPORT-006 — membatasi pengecualian internal hanya pada pemblokiran mode developer
 
-- **Sumber / tujuan:** [FR-REPORT-006](FRD.md#fr-report-006); [PRD-F-010](PRD.md#prd-f-010); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tim pengembang pada build internal; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menjalankan alur kirim untuk pengembangan.
+- **Sumber / tujuan:** [FR-REPORT-006](FRD.md#fr-report-006); [PRD-F-010](PRD.md#prd-f-010).
+- **Aktor / pemicu:** Tim pengembang pada build internal. Pemicu: Menjalankan alur kirim untuk pengembangan.
 - **Kewajiban:** Pengecualian developer wajib bergantung build internal yang didaftarkan pada konfigurasi demo lokal terpisah; tidak ada flag bypass yang dapat diubah dari form atau akun warga.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); BuildProfile §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport); BuildProfile §5.4.
 - **Verifikasi / penerimaan:** [AC-REPORT-006-01](FRD.md#ac-report-006-01), [AC-REPORT-006-02](FRD.md#ac-report-006-02); [TC-REPORT-006-01](FRD.md#tc-report-006-01), [TC-REPORT-006-02](FRD.md#tc-report-006-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-ktp-001"></a>
 
 #### SRS-FR-KTP-001 — memerlukan KTP akun yang memenuhi syarat sebelum kirim, tanpa unggah ulang KTP per laporan
 
-- **Sumber / tujuan:** [FR-KTP-001](FRD.md#fr-ktp-001); [PRD-F-011](PRD.md#prd-f-011); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuat draf atau mencoba pengiriman baru.
+- **Sumber / tujuan:** [FR-KTP-001](FRD.md#fr-ktp-001); [PRD-F-011](PRD.md#prd-f-011).
+- **Aktor / pemicu:** Warga pemilik. Pemicu: Membuat draf atau mencoba pengiriman baru.
 - **Kewajiban:** Penerimaan wajib membaca rujukan KTP aktif pemilik dalam transaksi penerimaan; status dari draf/klien tidak memberi hak kirim.
-- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-001-01](FRD.md#ac-ktp-001-01), [AC-KTP-001-02](FRD.md#ac-ktp-001-02); [TC-KTP-001-01](FRD.md#tc-ktp-001-01), [TC-KTP-001-02](FRD.md#tc-ktp-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -238,10 +230,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-KTP-002 — memeriksa jenis/keterbacaan KTP dan menyajikan hasil kepada pemilik tanpa klaim verifikasi NIK resmi
 
-- **Sumber / tujuan:** [FR-KTP-002](FRD.md#fr-ktp-002); [PRD-F-012](PRD.md#prd-f-012); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem untuk pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Pemilik menyerahkan KTP untuk pemeriksaan khusus.
+- **Sumber / tujuan:** [FR-KTP-002](FRD.md#fr-ktp-002); [PRD-F-012](PRD.md#prd-f-012).
+- **Aktor / pemicu:** Sistem untuk pemilik dokumen. Pemicu: Pemilik menyerahkan KTP untuk pemeriksaan khusus.
 - **Kewajiban:** Worker KTP wajib memvalidasi document_type, name_readable dan nama yang benar-benar tersedia; jenis salah/hasil invalid tidak meluluskan dan tidak membatalkan KTP aktif sebelumnya.
-- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [checkKtp](#srs-api-checkktp), [retryKtp](#srs-api-retryktp). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [checkKtp](#srs-api-checkktp), [retryKtp](#srs-api-retryktp).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-002-01](FRD.md#ac-ktp-002-01), [AC-KTP-002-02](FRD.md#ac-ktp-002-02); [TC-KTP-002-01](FRD.md#tc-ktp-002-01), [TC-KTP-002-02](FRD.md#tc-ktp-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -249,10 +241,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-KTP-003 — memasukkan konfirmasi pemilik sebagai bagian pemenuhan prasyarat KTP
 
-- **Sumber / tujuan:** [FR-KTP-003](FRD.md#fr-ktp-003); [PRD-F-012](PRD.md#prd-f-012); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Meninjau hasil pemeriksaan KTP lalu mengonfirmasi.
+- **Sumber / tujuan:** [FR-KTP-003](FRD.md#fr-ktp-003); [PRD-F-012](PRD.md#prd-f-012).
+- **Aktor / pemicu:** Pemilik dokumen. Pemicu: Meninjau hasil pemeriksaan KTP lalu mengonfirmasi.
 - **Kewajiban:** Konfirmasi wajib menunjuk document_id/version dan job berhasil serta If-Match status KTP; sumber terhapus/usang ditolak, pergantian rujukan atomik.
-- **Kontrak input/output dan izin:** [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-003-01](FRD.md#ac-ktp-003-01), [AC-KTP-003-02](FRD.md#ac-ktp-003-02); [TC-KTP-003-01](FRD.md#tc-ktp-003-01), [TC-KTP-003-02](FRD.md#tc-ktp-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -260,10 +252,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-KTP-004 — menahan pengiriman baru setelah KTP prasyarat dihapus
 
-- **Sumber / tujuan:** [FR-KTP-004](FRD.md#fr-ktp-004); [PRD-F-013](PRD.md#prd-f-013); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik KTP; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menghapus KTP yang memenuhi syarat.
+- **Sumber / tujuan:** [FR-KTP-004](FRD.md#fr-ktp-004); [PRD-F-013](PRD.md#prd-f-013).
+- **Aktor / pemicu:** Pemilik KTP. Pemicu: Menghapus KTP yang memenuhi syarat.
 - **Kewajiban:** Hapus dokumen aktif wajib mengosongkan rujukan KTP dalam transaksi pencabutan akses; penerimaan sesudahnya tertahan, ledger laporan lama tidak berubah.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [deleteDocument](#srs-api-deletedocument), [getKtpState](#srs-api-getktpstate). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [deleteDocument](#srs-api-deletedocument), [getKtpState](#srs-api-getktpstate).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-004-01](FRD.md#ac-ktp-004-01), [AC-KTP-004-02](FRD.md#ac-ktp-004-02); [TC-KTP-004-01](FRD.md#tc-ktp-004-01), [TC-KTP-004-02](FRD.md#tc-ktp-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -271,76 +263,70 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-REPORT-007 — mempertahankan draf beserta media lokal tanpa menyebutnya diterima backend
 
-- **Sumber / tujuan:** [FR-REPORT-007](FRD.md#fr-report-007); [PRD-F-014](PRD.md#prd-f-014); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menyimpan draf saat offline atau syarat kirim belum lengkap.
+- **Sumber / tujuan:** [FR-REPORT-007](FRD.md#fr-report-007); [PRD-F-014](PRD.md#prd-f-014).
+- **Aktor / pemicu:** Warga pemilik draf. Pemicu: Menyimpan draf saat offline atau syarat kirim belum lengkap.
 - **Kewajiban:** Repository lokal wajib menyimpan draf/media di ruang akun/perangkat dan melaporkan kegagalan simpan; payload pernah dikirim tidak dapat diubah sebelum penerimaan atau penutupan revisi terbukti.
-- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [getUpload](#srs-api-getupload), [closeSubmission](#srs-api-closesubmission); DraftRepository §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [getUpload](#srs-api-getupload), [closeSubmission](#srs-api-closesubmission); DraftRepository §5.4.
 - **Verifikasi / penerimaan:** [AC-REPORT-007-01](FRD.md#ac-report-007-01), [AC-REPORT-007-02](FRD.md#ac-report-007-02); [TC-REPORT-007-01](FRD.md#tc-report-007-01), [TC-REPORT-007-02](FRD.md#tc-report-007-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-008"></a>
 
 #### SRS-FR-REPORT-008 — melanjutkan pengiriman yang sebelumnya diminta saat aplikasi aktif dan online
 
-- **Sumber / tujuan:** [FR-REPORT-008](FRD.md#fr-report-008); [PRD-F-015](PRD.md#prd-f-015); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik permintaan kirim; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Aplikasi aktif kembali dan online setelah Kirim terputus.
+- **Sumber / tujuan:** [FR-REPORT-008](FRD.md#fr-report-008); [PRD-F-015](PRD.md#prd-f-015).
+- **Aktor / pemicu:** Warga pemilik permintaan kirim. Pemicu: Aplikasi aktif kembali dan online setelah Kirim terputus.
 - **Kewajiban:** Koordinator kirim wajib merekonsiliasi submission_id dahulu saat resume/online; maksimum tiga upaya satu rangkaian, jeda 5/15 detik, hanya saat akun asal aktif.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission).
 - **Verifikasi / penerimaan:** [AC-REPORT-008-01](FRD.md#ac-report-008-01), [AC-REPORT-008-02](FRD.md#ac-report-008-02); [TC-REPORT-008-01](FRD.md#tc-report-008-01), [TC-REPORT-008-02](FRD.md#tc-report-008-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-009"></a>
 
 #### SRS-FR-REPORT-009 — menyediakan tindakan kirim ulang manual dengan prasyarat yang tetap berlaku
 
-- **Sumber / tujuan:** [FR-REPORT-009](FRD.md#fr-report-009); [PRD-F-015](PRD.md#prd-f-015); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik permintaan; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih Coba lagi setelah pengiriman tertahan/gagal.
+- **Sumber / tujuan:** [FR-REPORT-009](FRD.md#fr-report-009); [PRD-F-015](PRD.md#prd-f-015).
+- **Aktor / pemicu:** Warga pemilik permintaan. Pemicu: Memilih Coba lagi setelah pengiriman tertahan/gagal.
 - **Kewajiban:** Tombol Coba lagi wajib menggunakan ID/payload revisi yang sama sampai definitif; perubahan isi memerlukan revisi lama CLOSED/REJECTED_CLOSED dan ID baru.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission), [closeSubmission](#srs-api-closesubmission). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission), [closeSubmission](#srs-api-closesubmission).
 - **Verifikasi / penerimaan:** [AC-REPORT-009-01](FRD.md#ac-report-009-01), [AC-REPORT-009-02](FRD.md#ac-report-009-02); [TC-REPORT-009-01](FRD.md#tc-report-009-01), [TC-REPORT-009-02](FRD.md#tc-report-009-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-010"></a>
 
 #### SRS-FR-REPORT-010 — menghasilkan satu laporan bisnis untuk pengulangan permintaan Kirim yang sama
 
-- **Sumber / tujuan:** [FR-REPORT-010](FRD.md#fr-report-010); [PRD-F-015](PRD.md#prd-f-015); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga dan sistem penerimaan; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Percobaan untuk maksud Kirim yang sama tiba berulang atau bersamaan.
+- **Sumber / tujuan:** [FR-REPORT-010](FRD.md#fr-report-010); [PRD-F-015](PRD.md#prd-f-015).
+- **Aktor / pemicu:** Warga dan sistem penerimaan. Pemicu: Percobaan untuk maksud Kirim yang sama tiba berulang atau bersamaan.
 - **Kewajiban:** Journal unik akun+submission_id wajib mempertahankan hasil minimal; retry identik tidak menambah laporan/kuota, payload berbeda konflik, status terhapus tidak dapat dibuat ulang.
-- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission), [closeSubmission](#srs-api-closesubmission). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [submitReport](#srs-api-submitreport), [getSubmission](#srs-api-getsubmission), [closeSubmission](#srs-api-closesubmission).
 - **Verifikasi / penerimaan:** [AC-REPORT-010-01](FRD.md#ac-report-010-01), [AC-REPORT-010-02](FRD.md#ac-report-010-02); [TC-REPORT-010-01](FRD.md#tc-report-010-01), [TC-REPORT-010-02](FRD.md#tc-report-010-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-011"></a>
 
 #### SRS-FR-REPORT-011 — menyediakan riwayat/bukti milik sendiri sebagai baca saja bagi warga setelah diterima
 
-- **Sumber / tujuan:** [FR-REPORT-011](FRD.md#fr-report-011); [PRD-F-016](PRD.md#prd-f-016); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik laporan; admin sesuai fungsi terpisah; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka laporan yang telah diterima.
+- **Sumber / tujuan:** [FR-REPORT-011](FRD.md#fr-report-011); [PRD-F-016](PRD.md#prd-f-016).
+- **Aktor / pemicu:** Pemilik laporan; admin sesuai fungsi terpisah. Pemicu: Membuka laporan yang telah diterima.
 - **Kewajiban:** Daftar/detail warga wajib menyaring owner sebelum serialisasi; detail terhapus 410 untuk pemilik selama marker berlaku, marker 30 hari tanpa isi, lalu riwayat menghilangkan entri.
-- **Kontrak input/output dan izin:** [listOwnReports](#srs-api-listownreports), [getOwnReport](#srs-api-getownreport), [downloadMedia](#srs-api-downloadmedia). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listOwnReports](#srs-api-listownreports), [getOwnReport](#srs-api-getownreport), [downloadMedia](#srs-api-downloadmedia).
 - **Verifikasi / penerimaan:** [AC-REPORT-011-01](FRD.md#ac-report-011-01), [AC-REPORT-011-02](FRD.md#ac-report-011-02); [TC-REPORT-011-01](FRD.md#tc-report-011-01), [TC-REPORT-011-02](FRD.md#tc-report-011-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-report-012"></a>
 
 #### SRS-FR-REPORT-012 — menampilkan keadaan proses dan hasil yang tersedia dengan pembedaan AI dan tinjauan admin
 
-- **Sumber / tujuan:** [FR-REPORT-012](FRD.md#fr-report-012); [PRD-F-017](PRD.md#prd-f-017); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pelapor pemilik; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka perkembangan laporannya.
+- **Sumber / tujuan:** [FR-REPORT-012](FRD.md#fr-report-012); [PRD-F-017](PRD.md#prd-f-017).
+- **Aktor / pemicu:** Pelapor pemilik. Pemicu: Membuka perkembangan laporannya.
 - **Kewajiban:** Detail wajib memisahkan analysis_state, assessment efektif, assessment AI, review dan catatan; tidak menyatakan bantuan/evakuasi telah dikirim dari label tingkat.
-- **Kontrak input/output dan izin:** [listOwnReports](#srs-api-listownreports), [getOwnReport](#srs-api-getownreport). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listOwnReports](#srs-api-listownreports), [getOwnReport](#srs-api-getownreport).
 - **Verifikasi / penerimaan:** [AC-REPORT-012-01](FRD.md#ac-report-012-01), [AC-REPORT-012-02](FRD.md#ac-report-012-02); [TC-REPORT-012-01](FRD.md#tc-report-012-01), [TC-REPORT-012-02](FRD.md#tc-report-012-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-ai-001"></a>
 
 #### SRS-FR-AI-001 — menghasilkan bantuan penilaian kecocokan bukti dengan keterangan yang dapat ditelusuri ke sumbernya
 
-- **Sumber / tujuan:** [FR-AI-001](FRD.md#fr-ai-001); [PRD-F-018](PRD.md#prd-f-018); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Proses analisis; hasil untuk pemilik dan admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Laporan bermedia telah diterima dan dijadwalkan untuk analisis.
+- **Sumber / tujuan:** [FR-AI-001](FRD.md#fr-ai-001); [PRD-F-018](PRD.md#prd-f-018).
+- **Aktor / pemicu:** Proses analisis; hasil untuk pemilik dan admin. Pemicu: Laporan bermedia telah diterima dan dijadwalkan untuk analisis.
 - **Kewajiban:** Worker wajib mengirim hanya media/frame dan keterangan kepada adapter, memvalidasi skema serta indikator, lalu menyimpan hasil hanya jika sumber/generation masih berlaku.
-- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [retryReportAnalysis](#srs-api-retryreportanalysis). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [retryReportAnalysis](#srs-api-retryreportanalysis).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-AI-001-01](FRD.md#ac-ai-001-01), [AC-AI-001-02](FRD.md#ac-ai-001-02); [TC-AI-001-01](FRD.md#tc-ai-001-01), [TC-AI-001-02](FRD.md#tc-ai-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -348,10 +334,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-AI-002 — mempertahankan laporan tidak cocok untuk review dan mengecualikan buktinya dari penetapan bahaya sebelum ditinjau
 
-- **Sumber / tujuan:** [FR-AI-002](FRD.md#fr-ai-002); [PRD-F-019](PRD.md#prd-f-019); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Proses analisis dan admin peninjau; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Hasil analisis menilai bukti tidak cocok.
+- **Sumber / tujuan:** [FR-AI-002](FRD.md#fr-ai-002); [PRD-F-019](PRD.md#prd-f-019).
+- **Aktor / pemicu:** Proses analisis dan admin peninjau. Pemicu: Hasil analisis menilai bukti tidak cocok.
 - **Kewajiban:** Agregator wajib mengecualikan MISMATCH; review biasa tidak mengubah relevansi. Hanya koreksi eksplisit relevansi/tingkat/alasan membuat hasil admin memenuhi kelayakan.
-- **Kontrak input/output dan izin:** [retryReportAnalysis](#srs-api-retryreportanalysis), [correctAssessment](#srs-api-correctassessment). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [retryReportAnalysis](#srs-api-retryreportanalysis), [correctAssessment](#srs-api-correctassessment).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-AI-002-01](FRD.md#ac-ai-002-01), [AC-AI-002-02](FRD.md#ac-ai-002-02); [TC-AI-002-01](FRD.md#tc-ai-002-01), [TC-AI-002-02](FRD.md#tc-ai-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -359,10 +345,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-AI-003 — membedakan penilaian belum tersedia dari tingkat rendah
 
-- **Sumber / tujuan:** [FR-AI-003](FRD.md#fr-ai-003); [PRD-F-020](PRD.md#prd-f-020); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Proses sistem; dibaca pelapor/admin/publik sesuai izin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Analisis menunggu, gagal atau belum cukup untuk penilaian.
+- **Sumber / tujuan:** [FR-AI-003](FRD.md#fr-ai-003); [PRD-F-020](PRD.md#prd-f-020).
+- **Aktor / pemicu:** Proses sistem; dibaca pelapor/admin/publik sesuai izin. Pemicu: Analisis menunggu, gagal atau belum cukup untuk penilaian.
 - **Kewajiban:** Agregator wajib menghasilkan UNRATED ketika tidak ada hasil layak; gagal, kosong, tidak cukup dan pending tidak dipetakan menjadi LOW.
-- **Kontrak input/output dan izin:** [retryReportAnalysis](#srs-api-retryreportanalysis), [correctAssessment](#srs-api-correctassessment). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [retryReportAnalysis](#srs-api-retryreportanalysis), [correctAssessment](#srs-api-correctassessment).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-AI-003-01](FRD.md#ac-ai-003-01), [AC-AI-003-02](FRD.md#ac-ai-003-02); [TC-AI-003-01](FRD.md#tc-ai-003-01), [TC-AI-003-02](FRD.md#tc-ai-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -370,241 +356,220 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-REVIEW-001 — mengelompokkan laporan terkait tanpa mengganti atau menghilangkan laporan individual
 
-- **Sumber / tujuan:** [FR-REVIEW-001](FRD.md#fr-review-001); [PRD-F-021](PRD.md#prd-f-021); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem pengelompokan; admin pembaca bukti; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Laporan terkait diterima atau keanggotaan dievaluasi.
+- **Sumber / tujuan:** [FR-REVIEW-001](FRD.md#fr-review-001); [PRD-F-021](PRD.md#prd-f-021).
+- **Aktor / pemicu:** Sistem pengelompokan; admin pembaca bukti. Pemicu: Laporan terkait diterima atau keanggotaan dievaluasi.
 - **Kewajiban:** Transaksi penempatan wajib mengevaluasi kandidat/bentang dengan aturan jarak/waktu dan tie-break final; setiap laporan memiliki tepat satu group_id efektif, tanpa auto-merge.
-- **Kontrak input/output dan izin:** [listGroups](#srs-api-listgroups), [getGroup](#srs-api-getgroup), [listGroupReports](#srs-api-listgroupreports). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listGroups](#srs-api-listgroups), [getGroup](#srs-api-getgroup), [listGroupReports](#srs-api-listgroupreports).
 - **Verifikasi / penerimaan:** [AC-REVIEW-001-01](FRD.md#ac-review-001-01), [AC-REVIEW-001-02](FRD.md#ac-review-001-02); [TC-REVIEW-001-01](FRD.md#tc-review-001-01), [TC-REVIEW-001-02](FRD.md#tc-review-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-002"></a>
 
 #### SRS-FR-REVIEW-002 — menyajikan prioritas tinjauan dengan makna yang berbeda dari indikasi tingkat publik
 
-- **Sumber / tujuan:** [FR-REVIEW-002](FRD.md#fr-review-002); [PRD-F-022](PRD.md#prd-f-022); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin peninjau; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka urutan perhatian laporan/kelompok.
+- **Sumber / tujuan:** [FR-REVIEW-002](FRD.md#fr-review-002); [PRD-F-022](PRD.md#prd-f-022).
+- **Aktor / pemicu:** Admin peninjau. Pemicu: Membuka urutan perhatian laporan/kelompok.
 - **Kewajiban:** Query antrean wajib memilih kelompok aktif dengan kebutuhan review terbuka; urut level lalu minimum needs_review_since dan ID, UNRATED dipisahkan.
-- **Kontrak input/output dan izin:** [listAdminReports](#srs-api-listadminreports), [listGroups](#srs-api-listgroups). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listAdminReports](#srs-api-listadminreports), [listGroups](#srs-api-listgroups).
 - **Verifikasi / penerimaan:** [AC-REVIEW-002-01](FRD.md#ac-review-002-01), [AC-REVIEW-002-02](FRD.md#ac-review-002-02); [TC-REVIEW-002-01](FRD.md#tc-review-002-01), [TC-REVIEW-002-02](FRD.md#tc-review-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-003"></a>
 
 #### SRS-FR-REVIEW-003 — memungkinkan koreksi hasil AI oleh admin dan memperbarui hasil terkait sesuai koreksi sah
 
-- **Sumber / tujuan:** [FR-REVIEW-003](FRD.md#fr-review-003); [PRD-F-023](PRD.md#prd-f-023); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Meninjau hasil analisis yang dinilai keliru.
+- **Sumber / tujuan:** [FR-REVIEW-003](FRD.md#fr-review-003); [PRD-F-023](PRD.md#prd-f-023).
+- **Aktor / pemicu:** Admin. Pemicu: Meninjau hasil analisis yang dinilai keliru.
 - **Kewajiban:** Koreksi wajib membandingkan versi, menaikkan result_version dan mengunci authority ADMIN; hasil AI berikut tidak menimpa hasil efektif tersebut.
-- **Kontrak input/output dan izin:** [getAdminReport](#srs-api-getadminreport), [correctAssessment](#srs-api-correctassessment), [getGroup](#srs-api-getgroup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getAdminReport](#srs-api-getadminreport), [correctAssessment](#srs-api-correctassessment), [getGroup](#srs-api-getgroup).
 - **Verifikasi / penerimaan:** [AC-REVIEW-003-01](FRD.md#ac-review-003-01), [AC-REVIEW-003-02](FRD.md#ac-review-003-02); [TC-REVIEW-003-01](FRD.md#tc-review-003-01), [TC-REVIEW-003-02](FRD.md#tc-review-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-004"></a>
 
 #### SRS-FR-REVIEW-004 — memindahkan keanggotaan laporan ke kelompok pilihan admin tanpa menghilangkan sumber
 
-- **Sumber / tujuan:** [FR-REVIEW-004](FRD.md#fr-review-004); [PRD-F-024](PRD.md#prd-f-024); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menemukan laporan berada dalam kelompok salah.
+- **Sumber / tujuan:** [FR-REVIEW-004](FRD.md#fr-review-004); [PRD-F-024](PRD.md#prd-f-024).
+- **Aktor / pemicu:** Admin. Pemicu: Menemukan laporan berada dalam kelompok salah.
 - **Kewajiban:** Pindah wajib memeriksa versi laporan/kedua kelompok dan alasan, mengubah group_id sekali serta menghitung ulang sumber/tujuan secara atomik, termasuk tujuan baru aktif.
-- **Kontrak input/output dan izin:** [moveReport](#srs-api-movereport), [getGroup](#srs-api-getgroup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [moveReport](#srs-api-movereport), [getGroup](#srs-api-getgroup).
 - **Verifikasi / penerimaan:** [AC-REVIEW-004-01](FRD.md#ac-review-004-01), [AC-REVIEW-004-02](FRD.md#ac-review-004-02); [TC-REVIEW-004-01](FRD.md#tc-review-004-01), [TC-REVIEW-004-02](FRD.md#tc-review-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-005"></a>
 
 #### SRS-FR-REVIEW-005 — menyediakan catatan tindak lanjut kepada admin dan pelapor terkait
 
-- **Sumber / tujuan:** [FR-REVIEW-005](FRD.md#fr-review-005); [PRD-F-025](PRD.md#prd-f-025); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin penulis; pelapor terkait pembaca; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menyimpan catatan tindak lanjut sederhana.
+- **Sumber / tujuan:** [FR-REVIEW-005](FRD.md#fr-review-005); [PRD-F-025](PRD.md#prd-f-025).
+- **Aktor / pemicu:** Admin penulis; pelapor terkait pembaca. Pemicu: Menyimpan catatan tindak lanjut sederhana.
 - **Kewajiban:** Catatan wajib disimpan pada report_id dan hanya diserialisasi untuk owner/admin; koreksi append-only menunjuk catatan pada laporan sama dan tidak memberi hak ke anggota kelompok lain.
-- **Kontrak input/output dan izin:** [getOwnReport](#srs-api-getownreport), [listReportNotes](#srs-api-listreportnotes), [getAdminReport](#srs-api-getadminreport), [appendReportNote](#srs-api-appendreportnote). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getOwnReport](#srs-api-getownreport), [listReportNotes](#srs-api-listreportnotes), [getAdminReport](#srs-api-getadminreport), [appendReportNote](#srs-api-appendreportnote).
 - **Verifikasi / penerimaan:** [AC-REVIEW-005-01](FRD.md#ac-review-005-01), [AC-REVIEW-005-02](FRD.md#ac-review-005-02); [TC-REVIEW-005-01](FRD.md#tc-review-005-01), [TC-REVIEW-005-02](FRD.md#tc-review-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-006"></a>
 
 #### SRS-FR-REVIEW-006 — menandai kebutuhan tinjauan ulang ketika bukti baru belum tercakup review sebelumnya
 
-- **Sumber / tujuan:** [FR-REVIEW-006](FRD.md#fr-review-006); [PRD-F-026](PRD.md#prd-f-026); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem review; admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Bukti/laporan baru masuk ke kelompok yang sudah ditinjau.
+- **Sumber / tujuan:** [FR-REVIEW-006](FRD.md#fr-review-006); [PRD-F-026](PRD.md#prd-f-026).
+- **Aktor / pemicu:** Sistem review; admin. Pemicu: Bukti/laporan baru masuk ke kelompok yang sudah ditinjau.
 - **Kewajiban:** Review wajib mencatat pasangan evidence_version/result_version yang benar-benar dilihat; semua pasangan terkini menentukan badge, bukan waktu halaman dibuka.
-- **Kontrak input/output dan izin:** [listAdminReports](#srs-api-listadminreports), [getAdminReport](#srs-api-getadminreport), [reviewReport](#srs-api-reviewreport), [getGroup](#srs-api-getgroup), [listGroupReports](#srs-api-listgroupreports). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listAdminReports](#srs-api-listadminreports), [getAdminReport](#srs-api-getadminreport), [reviewReport](#srs-api-reviewreport), [getGroup](#srs-api-getgroup), [listGroupReports](#srs-api-listgroupreports).
 - **Verifikasi / penerimaan:** [AC-REVIEW-006-01](FRD.md#ac-review-006-01), [AC-REVIEW-006-02](FRD.md#ac-review-006-02); [TC-REVIEW-006-01](FRD.md#tc-review-006-01), [TC-REVIEW-006-02](FRD.md#tc-review-006-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-007"></a>
 
 #### SRS-FR-REVIEW-007 — mengeluarkan kejadian selesai dari Pantau aktif sambil mempertahankan riwayat laporan
 
-- **Sumber / tujuan:** [FR-REVIEW-007](FRD.md#fr-review-007); [PRD-F-027](PRD.md#prd-f-027); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menandai kejadian aktif sebagai selesai.
+- **Sumber / tujuan:** [FR-REVIEW-007](FRD.md#fr-review-007); [PRD-F-027](PRD.md#prd-f-027).
+- **Aktor / pemicu:** Admin. Pemicu: Menandai kejadian aktif sebagai selesai.
 - **Kewajiban:** Selesai wajib menutup state kelompok dalam transaksi, mempertahankan sejarah dan mengeluarkannya dari query Pantau aktif; ini bukan penghapusan anggota.
-- **Kontrak input/output dan izin:** [listGroups](#srs-api-listgroups), [completeGroup](#srs-api-completegroup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listGroups](#srs-api-listgroups), [completeGroup](#srs-api-completegroup).
 - **Verifikasi / penerimaan:** [AC-REVIEW-007-01](FRD.md#ac-review-007-01), [AC-REVIEW-007-02](FRD.md#ac-review-007-02); [TC-REVIEW-007-01](FRD.md#tc-review-007-01), [TC-REVIEW-007-02](FRD.md#tc-review-007-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-008"></a>
 
 #### SRS-FR-REVIEW-008 — mengarahkan kejadian baru ke kelompok aktif baru tanpa otomatis membuka kejadian lama
 
-- **Sumber / tujuan:** [FR-REVIEW-008](FRD.md#fr-review-008); [PRD-F-028](PRD.md#prd-f-028); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem pengelompokan; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Laporan untuk kejadian baru diterima di lokasi kejadian lama yang selesai.
+- **Sumber / tujuan:** [FR-REVIEW-008](FRD.md#fr-review-008); [PRD-F-028](PRD.md#prd-f-028).
+- **Aktor / pemicu:** Sistem pengelompokan. Pemicu: Laporan untuk kejadian baru diterima di lokasi kejadian lama yang selesai.
 - **Kewajiban:** Penempatan baru wajib mengutamakan kandidat selesai hanya bila waktu kejadian eksplisit berada dalam interval sumbernya dan syarat jarak/bentang terpenuhi; selebihnya kandidat aktif/baru.
-- **Kontrak input/output dan izin:** [moveReport](#srs-api-movereport), [listGroups](#srs-api-listgroups), [completeGroup](#srs-api-completegroup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [moveReport](#srs-api-movereport), [listGroups](#srs-api-listgroups), [completeGroup](#srs-api-completegroup).
 - **Verifikasi / penerimaan:** [AC-REVIEW-008-01](FRD.md#ac-review-008-01), [AC-REVIEW-008-02](FRD.md#ac-review-008-02); [TC-REVIEW-008-01](FRD.md#tc-review-008-01), [TC-REVIEW-008-02](FRD.md#tc-review-008-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-review-009"></a>
 
 #### SRS-FR-REVIEW-009 — mempertahankan jejak asal koreksi admin yang dapat ditelusuri
 
-- **Sumber / tujuan:** [FR-REVIEW-009](FRD.md#fr-review-009); [PRD-F-023](PRD.md#prd-f-023); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin dan sistem pencatat tindakan; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Koreksi penilaian berhasil.
+- **Sumber / tujuan:** [FR-REVIEW-009](FRD.md#fr-review-009); [PRD-F-023](PRD.md#prd-f-023).
+- **Aktor / pemicu:** Admin dan sistem pencatat tindakan. Pemicu: Koreksi penilaian berhasil.
 - **Kewajiban:** Mutasi admin wajib menulis audit minimal bersama perubahan bisnis; actor/time/version/reason terlacak tanpa salinan isi privat.
-- **Kontrak input/output dan izin:** [correctAssessment](#srs-api-correctassessment), [reviewReport](#srs-api-reviewreport), [moveReport](#srs-api-movereport), [appendReportNote](#srs-api-appendreportnote), [completeGroup](#srs-api-completegroup), [listAudit](#srs-api-listaudit). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [correctAssessment](#srs-api-correctassessment), [reviewReport](#srs-api-reviewreport), [moveReport](#srs-api-movereport), [appendReportNote](#srs-api-appendreportnote), [completeGroup](#srs-api-completegroup), [listAudit](#srs-api-listaudit).
 - **Verifikasi / penerimaan:** [AC-REVIEW-009-01](FRD.md#ac-review-009-01), [AC-REVIEW-009-02](FRD.md#ac-review-009-02); [TC-REVIEW-009-01](FRD.md#tc-review-009-01), [TC-REVIEW-009-02](FRD.md#tc-review-009-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-control-001"></a>
 
 #### SRS-FR-CONTROL-001 — menerapkan pengaturan galeri pada jalur pengiriman yang relevan
 
-- **Sumber / tujuan:** [FR-CONTROL-001](FRD.md#fr-control-001); [PRD-F-029](PRD.md#prd-f-029); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; warga terkena kebijakan saat kirim; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Admin mengubah pengaturan galeri global.
+- **Sumber / tujuan:** [FR-CONTROL-001](FRD.md#fr-control-001); [PRD-F-029](PRD.md#prd-f-029).
+- **Aktor / pemicu:** Admin; warga terkena kebijakan saat kirim. Pemicu: Admin mengubah pengaturan galeri global.
 - **Kewajiban:** Penerimaan baru wajib memakai gallery_enabled saat commit; rekonsiliasi laporan yang telah diterima tetap mengembalikan hasil lama meski aturan berubah.
-- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getSettings](#srs-api-getsettings), [updateSettings](#srs-api-updatesettings). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getSettings](#srs-api-getsettings), [updateSettings](#srs-api-updatesettings).
 - **Verifikasi / penerimaan:** [AC-CONTROL-001-01](FRD.md#ac-control-001-01), [AC-CONTROL-001-02](FRD.md#ac-control-001-02); [TC-CONTROL-001-01](FRD.md#tc-control-001-01), [TC-CONTROL-001-02](FRD.md#tc-control-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-control-002"></a>
 
 #### SRS-FR-CONTROL-002 — memberlakukan aturan kuota global dengan pemakaian terpisah per akun
 
-- **Sumber / tujuan:** [FR-CONTROL-002](FRD.md#fr-control-002); [PRD-F-030](PRD.md#prd-f-030); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin pengatur; sistem penerimaan per akun; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Admin menetapkan N laporan per H jam; warga mencoba kirim.
+- **Sumber / tujuan:** [FR-CONTROL-002](FRD.md#fr-control-002); [PRD-F-030](PRD.md#prd-f-030).
+- **Aktor / pemicu:** Admin pengatur; sistem penerimaan per akun. Pemicu: Admin menetapkan N laporan per H jam; warga mencoba kirim.
 - **Kewajiban:** Penerimaan wajib menghitung ledger (t−H,t] setelah reset_seq di bawah guard transaksi; slot terakhir tidak dapat dipakai dua permintaan sekaligus.
-- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getSettings](#srs-api-getsettings), [updateSettings](#srs-api-updatesettings), [listQuotaAccounts](#srs-api-listquotaaccounts). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getSettings](#srs-api-getsettings), [updateSettings](#srs-api-updatesettings), [listQuotaAccounts](#srs-api-listquotaaccounts).
 - **Verifikasi / penerimaan:** [AC-CONTROL-002-01](FRD.md#ac-control-002-01), [AC-CONTROL-002-02](FRD.md#ac-control-002-02); [TC-CONTROL-002-01](FRD.md#tc-control-002-01), [TC-CONTROL-002-02](FRD.md#tc-control-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-control-003"></a>
 
 #### SRS-FR-CONTROL-003 — mereset pemakaian kuota pada cakupan terpilih tanpa menghapus laporan
 
-- **Sumber / tujuan:** [FR-CONTROL-003](FRD.md#fr-control-003); [PRD-F-031](PRD.md#prd-f-031); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih reset pemakaian satu akun atau seluruh akun.
+- **Sumber / tujuan:** [FR-CONTROL-003](FRD.md#fr-control-003); [PRD-F-031](PRD.md#prd-f-031).
+- **Aktor / pemicu:** Admin. Pemicu: Memilih reset pemakaian satu akun atau seluruh akun.
 - **Kewajiban:** Reset wajib menyimpan urutan tindakan reset akun/global tanpa menghapus ledger/laporan; konsumsi sesudah reset tetap dihitung dan setting versi lama ditolak.
-- **Kontrak input/output dan izin:** [listQuotaAccounts](#srs-api-listquotaaccounts), [resetQuota](#srs-api-resetquota). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listQuotaAccounts](#srs-api-listquotaaccounts), [resetQuota](#srs-api-resetquota).
 - **Verifikasi / penerimaan:** [AC-CONTROL-003-01](FRD.md#ac-control-003-01), [AC-CONTROL-003-02](FRD.md#ac-control-003-02); [TC-CONTROL-003-01](FRD.md#tc-control-003-01), [TC-CONTROL-003-02](FRD.md#tc-control-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-control-004"></a>
 
 #### SRS-FR-CONTROL-004 — menghapus isi laporan beserta media dari penyimpanan aktif secara permanen
 
-- **Sumber / tujuan:** [FR-CONTROL-004](FRD.md#fr-control-004); [PRD-F-032](PRD.md#prd-f-032); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menjalankan penghapusan sah atas laporan.
+- **Sumber / tujuan:** [FR-CONTROL-004](FRD.md#fr-control-004); [PRD-F-032](PRD.md#prd-f-032).
+- **Aktor / pemicu:** Admin. Pemicu: Menjalankan penghapusan sah atas laporan.
 - **Kewajiban:** Hapus wajib menandai sumber tak dapat diakses, menghapus payload turunan aktif dari query, menghitung agregat dan membuat cleanup job; status 202 bukan klaim media sudah bersih.
-- **Kontrak input/output dan izin:** [deleteReport](#srs-api-deletereport), [listReportCleanup](#srs-api-listreportcleanup), [retryReportCleanup](#srs-api-retryreportcleanup), [listAudit](#srs-api-listaudit). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [deleteReport](#srs-api-deletereport), [listReportCleanup](#srs-api-listreportcleanup), [retryReportCleanup](#srs-api-retryreportcleanup), [listAudit](#srs-api-listaudit).
 - **Verifikasi / penerimaan:** [AC-CONTROL-004-01](FRD.md#ac-control-004-01), [AC-CONTROL-004-02](FRD.md#ac-control-004-02); [TC-CONTROL-004-01](FRD.md#tc-control-004-01), [TC-CONTROL-004-02](FRD.md#tc-control-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-control-005"></a>
 
 #### SRS-FR-CONTROL-005 — merekonsiliasi turunan tanpa memunculkan laporan terhapus kembali
 
-- **Sumber / tujuan:** [FR-CONTROL-005](FRD.md#fr-control-005); [PRD-F-033](PRD.md#prd-f-033); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem rekonsiliasi setelah tindakan admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Laporan sudah dihapus atau hasil worker untuknya tiba terlambat.
+- **Sumber / tujuan:** [FR-CONTROL-005](FRD.md#fr-control-005); [PRD-F-033](PRD.md#prd-f-033).
+- **Aktor / pemicu:** Sistem rekonsiliasi setelah tindakan admin. Pemicu: Laporan sudah dihapus atau hasil worker untuknya tiba terlambat.
 - **Kewajiban:** Worker/callback wajib memeriksa deletion/generation sebelum menyimpan; cleanup idempotent dapat diulang tanpa membangkitkan sumber atau mengembalikan kuota.
-- **Kontrak input/output dan izin:** [deleteReport](#srs-api-deletereport), [listReportCleanup](#srs-api-listreportcleanup), [retryReportCleanup](#srs-api-retryreportcleanup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [deleteReport](#srs-api-deletereport), [listReportCleanup](#srs-api-listreportcleanup), [retryReportCleanup](#srs-api-retryreportcleanup).
 - **Verifikasi / penerimaan:** [AC-CONTROL-005-01](FRD.md#ac-control-005-01), [AC-CONTROL-005-02](FRD.md#ac-control-005-02); [TC-CONTROL-005-01](FRD.md#tc-control-005-01), [TC-CONTROL-005-02](FRD.md#tc-control-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-monitor-001"></a>
 
 #### SRS-FR-MONITOR-001 — membatasi Pantau publik pada ringkasan yang diizinkan
 
-- **Sumber / tujuan:** [FR-MONITOR-001](FRD.md#fr-monitor-001); [PRD-F-034](PRD.md#prd-f-034); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu dan warga; admin lewat fungsi terpisah; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka Pantau atau mencoba akses bukti dari ringkasan.
+- **Sumber / tujuan:** [FR-MONITOR-001](FRD.md#fr-monitor-001); [PRD-F-034](PRD.md#prd-f-034).
+- **Aktor / pemicu:** Tamu dan warga; admin lewat fungsi terpisah. Pemicu: Membuka Pantau atau mencoba akses bukti dari ringkasan.
 - **Kewajiban:** Serializer Pantau wajib menggunakan allowlist empat field publik saja; tidak menyertakan ID laporan, pemilik, koordinat, jumlah pelapor atau tautan media.
-- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor).
 - **Verifikasi / penerimaan:** [AC-MONITOR-001-01](FRD.md#ac-monitor-001-01), [AC-MONITOR-001-02](FRD.md#ac-monitor-001-02); [TC-MONITOR-001-01](FRD.md#tc-monitor-001-01), [TC-MONITOR-001-02](FRD.md#tc-monitor-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-monitor-002"></a>
 
 #### SRS-FR-MONITOR-002 — menampilkan lokasi berlaporan tanpa menunggu persetujuan review admin
 
-- **Sumber / tujuan:** [FR-MONITOR-002](FRD.md#fr-monitor-002); [PRD-F-035](PRD.md#prd-f-035); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem publikasi; tamu/warga pembaca; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Kelompok aktif berlaporan tersedia.
+- **Sumber / tujuan:** [FR-MONITOR-002](FRD.md#fr-monitor-002); [PRD-F-035](PRD.md#prd-f-035).
+- **Aktor / pemicu:** Sistem publikasi; tamu/warga pembaca. Pemicu: Kelompok aktif berlaporan tersedia.
 - **Kewajiban:** Penerimaan wajib menghasilkan kelompok/proyeksi publik awal UNRATED bila belum ada penilaian; tidak menunggu review admin atau AI berhasil untuk mencatat lokasi berlaporan.
-- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor).
 - **Verifikasi / penerimaan:** [AC-MONITOR-002-01](FRD.md#ac-monitor-002-01), [AC-MONITOR-002-02](FRD.md#ac-monitor-002-02); [TC-MONITOR-002-01](FRD.md#tc-monitor-002-01), [TC-MONITOR-002-02](FRD.md#tc-monitor-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-monitor-003"></a>
 
 #### SRS-FR-MONITOR-003 — membedakan tiga tingkat indikasi dari bagian belum dinilai tanpa klaim status resmi
 
-- **Sumber / tujuan:** [FR-MONITOR-003](FRD.md#fr-monitor-003); [PRD-F-036](PRD.md#prd-f-036); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu/warga pembaca; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membaca kelompok yang sudah atau belum dapat dinilai.
+- **Sumber / tujuan:** [FR-MONITOR-003](FRD.md#fr-monitor-003); [PRD-F-036](PRD.md#prd-f-036).
+- **Aktor / pemicu:** Tamu/warga pembaca. Pemicu: Membaca kelompok yang sudah atau belum dapat dinilai.
 - **Kewajiban:** Proyeksi wajib memakai tingkat tertinggi hasil layak anggota yang belum terhapus, atau UNRATED; refresh 30 detik hanya saat visible/online dan mempertahankan snapshot saat gagal.
-- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listMonitor](#srs-api-listmonitor).
 - **Verifikasi / penerimaan:** [AC-MONITOR-003-01](FRD.md#ac-monitor-003-01), [AC-MONITOR-003-02](FRD.md#ac-monitor-003-02); [TC-MONITOR-003-01](FRD.md#tc-monitor-003-01), [TC-MONITOR-003-02](FRD.md#tc-monitor-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-vault-001"></a>
 
 #### SRS-FR-VAULT-001 — menyimpan dokumen yang memenuhi aturan sebagai backup privat milik akun pengunggah
 
-- **Sumber / tujuan:** [FR-VAULT-001](FRD.md#fr-vault-001); [PRD-F-037](PRD.md#prd-f-037); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mengunggah dokumen untuk backup privat.
+- **Sumber / tujuan:** [FR-VAULT-001](FRD.md#fr-vault-001); [PRD-F-037](PRD.md#prd-f-037).
+- **Aktor / pemicu:** Warga pemilik. Pemicu: Mengunggah dokumen untuk backup privat.
 - **Kewajiban:** Finalisasi dokumen wajib memverifikasi upload pemilik dan memeriksa slot 20/100 MiB atomik; gagal ekstraksi tidak menghapus dokumen tersimpan.
-- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [getUpload](#srs-api-getupload), [listDocuments](#srs-api-listdocuments), [createDocument](#srs-api-createdocument). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [uploadMedia](#srs-api-uploadmedia), [getUpload](#srs-api-getupload), [listDocuments](#srs-api-listdocuments), [createDocument](#srs-api-createdocument).
 - **Verifikasi / penerimaan:** [AC-VAULT-001-01](FRD.md#ac-vault-001-01), [AC-VAULT-001-02](FRD.md#ac-vault-001-02); [TC-VAULT-001-01](FRD.md#tc-vault-001-01), [TC-VAULT-001-02](FRD.md#tc-vault-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-vault-002"></a>
 
 #### SRS-FR-VAULT-002 — membatasi pembacaan isi backup dokumen kepada pemilik
 
-- **Sumber / tujuan:** [FR-VAULT-002](FRD.md#fr-vault-002); [PRD-F-037](PRD.md#prd-f-037); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka atau mengambil kembali dokumennya.
+- **Sumber / tujuan:** [FR-VAULT-002](FRD.md#fr-vault-002); [PRD-F-037](PRD.md#prd-f-037).
+- **Aktor / pemicu:** Pemilik dokumen. Pemicu: Membuka atau mengambil kembali dokumennya.
 - **Kewajiban:** Pembacaan media dokumen wajib melewati owner check setiap permintaan/range; admin bukan pemilik tetap 404, tanpa URL publik permanen.
-- **Kontrak input/output dan izin:** [downloadMedia](#srs-api-downloadmedia), [listDocuments](#srs-api-listdocuments), [getDocument](#srs-api-getdocument). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [downloadMedia](#srs-api-downloadmedia), [listDocuments](#srs-api-listdocuments), [getDocument](#srs-api-getdocument).
 - **Verifikasi / penerimaan:** [AC-VAULT-002-01](FRD.md#ac-vault-002-01), [AC-VAULT-002-02](FRD.md#ac-vault-002-02); [TC-VAULT-002-01](FRD.md#tc-vault-002-01), [TC-VAULT-002-02](FRD.md#tc-vault-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-vault-003"></a>
 
 #### SRS-FR-VAULT-003 — menyediakan penghapusan dokumen privat oleh pemilik
 
-- **Sumber / tujuan:** [FR-VAULT-003](FRD.md#fr-vault-003); [PRD-F-037](PRD.md#prd-f-037); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih hapus dokumen sendiri.
+- **Sumber / tujuan:** [FR-VAULT-003](FRD.md#fr-vault-003); [PRD-F-037](PRD.md#prd-f-037).
+- **Aktor / pemicu:** Pemilik dokumen. Pemicu: Memilih hapus dokumen sendiri.
 - **Kewajiban:** Hapus dokumen wajib mencabut akses, membatalkan job/saran dan memicu cleanup milik pemilik; admin tidak melihat isi atau daftar cleanup privat.
-- **Kontrak input/output dan izin:** [deleteDocument](#srs-api-deletedocument), [listOwnCleanup](#srs-api-listowncleanup), [retryOwnCleanup](#srs-api-retryowncleanup). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [deleteDocument](#srs-api-deletedocument), [listOwnCleanup](#srs-api-listowncleanup), [retryOwnCleanup](#srs-api-retryowncleanup).
 - **Verifikasi / penerimaan:** [AC-VAULT-003-01](FRD.md#ac-vault-003-01), [AC-VAULT-003-02](FRD.md#ac-vault-003-02); [TC-VAULT-003-01](FRD.md#tc-vault-003-01), [TC-VAULT-003-02](FRD.md#tc-vault-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-vault-004"></a>
 
 #### SRS-FR-VAULT-004 — menyediakan backup dokumen lintas perangkat untuk akun pemilik
 
-- **Sumber / tujuan:** [FR-VAULT-004](FRD.md#fr-vault-004); [PRD-F-038](PRD.md#prd-f-038); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik login pada perangkat lain; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mengambil dokumen yang sudah tersimpan di backend.
+- **Sumber / tujuan:** [FR-VAULT-004](FRD.md#fr-vault-004); [PRD-F-038](PRD.md#prd-f-038).
+- **Aktor / pemicu:** Pemilik login pada perangkat lain. Pemicu: Mengambil dokumen yang sudah tersimpan di backend.
 - **Kewajiban:** Endpoint daftar/detail/media wajib memakai akun yang sama lintas perangkat; pengunduhan pemilik tidak menjanjikan sinkronisasi data lokal tas/kontak.
-- **Kontrak input/output dan izin:** [downloadMedia](#srs-api-downloadmedia), [listDocuments](#srs-api-listdocuments), [getDocument](#srs-api-getdocument). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [downloadMedia](#srs-api-downloadmedia), [listDocuments](#srs-api-listdocuments), [getDocument](#srs-api-getdocument).
 - **Verifikasi / penerimaan:** [AC-VAULT-004-01](FRD.md#ac-vault-004-01), [AC-VAULT-004-02](FRD.md#ac-vault-004-02); [TC-VAULT-004-01](FRD.md#tc-vault-004-01), [TC-VAULT-004-02](FRD.md#tc-vault-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-family-001"></a>
 
 #### SRS-FR-FAMILY-001 — memulai bantuan isi keluarga atas pilihan pemilik dengan penjelasan tujuan dan pemrosesan eksternal
 
-- **Sumber / tujuan:** [FR-FAMILY-001](FRD.md#fr-family-001); [PRD-F-039](PRD.md#prd-f-039); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih bantuan isi keluarga dari dokumen.
+- **Sumber / tujuan:** [FR-FAMILY-001](FRD.md#fr-family-001); [PRD-F-039](PRD.md#prd-f-039).
+- **Aktor / pemicu:** Pemilik dokumen. Pemicu: Memilih bantuan isi keluarga dari dokumen.
 - **Kewajiban:** Bantuan isi wajib dibuat hanya dari dokumen/versi terpilih dan consent family-v1 eksplisit; tidak menjalankan scan seluruh vault karena upload biasa.
-- **Kontrak input/output dan izin:** [extractFamily](#srs-api-extractfamily). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [extractFamily](#srs-api-extractfamily).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-001-01](FRD.md#ac-family-001-01), [AC-FAMILY-001-02](FRD.md#ac-family-001-02); [TC-FAMILY-001-01](FRD.md#tc-family-001-01), [TC-FAMILY-001-02](FRD.md#tc-family-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -612,10 +577,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-002 — menyediakan status proses bertahap sambil memungkinkan pengguna memakai aplikasi
 
-- **Sumber / tujuan:** [FR-FAMILY-002](FRD.md#fr-family-002); [PRD-F-040](PRD.md#prd-f-040); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem pemrosesan; pemilik pembaca status; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Permintaan bantuan isi diterima.
+- **Sumber / tujuan:** [FR-FAMILY-002](FRD.md#fr-family-002); [PRD-F-040](PRD.md#prd-f-040).
+- **Aktor / pemicu:** Sistem pemrosesan; pemilik pembaca status. Pemicu: Permintaan bantuan isi diterima.
 - **Kewajiban:** Job keluarga wajib mengekspos status/progres unit, tanpa mengunci navigasi klien atau menerapkan profil otomatis.
-- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [extractFamily](#srs-api-extractfamily). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getJob](#srs-api-getjob), [extractFamily](#srs-api-extractfamily).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-002-01](FRD.md#ac-family-002-01), [AC-FAMILY-002-02](FRD.md#ac-family-002-02); [TC-FAMILY-002-01](FRD.md#tc-family-002-01), [TC-FAMILY-002-02](FRD.md#tc-family-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -623,10 +588,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-003 — meminta review dan memungkinkan koreksi saran sebelum penerapan ke profil
 
-- **Sumber / tujuan:** [FR-FAMILY-003](FRD.md#fr-family-003); [PRD-F-041](PRD.md#prd-f-041); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik hasil pengisian; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka saran sebelum menerapkan.
+- **Sumber / tujuan:** [FR-FAMILY-003](FRD.md#fr-family-003); [PRD-F-041](PRD.md#prd-f-041).
+- **Aktor / pemicu:** Pemilik hasil pengisian. Pemicu: Membuka saran sebelum menerapkan.
 - **Kewajiban:** Apply wajib menggunakan pilihan saran dan nilai yang ditinjau pemilik; UNKNOWN tidak ditebak, sumber/expiry/profil versi diperiksa sebelum perubahan.
-- **Kontrak input/output dan izin:** [applyFamilySuggestions](#srs-api-applyfamilysuggestions). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [applyFamilySuggestions](#srs-api-applyfamilysuggestions).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-003-01](FRD.md#ac-family-003-01), [AC-FAMILY-003-02](FRD.md#ac-family-003-02); [TC-FAMILY-003-01](FRD.md#tc-family-003-01), [TC-FAMILY-003-02](FRD.md#tc-family-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -634,10 +599,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-004 — menyediakan ulangi atau isi manual tanpa membatalkan backup yang sudah berhasil
 
-- **Sumber / tujuan:** [FR-FAMILY-004](FRD.md#fr-family-004); [PRD-F-042](PRD.md#prd-f-042); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Pembacaan dokumen gagal/buram.
+- **Sumber / tujuan:** [FR-FAMILY-004](FRD.md#fr-family-004); [PRD-F-042](PRD.md#prd-f-042).
+- **Aktor / pemicu:** Pemilik dokumen. Pemicu: Pembacaan dokumen gagal/buram.
 - **Kewajiban:** Kegagalan job wajib menyediakan retry sumber sah atau edit keluarga manual; state dokumen tersimpan tetap tersedia dan bukan kelulusan KTP.
-- **Kontrak input/output dan izin:** [updateFamily](#srs-api-updatefamily), [retryFamilyExtraction](#srs-api-retryfamilyextraction). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [updateFamily](#srs-api-updatefamily), [retryFamilyExtraction](#srs-api-retryfamilyextraction).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-004-01](FRD.md#ac-family-004-01), [AC-FAMILY-004-02](FRD.md#ac-family-004-02); [TC-FAMILY-004-01](FRD.md#tc-family-004-01), [TC-FAMILY-004-02](FRD.md#tc-family-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -645,10 +610,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-005 — menyimpan profil keluarga minimum yang dikelola pemilik di backend privat
 
-- **Sumber / tujuan:** [FR-FAMILY-005](FRD.md#fr-family-005); [PRD-F-043](PRD.md#prd-f-043); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik keluarga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuat atau memperbarui daftar anggota secara manual atau dari hasil terkonfirmasi.
+- **Sumber / tujuan:** [FR-FAMILY-005](FRD.md#fr-family-005); [PRD-F-043](PRD.md#prd-f-043).
+- **Aktor / pemicu:** Pemilik keluarga. Pemicu: Membuat atau memperbarui daftar anggota secara manual atau dari hasil terkonfirmasi.
 - **Kewajiban:** Profil wajib menyimpan hanya nama tampilan, enum usia dan kebutuhan pilihan; seluruh pembacaan/mutasi owner-only, tanpa NIK/DOB/alamat hasil ekstraksi.
-- **Kontrak input/output dan izin:** [getFamily](#srs-api-getfamily), [updateFamily](#srs-api-updatefamily). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getFamily](#srs-api-getfamily), [updateFamily](#srs-api-updatefamily).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-005-01](FRD.md#ac-family-005-01), [AC-FAMILY-005-02](FRD.md#ac-family-005-02); [TC-FAMILY-005-01](FRD.md#tc-family-005-01), [TC-FAMILY-005-02](FRD.md#tc-family-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -656,10 +621,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-006 — menerapkan pilihan tambah atau perbarui secara eksplisit tanpa menghapus anggota lama otomatis
 
-- **Sumber / tujuan:** [FR-FAMILY-006](FRD.md#fr-family-006); [PRD-F-044](PRD.md#prd-f-044); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik profil yang sudah terisi; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menerapkan hasil pengisian berikutnya.
+- **Sumber / tujuan:** [FR-FAMILY-006](FRD.md#fr-family-006); [PRD-F-044](PRD.md#prd-f-044).
+- **Aktor / pemicu:** Pemilik profil yang sudah terisi. Pemicu: Menerapkan hasil pengisian berikutnya.
 - **Kewajiban:** Apply/manual batch wajib menunjuk ADD/UPDATE/DELETE dan ID target eksplisit; nama sama tidak menggabungkan otomatis, kapasitas akhir ≤20 diperiksa atomik.
-- **Kontrak input/output dan izin:** [updateFamily](#srs-api-updatefamily), [applyFamilySuggestions](#srs-api-applyfamilysuggestions). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [updateFamily](#srs-api-updatefamily), [applyFamilySuggestions](#srs-api-applyfamilysuggestions).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-006-01](FRD.md#ac-family-006-01), [AC-FAMILY-006-02](FRD.md#ac-family-006-02); [TC-FAMILY-006-01](FRD.md#tc-family-006-01), [TC-FAMILY-006-02](FRD.md#tc-family-006-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -667,10 +632,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-FAMILY-007 — mempertahankan profil terkonfirmasi setelah dokumen sumber dihapus
 
-- **Sumber / tujuan:** [FR-FAMILY-007](FRD.md#fr-family-007); [PRD-F-045](PRD.md#prd-f-045); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Pemilik dokumen dan keluarga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menghapus dokumen sumber setelah profil dikonfirmasi.
+- **Sumber / tujuan:** [FR-FAMILY-007](FRD.md#fr-family-007); [PRD-F-045](PRD.md#prd-f-045).
+- **Aktor / pemicu:** Pemilik dokumen dan keluarga. Pemicu: Menghapus dokumen sumber setelah profil dikonfirmasi.
 - **Kewajiban:** Penghapusan sumber wajib membatalkan saran yang belum diterapkan, sedangkan anggota yang sudah dikonfirmasi tetap data profil mandiri.
-- **Kontrak input/output dan izin:** [deleteDocument](#srs-api-deletedocument), [getFamily](#srs-api-getfamily), [applyFamilySuggestions](#srs-api-applyfamilysuggestions). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [deleteDocument](#srs-api-deletedocument), [getFamily](#srs-api-getfamily), [applyFamilySuggestions](#srs-api-applyfamilysuggestions).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-FAMILY-007-01](FRD.md#ac-family-007-01), [AC-FAMILY-007-02](FRD.md#ac-family-007-02); [TC-FAMILY-007-01](FRD.md#tc-family-007-01), [TC-FAMILY-007-02](FRD.md#tc-family-007-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -678,10 +643,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-001 — menghasilkan saran tas yang dapat ditelusuri ke katalog dan kategori keluarga
 
-- **Sumber / tujuan:** [FR-READY-001](FRD.md#fr-ready-001); [PRD-F-046](PRD.md#prd-f-046); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik keluarga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka personalisasi tas.
+- **Sumber / tujuan:** [FR-READY-001](FRD.md#fr-ready-001); [PRD-F-046](PRD.md#prd-f-046).
+- **Aktor / pemicu:** Warga pemilik keluarga. Pemicu: Membuka personalisasi tas.
 - **Kewajiban:** Kalkulator lokal wajib mengevaluasi pemicu OR per item/anggota unik dan mode HOUSEHOLD/MEMBER; sumber katalog/versi dapat ditelusuri tanpa meminta daftar bebas dari AI.
-- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); BagCalculator §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); BagCalculator §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-001-01](FRD.md#ac-ready-001-01), [AC-READY-001-02](FRD.md#ac-ready-001-02); [TC-READY-001-01](FRD.md#tc-ready-001-01), [TC-READY-001-02](FRD.md#tc-ready-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -689,10 +654,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-002 — menyimpan perubahan tas pribadi secara lokal per akun dan perangkat
 
-- **Sumber / tujuan:** [FR-READY-002](FRD.md#fr-ready-002); [PRD-F-047](PRD.md#prd-f-047); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pada akun/perangkat sendiri; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menandai kesiapan barang atau menambah item sendiri.
+- **Sumber / tujuan:** [FR-READY-002](FRD.md#fr-ready-002); [PRD-F-047](PRD.md#prd-f-047).
+- **Aktor / pemicu:** Warga pada akun/perangkat sendiri. Pemicu: Menandai kesiapan barang atau menambah item sendiri.
 - **Kewajiban:** Repository tas wajib mempertahankan item/progres per akun/perangkat; perubahan target mereset hanya item terkait, item tidak aktif diarsip dan nol item bukan 100%.
-- **Kontrak input/output dan izin:** BagRepository §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** BagRepository §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-002-01](FRD.md#ac-ready-002-01), [AC-READY-002-02](FRD.md#ac-ready-002-02); [TC-READY-002-01](FRD.md#tc-ready-002-01), [TC-READY-002-02](FRD.md#tc-ready-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -700,10 +665,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-003 — menampilkan direktori sesuai konten yang diterbitkan dan status sumbernya
 
-- **Sumber / tujuan:** [FR-READY-003](FRD.md#fr-ready-003); [PRD-F-048](PRD.md#prd-f-048); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu/warga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka direktori kontak umum.
+- **Sumber / tujuan:** [FR-READY-003](FRD.md#fr-ready-003); [PRD-F-048](PRD.md#prd-f-048).
+- **Aktor / pemicu:** Tamu/warga. Pemicu: Membuka direktori kontak umum.
 - **Kewajiban:** Direktori wajib menampilkan sumber/label; nomor contoh tidak mempunyai aksi panggilan, nomor aktif menyediakan salin/dialer tanpa menelepon otomatis.
-- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); ContactsPresenter §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); konten umum §3.7 dan ContentUpdater §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-003-01](FRD.md#ac-ready-003-01), [AC-READY-003-02](FRD.md#ac-ready-003-02); [TC-READY-003-01](FRD.md#tc-ready-003-01), [TC-READY-003-02](FRD.md#tc-ready-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -711,10 +676,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-004 — menyimpan kontak pribadi lokal pada akun/perangkat pemilik tanpa mengunggah ke backend
 
-- **Sumber / tujuan:** [FR-READY-004](FRD.md#fr-ready-004); [PRD-F-049](PRD.md#prd-f-049); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik kontak; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menambahkan atau mengelola kontak pribadi.
+- **Sumber / tujuan:** [FR-READY-004](FRD.md#fr-ready-004); [PRD-F-049](PRD.md#prd-f-049).
+- **Aktor / pemicu:** Warga pemilik kontak. Pemicu: Menambahkan atau mengelola kontak pribadi.
 - **Kewajiban:** Kontak pribadi wajib CRUD lokal maksimum 100 dan tidak mempunyai endpoint upload backend; validasi nomor mengikuti STD-002.
-- **Kontrak input/output dan izin:** PrivateContactsRepository §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** PrivateContactsRepository §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-004-01](FRD.md#ac-ready-004-01), [AC-READY-004-02](FRD.md#ac-ready-004-02); [TC-READY-004-01](FRD.md#tc-ready-004-01), [TC-READY-004-02](FRD.md#tc-ready-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -722,10 +687,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-005 — memisahkan data lokal pribadi antar akun pada perangkat yang sama
 
-- **Sumber / tujuan:** [FR-READY-005](FRD.md#fr-ready-005); [PRD-F-050](PRD.md#prd-f-050); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga berganti akun pada satu perangkat; batas objek mengikuti §16, platform mengikuti §9. Pemicu: B login setelah A menggunakan data lokal.
+- **Sumber / tujuan:** [FR-READY-005](FRD.md#fr-ready-005); [PRD-F-050](PRD.md#prd-f-050).
+- **Aktor / pemicu:** Warga berganti akun pada satu perangkat. Pemicu: B login setelah A menggunakan data lokal.
 - **Kewajiban:** Semua query/persistensi lokal wajib memakai account namespace dari sesi sah; callback mempunyai session generation dan tidak menulis namespace akun pengganti.
-- **Kontrak input/output dan izin:** AccountScope §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** AccountScope §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-005-01](FRD.md#ac-ready-005-01), [AC-READY-005-02](FRD.md#ac-ready-005-02); [TC-READY-005-01](FRD.md#tc-ready-005-01), [TC-READY-005-02](FRD.md#tc-ready-005-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -733,10 +698,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-006 — menyediakan pembacaan teks dan pemutaran suara sesuai dukungan perangkat
 
-- **Sumber / tujuan:** [FR-READY-006](FRD.md#fr-ready-006); [PRD-F-051](PRD.md#prd-f-051); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu/warga pembaca panduan; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memilih baca atau dengarkan panduan.
+- **Sumber / tujuan:** [FR-READY-006](FRD.md#fr-ready-006); [PRD-F-051](PRD.md#prd-f-051).
+- **Aktor / pemicu:** Tamu/warga pembaca panduan. Pemicu: Memilih baca atau dengarkan panduan.
 - **Kewajiban:** Adapter TTS wajib menyediakan putar/jeda/lanjut/hentikan, satu panduan, fallback teks dan pemeriksaan voice/jaringan; leave/logout menghentikan suara.
-- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); SpeechController §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getContentPart](#srs-api-getcontentpart); SpeechController §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-006-01](FRD.md#ac-ready-006-01), [AC-READY-006-02](FRD.md#ac-ready-006-02); [TC-READY-006-01](FRD.md#tc-ready-006-01), [TC-READY-006-02](FRD.md#tc-ready-006-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -744,10 +709,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-007 — menyediakan kontak umum dan teks panduan dasar sejak instalasi pertama offline
 
-- **Sumber / tujuan:** [FR-READY-007](FRD.md#fr-ready-007); [PRD-F-052](PRD.md#prd-f-052); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Tamu/warga pada instalasi baru; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membuka kontak umum atau panduan sebelum ada jaringan.
+- **Sumber / tujuan:** [FR-READY-007](FRD.md#fr-ready-007); [PRD-F-052](PRD.md#prd-f-052).
+- **Aktor / pemicu:** Tamu/warga pada instalasi baru. Pemicu: Membuka kontak umum atau panduan sebelum ada jaringan.
 - **Kewajiban:** Bundle aplikasi wajib menyertakan kontak/panduan dasar berlabel sumber/fixture dan manifest versi sehingga instalasi pertama offline tetap dapat membaca teks.
-- **Kontrak input/output dan izin:** [getContentManifest](#srs-api-getcontentmanifest), [getContentPart](#srs-api-getcontentpart); ContentBundle §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getContentManifest](#srs-api-getcontentmanifest), [getContentPart](#srs-api-getcontentpart); ContentUpdater §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-007-01](FRD.md#ac-ready-007-01), [AC-READY-007-02](FRD.md#ac-ready-007-02); [TC-READY-007-01](FRD.md#tc-ready-007-01), [TC-READY-007-02](FRD.md#tc-ready-007-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -755,10 +720,10 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-READY-008 — mengambil pembaruan konten umum ketika online dan menyediakannya untuk baca offline setelah berhasil
 
-- **Sumber / tujuan:** [FR-READY-008](FRD.md#fr-ready-008); [PRD-F-052](PRD.md#prd-f-052); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Sistem pembaruan konten; tamu/warga; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Online setelah admin memperbarui kontak/panduan.
+- **Sumber / tujuan:** [FR-READY-008](FRD.md#fr-ready-008); [PRD-F-052](PRD.md#prd-f-052).
+- **Aktor / pemicu:** Sistem pembaruan konten; tamu/warga. Pemicu: Online setelah admin memperbarui kontak/panduan.
 - **Kewajiban:** Updater wajib mengambil seluruh bagian revisi konten, memverifikasi hash, lalu mengganti snapshot lokal atomik; revisi parsial tidak tampil sebagai update berhasil.
-- **Kontrak input/output dan izin:** [getContentManifest](#srs-api-getcontentmanifest), [getContentPart](#srs-api-getcontentpart), [publishContent](#srs-api-publishcontent), [withdrawContent](#srs-api-withdrawcontent); ContentUpdater §5.4. Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
+- **Kontrak input/output dan izin:** [getContentManifest](#srs-api-getcontentmanifest), [getContentPart](#srs-api-getcontentpart), [publishContent](#srs-api-publishcontent), [withdrawContent](#srs-api-withdrawcontent); ContentUpdater §5.4.
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Flutter.
 - **Verifikasi / penerimaan:** [AC-READY-008-01](FRD.md#ac-ready-008-01), [AC-READY-008-02](FRD.md#ac-ready-008-02); [TC-READY-008-01](FRD.md#tc-ready-008-01), [TC-READY-008-02](FRD.md#tc-ready-008-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -766,55 +731,50 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 #### SRS-FR-CONTENT-001 — memungkinkan admin mengelola konten umum untuk diperoleh warga
 
-- **Sumber / tujuan:** [FR-CONTENT-001](FRD.md#fr-content-001); [PRD-F-053](PRD.md#prd-f-053); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin web; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mengelola dan menerbitkan kontak umum, panduan atau katalog tas.
+- **Sumber / tujuan:** [FR-CONTENT-001](FRD.md#fr-content-001); [PRD-F-053](PRD.md#prd-f-053).
+- **Aktor / pemicu:** Admin web. Pemicu: Mengelola dan menerbitkan kontak umum, panduan atau katalog tas.
 - **Kewajiban:** CMS wajib memisahkan draf, publish dan withdrawal; expected version berlaku, publikasi membuat revision bundle baru tanpa mengubah versi publik saat edit belum diterbitkan.
-- **Kontrak input/output dan izin:** [listContentAdmin](#srs-api-listcontentadmin), [createContentDraft](#srs-api-createcontentdraft), [updateContentDraft](#srs-api-updatecontentdraft), [publishContent](#srs-api-publishcontent), [withdrawContent](#srs-api-withdrawcontent), [deleteContentDraft](#srs-api-deletecontentdraft). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listContentAdmin](#srs-api-listcontentadmin), [createContentDraft](#srs-api-createcontentdraft), [updateContentDraft](#srs-api-updatecontentdraft), [publishContent](#srs-api-publishcontent), [withdrawContent](#srs-api-withdrawcontent), [deleteContentDraft](#srs-api-deletecontentdraft).
 - **Verifikasi / penerimaan:** [AC-CONTENT-001-01](FRD.md#ac-content-001-01), [AC-CONTENT-001-02](FRD.md#ac-content-001-02); [TC-CONTENT-001-01](FRD.md#tc-content-001-01), [TC-CONTENT-001-02](FRD.md#tc-content-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-inbox-001"></a>
 
 #### SRS-FR-INBOX-001 — menyediakan pesan terbit di inbox warga tanpa ketergantungan push eksternal
 
-- **Sumber / tujuan:** [FR-INBOX-001](FRD.md#fr-inbox-001); [PRD-F-054](PRD.md#prd-f-054); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Menerbitkan pesan peringatan.
+- **Sumber / tujuan:** [FR-INBOX-001](FRD.md#fr-inbox-001); [PRD-F-054](PRD.md#prd-f-054).
+- **Aktor / pemicu:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi. Pemicu: Menerbitkan pesan peringatan.
 - **Kewajiban:** Query inbox wajib mengambil semua pesan aktif pada waktu server bagi setiap warga, termasuk akun baru; tanpa targeting atau push eksternal.
-- **Kontrak input/output dan izin:** [publishMessage](#srs-api-publishmessage), [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [listInbox](#srs-api-listinbox). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [publishMessage](#srs-api-publishmessage), [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [listInbox](#srs-api-listinbox).
 - **Verifikasi / penerimaan:** [AC-INBOX-001-01](FRD.md#ac-inbox-001-01), [AC-INBOX-001-02](FRD.md#ac-inbox-001-02); [TC-INBOX-001-01](FRD.md#tc-inbox-001-01), [TC-INBOX-001-02](FRD.md#tc-inbox-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-inbox-002"></a>
 
 #### SRS-FR-INBOX-002 — memperlihatkan koreksi pesan pada inbox setelah sinkronisasi
 
-- **Sumber / tujuan:** [FR-INBOX-002](FRD.md#fr-inbox-002); [PRD-F-055](PRD.md#prd-f-055); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Memperbaiki pesan yang sudah terbit.
+- **Sumber / tujuan:** [FR-INBOX-002](FRD.md#fr-inbox-002); [PRD-F-055](PRD.md#prd-f-055).
+- **Aktor / pemicu:** Admin. Pemicu: Memperbaiki pesan yang sudah terbit.
 - **Kewajiban:** Edit judul/isi wajib menaikkan content_version dan menghasilkan unread bagi penanda versi lama; perubahan akhir saja hanya menaikkan object version.
-- **Kontrak input/output dan izin:** [getMessageAdmin](#srs-api-getmessageadmin), [editMessage](#srs-api-editmessage), [listInbox](#srs-api-listinbox). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [getMessageAdmin](#srs-api-getmessageadmin), [editMessage](#srs-api-editmessage), [listInbox](#srs-api-listinbox).
 - **Verifikasi / penerimaan:** [AC-INBOX-002-01](FRD.md#ac-inbox-002-01), [AC-INBOX-002-02](FRD.md#ac-inbox-002-02); [TC-INBOX-002-01](FRD.md#tc-inbox-002-01), [TC-INBOX-002-02](FRD.md#tc-inbox-002-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-inbox-003"></a>
 
 #### SRS-FR-INBOX-003 — menampilkan status pencabutan setelah inbox tersinkron agar pesan lama tidak dianggap berlaku
 
-- **Sumber / tujuan:** [FR-INBOX-003](FRD.md#fr-inbox-003); [PRD-F-055](PRD.md#prd-f-055); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Admin; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Mencabut pesan terbit.
+- **Sumber / tujuan:** [FR-INBOX-003](FRD.md#fr-inbox-003); [PRD-F-055](PRD.md#prd-f-055).
+- **Aktor / pemicu:** Admin. Pemicu: Mencabut pesan terbit.
 - **Kewajiban:** Query/klien wajib mengeluarkan pesan saat expiry diketahui atau pencabutan tersinkron; pesan terminal tidak diaktifkan dengan edit dan admin menyimpan riwayat 90 hari.
-- **Kontrak input/output dan izin:** [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [revokeMessage](#srs-api-revokemessage), [expireMessage](#srs-api-expiremessage), [listInbox](#srs-api-listinbox). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [revokeMessage](#srs-api-revokemessage), [expireMessage](#srs-api-expiremessage), [listInbox](#srs-api-listinbox).
 - **Verifikasi / penerimaan:** [AC-INBOX-003-01](FRD.md#ac-inbox-003-01), [AC-INBOX-003-02](FRD.md#ac-inbox-003-02); [TC-INBOX-003-01](FRD.md#tc-inbox-003-01), [TC-INBOX-003-02](FRD.md#tc-inbox-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-fr-inbox-004"></a>
 
 #### SRS-FR-INBOX-004 — mencatat status dibaca untuk akun yang melakukan tindakan
 
-- **Sumber / tujuan:** [FR-INBOX-004](FRD.md#fr-inbox-004); [PRD-F-056](PRD.md#prd-f-056); mendukung tujuan sumber tanpa memperluas scope.
-- **Aktor / pemicu:** Warga pemilik inbox; batas objek mengikuti §16, platform mengikuti §9. Pemicu: Membaca lalu menandai pesan sudah dibaca.
+- **Sumber / tujuan:** [FR-INBOX-004](FRD.md#fr-inbox-004); [PRD-F-056](PRD.md#prd-f-056).
+- **Aktor / pemicu:** Warga pemilik inbox. Pemicu: Membaca lalu menandai pesan sudah dibaca.
 - **Kewajiban:** Read wajib mencatat akun+message_id+content_version yang dilihat, tanpa meluluskan versi lebih baru atau mengubah status akun lain.
-- **Kontrak input/output dan izin:** [markRead](#srs-api-markread). Request/response terstruktur pada §5; pengecualian ERR/versi/ownership §3.8/5.1 berlaku.
-- **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend + Flutter.
+- **Kontrak input/output dan izin:** [markRead](#srs-api-markread).
 - **Verifikasi / penerimaan:** [AC-INBOX-004-01](FRD.md#ac-inbox-004-01), [AC-INBOX-004-02](FRD.md#ac-inbox-004-02); [TC-INBOX-004-01](FRD.md#tc-inbox-004-01), [TC-INBOX-004-02](FRD.md#tc-inbox-004-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
 <a id="srs-processes"></a>
@@ -1349,11 +1309,11 @@ Batas bukti melanjutkan FRD STD-012 dan mandat demo: spesifikasi serta keputusan
 | M4 pendukung | Flutter warga/admin + backend | Keluarga/tas, konten/TTS, kontak, inbox; tidak dianggap opsional |
 | M5 validasi | Ketiga anggota | Fixture/provider/perangkat, seluruh alur dan kasus konflik; hasil/defect dicatat |
 
-Detail nama pembagian dua anggota Flutter dapat diisi tim tanpa mengubah kontrak. Setup tahap 5 membuat struktur repo, konfigurasi contoh tanpa rahasia, migrasi/seed dan cara menjalankan demo lokal. Tidak membuat server publik, layanan berbayar baru, backup produksi atau operasi rumit sebagai prasyarat.
+Pembagian tugas dua anggota Flutter ditetapkan tim tanpa mengubah kontrak. Tahap workspace menyediakan panduan dan lokasi apps. Tim menginisialisasi aplikasi, konfigurasi contoh, migrasi/seed, serta petunjuk demo lokal sesuai [README aplikasi](../apps/README.md). Hosting publik dan operasi produksi berada di luar cakupan setup workspace.
 
 ### 8.2 Quality gate dokumen
 
-Gate sumber/otoritas: keputusan lama tetap dan mandat baru literal. Gate scope: seluruh 57 F/10 NF diwariskan. Gate fungsi/data/interface: setiap FR terpetakan, schema/operasi/semantic validation/ownership tersedia. Gate konflik: oracle normal/gagal/concurrent eksplisit. Gate bukti: actual tidak dikarang. Gate artefak: referensi, skema, contoh payload dan batas input diperiksa oleh auditor.
+Gate sumber/otoritas: keputusan lama tetap dan mandat baru tercatat. Gate scope: seluruh 57 F/10 NF diwariskan. Gate fungsi/data/interface: setiap FR terpetakan, schema/operasi/semantic validation/ownership tersedia. Gate konflik: oracle normal/gagal/concurrent eksplisit. Gate bukti: actual tidak dikarang. Gate artefak: referensi, skema, contoh payload dan batas input diperiksa oleh auditor.
 
 Hasil pemeriksaan aktual dicatat pada [audit SRS](TRACEABILITY.md#srs-audit-v100) dan hasil mesin (arsip lokal). Status akhir spesifikasi **APPROVED v1.0.0 melalui delegasi**, siap menjadi acuan tahap 5. Pengujian aplikasi/provider/perangkat tetap NOT_RUN; risiko bukti di atas harus ditutup sebelum fitur terkait disebut berhasil.
 

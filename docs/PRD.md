@@ -15,7 +15,7 @@
 | Kesiapan | Baseline produk disetujui; rincian perilaku/teknis diteruskan ke FRD/SRS |
 | Status implementasi / UAT | **NOT_RUN** — dokumen ini bukan bukti aplikasi sudah dibuat atau diuji |
 
-Persetujuan BRD telah diberikan melalui: “OKE SUDAH GOOD BRD NYA, SEKARANG LANJUT KE STEP LANGKAH SELANJUTNYA.” PRD-Q043 dan instruksi awal “Implement the plan.” dahulu hanya mendasari draf. **Persetujuan PRD terbaru** diberikan setelah rencana penutupan v0.1.0 dan kelanjutan FRD ditampilkan: “OKE MULAI, SESUAI PLAN YANG ANDA BUAT BARUSAN, SAYA SETUJU2 AJA TERKAIT PRD.” Bukti dan batasnya dicatat pada [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Persetujuan ini menerima baseline produk beserta agenda detail yang diteruskan; tidak mengisi nilai yang belum diputuskan atau mengesahkan FRD yang baru disusun.
+BRD-APPROVAL menetapkan persetujuan BRD dan kelanjutan tahap PRD. PRD-Q043 serta PRD-IMPLEMENT mengotorisasi penyusunan draf; persetujuan final PRD v0.1.0 dicatat terpisah pada [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Persetujuan mencakup baseline produk dan agenda detail yang diteruskan, tanpa menetapkan nilai yang belum diputuskan atau mengesahkan FRD pada saat itu.
 
 ## 1. Tujuan dokumen dan cara membaca
 

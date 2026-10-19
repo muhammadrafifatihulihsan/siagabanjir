@@ -18,7 +18,7 @@
     "/meta": {
       "get": {
         "operationId": "getMeta",
-        "summary": "getMeta",
+        "summary": "Membaca metadata layanan",
         "tags": [
           "meta"
         ],
@@ -30,7 +30,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -58,7 +58,7 @@
     "/public/monitor": {
       "get": {
         "operationId": "listMonitor",
-        "summary": "listMonitor",
+        "summary": "Membaca ringkasan Pantau publik",
         "tags": [
           "public"
         ],
@@ -104,7 +104,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -132,7 +132,7 @@
     "/public/content/manifest": {
       "get": {
         "operationId": "getContentManifest",
-        "summary": "getContentManifest",
+        "summary": "Membaca manifest konten publik",
         "tags": [
           "public"
         ],
@@ -145,7 +145,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -173,7 +173,7 @@
     "/public/content/{revision}/{kind}": {
       "get": {
         "operationId": "getContentPart",
-        "summary": "getContentPart",
+        "summary": "Membaca bagian konten pada revisi tertentu",
         "tags": [
           "public"
         ],
@@ -231,7 +231,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -259,7 +259,7 @@
     "/auth/signup": {
       "post": {
         "operationId": "signup",
-        "summary": "signup",
+        "summary": "Mendaftarkan akun warga",
         "tags": [
           "auth"
         ],
@@ -285,7 +285,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -326,7 +326,7 @@
     "/auth/login": {
       "post": {
         "operationId": "login",
-        "summary": "login",
+        "summary": "Membuat sesi login",
         "tags": [
           "auth"
         ],
@@ -352,7 +352,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -393,7 +393,7 @@
     "/auth/reset-password": {
       "post": {
         "operationId": "resetPassword",
-        "summary": "resetPassword",
+        "summary": "Mengganti sandi menggunakan kode pemulihan",
         "tags": [
           "auth"
         ],
@@ -418,7 +418,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -459,7 +459,7 @@
     "/auth/revoke": {
       "post": {
         "operationId": "revokeOfflineSession",
-        "summary": "revokeOfflineSession",
+        "summary": "Mencabut sesi setelah logout offline",
         "tags": [
           "auth"
         ],
@@ -484,7 +484,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -522,7 +522,7 @@
     "/auth/logout": {
       "post": {
         "operationId": "logout",
-        "summary": "logout",
+        "summary": "Mengakhiri sesi aktif",
         "tags": [
           "auth"
         ],
@@ -551,7 +551,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -579,7 +579,7 @@
     "/me": {
       "get": {
         "operationId": "getAccount",
-        "summary": "getAccount",
+        "summary": "Membaca profil akun sendiri",
         "tags": [
           "me"
         ],
@@ -596,7 +596,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -622,7 +622,7 @@
       },
       "patch": {
         "operationId": "updateProfile",
-        "summary": "updateProfile",
+        "summary": "Memperbarui profil akun sendiri",
         "tags": [
           "me"
         ],
@@ -663,7 +663,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -701,7 +701,7 @@
     "/me/credentials": {
       "post": {
         "operationId": "updateCredentials",
-        "summary": "updateCredentials",
+        "summary": "Memperbarui email atau sandi",
         "tags": [
           "me"
         ],
@@ -742,7 +742,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -780,7 +780,7 @@
     "/me/recovery-code": {
       "post": {
         "operationId": "rotateRecoveryCode",
-        "summary": "rotateRecoveryCode",
+        "summary": "Mengganti kode pemulihan",
         "tags": [
           "me"
         ],
@@ -810,7 +810,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -851,7 +851,7 @@
     "/me/reporting-status": {
       "get": {
         "operationId": "getReportingStatus",
-        "summary": "getReportingStatus",
+        "summary": "Memeriksa kelayakan pengiriman laporan",
         "tags": [
           "me"
         ],
@@ -869,7 +869,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -897,7 +897,7 @@
     "/me/uploads/{uploadId}": {
       "put": {
         "operationId": "uploadMedia",
-        "summary": "uploadMedia",
+        "summary": "Mengunggah media privat",
         "tags": [
           "me"
         ],
@@ -939,7 +939,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -985,7 +985,7 @@
       },
       "get": {
         "operationId": "getUpload",
-        "summary": "getUpload",
+        "summary": "Memeriksa status unggahan",
         "tags": [
           "me"
         ],
@@ -1014,7 +1014,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1042,7 +1042,7 @@
     "/me/submissions/{submissionId}": {
       "put": {
         "operationId": "submitReport",
-        "summary": "submitReport",
+        "summary": "Mengirim laporan warga",
         "tags": [
           "me"
         ],
@@ -1094,7 +1094,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1140,7 +1140,7 @@
       },
       "get": {
         "operationId": "getSubmission",
-        "summary": "getSubmission",
+        "summary": "Memeriksa status pengiriman laporan",
         "tags": [
           "me"
         ],
@@ -1170,7 +1170,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1198,7 +1198,7 @@
     "/me/submissions/{submissionId}/close": {
       "post": {
         "operationId": "closeSubmission",
-        "summary": "closeSubmission",
+        "summary": "Menutup maksud pengiriman laporan",
         "tags": [
           "me"
         ],
@@ -1240,7 +1240,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1268,7 +1268,7 @@
     "/me/reports": {
       "get": {
         "operationId": "listOwnReports",
-        "summary": "listOwnReports",
+        "summary": "Membaca riwayat laporan sendiri",
         "tags": [
           "me"
         ],
@@ -1338,7 +1338,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1366,7 +1366,7 @@
     "/me/reports/{reportId}": {
       "get": {
         "operationId": "getOwnReport",
-        "summary": "getOwnReport",
+        "summary": "Membaca detail laporan sendiri",
         "tags": [
           "me"
         ],
@@ -1396,7 +1396,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1424,7 +1424,7 @@
     "/reports/{reportId}/notes": {
       "get": {
         "operationId": "listReportNotes",
-        "summary": "listReportNotes",
+        "summary": "Membaca catatan tindak lanjut laporan",
         "tags": [
           "reports"
         ],
@@ -1472,7 +1472,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1500,7 +1500,7 @@
     "/media/{mediaId}": {
       "get": {
         "operationId": "downloadMedia",
-        "summary": "downloadMedia",
+        "summary": "Mengunduh media yang diizinkan",
         "tags": [
           "media"
         ],
@@ -1542,7 +1542,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Berkas media setelah pemeriksaan hak akses.",
             "content": {
               "application/octet-stream": {
                 "schema": {
@@ -1606,7 +1606,7 @@
     "/jobs/{jobId}": {
       "get": {
         "operationId": "getJob",
-        "summary": "getJob",
+        "summary": "Memeriksa status pekerjaan asinkron",
         "tags": [
           "jobs"
         ],
@@ -1636,7 +1636,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1664,7 +1664,7 @@
     "/reports/{reportId}/analysis-retries": {
       "post": {
         "operationId": "retryReportAnalysis",
-        "summary": "retryReportAnalysis",
+        "summary": "Mengulangi analisis laporan",
         "tags": [
           "reports"
         ],
@@ -1706,7 +1706,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1744,7 +1744,7 @@
     "/admin/reports": {
       "get": {
         "operationId": "listAdminReports",
-        "summary": "listAdminReports",
+        "summary": "Membaca daftar laporan untuk admin",
         "tags": [
           "admin"
         ],
@@ -1814,7 +1814,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1842,7 +1842,7 @@
     "/admin/reports/{reportId}": {
       "get": {
         "operationId": "getAdminReport",
-        "summary": "getAdminReport",
+        "summary": "Membaca detail laporan untuk admin",
         "tags": [
           "admin"
         ],
@@ -1872,7 +1872,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1900,7 +1900,7 @@
     "/admin/reports/{reportId}/assessment": {
       "patch": {
         "operationId": "correctAssessment",
-        "summary": "correctAssessment",
+        "summary": "Mengoreksi penilaian laporan",
         "tags": [
           "admin"
         ],
@@ -1955,7 +1955,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1993,7 +1993,7 @@
     "/admin/reports/{reportId}/review": {
       "put": {
         "operationId": "reviewReport",
-        "summary": "reviewReport",
+        "summary": "Mencatat tinjauan versi laporan",
         "tags": [
           "admin"
         ],
@@ -2034,7 +2034,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2072,7 +2072,7 @@
     "/admin/reports/{reportId}/moves": {
       "post": {
         "operationId": "moveReport",
-        "summary": "moveReport",
+        "summary": "Memindahkan laporan ke kelompok kejadian",
         "tags": [
           "admin"
         ],
@@ -2126,7 +2126,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2164,7 +2164,7 @@
     "/admin/reports/{reportId}/notes": {
       "post": {
         "operationId": "appendReportNote",
-        "summary": "appendReportNote",
+        "summary": "Menambahkan catatan tindak lanjut",
         "tags": [
           "admin"
         ],
@@ -2205,7 +2205,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2253,7 +2253,7 @@
     "/admin/reports/{reportId}/deletions": {
       "post": {
         "operationId": "deleteReport",
-        "summary": "deleteReport",
+        "summary": "Menghapus laporan dan menjadwalkan pembersihan",
         "tags": [
           "admin"
         ],
@@ -2306,7 +2306,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2354,7 +2354,7 @@
     "/admin/groups": {
       "get": {
         "operationId": "listGroups",
-        "summary": "listGroups",
+        "summary": "Membaca daftar kelompok kejadian",
         "tags": [
           "admin"
         ],
@@ -2415,7 +2415,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2443,7 +2443,7 @@
     "/admin/groups/{groupId}": {
       "get": {
         "operationId": "getGroup",
-        "summary": "getGroup",
+        "summary": "Membaca detail kelompok kejadian",
         "tags": [
           "admin"
         ],
@@ -2474,7 +2474,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2502,7 +2502,7 @@
     "/admin/groups/{groupId}/reports": {
       "get": {
         "operationId": "listGroupReports",
-        "summary": "listGroupReports",
+        "summary": "Membaca laporan dalam kelompok kejadian",
         "tags": [
           "admin"
         ],
@@ -2551,7 +2551,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2579,7 +2579,7 @@
     "/admin/groups/{groupId}/complete": {
       "post": {
         "operationId": "completeGroup",
-        "summary": "completeGroup",
+        "summary": "Menandai kelompok kejadian selesai",
         "tags": [
           "admin"
         ],
@@ -2633,7 +2633,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2661,7 +2661,7 @@
     "/admin/reporting-settings": {
       "get": {
         "operationId": "getSettings",
-        "summary": "getSettings",
+        "summary": "Membaca pengaturan pelaporan",
         "tags": [
           "admin"
         ],
@@ -2678,7 +2678,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2704,7 +2704,7 @@
       },
       "patch": {
         "operationId": "updateSettings",
-        "summary": "updateSettings",
+        "summary": "Memperbarui pengaturan pelaporan",
         "tags": [
           "admin"
         ],
@@ -2746,7 +2746,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2784,7 +2784,7 @@
     "/admin/quotas": {
       "get": {
         "operationId": "listQuotaAccounts",
-        "summary": "listQuotaAccounts",
+        "summary": "Membaca pemakaian kuota akun",
         "tags": [
           "admin"
         ],
@@ -2822,7 +2822,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2850,7 +2850,7 @@
     "/admin/quota-resets": {
       "post": {
         "operationId": "resetQuota",
-        "summary": "resetQuota",
+        "summary": "Mereset pemakaian kuota laporan",
         "tags": [
           "admin"
         ],
@@ -2891,7 +2891,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2929,7 +2929,7 @@
     "/admin/cleanup": {
       "get": {
         "operationId": "listReportCleanup",
-        "summary": "listReportCleanup",
+        "summary": "Membaca status pembersihan laporan",
         "tags": [
           "admin"
         ],
@@ -2967,7 +2967,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -2995,7 +2995,7 @@
     "/admin/cleanup/{cleanupId}/retry": {
       "post": {
         "operationId": "retryReportCleanup",
-        "summary": "retryReportCleanup",
+        "summary": "Mengulangi pembersihan laporan",
         "tags": [
           "admin"
         ],
@@ -3036,7 +3036,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3074,7 +3074,7 @@
     "/admin/audit": {
       "get": {
         "operationId": "listAudit",
-        "summary": "listAudit",
+        "summary": "Membaca audit tindakan admin",
         "tags": [
           "admin"
         ],
@@ -3112,7 +3112,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3140,7 +3140,7 @@
     "/me/documents": {
       "get": {
         "operationId": "listDocuments",
-        "summary": "listDocuments",
+        "summary": "Membaca daftar dokumen sendiri",
         "tags": [
           "me"
         ],
@@ -3179,7 +3179,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3205,7 +3205,7 @@
       },
       "post": {
         "operationId": "createDocument",
-        "summary": "createDocument",
+        "summary": "Menyimpan dokumen privat",
         "tags": [
           "me"
         ],
@@ -3234,7 +3234,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3282,7 +3282,7 @@
     "/me/documents/{documentId}": {
       "get": {
         "operationId": "getDocument",
-        "summary": "getDocument",
+        "summary": "Membaca metadata dokumen sendiri",
         "tags": [
           "me"
         ],
@@ -3311,7 +3311,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3339,7 +3339,7 @@
     "/me/documents/{documentId}/deletions": {
       "post": {
         "operationId": "deleteDocument",
-        "summary": "deleteDocument",
+        "summary": "Menghapus dokumen dan menjadwalkan pembersihan",
         "tags": [
           "me"
         ],
@@ -3393,7 +3393,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3431,7 +3431,7 @@
     "/me/cleanup": {
       "get": {
         "operationId": "listOwnCleanup",
-        "summary": "listOwnCleanup",
+        "summary": "Membaca status pembersihan dokumen sendiri",
         "tags": [
           "me"
         ],
@@ -3468,7 +3468,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3496,7 +3496,7 @@
     "/me/cleanup/{cleanupId}/retry": {
       "post": {
         "operationId": "retryOwnCleanup",
-        "summary": "retryOwnCleanup",
+        "summary": "Mengulangi pembersihan dokumen sendiri",
         "tags": [
           "me"
         ],
@@ -3536,7 +3536,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3574,7 +3574,7 @@
     "/me/ktp": {
       "get": {
         "operationId": "getKtpState",
-        "summary": "getKtpState",
+        "summary": "Membaca status kelayakan KTP",
         "tags": [
           "me"
         ],
@@ -3592,7 +3592,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3620,7 +3620,7 @@
     "/me/ktp-checks": {
       "post": {
         "operationId": "checkKtp",
-        "summary": "checkKtp",
+        "summary": "Meminta pemeriksaan KTP",
         "tags": [
           "me"
         ],
@@ -3649,7 +3649,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3697,7 +3697,7 @@
     "/me/ktp-confirmations": {
       "post": {
         "operationId": "confirmKtp",
-        "summary": "confirmKtp",
+        "summary": "Mengonfirmasi KTP yang memenuhi syarat",
         "tags": [
           "me"
         ],
@@ -3739,7 +3739,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3777,7 +3777,7 @@
     "/me/ktp-checks/{jobId}/retry": {
       "post": {
         "operationId": "retryKtp",
-        "summary": "retryKtp",
+        "summary": "Mengulangi pemeriksaan KTP",
         "tags": [
           "me"
         ],
@@ -3817,7 +3817,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3855,7 +3855,7 @@
     "/me/family": {
       "get": {
         "operationId": "getFamily",
-        "summary": "getFamily",
+        "summary": "Membaca profil keluarga sendiri",
         "tags": [
           "me"
         ],
@@ -3872,7 +3872,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3898,7 +3898,7 @@
       },
       "patch": {
         "operationId": "updateFamily",
-        "summary": "updateFamily",
+        "summary": "Memperbarui anggota keluarga",
         "tags": [
           "me"
         ],
@@ -3941,7 +3941,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -3979,7 +3979,7 @@
     "/me/family-extractions": {
       "post": {
         "operationId": "extractFamily",
-        "summary": "extractFamily",
+        "summary": "Meminta saran profil keluarga dari dokumen",
         "tags": [
           "me"
         ],
@@ -4009,7 +4009,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4057,7 +4057,7 @@
     "/me/family-extractions/{jobId}/retry": {
       "post": {
         "operationId": "retryFamilyExtraction",
-        "summary": "retryFamilyExtraction",
+        "summary": "Mengulangi ekstraksi profil keluarga",
         "tags": [
           "me"
         ],
@@ -4097,7 +4097,7 @@
         ],
         "responses": {
           "202": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Permintaan diterima; status pemrosesan tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4135,7 +4135,7 @@
     "/me/family-extractions/{jobId}/apply": {
       "post": {
         "operationId": "applyFamilySuggestions",
-        "summary": "applyFamilySuggestions",
+        "summary": "Menerapkan saran keluarga yang dipilih",
         "tags": [
           "me"
         ],
@@ -4177,7 +4177,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4215,7 +4215,7 @@
     "/admin/content/{kind}": {
       "get": {
         "operationId": "listContentAdmin",
-        "summary": "listContentAdmin",
+        "summary": "Membaca daftar konten untuk admin",
         "tags": [
           "admin"
         ],
@@ -4264,7 +4264,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4290,7 +4290,7 @@
       },
       "post": {
         "operationId": "createContentDraft",
-        "summary": "createContentDraft",
+        "summary": "Membuat draf konten",
         "tags": [
           "admin"
         ],
@@ -4331,7 +4331,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4379,7 +4379,7 @@
     "/admin/content/{kind}/{contentId}": {
       "put": {
         "operationId": "updateContentDraft",
-        "summary": "updateContentDraft",
+        "summary": "Memperbarui draf konten",
         "tags": [
           "admin"
         ],
@@ -4443,7 +4443,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4479,7 +4479,7 @@
       },
       "delete": {
         "operationId": "deleteContentDraft",
-        "summary": "deleteContentDraft",
+        "summary": "Menghapus draf konten",
         "tags": [
           "admin"
         ],
@@ -4543,7 +4543,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4571,7 +4571,7 @@
     "/admin/content/{kind}/{contentId}/publish": {
       "post": {
         "operationId": "publishContent",
-        "summary": "publishContent",
+        "summary": "Menerbitkan konten umum",
         "tags": [
           "admin"
         ],
@@ -4636,7 +4636,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4664,7 +4664,7 @@
     "/admin/content/{kind}/{contentId}/withdraw": {
       "post": {
         "operationId": "withdrawContent",
-        "summary": "withdrawContent",
+        "summary": "Menarik konten umum",
         "tags": [
           "admin"
         ],
@@ -4729,7 +4729,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4757,7 +4757,7 @@
     "/admin/messages": {
       "post": {
         "operationId": "publishMessage",
-        "summary": "publishMessage",
+        "summary": "Menerbitkan pesan admin",
         "tags": [
           "admin"
         ],
@@ -4786,7 +4786,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Resource dibuat; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4832,7 +4832,7 @@
       },
       "get": {
         "operationId": "listMessagesAdmin",
-        "summary": "listMessagesAdmin",
+        "summary": "Membaca daftar pesan untuk admin",
         "tags": [
           "admin"
         ],
@@ -4870,7 +4870,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4898,7 +4898,7 @@
     "/admin/messages/{messageId}": {
       "get": {
         "operationId": "getMessageAdmin",
-        "summary": "getMessageAdmin",
+        "summary": "Membaca detail pesan untuk admin",
         "tags": [
           "admin"
         ],
@@ -4928,7 +4928,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4954,7 +4954,7 @@
       },
       "patch": {
         "operationId": "editMessage",
-        "summary": "editMessage",
+        "summary": "Memperbarui pesan admin",
         "tags": [
           "admin"
         ],
@@ -5006,7 +5006,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5044,7 +5044,7 @@
     "/admin/messages/{messageId}/revoke": {
       "post": {
         "operationId": "revokeMessage",
-        "summary": "revokeMessage",
+        "summary": "Mencabut pesan admin",
         "tags": [
           "admin"
         ],
@@ -5096,7 +5096,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5124,7 +5124,7 @@
     "/admin/messages/{messageId}/expire": {
       "post": {
         "operationId": "expireMessage",
-        "summary": "expireMessage",
+        "summary": "Mengakhiri masa berlaku pesan admin",
         "tags": [
           "admin"
         ],
@@ -5176,7 +5176,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5204,7 +5204,7 @@
     "/me/inbox": {
       "get": {
         "operationId": "listInbox",
-        "summary": "listInbox",
+        "summary": "Membaca inbox akun sendiri",
         "tags": [
           "me"
         ],
@@ -5243,7 +5243,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5271,7 +5271,7 @@
     "/me/inbox/{messageId}/read": {
       "put": {
         "operationId": "markRead",
-        "summary": "markRead",
+        "summary": "Mencatat versi pesan yang telah dibaca",
         "tags": [
           "me"
         ],
@@ -5311,7 +5311,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Hasil sah; status bisnis pada payload, bukan bukti AI/UAT berhasil.",
+            "description": "Operasi berhasil; hasil tersedia pada data respons.",
             "content": {
               "application/json": {
                 "schema": {
@@ -9188,31 +9188,6 @@
         "properties": {
           "data": {
             "$ref": "#/components/schemas/NotePage"
-          },
-          "requestId": {
-            "type": "string",
-            "minLength": 36,
-            "format": "uuid",
-            "maxLength": 36
-          },
-          "serverTime": {
-            "type": "string",
-            "minLength": 0,
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "data",
-          "requestId",
-          "serverTime"
-        ],
-        "additionalProperties": false
-      },
-      "downloadMediaResponse": {
-        "type": "object",
-        "properties": {
-          "data": {
-            "$ref": "#/components/schemas/Media"
           },
           "requestId": {
             "type": "string",

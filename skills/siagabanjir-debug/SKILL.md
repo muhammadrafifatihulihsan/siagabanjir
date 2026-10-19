@@ -7,8 +7,7 @@ description: Mereproduksi bug, menguji hipotesis penyebab dan memverifikasi perb
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 Baca [mutu](../../rules/quality.md), requirement terkait, dan implementasi aktual.
 Gunakan [backend](../siagabanjir-backend/SKILL.md) atau

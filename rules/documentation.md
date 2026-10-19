@@ -43,7 +43,7 @@ pekerjaan/PR yang sama. “Tidak terdampak” harus punya alasan singkat.
 | UI/ikon/token/teks/interaksi | DESIGN, rule UI, skill UI/Flutter/review, AC/TC terkait; FRD bila perilaku ikut berubah |
 | Versi/perintah/OS/IDE | README aplikasi aktual, WORKSPACE, portabilitas, konfigurasi bersama, AGENTS/skill terkait |
 | Cara kerja agent/skill | AGENTS, SKILL, sumber skill/rules, pengarah IDE, WORKSPACE serta skenario/sumber pada SKILL-RESEARCH jika terdampak |
-| Git, publikasi dan pengecualian arsip | .gitignore, tautan baseline, GITHUB-WORKFLOW, GITHUB-NOTES, template PR, WORKSPACE dan handoff; indeks arsip hanya bila memang tersedia |
+| Git, publikasi dan pengecualian arsip | .gitignore, tautan baseline, GITHUB-WORKFLOW, VERSIONING, template PR, WORKSPACE dan handoff; indeks arsip hanya bila memang tersedia |
 | Hasil pemeriksaan/keterbatasan | Bukti pada dokumen terkait, handoff; RTM jika hasil requirement berubah |
 | Koreksi teks tanpa perubahan makna | Dokumen sumber dan rujukan terdampak; cukup alasan singkat untuk kelompok lain |
 
@@ -62,7 +62,10 @@ bukan diselesaikan dengan mengganti dokumen agar sesuai bug.
    Gunakan satu tempat untuk setiap aturan; berkas lain merujuknya.
 2. Bersamaan dengan perubahan, perbaiki instruksi/path/perilaku yang menjadi
    usang. Jika keputusan berubah, tambahkan catatan dengan asal mandat,
-   alasan dan dampak; jangan mengubah kutipan historis pengguna.
+   alasan dan dampak. Penyuntingan editorial boleh memparafrasakan catatan
+   percakapan menjadi keputusan formal, dengan mempertahankan ID, tanggal,
+   otoritas, cakupan dan urutan keputusan. Jangan menyajikan parafrasa sebagai
+   kutipan langsung atau membuat persetujuan baru.
 3. Cari referensi lama di berkas aktif, termasuk file tersembunyi adapter.
    Periksa tautan dengan kapitalisasi nama persis agar berfungsi di Linux.
 4. Pastikan contoh, matriks dan langkah berikut menggambarkan hasil aktual.

@@ -1,74 +1,52 @@
-# SiagaBanjir — handoff workspace
+# Status pekerjaan SiagaBanjir
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-**Kondisi 19 Oktober 2026:** setup telah diperbaiki dan commit awal sudah dipush
-ke main melalui Git Bash; CI commit awal sukses. Tujuh rules dan delapan skills
-tetap; apps/server dan apps/app masih hanya .gitkeep.
-Backend/Flutter tetap diinisialisasi tim, bukan asisten pada tahap ini.
+Kondisi baseline **v0.1.0 — 19 Oktober 2026**.
+Repository menyediakan spesifikasi dan panduan kerja; apps/server dan apps/app
+masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
-## Mandat terbaru dan hasil
+## Perubahan terakhir
 
-[WORKSPACE-AUDIT-PUSH-006](DECISIONS.md#workspace-audit-push-006) meminta audit,
-perbaikan sampai pemeriksaan lulus, lalu commit/push melalui Git Bash ke repo
-milik pemilik. Rencana diterima melalui instruksi “Implement the plan.”
+[WORKSPACE-EDITORIAL-RELEASE-007](DECISIONS.md#workspace-editorial-release-007)
+mencakup standardisasi redaksi, penyederhanaan dokumen, pemeriksaan konfigurasi,
+dan publikasi baseline melalui Git Bash.
 
-- [AGENTS](../AGENTS.md) menetapkan
-  [bacaan lengkap](../rules/workflow.md#baca-lengkap): seluruh docs, rules,
-  delapan skills, kontrak, adapter dan konfigurasi bersama. Semua ukuran tugas
-  proyek tercakup. Checkpoint/summary tidak menggantikan bacaan sumber.
-- [Living documents](../rules/documentation.md#living-documents) wajib
-  diperbarui AI dalam perubahan yang sama tanpa menunggu pengingat.
-  Ini kewajiban kerja, bukan layanan latar belakang atau hook/CI.
-- [Panduan GitHub](GITHUB-WORKFLOW.md) memakai repo tujuan aktual, pemeriksaan
-  sebelum staging, verifikasi SHA/CI, dan penanganan ownership Git per perintah.
-- Folder archive beserta indeksnya sudah tidak tersedia di workspace publik;
-  seluruh archive/ diabaikan Git jika dibuat kembali. Audit lama bersifat historis.
-- docs/openapi.json dan docs/examples.json tetap sumber aktif dan ikut Git.
-  Errata replay rahasia mengikuti SRS-IF-004; 72 operasi/166 schema tetap,
-  contoh bertambah dari 41 menjadi 54 untuk regresi.
-- Validator memakai akar repo yang benar, parsing YAML, pemeriksaan case path,
-  contoh/schema dan invariant replay. CI menjalankan 20 tes regresi serta
-  Markdownlint/Redocly/EditorConfig dengan versi yang dikunci.
-- [Riset terbaru](SKILL-RESEARCH.md#audit-skill-final) meninjau dokumentasi resmi dan
-  repo skill terkini; tidak memasang plugin/bundel atau menambah skill duplikat.
+- Persetujuan dan mandat dicatat secara formal dengan ID, tanggal, dan cakupan
+  tetap. Riwayat pertanyaan/audit berulang diringkas.
+- Informasi repository digabung ke panduan GitHub; rencana SRS yang sudah
+  selesai cukup dirujuk melalui register keputusan.
+- Tujuh rules dan delapan skill tetap. Aturan bersama dipusatkan tanpa
+  mengurangi kewajiban bacaan lengkap dan pemeliharaan living documents.
+- Kontrak memiliki 72 operasi, 165 skema, dan 54 contoh. Skema respons JSON
+  unduh media yang tidak digunakan dihapus; endpoint tetap mengirim bytes.
+- CI dan workflow rilis memakai action berbasis Node 24. Catatan rilis
+  diambil dari CHANGELOG sesuai tag, dengan validasi entri sebelum publikasi.
 
-## Acuan yang tetap berlaku
+## Acuan dan bukti
 
-BRD/PRD v0.1.0 APPROVED dan FRD/SRS v1.0.0 APPROVED melalui mandat tercatat.
-[SRS-PLAN](SRS-PLAN.md) adalah rencana yang sudah dilaksanakan.
-FRD STD-001–012 menutup discovery historis. Keputusan/RTM mempertahankan riwayat;
+BRD/PRD v0.1.0 dan FRD/SRS v1.0.0 tetap APPROVED. FRD-STD-001–012 adalah
+baseline fungsional; status draf pada riwayat dibaca sesuai tanggalnya.
 156 TC FRD dan 24 TC-SRS tetap NOT_RUN pada aplikasi.
 
-[DESIGN](DESIGN.md) mempertahankan Material 3 dan Material Icons.
-[Peta sumber](WORKSPACE.md#sumber-acuan) memisahkan spesifikasi dari keadaan kode.
-Riset Software-BK tetap referensi selektif; tidak mengadopsi stack/approvalnya.
+Hasil pemeriksaan lokal: [WORKSPACE](WORKSPACE.md#audit-final).
+Status per commit dan tag: [GitHub Actions](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions).
+Catatan baseline: [Release v0.1.0](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases/tag/v0.1.0).
+Rilis mengikuti [prosedur versioning](VERSIONING.md): tag hanya dibuat setelah
+CI berhasil pada commit yang sama. Rilis dokumentasi tidak menyatakan
+backend, Flutter, provider, perangkat, atau UAT telah lulus pengujian.
 
-## Kelanjutan
+## Pekerjaan berikutnya
 
-1. Publikasi awal selesai pada commit `71459a6`; SHA lokal/remote cocok dan
-   [CI commit awal](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39273616792)
-   sukses. Status commit lanjutan selalu diperiksa pada workflow CI terkait.
-2. Tim menginisialisasi backend di apps/server dan Flutter di apps/app.
-3. AI pada tugas berikut menuntaskan bacaan lengkap, memeriksa manifest/kode
-   aktual, lalu memperbarui README aplikasi dengan versi/perintah yang nyata.
-   Jangan mengarang task, SDK path, port, tes atau kompatibilitas runtime.
-4. Lanjutkan milestone PRD sesuai mandat implementasi: akun/dokumen/KTP,
-   laporan/AI, admin/Pantau, fitur pendukung dan validasi.
-5. Pada setiap perubahan, selaraskan seluruh informasi terdampak termasuk
-   AGENTS/rules/skills/adapter dan sumber requirement bila perilaku berubah.
+1. Tim menginisialisasi backend di apps/server dan Flutter di apps/app.
+2. Periksa manifest dan kode aktual sebelum menetapkan versi, perintah build,
+   konfigurasi, atau tes aplikasi. Lengkapi README aplikasi sesuai hasil nyata.
+3. Implementasikan milestone PRD: akun/dokumen/KTP, laporan/AI, admin/Pantau,
+   fitur pendukung, lalu validasi.
+4. Selaraskan spesifikasi, kontrak, desain, rules, dan skills pada perubahan
+   yang memengaruhinya.
 
-## Bukti dan keterbatasan
-
-Hasil terbaru: [audit final setup](WORKSPACE.md#audit-final).
-Audit statis tidak membuktikan agent/harness selalu mematuhi instruksi.
-Seluruh 20 tes regresi, 54 contoh kontrak, delapan skill, lint Markdown,
-OpenAPI dan EditorConfig lulus. Tidak membuat tag/release/deploy; bukti CI
-merujuk SHA yang disebut, bukan otomatis semua commit berikutnya.
-CI validator pada Ubuntu sudah PASS. Pemuatan IDE, runtime aplikasi
-macOS/Linux, UI/aplikasi, provider/perangkat serta
-percobaan agent terpisah masih NOT_RUN.
-
-Sumber skills dapat dibaca langsung dari skills/. Penempatan native Codex
-di .agents/skills masih BLOCKED oleh izin sesi; tidak ada pengubahan izin.
-Pembacaan manual melalui AGENTS tidak disebut native discovery.
+Sumber skill dibaca melalui AGENTS. Penempatan native Codex belum tersedia
+pada lingkungan yang diperiksa; konfigurasi izin tidak diubah.
+Pengujian pemuatan IDE, runtime aplikasi lintas OS, dan evaluasi agent terpisah
+tetap NOT_RUN.

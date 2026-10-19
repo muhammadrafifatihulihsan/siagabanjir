@@ -11,18 +11,18 @@
 | Status FRD | **APPROVED — versi `v1.0.0`; FRD-APPROVAL-01 melalui delegasi finalisasi** |
 | Status SRS | **APPROVED — v1.0.0 melalui SRS-DLG-001; uji produk NOT_RUN** |
 | Kesiapan | Spesifikasi approved; panduan workspace tersedia; backend/Flutter disiapkan tim |
-| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-AUDIT-PUSH-006; riwayat dipertahankan |
+| Tahap | Tahap 5 panduan workspace; kondisi terbaru pada WORKSPACE-EDITORIAL-RELEASE-007; riwayat dipertahankan |
 | Otoritas keputusan bisnis | Pemilik proyek/pengguna |
-| Otorisasi pekerjaan saat ini | Audit, perbaikan dan commit/push melalui Git Bash ke repo pemilik; WORKSPACE-AUDIT-PUSH-006 |
+| Otorisasi pekerjaan saat ini | Standardisasi dokumentasi, perbaikan, commit/push dan rilis baseline v0.1.0; WORKSPACE-EDITORIAL-RELEASE-007 |
 | Dokumen terkait | [BRD](BRD.md) · [PRD](PRD.md) · [FRD](FRD.md) · [Sumber, pertanyaan dan keterlacakan](TRACEABILITY.md) |
 
-**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §34. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
+**Status historis:** bagian sebelum §27 mencatat keadaan pada saat keputusan dibuat. Pernyataan DRAFT/terbuka di riwayat tidak menjadi status final saat ini; FRD ditutup pada §27, SRS pada §28, dan mandat workspace terbaru pada §35. Keputusan arsip/publikasi §33 juga dibaca sesuai checkpoint-nya.
 
-Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Ringkasan jawaban bukan kutipan verbatim kecuali ditandai; bukti percakapannya dirujuk melalui register pertanyaan.
+Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Catatan keputusan menggunakan parafrasa; ID sumber, tanggal, cakupan, dan urutan otorisasi dipertahankan.
 
-**Bukti historis persetujuan BRD dan kelanjutan tahap 2:** pengguna menyatakan, “OKE SUDAH GOOD BRD NYA, SEKARANG LANJUT KE STEP LANGKAH SELANJUTNYA.” Ini menutup gerbang persetujuan BRD `v0.1.0`; tidak perlu meminta persetujuan BRD yang sama lagi. Saat draf PRD pertama dibuat, PRD belum final dan tahap 3 belum diotorisasi. **Status terkini:** persetujuan PRD dan kelanjutan FRD telah diberikan melalui [PRD-APPROVAL-01](#prd-approval-01); rincian teknis yang belum dipilih tetap terbuka.
+**Riwayat persetujuan:** BRD-APPROVAL menetapkan BRD v0.1.0 sebagai baseline dan mengotorisasi penyusunan PRD. Persetujuan PRD serta kelanjutan FRD dicatat pada [PRD-APPROVAL-01](#prd-approval-01). Persetujuan final FRD/SRS dan keputusan workspace tercatat pada bagian berikut sesuai urutan waktunya.
 
-Bagian 2–5 serta Change Log tahap 1 mempertahankan riwayat keadaan ketika keputusan dicatat. Jika keputusan dirinci atau berubah pada tahap 2, keputusan baru dicatat dengan prefix PRD dan rujukan perubahan; pilihan lama tidak diam-diam diganti. Register OPEN pada bagian 6 menampilkan perkembangan terkini.
+Bagian 2–5 serta Change Log tahap 1 mempertahankan riwayat keadaan ketika keputusan dicatat. Jika keputusan dirinci atau berubah pada tahap 2, keputusan baru dicatat dengan prefix PRD dan rujukan perubahan; pilihan lama tidak diam-diam diganti. Register OPEN pada bagian 6 merekam agenda tahap 1; disposisi berikutnya ditelusuri pada catatan PRD/FRD/SRS.
 
 ## 1. Status dan batas kepastian
 
@@ -87,7 +87,7 @@ Seluruh keputusan langsung berasal dari pengguna. Pilihan yang dibuat melalui de
 | DEC-041 / BR-041 | Tidak ada tenggat keras; kemajuan dinilai melalui milestone fitur. | Perkiraan satu–tiga bulan disebut hanya sebagai perkiraan bila diperlukan, bukan komitmen jadwal. | `CONFIRMED_DIRECTION` | [Q-011](TRACEABILITY.md#q-011) |
 | DEC-042 / BR-042 | Laporan beserta media dapat disimpan sebagai draf offline, lalu dikirim setelah koneksi kembali tanpa menghasilkan duplikasi. Kontak dan teks panduan dapat dibaca offline. | Ini cakupan offline yang dikonfirmasi. Tidak menetapkan TTS offline, pilihan retry otomatis/manual, atau kebijakan sinkronisasi rinci. | `CONFIRMED_DIRECTION` | [Q-026](TRACEABILITY.md#q-026) |
 
-`PLAN-01` adalah rencana tahap 1. `USER-IMPLEMENT` pada tabel tahap 1 mengacu instruksi `Implement the plan.` yang saat itu mengizinkan draf BRD, bukan persetujuan final. Sesudahnya, pernyataan persetujuan eksplisit yang dikutip pada metadata menjadi `BRD-APPROVAL`. Instruksi implementasi terbaru untuk tahap 2 disebut `PRD-IMPLEMENT`; persetujuan konsolidasi untuk penyusunan draf dicatat terpisah pada PRD-Q043.
+`PLAN-01` adalah rencana tahap 1. `USER-IMPLEMENT` mengotorisasi penyusunan draf BRD, sedangkan `BRD-APPROVAL` menetapkan persetujuan final secara terpisah. `PRD-IMPLEMENT` mengotorisasi penyusunan tahap 2; konsolidasi awal tercatat pada PRD-Q043.
 
 ## 3. Conflict Register
 
@@ -108,7 +108,7 @@ Seluruh keputusan langsung berasal dari pengguna. Pilihan yang dibuat melalui de
 | CON-013 | Paket enam belas laporan dianggap angka final yang tidak boleh diubah. | Pengguna mendelegasikan pengurangan; rencana kerja memakai dua belas. | Default didelegasikan, bukan persetujuan eksplisit angka awal; DEC-038. |
 | CON-014 | Satu–tiga bulan dianggap deadline, atau semua pendukung menjadi opsional agar masuk jadwal. | Tidak ada deadline keras; gunakan milestone, inti dahulu dan pendukung tetap wajib. | Diselesaikan melalui Q-006/Q-011; DEC-021/041. |
 | CON-015 | Skor prioritas internal otomatis sama dengan tingkat bahaya publik. | Draf membedakan makna keduanya; label dan aturan operasional perlu review lebih lanjut. | Penajaman terbuka; DEC-008, OPEN-006. |
-| CON-016 | `Implement the plan.` tahap 1 dianggap final approval seluruh BRD. | Instruksi itu hanya mengotorisasi draf. Persetujuan final kemudian diberikan melalui pernyataan terpisah `BRD-APPROVAL` yang dikutip pada metadata. | Batas historis dipertahankan; OPEN-001 kini ditutup oleh persetujuan nyata. |
+| CON-016 | Otorisasi penyusunan draf dianggap persetujuan final BRD. | USER-IMPLEMENT hanya mencakup draf. Persetujuan final diberikan terpisah melalui BRD-APPROVAL. | OPEN-001 ditutup oleh persetujuan final; urutan otorisasi tetap dipertahankan. |
 
 ## 4. Register Riset dan Bukti Kelayakan
 
@@ -218,7 +218,7 @@ Perubahan selanjutnya mencatat versi dokumen yang terdampak dan entri Change Log
 
 Status persetujuan pada baris keputusan berikut merekam keadaan saat jawaban itu diberikan. Khusus PRD-DEC-043, APPROVAL_PENDING adalah status historis; persetujuan final yang datang sesudahnya tercatat pada PRD-APPROVAL-01, tanpa mengubah makna jawaban Q043.
 
-Satu baris keputusan mengikuti satu pertanyaan `PRD-Q001`–`PRD-Q043`. Pemilik keputusan produk adalah pengguna; pilihan yang didelegasikan dijelaskan pada baris terkait. Ringkasan berikut adalah parafrasa jawaban dan konsolidasi yang diterima untuk menyusun draf. Ini bukan 43 kutipan verbatim dan bukan 43 requirement: katalog PRD memuat **57 requirement fungsional dan 10 nonfungsional**, dengan acceptance criterion masing-masing. Perincian produk berikut melengkapi BRD yang telah disetujui. Perubahan nyata dari baseline, khususnya delapan dokumen spesimen, dicatat eksplisit.
+Satu baris keputusan mengikuti satu pertanyaan `PRD-Q001`–`PRD-Q043`. Pemilik keputusan produk adalah pengguna; pilihan yang didelegasikan dijelaskan pada baris terkait. Ringkasan berikut adalah parafrasa jawaban dan konsolidasi yang diterima untuk menyusun draf. Katalog PRD memuat **57 requirement fungsional dan 10 nonfungsional**, dengan acceptance criterion masing-masing. Perincian produk berikut melengkapi BRD yang telah disetujui. Perubahan nyata dari baseline, khususnya delapan dokumen spesimen, dicatat eksplisit.
 
 | ID | Keputusan produk dan batasnya | Status | Requirement PRD | Bukti |
 |---|---|---|---|---|
@@ -301,7 +301,7 @@ Tidak ditetapkan diam-diam: jumlah N/H, ukuran/resolusi/format file final, kateg
 | PRD-CON-012 | Hapus dokumen otomatis menghapus keluarga/riwayat, atau KTP harus dilampirkan berulang. | Profil keluarga bertahan setelah sumber dihapus. KTP sekali per akun; penghapusan KTP menahan kiriman baru tanpa menghapus laporan lama. | PRD-DEC-030/037/039 |
 | PRD-CON-013 | Suara offline dan pengiriman saat aplikasi ditutup dianggap dijamin pada semua perangkat. | Suara bergantung dukungan mesin/bahasa; teks tetap tersedia. Retry otomatis dibatasi aplikasi aktif+online. | PRD-DEC-012/031/032 |
 | PRD-CON-014 | Enam dokumen tahap 1 tetap menjadi jumlah terkini atau diubah tanpa riwayat. | Baseline historis tetap mencatat enam; paket PRD terbaru delapan spesimen, yaitu enam KTP dan dua KK. | DEC-038, PRD-DEC-042 |
-| PRD-CON-015 | Jawaban konsolidasi atau “Implement the plan.” dianggap PRD final dan izin lanjut FRD. | BRD sudah disetujui melalui bukti terpisah. Konsolidasi/implementasi terbaru mengotorisasi draf PRD; approval final dan izin tahap 3 masih menunggu. | BRD-APPROVAL, PRD-DEC-043, PRD-IMPLEMENT |
+| PRD-CON-015 | Konsolidasi atau otorisasi penyusunan dianggap persetujuan final PRD dan izin FRD. | Pada tahap draf, PRD-IMPLEMENT belum mencakup persetujuan final. Persetujuan kemudian diberikan melalui PRD-APPROVAL-01. | BRD-APPROVAL, PRD-DEC-043, PRD-IMPLEMENT |
 
 ## 12. Bukti Kajian dan Ketergantungan Tahap 2
 
@@ -375,7 +375,7 @@ Urutan ini mengikuti interview dan konsolidasi pada 18 Oktober 2026. Semua uraia
 | Baseline BRD `v0.1.0` | **APPROVED** melalui pernyataan eksplisit yang dikutip di metadata; tidak meminta persetujuan yang sama ulang. |
 | Interview produk PRD | 43 jawaban tercatat pada PRD-DEC-001–043 dan register PRD-Q di TRACEABILITY; delegasi/koreksi dibedakan. |
 | Konsolidasi untuk draf | Diterima melalui PRD-Q043; bukan persetujuan final dokumen. |
-| Penulisan dokumen tahap 2 | Diotorisasi melalui `PRD-IMPLEMENT` / `Implement the plan.`; hasil berupa dokumentasi dan pemeriksaan konsistensi dokumen. |
+| Penulisan dokumen tahap 2 | PRD-IMPLEMENT mengotorisasi dokumentasi dan pemeriksaan konsistensi dokumen. |
 | PRD `v0.1.0` | **APPROVED — PRD-APPROVAL-01**; rincian FRD/SRS dipertahankan dalam agenda terbuka. |
 | Bukti implementasi produk | Belum ada: tidak membuat aplikasi, database/seed, Git, workspace setup atau deploy dalam tahap ini. Tidak ada pengujian API DeepSeek, OCR/KTP, Android, queue atau UAT produk yang diklaim lulus. |
 | Riset/PoC yang pernah dilakukan | Terbatas pada RES dan PRD-RES dengan keterbatasan eksplisit; tidak dapat dipakai sebagai hasil acceptance produk. |
@@ -391,12 +391,12 @@ Serah hasil tahap 2 mempertahankan delta delapan spesimen, batas kemampuan peran
 ### PRD-APPROVAL-01 — Persetujuan PRD v0.1.0
 
 - **Pemilik keputusan:** pengguna/pemilik proyek.
-- **Bukti pertama, kutipan percakapan:** “OKEH TUNTASKAN PRD SAYA SELALU SETUJU, JIKA SUDAH SELESAI PRD LANJUT KE TAHAP SELANJUTNYA YAITU TAHAP SELANJUT SILAHKAN , JANGAN LUPA PATH2 YANG BERISI ARAHAN YANG SAYA TULISKAN DI AWAL2 SESSION. ANDA BISA LIHAT2 LAGI.”
+- **Otorisasi awal:** pemilik proyek meminta PRD dituntaskan dan proses dilanjutkan ke FRD dengan mengacu pedoman penyusunan yang tersedia.
 - **Objek yang kemudian ditampilkan:** rencana menuntaskan PRD v0.1.0 tanpa perubahan scope, menyelaraskan 12 agenda, mencatat approval, memeriksa dokumen, lalu membuat FRD v0.1.0 DRAFT dengan TBD eksplisit.
-- **Bukti pelaksanaan, kutipan percakapan terbaru:** “OKE MULAI, SESUAI PLAN YANG ANDA BUAT BARUSAN, SAYA SETUJU2 AJA TERKAIT PRD.”
+- **Persetujuan pelaksanaan:** pemilik menerima rencana penutupan PRD v0.1.0 dan kelanjutan penyusunan FRD.
 - **Keputusan:** PRD v0.1.0 **APPROVED**; finalisasi editorial dan draf FRD diotorisasi. Versi PRD tetap karena requirement dan AC tidak berubah. Penutupan dicatat sebagai revisi administrasi pada versi yang sama.
 - **Batas:** bukan pengisian nilai N/H, formula bahaya, kebijakan retensi, atau detail lain yang belum dijawab; bukan sign-off FRD yang belum pernah disajikan. Pengujian produk tetap NOT_RUN.
-- **Lokasi bukti:** pesan aktif percakapan setelah ekspor kedua; kedua ekspor lokal berakhir sebelum persetujuan ini. Kutipan tidak direkayasa menjadi jawaban PRD-Q044 atau R1/R2 individual baru.
+- **Asal otorisasi:** konfirmasi pemilik setelah ekspor percakapan kedua. Catatan ini tidak menambahkan jawaban PRD-Q044 atau konfirmasi individual R1/R2.
 
 <a id="prd-open-normalization"></a>
 
@@ -448,32 +448,32 @@ Membuat FRD v0.1.0 dari 57 F dan 10 NF PRD; memisahkan perilaku yang dapat diuji
 
 ### FRD-DEC-003 — Melanjutkan discovery dari draf yang tersedia
 
-**Bukti literal:** “OKE JIKA MEMANG SUDAH GOOD SILAHKAN LANJUTKAN”. Setelah sesi terpotong, pengguna menegaskan: “TADI KE CUT KARENA LIMIT, SILAHKAN ANALISIS KEMBALI DAN LANJUTKAN”.
+**Dasar otorisasi:** pemilik meminta penyusunan FRD dilanjutkan dari draf dan keputusan yang telah tersedia.
 
 **Keputusan:** melanjutkan analisis, riset dan penyusunan FRD dari progres tersimpan. Tidak meminta ulang approval PRD atau jawaban yang sudah diterima. Ini otorisasi pekerjaan, bukan jawaban atas seluruh detail yang belum ditanyakan. Status **CONFIRMED_DIRECTION**. FRD v0.1.1 tetap DRAFT.
 
 ### 18.1 Keputusan produk yang mempunyai jawaban
 
-Seluruh jawaban di bawah berasal dari pemilik proyek pada pesan aktif setelah kedua ekspor, tanggal 18 Oktober 2026. Pertanyaan lengkap tersimpan pada [log pertanyaan aktif](TRACEABILITY.md#frd-qa-round-1). Suffix A/B/C adalah subpertanyaan dalam agenda, bukan agenda baru. Status konfirmasi hanya berlaku pada cakupan yang dinyatakan; bukan approval keseluruhan FRD atau bukti test PASS.
+Seluruh jawaban di bawah berasal dari pemilik proyek pada pesan aktif setelah kedua ekspor, tanggal 18 Oktober 2026. Ringkasan pilihan tersimpan pada [register keterlacakan](TRACEABILITY.md#frd-qa-round-1). Suffix A/B/C adalah subpertanyaan dalam agenda, bukan agenda baru. Status konfirmasi hanya berlaku pada cakupan yang dinyatakan; bukan approval keseluruhan FRD atau bukti test PASS.
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-004"></a>FRD-DEC-004 / Q001-A | “3 laporan / 6 jam (disarankan)” | N awal 3, H awal 6 jam berjalan; pemakaian per akun untuk laporan unik yang diterima. Gagal sebelum diterima/retry sama tidak menambah hitungan. | CONFIRMED_R1; batas penghapusan diuji pada DEC-007; boundary waktu/config/reset masih terbuka. | CONTROL-002/003; REPORT-010; TC-X-001 |
-| <a id="frd-dec-005"></a>FRD-DEC-005 / Q006-A | “Tidak ada pemulihan tanpa kode (disarankan)” | Kehilangan keduanya tidak dapat dipulihkan melalui aplikasi/admin; akun baru tidak mewarisi data akun lama. | CONFIRMED_R1 untuk kehilangan; pemulihan sah diperinci DEC-013, bukan pengecualian kehilangan keduanya. | AUTH-006 |
-| <a id="frd-dec-006"></a>FRD-DEC-006 / Q007-A | “Pertahankan data lokal per akun (disarankan)” | Draf/checklist/item/progres/kontak lokal dipertahankan per identitas akun untuk login ulang akun yang sama; tidak terbuka bagi akun lain/tamu. | CONFIRMED_R1; batas cache/tugas diperdalam pada DEC-014. | AUTH-008; REPORT-007/008; READY-002/004/005; TC-X-003 |
-| <a id="frd-dec-007"></a>FRD-DEC-007 / Q001-B | “Hapus tidak mengembalikan kuota (disarankan)” | Penghapusan tidak refund pemakaian. Keluar jendela atau reset adalah alasan berbeda untuk bebas kuota. | CONFIRMED_R2 hanya untuk batas penghapusan dari DEC-004; tidak menutup seluruh Q001. | CONTROL-002/003/004; TC-X-001 |
-| <a id="frd-dec-008"></a>FRD-DEC-008 / Q002-A | “Ikuti aturan galeri saat kirim (disarankan)” | Aturan galeri saat penerimaan baru berlaku terhadap draf lama; OFF menahan pengiriman, meminta media kamera dan mempertahankan draf. | CONFIRMED_R1; kasus tandingan baseline galeri; rekonsiliasi penerimaan lama belum ditutup. | CONTROL-001; REPORT-008/009; TC-X-002 |
-| <a id="frd-dec-009"></a>FRD-DEC-009 / Q012-A | “Semua pesan yang masih berlaku (disarankan)” | Akun baru memperoleh semua pesan aktif, termasuk yang mendahului pendaftaran; dicabut/berakhir bukan aktif. | CONFIRMED_R1 untuk audience; read/expiry diperinci DEC-012/015. | INBOX-001 |
-| <a id="frd-dec-010"></a>FRD-DEC-010 / Q003-A | “Jenis KTP dan nama terbaca (disarankan)” | Minimum: dikenali sebagai KTP, nama pemilik terbaca dan pemilik mengonfirmasi. NIK tidak wajib terbaca; bukan verifikasi resmi, admin tidak membaca isi. | CONFIRMED_R1 untuk minimum; bukti kualitas aktual tetap NOT_RUN. | KTP-002/003; Q014/017 |
-| <a id="frd-dec-011"></a>FRD-DEC-011 / Q003-B | “Lama berlaku sampai pengganti lolos (disarankan)” | KTP lama tetap menjadi dasar kelayakan selama penggantian; pengganti efektif sesudah lolos dan dikonfirmasi. Hapus KTP aktif segera menahan kirim baru. | CONFIRMED_R1 untuk penggantian; boundary kelayakan/hapus diperiksa, tidak membuktikan kualitas provider. | KTP-002/003/004; TC-X-002 |
-| <a id="frd-dec-012"></a>FRD-DEC-012 / Q012-B | “Revisi isi kembali belum dibaca (disarankan)” | Edit judul/isi menandai diperbarui dan belum dibaca pada tiap akun. Read versi lama offline tidak meluluskan versi baru. | CONFIRMED_R1 dengan boundary offline eksplisit; bukan konfirmasi retensi atau semua konflik edit. | INBOX-002/004; TC-X-009 |
-| <a id="frd-dec-013"></a>FRD-DEC-013 / Q006-B | “Sekali pakai, lalu ganti kode (disarankan)” | Pemulihan sah mengganti sandi, menghabiskan kode, mencabut sesi lama dan menyediakan kode pengganti. Setelah sukses dengan respons hilang, login memakai sandi baru menyediakan jalan membuat kode pengganti. | CONFIRMED_R1 dengan boundary respons hilang; format/percobaan/autentikasi ulang SRS/Q005/017 belum dipilih. | AUTH-005/006; sesi Q005 |
-| <a id="frd-dec-014"></a>FRD-DEC-014 / Q007-B | “Hentikan antrean lokal, lanjutkan server (disarankan)” | Logout menghentikan antrean lokal sampai akun asal login lagi, membersihkan sesi lokal/cache pratinjau dokumen, mempertahankan data lokal yang dipilih; server boleh menyelesaikan tugas yang sudah diterima untuk akun asal. | CONFIRMED_R2 untuk batas data/tugas dari DEC-006; pencabutan server saat offline tetap detail terbuka. | AUTH-008; REPORT-008; READY-005; TC-X-003 |
-| <a id="frd-dec-015"></a>FRD-DEC-015 / Q012-C | “Tanggal akhir opsional (disarankan)” | Tanggal akhir opsional; tanpa tanggal akhir aktif sampai dicabut. Berakhir/dicabut keluar inbox warga setelah keadaan tersinkron; admin tetap dapat melihat catatannya. | CONFIRMED_R1 untuk expiry; CONFIRMED_R2 batas berakhir/cabut pada audience DEC-009; masa simpan catatan belum dipilih. | INBOX-001/003; TC-X-009 |
-| <a id="frd-dec-016"></a>FRD-DEC-016 / Q001-C | “Ubah aturan tanpa reset pemakaian (disarankan)” | Perubahan aturan berlaku untuk penerimaan baru tanpa reset otomatis atau membatalkan laporan lama. Jika pemakaian sudah mencapai/melebihi batas baru, kiriman baru tertahan sampai cukup kuota atau reset terpisah. | CONFIRMED_R2 untuk perubahan aturan dari DEC-004; boundary waktu, rentang dan operasi bersamaan tetap terbuka. | CONTROL-002/003; TC-CONTROL-002-01/02; TC-X-001 |
-| <a id="frd-dec-017"></a>FRD-DEC-017 / Q002-B | “Periksa status sebelum boleh edit (disarankan)” | Selama hasil Kirim belum diketahui, isi permintaan dikunci untuk rekonsiliasi. Sudah diterima menampilkan laporan yang sama; penolakan definitif sebelum diterima mengizinkan perbaikan draf. | CONFIRMED_R1 untuk edit/rekonsiliasi dengan boundary respons hilang; penutupan revisi lama, pembatalan dan timeout tetap detail terbuka. | REPORT-007/008/009/010; CONTROL-001; TC-X-001/002 |
-| <a id="frd-dec-018"></a>FRD-DEC-018 / Q020-A | “Tolak perubahan usang, muat ulang (disarankan)” | Untuk perubahan bersaing atas versi objek yang sama, perubahan pertama yang sah tersimpan berlaku; perubahan dari versi usang ditolak dan admin harus memuat ulang sebelum mengubah lagi. | CONFIRMED_R1 untuk konflik dua admin; bukan penetapan semua race job/review/delete/keluarga atau pilihan mekanisme SRS. | REVIEW; CONTROL; CONTENT; INBOX; Q020 |
-| <a id="frd-dec-019"></a>FRD-DEC-019 / Q004-A | “SAYA AKAN MENCATATNYA SEBAGAI KEBUTUHAN UJI YANG BELUM TERSEDIA” | Inventaris perangkat/browser uji dicatat sebagai kebutuhan yang belum tersedia. Tidak menetapkan model HP, versi Android, browser atau kelulusan pengujian tanpa bukti. | CONFIRMED_R1 untuk status ketersediaan bukti; bukan konfirmasi dukungan perangkat atau penutupan Q004. | Q004/Q019; REPORT-004–006; READY-008; TC-NF-001/007/009 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-004"></a>FRD-DEC-004 / Q001-A | N awal 3, H awal 6 jam berjalan; pemakaian per akun untuk laporan unik yang diterima. Gagal sebelum diterima/retry sama tidak menambah hitungan. | CONFIRMED_R1; batas penghapusan diuji pada DEC-007; boundary waktu/config/reset masih terbuka. | CONTROL-002/003; REPORT-010; TC-X-001 |
+| <a id="frd-dec-005"></a>FRD-DEC-005 / Q006-A | Kehilangan keduanya tidak dapat dipulihkan melalui aplikasi/admin; akun baru tidak mewarisi data akun lama. | CONFIRMED_R1 untuk kehilangan; pemulihan sah diperinci DEC-013, bukan pengecualian kehilangan keduanya. | AUTH-006 |
+| <a id="frd-dec-006"></a>FRD-DEC-006 / Q007-A | Draf/checklist/item/progres/kontak lokal dipertahankan per identitas akun untuk login ulang akun yang sama; tidak terbuka bagi akun lain/tamu. | CONFIRMED_R1; batas cache/tugas diperdalam pada DEC-014. | AUTH-008; REPORT-007/008; READY-002/004/005; TC-X-003 |
+| <a id="frd-dec-007"></a>FRD-DEC-007 / Q001-B | Penghapusan tidak refund pemakaian. Keluar jendela atau reset adalah alasan berbeda untuk bebas kuota. | CONFIRMED_R2 hanya untuk batas penghapusan dari DEC-004; tidak menutup seluruh Q001. | CONTROL-002/003/004; TC-X-001 |
+| <a id="frd-dec-008"></a>FRD-DEC-008 / Q002-A | Aturan galeri saat penerimaan baru berlaku terhadap draf lama; OFF menahan pengiriman, meminta media kamera dan mempertahankan draf. | CONFIRMED_R1; kasus tandingan baseline galeri; rekonsiliasi penerimaan lama belum ditutup. | CONTROL-001; REPORT-008/009; TC-X-002 |
+| <a id="frd-dec-009"></a>FRD-DEC-009 / Q012-A | Akun baru memperoleh semua pesan aktif, termasuk yang mendahului pendaftaran; dicabut/berakhir bukan aktif. | CONFIRMED_R1 untuk audience; read/expiry diperinci DEC-012/015. | INBOX-001 |
+| <a id="frd-dec-010"></a>FRD-DEC-010 / Q003-A | Minimum: dikenali sebagai KTP, nama pemilik terbaca dan pemilik mengonfirmasi. NIK tidak wajib terbaca; bukan verifikasi resmi, admin tidak membaca isi. | CONFIRMED_R1 untuk minimum; bukti kualitas aktual tetap NOT_RUN. | KTP-002/003; Q014/017 |
+| <a id="frd-dec-011"></a>FRD-DEC-011 / Q003-B | KTP lama tetap menjadi dasar kelayakan selama penggantian; pengganti efektif sesudah lolos dan dikonfirmasi. Hapus KTP aktif segera menahan kirim baru. | CONFIRMED_R1 untuk penggantian; boundary kelayakan/hapus diperiksa, tidak membuktikan kualitas provider. | KTP-002/003/004; TC-X-002 |
+| <a id="frd-dec-012"></a>FRD-DEC-012 / Q012-B | Edit judul/isi menandai diperbarui dan belum dibaca pada tiap akun. Read versi lama offline tidak meluluskan versi baru. | CONFIRMED_R1 dengan boundary offline eksplisit; bukan konfirmasi retensi atau semua konflik edit. | INBOX-002/004; TC-X-009 |
+| <a id="frd-dec-013"></a>FRD-DEC-013 / Q006-B | Pemulihan sah mengganti sandi, menghabiskan kode, mencabut sesi lama dan menyediakan kode pengganti. Setelah sukses dengan respons hilang, login memakai sandi baru menyediakan jalan membuat kode pengganti. | CONFIRMED_R1 dengan boundary respons hilang; format/percobaan/autentikasi ulang SRS/Q005/017 belum dipilih. | AUTH-005/006; sesi Q005 |
+| <a id="frd-dec-014"></a>FRD-DEC-014 / Q007-B | Logout menghentikan antrean lokal sampai akun asal login lagi, membersihkan sesi lokal/cache pratinjau dokumen, mempertahankan data lokal yang dipilih; server boleh menyelesaikan tugas yang sudah diterima untuk akun asal. | CONFIRMED_R2 untuk batas data/tugas dari DEC-006; pencabutan server saat offline tetap detail terbuka. | AUTH-008; REPORT-008; READY-005; TC-X-003 |
+| <a id="frd-dec-015"></a>FRD-DEC-015 / Q012-C | Tanggal akhir opsional; tanpa tanggal akhir aktif sampai dicabut. Berakhir/dicabut keluar inbox warga setelah keadaan tersinkron; admin tetap dapat melihat catatannya. | CONFIRMED_R1 untuk expiry; CONFIRMED_R2 batas berakhir/cabut pada audience DEC-009; masa simpan catatan belum dipilih. | INBOX-001/003; TC-X-009 |
+| <a id="frd-dec-016"></a>FRD-DEC-016 / Q001-C | Perubahan aturan berlaku untuk penerimaan baru tanpa reset otomatis atau membatalkan laporan lama. Jika pemakaian sudah mencapai/melebihi batas baru, kiriman baru tertahan sampai cukup kuota atau reset terpisah. | CONFIRMED_R2 untuk perubahan aturan dari DEC-004; boundary waktu, rentang dan operasi bersamaan tetap terbuka. | CONTROL-002/003; TC-CONTROL-002-01/02; TC-X-001 |
+| <a id="frd-dec-017"></a>FRD-DEC-017 / Q002-B | Selama hasil Kirim belum diketahui, isi permintaan dikunci untuk rekonsiliasi. Sudah diterima menampilkan laporan yang sama; penolakan definitif sebelum diterima mengizinkan perbaikan draf. | CONFIRMED_R1 untuk edit/rekonsiliasi dengan boundary respons hilang; penutupan revisi lama, pembatalan dan timeout tetap detail terbuka. | REPORT-007/008/009/010; CONTROL-001; TC-X-001/002 |
+| <a id="frd-dec-018"></a>FRD-DEC-018 / Q020-A | Untuk perubahan bersaing atas versi objek yang sama, perubahan pertama yang sah tersimpan berlaku; perubahan dari versi usang ditolak dan admin harus memuat ulang sebelum mengubah lagi. | CONFIRMED_R1 untuk konflik dua admin; bukan penetapan semua race job/review/delete/keluarga atau pilihan mekanisme SRS. | REVIEW; CONTROL; CONTENT; INBOX; Q020 |
+| <a id="frd-dec-019"></a>FRD-DEC-019 / Q004-A | Inventaris perangkat/browser uji dicatat sebagai kebutuhan yang belum tersedia. Tidak menetapkan model HP, versi Android, browser atau kelulusan pengujian tanpa bukti. | CONFIRMED_R1 untuk status ketersediaan bukti; bukan konfirmasi dukungan perangkat atau penutupan Q004. | Q004/Q019; REPORT-004–006; READY-008; TC-NF-001/007/009 |
 
 ### FRD-CHG-002 — Menyatukan jawaban, perilaku dan riset pada v0.1.1
 
@@ -491,8 +491,8 @@ Seluruh jawaban di bawah berasal dari pemilik proyek pada pesan aktif setelah ke
 
 ### FRD-CHG-003 — Menggabungkan rincian dan memperbaiki kesiapan serah
 
-- **Sumber:** pesan User terakhir pada ekspor sesi 3 (arsip lokal): “OKE ANDA KENAPA BUAT 2 FRD BERIKAN ALASANNYA DAN KENAPA TIDAK JADI 1 AJA APA YANG MEMBEDAKAN MEREKA PADAHAL BISA SAJA TERGABUNG SEPERTINYA. FIX KAN KEMBALI FRD NYA SAMPE BENAR BENAR ANDA SIAP DAN READY LANJUT KE STEP TAHAP BERIKUTNYA.”
-- **Kelanjutan sesi aktif:** “OKE KITA TADI TERCUT DI PROSES PEMBUATAN FRD, UNTUK SESI PERCAKAPAN TERAKHIR ADA DI SESI NO 3 DAN JUGA FOLDER DOCS BERISI YANG SUDHA DIBUAT. TUGAS ANDA ADALAH MEMAHAMI DAN MELANJUTKAN PROSES YANG ADA.”
+- **Dasar keputusan:** pemilik meminta dua dokumen FRD dikonsolidasikan menjadi satu spesifikasi yang siap untuk tahap berikutnya.
+- **Kelanjutan pekerjaan:** penyusunan diteruskan dari dokumen dan catatan keputusan yang sudah tersedia.
 - **Sebelum:** FRD v0.1.1 dan berkas rincian terpisah; referensi/metadata versi belum seluruhnya sinkron; tiga pertanyaan tertunda pada akhir sesi 3.
 - **Sesudah:** [FRD v0.1.2](FRD.md) menjadi satu spesifikasi; seluruh sebelas bagian rincian masuk §30.1–30.11; navigasi, referensi, sumber ekspor dan kriteria penutupan di §29.1 diperbaiki. Berkas rincian lama dihapus setelah isinya dipindahkan.
 - **Alasan:** pemisahan sebelumnya membedakan katalog FR dari catatan discovery, tetapi keduanya bagian spesifikasi fungsional yang dapat dibaca dalam satu dokumen. Register keputusan dan keterlacakan tetap terpisah karena menyimpan sejarah lintas BRD/PRD/FRD.
@@ -505,11 +505,11 @@ Seluruh jawaban di bawah berasal dari pemilik proyek pada pesan aktif setelah ke
 
 Tiga jawaban berikut diberikan pada sesi kelanjutan atas pertanyaan yang tertunda di akhir sesi 3. Bentuk pertanyaan dilanjutkan dengan contoh konkret; ID subpertanyaan tetap Q008-A/Q009-A/Q010-A. Tidak dibuat agenda baru atau approval seluruh FRD.
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-020"></a>FRD-DEC-020 / Q008-A | “Ya, batasi bentang seluruh kelompok (disarankan)” | Pengelompokan otomatis dibatasi bentang seluruh kelompok selain kedekatan antar laporan; rantai A–B–C tidak membenarkan gabungan jika A–C melewati batas. | CONFIRMED_R1 dengan contoh rantai; angka jarak/waktu, acuan waktu, kandidat ganda, laporan terlambat dan batas koreksi admin tetap terbuka. | REVIEW-001/004/008; RULE-025; TC-REVIEW-001-02; TC-X-006 |
-| <a id="frd-dec-021"></a>FRD-DEC-021 / Q009-A | “Tinggi, gunakan tingkat tertinggi (disarankan)” | Tingkat kelompok mengambil tingkat tertinggi dari bukti layak; satu bukti layak tinggi tidak turun karena banyak bukti rendah. Bukti tidak layak dikecualikan; tanpa bukti layak Belum dinilai. | CONFIRMED_R1 dengan contoh satu tinggi vs empat rendah; tidak menetapkan rubrik tiap bukti, kelayakan setelah review atau prioritas admin. | AI-002/003; REVIEW-003; MONITOR-003; RULE-026; TC-MONITOR-003-02 |
-| <a id="frd-dec-022"></a>FRD-DEC-022 / Q010-A | “Penanda “Laporan dihapus admin” dan waktu hapus (disarankan)” | Riwayat pemilik menyisakan penanda “Laporan dihapus admin” dan waktu hapus, tanpa akses isi/media/analisis. Penanda bukan laporan aktif atau bukti kelompok; kuota mengikuti DEC-007. | CONFIRMED_R1 untuk tampilan pemilik; retensi penanda, isi/akses audit, cadangan, gagal sebagian dan kontrak retry masih terbuka. | REPORT-011/012; CONTROL-004/005; RULE-027; TC-REPORT-011-01; TC-CONTROL-004-01 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-020"></a>FRD-DEC-020 / Q008-A | Pengelompokan otomatis dibatasi bentang seluruh kelompok selain kedekatan antar laporan; rantai A–B–C tidak membenarkan gabungan jika A–C melewati batas. | CONFIRMED_R1 dengan contoh rantai; angka jarak/waktu, acuan waktu, kandidat ganda, laporan terlambat dan batas koreksi admin tetap terbuka. | REVIEW-001/004/008; RULE-025; TC-REVIEW-001-02; TC-X-006 |
+| <a id="frd-dec-021"></a>FRD-DEC-021 / Q009-A | Tingkat kelompok mengambil tingkat tertinggi dari bukti layak; satu bukti layak tinggi tidak turun karena banyak bukti rendah. Bukti tidak layak dikecualikan; tanpa bukti layak Belum dinilai. | CONFIRMED_R1 dengan contoh satu tinggi vs empat rendah; tidak menetapkan rubrik tiap bukti, kelayakan setelah review atau prioritas admin. | AI-002/003; REVIEW-003; MONITOR-003; RULE-026; TC-MONITOR-003-02 |
+| <a id="frd-dec-022"></a>FRD-DEC-022 / Q010-A | Riwayat pemilik menyisakan penanda “Laporan dihapus admin” dan waktu hapus, tanpa akses isi/media/analisis. Penanda bukan laporan aktif atau bukti kelompok; kuota mengikuti DEC-007. | CONFIRMED_R1 untuk tampilan pemilik; retensi penanda, isi/akses audit, cadangan, gagal sebagian dan kontrak retry masih terbuka. | REPORT-011/012; CONTROL-004/005; RULE-027; TC-REPORT-011-01; TC-CONTROL-004-01 |
 
 ### FRD-CHG-004 — Menerapkan tiga keputusan ke FRD v0.1.2
 
@@ -521,11 +521,11 @@ Memperjelas input/output/alternatif dan AC terkait, menambah RULE-025–027, men
 
 Usulan konkret telah ditulis di FRD §30.12 sebelum pertanyaan dikirim. Jawaban berikut memilih konfigurasi demo dan perilaku waktu, tanpa mengklaim kualitas algoritma/provider sudah terbukti.
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-023"></a>FRD-DEC-023 / Q008-B | “Gunakan 1.500 m / 3.000 m dan 6 / 12 jam untuk demo (disarankan)” | Tetangga ≤1.500 m dan ≤6 jam; bentang seluruh kelompok ≤3.000 m dan ≤12 jam, batas inklusif. Nilai dipilih untuk demo, bukan bukti validitas geografis. | CONFIRMED_R1 untuk nilai/boundary, memperinci DEC-020; metrik/presisi, kandidat ganda dan koreksi manual tersisa. | REVIEW-001; RULE-025; TC-REVIEW-001-02 |
-| <a id="frd-dec-024"></a>FRD-DEC-024 / Q008-C | “Waktu kejadian; jika kosong gunakan waktu penerimaan (disarankan)” | Pengelompokan memakai waktu kejadian yang diisi valid; jika kosong gunakan waktu penerimaan server dengan asal waktu dapat dibedakan. Kuota tetap memakai waktu penerimaan. | CONFIRMED_R1 dengan contoh 08.00/13.00; validasi waktu masa depan/usia dan kasus ambigu masih Q017/Q008. | REPORT-002; REVIEW-001/008; RULE-025; TC-X-006 |
-| <a id="frd-dec-025"></a>FRD-DEC-025 / Q008-D | “Masukkan ke kelompok selesai tanpa membuka kembali (disarankan)” | Laporan terlambat dengan waktu kejadian dalam interval kejadian selesai dan batas lokasi memenuhi masuk kelompok selesai, menambah riwayat tanpa membuka kembali Pantau; admin dapat mengoreksi. | CONFIRMED_R1 untuk terlambat, pemeriksaan batas keputusan tidak reopen; kandidat ganda, waktu kosong/ambigu dan race selesai belum dipilih. | REVIEW-001/004/007/008; RULE-028; TC-REVIEW-008-02; TC-X-006 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-023"></a>FRD-DEC-023 / Q008-B | Tetangga ≤1.500 m dan ≤6 jam; bentang seluruh kelompok ≤3.000 m dan ≤12 jam, batas inklusif. Nilai dipilih untuk demo, bukan bukti validitas geografis. | CONFIRMED_R1 untuk nilai/boundary, memperinci DEC-020; metrik/presisi, kandidat ganda dan koreksi manual tersisa. | REVIEW-001; RULE-025; TC-REVIEW-001-02 |
+| <a id="frd-dec-024"></a>FRD-DEC-024 / Q008-C | Pengelompokan memakai waktu kejadian yang diisi valid; jika kosong gunakan waktu penerimaan server dengan asal waktu dapat dibedakan. Kuota tetap memakai waktu penerimaan. | CONFIRMED_R1 dengan contoh 08.00/13.00; validasi waktu masa depan/usia dan kasus ambigu masih Q017/Q008. | REPORT-002; REVIEW-001/008; RULE-025; TC-X-006 |
+| <a id="frd-dec-025"></a>FRD-DEC-025 / Q008-D | Laporan terlambat dengan waktu kejadian dalam interval kejadian selesai dan batas lokasi memenuhi masuk kelompok selesai, menambah riwayat tanpa membuka kembali Pantau; admin dapat mengoreksi. | CONFIRMED_R1 untuk terlambat, pemeriksaan batas keputusan tidak reopen; kandidat ganda, waktu kosong/ambigu dan race selesai belum dipilih. | REVIEW-001/004/007/008; RULE-028; TC-REVIEW-008-02; TC-X-006 |
 
 ### FRD-CHG-005 — Memperinci aturan kelompok pada v0.1.2
 
@@ -535,11 +535,11 @@ Memperbarui FR-REVIEW-001/007/008, RULE-025/028, state kejadian, TC-REVIEW-001-0
 
 ## 22. Penutupan kontrak fungsi pengelompokan — 18 Oktober 2026
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-026"></a>FRD-DEC-026 / Q008-E | “Anggota terdekat, lalu kelompok paling awal (disarankan)” | Prioritaskan kandidat selesai untuk laporan terlambat yang memenuhi DEC-025; selebihnya kandidat aktif. Dalam kelas kandidat yang sama, pilih anggota terdekat, lalu kelompok paling awal dibuat, lalu pengenal stabil; tidak merge otomatis beberapa kelompok. | CONFIRMED_R1 untuk pemilihan/tie-break; metrik jarak/pengenal teknis SRS, konflik proses Q020. | REVIEW-001/008; RULE-029; TC-REVIEW-001-02; TC-X-006 |
-| <a id="frd-dec-027"></a>FRD-DEC-027 / Q008-F | “Nama wilayah jika tersedia; label dan kode sebagai cadangan (disarankan)” | Nama wilayah dari titik laporan paling awal diterima yang masih ada; bila tidak tersedia gunakan label “Lokasi laporan” dan kode kelompok tanpa identitas warga/koordinat presisi. Sumber yang dihapus/dipindah tidak terus menjadi dasar ringkasan. | CONFIRMED_R1 dengan fallback; pilihan layanan/nomenklatur nama SRS, format/panjang label Q017. Tidak menambah aksi rename admin. | MONITOR-001; REVIEW-001/004; CONTROL-005; RULE-030; TC-MONITOR-001-01 |
-| <a id="frd-dec-028"></a>FRD-DEC-028 / Q008-G | “Boleh melampaui batas, wajib alasan dan audit (disarankan)” | Koreksi manual admin boleh melampaui batas otomatis dengan alasan wajib/audit; kedua kelompok dihitung ulang dan koreksi tidak dibatalkan diam-diam oleh proses otomatis. Pemindahan tidak otomatis membuka kelompok selesai. | CONFIRMED_R1 untuk pengecualian manual dan pemeriksaan batas otomatis DEC-020/023; validasi alasan Q017, retensi audit Q010, race Q020. | REVIEW-004/009; CONTROL-005; RULE-031; TC-REVIEW-004-01/02 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-026"></a>FRD-DEC-026 / Q008-E | Prioritaskan kandidat selesai untuk laporan terlambat yang memenuhi DEC-025; selebihnya kandidat aktif. Dalam kelas kandidat yang sama, pilih anggota terdekat, lalu kelompok paling awal dibuat, lalu pengenal stabil; tidak merge otomatis beberapa kelompok. | CONFIRMED_R1 untuk pemilihan/tie-break; metrik jarak/pengenal teknis SRS, konflik proses Q020. | REVIEW-001/008; RULE-029; TC-REVIEW-001-02; TC-X-006 |
+| <a id="frd-dec-027"></a>FRD-DEC-027 / Q008-F | Nama wilayah dari titik laporan paling awal diterima yang masih ada; bila tidak tersedia gunakan label “Lokasi laporan” dan kode kelompok tanpa identitas warga/koordinat presisi. Sumber yang dihapus/dipindah tidak terus menjadi dasar ringkasan. | CONFIRMED_R1 dengan fallback; pilihan layanan/nomenklatur nama SRS, format/panjang label Q017. Tidak menambah aksi rename admin. | MONITOR-001; REVIEW-001/004; CONTROL-005; RULE-030; TC-MONITOR-001-01 |
+| <a id="frd-dec-028"></a>FRD-DEC-028 / Q008-G | Koreksi manual admin boleh melampaui batas otomatis dengan alasan wajib/audit; kedua kelompok dihitung ulang dan koreksi tidak dibatalkan diam-diam oleh proses otomatis. Pemindahan tidak otomatis membuka kelompok selesai. | CONFIRMED_R1 untuk pengecualian manual dan pemeriksaan batas otomatis DEC-020/023; validasi alasan Q017, retensi audit Q010, race Q020. | REVIEW-004/009; CONTROL-005; RULE-031; TC-REVIEW-004-01/02 |
 
 ### FRD-CHG-006 — Kontrak fungsi Q008 dikonfirmasi
 
@@ -549,11 +549,11 @@ Q008-A–G telah mempunyai jawaban eksplisit. Perilaku dasar, boundary/rantai, w
 
 ## 23. Dasar penilaian dan prioritas review — 18 Oktober 2026
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-029"></a>FRD-DEC-029 / Q009-B | “Dampak yang ditunjukkan bukti/keterangan (disarankan)” | Dasar rubrik tingkat tiap bukti pada demo memakai dampak yang ditunjukkan bukti/keterangan. Informasi tidak cukup tetap Belum dinilai. | CONFIRMED_R1 untuk dasar, bukan batas tiap tingkat atau akurasi AI; rubrik rinci Q009 dan PoC Q013. | AI-001/003; MONITOR-003; RULE-032 |
-| <a id="frd-dec-030"></a>FRD-DEC-030 / Q009-C | “Boleh setelah penetapan relevansi, tingkat, dan alasan (disarankan)” | Bukti yang semula tidak cocok kembali layak dihitung hanya setelah admin menetapkan relevansi, tingkat dan alasan. Membuka laporan/catatan biasa tidak cukup; jejak AI awal tetap dipertahankan sesuai lifecycle. | CONFIRMED_R1 dengan batas tindakan biasa; rubrik tingkat Q009, audit/validasi/konflik Q010/017/020. | AI-002; REVIEW-003; RULE-033; TC-AI-002-01/02 |
-| <a id="frd-dec-031"></a>FRD-DEC-031 / Q009-D | “Tingkat lalu waktu tunggu; Belum dinilai terpisah (disarankan)” | Antrean review yang punya tingkat berurutan Tinggi → Sedang → Rendah, lalu tunggu terlama dan pengenal stabil. Belum dinilai mempunyai antrean terpisah menurut tunggu terlama dan pengenal stabil. | CONFIRMED_R1 untuk urutan/tie-break dan pemisahan Belum dinilai; awal waktu tunggu/refresh/cakupan review masih Q009/020. | REVIEW-002/006; RULE-034; TC-REVIEW-002-01/02 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-029"></a>FRD-DEC-029 / Q009-B | Dasar rubrik tingkat tiap bukti pada demo memakai dampak yang ditunjukkan bukti/keterangan. Informasi tidak cukup tetap Belum dinilai. | CONFIRMED_R1 untuk dasar, bukan batas tiap tingkat atau akurasi AI; rubrik rinci Q009 dan PoC Q013. | AI-001/003; MONITOR-003; RULE-032 |
+| <a id="frd-dec-030"></a>FRD-DEC-030 / Q009-C | Bukti yang semula tidak cocok kembali layak dihitung hanya setelah admin menetapkan relevansi, tingkat dan alasan. Membuka laporan/catatan biasa tidak cukup; jejak AI awal tetap dipertahankan sesuai lifecycle. | CONFIRMED_R1 dengan batas tindakan biasa; rubrik tingkat Q009, audit/validasi/konflik Q010/017/020. | AI-002; REVIEW-003; RULE-033; TC-AI-002-01/02 |
+| <a id="frd-dec-031"></a>FRD-DEC-031 / Q009-D | Antrean review yang punya tingkat berurutan Tinggi → Sedang → Rendah, lalu tunggu terlama dan pengenal stabil. Belum dinilai mempunyai antrean terpisah menurut tunggu terlama dan pengenal stabil. | CONFIRMED_R1 untuk urutan/tie-break dan pemisahan Belum dinilai; awal waktu tunggu/refresh/cakupan review masih Q009/020. | REVIEW-002/006; RULE-034; TC-REVIEW-002-01/02 |
 
 ### FRD-CHG-007 — Dasar penilaian/review pada v0.1.2
 
@@ -563,30 +563,30 @@ Memperbarui FR-AI-002, FR-REVIEW-002/003 dan FR-MONITOR-003, RULE-032–034, tra
 
 ## 24. Rubrik demo — kelanjutan sesi 4, 18 Oktober 2026
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-032"></a>FRD-DEC-032 / Q009-E | “Gunakan rubrik tersebut untuk demo (disarankan)” | Rubrik dampak demo: Rendah untuk genangan lokal dengan informasi cukup; Sedang untuk air masuk bangunan/akses terganggu; Tinggi untuk orang terjebak/perlu pertolongan atau evakuasi yang didukung bukti. Informasi kurang tetap Belum dinilai; pilih tingkat tertinggi yang didukung jika beberapa indikator ada. | CONFIRMED_R1 pada pertanyaan async sesi kelanjutan; batas informasi dan bukan status resmi tercakup. Q009 belum tertutup; mutu AI/PoC Q013/019 tetap NOT_RUN. | AI-001/002/003; REVIEW-003; MONITOR-003; RULE-035; §30.15; TC-AI-001-01 dan TC-MONITOR-003-01/02 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-032"></a>FRD-DEC-032 / Q009-E | Rubrik dampak demo: Rendah untuk genangan lokal dengan informasi cukup; Sedang untuk air masuk bangunan/akses terganggu; Tinggi untuk orang terjebak/perlu pertolongan atau evakuasi yang didukung bukti. Informasi kurang tetap Belum dinilai; pilih tingkat tertinggi yang didukung jika beberapa indikator ada. | CONFIRMED_R1 pada kelanjutan kajian FRD; batas informasi dan bukan status resmi tercakup. Q009 belum tertutup; mutu AI/PoC Q013/019 tetap NOT_RUN. | AI-001/002/003; REVIEW-003; MONITOR-003; RULE-035; §30.15; TC-AI-001-01 dan TC-MONITOR-003-01/02 |
 
 ### FRD-CHG-008 — Melanjutkan FRD menjadi v0.1.3
 
 - **Sumber arahan:** pengguna meminta melanjutkan pekerjaan dari ekspor sesi 4 (arsip lokal). Arahan melanjutkan bukan approval kebijakan; Q009-E mempunyai jawaban terpisah di [register](TRACEABILITY.md#frd-rubric-question).
 - **Perubahan:** rubrik yang sebelumnya usulan menjadi keputusan demo; persyaratan, aturan, AC, RTM dan backlog diselaraskan. Usulan cakupan review/waktu tunggu tersedia pada §30.16 dan tetap PROPOSED sampai dijawab.
 - **Perbaikan bukti:** audit v0.1.2 yang masih berisi placeholder dilengkapi berdasarkan hasil PASS aktual; penyampaian Q009-E diperbaiki karena respons penutup tidak ditemukan dalam ekspor.
-- **Dampak:** 29 jawaban literal = 28 keputusan produk + 1 bukti perangkat belum tersedia; 68 FR/136 AC/156 TC tetap. Q008 FUNCTION_CONFIRMED, Q009 dan delapan agenda lain PARTIALLY_CONFIRMED. BRD/PRD approved tetap; FRD DRAFT; uji produk NOT_RUN.
+- **Dampak:** 29 catatan keputusan = 28 keputusan produk + 1 bukti perangkat belum tersedia; 68 FR/136 AC/156 TC tetap. Q008 FUNCTION_CONFIRMED, Q009 dan delapan agenda lain PARTIALLY_CONFIRMED. BRD/PRD approved tetap; FRD DRAFT; uji produk NOT_RUN.
 
 <a id="frd-round-7"></a>
 
 ## 25. Cakupan review, waktu tunggu, pembaruan dan catatan — 18 Oktober 2026
 
-Lima jawaban berikut dikirim pada dua gelombang async setelah §30.16 dan §30.17 tersedia sebagai usulan. Contoh batas yang disajikan termasuk cakupan versi, antrean yang masih terbuka, koneksi gagal, perpindahan kelompok dan koreksi catatan.
+Lima keputusan berikut dikonfirmasi dalam dua tahap setelah §30.16 dan §30.17 tersedia sebagai usulan. Contoh batas yang disajikan termasuk cakupan versi, antrean yang masih terbuka, koneksi gagal, perpindahan kelompok dan koreksi catatan.
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-033"></a>FRD-DEC-033 / Q009-F | “Review per laporan/versi seperti usulan (disarankan)” | Review eksplisit per laporan dan versi bukti/hasil yang dilihat. Kelompok Ditinjau hanya jika semua bukti terkini tercakup; membuka halaman atau menulis catatan tidak cukup. Ditinjau tidak otomatis berarti relevan/layak dihitung. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-003/006/009; AI-002; penanda Pantau; RULE-036; TC-REVIEW-006-01/02; TC-X-005 |
-| <a id="frd-dec-034"></a>FRD-DEC-034 / Q009-G | “Gunakan kebutuhan review tertua yang masih terbuka (disarankan)” | Awal tunggu adalah kebutuhan review tertua yang masih terbuka: penerimaan server untuk laporan baru, waktu perubahan tersimpan untuk hasil yang berubah sesudah review. Tambahan bukti tidak mereset kebutuhan lama; selesai/hapus kebutuhan tertua memilih kebutuhan tersisa. Semua selesai keluar antrean; bukti baru mulai siklus baru. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-002/006; RULE-037; TC-REVIEW-002-01/02 |
-| <a id="frd-dec-035"></a>FRD-DEC-035 / Q009-H | “Gunakan pola tersebut dengan interval 30 detik (disarankan)” | Pantau/antrean review diperbarui saat dibuka/kembali aktif, muat ulang manual, setelah aksi admin berhasil, dan tiap 30 detik selama terlihat serta online. Gagal mempertahankan data terakhir beserta waktu dan penanda gagal/offline. Form yang diketik tidak ditimpa; perubahan sumber diberitahukan dan konflik diperiksa saat simpan. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-002/009; MONITOR-001/002; RULE-038; TC-MONITOR-002-01/02 |
-| <a id="frd-dec-036"></a>FRD-DEC-036 / Q009-I | “Catatan per laporan dengan akses tersebut (disarankan)” | Catatan melekat pada satu laporan dan hanya terbaca kedua admin serta pemiliknya. Pindah kelompok mempertahankan catatan pada laporan; anggota kelompok lama/baru dan pelapor baru tidak memperoleh akses catatan itu. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-005; RBAC; RULE-039; TC-REVIEW-005-01/02 |
-| <a id="frd-dec-037"></a>FRD-DEC-037 / Q009-J | “Tambah catatan koreksi; pertahankan riwayat (disarankan)” | Catatan tersimpan tidak diedit/dihapus satu per satu; koreksi berupa catatan baru yang merujuk catatan lama. Pelapor/admin melihat urutan dan waktu koreksi. Hapus laporan tetap menghilangkan akses isi catatan terkait; retensi/audit dibahas Q010/015. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-005/009; CONTROL-004; RULE-040; TC-REVIEW-005-01/02 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-033"></a>FRD-DEC-033 / Q009-F | Review eksplisit per laporan dan versi bukti/hasil yang dilihat. Kelompok Ditinjau hanya jika semua bukti terkini tercakup; membuka halaman atau menulis catatan tidak cukup. Ditinjau tidak otomatis berarti relevan/layak dihitung. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-003/006/009; AI-002; penanda Pantau; RULE-036; TC-REVIEW-006-01/02; TC-X-005 |
+| <a id="frd-dec-034"></a>FRD-DEC-034 / Q009-G | Awal tunggu adalah kebutuhan review tertua yang masih terbuka: penerimaan server untuk laporan baru, waktu perubahan tersimpan untuk hasil yang berubah sesudah review. Tambahan bukti tidak mereset kebutuhan lama; selesai/hapus kebutuhan tertua memilih kebutuhan tersisa. Semua selesai keluar antrean; bukti baru mulai siklus baru. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-002/006; RULE-037; TC-REVIEW-002-01/02 |
+| <a id="frd-dec-035"></a>FRD-DEC-035 / Q009-H | Pantau/antrean review diperbarui saat dibuka/kembali aktif, muat ulang manual, setelah aksi admin berhasil, dan tiap 30 detik selama terlihat serta online. Gagal mempertahankan data terakhir beserta waktu dan penanda gagal/offline. Form yang diketik tidak ditimpa; perubahan sumber diberitahukan dan konflik diperiksa saat simpan. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-002/009; MONITOR-001/002; RULE-038; TC-MONITOR-002-01/02 |
+| <a id="frd-dec-036"></a>FRD-DEC-036 / Q009-I | Catatan melekat pada satu laporan dan hanya terbaca kedua admin serta pemiliknya. Pindah kelompok mempertahankan catatan pada laporan; anggota kelompok lama/baru dan pelapor baru tidak memperoleh akses catatan itu. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-005; RBAC; RULE-039; TC-REVIEW-005-01/02 |
+| <a id="frd-dec-037"></a>FRD-DEC-037 / Q009-J | Catatan tersimpan tidak diedit/dihapus satu per satu; koreksi berupa catatan baru yang merujuk catatan lama. Pelapor/admin melihat urutan dan waktu koreksi. Hapus laporan tetap menghilangkan akses isi catatan terkait; retensi/audit dibahas Q010/015. | CONFIRMED_R1; pertanyaan/kasus batas pada register. Lifecycle Q010/015, validasi Q017, konflik Q020 dan bukti kualitas Q013/019 terpisah. | REVIEW-005/009; CONTROL-004; RULE-040; TC-REVIEW-005-01/02 |
 
 ### FRD-CHG-009 — Kontrak fungsi Q009 dikonfirmasi
 
@@ -596,12 +596,12 @@ Q009-A–J mempunyai jawaban eksplisit; fungsi tingkat/review/refresh/catatan ki
 
 ## 26. Penghapusan, pembersihan sebagian dan audit — 18 Oktober 2026
 
-| Keputusan / agenda | Jawaban literal | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
-|---|---|---|---|---|
-| <a id="frd-dec-038"></a>FRD-DEC-038 / Q010-B | “Konfirmasi dampak dan alasan wajib (disarankan)” | Konfirmasi sebelum hapus menjelaskan hilangnya akses isi/media/analisis/catatan, hitung ulang agregat, penanda/waktu hapus, tanpa refund kuota dan tanpa pemulihan aplikasi. Alasan singkat wajib tanpa menyalin isi/data pribadi; batal tidak mengubah data. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004; RULE-041; TC-CONTROL-004-01/02 |
-| <a id="frd-dec-039"></a>FRD-DEC-039 / Q010-C | “Tetap cabut akses; retry pembersihan sampai tuntas (disarankan)” | Setelah penghapusan sah tercatat, akses laporan/turunan tetap dicabut dan sumber tidak dihitung meski pembersihan fisik gagal sebagian. Pemilik melihat penanda; admin melihat Pembersihan tertunda/gagal dan dapat retry pekerjaan sama. Selesai penuh hanya setelah pembersihan aktif tuntas; hasil AI terlambat tidak memulihkan sumber. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004/005; state penghapusan/pembersihan; RULE-042; TC-CONTROL-004-01; TC-CONTROL-005-01/02; TC-X-004 |
-| <a id="frd-dec-040"></a>FRD-DEC-040 / Q010-D | “Audit untuk kedua admin; pemilik hanya penanda/waktu (disarankan)” | Audit penghapusan hanya untuk kedua admin. Field: pengenal tindakan/laporan/admin, waktu, alasan tindakan dan hasil/status pembersihan. Tidak menyalin media, deskripsi, analisis, isi catatan/dokumen, token atau koordinat presisi. Pemilik hanya penanda/waktu; retensi belum dipilih. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004; data/izin audit; RULE-043; TC-CONTROL-004-02 |
-| <a id="frd-dec-041"></a>FRD-DEC-041 / Q010-E | “Penanda 30 hari; audit 90 hari (disarankan)” | Penanda riwayat terlihat 30 hari sejak penghapusan sah tercatat; audit penghapusan disimpan 90 hari sejak tindakan dicatat. Tepat tenggat entri tidak ditampilkan lagi. Kedaluwarsa tidak menghentikan pembersihan atau mereset kuota/pencegahan resurrection. Cadangan/provider tidak tercakup. | CONFIRMED_R1 dengan batas tepat tenggat/pembersihan/kuota; cadangan/cache/provider dan lifecycle data kendali masih terbuka. | REPORT-011; CONTROL-004; RULE-044; TC-REPORT-011-01; TC-CONTROL-004-02 |
+| Keputusan / agenda | Interpretasi berlaku | Bukti konfirmasi / batas | Dampak |
+|---|---|---|---|
+| <a id="frd-dec-038"></a>FRD-DEC-038 / Q010-B | Konfirmasi sebelum hapus menjelaskan hilangnya akses isi/media/analisis/catatan, hitung ulang agregat, penanda/waktu hapus, tanpa refund kuota dan tanpa pemulihan aplikasi. Alasan singkat wajib tanpa menyalin isi/data pribadi; batal tidak mengubah data. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004; RULE-041; TC-CONTROL-004-01/02 |
+| <a id="frd-dec-039"></a>FRD-DEC-039 / Q010-C | Setelah penghapusan sah tercatat, akses laporan/turunan tetap dicabut dan sumber tidak dihitung meski pembersihan fisik gagal sebagian. Pemilik melihat penanda; admin melihat Pembersihan tertunda/gagal dan dapat retry pekerjaan sama. Selesai penuh hanya setelah pembersihan aktif tuntas; hasil AI terlambat tidak memulihkan sumber. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004/005; state penghapusan/pembersihan; RULE-042; TC-CONTROL-004-01; TC-CONTROL-005-01/02; TC-X-004 |
+| <a id="frd-dec-040"></a>FRD-DEC-040 / Q010-D | Audit penghapusan hanya untuk kedua admin. Field: pengenal tindakan/laporan/admin, waktu, alasan tindakan dan hasil/status pembersihan. Tidak menyalin media, deskripsi, analisis, isi catatan/dokumen, token atau koordinat presisi. Pemilik hanya penanda/waktu; retensi belum dipilih. | CONFIRMED_R1 dengan skenario batas yang disajikan; retensi/cadangan/cache Q010/015, validasi Q017 dan konflik Q020 tetap terbuka. | CONTROL-004; data/izin audit; RULE-043; TC-CONTROL-004-02 |
+| <a id="frd-dec-041"></a>FRD-DEC-041 / Q010-E | Penanda riwayat terlihat 30 hari sejak penghapusan sah tercatat; audit penghapusan disimpan 90 hari sejak tindakan dicatat. Tepat tenggat entri tidak ditampilkan lagi. Kedaluwarsa tidak menghentikan pembersihan atau mereset kuota/pencegahan resurrection. Cadangan/provider tidak tercakup. | CONFIRMED_R1 dengan batas tepat tenggat/pembersihan/kuota; cadangan/cache/provider dan lifecycle data kendali masih terbuka. | REPORT-011; CONTROL-004; RULE-044; TC-REPORT-011-01; TC-CONTROL-004-02 |
 
 ### FRD-CHG-010 — Memisahkan pencabutan akses dan penyelesaian pembersihan
 
@@ -615,9 +615,9 @@ DEC-041 memilih penanda 30 hari dan audit penghapusan 90 hari, dengan tenggat se
 
 ## 27. Mandat finalisasi dan approval FRD — 18 Oktober 2026
 
-**FRD-DLG-001 — instruksi kolektif literal pemilik:**
+**FRD-DLG-001 — otorisasi finalisasi dari pemilik:**
 
-> hellnah masalah setup server serveran ngapain woy kagak sampe situ, jadi yang standar standar aja. sekarang lanjutkan frd sampe benar beanr fix dan approved, saya selalu setuju, selesaikan frd fix kan semuanya biar kita bisa lanjut ke tahap berikutnya
+**Ringkasan mandat:** Pemilik mendelegasikan pemilihan standar demo dan finalisasi FRD sebagai baseline approved. Pembahasan operasional server berada di luar cakupan; pekerjaan dilanjutkan ke tahap spesifikasi berikutnya.
 
 Makna yang diterapkan: pemilik meminta asisten menyelesaikan seluruh rincian FRD dengan pilihan standar demo dan mencatat status approved, tanpa putaran pertanyaan lanjutan. Pembahasan setup/backup server dikeluarkan dari syarat FRD. Ini mandat eksplisit terbaru yang menggantikan proses menunggu jawaban per rincian; tidak mengubah keputusan terdahulu atau menambah klaim pengujian.
 
@@ -644,15 +644,15 @@ Baseline [FRD v1.0.0](FRD.md) ditutup di bawah mandat di atas. Pilihan di bawah 
 
 ### FRD-CHG-012 — Menutup fungsi dan menyerahkan baseline ke SRS
 
-Rincian validasi, akun/pemulihan, penerimaan/kuota, cache/dokumen, AI/consent, keluarga/tas, konten/TTS/daftar, inbox, konflik dan lifecycle ditetapkan dalam 12 paket standar. Q010-F ditarik tanpa memilih 7/30 hari. Status agenda: 15 FUNCTION_BASELINED, 4 EVIDENCE_SCHEDULED, 1 ALLOCATED_SRS. 68 FR/136 AC/156 TC dan 38 jawaban literal historis tetap; satu mandat kolektif baru dicatat terpisah. BRD/PRD serta empat ekspor sumber tidak diubah. Audit dokumen ditelusuri pada [audit final](TRACEABILITY.md#frd-audit-v100).
+Rincian validasi, akun/pemulihan, penerimaan/kuota, cache/dokumen, AI/consent, keluarga/tas, konten/TTS/daftar, inbox, konflik dan lifecycle ditetapkan dalam 12 paket standar. Q010-F ditarik tanpa memilih 7/30 hari. Status agenda: 15 FUNCTION_BASELINED, 4 EVIDENCE_SCHEDULED, 1 ALLOCATED_SRS. 68 FR/136 AC/156 TC dan 38 catatan keputusan historis tetap; satu mandat kolektif baru dicatat terpisah. BRD/PRD serta empat ekspor sumber tidak diubah. Audit dokumen ditelusuri pada [audit final](TRACEABILITY.md#frd-audit-v100).
 
 <a id="srs-dlg-001"></a>
 
 ## 28. Pelaksanaan dan finalisasi SRS — 18 Oktober 2026
 
-**Instruksi terbaru literal pemilik setelah rencana SRS disajikan:**
+**Otorisasi pemilik setelah penyajian rencana SRS:**
 
-> OKE LANGSUNG LANJUTKAN FUX KAN MAKSIMALKAN
+**Ringkasan mandat:** Pemilik menyetujui pelaksanaan rencana SRS, termasuk penyelesaian rincian teknis dan pemeriksaan konsistensinya.
 
 **SRS-DLG-001:** instruksi ini mengaktifkan rencana SRS yang telah disajikan, bersama mandat sebelumnya memakai pilihan standar demo tanpa mengulang pertanyaan rincian. Keputusan teknis berikut dipilih asisten dalam cakupan tersebut. Bukan jawaban individual pengguna, bukan izin setup server/deployment, dan bukan bukti pengujian produk.
 
@@ -682,9 +682,9 @@ SRS, kontrak OpenAPI, contoh schema dan RTM disusun; keputusan BRD/PRD/FRD tidak
 
 ## 29. Koreksi cakupan setup workspace — 18 Oktober 2026
 
-**WORKSPACE-SCOPE-001 — instruksi literal pemilik:**
+**WORKSPACE-SCOPE-001 — otorisasi pemilik:**
 
-> MAKSUD SAYA GINI LOH SETUP OWRKSSPACE TU YA SETUP KAYAK AGENTS SKILL README RULES DAN SKILL NYA , BUKAN MALAH SETUP PROJECT, DAN JUGA SAYA SUDAH BILANG BUAT 1 FOLDER YANG BERISI TEMPAT KAMI NGANUIN PROJECT, server dan app nya (flutter), flutter dan backend nya itu sendiri kami yang setup. dan juga kenapa nih malah ada cache lah reports lah tools lah segala macem gilak yang bener aja dong, anda tau ga sih setup agents rules skill dan segala macem nya gimana, anda searching dan sesuaikan juga dong implementasikan ke project kita .
+**Ringkasan mandat:** Setup dibatasi pada AGENTS, rules, skills, README, dan struktur workspace. Tim menginisialisasi backend dan Flutter sendiri; scaffold aplikasi, cache, laporan otomatis, dan utilitas yang tidak diperlukan dikeluarkan dari cakupan.
 
 Status: **CURRENT_USER_CONFIRMED untuk cakupan**, bukan sign-off baru atas hasil
 penataan. Workspace mencakup AGENTS, README, rules, skills serta satu wadah
@@ -707,9 +707,9 @@ skills. Dasar resmi, hasil pemeriksaan dan lokasi akhir ada pada
 
 ## 30. Apps, mutu UI, portabilitas dan pembaruan informasi — 18 Oktober 2026
 
-**WORKSPACE-QUALITY-002 — instruksi literal pemilik:**
+**WORKSPACE-QUALITY-002 — otorisasi pemilik:**
 
-> OKE MAKSIMALKAN DAN FIX KAN LAGI DAN BACA2 RISET LAGI TERBARU JUGA SUPAYA NANTI TIDAK AI SLOP CLEAN SEGALA HARUS PAKAI ICON SETANDAR DAN SEBAGAINYA DEH, DAN JUGA GANTI NAMA FOLDER NYA JANGAN PROJECT NAMANYA APPS YAH, JANGAN LUPA INI SETUP HARUS MULTIPLATFORM OS DAN IDE AGAR BERSIH DAN BAGUS. DAN JUGA PASTIKAN SELALU AGAR KETIKA ADA PERUBAHAN , DOKUMENTASI DAN AGENTS SKILL RULES DAN SEMUANYA DEH TERKAIT PROJECT INI DIUPDATE INFORMASINYA.
+**Ringkasan mandat:** Pemilik menetapkan folder apps, panduan UI dengan ikon standar, dukungan workspace lintas OS/IDE, serta kewajiban memperbarui seluruh informasi proyek yang terdampak.
 
 Status: **CURRENT_USER_CONFIRMED untuk arah pekerjaan**, bukan sign-off hasil
 atau klaim runtime lintas OS/IDE telah diuji. Menggantikan nama wadah pada §29;
@@ -735,9 +735,9 @@ Riset/bukti: [WORKSPACE](WORKSPACE.md), [DESIGN](DESIGN.md),
 
 ## 31. Audit dan riset skill sesuai proyek — 19 Oktober 2026
 
-**WORKSPACE-SKILLS-003 — instruksi literal pemilik:**
+**WORKSPACE-SKILLS-003 — otorisasi pemilik:**
 
-> OKE MAKSIMALKAN SEMUANYA SETUP NYA SKILL DAN RULES AI ASISTENTS AGENTS DAN SEGALANYA PERIKSA KEMBALI DNA FIX KAN SAMPE BENAR BENAR SSEUSAI STANDAR JANGAN LUPA MENAMBAHKAN DAN BROWSING RISET2 SKILL YANG OKE DAN COCOK DAN MANTAP, SAYA JUGA ADA SIH SKILL, ANDA KALAU MAU BACA BACA SEBAGAI REFERENSI NANTI ANDA MEMBUAT SKILL JUGA BOLEH. PASTIKAN BENAR BENAR RISET C:\Users\Pongo\Desktop\Belajar\SKILLS
+**Ringkasan mandat:** Pemilik mengotorisasi audit panduan agent dan seleksi referensi skill yang relevan. Koleksi SKILLS lokal digunakan sebagai bahan kajian, tanpa kewajiban mengimpor paketnya.
 
 Status: **CURRENT_USER_CONFIRMED untuk mandat audit/penyempurnaan**.
 Pilihan implementasi panduan di bawah dibuat dalam mandat itu, bukan sign-off
@@ -762,9 +762,9 @@ tersedia. Uji aplikasi/provider/perangkat dan evaluasi agent terpisah tetap NOT_
 
 ## 32. Seleksi pola dari setup-softwarebk — 19 Oktober 2026
 
-**WORKSPACE-REFERENCE-004 — instruksi literal pemilik:**
+**WORKSPACE-REFERENCE-004 — otorisasi pemilik:**
 
-> OKE GOOD, SAYA JUGA AKAN BERIKAN JUGA REFERENSI LAINNYA UNTUK ANDA ANALISIS SIAPA TAU ADA YANG ANDA TIDAK ADA TAPI DI PROJECT ORANG ADA, JADI ANDA BISA MENAMBAHKANNYA DI PROJECT KITA PENERAPANNYA KAYAK MISALNYA OH DI PROEJCCT ITU MEREKA ADA MENULISKAN INI BISA NIH KITA TERAPIN JUGA DI PROJECT KITA NAMUN VERSI KITA KITA MODIF , NAMUN ANDA TETAP HARUS MEMILAH MANA YANG PENTING MANA YANG ENGGAK NYA YA! C:\Users\Pongo\Desktop\Belajar\Project Industri\setup-softwarebk.
+**Ringkasan mandat:** Referensi setup-softwarebk dikaji secara selektif untuk melengkapi panduan SiagaBanjir. Hanya pola yang sesuai kebutuhan dan batas proyek yang diadaptasi.
 
 Status: **CURRENT_USER_CONFIRMED untuk analisis/adaptasi selektif**.
 Ini melanjutkan mandat workspace; tidak memindahkan aturan approval, stack,
@@ -793,9 +793,9 @@ pengujian aplikasi, provider/perangkat serta pemuatan IDE aktual tetap NOT_RUN.
 
 ## 33. Bacaan penuh, living documents dan persiapan GitHub — 19 Oktober 2026
 
-**WORKSPACE-PUBLISH-005 — instruksi literal pemilik:**
+**WORKSPACE-PUBLISH-005 — otorisasi pemilik:**
 
-> oke pastikan sekali lagi bahwa flow ai selalu wajib membaca kesluruhan terlebih dahulu tanpa terkecuali ya, dan update otomatis jika ada perubahan . dan jangan lupa kan anda lihat kan di agents atau apa mereka selalu menuliskan livin documents apa lah itu didalam md nya coba anda cek2 kembali keseluruhannya, fix kan kali ini , oh ya jangan lupa membuat dokumentasi gimana cara pr dan push nya juga. dan juga cek2 kembali yang bisa dihapus karena tidak ada sangkut paut dengan project kayak misal archive apakah bisa dihapus atau mungkin contract atau apa gitu, dan riset2 kembali lagi cek2 kembali lagi up todate repo2 atau ai sekarang skill2 nya. fix kan, sebelum saya push ke github. setelah benar benar fix baru anda buatkan untuk saya notes berisi nama project giithub nya dan deskripsnya untuk keperluan saya push
+**Ringkasan mandat:** Pemilik mewajibkan bacaan lengkap sebelum pekerjaan, pemeliharaan living documents, pemeriksaan artefak, serta panduan commit/push/PR. Mandat pada tahap ini mencakup persiapan publikasi; otorisasi push dicatat terpisah.
 
 Status: **CURRENT_USER_CONFIRMED untuk mandat perapian/persiapan**.
 Tidak memberi mandat asisten membuat remote, commit/push atau merge;
@@ -823,13 +823,13 @@ Detail: [workflow](../rules/workflow.md#baca-lengkap),
 
 <a id="workspace-audit-push-006"></a>
 
-## 34. Audit final setup dan mandat push ? 19 Oktober 2026
+## 34. Audit final setup dan mandat push — 19 Oktober 2026
 
-**WORKSPACE-AUDIT-PUSH-006 ? CURRENT_USER_CONFIRMED.** Pemilik meminta
+**WORKSPACE-AUDIT-PUSH-006 — CURRENT_USER_CONFIRMED.** Pemilik meminta
 pemeriksaan seluruh setup, perbaikan sampai layak, lalu push menggunakan Git
 Bash ke `https://github.com/muhammadrafifatihulihsan/siagabanjir.git`.
-Rencana audit/perbaikan/publikasi diterima melalui pesan literal
-?Implement the plan.? Mandat ini mencakup commit, penambahan remote tujuan,
+Rencana audit, perbaikan, dan publikasi disetujui pemilik proyek.
+Mandat ini mencakup commit, penambahan remote tujuan,
 push main dan perbaikan CI terkait; tidak mencakup tag, release, deploy,
 perubahan visibilitas, identitas Git atau konfigurasi global.
 
@@ -851,3 +851,27 @@ Hasil perbaikan: [audit final](WORKSPACE.md#audit-final),
 [RTM](TRACEABILITY.md#workspace-audit-push-traceability), dan
 [handoff](SESSION-HANDOFF.md). BRD/PRD/FRD/SRS tetap approved; audit ini tidak
 membuat approval produk baru ataupun bukti aplikasi lulus.
+
+<a id="workspace-editorial-release-007"></a>
+
+## 35. Standardisasi dokumentasi dan rilis baseline — 19 Oktober 2026
+
+**WORKSPACE-EDITORIAL-RELEASE-007 — CURRENT_USER_CONFIRMED.**
+Pemilik mengotorisasi perapian seluruh dokumentasi, evaluasi kebutuhan konfigurasi,
+pemeriksaan rules/skills, perbaikan, dan publikasi melalui Git Bash. Rilis pertama
+ditetapkan sebagai v0.1.0 untuk baseline dokumentasi dan workspace.
+
+| ID | Keputusan dan batas |
+|---|---|
+| WS-DEC-032 | Catatan percakapan diparafrasakan menjadi keputusan formal. ID, tanggal, otoritas, urutan dan cakupan persetujuan dipertahankan; penyuntingan tidak menambah persetujuan produk. Aturan ini menggantikan kewajiban menyimpan kutipan langsung pada dokumen aktif. |
+| WS-DEC-033 | Informasi identitas repository digabung ke README/panduan GitHub. Rencana penyusunan SRS telah selesai melalui SRS-APPROVAL-01; berkas rencana terpisah dihapus. Riwayat isi tersedia melalui Git. |
+| WS-DEC-034 | Delapan skill dan tujuh rules tetap digunakan. Aturan bersama dipusatkan, bacaan lengkap dan pembaruan living documents tetap wajib, tanpa instalasi bundel atau perubahan izin. |
+| WS-DEC-035 | Redocly dipertahankan untuk validasi kontrak. Skema downloadMediaResponse yang tidak dirujuk dihapus dan pemeriksaan komponen tidak terpakai diaktifkan sebagai error. Unduh media tetap mengirim bytes; 72 operasi dan perilaku wire tidak berubah. |
+| WS-DEC-036 | Workflow CI/rilis memakai action berbasis Node 24. Catatan rilis diambil dari entri CHANGELOG yang sesuai tag dan harus terisi sebelum publikasi. Versi alat validasi tetap dikunci. |
+| WS-DEC-037 | Commit/push main diikuti pemeriksaan CI pada SHA yang sama; tag v0.1.0 dibuat setelah CI berhasil. Rilis memuat baseline dokumentasi tanpa APK, deploy, atau klaim aplikasi telah diuji. |
+
+Perubahan LICENSE milik pemilik dipertahankan. Versi BRD/PRD v0.1.0 dan
+FRD/SRS v1.0.0 tetap. Cakupan, keputusan produk, AC/TC, dan status NOT_RUN
+implementasi tidak berubah. [Bukti pemeriksaan](WORKSPACE.md#audit-final) dan
+[keterlacakan perubahan](TRACEABILITY.md#workspace-editorial-release-traceability)
+memisahkan hasil validasi workspace dari pengujian produk.

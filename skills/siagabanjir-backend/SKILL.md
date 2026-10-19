@@ -7,8 +7,7 @@ description: Mengubah API, transaksi, worker AI dan lifecycle data pada backend 
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 ## Pemeriksaan awal
 
@@ -54,8 +53,3 @@ belum diuji. Mock worker atau schema valid tidak membuktikan layanan provider,
 DB aktual, pemrosesan media, atau mutu klasifikasi.
 Jika dependensi tidak tersedia, lanjutkan review bagian mandiri; jangan
 memasang SDK atau menyiapkan layanan sebagai perluasan tugas otomatis.
-
-## Penutupan
-
-Terapkan [matriks dokumentasi](../../rules/documentation.md), perbarui sumber
-terdampak dan laporkan pemeriksaan aktual beserta keterbatasannya.

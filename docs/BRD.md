@@ -11,11 +11,11 @@
 | Status | **APPROVED — baseline tahap 1, versi 0.1.0** |
 | Tahap | **1 — BRD selesai**; PRD v0.1.0 dan FRD/SRS v1.0.0 APPROVED; pekerjaan aktif audit/publikasi workspace |
 | Pemilik dan pengambil keputusan | Pemilik proyek dalam percakapan; nama formal belum diberikan |
-| Dasar penyusunan | Prompt BRD nomor 1, audit paket pra-coding/desain, jawaban Q-001–Q-028, rencana tahap 1, dan instruksi `Implement the plan.` |
-| Otorisasi yang tersedia | BRD diterima dan tahap 2 diizinkan melalui pesan: “OKE SUDAH GOOD BRD NYA, SEKARANG LANJUT KE STEP LANGKAH SELANJUTNYA.” |
+| Dasar penyusunan | Pedoman BRD tahap 1, audit paket pra-coding/desain, jawaban Q-001–Q-028, dan otorisasi penyusunan USER-IMPLEMENT |
+| Otorisasi yang tersedia | BRD v0.1.0 disetujui pemilik proyek melalui BRD-APPROVAL; penyusunan PRD diotorisasi |
 | Batas persetujuan | Persetujuan BRD bukan hasil uji aplikasi atau persetujuan final PRD; tahap 3–5 tetap mengikuti urutan dan konfirmasi. |
 
-Instruksi awal menjalankan rencana hanya mengizinkan draf; persetujuan final BRD datang kemudian melalui pesan eksplisit di atas. Q-029–Q-031 ditutup oleh persetujuan kolektif dokumen tersebut, tanpa merekayasa jawaban pilihan per pertanyaan. Sumber lama yang menulis `CONFIRMED` tetap dibedakan dari persetujuan percakapan ini.
+Otorisasi penyusunan draf dan persetujuan final BRD dicatat sebagai dua keputusan terpisah. Q-029–Q-031 ditutup oleh persetujuan kolektif dokumen tersebut, tanpa merekayasa jawaban pilihan per pertanyaan. Sumber lama yang menulis `CONFIRMED` tetap dibedakan dari persetujuan final BRD.
 
 **Cara membaca baseline:** bagian kebutuhan berikut mempertahankan hasil tahap 1. Penajaman dan perubahan yang disetujui selama discovery tahap 2 tercatat pada [PRD.md](PRD.md), TRACEABILITY, dan DECISIONS. Contohnya gerbang KTP, profil/pengisian otomatis keluarga, kontak pribadi lokal, dan paket delapan dokumen spesimen. Rincian yang tertulis terbuka pada baseline ini tidak otomatis masih terbuka setelah keputusan PRD; gunakan register tahap 2 untuk status terbaru. Persetujuan kebutuhan tidak menyatakan bahwa implementasi atau uji aplikasi sudah tersedia.
 
@@ -237,7 +237,7 @@ Batas performa, ukuran/resolusi media, target perangkat, lisensi aset, dan dukun
 | Belum tersedia | Rubrik tertulis, seluruh perangkat tim, dataset media berizin, hasil UAT, dan konfigurasi hosting. | Catat kebutuhan bukti; jangan mengarang atau menganggap sudah diperiksa. |
 | Dependensi masa depan | Akses model, dukungan codec perangkat, runtime/driver, jaringan demo. | Buktikan melalui PoC dan pengujian tahap teknis. |
 
-Instruksi awal `Implement the plan.` mengizinkan penyiapan artefak ini. Sign-off BRD diberikan terpisah melalui pesan pengguna yang tercatat di §1 dan §19. Rincian yang belum dijawab tetap perlu diselesaikan pada tahap yang dialokasikan.
+Otorisasi USER-IMPLEMENT mencakup penyusunan draf. Persetujuan final BRD diberikan terpisah melalui BRD-APPROVAL, sebagaimana dicatat pada §1 dan §19. Rincian yang belum diputuskan diteruskan ke tahap yang dialokasikan.
 
 ## 15. Risiko, konflik, dan keputusan yang masih terbuka
 

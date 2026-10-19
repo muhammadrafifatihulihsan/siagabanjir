@@ -7,8 +7,7 @@ description: Menata folder, AGENTS, rules, skills dan adapter IDE SiagaBanjir. G
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 ## Acuan dan keluaran
 
@@ -65,8 +64,3 @@ Siapkan sumber yang bisa direview di lokasi yang diizinkan dan rujuk melalui
 AGENTS. Jangan memakai shell/tool lain untuk menembus path yang ditolak.
 Jangan mengklaim penemuan native sudah berhasil; verifikasi berkas dan pemuatan
 runtime adalah dua pemeriksaan berbeda.
-
-## Penutupan
-
-Terapkan [matriks dokumentasi](../../rules/documentation.md), perbarui sumber
-terdampak dan laporkan pemeriksaan aktual beserta keterbatasannya.

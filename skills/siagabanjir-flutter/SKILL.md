@@ -7,8 +7,7 @@ description: Mengubah fitur, state, offline dan isolasi akun pada Flutter Androi
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 ## Pemeriksaan awal
 
@@ -59,8 +58,3 @@ Serahkan perubahan state/alur, pemetaan requirement, pemeriksaan aktual dan
 batas platform yang diuji. Perubahan UI sederhana tidak memerlukan restrukturisasi
 proyek. Jika perintah belum tersedia, jangan mengarang hasil build atau memasang
 toolchain tanpa mandat yang sesuai.
-
-## Penutupan
-
-Terapkan [matriks dokumentasi](../../rules/documentation.md), perbarui sumber
-terdampak dan laporkan pemeriksaan aktual beserta keterbatasannya.

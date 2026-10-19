@@ -7,8 +7,7 @@ description: Mereview perubahan kode, kontrak atau dokumentasi SiagaBanjir denga
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 ## Masukan dan cakupan
 
@@ -56,8 +55,3 @@ dari temuan terbukti. Jika tidak ada temuan, katakan itu dengan cakupan
 pemeriksaan dan risiko yang belum diuji; jangan mengklaim bebas bug.
 Gabungkan gejala dengan akar masalah sama. Pisahkan bukti kode, screenshot dan
 runtime; jangan mengarang lokasi kode atau interaksi dari gambar saja.
-
-## Penutupan
-
-Terapkan [matriks dokumentasi](../../rules/documentation.md), perbarui sumber
-terdampak dan laporkan pemeriksaan aktual beserta keterbatasannya.

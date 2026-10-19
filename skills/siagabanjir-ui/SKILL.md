@@ -7,8 +7,7 @@ description: Merancang atau menilai layar, ikon Material, teks dan aksesibilitas
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Prasyarat semua tugas: tuntaskan [bacaan lengkap](../../rules/workflow.md#baca-lengkap).
-Rujukan khusus di bawah menentukan fokus kerja, tidak mengurangi cakupan bacaan.
+Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-lengkap).
 
 Baca [DESIGN](../../docs/DESIGN.md), [aturan UI](../../rules/ui.md), serta
 bagian [FRD](../../docs/FRD.md) dan [domain](../../rules/domain.md) yang relevan.

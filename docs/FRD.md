@@ -52,9 +52,9 @@ Tujuan FRD adalah menguraikan tindakan, kondisi, hasil dan pengecualian untuk 57
 | ID | Sumber | Kedudukan dan batas |
 |---|---|---|
 | FRD-SRC-001 | BRD v0.1.0; PRD v0.1.0; register bersama | Baseline produk dan jejak keputusan; tidak membuktikan aplikasi berjalan |
-| FRD-SRC-002 | `C:\Users\Pongo\Desktop\Belajar\prompting-setup\3.PROMPT_FRD.md` | Struktur 30 bagian, template granular, discovery, audit dan quality gates |
-| FRD-SRC-003 | `C:\Users\Pongo\Desktop\Belajar\prompting-setup\2.PROMPT_PRD.md` | Penutupan PRD; prompt 1, 4, 5 tetap urutan acuan BRD/SRS/setup |
-| FRD-SRC-004 | `C:\Users\Pongo\Desktop\kuliah\Semester 5\Pemrograman Berbasis Platform\Minggu 6\SIAGABANJIR-PAKET-PRA-CODING-v2.0` | Sumber historis: master, `SIAGABANJIR-PRECODING-v2.0`, `design(notfixbutthemewillbelikethis)`; angka/rumus lama bukan keputusan otomatis |
+| FRD-SRC-002 | `3.PROMPT_FRD.md (referensi eksternal historis)` | Struktur 30 bagian, template granular, discovery, audit dan quality gates |
+| FRD-SRC-003 | `2.PROMPT_PRD.md (referensi eksternal historis)` | Penutupan PRD; prompt 1, 4, 5 tetap urutan acuan BRD/SRS/setup |
+| FRD-SRC-004 | `SIAGABANJIR-PAKET-PRA-CODING-v2.0 (paket eksternal historis)` | Sumber historis: master, `SIAGABANJIR-PRECODING-v2.0`, `design(notfixbutthemewillbelikethis)`; angka/rumus lama bukan keputusan otomatis |
 | FRD-SRC-005 | Ekspor bernomor `1.` dan `2.` di root workspace | Riwayat discovery dan pembacaan/audit terdahulu; bagian output yang terpotong tidak diklaim pulih |
 | FRD-SRC-006 | Pesan persetujuan rencana/PRD | Bukti PRD-APPROVAL-01 kini juga termuat pada ekspor sesi 3; bukan approval FRD |
 | FRD-SRC-007 | Ekspor sesi 3 (arsip lokal), terutama pesan User terakhir | Permintaan menggabungkan kedua berkas FRD dan memperbaikinya sebelum tahap berikut; jawaban lanjutan pada sesi aktif direkam terpisah |
@@ -154,7 +154,9 @@ Semua modul wajib dalam demo, bukan prioritas opsional baru. M5 adalah validasi 
 
 ## 11. Kebutuhan fungsional terperinci
 
-Ketentuan bersama untuk setiap record: **versi 1.0.0 / 18 Oktober 2026; status APPROVED; prioritas wajib demo; owner sesuai modul §9; FRD-APPROVAL-01.** Sumber BR/Q/DEC dan PRD ditelusuri melalui RTM. Jawaban literal terdahulu dipertahankan; rincian final STD-001–012 ditetapkan melalui mandat FRD-DLG-001.
+Ketentuan bersama: batas akses mengikuti §16 dan pembagian platform mengikuti §9.
+
+Ketentuan bersama untuk setiap record: **versi 1.0.0 / 18 Oktober 2026; status APPROVED; prioritas wajib demo; owner sesuai modul §9; FRD-APPROVAL-01.** Sumber BR/Q/DEC dan PRD ditelusuri melalui RTM. Ringkasan keputusan terdahulu dipertahankan; rincian final STD-001–012 ditetapkan melalui mandat FRD-DLG-001.
 
 Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. Template tiap record mengandung trigger/precondition, aturan/perilaku, output/postcondition/state, izin, alternatif/error, dependensi, audit/privasi, AC positif/negatif dan TC. ID `AC-<MODULE>-<NNN>-01/02` dan `TC-<MODULE>-<NNN>-01/02` stabil. Seluruh TC **NOT_RUN**. Oracle final mengikuti aturan keputusan dan STD-001–012. Contoh historis tidak mengalahkan konfigurasi final; hasil eksekusi belum tersedia.
 
@@ -165,7 +167,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-001 — menyediakan bacaan umum tanpa registrasi dan meminta login untuk aksi pribadi
 
 - **Sumber / tujuan:** [PRD-F-001](PRD.md#prd-f-001); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu.
 - **Trigger / precondition:** Membuka Pantau, kontak umum atau panduan tanpa sesi.
 - **Input / validasi:** Pilihan halaman umum; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan bacaan umum tanpa registrasi dan meminta login untuk aksi pribadi.
@@ -181,7 +183,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-002 — membuat akun warga dari pendaftaran yang memenuhi aturan, tanpa kewajiban verifikasi email pada demo
 
 - **Sumber / tujuan:** [PRD-F-002](PRD.md#prd-f-002); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Calon warga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Calon warga.
 - **Trigger / precondition:** Mengirim pendaftaran email/sandi.
 - **Input / validasi:** Nama tampilan 2–80 karakter, email sah/unik ≤254, sandi 12–128 tanpa trim; STD-002/003; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS membuat akun warga dari pendaftaran yang memenuhi aturan, tanpa kewajiban verifikasi email pada demo.
@@ -197,7 +199,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-003 — membatasi fitur pribadi kepada sesi sah pemilik
 
 - **Sumber / tujuan:** [PRD-F-003](PRD.md#prd-f-003); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga; hak hanya akun yang diautentikasi; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga; hak hanya akun yang diautentikasi.
 - **Trigger / precondition:** Meminta sesi atau fitur privat.
 - **Input / validasi:** Kredensial dan konteks sesi; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS membatasi fitur pribadi kepada sesi sah pemilik.
@@ -213,7 +215,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-004 — menerapkan perubahan profil hanya pada akun pemilik yang sah
 
 - **Sumber / tujuan:** [PRD-F-004](PRD.md#prd-f-004); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik akun; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik akun.
 - **Trigger / precondition:** Membuka atau menyimpan profil sendiri setelah login.
 - **Input / validasi:** Nama tampilan; perubahan email/sandi wajib sandi saat ini dan mencabut sesi lama, STD-003; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS menerapkan perubahan profil hanya pada akun pemilik yang sah.
@@ -229,7 +231,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-005 — memberikan kode pemulihan kepada pemilik untuk disimpan sendiri
 
 - **Sumber / tujuan:** [PRD-F-005](PRD.md#prd-f-005); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik saat pendaftaran; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik saat pendaftaran.
 - **Trigger / precondition:** Pendaftaran akun berhasil.
 - **Input / validasi:** Identitas akun dan keluaran kode pemulihan privat; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS memberikan kode pemulihan kepada pemilik untuk disimpan sendiri.
@@ -245,7 +247,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-006 — mengizinkan penggantian sandi melalui kode pemulihan sah milik akun
 
 - **Sumber / tujuan:** [PRD-F-005](PRD.md#prd-f-005); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik yang membuktikan kode sah; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik yang membuktikan kode sah.
 - **Trigger / precondition:** Meminta pemulihan sandi.
 - **Input / validasi:** Pengenal akun, kode, sandi baru; kode 32 karakter A–Z/2–7 sekali pakai; 5 kegagalan/15 menit ditahan 15 menit, STD-003; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS mengizinkan penggantian sandi melalui kode pemulihan sah milik akun.
@@ -261,7 +263,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-007 — memberikan hak admin setara kepada dua akun demo yang disiapkan tim
 
 - **Sumber / tujuan:** [PRD-F-006](PRD.md#prd-f-006); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Dua admin disiapkan tim; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Dua admin disiapkan tim.
 - **Trigger / precondition:** Admin login lalu meminta fungsi pengelolaan.
 - **Input / validasi:** Akun admin hasil provisioning tim; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS memberikan hak admin setara kepada dua akun demo yang disiapkan tim.
@@ -277,7 +279,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AUTH-008 — mengakhiri akses sesi setelah logout serta mencegah pembukaan data akun lama oleh sesi lain
 
 - **Sumber / tujuan:** [PRD-F-057](PRD.md#prd-f-057); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik sesi; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik sesi.
 - **Trigger / precondition:** Memilih logout atau kemudian masuk sebagai akun lain.
 - **Input / validasi:** Sesi aktif dan data privat lokal terkait akun; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-003](#frd-std-003), [STD-005](#frd-std-005).
 - **Requirement / alur sukses:** SISTEM HARUS mengakhiri akses sesi setelah logout serta mencegah pembukaan data akun lama oleh sesi lain.
@@ -293,7 +295,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-001 — memvalidasi jumlah dan jenis kombinasi media sesuai batas laporan
 
 - **Sumber / tujuan:** [PRD-F-007](PRD.md#prd-f-007); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik draf.
 - **Trigger / precondition:** Memilih media lalu mencoba kirim.
 - **Input / validasi:** Satu atau dua foto ATAU satu video berdurasi paling lama 5 detik; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memvalidasi jumlah dan jenis kombinasi media sesuai batas laporan.
@@ -309,7 +311,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-002 — memerlukan tiga unsur wajib dan mencatat waktu kirim otomatis terpisah dari waktu kejadian
 
 - **Sumber / tujuan:** [PRD-F-008](PRD.md#prd-f-008); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik draf.
 - **Trigger / precondition:** Menekan Kirim setelah mengisi laporan.
 - **Input / validasi:** Media, deskripsi, titik wajib; waktu kejadian opsional; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memerlukan tiga unsur wajib dan mencatat waktu kirim otomatis terpisah dari waktu kejadian.
@@ -325,7 +327,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-003 — menerima pilihan titik manual termasuk lokasi lain serta membedakannya dari pengisian GPS
 
 - **Sumber / tujuan:** [PRD-F-009](PRD.md#prd-f-009); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik draf.
 - **Trigger / precondition:** Mengisi titik melalui GPS atau pilihan manual.
 - **Input / validasi:** Titik kejadian dan sumber GPS/manual; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menerima pilihan titik manual termasuk lokasi lain serta membedakannya dari pengisian GPS.
@@ -341,7 +343,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-004 — menahan pengiriman saat kondisi terlarang terdeteksi, termasuk untuk titik manual
 
 - **Sumber / tujuan:** [PRD-F-010](PRD.md#prd-f-010); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pada APK demo; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pada APK demo.
 - **Trigger / precondition:** Kirim atau retry dengan mock GPS/mode developer berhasil terdeteksi.
 - **Input / validasi:** Sinyal perangkat, jenis build, sumber titik; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menahan pengiriman saat kondisi terlarang terdeteksi, termasuk untuk titik manual.
@@ -357,7 +359,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-005 — mempertahankan arti unknown dan tidak memblokir kirim semata-mata karena unknown mode developer
 
 - **Sumber / tujuan:** [PRD-F-010](PRD.md#prd-f-010); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga; sistem pemeriksa perangkat; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga; sistem pemeriksa perangkat.
 - **Trigger / precondition:** Status mode developer tidak dapat diperiksa.
 - **Input / validasi:** Sinyal unknown serta kondisi larangan lain; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS mempertahankan arti unknown dan tidak memblokir kirim semata-mata karena unknown mode developer.
@@ -373,7 +375,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-006 — membatasi pengecualian internal hanya pada pemblokiran mode developer
 
 - **Sumber / tujuan:** [PRD-F-010](PRD.md#prd-f-010); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tim pengembang pada build internal; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tim pengembang pada build internal.
 - **Trigger / precondition:** Menjalankan alur kirim untuk pengembangan.
 - **Input / validasi:** Identitas konfigurasi build internal/demo; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS membatasi pengecualian internal hanya pada pemblokiran mode developer.
@@ -389,7 +391,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-KTP-001 — memerlukan KTP akun yang memenuhi syarat sebelum kirim, tanpa unggah ulang KTP per laporan
 
 - **Sumber / tujuan:** [PRD-F-011](PRD.md#prd-f-011); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik.
 - **Trigger / precondition:** Membuat draf atau mencoba pengiriman baru.
 - **Input / validasi:** KTP privat akun dan status kelayakannya; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memerlukan KTP akun yang memenuhi syarat sebelum kirim, tanpa unggah ulang KTP per laporan.
@@ -405,7 +407,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-KTP-002 — memeriksa jenis/keterbacaan KTP dan menyajikan hasil kepada pemilik tanpa klaim verifikasi NIK resmi
 
 - **Sumber / tujuan:** [PRD-F-012](PRD.md#prd-f-012); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem untuk pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem untuk pemilik dokumen.
 - **Trigger / precondition:** Pemilik menyerahkan KTP untuk pemeriksaan khusus.
 - **Input / validasi:** Dokumen KTP privat dan persetujuan tujuan pemeriksaan; minimum jenis dikenali sebagai KTP dan nama pemilik terbaca. NIK tidak wajib terbaca (FRD-DEC-010); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memeriksa jenis/keterbacaan KTP dan menyajikan hasil kepada pemilik tanpa klaim verifikasi NIK resmi.
@@ -421,7 +423,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-KTP-003 — memasukkan konfirmasi pemilik sebagai bagian pemenuhan prasyarat KTP
 
 - **Sumber / tujuan:** [PRD-F-012](PRD.md#prd-f-012); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen.
 - **Trigger / precondition:** Meninjau hasil pemeriksaan KTP lalu mengonfirmasi.
 - **Input / validasi:** Hasil pemeriksaan yang layak dan konfirmasi pemilik; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memasukkan konfirmasi pemilik sebagai bagian pemenuhan prasyarat KTP.
@@ -437,7 +439,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-KTP-004 — menahan pengiriman baru setelah KTP prasyarat dihapus
 
 - **Sumber / tujuan:** [PRD-F-013](PRD.md#prd-f-013); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik KTP; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik KTP.
 - **Trigger / precondition:** Menghapus KTP yang memenuhi syarat.
 - **Input / validasi:** Dokumen prasyarat akun; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menahan pengiriman baru setelah KTP prasyarat dihapus.
@@ -453,7 +455,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-007 — mempertahankan draf beserta media lokal tanpa menyebutnya diterima backend
 
 - **Sumber / tujuan:** [PRD-F-014](PRD.md#prd-f-014); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik draf; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik draf.
 - **Trigger / precondition:** Menyimpan draf saat offline atau syarat kirim belum lengkap.
 - **Input / validasi:** Teks, media lokal, titik dan waktu yang sudah diisi; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS mempertahankan draf beserta media lokal tanpa menyebutnya diterima backend.
@@ -469,7 +471,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-008 — melanjutkan pengiriman yang sebelumnya diminta saat aplikasi aktif dan online
 
 - **Sumber / tujuan:** [PRD-F-015](PRD.md#prd-f-015); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik permintaan kirim; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik permintaan kirim.
 - **Trigger / precondition:** Aplikasi aktif kembali dan online setelah Kirim terputus.
 - **Input / validasi:** Permintaan Kirim tersimpan, akun dan prasyarat saat ini; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS melanjutkan pengiriman yang sebelumnya diminta saat aplikasi aktif dan online.
@@ -485,7 +487,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-009 — menyediakan tindakan kirim ulang manual dengan prasyarat yang tetap berlaku
 
 - **Sumber / tujuan:** [PRD-F-015](PRD.md#prd-f-015); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik permintaan; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik permintaan.
 - **Trigger / precondition:** Memilih Coba lagi setelah pengiriman tertahan/gagal.
 - **Input / validasi:** Permintaan yang sama dan status terakhir; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan tindakan kirim ulang manual dengan prasyarat yang tetap berlaku.
@@ -501,7 +503,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-010 — menghasilkan satu laporan bisnis untuk pengulangan permintaan Kirim yang sama
 
 - **Sumber / tujuan:** [PRD-F-015](PRD.md#prd-f-015); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga dan sistem penerimaan; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga dan sistem penerimaan.
 - **Trigger / precondition:** Percobaan untuk maksud Kirim yang sama tiba berulang atau bersamaan.
 - **Input / validasi:** Identitas permintaan yang sama; kontrak teknis SRS; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menghasilkan satu laporan bisnis untuk pengulangan permintaan Kirim yang sama.
@@ -517,7 +519,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-011 — menyediakan riwayat/bukti milik sendiri sebagai baca saja bagi warga setelah diterima
 
 - **Sumber / tujuan:** [PRD-F-016](PRD.md#prd-f-016); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik laporan; admin sesuai fungsi terpisah; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik laporan; admin sesuai fungsi terpisah.
 - **Trigger / precondition:** Membuka laporan yang telah diterima.
 - **Input / validasi:** Pengenal laporan dan sesi pemilik; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan riwayat/bukti milik sendiri sebagai baca saja bagi warga setelah diterima.
@@ -533,7 +535,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REPORT-012 — menampilkan keadaan proses dan hasil yang tersedia dengan pembedaan AI dan tinjauan admin
 
 - **Sumber / tujuan:** [PRD-F-017](PRD.md#prd-f-017); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pelapor pemilik; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pelapor pemilik.
 - **Trigger / precondition:** Membuka perkembangan laporannya.
 - **Input / validasi:** Status proses, ringkasan AI dan tinjauan admin yang tersedia; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-005](#frd-std-005), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menampilkan keadaan proses dan hasil yang tersedia dengan pembedaan AI dan tinjauan admin.
@@ -549,7 +551,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AI-001 — menghasilkan bantuan penilaian kecocokan bukti dengan keterangan yang dapat ditelusuri ke sumbernya
 
 - **Sumber / tujuan:** [PRD-F-018](PRD.md#prd-f-018); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Proses analisis; hasil untuk pemilik dan admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Proses analisis; hasil untuk pemilik dan admin.
 - **Trigger / precondition:** Laporan bermedia telah diterima dan dijadwalkan untuk analisis.
 - **Input / validasi:** Media/foto/frame video dan keterangan dari laporan sumber; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-006](#frd-std-006), [STD-010](#frd-std-010), [STD-012](#frd-std-012).
 - **Requirement / alur sukses:** SISTEM HARUS menghasilkan bantuan penilaian kecocokan bukti dengan keterangan yang dapat ditelusuri ke sumbernya.
@@ -565,7 +567,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AI-002 — mempertahankan laporan tidak cocok untuk review dan mengecualikan buktinya dari penetapan bahaya sebelum ditinjau
 
 - **Sumber / tujuan:** [PRD-F-019](PRD.md#prd-f-019); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Proses analisis dan admin peninjau; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Proses analisis dan admin peninjau.
 - **Trigger / precondition:** Hasil analisis menilai bukti tidak cocok.
 - **Input / validasi:** Laporan diterima dan hasil kecocokan; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-006](#frd-std-006), [STD-010](#frd-std-010), [STD-012](#frd-std-012).
 - **Requirement / alur sukses:** SISTEM HARUS mempertahankan laporan tidak cocok untuk review dan mengecualikan buktinya dari penetapan bahaya sebelum ditinjau.
@@ -581,7 +583,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-AI-003 — membedakan penilaian belum tersedia dari tingkat rendah
 
 - **Sumber / tujuan:** [PRD-F-020](PRD.md#prd-f-020); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Proses sistem; dibaca pelapor/admin/publik sesuai izin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Proses sistem; dibaca pelapor/admin/publik sesuai izin.
 - **Trigger / precondition:** Analisis menunggu, gagal atau belum cukup untuk penilaian.
 - **Input / validasi:** Status proses dan ketersediaan bukti layak; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-006](#frd-std-006), [STD-010](#frd-std-010), [STD-012](#frd-std-012).
 - **Requirement / alur sukses:** SISTEM HARUS membedakan penilaian belum tersedia dari tingkat rendah.
@@ -597,7 +599,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-001 — mengelompokkan laporan terkait tanpa mengganti atau menghilangkan laporan individual
 
 - **Sumber / tujuan:** [PRD-F-021](PRD.md#prd-f-021); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem pengelompokan; admin pembaca bukti; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem pengelompokan; admin pembaca bukti.
 - **Trigger / precondition:** Laporan terkait diterima atau keanggotaan dievaluasi.
 - **Input / validasi:** Lokasi/waktu dan laporan sumber; kedekatan antar laporan serta batas bentang seluruh kelompok wajib diperiksa (FRD-DEC-020), batas demo tetangga ≤1.500 m/≤6 jam dan seluruh kelompok ≤3.000 m/≤12 jam, tepat batas termasuk (FRD-DEC-023); waktu kejadian valid atau penerimaan jika kosong (FRD-DEC-024); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS mengelompokkan laporan terkait tanpa mengganti atau menghilangkan laporan individual.
@@ -613,7 +615,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-002 — menyajikan prioritas tinjauan dengan makna yang berbeda dari indikasi tingkat publik
 
 - **Sumber / tujuan:** [PRD-F-022](PRD.md#prd-f-022); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin peninjau; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin peninjau.
 - **Trigger / precondition:** Membuka urutan perhatian laporan/kelompok.
 - **Input / validasi:** Kelompok aktif yang perlu review, tingkat efektif atau Belum dinilai, waktu tunggu dan pengenal stabil (FRD-DEC-031); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menyajikan prioritas tinjauan dengan makna yang berbeda dari indikasi tingkat publik.
@@ -629,7 +631,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-003 — memungkinkan koreksi hasil AI oleh admin dan memperbarui hasil terkait sesuai koreksi sah
 
 - **Sumber / tujuan:** [PRD-F-023](PRD.md#prd-f-023); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Meninjau hasil analisis yang dinilai keliru.
 - **Input / validasi:** Laporan, hasil AI, perubahan penilaian oleh admin menurut rubrik demo FRD-DEC-032/§30.15; untuk mengembalikan bukti tidak cocok menjadi layak wajib penetapan relevansi, tingkat dan alasan (FRD-DEC-030); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS memungkinkan koreksi hasil AI oleh admin dan memperbarui hasil terkait sesuai koreksi sah.
@@ -645,7 +647,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-004 — memindahkan keanggotaan laporan ke kelompok pilihan admin tanpa menghilangkan sumber
 
 - **Sumber / tujuan:** [PRD-F-024](PRD.md#prd-f-024); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Menemukan laporan berada dalam kelompok salah.
 - **Input / validasi:** Laporan dan kelompok tujuan yang ada atau baru; bila melampaui batas otomatis, alasan koreksi wajib (FRD-DEC-028); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS memindahkan keanggotaan laporan ke kelompok pilihan admin tanpa menghilangkan sumber.
@@ -661,7 +663,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-005 — menyediakan catatan tindak lanjut kepada admin dan pelapor terkait
 
 - **Sumber / tujuan:** [PRD-F-025](PRD.md#prd-f-025); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin penulis; pelapor terkait pembaca; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin penulis; pelapor terkait pembaca.
 - **Trigger / precondition:** Menyimpan catatan tindak lanjut sederhana.
 - **Input / validasi:** Satu laporan tujuan, penulis admin, isi catatan; koreksi merujuk catatan terdahulu pada laporan yang sama (DEC-036/037). Panjang catatan 1–1.000 karakter dan alasan 1–500, STD-002; kamus §14. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan catatan tindak lanjut kepada admin dan pelapor terkait.
@@ -677,7 +679,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-006 — menandai kebutuhan tinjauan ulang ketika bukti baru belum tercakup review sebelumnya
 
 - **Sumber / tujuan:** [PRD-F-026](PRD.md#prd-f-026); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem review; admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem review; admin.
 - **Trigger / precondition:** Bukti/laporan baru masuk ke kelompok yang sudah ditinjau.
 - **Input / validasi:** Cakupan review per laporan/versi dan bukti/hasil terkini setiap anggota (DEC-033); kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menandai kebutuhan tinjauan ulang ketika bukti baru belum tercakup review sebelumnya.
@@ -693,7 +695,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-007 — mengeluarkan kejadian selesai dari Pantau aktif sambil mempertahankan riwayat laporan
 
 - **Sumber / tujuan:** [PRD-F-027](PRD.md#prd-f-027); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Menandai kejadian aktif sebagai selesai.
 - **Input / validasi:** Kelompok kejadian aktif; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS mengeluarkan kejadian selesai dari Pantau aktif sambil mempertahankan riwayat laporan.
@@ -709,7 +711,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-008 — mengarahkan kejadian baru ke kelompok aktif baru tanpa otomatis membuka kejadian lama
 
 - **Sumber / tujuan:** [PRD-F-028](PRD.md#prd-f-028); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem pengelompokan; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem pengelompokan.
 - **Trigger / precondition:** Laporan untuk kejadian baru diterima di lokasi kejadian lama yang selesai.
 - **Input / validasi:** Laporan baru, waktu/lokasi dan riwayat kejadian; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS mengarahkan kejadian baru ke kelompok aktif baru tanpa otomatis membuka kejadian lama.
@@ -725,7 +727,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-REVIEW-009 — mempertahankan jejak asal koreksi admin yang dapat ditelusuri
 
 - **Sumber / tujuan:** [PRD-F-023](PRD.md#prd-f-023); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin dan sistem pencatat tindakan; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin dan sistem pencatat tindakan.
 - **Trigger / precondition:** Koreksi penilaian berhasil.
 - **Input / validasi:** Aktor tindakan, objek dan perubahan yang dibutuhkan untuk penelusuran; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-008](#frd-std-008), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS mempertahankan jejak asal koreksi admin yang dapat ditelusuri.
@@ -741,7 +743,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTROL-001 — menerapkan pengaturan galeri pada jalur pengiriman yang relevan
 
 - **Sumber / tujuan:** [PRD-F-029](PRD.md#prd-f-029); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; warga terkena kebijakan saat kirim; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin; warga terkena kebijakan saat kirim.
 - **Trigger / precondition:** Admin mengubah pengaturan galeri global.
 - **Input / validasi:** Status ON/OFF global; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menerapkan pengaturan galeri pada jalur pengiriman yang relevan.
@@ -757,7 +759,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTROL-002 — memberlakukan aturan kuota global dengan pemakaian terpisah per akun
 
 - **Sumber / tujuan:** [PRD-F-030](PRD.md#prd-f-030); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin pengatur; sistem penerimaan per akun; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin pengatur; sistem penerimaan per akun.
 - **Trigger / precondition:** Admin menetapkan N laporan per H jam; warga mencoba kirim.
 - **Input / validasi:** N awal 3 laporan diterima per akun dalam H awal 6 jam terakhir (rolling); N 1–20 laporan dan H 1–24 jam, keduanya bilangan bulat, STD-002/004; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS memberlakukan aturan kuota global dengan pemakaian terpisah per akun.
@@ -773,7 +775,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTROL-003 — mereset pemakaian kuota pada cakupan terpilih tanpa menghapus laporan
 
 - **Sumber / tujuan:** [PRD-F-031](PRD.md#prd-f-031); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Memilih reset pemakaian satu akun atau seluruh akun.
 - **Input / validasi:** Cakupan reset dan pemakaian; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS mereset pemakaian kuota pada cakupan terpilih tanpa menghapus laporan.
@@ -789,7 +791,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTROL-004 — menghapus isi laporan beserta media dari penyimpanan aktif secara permanen
 
 - **Sumber / tujuan:** [PRD-F-032](PRD.md#prd-f-032); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Menjalankan penghapusan sah atas laporan.
 - **Input / validasi:** Laporan tujuan dan alasan singkat wajib tanpa menyalin isi/data pribadi. Dialog menjelaskan isi/media/analisis/catatan tidak dapat dibuka lagi, hitung ulang agregat, penanda/waktu, tanpa refund kuota dan tanpa pemulihan aplikasi; batal tidak mengubah data (DEC-038). Alasan 1–500 karakter; sesi admin sah dan konfirmasi dampak cukup, tanpa sandi ulang atau persetujuan admin kedua. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menghapus isi laporan beserta media dari penyimpanan aktif secara permanen.
@@ -805,7 +807,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTROL-005 — merekonsiliasi turunan tanpa memunculkan laporan terhapus kembali
 
 - **Sumber / tujuan:** [PRD-F-033](PRD.md#prd-f-033); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem rekonsiliasi setelah tindakan admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem rekonsiliasi setelah tindakan admin.
 - **Trigger / precondition:** Laporan sudah dihapus atau hasil worker untuknya tiba terlambat.
 - **Input / validasi:** Objek terhapus dan turunan riwayat/kelompok/Pantau; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-004](#frd-std-004), [STD-010](#frd-std-010), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS merekonsiliasi turunan tanpa memunculkan laporan terhapus kembali.
@@ -821,7 +823,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-MONITOR-001 — membatasi Pantau publik pada ringkasan yang diizinkan
 
 - **Sumber / tujuan:** [PRD-F-034](PRD.md#prd-f-034); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu dan warga; admin lewat fungsi terpisah; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu dan warga; admin lewat fungsi terpisah.
 - **Trigger / precondition:** Membuka Pantau atau mencoba akses bukti dari ringkasan.
 - **Input / validasi:** Nama lokasi, indikasi tingkat, waktu pembaruan, penanda tinjauan; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-008](#frd-std-008), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS membatasi Pantau publik pada ringkasan yang diizinkan.
@@ -837,7 +839,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-MONITOR-002 — menampilkan lokasi berlaporan tanpa menunggu persetujuan review admin
 
 - **Sumber / tujuan:** [PRD-F-035](PRD.md#prd-f-035); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem publikasi; tamu/warga pembaca; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem publikasi; tamu/warga pembaca.
 - **Trigger / precondition:** Kelompok aktif berlaporan tersedia.
 - **Input / validasi:** Kelompok dengan sumber laporan yang masih ada; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-008](#frd-std-008), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menampilkan lokasi berlaporan tanpa menunggu persetujuan review admin.
@@ -853,7 +855,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-MONITOR-003 — membedakan tiga tingkat indikasi dari bagian belum dinilai tanpa klaim status resmi
 
 - **Sumber / tujuan:** [PRD-F-036](PRD.md#prd-f-036); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu/warga pembaca; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu/warga pembaca.
 - **Trigger / precondition:** Membaca kelompok yang sudah atau belum dapat dinilai.
 - **Input / validasi:** Indikasi rendah/sedang/tinggi atau belum dinilai; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-008](#frd-std-008), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS membedakan tiga tingkat indikasi dari bagian belum dinilai tanpa klaim status resmi.
@@ -869,7 +871,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-VAULT-001 — menyimpan dokumen yang memenuhi aturan sebagai backup privat milik akun pengunggah
 
 - **Sumber / tujuan:** [PRD-F-037](PRD.md#prd-f-037); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik.
 - **Trigger / precondition:** Mengunggah dokumen untuk backup privat.
 - **Input / validasi:** Berkas dokumen dan konteks kepemilikan akun; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menyimpan dokumen yang memenuhi aturan sebagai backup privat milik akun pengunggah.
@@ -885,7 +887,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-VAULT-002 — membatasi pembacaan isi backup dokumen kepada pemilik
 
 - **Sumber / tujuan:** [PRD-F-037](PRD.md#prd-f-037); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen.
 - **Trigger / precondition:** Membuka atau mengambil kembali dokumennya.
 - **Input / validasi:** Identitas dokumen dan sesi pemilik; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS membatasi pembacaan isi backup dokumen kepada pemilik.
@@ -901,7 +903,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-VAULT-003 — menyediakan penghapusan dokumen privat oleh pemilik
 
 - **Sumber / tujuan:** [PRD-F-037](PRD.md#prd-f-037); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen.
 - **Trigger / precondition:** Memilih hapus dokumen sendiri.
 - **Input / validasi:** Dokumen milik sendiri dan konfirmasi dampak hapus/KTP/saran belum diterapkan, STD-005; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan penghapusan dokumen privat oleh pemilik.
@@ -917,7 +919,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-VAULT-004 — menyediakan backup dokumen lintas perangkat untuk akun pemilik
 
 - **Sumber / tujuan:** [PRD-F-038](PRD.md#prd-f-038); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik login pada perangkat lain; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik login pada perangkat lain.
 - **Trigger / precondition:** Mengambil dokumen yang sudah tersimpan di backend.
 - **Input / validasi:** Sesi sah akun yang sama dan identitas dokumen; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-011](#frd-std-011).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan backup dokumen lintas perangkat untuk akun pemilik.
@@ -933,7 +935,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-001 — memulai bantuan isi keluarga atas pilihan pemilik dengan penjelasan tujuan dan pemrosesan eksternal
 
 - **Sumber / tujuan:** [PRD-F-039](PRD.md#prd-f-039); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen.
 - **Trigger / precondition:** Memilih bantuan isi keluarga dari dokumen.
 - **Input / validasi:** Dokumen terpilih dan persetujuan tujuan pemrosesan; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memulai bantuan isi keluarga atas pilihan pemilik dengan penjelasan tujuan dan pemrosesan eksternal.
@@ -949,7 +951,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-002 — menyediakan status proses bertahap sambil memungkinkan pengguna memakai aplikasi
 
 - **Sumber / tujuan:** [PRD-F-040](PRD.md#prd-f-040); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem pemrosesan; pemilik pembaca status; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem pemrosesan; pemilik pembaca status.
 - **Trigger / precondition:** Permintaan bantuan isi diterima.
 - **Input / validasi:** Dokumen terpilih dan identitas permintaan proses; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan status proses bertahap sambil memungkinkan pengguna memakai aplikasi.
@@ -965,7 +967,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-003 — meminta review dan memungkinkan koreksi saran sebelum penerapan ke profil
 
 - **Sumber / tujuan:** [PRD-F-041](PRD.md#prd-f-041); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik hasil pengisian; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik hasil pengisian.
 - **Trigger / precondition:** Membuka saran sebelum menerapkan.
 - **Input / validasi:** Saran nama tampilan/kelompok usia yang didukung data; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS meminta review dan memungkinkan koreksi saran sebelum penerapan ke profil.
@@ -981,7 +983,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-004 — menyediakan ulangi atau isi manual tanpa membatalkan backup yang sudah berhasil
 
 - **Sumber / tujuan:** [PRD-F-042](PRD.md#prd-f-042); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen.
 - **Trigger / precondition:** Pembacaan dokumen gagal/buram.
 - **Input / validasi:** Status gagal dan dokumen yang sudah tersimpan; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan ulangi atau isi manual tanpa membatalkan backup yang sudah berhasil.
@@ -997,7 +999,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-005 — menyimpan profil keluarga minimum yang dikelola pemilik di backend privat
 
 - **Sumber / tujuan:** [PRD-F-043](PRD.md#prd-f-043); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik keluarga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik keluarga.
 - **Trigger / precondition:** Membuat atau memperbarui daftar anggota secara manual atau dari hasil terkonfirmasi.
 - **Input / validasi:** Nama panggilan/tampilan, kelompok usia, kebutuhan khusus opsional; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyimpan profil keluarga minimum yang dikelola pemilik di backend privat.
@@ -1013,7 +1015,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-006 — menerapkan pilihan tambah atau perbarui secara eksplisit tanpa menghapus anggota lama otomatis
 
 - **Sumber / tujuan:** [PRD-F-044](PRD.md#prd-f-044); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik profil yang sudah terisi; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik profil yang sudah terisi.
 - **Trigger / precondition:** Menerapkan hasil pengisian berikutnya.
 - **Input / validasi:** Saran anggota, pilihan tambah/perbarui dan target anggota; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menerapkan pilihan tambah atau perbarui secara eksplisit tanpa menghapus anggota lama otomatis.
@@ -1029,7 +1031,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-FAMILY-007 — mempertahankan profil terkonfirmasi setelah dokumen sumber dihapus
 
 - **Sumber / tujuan:** [PRD-F-045](PRD.md#prd-f-045); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Pemilik dokumen dan keluarga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Pemilik dokumen dan keluarga.
 - **Trigger / precondition:** Menghapus dokumen sumber setelah profil dikonfirmasi.
 - **Input / validasi:** Dokumen sumber dan profil hasil konfirmasi; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-006](#frd-std-006), [STD-007](#frd-std-007), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS mempertahankan profil terkonfirmasi setelah dokumen sumber dihapus.
@@ -1045,7 +1047,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-001 — menghasilkan saran tas yang dapat ditelusuri ke katalog dan kategori keluarga
 
 - **Sumber / tujuan:** [PRD-F-046](PRD.md#prd-f-046); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik keluarga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik keluarga.
 - **Trigger / precondition:** Membuka personalisasi tas.
 - **Input / validasi:** Kategori keluarga dan katalog admin; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menghasilkan saran tas yang dapat ditelusuri ke katalog dan kategori keluarga.
@@ -1061,7 +1063,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-002 — menyimpan perubahan tas pribadi secara lokal per akun dan perangkat
 
 - **Sumber / tujuan:** [PRD-F-047](PRD.md#prd-f-047); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pada akun/perangkat sendiri; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pada akun/perangkat sendiri.
 - **Trigger / precondition:** Menandai kesiapan barang atau menambah item sendiri.
 - **Input / validasi:** Checklist, item tambahan dan progres; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menyimpan perubahan tas pribadi secara lokal per akun dan perangkat.
@@ -1077,7 +1079,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-003 — menampilkan direktori sesuai konten yang diterbitkan dan status sumbernya
 
 - **Sumber / tujuan:** [PRD-F-048](PRD.md#prd-f-048); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu/warga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu/warga.
 - **Trigger / precondition:** Membuka direktori kontak umum.
 - **Input / validasi:** Kontak publik dan informasi sumber; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menampilkan direktori sesuai konten yang diterbitkan dan status sumbernya.
@@ -1093,7 +1095,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-004 — menyimpan kontak pribadi lokal pada akun/perangkat pemilik tanpa mengunggah ke backend
 
 - **Sumber / tujuan:** [PRD-F-049](PRD.md#prd-f-049); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik kontak; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik kontak.
 - **Trigger / precondition:** Menambahkan atau mengelola kontak pribadi.
 - **Input / validasi:** Nama 1–80, keterangan opsional ≤200, nomor 3–15 digit dengan + awal opsional; maksimal 100 kontak lokal, STD-002; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menyimpan kontak pribadi lokal pada akun/perangkat pemilik tanpa mengunggah ke backend.
@@ -1109,7 +1111,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-005 — memisahkan data lokal pribadi antar akun pada perangkat yang sama
 
 - **Sumber / tujuan:** [PRD-F-050](PRD.md#prd-f-050); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga berganti akun pada satu perangkat; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga berganti akun pada satu perangkat.
 - **Trigger / precondition:** B login setelah A menggunakan data lokal.
 - **Input / validasi:** Ruang data pribadi masing-masing akun; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS memisahkan data lokal pribadi antar akun pada perangkat yang sama.
@@ -1125,7 +1127,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-006 — menyediakan pembacaan teks dan pemutaran suara sesuai dukungan perangkat
 
 - **Sumber / tujuan:** [PRD-F-051](PRD.md#prd-f-051); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu/warga pembaca panduan; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu/warga pembaca panduan.
 - **Trigger / precondition:** Memilih baca atau dengarkan panduan.
 - **Input / validasi:** Teks panduan, kemampuan mesin/bahasa suara perangkat; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan pembacaan teks dan pemutaran suara sesuai dukungan perangkat.
@@ -1141,7 +1143,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-007 — menyediakan kontak umum dan teks panduan dasar sejak instalasi pertama offline
 
 - **Sumber / tujuan:** [PRD-F-052](PRD.md#prd-f-052); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Tamu/warga pada instalasi baru; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Tamu/warga pada instalasi baru.
 - **Trigger / precondition:** Membuka kontak umum atau panduan sebelum ada jaringan.
 - **Input / validasi:** Bundle kontak dan teks dasar yang disiapkan tim; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan kontak umum dan teks panduan dasar sejak instalasi pertama offline.
@@ -1157,7 +1159,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-READY-008 — mengambil pembaruan konten umum ketika online dan menyediakannya untuk baca offline setelah berhasil
 
 - **Sumber / tujuan:** [PRD-F-052](PRD.md#prd-f-052); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Sistem pembaruan konten; tamu/warga; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Sistem pembaruan konten; tamu/warga.
 - **Trigger / precondition:** Online setelah admin memperbarui kontak/panduan.
 - **Input / validasi:** Paket konten terbit dan versi lokal; pembaruan lengkap diganti atomik setelah valid, STD-008; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-005](#frd-std-005), [STD-007](#frd-std-007), [STD-008](#frd-std-008).
 - **Requirement / alur sukses:** SISTEM HARUS mengambil pembaruan konten umum ketika online dan menyediakannya untuk baca offline setelah berhasil.
@@ -1173,7 +1175,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-CONTENT-001 — memungkinkan admin mengelola konten umum untuk diperoleh warga
 
 - **Sumber / tujuan:** [PRD-F-053](PRD.md#prd-f-053); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin web; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin web.
 - **Trigger / precondition:** Mengelola dan menerbitkan kontak umum, panduan atau katalog tas.
 - **Input / validasi:** Kontak/panduan/katalog valid dengan sumber/label fixture, pratinjau lalu Terbitkan versi baru, STD-002/007/008; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-007](#frd-std-007), [STD-008](#frd-std-008), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memungkinkan admin mengelola konten umum untuk diperoleh warga.
@@ -1189,7 +1191,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-INBOX-001 — menyediakan pesan terbit di inbox warga tanpa ketergantungan push eksternal
 
 - **Sumber / tujuan:** [PRD-F-054](PRD.md#prd-f-054); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi.
 - **Trigger / precondition:** Menerbitkan pesan peringatan.
 - **Input / validasi:** Judul/isi pesan dan publikasi, tanggal akhir opsional; judul 1–120 dan isi 1–3.000 karakter, STD-002/009; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-009](#frd-std-009), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menyediakan pesan terbit di inbox warga tanpa ketergantungan push eksternal.
@@ -1205,7 +1207,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-INBOX-002 — memperlihatkan koreksi pesan pada inbox setelah sinkronisasi
 
 - **Sumber / tujuan:** [PRD-F-055](PRD.md#prd-f-055); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Memperbaiki pesan yang sudah terbit.
 - **Input / validasi:** Pesan dan revisi isi; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-009](#frd-std-009), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS memperlihatkan koreksi pesan pada inbox setelah sinkronisasi.
@@ -1221,7 +1223,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-INBOX-003 — menampilkan status pencabutan setelah inbox tersinkron agar pesan lama tidak dianggap berlaku
 
 - **Sumber / tujuan:** [PRD-F-055](PRD.md#prd-f-055); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Admin; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Admin.
 - **Trigger / precondition:** Mencabut pesan terbit.
 - **Input / validasi:** Pesan target dan tindakan cabut; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-009](#frd-std-009), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS menampilkan status pencabutan setelah inbox tersinkron agar pesan lama tidak dianggap berlaku.
@@ -1237,7 +1239,7 @@ Field input di bawah bersifat konseptual; tipe/validasi diketahui ada di §14. T
 ### FR-INBOX-004 — mencatat status dibaca untuk akun yang melakukan tindakan
 
 - **Sumber / tujuan:** [PRD-F-056](PRD.md#prd-f-056); tujuan produk mengikuti kebutuhan sumber, bukan scope baru.
-- **Aktor / izin:** Warga pemilik inbox; batas objek mengikuti §16, platform mengikuti §9.
+- **Aktor / izin:** Warga pemilik inbox.
 - **Trigger / precondition:** Membaca lalu menandai pesan sudah dibaca.
 - **Input / validasi:** Pesan, akun penerima dan penanda baca; kamus §14 dan aturan terkait §13. Batas dan kasus tepi normatif: [STD-002](#frd-std-002), [STD-009](#frd-std-009), [STD-010](#frd-std-010).
 - **Requirement / alur sukses:** SISTEM HARUS mencatat status dibaca untuk akun yang melakukan tindakan.
@@ -1547,7 +1549,7 @@ Rencana pembuktian membedakan empat kelas: pemeriksaan dokumen, fixture terkontr
 
 RTM pada [TRACEABILITY](TRACEABILITY.md#frd-traceability) memetakan seluruh 57 PRD-F ke 68 FR dan masing-masing 2 AC/TC, serta 10 PRD-NF ke TC-NF. Sepuluh TC-X mencakup interaksi lintas fitur. ID tetap sama dengan draf; hasil audit dokumen tidak mengubah status uji produk.
 
-Setiap FR merujuk aturan final yang relevan; [register finalisasi](TRACEABILITY.md#frd-finalization-trace) menghubungkan 12 paket standar dan 20 agenda ke sumber mandat. 38 jawaban historis dipertahankan verbatim; tidak ada jawaban individual baru yang dibuat untuk mengisi kekosongan.
+Setiap FR merujuk aturan final yang relevan; [register finalisasi](TRACEABILITY.md#frd-finalization-trace) menghubungkan 12 paket standar dan 20 agenda ke sumber mandat. Makna 38 jawaban historis dipertahankan dalam ringkasan keputusan; tidak ada jawaban individual baru yang dibuat untuk mengisi kekosongan.
 
 ## 26. Prioritas, rilis dan dependensi
 
@@ -1606,7 +1608,7 @@ Risiko ini tidak membatalkan approval spesifikasi. Klaim produk selesai atau pro
 | Otoritas | Makna dan batas |
 |---|---|
 | BRD/PRD approval | Cakupan produk dan teknologi yang telah disetujui; sumber tidak diubah |
-| FRD-DEC-004–041 | 38 jawaban literal: 37 pilihan produk dan 1 keterangan bukti perangkat belum tersedia; seluruhnya dipertahankan pada register |
+| FRD-DEC-004–041 | 38 catatan keputusan: 37 pilihan produk dan 1 keterangan bukti perangkat belum tersedia; seluruhnya dipertahankan pada register |
 | [FRD-DLG-001](DECISIONS.md#frd-dlg-001) | Instruksi terbaru pemilik memilih standar demo dan menyelesaikan FRD sampai fix/approved; mencabut pembahasan setup server sebagai syarat |
 | FRD-STD-001–012 | Pilihan asisten dalam mandat tersebut, dinyatakan eksplisit dan reviewable; bukan jawaban pengguna per pertanyaan |
 | [FRD-APPROVAL-01](DECISIONS.md#frd-approval-01) | APPROVED v1.0.0 melalui delegasi finalisasi; tidak mengarang sign-off terpisah setelah dokumen ditulis |
@@ -1619,7 +1621,7 @@ Riwayat pertanyaan/rencana/riset tetap tersimpan. Q010-F backup server ditarik, 
 
 | Gate dokumen | Hasil | Bukti / batas |
 |---|---|---|
-| G-01 Sumber | PASS | BRD/PRD dan ekspor dilindungi; mandat finalisasi dicatat literal |
+| G-01 Sumber | PASS | BRD/PRD dan ekspor dilindungi; mandat finalisasi dicatat |
 | G-02 Scope | PASS | Semua fitur wajib PRD terpetakan; operasional server tidak ditambahkan |
 | G-03 Aktor | PASS | Hak §16 dan sesi/ownership STD-003/005/011 eksplisit |
 | G-04 Perilaku | PASS | 68 FR dengan trigger/input/output/error, 136 AC; validasi STD-002 |
@@ -1674,177 +1676,80 @@ Setiap revisi substantif menggunakan catatan `Change ID | permintaan/sumber | se
 
 ### 30.1. Keputusan yang sudah diterima
 
-| ID keputusan | Agenda | Keputusan eksplisit | Batas yang masih terbuka |
-|---|---|---|---|
-| FRD-DEC-004 | Q001 | Awal 3 laporan berhasil diterima per akun dalam 6 jam terakhir; jendela berjalan; gagal/retry sama tidak menambah hitungan; admin dapat ubah/reset | Rentang nilai konfigurasi, batas waktu tepat, perubahan H dan operasi bersamaan; aturan tanpa reset sudah DEC-016 |
-| FRD-DEC-005 | Q006 | Kehilangan sandi dan kode sekaligus tidak mempunyai jalur pemulihan; akun baru tidak otomatis mendapatkan data akun lama | Format/percobaan/autentikasi ulang; rotasi dan sesi diperinci DEC-013 |
-| FRD-DEC-006 | Q007 | Logout mempertahankan draf, checklist/item/progres dan kontak lokal, terpisah per akun; tersedia saat akun yang sama login kembali | Logout server offline/storage/rekonsiliasi; cache/tugas diperinci DEC-014 |
-| FRD-DEC-007 | Q001 | Hapus laporan tidak mengembalikan kuota; kuota keluar dari jendela waktu atau direset admin | Ledger minimal, retensi dan race hapus/reset/kirim |
-| FRD-DEC-008 | Q002 | Draf galeri mengikuti aturan saat pengiriman; jika galeri OFF sebelum diterima, kirim tertahan dan media perlu diganti kamera; draf tetap | Rekonsiliasi request yang sudah diterima, edit/batal payload dan urutan evaluasi |
-| FRD-DEC-009 | Q012 | Akun baru membaca semua pesan yang masih berlaku, termasuk terbit sebelum akun dibuat; pesan dicabut/kedaluwarsa bukan aktif | Retensi/metadata/konflik; revisi dan expiry diperinci DEC-012/015 |
-| FRD-DEC-010 | Q003 | Jenis dokumen dikenali sebagai KTP dan nama pemilik terbaca, kemudian pemilik mengonfirmasi; NIK tidak wajib terbaca | Format, kualitas pembacaan nyata dan persetujuan provider |
-| FRD-DEC-011 | Q003 | KTP lama tetap memenuhi prasyarat sampai pengganti lolos dan dikonfirmasi; menghapus KTP aktif langsung menahan kirim baru | Job/konfirmasi usang dan penyimpanan dokumen lama setelah pergantian |
-| FRD-DEC-012 | Q012 | Perubahan judul atau isi menampilkan tanda diperbarui dan kembali belum dibaca per akun; membaca versi lama offline tidak meluluskan versi baru | Perubahan metadata, konflik edit admin dan retensi versi |
-| FRD-DEC-013 | Q006 | Kode sekali pakai; reset berhasil mengganti sandi, mencabut sesi lama dan memberi kode pengganti; jika respons hilang, login dengan sandi baru memungkinkan pembuatan kode pengganti | Format kode, percobaan, autentikasi ulang dan kontrak transaksi |
-| FRD-DEC-014 | Q007 | Logout menghentikan antrean lokal sampai akun asal login lagi; server boleh menuntaskan tugas diterima; sesi lokal/cache pratinjau dokumen dibersihkan | Logout offline terhadap sesi server, perlindungan storage dan callback |
-| FRD-DEC-015 | Q012 | Tanggal akhir opsional; tanpa tanggal akhir aktif sampai dicabut; berakhir/dicabut keluar inbox warga dan tetap mempunyai catatan bagi admin | Masa simpan catatan, perubahan tanggal akhir dan konflik admin |
-| FRD-DEC-016 | Q001 | Aturan kuota baru berlaku untuk kiriman baru tanpa reset pemakaian; laporan lama tetap | Boundary waktu, rentang dan reset/kirim bersamaan |
-| FRD-DEC-017 | Q002 | Hasil Kirim tidak diketahui mengunci isi sampai rekonsiliasi; diterima membuka laporan yang sama; penolakan definitif membolehkan koreksi draf | Penutupan revisi lama, timeout dan pembatalan |
-| FRD-DEC-018 | Q020 | Perubahan pertama yang sah tersimpan berlaku; perubahan admin dari versi usang ditolak dan perlu muat ulang | Race worker/bukti baru/keluarga dan mekanisme versi SRS |
-| FRD-DEC-019 | Q004 | Inventaris perangkat/browser uji dicatat sebagai kebutuhan belum tersedia | Model HP, Android, browser, build dan seluruh bukti uji perangkat |
-| FRD-DEC-020 | Q008 | Batasi bentang seluruh kelompok; A–B dan B–C dekat tidak cukup jika A–C melewati batas | Nilai/waktu/laporan terlambat kemudian diperinci DEC-023–025; kandidat ganda, nama lokasi, kasus ambigu dan koreksi admin tersisa |
-| FRD-DEC-021 | Q009 | Tingkat tertinggi dari bukti layak; tanpa bukti layak Belum dinilai | Dasar/kelayakan/urutan/rubrik DEC-029–032; review/waktu tunggu/refresh/catatan kemudian DEC-033–037 |
-| FRD-DEC-022 | Q010 | Penanda “Laporan dihapus admin” dan waktu hapus dalam riwayat pemilik; tanpa isi/media/analisis | Konfirmasi/pembersihan/audit hapus DEC-038–040; retensi penanda/audit hapus DEC-041; cadangan/cache masih terbuka |
-| FRD-DEC-023 | Q008 | Tetangga ≤1.500 m/≤6 jam; bentang kelompok ≤3.000 m/≤12 jam; batas inklusif | Metrik/presisi jarak SRS; kandidat dan koreksi sudah DEC-026/028 |
-| FRD-DEC-024 | Q008 | Waktu kejadian valid; jika kosong gunakan penerimaan server. Kuota tetap memakai penerimaan | Validasi waktu Q017 dan kasus ambigu |
-| FRD-DEC-025 | Q008 | Laporan terlambat yang sesuai masuk kelompok selesai tanpa membuka kembali Pantau | Kandidat/koreksi sudah DEC-026/028; tanpa waktu kejadian eksplisit tidak otomatis masuk selesai; race selesai Q020 |
-| FRD-DEC-026 | Q008 | Prioritaskan kandidat selesai untuk laporan terlambat yang memenuhi DEC-025; selebihnya kandidat aktif. Dalam kelas kandidat yang sama, pilih anggota terdekat, lalu kelompok paling awal dibuat, lalu pengenal stabil; tidak merge otomatis beberapa kelompok. | CONFIRMED_R1 untuk pemilihan/tie-break; metrik jarak/pengenal teknis SRS, konflik proses Q020. |
-| FRD-DEC-027 | Q008 | Nama wilayah dari titik laporan paling awal diterima yang masih ada; bila tidak tersedia gunakan label “Lokasi laporan” dan kode kelompok tanpa identitas warga/koordinat presisi. Sumber yang dihapus/dipindah tidak terus menjadi dasar ringkasan. | CONFIRMED_R1 dengan fallback; pilihan layanan/nomenklatur nama SRS, format/panjang label Q017. Tidak menambah aksi rename admin. |
-| FRD-DEC-028 | Q008 | Koreksi manual admin boleh melampaui batas otomatis dengan alasan wajib/audit; kedua kelompok dihitung ulang dan koreksi tidak dibatalkan diam-diam oleh proses otomatis. Pemindahan tidak otomatis membuka kelompok selesai. | CONFIRMED_R1 untuk pengecualian manual dan pemeriksaan batas otomatis DEC-020/023; validasi alasan Q017, retensi audit Q010, race Q020. |
-| FRD-DEC-029 | Q009 | Dasar rubrik tingkat tiap bukti pada demo memakai dampak yang ditunjukkan bukti/keterangan. Informasi tidak cukup tetap Belum dinilai. | CONFIRMED_R1 untuk dasar, bukan batas tiap tingkat atau akurasi AI; rubrik kemudian dipilih DEC-032; PoC Q013 belum dijalankan. |
-| FRD-DEC-030 | Q009 | Bukti yang semula tidak cocok kembali layak dihitung hanya setelah admin menetapkan relevansi, tingkat dan alasan. Membuka laporan/catatan biasa tidak cukup; jejak AI awal tetap dipertahankan sesuai lifecycle. | CONFIRMED_R1 dengan batas tindakan biasa; rubrik tingkat DEC-032, audit/validasi/konflik Q010/017/020. |
-| FRD-DEC-031 | Q009 | Antrean review yang punya tingkat berurutan Tinggi → Sedang → Rendah, lalu tunggu terlama dan pengenal stabil. Belum dinilai mempunyai antrean terpisah menurut tunggu terlama dan pengenal stabil. | CONFIRMED_R1 untuk urutan/tie-break dan pemisahan Belum dinilai; review/waktu tunggu/refresh kemudian DEC-033–035; konflik Q020 tetap terbuka. |
-| FRD-DEC-032 | Q009 | Rubrik dampak demo Rendah/Sedang/Tinggi sesuai §30.15; informasi tidak cukup Belum dinilai; pilih tingkat tertinggi yang didukung | CONFIRMED_R1 dengan batas informasi cukup dan bukan status resmi; pembuktian mutu Q013/019 tetap NOT_RUN |
-| FRD-DEC-033 | Q009 | Review eksplisit per laporan dan versi bukti/hasil yang dilihat. Kelompok Ditinjau hanya jika semua bukti terkini tercakup; membuka halaman atau menulis catatan tidak cukup. Ditinjau tidak otomatis berarti relevan/layak dihitung. | CONFIRMED_R1; lifecycle/validasi/konflik dan bukti aktual tetap agenda terkait |
-| FRD-DEC-034 | Q009 | Awal tunggu adalah kebutuhan review tertua yang masih terbuka: penerimaan server untuk laporan baru, waktu perubahan tersimpan untuk hasil yang berubah sesudah review. Tambahan bukti tidak mereset kebutuhan lama; selesai/hapus kebutuhan tertua memilih kebutuhan tersisa. Semua selesai keluar antrean; bukti baru mulai siklus baru. | CONFIRMED_R1; lifecycle/validasi/konflik dan bukti aktual tetap agenda terkait |
-| FRD-DEC-035 | Q009 | Pantau/antrean review diperbarui saat dibuka/kembali aktif, muat ulang manual, setelah aksi admin berhasil, dan tiap 30 detik selama terlihat serta online. Gagal mempertahankan data terakhir beserta waktu dan penanda gagal/offline. Form yang diketik tidak ditimpa; perubahan sumber diberitahukan dan konflik diperiksa saat simpan. | CONFIRMED_R1; lifecycle/validasi/konflik dan bukti aktual tetap agenda terkait |
-| FRD-DEC-036 | Q009 | Catatan melekat pada satu laporan dan hanya terbaca kedua admin serta pemiliknya. Pindah kelompok mempertahankan catatan pada laporan; anggota kelompok lama/baru dan pelapor baru tidak memperoleh akses catatan itu. | CONFIRMED_R1; lifecycle/validasi/konflik dan bukti aktual tetap agenda terkait |
-| FRD-DEC-037 | Q009 | Catatan tersimpan tidak diedit/dihapus satu per satu; koreksi berupa catatan baru yang merujuk catatan lama. Pelapor/admin melihat urutan dan waktu koreksi. Hapus laporan tetap menghilangkan akses isi catatan terkait; retensi/audit dibahas Q010/015. | CONFIRMED_R1; lifecycle/validasi/konflik dan bukti aktual tetap agenda terkait |
-| FRD-DEC-038 | Q010 | Konfirmasi sebelum hapus menjelaskan hilangnya akses isi/media/analisis/catatan, hitung ulang agregat, penanda/waktu hapus, tanpa refund kuota dan tanpa pemulihan aplikasi. Alasan singkat wajib tanpa menyalin isi/data pribadi; batal tidak mengubah data. | CONFIRMED_R1; retensi/cadangan/cache dan konflik belum ditutup |
-| FRD-DEC-039 | Q010 | Setelah penghapusan sah tercatat, akses laporan/turunan tetap dicabut dan sumber tidak dihitung meski pembersihan fisik gagal sebagian. Pemilik melihat penanda; admin melihat Pembersihan tertunda/gagal dan dapat retry pekerjaan sama. Selesai penuh hanya setelah pembersihan aktif tuntas; hasil AI terlambat tidak memulihkan sumber. | CONFIRMED_R1; retensi/cadangan/cache dan konflik belum ditutup |
-| FRD-DEC-040 | Q010 | Audit penghapusan hanya untuk kedua admin. Field: pengenal tindakan/laporan/admin, waktu, alasan tindakan dan hasil/status pembersihan. Tidak menyalin media, deskripsi, analisis, isi catatan/dokumen, token atau koordinat presisi. Pemilik hanya penanda/waktu. | CONFIRMED_R1; retensi kemudian DEC-041; cadangan/cache dan konflik belum ditutup |
-| FRD-DEC-041 | Q010 | Penanda riwayat terlihat 30 hari sejak penghapusan sah tercatat; audit penghapusan disimpan 90 hari sejak tindakan dicatat. Tepat tenggat entri tidak ditampilkan lagi. Kedaluwarsa tidak menghentikan pembersihan atau mereset kuota/pencegahan resurrection. Cadangan/provider tidak tercakup. | CONFIRMED_R1; cadangan/cache/provider dan data kendali belum ditutup |
-
-Keputusan di atas mempunyai bukti jawaban pengguna. Bagian berlabel **USULAN** di bawah belum disetujui hanya karena berada pada dokumen yang sama. Tidak ada pertanyaan yang dianggap terjawab penuh bila baru satu subkeputusan ditutup.
+Keputusan FRD-DEC-004–041 dicatat pada [register keputusan](DECISIONS.md#frd-round-1)
+beserta tanggal, cakupan konfirmasi, dan dampaknya. Rangkaian tersebut terdiri
+atas 37 keputusan produk serta satu catatan ketersediaan bukti perangkat.
+Finalisasi rinci mengikuti FRD-DLG-001 dan FRD-STD-001–012; catatan tahap draf
+tidak menjadi agenda terbuka baru.
 
 <a id="quota-detail"></a>
+
 <a id="frd-detail-02"></a>
 
 ### 30.2. Kuota dan penghitungan — dasar dikonfirmasi, batas teknis usulan
 
-**Berlaku dari keputusan:** N awal 3; H awal 6 jam; aturan global, pemakaian per akun. Hanya penerimaan laporan bisnis baru yang mengonsumsi satu kuota. Analisis gagal setelah diterima tidak mengembalikan kuota. Retry untuk penerimaan yang sama tidak mengonsumsi lagi. Penghapusan laporan adalah tindakan terpisah dari reset kuota.
-
-**USULAN Q001/Q020 — rumusan batas:** gunakan waktu penerimaan layanan, bukan jam perangkat atau waktu kejadian. Pada waktu `t`, hitung penerimaan setelah reset terakhir yang berada pada interval `(t − H, t]`. Penerimaan tepat H jam lalu sudah keluar dari jendela. Permintaan baru boleh diterima hanya jika pemakaian sebelum penerimaan lebih kecil dari N; konsumsi dan penerimaan terjadi sebagai satu keputusan yang tidak dapat dilampaui dua request bersamaan. Mekanisme transaksi ditetapkan SRS.
-
-| Kasus contoh | Hasil yang diharapkan | Status dasar |
-|---|---|---|
-| A menerima R1 08.00, R2 09.00, R3 10.00; mencoba R4 11.00 | R4 tertahan karena ada 3 penerimaan dalam 6 jam | CONFIRMED untuk nilai/jendela |
-| R3 diulang karena respons pertama hilang | Tetap 3 penerimaan; hasil merujuk R3, bukan R4 | CONFIRMED; kontrak identitas USULAN §30.3 |
-| Admin menghapus R2 pada 11.30 | Pemakaian masih 3 sampai penerimaan terkait keluar jendela atau reset | CONFIRMED — FRD-DEC-007 |
-| R4 dicoba tepat 14.00 | R1 pada 08.00 tidak dihitung lagi; R4 dapat diterima jika syarat lain lolos | USULAN boundary tepat H |
-| B belum pernah mengirim pada periode itu | Pemakaian A tidak memblokir B | Baseline PRD |
-| Dua request baru tiba saat A tinggal satu kuota | Maksimum satu diterima; yang lain tertahan | USULAN concurrency, turunan kewajiban kuota |
-
-**Berlaku — FRD-DEC-016:** perubahan aturan kuota berlaku pada penerimaan baru, tidak membatalkan laporan terdahulu dan tidak otomatis mereset pemakaian. Saat N diturunkan di bawah pemakaian saat ini, penerimaan baru tertahan sampai tersedia kuota atau reset terpisah. **Rincian usulan tersisa:** penghitungan saat H diperbesar memerlukan ledger yang cukup untuk jendela baru; rentang H/N, boundary tepat H dan mekanisme transaksi belum dipilih. Nilai admin positif merupakan usulan validasi; batas akhir mengikuti Q017, bukan default tersembunyi.
-
-**USULAN reset:** reset satu akun hanya membebaskan pemakaian sebelum tindakan reset akun itu; reset semua berlaku untuk seluruh warga pada batas tindakan yang sama. Penerimaan yang terjadi sesudah reset tetap dihitung. UI memperlihatkan cakupan sebelum konfirmasi. Audit mencatat siapa/cakupan/waktu; tidak menghapus laporan. Jangan menghapus ledger secara fisik bila masih diperlukan untuk idempotensi/audit; rincian retensi mengikuti Q010/015.
+Riwayat keputusan kuota: nilai awal tiga laporan diterima per akun dalam
+enam jam berjalan; kegagalan sebelum penerimaan dan retry yang sama tidak
+menambah pemakaian. Penghapusan laporan tidak mengembalikan kuota, sedangkan
+perubahan aturan tidak meresetnya. Sumber: FRD-DEC-004/007/016.
+Ketentuan final terdapat pada [STD-004](#frd-std-004).
 
 <a id="frd-detail-03"></a>
 
 ### 30.3. Penerimaan, galeri dan idempotensi — sebagian dikonfirmasi
 
-**Berlaku:** galeri OFF menahan draf galeri yang belum diterima dan meminta penggantian media kamera, tanpa menghapus draf. Hasil lama yang sudah diterima tetap laporan read-only sesuai PRD. Satu maksud Kirim tetap satu laporan bisnis.
-
-**USULAN Q002/Q020 — urutan keputusan layanan:**
-
-1. Pastikan sesi dan kepemilikan permintaan. Akun B tidak boleh mengetahui hasil permintaan A.
-2. Periksa apakah maksud Kirim itu sudah diterima. Jika sudah dan isi permintaan sesuai, kembalikan status laporan yang sama; tidak mengevaluasinya sebagai penerimaan baru atau mengonsumsi kuota lagi.
-3. Jika laporan hasil permintaan tersebut telah dihapus, kembalikan keadaan bahwa hasilnya sudah tidak tersedia; jangan membuat laporan pengganti dari retry lama. Detail respons dan retensi identitas masuk SRS.
-4. Untuk penerimaan baru, periksa media/deskripsi/titik, status KTP, sinyal perangkat sesuai batas platform, aturan galeri terbaru dan kuota. Galeri yang berubah setelah draft dibuat tetap berlaku.
-5. Terima sumber laporan, tetapkan waktu penerimaan dan konsumsi kuota sebagai satu hasil bisnis. Jadwal analisis bukan syarat bahwa penerimaan sudah terjadi.
-6. Gagal validasi mempertahankan draf dan menampilkan tindakan perbaikan. Respons tidak diketahui memicu rekonsiliasi, bukan membuat identitas Kirim baru.
-
-**Berlaku — FRD-DEC-017:** selama status penerimaan belum diketahui, isi permintaan dikunci sampai rekonsiliasi. Jika sudah diterima, tampilkan laporan yang sama; jika ditolak definitif sebelum diterima, pemilik boleh memperbaiki draf. Draf yang belum pernah Kirim tetap boleh diedit. **Rincian usulan tersisa:** menutup revisi lama sebelum revisi baru dikirim agar request terlambat tidak ikut diterima; kontrak pembatalan, retry dan timeout belum ditetapkan. Tombol menghentikan retry lokal tidak menjanjikan membatalkan laporan yang mungkin sudah diterima server.
-
-| Kondisi | Hasil konkret | Status |
-|---|---|---|
-| Draf galeri dibuat ON; aturan OFF sebelum diterima | Tertahan, tawarkan penggantian dengan kamera; draf tetap | CONFIRMED |
-| Laporan diterima saat ON; respons hilang; kemudian OFF | Rekonsiliasi menunjukkan laporan diterima yang sama | CONFIRMED FRD-DEC-017; kontrak rekonsiliasi SRS |
-| KTP dihapus setelah penerimaan tetapi sebelum respons sampai | Riwayat laporan tetap; permintaan sama tidak dijadikan kiriman baru | USULAN rekonsiliasi, sejalan PRD |
-| KTP dihapus sebelum penerimaan baru | Kirim tertahan | Baseline PRD |
-| Identitas request sama tetapi media/deskripsi berubah | Tolak konflik payload; jangan menimpa laporan lama | USULAN |
-| Admin menghapus laporan kemudian request lama diulang | Hasil tetap terhapus; tidak membangkitkan laporan | Baseline larangan resurrection; kontrak USULAN |
+Keputusan FRD-DEC-008 menetapkan kebijakan galeri yang berlaku saat penerimaan.
+Draf lama tetap disimpan jika syarat pengiriman tidak terpenuhi.
+Penerimaan tunggal, kuota, rekonsiliasi, dan penutupan maksud kirim dijabarkan
+pada [STD-004](#frd-std-004); kasus lintas proses mengikuti [STD-010](#frd-std-010).
 
 <a id="ktp-detail"></a>
+
 <a id="frd-detail-04"></a>
 
 ### 30.4. Pemeriksaan KTP — rancangan konkret untuk Q003
 
-**Berlaku — FRD-DEC-010/011:** dokumen dikenali sebagai KTP, nama pemilik terbaca dan pemilik mengonfirmasi dokumen tersebut. NIK tidak wajib terbaca dan tidak diverifikasi ke instansi. Saat mengganti KTP yang masih memenuhi prasyarat, KTP lama tetap berlaku sampai pengganti lolos dan dikonfirmasi. Jika KTP aktif dihapus, kirim baru langsung tertahan sampai syarat dipenuhi kembali. Riwayat laporan tetap ada.
-
-**USULAN operasional yang masih perlu ditutup:** satu dokumen dirujuk sebagai KTP prasyarat aktif; vault dapat berisi dokumen lain. Sistem menyajikan hasil/keterbatasan kepada pemilik. Skor keyakinan model bukan satu-satunya bukti lolos. Pembacaan minimum yang sudah dipilih tidak menambah kewajiban field KTP lain atau ekstraksi keluarga. Format berkas, bukti kualitas pembacaan, penanganan hasil usang dan nasib berkas lama setelah penggantian masih Q003/014/017/020.
-
-| Keadaan konseptual | Tindakan pemilik/sistem | Hasil |
-|---|---|---|
-| Belum ada KTP yang memenuhi | Pilih/upload KTP sendiri | Pemeriksaan diminta; draf boleh, kirim belum |
-| Pemeriksaan pertama berjalan | Pemilik memakai fitur lain | Belum memenuhi; draf tetap boleh |
-| Pemeriksaan pengganti berjalan/gagal; KTP lama masih aktif | Pemilik memperbaiki atau mengulang pengganti | Kelayakan dari KTP lama tetap berlaku |
-| Pengganti lolos dan dikonfirmasi | Ganti rujukan KTP prasyarat | Pengganti menjadi dasar kelayakan |
-| Jenis tidak sesuai / tak terbaca / proses gagal | Ambil ulang, pilih dokumen lain atau ulang sesuai kegagalan | Tidak lolos; kegagalan provider tidak menjadi penolakan identitas resmi |
-| Hasil dapat ditinjau | Pemilik membaca ringkasan dan konfirmasi bahwa dokumen miliknya | Kelayakan hanya berubah jika semua syarat pemeriksaan terpenuhi |
-| KTP aktif dihapus | Prasyarat dicabut | Kirim baru tertahan; laporan lama tetap |
-| Hasil job datang setelah sumber dihapus/diganti | Abaikan sebagai hasil yang tidak lagi berlaku untuk kelayakan | Tidak mengaktifkan kembali KTP lama |
-
-Usulan guard penting: konfirmasi harus mengacu pada dokumen dan hasil pemeriksaan yang sama. Konfirmasi yang dibuka sebelum sumber diganti tidak boleh meluluskan sumber baru. Admin tidak menjadi pemeriksa isi KTP. Ketidakberhasilan KTP tidak dapat dilompati dengan mengisi profil keluarga manual.
+FRD-DEC-010/011/017 menetapkan pemeriksaan jenis KTP dan keterbacaan nama,
+konfirmasi pemilik, serta penggantian dokumen. KTP lama berlaku sampai
+penggantinya memenuhi syarat dan dikonfirmasi; penghapusan KTP aktif menahan
+pengiriman baru. Pemeriksaan ini bukan verifikasi NIK atau keaslian identitas.
+Ketentuan final: [STD-005](#frd-std-005) dan [STD-006](#frd-std-006).
 
 <a id="frd-detail-05"></a>
 
 ### 30.5. Akun dan pemulihan — batas kehilangan dikonfirmasi
 
-**Berlaku:** email/sandi lokal; tidak wajib verifikasi email/Google; kode privat saat daftar. Jika sandi dan kode sama-sama hilang, tidak ada pemulihan melalui aplikasi atau jalur admin. Membuat akun baru tidak mengambil alih data akun lama, termasuk data lokal yang tetap terikat identitas akun lama.
-
-**Berlaku — FRD-DEC-013:** pemulihan memakai kode sah sekali pakai dan sandi baru. Setelah berhasil, kode lama tidak berlaku; pemilik memperoleh kode pengganti dan sesi lama dicabut. Jika operasi berhasil tetapi respons hilang, pemilik dapat login dengan sandi baru lalu membuat kode pengganti dari sesi itu. Kode tidak dapat dibaca admin atau dicantumkan dalam log. Pembuatan kode pengganti menginvalidasi kode pemulihan sebelumnya; jangan membiarkan kode yang hasil penerbitannya tidak diketahui tetap menjadi jalur paralel.
-
-**Rincian terbuka Q005/006/017/SRS:** format/panjang, limit percobaan, masa berlaku kode belum dipilih. Autentikasi ulang sebelum menerbitkan pengganti, pencabutan lintas perangkat, dan atomisitas reset perlu kontrak teknis. Jika hasil reset belum diketahui, UI tidak mengaku sukses; pengguna dapat mencoba sandi baru, lalu mengulang pemulihan dengan kode lama hanya jika transaksi belum berhasil. Perubahan email/profil/sandi pada sesi aktif masih Q005. Tidak ada pengecualian pemulihan ketika sandi dan kode sama-sama hilang.
+FRD-DEC-005/013 menetapkan kode pemulihan sekali pakai dan kode pengganti.
+Kehilangan sandi sekaligus kode tidak memberi jalur akses admin ke akun privat;
+akun baru tidak mewarisi data akun lama. Ketentuan final, termasuk pemulihan
+respons yang hilang, terdapat pada [STD-003](#frd-std-003).
 
 <a id="frd-detail-06"></a>
 
 ### 30.6. Logout, data lokal dan tugas tertunda — retensi dasar dikonfirmasi
 
-**Berlaku:** logout mempertahankan draf, checklist/item/progres dan kontak pribadi pada perangkat untuk akun yang sama. Data tidak terbuka bagi tamu atau akun lain. Akun baru dengan nama/email tampilan mirip tidak otomatis memperoleh ruang data akun lama. Kehilangan perangkat/uninstall tidak dijanjikan dapat memulihkan data lokal dari backend.
-
-**Berlaku — FRD-DEC-014; detail callback/rekonsiliasi masih Q020:**
-
-- Logout menghentikan penjadwalan retry milik akun A di perangkat tersebut dan menutup tampilan pribadi. Callback A yang sudah terlanjur berjalan tidak boleh menulis ke ruang B.
-- Saat A login kembali, muat ruang data A, lalu rekonsiliasi permintaan yang sebelumnya sudah ditekan Kirim. Draf biasa tetap tidak dikirim otomatis.
-- Pekerjaan server yang sudah sah diterima sebelum logout boleh selesai untuk pemilik aslinya; hasil tidak ditampilkan kepada akun aktif lain.
-- Pratinjau unduhan KTP/vault dan sesi lokal dibersihkan saat logout, tanpa menghapus backup backend. Detail unduhan yang sengaja disimpan pengguna perlu dibedakan dari cache aplikasi; tidak mengklaim dapat menarik kembali salinan di luar kendali aplikasi.
-- Logout offline segera menutup akses lokal; pencabutan sesi server membutuhkan konektivitas. Aplikasi harus jujur mengenai tindakan lokal yang berhasil dan penarikan server yang belum terkonfirmasi. Kebijakan lifetime/pencabutan akhir ditentukan SRS setelah Q005.
-
-Tidak menambahkan tombol hapus akun, sinkronisasi checklist, atau penghapusan draf otomatis berdasarkan umur tanpa keputusan baru.
+FRD-DEC-006/014 menetapkan retensi data lokal pilihan per akun dan penghentian
+antrean lokal saat logout. Pekerjaan server yang telah diterima tetap terikat
+akun asal. Sesi/cache pratinjau dibersihkan dan respons lama tidak diterapkan
+ke akun baru. Ketentuan final: [STD-005](#frd-std-005) dan [STD-010](#frd-std-010).
 
 <a id="frd-detail-07"></a>
 
 ### 30.7. Inbox — audience akun baru dikonfirmasi
 
-**Berlaku:** saat akun baru membuka inbox, pesan lama yang masih berlaku ikut tersedia. Pesan dicabut atau kedaluwarsa tidak dianggap aktif. Status baca tetap milik tiap akun. Perubahan judul atau isi membuat pesan bertanda diperbarui dan kembali belum dibaca bagi setiap akun. Membaca versi lama saat offline tidak menandai revisi baru sebagai dibaca (FRD-DEC-009/012).
-
-**Berlaku — FRD-DEC-015:** tanggal akhir opsional. Tanpa tanggal akhir, pesan aktif sampai dicabut. Saat berakhir atau dicabut, pesan keluar dari inbox warga setelah sinkron; admin tetap dapat melihat catatan pesan tersebut. Klien offline tidak diklaim mengetahui pencabutan yang belum diterimanya.
-
-**USULAN Q012:** perubahan metadata administratif tanpa perubahan judul/isi tidak mengatur ulang status baca. Penanganan perubahan tanggal akhir terhadap pesan yang sudah berakhir, batas validasi, penanda waktu dan retensi catatan masih terbuka.
-
-Konflik offline: tindakan dibaca menyebut versi yang dibaca. Jika server sudah mempunyai revisi lebih baru, membaca versi lama tidak otomatis menandai versi baru dibaca. Pencabutan berlaku setelah sinkron. Pesan berakhir/dicabut tidak menjadi riwayat inbox warga; masa simpan catatan admin masih Q012/015. Tidak menambahkan push, chat atau targeting domisili.
+FRD-DEC-009/012/015 menetapkan akses pesan aktif untuk akun baru, status belum
+dibaca setelah revisi isi, dan tanggal akhir opsional. Pembacaan versi lama
+tidak menandai versi baru telah dibaca. Ketentuan akhir terdapat pada
+[STD-009](#frd-std-009).
 
 <a id="frd-detail-08"></a>
 
 ### 30.8. Konflik proses dan penghapusan — usulan perilaku yang dapat diuji
 
-Hasil di tabel ini adalah **USULAN Q010/Q020**, kecuali konflik dua admin yang dikonfirmasi FRD-DEC-018, read versi lama oleh FRD-DEC-012, dan invariant PRD seperti larangan memunculkan laporan terhapus kembali. Pilihan penyimpanan/locking tetap SRS.
-
-| Perlombaan | Usulan hasil | Alasan / invariant |
-|---|---|---|
-| Dua admin mengubah objek sama dari versi lama | Perubahan pertama sah tersimpan; perubahan kedua dari versi usang ditolak dan harus memuat ulang sebelum mengubah lagi | CONFIRMED FRD-DEC-018; tidak menimpa perubahan tanpa diketahui |
-| Review disimpan saat bukti baru masuk | Review hanya mencakup bukti yang dilihat; bukti baru tetap memerlukan review | Badge lama tidak mengesahkan bukti baru |
-| AI selesai setelah admin mengoreksi | Hasil AI disimpan sebagai keluaran terkait versi sumber bila masih sah, tidak menimpa koreksi efektif tanpa review | Asal AI dan keputusan admin tetap dibedakan |
-| Laporan dihapus saat AI berjalan | Tolak penerapan hasil pada objek terhapus; bersihkan turunan sesuai lifecycle | Larangan resurrection dari PRD |
-| Hapus media sebagian gagal | Tutup akses ke objek yang sudah dicabut; tampilkan pekerjaan pembersihan belum selesai; retry pembersihan dapat diulang | Jangan melaporkan selesai penuh jika blob masih harus dihapus |
-| Reset kuota bersamaan penerimaan baru | Urutkan sebagai dua tindakan sah; penerimaan sesudah reset tetap dihitung | Tidak ada celah dua penerimaan untuk satu sisa kuota |
-| Hapus KTP saat pemeriksaan | Hasil lama tidak memenuhi akun; kirim baru memerlukan dokumen aktif yang sah | Hapus KTP mencabut prasyarat |
-| Apply saran keluarga saat profil berubah di perangkat lain | Tampilkan konflik dan pilihan ulang terhadap profil terbaru | Tidak menimpa anggota lain tanpa keputusan pemilik |
-| Sumber dokumen dihapus sebelum saran diterapkan | Usulan membatalkan saran/job terkait; profil yang sudah dikonfirmasi tetap ada | Memisahkan saran sementara dari profil |
-| Read pesan lama bersamaan revisi | Status baca hanya berlaku pada versi yang benar-benar dibaca | Versi baru tidak dianggap telah diketahui |
-
-**USULAN audit minimal:** aktor, jenis tindakan, pengenal objek yang tidak memuat isi, waktu, hasil dan alasan bila diperlukan. Tidak menyalin media/deskripsi laporan, NIK, isi dokumen, kode atau token. Retensi audit, cadangan dan hasil sementara belum dipilih; tidak menyebut penghapusan aktif sebagai penghapusan seluruh cadangan.
+Keputusan konflik dan penghapusan diturunkan ke skenario hasil normal, gagal,
+dan bersamaan. Perubahan memakai versi sumber; penghapusan sah mencabut akses
+meskipun pembersihan belum selesai. Hasil worker terlambat tidak menghidupkan
+kembali sumber. Ketentuan final: [STD-010](#frd-std-010) dan [STD-011](#frd-std-011).
 
 <a id="frd-detail-09"></a>
 
@@ -1897,154 +1802,86 @@ Rincian ini mempertajam expected result skenario yang sudah ada, bukan menambah 
 
 ### 30.11. Keputusan gelombang 2 — kelompok, tingkat dan riwayat hapus
 
-Ketiganya semula usulan pada penutupan 16 jawaban pertama, lalu dijawab pada sesi kelanjutan: FRD-DEC-020/021/022. Tabel berikut menyimpan pilihan yang berlaku, alternatif yang tidak dipilih, dan sisa keputusan. Pertanyaan/jawaban literal ada di [putaran 2](TRACEABILITY.md#frd-qa-round-2).
-
-| Agenda | Keputusan dan contoh batas | Alternatif yang tidak dipilih / implikasi | Dampak |
-|---|---|---|---|
-| Q008 / FRD-DEC-020 | Batasi kedekatan antar laporan sekaligus bentang jarak/waktu seluruh kelompok. A dekat B dan B dekat C tidak cukup bila gabungan melewati batas bentang. Nilai demo kemudian dipilih pada FRD-DEC-023, dirinci §30.12. | Hubungan bertetangga tanpa batas total dapat membentuk rantai panjang; semua laporan tetap disimpan pada kedua opsi. Koreksi admin tetap tersedia. | REVIEW-001/004/008; grouping/Pantau; fixture rantai, singleton dan kejadian lama/baru |
-| Q009 / FRD-DEC-021 | Tingkat kelompok adalah tingkat tertinggi di antara bukti yang layak dipakai. Bukti tidak sesuai yang belum direview dikecualikan; tanpa bukti layak tetap Belum dinilai. | Mayoritas bukti layak dapat menghasilkan tingkat rendah meskipun ada satu bukti tinggi. Pilihan agregasi tidak menetapkan rubrik tingkat tiap bukti, status resmi atau prioritas review. | AI-002/003; REVIEW-002/003; MONITOR-001/003; recalculation setelah koreksi/hapus |
-| Q010 / FRD-DEC-022 | Sesudah hapus, riwayat pelapor menyisakan penanda Laporan dihapus admin dan waktu penghapusan; isi/media/analisis tidak bisa dibuka. | Menghilangkan seluruh entri membuat riwayat lebih ringkas tetapi tidak menjelaskan penghapusan. Penanda bukan salinan isi atau pemulihan media; kuota tetap mengikuti keputusan sebelumnya. | REPORT-011/012; CONTROL-004/005; audit tanpa isi dan kontrak retry hasil terhapus |
-
-Angka historis Q008 semula hanya kandidat. Pemilik kini memilih 1.500 m/3.000 m serta 6/12 jam melalui FRD-DEC-023 sebagai konfigurasi demo; pilihan ini bukan bukti akurasi pengelompokan atau batas banjir nyata. Q009 telah memilih agregasi tertinggi dan rubrik demo DEC-032; kualitas hasil masih perlu pembuktian, tanpa klaim indikator keselamatan resmi. Q010 telah memilih penanda dan waktu hapus; retensi penanda dan audit masih perlu keputusan.
+FRD-DEC-020/021/022 menetapkan batas bentang seluruh kelompok, agregasi tingkat
+tertinggi dari bukti yang layak, dan penanda riwayat laporan yang dihapus.
+[Register keputusan putaran 2](DECISIONS.md#frd-round-2) menyimpan cakupan
+konfirmasi. Angka, rubrik, dan lifecycle kemudian diperinci pada bagian berikut.
 
 <a id="frd-grouping-next"></a>
 
 ### 30.12. Batas pengelompokan yang dipilih untuk demo
 
-**CONFIRMED untuk cakupan FRD-DEC-023/024/025.** Setelah membaca usulan, pemilik memilih angka demo, waktu acuan dan laporan terlambat melalui tiga jawaban eksplisit. [Bukti literal](TRACEABILITY.md#frd-qa-round-3). Kolom sisa detail tetap terbuka; tidak ada klaim algoritma telah diuji.
-
-| Subpertanyaan | Keputusan yang berlaku | Contoh penerimaan / penolakan | Sisa detail |
-|---|---|---|---|
-| Q008-B | Konfigurasi demo dari kandidat historis: jarak tetangga maksimum 1.500 m dan selisih waktu maksimum 6 jam; bentang seluruh kelompok maksimum 3.000 m dan rentang waktu maksimum 12 jam. Tepat batas masih memenuhi. Kedekatan berarti ada anggota yang memenuhi kedua batas tetangga; gabungan tetap harus memenuhi kedua batas seluruh kelompok. | A–B dan B–C masing-masing memenuhi, tetapi bentang A–C 3.001 m: tidak menjadi satu kelompok otomatis. Tepat 3.000 m dapat masuk jika syarat lain lolos. Laporan di luar batas tetap tersimpan dan dapat membentuk kelompok lain. | Angka ini konfigurasi demo yang dipilih, bukan batas banjir terukur atau konfigurasi yang sudah terbukti akurat. Cara hitung jarak/format waktu/presisi masuk SRS; pemilihan kandidat/koreksi manual sudah DEC-026/028. |
-| Q008-C | Waktu pengelompokan memakai waktu kejadian bila diisi valid; jika kosong, gunakan waktu penerimaan server. Asal waktu disimpan agar dapat dibedakan. Kuota selalu memakai penerimaan server, bukan waktu kejadian. | Kejadian 08.00 dikirim 13.00 memakai 08.00 untuk kelompok jika field valid, tetapi 13.00 untuk kuota. Field kosong memakai 13.00 dengan penanda asal penerimaan. | Validasi waktu masa depan/batas usia laporan masih Q017; waktu dari warga bukan bukti waktu kejadian telah diverifikasi. |
-| Q008-D | Laporan dengan waktu kejadian eksplisit yang berada dalam interval kejadian kelompok selesai dan memenuhi batas jarak/bentang dapat ditautkan ke kelompok selesai tanpa membukanya kembali. Admin tetap dapat mengoreksi keanggotaan. | Kelompok selesai berisi waktu kejadian 08.00–10.00; laporan diterima 15.00 dengan kejadian 09.00 memenuhi syarat: riwayat bertambah, kelompok tetap selesai dan tidak kembali ke Pantau aktif. Kejadian baru pukul 15.00 tidak masuk kelompok lama hanya karena lokasi sama. | Kandidat mengikuti DEC-026 dan koreksi manual DEC-028; tanpa waktu kejadian eksplisit jalur otomatis ke kelompok selesai tidak terpenuhi. Konflik bersamaan masih Q020. |
-
-Ketiga jawaban dipetakan ke FR-REVIEW-001/004/007/008, RULE-025/028, state kejadian dan TC-REVIEW-001-02/TC-REVIEW-008-02/TC-X-006. Tidak ada format API, algoritma jarak atau mekanisme locking yang ditetapkan melalui pilihan ini.
+FRD-DEC-023/024/025 menetapkan batas demo 3.000 meter dan 12 jam secara inklusif,
+waktu acuan, serta perlakuan laporan terlambat. Laporan untuk kejadian selesai
+tidak otomatis membuka kembali kejadian. Ketentuan rinci tetap mengikuti
+[register keputusan](DECISIONS.md#frd-round-3), aturan bisnis §13, dan model status §15.
 
 <a id="frd-grouping-remaining"></a>
 
 ### 30.13. Pemilihan kandidat, nama lokasi dan koreksi manual
 
-**CONFIRMED melalui FRD-DEC-026/027/028.** Pemilik memilih aturan kandidat, nama lokasi dan koreksi manual pada [putaran 4](TRACEABILITY.md#frd-qa-round-4). Hasil yang berubah karena dua tindakan bersamaan tetap Q020; format API, metrik jarak dan layanan nama tetap SRS. Kontrak fungsi Q008 selesai dikonfirmasi; ini bukan persetujuan FRD secara keseluruhan.
-
-| Subpertanyaan | Keputusan berlaku | Batas / alternatif yang tidak dipilih |
-|---|---|---|
-| Q008-E | Laporan terlambat yang memenuhi DEC-025 mendahulukan kandidat kelompok selesai; selebihnya cari kandidat aktif yang memenuhi batas. Jika beberapa kandidat dalam kelas tersebut cocok, pilih yang jaraknya paling dekat ke salah satu laporan anggotanya. Jika sama, pilih kelompok yang lebih dahulu dibuat; jika tetap sama, urutkan pengenal internal secara stabil. Jangan menggabungkan beberapa kelompok hanya karena satu laporan cocok dengan semuanya. | Alternatif: pilih kelompok yang paling baru dibuat di antara kandidat yang memenuhi. Aturan pemilihan tidak menghapus syarat bentang/jarak/waktu; laporan tetap satu keanggotaan efektif. |
-| Q008-F | Nama lokasi publik diambil dari nama wilayah titik laporan paling awal diterima yang masih ada dalam kelompok, bila informasi nama tersedia. Jika tidak tersedia, tampilkan “Lokasi laporan” disertai kode kelompok yang tidak memuat identitas warga. Perubahan sumber setelah hapus/pindah menyesuaikan ringkasan; tidak menampilkan koordinat presisi sebagai fallback publik. | Alternatif: selalu gunakan label generik dan kode kelompok. Layanan/nomenklatur wilayah dan cara memperoleh nama masuk SRS; tidak menambahkan hak mengubah nama secara manual melalui keputusan ini. |
-| Q008-G | Batas otomatis tidak melarang admin memindahkan laporan sebagai koreksi manual. Jika hasil perpindahan melampaui batas otomatis, tampilkan dampaknya dan wajibkan alasan; simpan jejak koreksi, hitung ulang kedua kelompok dan jangan diam-diam membatalkan koreksi melalui pengelompokan ulang otomatis. | Alternatif: perpindahan manual juga wajib memenuhi seluruh batas otomatis. Pemindahan ke kelompok selesai tetap tidak membuka kembali kejadian; konflik versi mengikuti DEC-018 dan Q020. |
-
-Tanpa waktu kejadian eksplisit, jalur otomatis ke kelompok selesai pada DEC-025 tidak dapat dianggap terpenuhi; waktu penerimaan tetap dapat dipakai untuk mencari kelompok aktif sesuai DEC-024. Ini konsekuensi dari dua keputusan yang sudah ada, bukan tebakan waktu kejadian. Validasi waktu kejadian tetap Q017.
+Pemilihan kandidat kelompok, nama lokasi, serta koreksi manual ditetapkan
+melalui FRD-DEC-026/027/028. [Register putaran 4](DECISIONS.md#frd-round-4)
+menyimpan aturan yang dipilih; pengendalian perubahan bersamaan mengikuti
+[STD-010](#frd-std-010).
 
 <a id="frd-level-next"></a>
 
 ### 30.14. Dasar penilaian bukti dan urutan review
 
-**Dasar dikonfirmasi melalui FRD-DEC-029/030/031.** Pemilik memilih dasar dampak, kelayakan setelah review eksplisit dan urutan antrean. Rubrik rinci kemudian dipilih melalui DEC-032 pada §30.15. Cakupan review, awal waktu tunggu/refresh dan catatan kemudian dipilih DEC-033–037; Q009 FUNCTION_CONFIRMED dengan dependensi lintas agenda tetap terbuka. Agregasi tertinggi tetap DEC-021 dan bobot/threshold historis tidak otomatis dipakai.
-
-| Subpertanyaan | Keputusan dasar | Alternatif yang tidak dipilih / batas |
-|---|---|---|
-| Q009-B | Dasar rubrik demo memakai dampak yang dapat ditunjukkan oleh bukti/keterangan, misalnya genangan, gangguan akses/bangunan dan orang yang membutuhkan bantuan. Hasil yang tidak cukup untuk menentukan tingkat tetap Belum dinilai. | Alternatif dasar: perkiraan ketinggian air. Memilih dasar dampak belum mengesahkan batas Rendah/Sedang/Tinggi atau akurasi AI; tabel indikator dan contoh berlabel harus dibahas sesudah pilihan ini. Tidak menyebut salah satu dasar sebagai standar keselamatan resmi. |
-| Q009-C | Bukti yang semula tidak cocok hanya kembali dihitung setelah admin menyatakan bukti relevan, menetapkan tingkat dan mencatat alasan. Hasil AI awal tetap mempunyai jejak; membuka halaman atau memberi catatan saja tidak mengubah kelayakan. | Alternatif: bukti yang ditandai tidak cocok tetap dikecualikan meskipun sudah direview. Rubrik tingkat tetap Q009-B dan turunannya; hasil admin tidak memberi hak membaca dokumen privat. |
-| Q009-D | Antrean kelompok aktif yang sudah mempunyai tingkat diurutkan Tinggi → Sedang → Rendah; pada tingkat sama, kebutuhan review yang paling lama menunggu didahulukan, kemudian pengenal stabil. Kelompok Belum dinilai berada pada antrean tersendiri dengan yang paling lama menunggu di atas. | Alternatif: seluruh kebutuhan review diurutkan waktu tunggu saja. Kedua opsi tidak memberi nilai Rendah kepada Belum dinilai. Prioritas ini urutan kerja admin, bukan status resmi atau perintah evakuasi. Makna awal waktu tunggu/refresh tetap perlu dirinci. |
-
-Dampak yang diterapkan: FR-AI-001/002/003, FR-REVIEW-002/003/006 dan FR-MONITOR-003, katalog aturan serta skenario penilaian/review. Pemilihan dasar rubrik tidak dicatat sebagai penutupan seluruh Q009.
+FRD-DEC-029/030/031 menetapkan dampak yang didukung bukti sebagai dasar
+penilaian, kewenangan koreksi admin dengan alasan, dan antrean review.
+Belum dinilai tetap terpisah dari Rendah/Sedang/Tinggi.
+Rincian tersedia pada [register putaran 5](DECISIONS.md#frd-round-5) dan §13.
 
 <a id="frd-impact-rubric-proposal"></a>
 
 ### 30.15. Rubrik dampak untuk demo — keputusan Q009-E
 
-**CONFIRMED_R1 melalui FRD-DEC-032.** Jawaban pemilik: “Gunakan rubrik tersebut untuk demo (disarankan)”. [Bukti pertanyaan dan jawaban](TRACEABILITY.md#frd-rubric-question). Dasarnya adalah FRD-DEC-029, bukan standar tingkat bahaya resmi. Tabel ini mengklasifikasikan indikasi yang didukung laporan, bukan membuktikan kondisi keselamatan lapangan. Ketiadaan indikator yang terlihat tidak membuktikan daerah aman.
-
-| Hasil | Indikator yang dipilih | Contoh fixture untuk review |
-|---|---|---|
-| Rendah | Genangan lokal pada area luar/jalan yang terlihat dan sesuai keterangan, tanpa indikator Sedang/Tinggi yang didukung pada bukti tersebut | Foto genangan lokal dan keterangan yang selaras; tidak memakai label Rendah jika informasi untuk memahami dampaknya belum cukup |
-| Sedang | Ada bukti yang mendukung air masuk bangunan atau akses lokasi terganggu | Foto dan keterangan mendukung air masuk ruang bangunan; tidak mengira semua jalan berair pasti terputus |
-| Tinggi | Ada bukti yang mendukung orang terjebak atau kebutuhan pertolongan/evakuasi akibat kejadian | Media dan keterangan mendukung adanya orang yang memerlukan pertolongan; klaim yang bertentangan dengan bukti tidak langsung dipakai |
-| Belum dinilai | Informasi dampak tidak cukup atau hasil penilaian belum dapat dipakai | Media buram/tidak informatif, keluaran analisis invalid atau bukti belum layak; bukan otomatis Rendah |
-
-Jika lebih dari satu indikator pada satu bukti didukung, gunakan tingkat tertinggi yang didukung; antar bukti tetap mengikuti DEC-021. Kelayakan bukti dan koreksi admin mengikuti DEC-030. Kriteria keluaran model/PoC tetap Q013; tidak ada angka kedalaman, arus atau keyakinan AI yang disahkan lewat tabel ini. Pilihan rubrik tidak sekaligus menetapkan review/waktu tunggu/refresh/catatan; rincian tersebut kemudian dipilih DEC-033–037 pada §30.16–30.17.
+FRD-DEC-032 menetapkan rubrik demo: Rendah untuk genangan lokal dengan
+informasi cukup; Sedang untuk air masuk bangunan atau akses terganggu; Tinggi
+untuk orang terjebak atau membutuhkan pertolongan/evakuasi yang didukung bukti.
+Informasi yang tidak cukup tetap Belum dinilai. Rincian keputusan:
+[FRD-DEC-032](DECISIONS.md#frd-dec-032). Kualitas AI masih memerlukan uji.
 
 <a id="frd-review-lifecycle-proposal"></a>
 
 ### 30.16. Cakupan review dan waktu tunggu — keputusan Q009-F/G
 
-**CONFIRMED_R1 melalui FRD-DEC-033/034.** [Jawaban literal](TRACEABILITY.md#frd-review-lifecycle-questions). Dasar: PRD-F-023/026 dan FRD-DEC-030/031. Bukti baru tidak boleh dianggap telah diperiksa hanya karena kelompok pernah ditinjau. Keputusan berikut memperjelas batas tersebut; tidak menambah aksi review massal khusus atau menentukan schema/API.
-
-| Subpertanyaan | Keputusan yang dipilih | Alternatif yang tidak dipilih dan konsekuensi |
-|---|---|---|
-| Q009-F | Admin menandai review secara eksplisit per laporan, mencakup bukti dan hasil penilaian versi yang dilihat. Kelompok ditandai Ditinjau hanya jika seluruh bukti/hasil terkini anggotanya tercakup; tambahan laporan atau perubahan hasil memerlukan review pada bagian yang berubah, tanpa menghapus jejak review sebelumnya. Membuka halaman atau menulis catatan tidak meluluskan review. | Satu tindakan review mencakup semua anggota pada versi kelompok yang ditampilkan. Opsi ini membutuhkan batas cakupan dan pemeriksaan agar bukti yang belum diperiksa tidak ikut diluluskan. Pada kedua opsi, Ditinjau berbeda dari layak dihitung: bukti yang dinyatakan tidak relevan tetap dikecualikan meski telah ditinjau. |
-| Q009-G | Urutan dalam tingkat yang sama memakai waktu paling awal dari kebutuhan review yang masih terbuka. Laporan baru mulai menunggu saat diterima server; hasil penilaian yang berubah setelah direview mulai menunggu saat perubahan tersimpan. Tambahan bukti tidak mereset kebutuhan lama. Setelah kebutuhan tertua selesai atau sumbernya dihapus, gunakan kebutuhan tersisa berikutnya. Bila semuanya selesai, kelompok keluar antrean kebutuhan review. | Selalu memakai waktu pembuatan kelompok. Lebih sederhana, tetapi kelompok lama yang seluruhnya pernah ditinjau selalu didahulukan saat muncul satu bukti baru. Waktu kejadian warga tetap hanya untuk pengelompokan; bukan awal waktu tunggu review. |
-
-| Walkthrough keputusan | Hasil sesuai keputusan | Jejak rencana uji |
-|---|---|---|
-| Admin mereview A; B sudah ada tetapi belum direview | A tercakup; kelompok tetap perlu review karena B. Bukti B tidak ikut disahkan | TC-REVIEW-006-01/02 |
-| Admin membuka A versi lama; hasil berubah sebelum simpan | Versi baru tidak ikut direview oleh tindakan dari layar lama; perilaku konflik rinci tetap Q020 | TC-REVIEW-009-02; TC-X-005 |
-| A dinyatakan tidak relevan secara eksplisit; semua anggota sudah ditinjau | Kelompok boleh Ditinjau tetapi tanpa bukti layak tetap Belum dinilai. Dua status mengukur hal berbeda | TC-AI-002-01/02; TC-MONITOR-003-01 |
-| A diterima 08.00; B diterima 09.00; keduanya belum direview | Awal tunggu 08.00; kedatangan B tidak mengganti menjadi 09.00 | TC-REVIEW-002-01/02 |
-| Review A selesai; B masih menunggu | Awal tunggu menjadi 09.00. Selesainya A tidak mereset B ke waktu sekarang | TC-REVIEW-002-01/02 |
-| Semua kebutuhan selesai 10.00; bukti baru diterima 12.00 | Awal tunggu 12.00, bukan waktu awal kelompok. Kejadian selesai tetap mengikuti DEC-025 dan tidak dibuka otomatis | TC-REVIEW-006-01/02; TC-X-006 |
-
-Semua baris di atas merupakan perincian keputusan ke skenario yang masih NOT_RUN; jumlah ID TC tetap. Penanganan perpindahan anggota, review vs hasil AI terlambat dan tindakan selesai bersamaan tetap Q020. Refresh dan cakupan/koreksi catatan kemudian dipilih melalui DEC-035–037/§30.17; retensi/pembersihan tetap Q010/015.
+FRD-DEC-033/034 menetapkan review per laporan dan versi yang dilihat, serta
+waktu tunggu dari kebutuhan review tertua yang masih terbuka. Bukti baru tidak
+menghapus kebutuhan review lama. Kelompok dianggap ditinjau hanya ketika
+seluruh bukti terkini tercakup. Rincian:
+[FRD-DEC-033](DECISIONS.md#frd-dec-033) dan [FRD-DEC-034](DECISIONS.md#frd-dec-034).
 
 <a id="frd-refresh-notes-proposal"></a>
 
 ### 30.17. Pembaruan tampilan dan catatan tindak lanjut — keputusan Q009-H/I/J
 
-**CONFIRMED_R1 melalui FRD-DEC-035/036/037.** Ketiga pilihan telah dijawab eksplisit melalui async; [bukti literal](TRACEABILITY.md#frd-refresh-notes-questions). Sumber: PRD-F-025/034–036, FR-REVIEW-005 dan FR-MONITOR-001/002. Status pengajuan/jawaban terbaru mengikuti register TRACEABILITY. Penetapan cara transport, endpoint dan timer teknis tetap SRS.
-
-| Subpertanyaan | Keputusan yang dipilih | Alternatif yang tidak dipilih dan batas |
-|---|---|---|
-| Q009-H | Pantau dan antrean review memuat data saat halaman dibuka/kembali aktif, saat pengguna meminta muat ulang, serta tiap 30 detik selama halaman terlihat dan online. Aksi admin yang berhasil memperbarui tampilan terkait. Tampilkan waktu data terakhir berhasil diperoleh; gagal refresh mempertahankan data lama dengan penanda belum diperbarui/offline, bukan mengubahnya menjadi daftar kosong atau status aman. Form yang belum disimpan tidak ditimpa oleh refresh; bila sumber berubah, beri tahu dan gunakan aturan konflik saat simpan. | Hanya saat halaman dibuka atau muat ulang manual, tanpa pembaruan berkala. Nilai 30 detik adalah interval permintaan yang dipilih, bukan jaminan keterlambatan maksimum atau SLA. Realtime/push tidak diwajibkan. Data privat dan logout tetap mengikuti aturan akses/cache yang sudah berlaku. |
-| Q009-I | Catatan ditautkan ke satu laporan; kedua admin dan pemilik laporan itu dapat membaca. Memindahkan laporan ke kelompok lain mempertahankan catatannya; pemilik laporan lain, termasuk anggota kelompok tujuan, tidak mendapat akses. Laporan baru dalam kelompok juga tidak mewarisi catatan laporan lain. | Catatan tingkat kelompok dengan daftar penerima yang ditetapkan saat disimpan. Pilihan ini membutuhkan batas perubahan keanggotaan dan pemeriksaan penerima tambahan. Cakupan yang dipilih tidak mengubah catatan menjadi chat atau klaim bantuan telah dikirim. |
-| Q009-J | Catatan yang sudah tersimpan tidak diedit/dihapus satu per satu; kesalahan diperbaiki dengan catatan baru yang merujuk catatan sebelumnya. Admin dan pelapor dapat melihat urutan serta waktu koreksi. Hapus laporan tetap menghilangkan akses isi catatan terkait sesuai lifecycle sumber; audit/retensi ditetapkan Q010/015. | Izinkan revisi catatan dengan histori perubahan yang terlihat oleh admin/pelapor. Pilihan revisi memerlukan aturan versi, hak pengubah dan konflik tambahan. Catatan baru bukan retensi tanpa batas; masa simpan tetap Q010/015. |
-
-| Kasus batas | Hasil menurut keputusan | Skenario terkait, seluruhnya NOT_RUN |
-|---|---|---|
-| Halaman masih terlihat, koneksi putus sebelum refresh | Data terakhir tetap mempunyai waktu/keterangan gagal pembaruan; kegagalan tidak diartikan tidak ada laporan | TC-MONITOR-002-01/02; TC-REVIEW-002-01/02 |
-| Admin sedang mengetik, ada perubahan server | Isi form tidak hilang; tampilan memberitahukan perubahan. Menyimpan dari versi usang mengikuti DEC-018; mekanisme Q020/SRS | TC-REVIEW-009-02 |
-| Catatan untuk laporan milik A; laporan dipindah ke kelompok berisi B | A dan admin tetap dapat membaca; B tidak memperoleh isi catatan | TC-REVIEW-005-01/02 |
-| Admin keliru menulis catatan lalu menambahkan koreksi | Pelapor melihat catatan awal dan koreksi yang terhubung; riwayat tidak ditimpa diam-diam | TC-REVIEW-005-01 |
-| Laporan beserta isi dihapus admin | Penanda riwayat mengikuti DEC-022; catatan bukan jalan lain membaca isi yang telah dihapus. Pembersihan sebagian DEC-039; retensi Q010 | TC-CONTROL-004-01; TC-REPORT-011-01 |
-
-Validasi panjang/isi catatan tetap Q017. Pembaruan berulang, gagal simpan dengan respons hilang, perpindahan bersamaan penulisan catatan dan hasil worker terlambat tetap Q020. Tabel ini tidak menambah ID FR/AC/TC atau memperluas pembaca yang diizinkan baseline.
+FRD-DEC-035/036/037 menetapkan pembaruan saat halaman dibuka/aktif, secara
+manual, setelah aksi berhasil, serta setiap 30 detik ketika terlihat dan online.
+Pembaruan mempertahankan input form. Catatan melekat pada laporan, hanya
+terbaca admin dan pemilik, serta dikoreksi dengan catatan baru.
+Rincian: [register putaran 7](DECISIONS.md#frd-round-7) dan [STD-010](#frd-std-010).
 
 <a id="frd-delete-proposal"></a>
 
 ### 30.18. Penghapusan, gagal sebagian dan audit — keputusan Q010-B/C/D
 
-**CONFIRMED_R1 melalui FRD-DEC-038/039/040.** [Pertanyaan dan jawaban literal](TRACEABILITY.md#frd-delete-questions). Dasar: PRD-F-032/033, FRD-DEC-007/022/037 dan usulan §30.8. Penanda riwayat, tidak refund kuota, larangan menghidupkan kembali sumber terhapus serta terputusnya akses catatan terkait sudah dipilih; pertanyaan berikut hanya memperinci tindakan dan hasil kegagalan. Tidak ada penghapusan data aplikasi yang dijalankan dalam pekerjaan dokumentasi ini.
-
-| Subpertanyaan | Keputusan yang dipilih | Alternatif yang tidak dipilih dan batas |
-|---|---|---|
-| Q010-B | Sebelum admin menghapus, tampilkan konfirmasi dengan pengenal laporan dan dampak: isi/media/analisis/catatan tidak dapat dibuka lagi, agregat dihitung ulang, penanda dan waktu hapus tersisa, kuota tidak kembali. Admin wajib memberi alasan singkat tanpa menyalin isi laporan/data pribadi, lalu menekan konfirmasi. Membatalkan tidak mengubah data. Tidak ada pemulihan melalui aplikasi setelah penghapusan diterima. | Konfirmasi dampak yang sama, alasan opsional. Aksi selesai kejadian tetap terpisah dari hapus. Validasi alasan Q017 dan kebutuhan autentikasi ulang aksi sensitif Q005/006 tidak ditetapkan diam-diam. |
-| Q010-C | Begitu penghapusan sah tercatat, cabut akses aktif atas laporan/turunannya, keluarkan sumber dari agregat dan tampilkan penanda pemilik dengan waktu tindakan. Jika pembersihan fisik media/turunan gagal sebagian, admin melihat Pembersihan tertunda/gagal dan dapat mencoba ulang pekerjaan yang sama. Jangan nyatakan selesai penuh sampai semua komponen aktif yang diwajibkan sudah bersih. Hasil AI terlambat tidak menghidupkan sumber kembali. | Kegagalan pembersihan membatalkan seluruh tindakan dan sumber kembali aktif. Opsi itu membuat hasil tindakan bergantung pada ketersediaan media dan berpotensi membuka lagi sumber yang tadi diminta dihapus. Cadangan/provider di luar penyimpanan aktif tetap memerlukan kebijakan terpisah. |
-| Q010-D | Audit penghapusan dibaca kedua admin; pemilik hanya melihat penanda/waktu pada riwayat. Field audit minimum: pengenal tindakan/laporan/admin, waktu, alasan tindakan dan hasil termasuk status pembersihan. Tidak menyalin media, deskripsi, analisis, isi catatan, data dokumen, token atau koordinat presisi. | Audit minimum yang sama juga tersedia kepada pemilik laporan. Tidak ada opsi membuka audit kepada warga lain/tamu. Memilih field/akses tidak menetapkan masa simpan audit, penanda, cadangan atau hasil sementara. |
-
-| Walkthrough keputusan | Expected result sesuai keputusan | Skenario terkait, NOT_RUN |
-|---|---|---|
-| Admin batal pada dialog konfirmasi | Laporan, catatan, kuota dan agregat tidak berubah | TC-CONTROL-004-01 |
-| Sistem gagal mencatat tindakan penghapusan | Tampilkan gagal; jangan tampilkan penanda atau sukses yang belum tercatat. Respons tidak diketahui direkonsiliasi sebagai tindakan yang sama | TC-CONTROL-004-01; Q020 |
-| Penghapusan tercatat, satu berkas media gagal dibersihkan | Akses layanan aktif ditolak; sumber tidak dihitung; pemilik melihat penanda; admin melihat pembersihan belum selesai dan dapat retry | TC-CONTROL-004-01; TC-CONTROL-005-01/02 |
-| Retry pembersihan setelah beberapa komponen sudah hilang | Komponen yang sudah hilang tidak dibuat lagi; waktu tindakan/penanda tidak berubah dan kuota tidak refund | TC-CONTROL-004-01; TC-CONTROL-005-02 |
-| Hasil AI/catatan baru datang setelah sumber dicabut | Tidak menerapkan perubahan pada sumber terhapus atau memulihkan akses. Hasil sementara mengikuti lifecycle; konflik rinci Q020 | TC-CONTROL-005-02 |
-| Warga lain menebak ID audit; pemilik mencoba membuka isi terhapus | Tidak memperoleh audit/isi yang tidak diizinkan | TC-CONTROL-004-02; TC-REPORT-011-01 |
-
-Keputusan pencabutan akses tidak mengklaim dapat menarik berkas yang sudah diunduh di luar aplikasi atau langsung menghapus cadangan/provider. Kontrak cache, cadangan, retensi penanda/audit, batas retry dan tanggung jawab pembersihan masih Q010/015/018/020. Retensi penanda/audit hapus kemudian dipilih DEC-041 pada §30.19; cadangan/cache dan rincian lainnya masih terbuka. Ketiga pilihan ini tidak menutup Q010 seluruhnya.
+FRD-DEC-038/039/040 menetapkan konfirmasi dampak dan alasan penghapusan,
+pencabutan akses saat pembersihan tertunda, serta audit minimum untuk admin.
+Pemilik memperoleh penanda dan waktu hapus; audit tidak menyalin isi privat.
+Rincian: [register putaran 8](DECISIONS.md#frd-round-8) dan [STD-011](#frd-std-011).
 
 <a id="frd-retention-proposal"></a>
 
 ### 30.19. Masa simpan penanda dan audit penghapusan — keputusan Q010-E
 
-**CONFIRMED_R1 melalui FRD-DEC-041.** [Jawaban literal](TRACEABILITY.md#frd-retention-question). Setelah isi tidak dapat diakses, penanda riwayat pemilik dan audit minimum admin masih mempunyai tujuan berbeda. Konfigurasi demo yang dipilih: penanda terlihat selama **30 hari sejak penghapusan sah tercatat**, sedangkan audit penghapusan disimpan **90 hari sejak tindakan dicatat**. Tepat tenggat, entri kedaluwarsa tidak lagi ditampilkan melalui layanan; pembersihan fisiknya mengikuti lifecycle yang harus dirinci. Angka ini keputusan konfigurasi demo, bukan kewajiban hukum atau klaim kemampuan provider.
-
-| Kasus | Hasil menurut keputusan | Alternatif / batas |
-|---|---|---|
-| Sebelum 30 hari dari penghapusan | Pemilik melihat penanda/waktu tanpa isi; tidak ada pemulihan laporan | Alternatif durasi dapat diberikan pengguna |
-| Tepat/setelah 30 hari | Penanda keluar dari riwayat pemilik; audit minimum masih dapat dibaca admin sampai tenggatnya | Bukan penghapusan laporan baru, reset kuota atau pembatalan pembersihan |
-| Tepat/setelah 90 hari dari pencatatan audit | Entri audit kedaluwarsa tidak tersedia melalui tampilan/API audit | Tidak dianggap membuktikan seluruh salinan cadangan/provider telah hilang |
-| Media belum selesai dibersihkan saat penanda/audit kedaluwarsa | Pekerjaan pembersihan tetap dilanjutkan; hilangnya penanda bukan alasan mengaktifkan ulang sumber | Data kendali minimum untuk job/idempotensi/kuota dan larangan resurrection mempunyai lifecycle teknis tersendiri pada Q010/018/020; tidak memuat kembali isi laporan |
-
-Alternatif yang disajikan tetapi tidak dipilih: penanda **7 hari**, audit **30 hari**, dengan aturan tenggat yang sama. Pemilik memilih 30/90 hari melalui jawaban eksplisit; tidak memilih alternatif 7/30 hari. Masa simpan cadangan server, cache dan data provider belum dicakup Q010-E; jangan mengubah pilihan penanda/audit menjadi janji penghapusan cadangan. Durasi dihitung dari waktu server, bukan tanggal kalender lokal atau waktu kejadian warga; representasi waktu SRS. Ini perincian calon varian TC-REPORT-011-01 dan TC-CONTROL-004-02; semuanya NOT_RUN.
+FRD-DEC-041 menetapkan penanda riwayat selama 30 hari sejak penghapusan sah
+tercatat dan audit selama 90 hari sejak tindakan dicatat. Tepat tenggat, entri
+tidak ditampilkan lagi; pembersihan yang belum tuntas tetap dilanjutkan.
+Angka ini adalah konfigurasi demo. Rincian:
+[FRD-DEC-041](DECISIONS.md#frd-dec-041) dan [STD-011](#frd-std-011).
 
 <a id="frd-backup-retention-proposal"></a>
 

@@ -4,127 +4,93 @@
 
 [![CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
 
-Workspace panduan kerja dan spesifikasi demo kuliah: Flutter Android warga,
-Flutter Web admin, dan backend bersama. Tim menyiapkan aplikasi sendiri di
-[apps/](apps/README.md).
+SiagaBanjir adalah proyek akademik untuk pelaporan dan pemantauan banjir dalam
+konteks Kota Padang. Rancangan produk mencakup Flutter Android untuk warga,
+Flutter Web untuk admin, dan backend bersama.
 
-## Mulai di sini
+Repository ini menyediakan spesifikasi, kontrak API, panduan desain, dan
+instruksi kerja tim. **Backend dan aplikasi Flutter belum diimplementasikan.**
+Tim menginisialisasi keduanya di [apps/](apps/README.md).
 
-1. Buka [AGENTS](AGENTS.md). AI wajib membaca **seluruh sumber aktif** sesuai
-   [protokol baca lengkap](rules/workflow.md#baca-lengkap), termasuk semua
-   rules, delapan skills, docs dan kontrak; bukan hanya ringkasan handoff.
-2. Setelah bacaan lengkap, pilih prosedur pada [katalog delapan skill](SKILL.md).
-3. Gunakan [FRD](docs/FRD.md), [SRS](docs/SRS.md), dan
-   [OpenAPI](docs/openapi.json) untuk perilaku produk.
-4. Ikuti [DESIGN](docs/DESIGN.md) untuk UI, ikon dan aksesibilitas.
-5. Setiap perubahan mengikuti [sinkronisasi dokumentasi](rules/documentation.md).
-6. Navigasi semua dokumen melalui [indeks docs](docs/INDEX.md).
+## Dokumentasi
 
-[Riset dan seleksi skill](docs/SKILL-RESEARCH.md) mencatat referensi lokal,
-sumber resmi, alasan adaptasi serta skenario pemeriksaan. Skill baru mencakup
-debugging dan verifikasi. [Perbandingan Software-BK](docs/SKILL-RESEARCH.md#softwarebk)
-menjelaskan tambahan yang diterapkan, yang sudah tercakup dan yang tidak cocok.
-Gunakan [peta sumber acuan](docs/WORKSPACE.md#sumber-acuan) untuk menemukan
-arsitektur, data, API dan bukti tanpa membuat salinan spesifikasi.
+| Kebutuhan | Acuan |
+|---|---|
+| Tujuan dan kebutuhan produk | [BRD](docs/BRD.md) dan [PRD](docs/PRD.md) |
+| Perilaku, aturan, dan penerimaan | [FRD](docs/FRD.md) |
+| Arsitektur, data, dan antarmuka | [SRS](docs/SRS.md), [OpenAPI](docs/openapi.json), [contoh payload](docs/examples.json) |
+| Desain layar dan aksesibilitas | [DESIGN](docs/DESIGN.md) |
+| Keputusan dan keterlacakan | [DECISIONS](docs/DECISIONS.md) dan [TRACEABILITY](docs/TRACEABILITY.md) |
+| Kontribusi dan publikasi | [Panduan GitHub](docs/GITHUB-WORKFLOW.md) dan [versioning](docs/VERSIONING.md) |
+| Konfigurasi dan status pekerjaan | [WORKSPACE](docs/WORKSPACE.md) dan [handoff](docs/SESSION-HANDOFF.md) |
 
-## Versioning
+[Indeks dokumentasi](docs/INDEX.md) memuat seluruh sumber aktif.
+Agent mengikuti [AGENTS](AGENTS.md), menuntaskan
+[bacaan lengkap](rules/workflow.md#baca-lengkap), lalu menjalankan prosedur dari
+[katalog delapan skill](SKILL.md) sesuai tugas. Setiap perubahan menyelaraskan
+[dokumen yang terdampak](rules/documentation.md#living-documents).
 
-Proyek mengikuti [Semantic Versioning 2.0.0](https://semver.org/lang/id/).
-Panduan lengkap ada di [docs/VERSIONING.md](docs/VERSIONING.md).
+## Status dan versi
 
-| Komponen | Versi |
-|----------|-------|
-| BRD/PRD | v0.1.0 APPROVED |
-| FRD/SRS | v1.0.0 APPROVED |
+| Komponen | Baseline |
+|---|---|
+| BRD / PRD | v0.1.0 APPROVED |
+| FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0 |
+| Backend / Flutter | Belum tersedia; folder aplikasi berisi penanda kosong |
+| Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
 
-Perubahan dicatat di [CHANGELOG.md](CHANGELOG.md). Setiap tag `vX.X.X`
-yang di-push ke GitHub otomatis membuat Release melalui GitHub Actions.
+Persetujuan spesifikasi berbeda dari penerimaan implementasi.
+Rilis v0.1.0 adalah baseline dokumentasi dan workspace; tidak menyediakan APK
+atau aplikasi siap pakai. Catatan versi ada di [CHANGELOG](CHANGELOG.md).
+[GitHub Releases](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases)
+menyediakan catatan rilis dan arsip repository pada tag terkait.
 
-## Otomatisasi (CI/CD)
+<a id="otomatisasi-cicd"></a>
 
-GitHub Actions menjalankan pemeriksaan otomatis pada push dan PR ke `main`:
+## Validasi lokal dan CI
 
-| Workflow | Apa yang diperiksa |
-|----------|-------------------|
-| [CI](.github/workflows/ci.yml) | Lint Markdown, link/case, YAML skill, EditorConfig, OpenAPI, contoh payload dan regresi validator |
-| [Release](.github/workflows/release.yml) | Otomatis membuat GitHub Release saat tag `vX.X.X` di-push |
+[CI](.github/workflows/ci.yml) memeriksa dokumentasi, format, dan kontrak pada
+push serta pull request ke main. Pemeriksaan memakai Python 3.10+ (CI: 3.12),
+Node 24, dan EditorConfig Checker 4.0.2.
 
-Pemeriksaan workspace memakai Python 3.10+ (CI: 3.12), Node 24 dan
-EditorConfig Checker 4.0.2. Dependensi pemeriksaan tidak menginisialisasi apps.
-Pasang dependensi Python dalam environment terisolasi yang sudah dipilih tim;
-`npx` menyimpan alat sementara di cache pengguna, bukan dependency aplikasi.
+Pasang dependensi Python dalam environment terisolasi. Perintah berikut
+dijalankan dari root repository; dependensinya hanya untuk pemeriksaan workspace.
 
 ```bash
 python -m pip install -r .github/requirements-validation.txt
-python -B -X utf8 .github/scripts/validate_links.py    # Cek link internal
-python -B -X utf8 .github/scripts/validate_skills.py   # Cek YAML skill
+python -B -X utf8 .github/scripts/validate_links.py
+python -B -X utf8 .github/scripts/validate_skills.py
 python -B -X utf8 .github/scripts/validate_contracts.py
 python -B -X utf8 -m unittest discover -s .github/scripts -p 'test_*.py'
 npx -y markdownlint-cli2@0.17.2 --config .markdownlint.json '**/*.md'
 npx -y @redocly/cli@2.64.1 lint docs/openapi.json --config .redocly.yaml
 editorconfig-checker
+git diff --check
 ```
 
-EditorConfig Checker memeriksa file tracked secara default. Sebelum commit
-pertama, berikan seluruh path kandidat dari `git ls-files --cached --others
---exclude-standard` sebagai argumen, atau periksa setelah staging. Jangan
-menyebut pemeriksaan kosong sebagai PASS. CI memakai checkout yang sudah tracked.
-Unduh binary sesuai OS dari [rilis resmi v4.0.2](https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/v4.0.2).
-Konfigurasi Redocly mengangkat peringatan kontrak yang diaudit menjadi error;
-schema internal SRS yang belum dipakai endpoint tetap diperbolehkan.
+EditorConfig Checker tersedia dari [rilis resmi v4.0.2](https://github.com/editorconfig-checker/editorconfig-checker/releases/tag/v4.0.2).
+Pemeriksaan default mencakup berkas tracked; periksa berkas baru setelah staging
+atau berikan path-nya secara eksplisit. Redocly menggunakan
+[konfigurasi proyek](.redocly.yaml) untuk menemukan kesalahan kontrak dan komponen
+yang tidak dirujuk. Validasi skema tidak menggantikan tes perilaku aplikasi.
 
-## GitHub
+## Struktur workspace
 
-Gunakan [panduan commit, push dan PR](docs/GITHUB-WORKFLOW.md) serta
-[notes nama/deskripsi repository](docs/GITHUB-NOTES.md).
-Kontrak API ada di `docs/openapi.json` dan ikut Git; percakapan mentah tidak.
-Pembaruan living documents dilakukan AI dalam pekerjaan yang sama, tanpa
-menunggu pengingat; CI memeriksa aturan otomatis, sedangkan konsistensi makna
-dan bukti approval tetap diperiksa melalui review.
-Tagging dan release mengikuti [panduan versioning](docs/VERSIONING.md).
+| Lokasi | Isi |
+|---|---|
+| apps/server dan apps/app | Lokasi backend dan Flutter yang disiapkan tim |
+| docs | Spesifikasi, desain, keputusan, kontrak, dan panduan kerja |
+| rules | Aturan bersama untuk alur kerja, mutu, dan dokumentasi |
+| skills | Delapan prosedur tugas yang dirujuk AGENTS |
+| .github | CI, rilis, validator, dan template pull request |
+| CLAUDE.md dan .aiassistant/rules | Adapter instruksi IDE |
+| .vscode/extensions.json | Rekomendasi ekstensi opsional |
+
+Konfigurasi EditorConfig dan Git attributes menjaga format lintas OS.
+Dukungan IDE dan batas pengujiannya tercatat pada
+[matriks workspace](docs/WORKSPACE.md#ide).
 
 ## Lisensi
 
-**All Rights Reserved.** Lihat [LICENSE](LICENSE) untuk detail.
-Dilarang menyalin, mendistribusikan, atau memodifikasi proyek ini tanpa izin
-tertulis dari pemilik.
-
-## Struktur
-
-```text
-AGENTS.md              sumber instruksi bersama
-SKILL.md               katalog delapan skill
-CHANGELOG.md           catatan perubahan per versi
-LICENSE                 lisensi All Rights Reserved
-CLAUDE.md              impor AGENTS untuk Claude Code
-.aiassistant/rules/    pengarah ke AGENTS untuk JetBrains AI Assistant
-.vscode/extensions.json rekomendasi opsional EditorConfig dan Flutter
-.github/
-  workflows/ci.yml     CI otomatis: lint, validasi, format
-  workflows/release.yml release otomatis dari tag
-  scripts/             script validasi untuk CI
-  requirements-validation.txt dependensi validator Python
-  pull_request_template.md
-.markdownlint.json     konfigurasi Markdown linter
-.redocly.yaml          aturan pemeriksaan OpenAPI
-rules/                 alur, domain, mutu, UI, portabilitas, dokumentasi, riset
-skills/                delapan prosedur tugas SiagaBanjir
-apps/
-  server/              tempat backend tim
-  app/                 tempat Flutter tim
-docs/                  spesifikasi, desain, keputusan, bukti, handoff, versioning
-  INDEX.md             indeks navigasi semua dokumen
-  openapi.json         kontrak API (OpenAPI 3.1)
-  examples.json        contoh payload SRS
-```
-
-AGENTS dibagi bersama untuk Codex, Copilot/VS Code dan Cursor yang mendukungnya.
-Adapter IDE tetap ringkas; tidak ada duplikasi kumpulan skill. EditorConfig
-dan Git attributes mengatur format berkas lintas OS. Lihat
-[matriks dukungan dan pemeriksaan](docs/WORKSPACE.md#ide).
-
-BRD/PRD v0.1.0 dan FRD/SRS v1.0.0 approved adalah status spesifikasi.
-Aplikasi/provider/perangkat tetap NOT_RUN. Folder server/app hanya penanda
-kosong; belum ada perintah build atau instalasi aplikasi. Hasil pemeriksaan
-workspace terbaru ada pada [audit final](docs/WORKSPACE.md#audit-final).
+**All Rights Reserved.** Ketentuan penggunaan tercantum dalam [LICENSE](LICENSE).
