@@ -64,9 +64,9 @@ bersama tetap dirujuk dari root sesuai [aturan dokumentasi](../rules/documentati
 
 | Lingkungan | Cara memakai workspace | Batas bukti saat ini |
 |---|---|---|
-| Windows | Buka root; path relatif, UTF-8 dan EOL mengikuti konfigurasi repo | Inspeksi/pemeriksaan berkas dilakukan di PowerShell pada Windows |
+| Windows | Buka root; path relatif, UTF-8 dan EOL mengikuti konfigurasi repo | Validator lokal PASS; commit/push melalui Git Bash terverifikasi |
 | macOS | Buka root yang sama; gunakan path dan case yang sama | Runtime/editor pada macOS belum diuji |
-| Linux | Buka root yang sama; kapitalisasi file harus persis | Runtime/editor pada Linux belum diuji |
+| Linux | Buka root yang sama; kapitalisasi file harus persis | Validator CI pada Ubuntu PASS; runtime aplikasi/editor Linux belum diuji |
 
 EditorConfig menjaga format ketika editor/plugin mendukungnya; Git attributes
 mengatur konversi teks/binary. Tidak perlu mengganti Git global.
@@ -373,7 +373,7 @@ validasi diam-diam. Instalasi audit memakai environment sementara terisolasi.
 | Markdownlint, Redocly dan EditorConfig setelah edit final | PASS: Markdownlint 0.17.2, 38 Markdown/0 error; Redocly 2.64.1, 0 error/warning; EditorConfig Checker 4.0.2, seluruh 56 kandidat/0 pelanggaran |
 | Review perubahan vs snapshot dan kandidat publikasi | PASS: isi non-whitespace FRD/SRS/SRS-PLAN tetap, riwayat register tetap, 41 contoh asli tetap; 56 file, 38 marker living document, pola credential terarah tidak ditemukan |
 | Git Bash / akses remote awal | PASS: Git 2.47.1.windows.2, identitas Git tersedia, remote tujuan dapat diakses tanpa branch |
-| Commit/push dan CI remote | PENDING: setelah seluruh gate lokal lulus |
+| Commit/push dan CI remote | PASS pada commit awal 71459a6: push main melalui Git Bash, SHA lokal/remote cocok, [run CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39273616792) sukses |
 | Aplikasi/provider/perangkat/UAT dan pemuatan IDE | NOT_RUN; apps hanya .gitkeep, native skill masih BLOCKED oleh izin .agents |
 
 Koreksi format pada FRD/SRS tidak mengubah requirement. BRD/PRD hanya mendapat
@@ -382,6 +382,15 @@ catatan terbaru dan mempertahankan riwayat lama. README, AGENTS, rules terkait,
 skill workspace, panduan GitHub/versioning, riset, konfigurasi dan handoff
 mengikuti perubahan. DESIGN, aturan domain, isi fungsi skill lain, adapter
 Claude/JetBrains dan wadah apps tidak memerlukan perubahan perilaku.
+
+Publikasi awal: commit `71459a6566bab8595785ffafb2c0988dd588eba8` di
+[repo tujuan](https://github.com/muhammadrafifatihulihsan/siagabanjir).
+Staged diff lulus pemeriksaan whitespace; seluruh 56 blob index sama dengan
+file yang direview, tanpa file untracked atau arsip dalam commit. Identitas dan
+konfigurasi Git global dipertahankan; safe.directory dipakai hanya per perintah.
+Tidak membuat tag/release/deploy. Hasil CI di atas merujuk commit awal;
+[workflow CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
+menampilkan status commit lanjutan, termasuk pembaruan catatan publikasi.
 
 Arsip privat tidak tersedia dalam workspace saat audit; hasil hash arsip pada
 checkpoint lama tidak diulang atau diklaim berlaku sekarang. Format/CI/schema

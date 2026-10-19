@@ -2,8 +2,9 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-**Kondisi 19 Oktober 2026:** tujuh rules dan delapan skills; perbaikan validator,
-CI, kontrak dan dokumentasi menuju publikasi. apps/server dan apps/app masih hanya .gitkeep.
+**Kondisi 19 Oktober 2026:** setup telah diperbaiki dan commit awal sudah dipush
+ke main melalui Git Bash; CI commit awal sukses. Tujuh rules dan delapan skills
+tetap; apps/server dan apps/app masih hanya .gitkeep.
 Backend/Flutter tetap diinisialisasi tim, bukan asisten pada tahap ini.
 
 ## Mandat terbaru dan hasil
@@ -45,8 +46,9 @@ Riset Software-BK tetap referensi selektif; tidak mengadopsi stack/approvalnya.
 
 ## Kelanjutan
 
-1. Selesaikan pemeriksaan akhir, staging/commit/push dan verifikasi CI sesuai
-   mandat. Hasil pengiriman dicatat setelah SHA remote dan run terkait terverifikasi.
+1. Publikasi awal selesai pada commit `71459a6`; SHA lokal/remote cocok dan
+   [CI commit awal](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39273616792)
+   sukses. Status commit lanjutan selalu diperiksa pada workflow CI terkait.
 2. Tim menginisialisasi backend di apps/server dan Flutter di apps/app.
 3. AI pada tugas berikut menuntaskan bacaan lengkap, memeriksa manifest/kode
    aktual, lalu memperbarui README aplikasi dengan versi/perintah yang nyata.
@@ -60,7 +62,11 @@ Riset Software-BK tetap referensi selektif; tidak mengadopsi stack/approvalnya.
 
 Hasil terbaru: [audit final setup](WORKSPACE.md#audit-final).
 Audit statis tidak membuktikan agent/harness selalu mematuhi instruksi.
-Pemuatan IDE, runtime macOS/Linux, UI/aplikasi, provider/perangkat serta
+Seluruh 20 tes regresi, 54 contoh kontrak, delapan skill, lint Markdown,
+OpenAPI dan EditorConfig lulus. Tidak membuat tag/release/deploy; bukti CI
+merujuk SHA yang disebut, bukan otomatis semua commit berikutnya.
+CI validator pada Ubuntu sudah PASS. Pemuatan IDE, runtime aplikasi
+macOS/Linux, UI/aplikasi, provider/perangkat serta
 percobaan agent terpisah masih NOT_RUN.
 
 Sumber skills dapat dibaca langsung dari skills/. Penempatan native Codex
