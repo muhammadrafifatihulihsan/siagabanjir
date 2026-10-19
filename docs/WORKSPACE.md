@@ -225,7 +225,9 @@ Tidak ada perubahan izin, konfigurasi global, SDK, atau inisialisasi aplikasi.
 Mandat: [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008).
 Seluruh sumber aktif dibaca pada rangkaian tugas ini. Ekspor sesi lokal dan
 catatan sesi terakhir digunakan sebagai konteks kelanjutan, bukan sumber
-normatif baru. Ekspor lokal tetap tersedia selama pemeriksaan perbaikan.
+normatif baru. Ekspor lokal tersedia saat audit awal. Pada pemeriksaan
+penutupan setelah publikasi, ekspor tersebut sudah tidak ditemukan; tidak
+ada perintah penghapusan ekspor yang dijalankan pada tahap implementasi ini.
 
 Temuan awal: ekspor codex-session-*.md yang diabaikan Git ikut dipindai,
 menyebabkan 7.057 laporan tautan, 318 laporan Markdown, dan satu kegagalan
@@ -235,17 +237,31 @@ regresi baru memastikan handoff aktif tetap diperiksa.
 
 | Pemeriksaan perubahan | Hasil lokal, 20 Oktober 2026 |
 |---|---|
-| Markdown dan tautan internal | PASS: 36 Markdown aktif, tanpa error; ekspor session masih tersedia saat tes |
+| Markdown dan tautan internal | PASS: 36 Markdown aktif, tanpa error; pengecualian ekspor dan cakupan handoff juga diuji melalui fixture regresi |
 | YAML skill | PASS: seluruh delapan skill |
 | Kontrak dan Redocly 2.64.1 | PASS: 165 skema, 54 contoh, referensi dan invariant replay rahasia; Redocly tanpa error |
 | Regresi validator dan ekstraksi catatan rilis | PASS: 25 tes, termasuk pengecualian ekspor dan deteksi tautan rusak pada handoff aktif |
 | EditorConfig Checker 4.0.2 dan git diff --check | PASS |
 
 Eksekusi lokal memakai Python 3.10.8 dengan dependensi validator terisolasi;
-versi CI tetap Python 3.12. Status publikasi: belum ada tag atau Release saat
-pemeriksaan awal. Tiga pekerjaan
+versi CI tetap Python 3.12. Saat pemeriksaan awal belum ada tag atau Release.
+Tiga pekerjaan
 [CI commit 3c727fc](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39281672439)
-sudah berhasil; bukti tersebut tidak menggantikan CI commit perbaikan baru.
+sudah berhasil. Perbaikan kemudian dipush melalui Git Bash dengan hasil berikut.
+
+| Bukti publikasi | Hasil terverifikasi |
+|---|---|
+| Commit rilis | e1e11194b20cad9335901fabeb90d4f7e736f2b1 |
+| CI commit rilis | [Run 39296073413](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39296073413): ketiga pekerjaan SUCCESS |
+| Tag | v0.1.0, tag beranotasi pada commit rilis setelah CI berhasil |
+| Workflow Release | [Run 39296208857](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39296208857): SUCCESS pada SHA yang sama |
+| GitHub Release | [SiagaBanjir v0.1.0](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases/tag/v0.1.0), Latest, bukan draft/prerelease; terbit 20 Oktober 2026 pukul 00.41 WIB |
+| Catatan dan unduhan | Isi Release cocok dengan ekstraksi CHANGELOG; arsip source ZIP/tar tersedia, tanpa aset aplikasi |
+| Ekspor session lokal | Tidak ditemukan pada pemeriksaan penutupan; handoff aktif tetap tersedia |
+
+Catatan penutupan ini merupakan perubahan dokumentasi sesudah rilis; tag
+v0.1.0 tetap menunjuk commit rilis. Hasil CI commit penutupan dapat diperiksa
+melalui [Actions main](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml?query=branch%3Amain).
 
 Dampak living documents: README, CHANGELOG, keputusan, keterlacakan, handoff,
 dan catatan ini diperbarui bersama validator serta CI. BRD/PRD/FRD/SRS,

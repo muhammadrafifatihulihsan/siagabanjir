@@ -2,7 +2,7 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi baseline **v0.1.0 — 20 Oktober 2026; persiapan publikasi**.
+Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja; apps/server dan apps/app
 masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
@@ -34,7 +34,13 @@ baseline fungsional; status draf pada riwayat dibaca sesuai tanggalnya.
 
 Hasil pemeriksaan lokal dan status publikasi: [WORKSPACE](WORKSPACE.md#audit-release-close).
 Status per commit dan tag: [GitHub Actions](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions).
-Tag dan Release v0.1.0 belum diterbitkan pada checkpoint persiapan ini.
+Tag v0.1.0 menunjuk commit e1e11194b20cad9335901fabeb90d4f7e736f2b1.
+[CI commit rilis](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39296073413)
+berhasil pada ketiga pekerjaan, lalu
+[workflow Release](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39296208857)
+berhasil. [SiagaBanjir v0.1.0](https://github.com/muhammadrafifatihulihsan/siagabanjir/releases/tag/v0.1.0)
+terbit sebagai Latest pada 20 Oktober 2026 pukul 00.41 WIB; catatannya cocok
+dengan CHANGELOG. Arsip source tersedia tanpa aset aplikasi.
 Gate lokal PASS: 36 Markdown, delapan skill, 165 skema, 54 contoh, Redocly,
 25 tes regresi, EditorConfig dan pemeriksaan diff.
 Rilis mengikuti [prosedur versioning](VERSIONING.md): tag hanya dibuat setelah
@@ -43,11 +49,9 @@ backend, Flutter, provider, perangkat, atau UAT telah lulus pengujian.
 
 ## Pekerjaan berikutnya
 
-Tuntaskan gate lokal, push perubahan, periksa CI pada SHA yang sama, lalu
-terbitkan tag/Release v0.1.0. Catat bukti publikasi, push catatan penutupan,
-dan periksa CI sebelum menghapus ekspor session lokal. Handoff aktif ini tetap.
-
-Sesudah publikasi baseline:
+Publikasi baseline selesai. Ekspor session lokal sudah tidak ditemukan pada
+pemeriksaan penutupan; handoff aktif ini tetap dipelihara. Catatan penutupan
+ditambahkan sesudah rilis, tanpa memindahkan tag v0.1.0.
 
 1. Tim menginisialisasi backend di apps/server dan Flutter di apps/app.
 2. Periksa manifest dan kode aktual sebelum menetapkan versi, perintah build,

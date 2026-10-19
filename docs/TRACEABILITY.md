@@ -1989,8 +1989,8 @@ Mandat: [WORKSPACE-RELEASE-CLOSE-008](DECISIONS.md#workspace-release-close-008).
 | Lanjutkan sesi terakhir dan periksa yang belum jelas | Dokumentasi aktif serta konteks sesi dibaca; CI commit sebelumnya diverifikasi. Hasil audit baru dipisahkan pada [WORKSPACE](WORKSPACE.md#audit-release-close). |
 | Perbaiki kegagalan lokal | Ekspor session diabaikan validator tautan dan lint Markdown; regresi mencakup ekspor di root/subfolder dan tautan rusak dalam handoff aktif. Perintah README dan CI selaras. |
 | Jaga kejelasan persetujuan | Label kutipan persis diganti ringkasan sesuai WS-DEC-032; sumber dan cakupan approval tetap. |
-| Push dan buat Release | Publikasi melalui Git Bash, CI pada SHA tag, lalu workflow rilis mengambil catatan CHANGELOG v0.1.0. Status aktual dicatat dalam bukti penutupan. |
-| Hapus session setelah benar-benar selesai | Hanya ekspor lokal yang dibersihkan setelah publikasi dan commit penutupan terverifikasi; docs/SESSION-HANDOFF.md tetap menjadi sumber aktif. |
+| Push dan buat Release | Commit e1e1119 dipush melalui Git Bash; ketiga job CI dan workflow Release SUCCESS. v0.1.0 terbit sebagai Latest, catatan cocok dengan CHANGELOG; tautan bukti pada [WORKSPACE](WORKSPACE.md#audit-release-close). |
+| Pembersihan session setelah selesai | Ekspor lokal sudah tidak ditemukan saat pemeriksaan penutupan, sehingga tidak ada penghapusan pada tahap ini. docs/SESSION-HANDOFF.md tetap menjadi sumber aktif. |
 
 Tidak ada perubahan fitur, kontrak, atau approval produk. 156 TC FRD dan
 24 TC-SRS tetap NOT_RUN pada aplikasi.
