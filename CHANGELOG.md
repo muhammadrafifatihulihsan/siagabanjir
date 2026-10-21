@@ -18,6 +18,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Sesuai mandat pemilik, pembaruan lokal pada TXT memakai reset hard ke
+  origin/main dan clean -fd setelah seluruh pekerjaan masuk main; ignored
+  dipertahankan dan tidak memakai force push.
+
 - TXT Git menyediakan blok Rafi, Hasan dan Melia siap salin, dengan satu
   langkah pembaruan main bersama untuk tugas berikutnya.
 

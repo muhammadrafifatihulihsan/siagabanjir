@@ -437,3 +437,9 @@ main bersama. Sintaks Bash, kecocokan clone/push/compare ketiga anggota, link
 internal, lint Markdown, EditorConfig dan diff whitespace diperiksa lulus.
 Alur Git sama dengan simulasi sebelumnya; tidak mengulang tes aplikasi atau
 push. Perubahan awal pemilik pada contoh staging/pesan commit dipertahankan.
+
+Pembaruan WS-DEC-050 pada TXT mengganti fast-forward dengan reset hard dan
+clean -fd atas mandat pemilik. Simulasi di repo sementara memeriksa isi tracked
+kembali sesuai origin/main, untracked terhapus, ignored tetap, serta kegagalan
+fetch menghentikan reset/clean. Sintaks Bash, link, lint Markdown, format dan
+diff whitespace lulus. Reset/clean tidak dijalankan pada workspace tim.

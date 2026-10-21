@@ -33,7 +33,8 @@ git push origin main:branch-melia
 # GitHub -> New pull request: base development, compare branch-melia.
 
 # TUGAS BERIKUTNYA - SAMA UNTUK SEMUA (di folder siagabanjir)
-# Setelah PR ke development DAN promosi ke main sudah merge; folder kerja bersih.
-git fetch origin
-git merge --ff-only origin/main
+# Setelah SEMUA pekerjaan masuk main GitHub lewat PR development dan promosi main.
+# HAPUS perubahan lokal + file untracked; file ignored (mis. .env) tetap ada.
+# Jalankan dari root siagabanjir. Jangan gunakan jika masih ada pekerjaan yang perlu disimpan.
+git switch main && git fetch origin && git reset --hard origin/main && git clean -fd
 # Ngoding lagi -> ulangi add, commit, push, dan PR sesuai namamu. Tidak clone lagi.

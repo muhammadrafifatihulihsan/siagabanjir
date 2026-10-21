@@ -15,7 +15,7 @@ Panduan panjang menjadi alternatif dengan nama lokal anggota. Perubahan ini
 dicommit lokal; tidak menjalankan perintah contoh pada repository tim.
 
 TXT kemudian dipadatkan atas koreksi pemilik: clone/ngoding/push/PR, lalu
-fetch origin dan fast-forward main lokal dari origin/main untuk siklus berikut.
+fetch origin dan pembaruan main lokal dari origin/main untuk siklus berikut.
 Siklus kedua menunggu promosi development ke main selesai; tujuan PR tetap
 development. Setup identitas dan rincian pemeriksaan ada di panduan lengkap.
 
@@ -23,6 +23,12 @@ TXT kini memisahkan perintah Rafi, Hasan dan Melia tanpa penggantian nama
 branch. Pembaruan main untuk siklus berikut ditulis sekali. Edit awal pemilik
 pada TXT (git add . dan pesan commit sederhana) dipertahankan dalam contoh;
 semua file perubahan diperiksa sebelum staging.
+
+Mandat terbaru mengganti fast-forward TXT dengan reset --hard origin/main dan
+clean -fd setelah seluruh pekerjaan masuk main melalui PR. Langkah ini sengaja
+membuang perubahan lokal/untracked; ignored seperti .env tetap ada. Perintah
+dirangkai dengan && agar kegagalan fetch menghentikan reset. Mandat ini untuk
+contoh panduan, bukan menjalankan reset/clean pada workspace saat mengedit.
 
 ### Riwayat panduan panjang dan publikasi
 
