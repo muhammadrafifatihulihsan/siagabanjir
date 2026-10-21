@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+### Ditambahkan
+
+- Satu panduan Git pemula terpisah di docs: clone pertama, identitas/branch,
+  rutinitas harian, validasi, commit/push, PR/revisi, sinkronisasi sesudah merge,
+  clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
+
 ### Diubah
 
 - Alur tim menjadi lima branch permanen: branch anggota → PR development → PR

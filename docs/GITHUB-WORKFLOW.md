@@ -20,6 +20,11 @@ Agent mengikuti [AGENTS](../AGENTS.md), menuntaskan
 
 ## Mulai di sini untuk anggota tim baru
 
+Untuk mengikuti langkah berurutan dalam satu dokumen, gunakan
+[panduan praktik Git dari clone sampai PR berikutnya](GIT-UNTUK-PEMULA.md).
+Panduan tersebut membedakan setup pertama dari rutinitas harian; kebijakan dan
+versi alat tetap bersumber pada dokumen ini.
+
 | Istilah | Arti praktis |
 |---|---|
 | Git | Alat pencatat riwayat perubahan di komputer sendiri |
