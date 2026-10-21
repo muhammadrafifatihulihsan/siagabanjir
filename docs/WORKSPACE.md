@@ -16,6 +16,8 @@ disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
 dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
 dipelihara pada [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd).
+Perintah singkat dengan main lokal tersedia di [GIT-CEPAT.txt](GIT-CEPAT.txt);
+branch remote dan kebijakan PR tetap sama.
 Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA.md).
 
 ## Status dan versi
@@ -413,3 +415,12 @@ README aplikasi dan CI/rilis tidak terdampak: tidak ada perubahan kebijakan,
 produk, perintah aplikasi, atau mekanisme agent. DECISIONS/RTM mempertahankan
 keputusan lima branch yang sudah berlaku; mandat editorial dan bukti tugas ini
 dicatat di bagian ini. Pengujian aplikasi/provider/perangkat/UAT tetap NOT_RUN.
+
+## Verifikasi perintah main lokal - 21 Oktober 2026
+
+GIT-CEPAT.txt lulus pemeriksaan sintaks Bash. Simulasi repository bare lokal
+membuktikan clone anggota, rename ke main dengan upstream tetap, pull, commit,
+push ke anggota, simulasi merge PR, dan fast-forward dari development. Remote
+main tidak berubah; tree fixture bersih. Simulasi tidak mengirim ke GitHub.
+Lint 40 Markdown, link internal, delapan skill, EditorConfig pada file berubah,
+dan git diff --check lulus. Ini dokumentasi; tes aplikasi tetap NOT_RUN.

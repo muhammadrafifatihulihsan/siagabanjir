@@ -8,6 +8,14 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+Mandat berikutnya menghasilkan [GIT-CEPAT.txt](GIT-CEPAT.txt): perintah singkat
+untuk main lokal, tanpa membuat branch kerja baru secara manual. Upstream dan
+tujuan push tetap branch remote anggota; PR ke development tetap berlaku.
+Panduan panjang menjadi alternatif dengan nama lokal anggota. Perubahan ini
+dicommit lokal; tidak menjalankan perintah contoh pada repository tim.
+
+### Riwayat panduan panjang dan publikasi
+
 Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu
 [panduan praktik Git pemula](GIT-UNTUK-PEMULA.md), dari clone pertama hingga
 PR dan siklus tugas berikutnya. Contoh salin-tempel memakai Git Bash/Bash,

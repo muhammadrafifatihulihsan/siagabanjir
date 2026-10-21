@@ -9,6 +9,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- GIT-CEPAT.txt berisi perintah Git Bash singkat: main lokal melacak branch
+  remote anggota, push eksplisit, PR development, dan siklus sesudah merge.
+
 - Satu panduan Git pemula terpisah di docs: clone pertama, identitas/branch,
   rutinitas harian, validasi, commit/push, PR/revisi, sinkronisasi sesudah merge,
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.

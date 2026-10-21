@@ -32,7 +32,7 @@ Sumber: [GitHub Releases](https://docs.github.com/en/repositories/releasing-proj
    publikasi, perubahan, dan batas hasil aktual. Bagian Unreleased menampung
    perubahan untuk rilis berikutnya.
 2. Jalankan [pemeriksaan lokal](GITHUB-WORKFLOW.md#otomatisasi-cicd), review diff,
-   commit/push branch anggota, lalu PR ke development dan promosi development → main
+   commit/push ke branch remote anggota, lalu PR ke development dan promosi development → main
    sesuai [panduan GitHub](GITHUB-WORKFLOW.md); merge harus diotorisasi.
 3. Tunggu seluruh pekerjaan CI berhasil pada SHA commit yang akan dirilis.
    Pastikan SHA berada pada main terbaru dan tag belum ada di lokal maupun remote.
