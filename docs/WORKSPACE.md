@@ -424,3 +424,10 @@ push ke anggota, simulasi merge PR, dan fast-forward dari development. Remote
 main tidak berubah; tree fixture bersih. Simulasi tidak mengirim ke GitHub.
 Lint 40 Markdown, link internal, delapan skill, EditorConfig pada file berubah,
 dan git diff --check lulus. Ini dokumentasi; tes aplikasi tetap NOT_RUN.
+
+Penyederhanaan TXT berikutnya memakai dua siklus dan mengambil pembaruan dari
+origin/main setelah kedua PR selesai digabung. Sintaks Bash dan simulasi dua
+siklus dengan merge anggota ke development lalu development ke main lulus.
+Link internal, lint Markdown, EditorConfig dan diff whitespace lulus.
+Perubahan editorial ini tidak mengubah aturan PR, produk, kontrak, skill atau
+adapter; sumber tersebut tetap berlaku. Tidak melakukan push pada repo tim.

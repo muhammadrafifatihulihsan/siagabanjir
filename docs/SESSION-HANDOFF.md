@@ -14,6 +14,11 @@ tujuan push tetap branch remote anggota; PR ke development tetap berlaku.
 Panduan panjang menjadi alternatif dengan nama lokal anggota. Perubahan ini
 dicommit lokal; tidak menjalankan perintah contoh pada repository tim.
 
+TXT kemudian dipadatkan atas koreksi pemilik: clone/ngoding/push/PR, lalu
+fetch origin dan fast-forward main lokal dari origin/main untuk siklus berikut.
+Siklus kedua menunggu promosi development ke main selesai; tujuan PR tetap
+development. Setup identitas dan rincian pemeriksaan ada di panduan lengkap.
+
 ### Riwayat panduan panjang dan publikasi
 
 Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu

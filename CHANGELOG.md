@@ -18,6 +18,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- TXT Git dipadatkan menjadi dua siklus; pembaruan main lokal diambil dari
+  origin/main setelah PR anggota dan promosi ke main selesai digabung.
+
 - Handoff dan bukti workspace mencatat publikasi panduan Git pemula ke
   branch-rafi serta empat job CI push yang berhasil setelah mandat push pemilik.
 - Alur tim menjadi lima branch permanen: branch anggota → PR development → PR

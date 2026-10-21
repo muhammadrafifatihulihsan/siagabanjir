@@ -1,68 +1,28 @@
-# SIAGABANJIR - PERINTAH GIT BASH
-# Living document: ikuti rules/documentation.md.
-# Salin PER BAGIAN sesuai kebutuhan, bukan jalankan seluruh file sekaligus.
-# Contoh untuk Melia. Hasan: ganti SEMUA branch-melia menjadi branch-hasan.
-# Rafi: ganti SEMUA branch-melia menjadi branch-rafi.
-# Lokal: main. GitHub: branch anggota -> PR development -> PR main oleh Rafi.
-# Berhenti jika perintah gagal. Jangan lanjutkan dengan force/reset.
+# GIT BASH - salin per bagian. Berhenti jika ada error.
+# Contoh Melia; Hasan/Rafi: ganti branch-melia dengan branch-hasan/branch-rafi.
+# Living document: rules/documentation.md. Panduan lengkap: docs/GITHUB-WORKFLOW.md.
 
-# 1. PERTAMA KALI / KOMPUTER BARU
-# Buka Git Bash di folder induk. Folder siagabanjir belum boleh ada.
+# 1. PERTAMA KALI: CLONE -> NGODING -> PUSH -> PR
 git clone --branch branch-melia https://github.com/muhammadrafifatihulihsan/siagabanjir.git
 cd siagabanjir
-# Hanya pada clone baru tadi: ubah nama lokal menjadi main.
 git branch -m main
-git branch -vv
-# Harus terlihat: main ... [origin/branch-melia].
-git config --get user.name
-git config --get user.email
-# Jika identitas belum benar, ganti contoh berikut dengan milik sendiri:
-# git config --local user.name "Nama Kamu"
-# git config --local user.email "email-github-kamu@example.com"
 
-# 2. SETIAP MULAI KERJA (terminal sudah di folder siagabanjir)
-git status --porcelain=v1 --untracked-files=all
-# Status wajib kosong sebelum lanjut. Jika ada pekerjaan, selesaikan bagian 3.
-git switch main
-git branch -vv
-# Pastikan main melacak origin/branch-melia, lalu:
-git pull --ff-only
-# Sekarang edit file / minta AI mengerjakan tugas.
-
-# 3. SIMPAN HASIL KERJA
-git status --short
-git diff
-# Jalankan pemeriksaan sesuai perubahan: docs/GITHUB-WORKFLOW.md bagian CI/CD.
-# Ganti path contoh dengan file tugas yang SUDAH diperiksa; tambah path jika perlu.
-git add -- "docs/NAMA-FILE-YANG-DIUBAH.md"
-git diff --cached
-git commit -m "docs: jelaskan perubahan yang dibuat"
-# Jika AI sudah commit, lewati add/commit; periksa hasilnya:
-git log -1 --oneline
-git status --porcelain=v1 --untracked-files=all
-# Status wajib kosong. Jika belum, tuntaskan file tugas yang tersisa.
-
-# 4. KIRIM KE GITHUB
+# Ngoding. Setelah selesai, ganti path file dan pesan commit di bawah.
+git add -- "path/file-yang-diubah"
+git commit -m "feat: jelaskan perubahan"
 git push origin main:branch-melia
-# Login akun sendiri bila diminta. Jangan memakai git push origin main.
 
-# 5. BUAT PULL REQUEST DI BROWSER
-# Buka https://github.com/muhammadrafifatihulihsan/siagabanjir/pulls
-# New pull request -> base: development -> compare: branch-melia.
-# Isi judul/ringkasan dan hasil pemeriksaan -> Create pull request.
-# Jika PR branch ini sudah terbuka, push tadi otomatis memperbaruinya.
-# Tunggu CI dan review Rafi. Revisi: ulangi bagian 2, 3, 4.
-# Rafi merge dengan Create a merge commit. Jangan hapus branch permanen.
+# GitHub -> Pull requests -> New pull request
+# base: development | compare: branch-melia -> Create pull request.
 
-# 6. SETELAH PR SUDAH MERGE, SEBELUM TUGAS BARU
-git status --porcelain=v1 --untracked-files=all
-# Wajib kosong dan tidak ada pekerjaan baru yang belum masuk development.
-git switch main
-git pull --ff-only
+# 2. BERIKUTNYA: UPDATE MAIN -> NGODING -> PUSH -> PR
+# Setelah Rafi merge PR ke development DAN promosinya ke main; folder kerja bersih.
 git fetch origin
-git log --oneline origin/development..HEAD
-# WAJIB kosong. Jika ada commit, berhenti dan minta Rafi memeriksa.
-git merge --ff-only origin/development
+git merge --ff-only origin/main
+
+# Ngoding lagi. Setelah selesai:
+git add -- "path/file-yang-diubah"
+git commit -m "feat: jelaskan perubahan berikutnya"
 git push origin main:branch-melia
-# Lanjut kerja dari bagian 2. Tidak perlu clone ulang setiap hari.
-# Komputer/folder baru: ulangi bagian 1; jangan clone di dalam clone lama.
+
+# Buat PR lagi: base development | compare branch-melia. Ulangi bagian 2.
