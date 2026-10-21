@@ -7,8 +7,16 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+### Ditambahkan
+
+- Satu panduan Git pemula terpisah di docs: clone pertama, identitas/branch,
+  rutinitas harian, validasi, commit/push, PR/revisi, sinkronisasi sesudah merge,
+  clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
+
 ### Diubah
 
+- Handoff dan bukti workspace mencatat publikasi panduan Git pemula ke
+  branch-rafi serta empat job CI push yang berhasil setelah mandat push pemilik.
 - Alur tim menjadi lima branch permanen: branch anggota → PR development → PR
   main. BRD/PRD aspek Git, keputusan, RTM dan panduan pemula diselaraskan.
 - CI mencakup push kelima branch, PR kedua base dan perubahan base; validasi arah

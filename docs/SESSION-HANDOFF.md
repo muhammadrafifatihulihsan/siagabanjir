@@ -8,6 +8,20 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu
+[panduan praktik Git pemula](GIT-UNTUK-PEMULA.md), dari clone pertama hingga
+PR dan siklus tugas berikutnya. Contoh salin-tempel memakai Git Bash/Bash,
+membedakan pull branch sendiri dari sinkronisasi development, serta menjelaskan
+kapan clone ulang diperlukan. README, indeks, panduan GitHub, dan CHANGELOG
+menautkan hasilnya; aturan lima branch tetap sama.
+Panduan awalnya dicommit lokal, lalu pemilik meminta push. Commit
+0a01ed68299123eb159b13d5e16c205c767816e3 sudah dipush ke branch-rafi;
+SHA remote cocok dan keempat job CI push lulus. Catatan publikasi ini dibuat
+sesudah run tersebut; hasil CI commit penutupan dilaporkan saat serah hasil.
+Tidak membuat PR baru atau merge. Bukti: [panduan pemula](WORKSPACE.md#panduan-git-pemula).
+
+### Riwayat pembaruan workflow GitHub
+
 [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010)
 mengganti alur kontribusi menjadi lima branch permanen pada repository yang sama.
 CI memvalidasi push kelima branch dan PR anggota → development → main,

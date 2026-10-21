@@ -16,6 +16,7 @@ disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
 dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
 dipelihara pada [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd).
+Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA.md).
 
 ## Status dan versi
 
@@ -374,3 +375,41 @@ masih sesuai: tidak ada perubahan fitur, arsitektur, routing adapter atau aplika
 Tes aplikasi/provider/perangkat/UAT tetap NOT_RUN. Settings/rulesets, merge,
 undangan, tag/release dan deploy tidak dilaksanakan. Arsip session mentah tetap
 lokal dan ignored; prompt audit aktif menjadi sumber mandat yang dipelihara.
+
+<a id="panduan-git-pemula"></a>
+
+## Panduan praktik Git pemula — 21 Oktober 2026
+
+Mandat pemilik: satu dokumen terpisah di docs dengan langkah salin-tempel dari
+clone pertama, kebiasaan harian, hingga PR dan clone pada perangkat lain.
+[GIT-UNTUK-PEMULA](GIT-UNTUK-PEMULA.md) menerapkan kebijakan yang sudah ada;
+GITHUB-WORKFLOW tetap sumber aturan branch/merge dan versi alat validasi.
+README, indeks, panduan GitHub, CHANGELOG dan handoff diperbarui bersama.
+
+Pemeriksaan lokal PASS: tautan dan Markdownlint 0.17.2 pada 40 Markdown,
+YAML delapan skill, EditorConfig Checker 4.0.2 pada tujuh file tugas,
+31 tes regresi validator, serta 165 skema/54 contoh kontrak. Sintaks 29 blok
+contoh diperiksa dengan Git Bash `bash -n`; ini tidak mengeksekusi perintah
+clone/push/merge contoh atau membuktikan autentikasi anggota. Review isi
+memeriksa arah PR, pilihan branch, status bersih, dan batas fast-forward.
+Python bawaan sempat gagal pada tiga assertion karena dependensi format
+date-time/URI tidak tersedia; pengulangan memakai environment validator
+terisolasi yang sudah tersedia lulus. Markdownlint lulus setelah akses npm
+di luar sandbox diizinkan; tidak ada perubahan konfigurasi global.
+Contoh perintah membedakan Git Bash/Bash dari PowerShell, memakai pilihan branch
+per sesi, dan menghentikan sinkronisasi bila ada commit yang belum terintegrasi.
+Login, push, PR dan merge GitHub tidak dijalankan pada tugas dokumentasi ini.
+
+Kelanjutan atas permintaan eksplisit pemilik untuk push: commit panduan
+0a01ed68299123eb159b13d5e16c205c767816e3 dipush melalui Git Bash ke branch-rafi,
+SHA remote sesuai. Gate Redocly 2.64.1 juga PASS sebelum publikasi.
+[CI push panduan](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39574964786)
+menyelesaikan keempat job dengan SUCCESS. Check arah PR pada event push tidak
+menguji pasangan PR. Catatan ini dicommit sesudah run tersebut; hasil CI pada
+commit penutupan diverifikasi saat serah hasil, tanpa membuat PR atau merge.
+
+BRD/PRD/FRD/SRS, kontrak/contoh, DESIGN, AGENTS, rules, delapan skill, adapter IDE,
+README aplikasi dan CI/rilis tidak terdampak: tidak ada perubahan kebijakan,
+produk, perintah aplikasi, atau mekanisme agent. DECISIONS/RTM mempertahankan
+keputusan lima branch yang sudah berlaku; mandat editorial dan bukti tugas ini
+dicatat di bagian ini. Pengujian aplikasi/provider/perangkat/UAT tetap NOT_RUN.
