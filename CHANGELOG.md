@@ -18,6 +18,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Prompt audit di root dihapus atas konfirmasi pemilik; rujukan audit dan RTM
+  menunjuk salinan historis pada commit agar bukti sumber tetap tersedia.
+
 - Sesuai mandat pemilik, pembaruan lokal pada TXT memakai reset hard ke
   origin/main dan clean -fd setelah seluruh pekerjaan masuk main; ignored
   dipertahankan dan tidak memakai force push.

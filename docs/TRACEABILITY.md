@@ -2016,7 +2016,7 @@ Tidak ada perubahan kebutuhan aplikasi, kontrak atau hasil TC produk.
 
 ## 48. Audit GitHub dan alur branch permanen — 21 Oktober 2026
 
-Sumber: [prompt audit](../prompt-audit-dan-perbaikan.md), persetujuan implementasi
+Sumber: [prompt audit historis](https://github.com/muhammadrafifatihulihsan/siagabanjir/blob/1afcedda3e78d094bcd88850b9757d01abf829d7/prompt-audit-dan-perbaikan.md), persetujuan implementasi
 CI/dokumentasi dan push, serta [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010).
 
 | Mandat / requirement | Implementasi dan bukti | Batas penerimaan |

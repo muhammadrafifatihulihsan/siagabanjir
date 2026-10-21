@@ -30,6 +30,12 @@ membuang perubahan lokal/untracked; ignored seperti .env tetap ada. Perintah
 dirangkai dengan && agar kegagalan fetch menghentikan reset. Mandat ini untuk
 contoh panduan, bukan menjalankan reset/clean pada workspace saat mengedit.
 
+Pemilik meminta commit sampai bersih dan push. Empat commit TXT sampai
+1afcedd telah dipush ke branch-rafi dan SHA remote cocok. Pemilik juga
+mengonfirmasi penghapusan prompt-audit-dan-perbaikan.md; rujukan audit/RTM
+dialihkan ke salinan historis. Commit penutup dan hasil CI dilaporkan saat
+serah hasil. Tidak merge PR atau mengubah Settings.
+
 ### Riwayat panduan panjang dan publikasi
 
 Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu
