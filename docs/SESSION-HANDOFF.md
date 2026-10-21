@@ -14,8 +14,11 @@ PR dan siklus tugas berikutnya. Contoh salin-tempel memakai Git Bash/Bash,
 membedakan pull branch sendiri dari sinkronisasi development, serta menjelaskan
 kapan clone ulang diperlukan. README, indeks, panduan GitHub, dan CHANGELOG
 menautkan hasilnya; aturan lima branch tetap sama.
-Pekerjaan panduan ini hanya dicommit lokal di branch-rafi, tanpa mandat push/PR
-baru. Bukti pemeriksaan: [panduan pemula](WORKSPACE.md#panduan-git-pemula).
+Panduan awalnya dicommit lokal, lalu pemilik meminta push. Commit
+0a01ed68299123eb159b13d5e16c205c767816e3 sudah dipush ke branch-rafi;
+SHA remote cocok dan keempat job CI push lulus. Catatan publikasi ini dibuat
+sesudah run tersebut; hasil CI commit penutupan dilaporkan saat serah hasil.
+Tidak membuat PR baru atau merge. Bukti: [panduan pemula](WORKSPACE.md#panduan-git-pemula).
 
 ### Riwayat pembaruan workflow GitHub
 

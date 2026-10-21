@@ -15,6 +15,8 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Handoff dan bukti workspace mencatat publikasi panduan Git pemula ke
+  branch-rafi serta empat job CI push yang berhasil setelah mandat push pemilik.
 - Alur tim menjadi lima branch permanen: branch anggota → PR development → PR
   main. BRD/PRD aspek Git, keputusan, RTM dan panduan pemula diselaraskan.
 - CI mencakup push kelima branch, PR kedua base dan perubahan base; validasi arah

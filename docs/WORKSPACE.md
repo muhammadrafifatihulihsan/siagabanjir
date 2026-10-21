@@ -400,6 +400,14 @@ Contoh perintah membedakan Git Bash/Bash dari PowerShell, memakai pilihan branch
 per sesi, dan menghentikan sinkronisasi bila ada commit yang belum terintegrasi.
 Login, push, PR dan merge GitHub tidak dijalankan pada tugas dokumentasi ini.
 
+Kelanjutan atas permintaan eksplisit pemilik untuk push: commit panduan
+0a01ed68299123eb159b13d5e16c205c767816e3 dipush melalui Git Bash ke branch-rafi,
+SHA remote sesuai. Gate Redocly 2.64.1 juga PASS sebelum publikasi.
+[CI push panduan](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39574964786)
+menyelesaikan keempat job dengan SUCCESS. Check arah PR pada event push tidak
+menguji pasangan PR. Catatan ini dicommit sesudah run tersebut; hasil CI pada
+commit penutupan diverifikasi saat serah hasil, tanpa membuat PR atau merge.
+
 BRD/PRD/FRD/SRS, kontrak/contoh, DESIGN, AGENTS, rules, delapan skill, adapter IDE,
 README aplikasi dan CI/rilis tidak terdampak: tidak ada perubahan kebijakan,
 produk, perintah aplikasi, atau mekanisme agent. DECISIONS/RTM mempertahankan
