@@ -32,9 +32,11 @@ Sumber: [GitHub Releases](https://docs.github.com/en/repositories/releasing-proj
    publikasi, perubahan, dan batas hasil aktual. Bagian Unreleased menampung
    perubahan untuk rilis berikutnya.
 2. Jalankan [pemeriksaan lokal](GITHUB-WORKFLOW.md#otomatisasi-cicd), review diff,
-   commit, lalu push main melalui [panduan GitHub](GITHUB-WORKFLOW.md).
+   commit/push branch anggota, lalu PR ke development dan promosi development → main
+   sesuai [panduan GitHub](GITHUB-WORKFLOW.md); merge harus diotorisasi.
 3. Tunggu seluruh pekerjaan CI berhasil pada SHA commit yang akan dirilis.
-   Pastikan tag versi tersebut belum ada di lokal maupun remote.
+   Pastikan SHA berada pada main terbaru dan tag belum ada di lokal maupun remote.
+   Tag/release hanya dibuat oleh Rafi dalam mandat rilis terpisah.
 4. Buat tag beranotasi pada SHA yang telah diverifikasi:
 
    ```bash
@@ -52,3 +54,8 @@ Ganti versi dan SHA contoh untuk rilis berikutnya. Jangan memindahkan atau
 menimpa tag yang sudah dipublikasikan. Jika workflow gagal, perbaiki penyebab
 dan nilai apakah diperlukan commit serta versi baru; jangan menyatakan release
 berhasil hanya karena tag telah dipush.
+
+Workflow saat ini dipicu tag v*.*.* dengan contents: write; ia memvalidasi
+catatan versi, tetapi belum memverifikasi ancestry main maupun hasil CI secara
+otomatis. Pemeriksaan langkah 3 masih prosedural. Proteksi tag dan penguatan
+workflow rilis adalah usulan terpisah pada [audit](GITHUB-AUDIT.md), belum diterapkan.

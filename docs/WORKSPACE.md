@@ -2,7 +2,7 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 20 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
+Kondisi 21 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
 Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
@@ -341,3 +341,36 @@ diverifikasi saat penutupan; riwayat tersedia di Git dan GitHub Actions.
 README publik, spesifikasi/kontrak/contoh, DESIGN, README aplikasi dan workflow
 CI/rilis tidak terdampak; perilaku produk serta pemicu otomatisasi tetap.
 Keputusan, keterlacakan, indeks, changelog dan handoff diperbarui bersama.
+
+<a id="github-workflow-audit"></a>
+
+## Audit GitHub dan implementasi CI/dokumentasi — 21 Oktober 2026
+
+[Mandat terbaru](DECISIONS.md#workspace-github-workflow-010) menerapkan alur
+branch anggota → development → main. [Audit A–H](GITHUB-AUDIT.md) mencatat
+metadata GitHub awal, gap dan rancangan kontrol yang belum diterapkan.
+Branch implementasi branch-rafi; main/development tidak diperbarui langsung.
+
+Gate lokal PASS: tautan dalam 39 Markdown, delapan skill, 165 skema/54 contoh,
+31 tes regresi, Redocly 2.64.1, Markdownlint 0.17.2 dan EditorConfig Checker 4.0.2.
+Pemeriksaan diff tidak menemukan whitespace error. Validasi dilakukan dengan
+Python 3.10 pada Windows; CI memakai Python 3.12/Linux. Status publikasi
+diperiksa melalui SHA remote dan GitHub Actions setelah push.
+
+Commit implementasi dcf9d998f28aa6862f1dbe890441d67407236c06 telah dipush ke
+branch-rafi; SHA remote cocok dan working tree bersih sesudah commit.
+[CI push](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39567181260)
+dan [CI PR](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/runs/39567306249)
+berhasil pada SHA tersebut: Validasi Arah PR, Validasi Dokumentasi,
+Validasi Kontrak API dan Cek Format EditorConfig semuanya SUCCESS.
+[PR #1](https://github.com/muhammadrafifatihulihsan/siagabanjir/pull/1)
+adalah draft branch-rafi → development, belum merged. Catatan bukti ini dicommit
+sesudah run tersebut; CI pada commit penutupan diperiksa kembali saat publikasi.
+
+Dampak dokumentasi: AGENTS, workflow rule/skill, BRD/PRD aspek Git, keputusan,
+RTM, panduan Git/versioning, indeks, handoff, CHANGELOG serta template diperbarui.
+README publik, FRD/SRS, OpenAPI/contoh, DESIGN, aturan domain dan adapter IDE
+masih sesuai: tidak ada perubahan fitur, arsitektur, routing adapter atau aplikasi.
+Tes aplikasi/provider/perangkat/UAT tetap NOT_RUN. Settings/rulesets, merge,
+undangan, tag/release dan deploy tidak dilaksanakan. Arsip session mentah tetap
+lokal dan ignored; prompt audit aktif menjadi sumber mandat yang dipelihara.

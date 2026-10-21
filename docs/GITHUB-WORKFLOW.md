@@ -5,7 +5,7 @@
 [![CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
 
 Repository: [muhammadrafifatihulihsan/siagabanjir](https://github.com/muhammadrafifatihulihsan/siagabanjir).
-Branch utama adalah main. Repository berisi spesifikasi dan workspace demo
+Default branch tetap main; kontribusi melalui branch anggota → development → main. Repository berisi spesifikasi dan workspace demo
 akademik; backend serta Flutter diinisialisasi tim.
 
 Status versi, struktur, dan dukungan OS/IDE ada di [WORKSPACE](WORKSPACE.md).
@@ -26,11 +26,11 @@ Agent mengikuti [AGENTS](../AGENTS.md), menuntaskan
 | GitHub | Tempat berbagi repository dan meninjau pekerjaan tim secara online |
 | Git Bash | Terminal di Windows untuk menjalankan perintah Git |
 | Repository / repo | Folder proyek beserta riwayat Git di dalamnya |
-| Branch | Jalur pekerjaan untuk suatu tugas; main menyimpan hasil yang sudah digabung |
+| Branch | Jalur riwayat permanen; branch anggota untuk bekerja, development untuk integrasi, main untuk hasil stabil |
 | Stage | Memilih perubahan yang akan masuk commit berikutnya |
 | Commit | Titik riwayat lokal dengan pesan dan ID/SHA; dapat dibuat tanpa internet |
 | Push | Mengirim commit lokal ke GitHub; menyimpan file saja belum mengirim perubahan |
-| Pull request / PR | Permintaan agar perubahan branch ditinjau dan digabung ke main |
+| Pull request / PR | Permintaan agar perubahan branch ditinjau dan digabung ke branch tujuan |
 | Working tree bersih | Perubahan file sudah tercatat; masih mungkin ada commit lokal yang belum dipush |
 
 ### Menyiapkan komputer pertama kali
@@ -69,31 +69,73 @@ Buka root proyek dan berikan tugas yang konkret, misalnya:
 
 Pengingat dalam contoh membantu anggota baru; kewajiban commit tetap berlaku
 meskipun pengguna hanya meminta perbaikan kecil. Untuk mengirim hasil, cukup
-beri instruksi terpisah seperti “push branch tugas ini dan buat PR menuju main”.
+beri instruksi terpisah seperti “push branch anggota saya dan buat PR menuju development”.
 Instruksi push yang sudah ada dalam tugas tidak perlu diminta ulang.
 Aturan lengkap AI berada pada [commit lokal](../rules/workflow.md#commit-lokal).
 
-### Memulai tugas baru dari main
+### Lima branch permanen dan alur tim
 
-Pastikan tugas sebelumnya sudah dicommit, tree bersih, dan main lokal tidak
-mempunyai commit yang belum dipush. Pada clone dengan remote yang benar:
+| Branch | Fungsi / penanggung jawab | Tujuan PR |
+|---|---|---|
+| main | Stabil/demo; Rafi memutuskan merge | Hanya menerima development dari repo ini |
+| development | Integrasi; Rafi memutuskan merge | main setelah pemeriksaan integrasi |
+| branch-rafi | Pekerjaan Rafi | development |
+| branch-melia | Pekerjaan Melia | development |
+| branch-hasan | Pekerjaan Hasan | development |
 
-```bash
-git switch main
-git pull --ff-only origin main
-git switch -c docs/nama-tugas
+```mermaid
+flowchart LR
+  R[branch-rafi] -->|PR| D[development]
+  M[branch-melia] -->|PR| D
+  H[branch-hasan] -->|PR| D
+  D -->|PR promosi setelah integrasi| S[main]
 ```
 
-Ganti docs/nama-tugas dengan nama singkat yang belum dipakai, misalnya
-docs/panduan-tas atau fix/tautan-kontak. Untuk melanjutkan tugas yang sudah ada,
-gunakan branch tugas itu; jangan membuat branch baru atau mengulang clone.
-Jika pull gagal atau riwayat berbeda, ikuti [penanganan kondisi](#kondisi-git).
-Jangan lanjut mengedit di main karena gagal membuat branch.
+Semua anggota clone repository yang sama. Jangan fork, membuat branch per fitur,
+mengganti nama, atau menghapus lima branch permanen untuk alur normal.
+Satu PR aktif per branch anggota; hindari pekerjaan baru yang belum siap masuk
+ke PR tersebut. PR dapat digabung bertahap sesuai dependensi, tidak harus serentak.
+Nama branch adalah pembagian tugas; bukan bukti identitas pelaku push.
 
-Setiap anggota memakai clone dan branch tugas sendiri. Hindari dua AI/editor
-mengubah worktree atau index yang sama bersamaan. Alur harian:
-ubah satu tujuan → periksa → stage yang ditinjau → commit lokal → cek bersih.
-Ulangi untuk tujuan berikutnya; push dilakukan ketika diotorisasi.
+### Memulai dan menyinkronkan pekerjaan
+
+Sesudah clone, jalankan `git fetch origin` dan `git branch -a`. Contoh Melia:
+
+```bash
+git status --short --branch
+git fetch origin
+git switch branch-melia
+git pull --ff-only origin branch-melia
+```
+
+Hasan mengganti branch-melia dengan branch-hasan; Rafi memakai branch-rafi.
+Jika branch belum ada lokal tetapi origin/branch-melia ada, gunakan
+`git switch --track origin/branch-melia`. Jangan membuat ulang branch remote.
+Selesaikan perubahan lokal terlebih dahulu; jangan membawa perubahan antarbranch
+tanpa memeriksa kepemilikannya. Pull dari branch sendiri belum menyinkronkan
+basis development.
+
+Preferensi tim adalah **Create a merge commit**, yang tersedia pada audit
+21 Oktober 2026. Sesudah PR sebelumnya sudah merged dan semua commit branch
+anggota tercakup development, dengan tree bersih dan sedang di branch anggota:
+
+```bash
+git fetch origin
+git merge --ff-only origin/development
+git push origin branch-melia
+```
+
+Fast-forward hanya memajukan pointer tanpa menulis ulang riwayat. Jika gagal,
+berhenti dan kirim hasil `git status` serta
+`git log --graph --oneline --decorate -20` kepada Rafi. Jangan reset, rebase,
+atau force push. Pekerjaan baru yang sudah dimulai diselesaikan/disimpan sebagai
+commit aman pada branch sendiri; WIP tidak dipromosikan. Bila PR ternyata memakai
+squash/rebase, commit asal bisa belum menjadi ancestor development: Rafi meninjau
+diff/graph, lalu bila sesuai menggabungkan development ke branch anggota dengan
+merge biasa, menyelesaikan konflik dan menguji hasil. Jangan mengulang perubahan
+atau menganggap ff-only pasti bisa berjalan.
+
+Hindari dua editor/agent menulis index atau worktree yang sama bersamaan.
 
 ## Sebelum mengubah berkas
 
@@ -112,13 +154,9 @@ Ulangi untuk tujuan berikutnya; push dilakukan ketika diotorisasi.
    Sinkronisasi dari remote hanya dilakukan setelah kondisi lokal dipahami;
    jangan memakai force push untuk
    menyelesaikan perbedaan riwayat.
-4. Gunakan branch tugas untuk kontribusi biasa:
+4. Gunakan branch anggota yang sudah ditetapkan. Main dan development diperbarui
+   melalui PR; mandat push biasa tidak mencakup direct push ke keduanya.
 
-   ```bash
-   git switch -c docs/nama-perubahan
-   ```
-
-Publikasi langsung ke main dapat dilakukan bila mandat pemilik mencakupnya.
 Jangan mengubah identitas Git, konfigurasi global, atau remote yang sudah benar.
 
 <a id="otomatisasi-cicd"></a>
@@ -126,13 +164,15 @@ Jangan mengubah identitas Git, konfigurasi global, atau remote yang sudah benar.
 ## Validasi lokal dan CI
 
 [CI](../.github/workflows/ci.yml) memeriksa dokumentasi, format, dan kontrak pada
-push serta pull request ke main. Pemeriksaan memakai Python 3.10+ (CI: 3.12),
+push ke kelima branch permanen dan pull request menuju main/development. Pemeriksaan memakai Python 3.10+ (CI: 3.12),
 Node 24, dan EditorConfig Checker 4.0.2.
 
 Pasang dependensi Python dalam environment terisolasi. Perintah berikut
 dijalankan dari root repository; dependensinya hanya untuk pemeriksaan workspace.
 
 ```bash
+python -m venv .venv
+source .venv/Scripts/activate  # Git Bash Windows; macOS/Linux: source .venv/bin/activate
 python -m pip install -r .github/requirements-validation.txt
 python -B -X utf8 .github/scripts/validate_links.py
 python -B -X utf8 .github/scripts/validate_skills.py
@@ -192,42 +232,64 @@ Untuk melihat hasil tersimpan, gunakan `git log -5 --oneline` dan
 sesudah staging harus ditinjau dan distage lagi. Detail perilaku:
 [git commit](https://git-scm.com/docs/git-commit).
 
-## Push dan pull request
+## Push, review dan promosi
 
-Jalankan hanya dalam mandat push. Pastikan branch tujuan benar dan seluruh
-perubahan sudah dicommit; periksa `git status --short --branch` lebih dahulu.
-Untuk branch tugas yang sudah ditinjau:
+Setelah satu tugas diperiksa dan dicommit, push branch sendiri dalam mandat:
 
 ```bash
-git push -u origin HEAD
-```
-
-Buat pull request menuju main melalui GitHub dan gunakan
-[template PR](../.github/pull_request_template.md). Jelaskan masalah, perubahan,
-hasil pemeriksaan, dan keterbatasan yang relevan. Tinjau seluruh pekerjaan
-[CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
-pada commit terbaru. Perubahan setelah pemeriksaan memerlukan CI pada commit baru.
-CI repository ini berjalan pada push ke main atau PR menuju main. Push ke
-branch tugas tanpa PR belum memicu workflow tersebut; jangan menyebutnya PASS.
-
-Push tidak memerlukan satu commit tambahan untuk menggabungkan commit lokal.
-Untuk menjaga riwayat kecil saat PR digabung, gunakan **Create a merge commit**
-bila tersedia dan penggabungan sudah diotorisasi. Jangan otomatis memilih squash
-atau rebase. Jika kebijakan branch hanya mengizinkan metode lain, catat
-konfliknya dan selesaikan dengan pemilik; jangan mengubah pengaturan repository.
-Perbedaan metode dijelaskan pada [GitHub: penggabungan PR](https://docs.github.com/en/pull-requests/reference/pull-request-merges).
-
-Untuk publikasi main yang telah diotorisasi:
-
-```bash
-git push origin main
+git status --short --branch
+git push origin branch-melia
 git rev-parse HEAD
-git ls-remote origin refs/heads/main
+git ls-remote origin refs/heads/branch-melia
 ```
 
-SHA lokal harus sama dengan SHA remote. Keberhasilan push berbeda dari
-keberhasilan CI; verifikasi keduanya. Rilis mengikuti
-[prosedur versioning](VERSIONING.md) setelah CI berhasil.
+Ganti nama branch sesuai anggota dan cocokkan SHA. Buka PR di repository ini:
+**base development, compare branch-melia** (atau branch anggota lainnya).
+Gunakan [template PR](../.github/pull_request_template.md) dan satu PR aktif.
+Rafi meninjau seluruh diff, hasil pemeriksaan, dependensi serta dokumentasi;
+perubahan workflow/script/dependensi perlu ditinjau khusus karena bisa mengubah
+checks itu sendiri. Tambahan commit ke branch otomatis memperbarui PR.
+
+Empat nama job CI: **Validasi Arah PR**, **Validasi Dokumentasi**,
+**Validasi Kontrak API**, **Cek Format EditorConfig**. Check arah PR menolak
+pasangan base/head yang salah dan fork walau nama branch sama. Pada push, job
+hanya memeriksa event branch permanen dan menyatakan arah PR tidak diuji.
+Tidak ada paths filter; retarget PR memicu pemeriksaan lewat event edited.
+CI memakai contents: read, tanpa pull_request_target atau secret aplikasi.
+Check ini tidak membatasi siapa yang bisa push, membuka PR atau menekan Merge;
+required checks harus diaktifkan tersendiri sesudah run nyata berhasil.
+
+Rafi memakai Create a merge commit setelah review dan CI SHA terbaru lulus.
+Jangan delete branch anggota sesudah merge. Sesudah integrasi di development,
+Rafi membuka **base main, compare development** pada repo yang sama. Checklist:
+
+- Diff dan keputusan/kontrak/dokumentasi selaras; konflik diselesaikan.
+- Seluruh job CI pada revisi PR terbaru sukses; review diperbarui bila isi berubah.
+- Bukti integrasi warga/admin/backend tersedia ketika aplikasinya sudah ada.
+  Saat ini apps kosong: pengujian aplikasi NOT_RUN, promosi hanya baseline workspace.
+- Rafi memutuskan penerimaan; merge tidak diotorisasi hanya oleh instruksi push.
+- Periksa CI sesudah merge, lalu sinkronkan branch anggota. Rilis/tag memerlukan
+  mandat terpisah dan mengikuti [versioning](VERSIONING.md).
+
+### Keamanan dan status penerapan
+
+Audit 21 Oktober 2026 menemukan repository publik milik akun pribadi, hanya
+akun Rafi tercatat sebagai collaborator/admin, rulesets kosong, dan proteksi
+klasik main/development tidak ditemukan. **Hanya-owner-merge belum ditegakkan.**
+Detail bukti, matriks hak akses, rancangan ruleset dan migrasi ada pada
+[laporan audit](GITHUB-AUDIT.md). Dokumen ini menetapkan SOP; tidak mengaktifkan
+Settings. Collaborator write tidak otomatis dibatasi ke branch namanya.
+
+Usulan kontrol: ruleset otorisasi Restrict updates dengan bypass Repository
+admins PR-only, ditambah ruleset kualitas tanpa bypass untuk PR/checks, larangan
+force push/hapus dan penyelesaian percakapan. PR-only bypass dapat melewati aturan
+dalam ruleset yang sama. Jangan tambahkan Write sebagai bypass, linear history
+yang menolak merge commit, atau required CODEOWNERS Rafi sebagai reviewer tunggal
+tanpa menyelesaikan kasus PR buatan Rafi. CODEOWNERS mengatur review, bukan hak merge.
+
+Settings dan uji lintas akun menunggu persetujuan tersendiri. Jangan mengundang
+anggota dengan klaim proteksi sudah aktif. Pengujian negatif dilakukan pada
+lingkungan aman yang disetujui, tidak dengan mencoba merusak branch utama.
 
 <a id="kondisi-git"></a>
 
@@ -246,12 +308,15 @@ keberhasilan CI; verifikasi keduanya. Rilis mengikuti
 | Nama/email commit belum ada atau signing/hook gagal | Minta informasi/akses yang benar bila diperlukan. Jangan mengarang identitas, melewati hook dengan --no-verify, atau mematikan signing untuk memaksakan commit. |
 | Git meminta login atau internet mati saat push | Commit lokal tetap tersimpan. Laporkan push belum berhasil; login/perbaiki koneksi melalui mekanisme yang sah, lalu ulangi push bila mandat masih berlaku. |
 | Branch ahead | Ada commit lokal yang belum ada di upstream terakhir diketahui; tree bisa tetap bersih. Push hanya jika diminta; tidak perlu commit ulang. |
-| Branch behind tanpa commit lokal tambahan | Dengan tree bersih dan branch tujuan benar, fetch lalu fast-forward dari upstream yang dimaksud; contoh main ada di bagian awal. |
-| Push ditolak non-fast-forward / branch diverged | Jangan force push. Fetch dan periksa riwayat lokal/remote; gabungkan riwayat pada branch tugas sesuai mandat, selesaikan konflik, jalankan pemeriksaan, commit hasil, lalu push ulang. |
+| Branch behind tanpa commit lokal tambahan | Dengan tree bersih dan branch tujuan benar, fetch lalu fast-forward dari upstream yang dimaksud; contoh branch anggota ada di bagian awal. |
+| Push ditolak non-fast-forward / branch diverged | Jangan force push. Fetch dan periksa riwayat lokal/remote; gabungkan riwayat pada branch anggota sesuai mandat, selesaikan konflik, jalankan pemeriksaan, commit hasil, lalu push ulang. |
 | Konflik merge atau rebase sudah berlangsung | Periksa status dan kedua perubahan; jangan memilih semua ours/theirs tanpa membaca. Selesaikan bagian yang jelas, tanyakan hanya konflik makna yang belum diputuskan; jangan memulai tugas baru atau menyatakan clean saat konflik masih ada. |
-| Tidak berada di branch (detached HEAD) atau branch salah | Identifikasi commit/perubahan yang harus dipertahankan; buat/pilih branch tugas yang tepat sebelum commit. Jangan reset atau menimpa branch yang sudah ada. |
+| Tidak berada di branch (detached HEAD) atau branch salah | Identifikasi commit/perubahan yang harus dipertahankan; pilih branch anggota yang tepat setelah memastikan commit/perubahan tetap tersimpan. Jangan reset atau menimpa branch yang sudah ada. |
 | Perubahan sudah tercommit tetapi salah | Buat commit koreksi. Pembatalan menyeluruh dapat memakai revert setelah meninjau dampak dan mandat; jangan otomatis amend, squash, rebase atau force push. |
-| Push ditolak karena izin / branch dilindungi | Gunakan branch tugas dan PR jika diizinkan; bila akses tidak ada, laporkan kebutuhan akses. Jangan menonaktifkan proteksi atau mengganti remote tanpa mandat. |
+| Push ditolak karena izin / branch dilindungi | Gunakan branch anggota dan PR jika diizinkan; bila akses tidak ada, laporkan kebutuhan akses. Jangan menonaktifkan proteksi atau mengganti remote tanpa mandat. |
+| PR tertinggal dari base | Fetch dan periksa graph. Rafi membantu merge development ke branch anggota bila perlu; uji konflik sebelum push. Jangan menulis ulang riwayat bersama. |
+| Salah base PR | Kontribusi anggota harus ke development, promosi ke main harus dari development. Ubah base, periksa ulang seluruh diff dan CI; jangan menganggap approval lama masih cukup. |
+| Email commit keliru | Identitas commit berbeda dari login. Koordinasikan koreksi konfigurasi lokal dengan pemilik; jangan rewrite commit bersama tanpa mandat. |
 | CI gagal setelah push | Baca kegagalan pada SHA terkait, perbaiki, commit baru, push dalam mandat, dan periksa CI terbaru. Push sukses saja tidak menutup tugas publikasi. |
 | Izin sandbox menolak git add/commit/push | Gunakan mekanisme izin alat sesuai tindakan yang sudah diotorisasi; jangan mengubah permission/global config. Jika tetap ditolak, laporkan aksi dan kendalanya. |
 | Ada index.lock atau dua agent mengedit bersamaan | Periksa apakah proses Git masih berjalan dan tunda penulisan AI pada worktree yang bertabrakan. Jangan langsung menghapus lock, mematikan proses rekan, atau merekam perubahan agent lain. |
@@ -302,4 +367,4 @@ pemeriksaan terkait lulus dan tree bersih; laporkan bahwa commit belum dipush.
 Untuk kendala yang belum selesai, laporkan BLOCKED beserta penyebab dan path,
 bukan mengklaim clean atau menghapus perubahan. Aturan ini membimbing AI yang
 membaca instruksi; tidak memasang hook auto-commit atau membuktikan kepatuhan
-semua IDE. Referensi Git/GitHub di atas diperiksa pada 20 Oktober 2026.
+semua IDE. Referensi Git/GitHub ditinjau kembali 21 Oktober 2026; bukti kontrol GitHub ada pada laporan audit.

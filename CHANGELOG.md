@@ -9,6 +9,15 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Alur tim menjadi lima branch permanen: branch anggota → PR development → PR
+  main. BRD/PRD aspek Git, keputusan, RTM dan panduan pemula diselaraskan.
+- CI mencakup push kelima branch, PR kedua base dan perubahan base; validasi arah
+  menolak fork/pasangan salah, dilengkapi regresi dan checkout tanpa credential tersimpan.
+- Audit GitHub memisahkan fakta, SOP dan kontrol Settings yang belum diterapkan;
+  template tugas/PR dan prosedur sinkronisasi mempertahankan riwayat merge commit.
+- Bukti CI push dan PR nyata pada commit implementasi dicatat dalam WORKSPACE
+  dan handoff; draft PR menuju development tetap menunggu review/merge owner.
+
 - AI wajib commit lokal setiap unit perubahan, termasuk typo, tanpa konfirmasi
   tambahan; working tree diperiksa bersih sebelum unit berikut atau penutupan.
 - Panduan tim mencakup dasar Git/GitHub, branch, commit, push/PR, konflik,

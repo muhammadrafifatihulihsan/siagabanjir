@@ -8,6 +8,24 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+[WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010)
+mengganti alur kontribusi menjadi lima branch permanen pada repository yang sama.
+CI memvalidasi push kelima branch dan PR anggota → development → main,
+termasuk retarget dan penolakan fork. Panduan onboarding/sinkronisasi, template,
+BRD/PRD aspek Git serta riwayat keputusan diperbarui bersama.
+Persetujuan mencakup implementasi CI/dokumentasi dan push branch-rafi.
+[Bukti audit dan verifikasi](WORKSPACE.md#github-workflow-audit) membedakan SOP,
+check CI dan Settings: owner-only merge/proteksi belum diterapkan.
+Implementasi dcf9d998f28aa6862f1dbe890441d67407236c06 sudah dipush ke branch-rafi;
+empat job CI push dan PR lulus, dengan run ditautkan pada bukti di atas.
+[Draft PR #1](https://github.com/muhammadrafifatihulihsan/siagabanjir/pull/1)
+menunggu review owner ke development lalu promosi ke main; merge belum
+diotorisasi. Settings/rulesets dan uji lintas akun memerlukan mandat terpisah.
+Arsip session yang dibaca pada sesi ini tetap lokal; catatan penghapusan arsip
+pada publikasi sebelumnya di bawah adalah riwayat sesi 20 Oktober.
+
+### Aturan commit yang tetap berlaku
+
 [WORKSPACE-LOCAL-COMMIT-009](DECISIONS.md#workspace-local-commit-009) menetapkan
 commit lokal setiap unit perubahan AI tanpa menunggu konfirmasi, termasuk typo.
 Sebelum unit berikut atau penutupan tugas/sesi, periksa working tree bersih dan
