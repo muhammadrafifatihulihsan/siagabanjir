@@ -3,15 +3,15 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Versi: **0.1.0**\
-Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §47**\
-Tanggal pencatatan: **20 Oktober 2026**\
+Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §48**\
+Tanggal pencatatan: **21 Oktober 2026**\
 Dokumen terkait: [BRD.md](BRD.md), [PRD.md](PRD.md), [DECISIONS.md](DECISIONS.md), dan [FRD.md](FRD.md).
 
 Dokumen ini memetakan sumber, keputusan, requirement, dan bukti penerimaan. USER-IMPLEMENT mengotorisasi draf BRD; BRD-APPROVAL kemudian menetapkan persetujuan final dan kelanjutan PRD. Otorisasi tahap berikutnya mengikuti [register keputusan](DECISIONS.md), termasuk [PRD-APPROVAL-01](DECISIONS.md#prd-approval-01). Catatan tahap lama dibaca sesuai tanggalnya.
 
 **Status historis:** catatan draf/pertanyaan/riset di bawah mempertahankan waktu pencatatannya. Status final mengikuti [penutupan v1.0.0](#frd-finalization-trace), bukan status terbuka pada putaran lama.
 
-**Kondisi workspace terbaru:** lihat [§47](#workspace-local-commit-traceability). Auditor
+**Kondisi workspace terbaru:** lihat [§48](#workspace-github-workflow-traceability). Auditor
 dan perintah pemeriksaan pada catatan tahap lama adalah riwayat; berkasnya
 tidak tersedia dalam workspace publik. Jangan menjalankannya langsung pada
 struktur workspace baru; validator aktif ada pada .github/scripts/.
@@ -194,7 +194,7 @@ Daftar di atas mencatat riset yang benar-benar dilakukan sebelumnya dalam sesi. 
 
 ### Q-014
 
-**Topik:** alur kolaborasi GitHub. **Jawaban:** pilih fork, branch per tugas, PR ke `main` repository pusat, lalu pemilik meninjau dan memperbaiki sebelum merge. **Dampak:** BR-036. **Status:** CONFIRMED_DIRECTION; usulan empat branch permanen per orang pada Q-011 SUPERSEDED. Pengaturan izin/proteksi repository belum dikerjakan.
+**Topik:** alur kolaborasi GitHub. **Jawaban:** pilih fork, branch per tugas, PR ke `main` repository pusat, lalu pemilik meninjau dan memperbaiki sebelum merge. **Dampak:** BR-036. **Status historis:** CONFIRMED_DIRECTION, kini SUPERSEDED oleh [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010); usulan empat branch permanen per orang pada Q-011 SUPERSEDED. Pengaturan izin/proteksi repository belum dikerjakan.
 
 ### Q-015
 
@@ -305,7 +305,7 @@ Pernyataan berikut mempertahankan status arah dan item terbuka saat penyusunan B
 | ST-033 | Pemrosesan AI mempertimbangkan efisiensi melalui 3–4 frame video dan resize yang diukur. | CURRENT_USER_CONFIRMED untuk arah; usulan teknis untuk rincian | CONFIRMED_DIRECTION untuk kisaran; default 3 frame/cache PROPOSED_REFINEMENT |
 | ST-034 | Demo lokal didahulukan dan persiapan Docker untuk hosting ditempatkan pada tahap 5. | CURRENT_USER_CONFIRMED | CONFIRMED_DIRECTION; belum ada deployment |
 | ST-035 | Proyek menghindari kewajiban langganan pihak ketiga berbayar yang baru. | CURRENT_USER_CONFIRMED | CONFIRMED_DIRECTION; bukan larangan seluruh pihak ketiga |
-| ST-036 | Kolaborasi memakai fork dan branch per tugas, PR ke main pusat, lalu review/perbaikan pemilik sebelum merge. | CURRENT_USER_CONFIRMED setelah RES-04 | CONFIRMED_DIRECTION |
+| ST-036 | Kolaborasi memakai fork dan branch per tugas, PR ke main pusat, lalu review/perbaikan pemilik sebelum merge. | CURRENT_USER_CONFIRMED setelah RES-04 | Historis; SUPERSEDED oleh [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010) |
 | ST-037 | Desain SVG menjadi acuan tema biru dan kandidat fitur. | CURRENT_USER_CONFIRMED + FACT_INSPECTED | CONFIRMED_DIRECTION; bukan kontrak pixel-perfect |
 | ST-038 | Paket uji kerja berisi 2 admin, 6 warga, 12 laporan, dan 6 dokumen spesimen. | CURRENT_USER_CONFIRMED untuk paket awal + delegasi pengurangan laporan | DELEGATED_DEFAULT pada 12 laporan; awal 16 SUPERSEDED oleh pilihan kerja |
 | ST-039 | Dosen dan mahasiswa dapat menguji alur yang benar, dengan fixture terpisah dari hasil AI nyata. | CURRENT_USER_CONFIRMED + konsekuensi kejujuran bukti uji | CONFIRMED_DIRECTION; implementasi/pengujian belum dilakukan |
@@ -853,7 +853,7 @@ Status dasar adalah **BASELINE_APPROVED**. Detail yang terbuka pada BRD tidak ot
 | PRD-CL033 | Efisien memakai AI: frame terbatas dan optimasi media yang mempertahankan kegunaan hasil. | BR-033; DEC-033; AC-033 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-NF-003 |
 | PRD-CL034 | Demo lokal utama dan persiapan portabilitas hosting pada tahap 5. | BR-034; DEC-034; AC-034 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-NF-008 |
 | PRD-CL035 | Sedapat mungkin tidak menambah langganan pengembangan berbayar yang wajib. | BR-035; DEC-035; AC-035 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-NF-004 |
-| PRD-CL036 | Branch tugas pada fork → PR ke main pusat, dengan review/perapian sebelum merge. | BR-036; DEC-036; AC-036 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-NF-008 |
+| PRD-CL036 | Branch tugas pada fork → PR ke main pusat, dengan review/perapian sebelum merge. | BR-036; DEC-036; AC-036 | Historis; aspek Git SUPERSEDED oleh [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010). | PRD-NF-008 |
 | PRD-CL037 | Desain lama menjadi acuan tema dan kandidat fitur. | BR-037; DEC-037; AC-037 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-NF-007 |
 | PRD-CL038 | Paket awal 2 admin, 6 warga, 12 laporan, dan 6 dokumen fiktif. | BR-038; DEC-038; AC-038 | Jumlah 6 dokumen adalah historis; PRD-Q042 mengubahnya menjadi 8 spesimen. Akun/laporan tetap. | PRD-NF-009 |
 | PRD-CL039 | Dosen/mahasiswa menguji perilaku aplikasi sebenarnya. | BR-039; DEC-039; AC-039 | Baseline diteruskan sesuai scope; rincian hanya mengikuti keputusan yang memiliki jejak. | PRD-F-010, PRD-NF-006, PRD-NF-009 |
@@ -2011,3 +2011,20 @@ Mandat: [WORKSPACE-LOCAL-COMMIT-009](DECISIONS.md#workspace-local-commit-009).
 | Push pembaruan setelah jelas | Pemeriksaan lokal, commit, push, pencocokan SHA main dan CI terbaru mengikuti mandat sesi; bukti lokal pada [WORKSPACE](WORKSPACE.md#commit-lokal-tim). |
 
 Tidak ada perubahan kebutuhan aplikasi, kontrak atau hasil TC produk.
+
+<a id="workspace-github-workflow-traceability"></a>
+
+## 48. Audit GitHub dan alur branch permanen — 21 Oktober 2026
+
+Sumber: [prompt audit](../prompt-audit-dan-perbaikan.md), persetujuan implementasi
+CI/dokumentasi dan push, serta [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010).
+
+| Mandat / requirement | Implementasi dan bukti | Batas penerimaan |
+|---|---|---|
+| BR-036/AC-036, PRD-NF-008, WS-DEC-045 | BRD/PRD aktif, panduan lima branch, rules/workspace, template PR/tugas | Menggantikan alur historis fork/branch tugas; bukan perubahan fitur produk |
+| WS-DEC-046 | ci.yml, validate_pr_policy.py dan test_pr_policy.py | Empat pasangan PR sah; salah base/head/fork ditolak, retarget diperiksa; push tidak membuktikan arah PR |
+| WS-DEC-047 | Audit A–H, commit/push branch-rafi; hasil pada WORKSPACE | Tidak merge atau mengubah Settings |
+| WS-DEC-048 | Matriks hak akses dan rancangan ruleset pada audit | Owner-only merge, branch/tag protection, pengujian lintas akun BELUM DITERAPKAN/NOT_RUN |
+
+Hasil gate aktual ada pada [WORKSPACE](WORKSPACE.md#github-workflow-audit).
+FRD/SRS, kontrak dan desain produk tidak berubah; seluruh TC aplikasi tetap NOT_RUN.

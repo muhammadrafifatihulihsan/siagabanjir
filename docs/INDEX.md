@@ -30,6 +30,7 @@ Persetujuan tersebut berlaku untuk spesifikasi; pengujian aplikasi tetap NOT_RUN
 | [TRACEABILITY](TRACEABILITY.md) | Pemetaan sumber, requirement, penerimaan, dan bukti |
 | [WORKSPACE](WORKSPACE.md) | Status versi, struktur, peta sumber, konfigurasi, dukungan OS/IDE, dan verifikasi |
 | [SKILL-RESEARCH](SKILL-RESEARCH.md) | Seleksi referensi dan skenario evaluasi skill |
+| [GITHUB-AUDIT](GITHUB-AUDIT.md) | Fakta audit GitHub, gap, matriks akses dan rancangan Settings yang belum diterapkan |
 | [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Panduan Git untuk pemula, commit lokal AI, kendala umum, validasi, push dan pull request |
 | [VERSIONING](VERSIONING.md) | Kebijakan versi dan prosedur rilis |
 | [SESSION-HANDOFF](SESSION-HANDOFF.md) | Kondisi terkini dan pekerjaan berikutnya |

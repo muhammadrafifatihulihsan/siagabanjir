@@ -67,3 +67,7 @@ Siapkan sumber yang bisa direview di lokasi yang diizinkan dan rujuk melalui
 AGENTS. Jangan memakai shell/tool lain untuk menembus path yang ditolak.
 Jangan mengklaim penemuan native sudah berhasil; verifikasi berkas dan pemuatan
 runtime adalah dua pemeriksaan berbeda.
+
+Kontribusi Git mengikuti [panduan lima branch](../../docs/GITHUB-WORKFLOW.md).
+Pakai branch anggota yang ditetapkan; PR ke development dan promosi ke main.
+Status SOP, checks CI dan proteksi Settings harus dilaporkan terpisah.

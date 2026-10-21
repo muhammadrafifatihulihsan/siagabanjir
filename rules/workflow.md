@@ -96,7 +96,9 @@ saat bekerja, bukan proses latar belakang atau hook yang merekam semua file.
 1. Sebelum edit, periksa root, branch, HEAD, remote,
    `git status --short --branch --untracked-files=all`, diff biasa, dan diff staged. Catat perubahan yang sudah
    ada. Jangan menganggap seluruh isi index atau file untracked milik tugas ini.
-   Gunakan branch tugas untuk kontribusi biasa; main hanya dalam mandat publikasi.
+   Gunakan branch anggota yang ditetapkan menurut [panduan GitHub](../docs/GITHUB-WORKFLOW.md).
+   Kontribusi menuju development; promosi development menuju main melalui PR.
+   Mandat push biasa tidak mengizinkan direct push ke main/development.
 2. Selesaikan satu maksud perubahan bersama kode/tes/dokumen yang bergantung
    padanya. Jalankan pemeriksaan sesuai dampak, perbaiki kegagalan, dan tinjau
    diff. Jangan menunggu semua fitur besar selesai untuk mulai mencatat commit.
@@ -138,7 +140,7 @@ sementara kotor. Commit tidak perlu dibuat setelah setiap pemanggilan alat.
   dapat dipakai jika tersedia dan aman, tetapi tidak membuat tree asal bersih.
 - **Tes gagal:** lanjutkan perbaikan dalam unit tersebut sebelum commit selesai.
   Jika harus berhenti terencana saat mandat masih berlaku, perubahan aman milik
-  tugas dapat disimpan sebagai `wip: ...` pada branch tugas, bukan main. Tulis
+  tugas dapat disimpan sebagai `wip: ...` pada branch anggota, bukan main/development. Tulis
   FAIL/BLOCKED/NOT_RUN dan kelanjutannya pada pesan commit atau handoff.
   Checkpoint WIP tidak menandakan fitur selesai dan tidak boleh dipush sebagai
   hasil siap pakai, digabung ke main, atau dirilis sebelum masalahnya dituntaskan.

@@ -2,6 +2,12 @@
 Isi fakta hasil kerja; jangan mencentang bacaan atau tes yang belum dilakukan.
 -->
 
+## Arah kontribusi
+
+Base: development / main. Head: branch anggota / development.
+Keduanya dari repository ini; satu PR aktif per branch anggota.
+Promosi ke main menyertakan bukti integrasi atau batas NOT_RUN yang relevan.
+
 ## Masalah dan hasil perubahan
 
 Jelaskan masalah, perilaku akhir, dan alasan perubahan. Cantumkan FR/AC/TC atau
@@ -28,3 +34,6 @@ Cantumkan branch, SHA commit terbaru, hasil git status, serta status push/CI.
 - [ ] Commit yang dipush dan CI cocok dengan SHA terbaru; checkpoint WIP yang belum tuntas tidak dinyatakan siap merge.
 - [ ] Batas bukti/prasyarat tersisa disebutkan; tidak ada klaim tes atau approval rekaan.
 - [ ] Arsip percakapan, secret/data pribadi, cache dan artefak sementara tidak ikut perubahan.
+
+- [ ] Pasangan base/head sah; Rafi memutuskan merge setelah review dan CI.
+- [ ] Gunakan merge commit; jangan hapus branch permanen setelah merge.

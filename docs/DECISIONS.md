@@ -79,7 +79,7 @@ Seluruh keputusan langsung berasal dari pengguna. Pilihan yang dibuat melalui de
 | DEC-033 / BR-033 | Pemakaian AI diupayakan efisien melalui frame video terbatas dan resize terukur. Video diarahkan ke tiga–empat frame; tiga frame dan pemakaian kembali hasil yang masih sesuai merupakan penajaman draf. | Tidak ada janji persentase penghematan atau kualitas setara. Nilai resize, cache dan pemilihan frame memerlukan pengujian. | Arah efisiensi `CONFIRMED_DIRECTION`; tiga frame/cache `PROPOSED_REFINEMENT` | [Q-018](TRACEABILITY.md#q-018), [Q-019](TRACEABILITY.md#q-019), PLAN-01 |
 | DEC-034 / BR-034 | Demo dijalankan lokal; persiapan Docker/kemudahan hosting ditempatkan pada tahap setup nomor 5. | Hosting aktif bukan kewajiban saat ini. Keberadaan CLI Docker bukan bukti deployment berhasil. | `CONFIRMED_DIRECTION` | [Q-011](TRACEABILITY.md#q-011) |
 | DEC-035 / BR-035 | Hindari tambahan layanan pengembangan berbayar yang wajib. | Ini bukan larangan semua layanan pihak ketiga, dan bukan keputusan menghapus langganan wilayah warga. Kredit AI yang sudah dimiliki tetap dapat dipakai. | `CONFIRMED_DIRECTION` | [Q-010](TRACEABILITY.md#q-010), [Q-013](TRACEABILITY.md#q-013) |
-| DEC-036 / BR-036 | Kolaborasi melalui fork dan branch per tugas, lalu PR ke `main` pusat; pemilik proyek meninjau dan perbaikan dilakukan sebelum merge. | Usulan awal empat branch tetap tidak digunakan sebagai keputusan akhir. Repository/Git belum dibuat pada tahap BRD. | `CONFIRMED_DIRECTION` | [Q-011](TRACEABILITY.md#q-011), [Q-014](TRACEABILITY.md#q-014) |
+| DEC-036 / BR-036 (historis; SUPERSEDED oleh [WORKSPACE-GITHUB-WORKFLOW-010](#workspace-github-workflow-010)) | Kolaborasi melalui fork dan branch per tugas, lalu PR ke `main` pusat; pemilik proyek meninjau dan perbaikan dilakukan sebelum merge. | Usulan awal empat branch tetap tidak digunakan sebagai keputusan akhir. Repository/Git belum dibuat pada tahap BRD. | `CONFIRMED_DIRECTION` | [Q-011](TRACEABILITY.md#q-011), [Q-014](TRACEABILITY.md#q-014) |
 | DEC-037 / BR-037 | Tema biru dan SVG menjadi acuan visual; fitur di dalamnya diperlakukan sebagai kandidat, bukan kewajiban meniru setiap pixel/teks. | Angka, branding dan elemen operasional desain lama bukan otomatis data nyata atau scope wajib. | `CONFIRMED_DIRECTION` | [Q-002](TRACEABILITY.md#q-002) |
 | DEC-038 / BR-038 | Rancangan paket demo tahap 1: dua admin, enam warga, dua belas laporan dan enam dokumen spesimen. | Paket awal memuat enam belas laporan; pengguna menyatakan terlalu banyak dan mendelegasikan jumlah. Dua belas adalah default kerja pada rencana, bukan angka awal yang dipilih pengguna secara eksplisit. Belum ada akun/seed/dokumen contoh yang dibuat. **Delta tahap 2:** dokumen menjadi delapan sesuai PRD-DEC-042; angka enam di baris ini dipertahankan sebagai riwayat. | Komposisi akun/dokumen `CONFIRMED_DIRECTION`; 12 laporan `DELEGATED_DEFAULT` | [Q-017](TRACEABILITY.md#q-017), PLAN-01, USER-IMPLEMENT |
 | DEC-039 / BR-039 | Dosen/mahasiswa harus dapat menguji alur yang benar-benar bekerja. Fixture/simulasi, pengujian API AI nyata dan UAT manusia dibedakan. | Tampilan berjalan atau respons fixture bukan bukti akurasi model nyata. Dataset/media dan bukti uji masih harus disiapkan. | Arah UAT `CONFIRMED_DIRECTION`; pemisahan bukti adalah penajaman validasi draf | [Q-016](TRACEABILITY.md#q-016), [Q-017](TRACEABILITY.md#q-017), PLAN-01 |
@@ -100,7 +100,7 @@ Seluruh keputusan langsung berasal dari pengguna. Pilihan yang dibuat melalui de
 | CON-005 | “Tanpa langganan” diartikan menghapus fitur langganan wilayah pengguna. | Pengguna menjelaskan maksudnya adalah menghindari kewajiban layanan pengembangan berbayar. Konfirmasi terpisah Q-027 kemudian menetapkan pesan admin ke inbox seluruh warga. | Interpretasi sebelumnya dicabut; Q-010/Q-027, DEC-026/035. |
 | CON-006 | “Anggota kelompok 2” dianggap dua orang total. | Pengguna menegaskan pemilik proyek + dua teman = tiga orang. | Diselesaikan melalui Q-012; DEC-003. |
 | CON-007 | TypeScript + Python sudah menjadi pilihan final, atau jawaban awal Q-015 dianggap setuju TS saja. | Awalnya hanya kandidat; Q-015 awal meminta riset. Persetujuan TS API + TS worker baru muncul pada jawaban lanjutan setelah riset/PoC. | Diselesaikan dengan histori dua respons Q-015; DEC-031. |
-| CON-008 | Usulan empat branch tetap menjadi alur tim. | Pilihan final adalah branch per tugas melalui fork/PR ke `main`, dengan review/perbaikan sebelum merge. | Diselesaikan melalui Q-014; DEC-036. |
+| CON-008 | Usulan empat branch tetap menjadi alur tim. | Pilihan final adalah branch per tugas melalui fork/PR ke `main`, dengan review/perbaikan sebelum merge. | Diselesaikan pada tahap BRD melalui Q-014; DEC-036. Kini SUPERSEDED oleh [WORKSPACE-GITHUB-WORKFLOW-010](#workspace-github-workflow-010). |
 | CON-009 | “Video 3/4” dianggap mengubah batas durasi. | Durasi tetap maksimal lima detik; tiga/empat mengacu jumlah frame untuk AI. | Diselesaikan melalui Q-019/Q-022; tiga frame tepat masih penajaman, DEC-005/033. |
 | CON-010 | Bukti laporan harus selalu dipertahankan atau penghapusan hanya menyembunyikan tampilan. | Pengguna memilih penghapusan permanen laporan/media aktif, dengan audit tindakan minimal dan pembaruan tampilan/agregat. | Sumber lama digantikan pada tindakan hapus eksplisit; Q-017/Q-021, DEC-014/015. |
 | CON-011 | Menyelesaikan kejadian sama dengan menghapus laporan. | Selesai mengeluarkan kejadian dari Pantau aktif dan mempertahankan riwayat; hapus merupakan tindakan terpisah. | Diselesaikan melalui Q-024; DEC-020. |
@@ -919,3 +919,24 @@ batas akses; bukan persetujuan produk baru.
 Prosedur ada pada [workflow](../rules/workflow.md#commit-lokal), contoh dan
 kendala pada [panduan tim](GITHUB-WORKFLOW.md#mulai-untuk-tim), dan hasil
 pemeriksaan pada [WORKSPACE](WORKSPACE.md#commit-lokal-tim).
+
+<a id="workspace-github-workflow-010"></a>
+
+## 38. Audit dan alur lima branch permanen — 21 Oktober 2026
+
+**WORKSPACE-GITHUB-WORKFLOW-010 — CURRENT_USER_CONFIRMED.**
+Pemilik meminta melanjutkan riwayat sesi dan prompt audit di root, kemudian
+menyetujui: “Ya, implementasikan dan push CI/dokumentasi”. Persetujuan mencakup
+branch-rafi setelah audit; Settings/ruleset tetap memerlukan persetujuan terpisah.
+
+| ID | Keputusan dan batas |
+|---|---|
+| WS-DEC-045 | Ganti arah historis DEC-036/CON-008/Q-014: satu repo, branch-rafi/branch-melia/branch-hasan → PR development → PR main. Lima branch tetap, satu PR aktif per branch anggota. Rafi meninjau dan merge memakai merge commit; tidak hapus branch permanen. |
+| WS-DEC-046 | Terapkan CI pada push kelima branch dan PR kedua base termasuk retarget. Validasi pasangan head/base dan repository yang sama; checkout tidak menyimpan credential. Tambahkan regresi serta template tugas/PR. |
+| WS-DEC-047 | Audit read-only lebih dahulu sudah dilaksanakan; persetujuan berikutnya mengizinkan perubahan CI/dokumentasi, commit dan push branch-rafi. Tidak mengotorisasi merge, Settings, undangan, tag/release atau deploy. |
+| WS-DEC-048 | SOP/nama branch/check CI bukan isolasi akun atau bukti owner-only merge. Rancangan ruleset berlapis, kasus PR owner dan proteksi tag memerlukan persetujuan serta uji terpisah. Tidak menambahkan CODEOWNERS yang berpotensi mengunci PR owner. |
+
+BR-036/AC-036 dan aspek Git PRD-NF-008 diperbarui oleh mandat ini; versi baseline
+dan approval produk tetap, riwayat keputusan lama dipertahankan. [Audit](GITHUB-AUDIT.md)
+memuat fakta awal, rancangan dan keterbatasan. [Bukti](WORKSPACE.md#github-workflow-audit)
+dan [RTM](TRACEABILITY.md#workspace-github-workflow-traceability) mengikuti hasil aktual.
