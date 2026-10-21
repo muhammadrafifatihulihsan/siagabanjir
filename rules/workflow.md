@@ -97,7 +97,7 @@ saat bekerja, bukan proses latar belakang atau hook yang merekam semua file.
    `git status --short --branch --untracked-files=all`, diff biasa, dan diff staged. Catat perubahan yang sudah
    ada. Jangan menganggap seluruh isi index atau file untracked milik tugas ini.
    Gunakan branch anggota, atau main lokal yang melacak branch remote anggota
-   dengan push refspec eksplisit sesuai GIT-CEPAT.txt, menurut [panduan GitHub](../docs/GITHUB-WORKFLOW.md).
+   dengan push refspec eksplisit sesuai GIT-CEPAT.md, menurut [panduan GitHub](../docs/GITHUB-WORKFLOW.md).
    Kontribusi menuju development; promosi development menuju main melalui PR.
    Mandat push biasa tidak mengizinkan direct push ke main/development remote.
 2. Selesaikan satu maksud perubahan bersama kode/tes/dokumen yang bergantung

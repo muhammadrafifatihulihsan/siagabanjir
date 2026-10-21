@@ -2,7 +2,7 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Untuk perintah ringkas dengan **main lokal**, gunakan [GIT-CEPAT.txt](GIT-CEPAT.txt).
+Untuk perintah ringkas dengan **main lokal**, gunakan [GIT-CEPAT.md](GIT-CEPAT.md).
 Clone branch anggota lalu rename lokal menjadi main; upstream tetap
 `origin/branch-melia`, `origin/branch-hasan`, atau `origin/branch-rafi`.
 Push memakai refspec eksplisit, misalnya `git push origin main:branch-melia`.

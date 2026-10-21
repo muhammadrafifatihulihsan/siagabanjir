@@ -8,7 +8,12 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
-Mandat berikutnya menghasilkan [GIT-CEPAT.txt](GIT-CEPAT.txt): perintah singkat
+Pemilik meminta panduan Git cepat dikonversi ke Markdown lalu commit/push.
+[GIT-CEPAT.md](GIT-CEPAT.md) kini memakai judul per anggota, blok kode terpisah
+untuk clone dan ngoding/push, serta bagian pembaruan bersama. Seluruh perintah
+dipertahankan; tautan aktif diperbarui. Catatan TXT di bawah adalah riwayat format.
+
+Mandat berikutnya menghasilkan [GIT-CEPAT.md](GIT-CEPAT.md): perintah singkat
 untuk main lokal, tanpa membuat branch kerja baru secara manual. Upstream dan
 tujuan push tetap branch remote anggota; PR ke development tetap berlaku.
 Panduan panjang menjadi alternatif dengan nama lokal anggota. Perubahan ini
