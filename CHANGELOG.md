@@ -15,6 +15,8 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   menolak fork/pasangan salah, dilengkapi regresi dan checkout tanpa credential tersimpan.
 - Audit GitHub memisahkan fakta, SOP dan kontrol Settings yang belum diterapkan;
   template tugas/PR dan prosedur sinkronisasi mempertahankan riwayat merge commit.
+- Bukti CI push dan PR nyata pada commit implementasi dicatat dalam WORKSPACE
+  dan handoff; draft PR menuju development tetap menunggu review/merge owner.
 
 - AI wajib commit lokal setiap unit perubahan, termasuk typo, tanpa konfirmasi
   tambahan; working tree diperiksa bersih sebelum unit berikut atau penutupan.
