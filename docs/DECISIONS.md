@@ -940,3 +940,20 @@ BR-036/AC-036 dan aspek Git PRD-NF-008 diperbarui oleh mandat ini; versi baselin
 dan approval produk tetap, riwayat keputusan lama dipertahankan. [Audit](GITHUB-AUDIT.md)
 memuat fakta awal, rancangan dan keterbatasan. [Bukti](WORKSPACE.md#github-workflow-audit)
 dan [RTM](TRACEABILITY.md#workspace-github-workflow-traceability) mengikuti hasil aktual.
+
+## 39. Main lokal untuk panduan ringkas - 21 Oktober 2026
+
+**WS-DEC-049 - CURRENT_USER_CONFIRMED.** Pemilik meminta satu TXT berisi
+perintah langsung dan bekerja di main lokal. [GIT-CEPAT.txt](GIT-CEPAT.txt)
+menggunakan clone branch anggota lalu rename lokal; upstream anggota tetap.
+Push memakai refspec main:branch-anggota. Arah PR pada WS-DEC-045 tetap berlaku
+untuk branch GitHub; mandat ini tidak mengizinkan direct push remote main.
+
+## 40. Penyegaran lokal dari main - 21 Oktober 2026
+
+**WS-DEC-050 - CURRENT_USER_CONFIRMED.** Pemilik meminta contoh TXT untuk
+mengganti isi kerja lokal dengan main terbaru. Sesudah semua pekerjaan masuk
+main melalui PR, contoh memakai fetch, reset --hard origin/main dan clean -fd.
+Perubahan lokal dan untracked dibuang; ignored dipertahankan. Ini pengecualian
+eksplisit untuk prosedur pengguna pada TXT, bukan izin AI membersihkan workspace
+demi status bersih. Tidak mengotorisasi force push atau perubahan alur PR.

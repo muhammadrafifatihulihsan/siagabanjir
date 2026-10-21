@@ -8,6 +8,36 @@ masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
 
 ## Perubahan terakhir
 
+Mandat berikutnya menghasilkan [GIT-CEPAT.txt](GIT-CEPAT.txt): perintah singkat
+untuk main lokal, tanpa membuat branch kerja baru secara manual. Upstream dan
+tujuan push tetap branch remote anggota; PR ke development tetap berlaku.
+Panduan panjang menjadi alternatif dengan nama lokal anggota. Perubahan ini
+dicommit lokal; tidak menjalankan perintah contoh pada repository tim.
+
+TXT kemudian dipadatkan atas koreksi pemilik: clone/ngoding/push/PR, lalu
+fetch origin dan pembaruan main lokal dari origin/main untuk siklus berikut.
+Siklus kedua menunggu promosi development ke main selesai; tujuan PR tetap
+development. Setup identitas dan rincian pemeriksaan ada di panduan lengkap.
+
+TXT kini memisahkan perintah Rafi, Hasan dan Melia tanpa penggantian nama
+branch. Pembaruan main untuk siklus berikut ditulis sekali. Edit awal pemilik
+pada TXT (git add . dan pesan commit sederhana) dipertahankan dalam contoh;
+semua file perubahan diperiksa sebelum staging.
+
+Mandat terbaru mengganti fast-forward TXT dengan reset --hard origin/main dan
+clean -fd setelah seluruh pekerjaan masuk main melalui PR. Langkah ini sengaja
+membuang perubahan lokal/untracked; ignored seperti .env tetap ada. Perintah
+dirangkai dengan && agar kegagalan fetch menghentikan reset. Mandat ini untuk
+contoh panduan, bukan menjalankan reset/clean pada workspace saat mengedit.
+
+Pemilik meminta commit sampai bersih dan push. Empat commit TXT sampai
+1afcedd telah dipush ke branch-rafi dan SHA remote cocok. Pemilik juga
+mengonfirmasi penghapusan prompt-audit-dan-perbaikan.md; rujukan audit/RTM
+dialihkan ke salinan historis. Commit penutup dan hasil CI dilaporkan saat
+serah hasil. Tidak merge PR atau mengubah Settings.
+
+### Riwayat panduan panjang dan publikasi
+
 Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu
 [panduan praktik Git pemula](GIT-UNTUK-PEMULA.md), dari clone pertama hingga
 PR dan siklus tugas berikutnya. Contoh salin-tempel memakai Git Bash/Bash,

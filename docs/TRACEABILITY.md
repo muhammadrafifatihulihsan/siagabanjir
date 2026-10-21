@@ -2016,7 +2016,7 @@ Tidak ada perubahan kebutuhan aplikasi, kontrak atau hasil TC produk.
 
 ## 48. Audit GitHub dan alur branch permanen — 21 Oktober 2026
 
-Sumber: [prompt audit](../prompt-audit-dan-perbaikan.md), persetujuan implementasi
+Sumber: [prompt audit historis](https://github.com/muhammadrafifatihulihsan/siagabanjir/blob/1afcedda3e78d094bcd88850b9757d01abf829d7/prompt-audit-dan-perbaikan.md), persetujuan implementasi
 CI/dokumentasi dan push, serta [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#workspace-github-workflow-010).
 
 | Mandat / requirement | Implementasi dan bukti | Batas penerimaan |
@@ -2028,3 +2028,11 @@ CI/dokumentasi dan push, serta [WORKSPACE-GITHUB-WORKFLOW-010](DECISIONS.md#work
 
 Hasil gate aktual ada pada [WORKSPACE](WORKSPACE.md#github-workflow-audit).
 FRD/SRS, kontrak dan desain produk tidak berubah; seluruh TC aplikasi tetap NOT_RUN.
+
+## 49. Perintah ringkas main lokal - 21 Oktober 2026
+
+WS-DEC-049 dipenuhi oleh [GIT-CEPAT.txt](GIT-CEPAT.txt): clone pertama, main
+lokal dengan upstream anggota, siklus commit/push/PR dan sinkronisasi setelah
+merge. Instruksi bersama membedakan nama lokal dari remote; CI dan aturan PR
+tetap. Bukti pemeriksaan dicatat di WORKSPACE. Produk, kontrak, DESIGN dan
+adapter IDE tidak berubah; adapter tetap merujuk instruksi bersama.

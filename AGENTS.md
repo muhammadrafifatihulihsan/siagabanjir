@@ -60,7 +60,9 @@ membedakan dukungan dokumentasi dari pemuatan yang benar-benar diuji.
 
 Alur kontribusi mengikuti [panduan GitHub](docs/GITHUB-WORKFLOW.md): branch-rafi,
 branch-melia, branch-hasan → development → main melalui PR dalam repo yang sama.
-Branch permanen tidak dihapus; mandat push tidak mengizinkan merge atau Settings.
+Nama tersebut merujuk branch remote. Anggota boleh memakai `main` lokal yang
+melacak branch remote sendiri, dengan push eksplisit sesuai
+[skrip ringkas](docs/GIT-CEPAT.txt). Branch permanen tidak dihapus; mandat push tidak mengizinkan merge atau Settings.
 
 ## Otomatisasi dan versioning
 

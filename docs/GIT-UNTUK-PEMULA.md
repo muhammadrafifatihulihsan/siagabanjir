@@ -2,6 +2,14 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
+Untuk perintah ringkas dengan **main lokal**, gunakan [GIT-CEPAT.txt](GIT-CEPAT.txt).
+Clone branch anggota lalu rename lokal menjadi main; upstream tetap
+`origin/branch-melia`, `origin/branch-hasan`, atau `origin/branch-rafi`.
+Push memakai refspec eksplisit, misalnya `git push origin main:branch-melia`.
+Nama branch dalam alur PR merujuk branch **GitHub**; main/development remote
+tetap menerima perubahan melalui PR. Langkah panjang di bawah adalah alternatif
+dengan nama branch lokal sama dengan branch anggota; pilih satu alur, jangan campur.
+
 Panduan ini untuk Rafi, Melia, dan Hasan yang sudah punya Git dan akun GitHub.
 Ikuti langkah sesuai keadaanmu. **Clone cukup sekali per folder kerja. Besoknya
 gunakan folder yang sama dan ambil pembaruan dengan Git.**
