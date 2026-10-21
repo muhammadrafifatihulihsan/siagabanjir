@@ -7,7 +7,7 @@ Indeks ini menjadi pintu masuk spesifikasi dan panduan bagi tim pengembang.
 Baru memakai Git? Mulai dari [panduan praktik clone sampai PR](GIT-UNTUK-PEMULA.md)
 dan [penanganan kondisi Git](GITHUB-WORKFLOW.md#kondisi-git).
 
-Perintah ringkas untuk bekerja di `main` lokal: [GIT-CEPAT.txt](GIT-CEPAT.txt).
+Perintah ringkas untuk bekerja di `main` lokal: [GIT-CEPAT.md](GIT-CEPAT.md).
 
 ## Spesifikasi dan desain
 
