@@ -69,5 +69,6 @@ Jangan mengklaim penemuan native sudah berhasil; verifikasi berkas dan pemuatan
 runtime adalah dua pemeriksaan berbeda.
 
 Kontribusi Git mengikuti [panduan lima branch](../../docs/GITHUB-WORKFLOW.md).
-Pakai branch anggota yang ditetapkan; PR ke development dan promosi ke main.
+Pakai branch anggota yang ditetapkan (boleh alias main lokal dengan upstream
+anggota dan refspec push eksplisit menurut [TXT ringkas](../../docs/GIT-CEPAT.txt)); PR ke development dan promosi ke main.
 Status SOP, checks CI dan proteksi Settings harus dilaporkan terpisah.

@@ -7,7 +7,7 @@
 Audit awal disampaikan sebelum perubahan. Pemilik kemudian mengizinkan
 implementasi CI/dokumentasi dan push ke branch-rafi. Settings/rulesets, undangan,
 merge, tag/release dan deploy belum diotorisasi. Sumber:
-[prompt audit](../prompt-audit-dan-perbaikan.md) dan
+[prompt audit historis](https://github.com/muhammadrafifatihulihsan/siagabanjir/blob/1afcedda3e78d094bcd88850b9757d01abf829d7/prompt-audit-dan-perbaikan.md) dan
 [keputusan terbaru](DECISIONS.md#workspace-github-workflow-010).
 
 Repository publik milik akun pribadi, default main. Lima branch sudah ada;

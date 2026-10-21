@@ -9,11 +9,27 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- GIT-CEPAT.txt berisi perintah Git Bash singkat: main lokal melacak branch
+  remote anggota, push eksplisit, PR development, dan siklus sesudah merge.
+
 - Satu panduan Git pemula terpisah di docs: clone pertama, identitas/branch,
   rutinitas harian, validasi, commit/push, PR/revisi, sinkronisasi sesudah merge,
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- Prompt audit di root dihapus atas konfirmasi pemilik; rujukan audit dan RTM
+  menunjuk salinan historis pada commit agar bukti sumber tetap tersedia.
+
+- Sesuai mandat pemilik, pembaruan lokal pada TXT memakai reset hard ke
+  origin/main dan clean -fd setelah seluruh pekerjaan masuk main; ignored
+  dipertahankan dan tidak memakai force push.
+
+- TXT Git menyediakan blok Rafi, Hasan dan Melia siap salin, dengan satu
+  langkah pembaruan main bersama untuk tugas berikutnya.
+
+- TXT Git dipadatkan menjadi dua siklus; pembaruan main lokal diambil dari
+  origin/main setelah PR anggota dan promosi ke main selesai digabung.
 
 - Handoff dan bukti workspace mencatat publikasi panduan Git pemula ke
   branch-rafi serta empat job CI push yang berhasil setelah mandat push pemilik.

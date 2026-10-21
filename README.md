@@ -57,6 +57,7 @@ demo akademik; rilis yang tersedia masih berisi dokumentasi proyek.
 
 Rincian perencanaan tersedia di [indeks dokumentasi](docs/INDEX.md).
 Tim pengembang dapat mengikuti [panduan pengembangan dan publikasi](docs/GITHUB-WORKFLOW.md).
+Perintah ringkas dengan `main` lokal tersedia di [GIT-CEPAT.txt](docs/GIT-CEPAT.txt).
 Anggota baru dapat memakai [panduan Git dari clone sampai PR](docs/GIT-UNTUK-PEMULA.md).
 
 ## Lisensi

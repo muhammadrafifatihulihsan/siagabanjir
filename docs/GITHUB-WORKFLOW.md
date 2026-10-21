@@ -2,6 +2,14 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
+Untuk perintah ringkas dengan **main lokal**, gunakan [GIT-CEPAT.txt](GIT-CEPAT.txt).
+Clone branch anggota lalu rename lokal menjadi main; upstream tetap
+`origin/branch-melia`, `origin/branch-hasan`, atau `origin/branch-rafi`.
+Push memakai refspec eksplisit, misalnya `git push origin main:branch-melia`.
+Nama branch dalam alur PR merujuk branch **GitHub**; main/development remote
+tetap menerima perubahan melalui PR. Langkah panjang di bawah adalah alternatif
+dengan nama branch lokal sama dengan branch anggota; pilih satu alur, jangan campur.
+
 [![CI](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml/badge.svg)](https://github.com/muhammadrafifatihulihsan/siagabanjir/actions/workflows/ci.yml)
 
 Repository: [muhammadrafifatihulihsan/siagabanjir](https://github.com/muhammadrafifatihulihsan/siagabanjir).
