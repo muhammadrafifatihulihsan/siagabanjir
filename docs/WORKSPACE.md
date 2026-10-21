@@ -16,7 +16,7 @@ disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
 dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
 dipelihara pada [panduan pengembangan](GITHUB-WORKFLOW.md#otomatisasi-cicd).
-Perintah singkat dengan main lokal tersedia di [GIT-CEPAT.txt](GIT-CEPAT.txt);
+Perintah singkat dengan main lokal tersedia di [GIT-CEPAT.md](GIT-CEPAT.md);
 branch remote dan kebijakan PR tetap sama.
 Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA.md).
 
@@ -418,7 +418,7 @@ dicatat di bagian ini. Pengujian aplikasi/provider/perangkat/UAT tetap NOT_RUN.
 
 ## Verifikasi perintah main lokal - 21 Oktober 2026
 
-GIT-CEPAT.txt lulus pemeriksaan sintaks Bash. Simulasi repository bare lokal
+GIT-CEPAT.md lulus pemeriksaan sintaks Bash. Simulasi repository bare lokal
 membuktikan clone anggota, rename ke main dengan upstream tetap, pull, commit,
 push ke anggota, simulasi merge PR, dan fast-forward dari development. Remote
 main tidak berubah; tree fixture bersih. Simulasi tidak mengirim ke GitHub.
@@ -443,3 +443,9 @@ clean -fd atas mandat pemilik. Simulasi di repo sementara memeriksa isi tracked
 kembali sesuai origin/main, untracked terhapus, ignored tetap, serta kegagalan
 fetch menghentikan reset/clean. Sintaks Bash, link, lint Markdown, format dan
 diff whitespace lulus. Reset/clean tidak dijalankan pada workspace tim.
+
+Konversi Git cepat ke Markdown mempertahankan seluruh perintah secara identik
+dengan TXT sebelumnya. Blok Bash, lint Markdown, link internal, skill YAML,
+EditorConfig dan diff whitespace diperiksa lulus. Referensi aktif diperbarui;
+kontrak, produk, desain, adapter dan CI tidak berubah. Mandat mencakup commit
+dan push branch-rafi; SHA serta hasil CI dilaporkan saat serah hasil.

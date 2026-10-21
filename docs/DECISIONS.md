@@ -944,7 +944,7 @@ dan [RTM](TRACEABILITY.md#workspace-github-workflow-traceability) mengikuti hasi
 ## 39. Main lokal untuk panduan ringkas - 21 Oktober 2026
 
 **WS-DEC-049 - CURRENT_USER_CONFIRMED.** Pemilik meminta satu TXT berisi
-perintah langsung dan bekerja di main lokal. [GIT-CEPAT.txt](GIT-CEPAT.txt)
+perintah langsung dan bekerja di main lokal. [GIT-CEPAT.md](GIT-CEPAT.md)
 menggunakan clone branch anggota lalu rename lokal; upstream anggota tetap.
 Push memakai refspec main:branch-anggota. Arah PR pada WS-DEC-045 tetap berlaku
 untuk branch GitHub; mandat ini tidak mengizinkan direct push remote main.

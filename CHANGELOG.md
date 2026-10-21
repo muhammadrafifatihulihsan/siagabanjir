@@ -9,7 +9,7 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
-- GIT-CEPAT.txt berisi perintah Git Bash singkat: main lokal melacak branch
+- GIT-CEPAT.md berisi perintah Git Bash singkat: main lokal melacak branch
   remote anggota, push eksplisit, PR development, dan siklus sesudah merge.
 
 - Satu panduan Git pemula terpisah di docs: clone pertama, identitas/branch,
@@ -17,6 +17,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- Git cepat dikonversi dari TXT ke Markdown dengan bagian per anggota dan
+  blok kode; seluruh rujukan aktif memakai GIT-CEPAT.md. Perintah tetap sama.
 
 - Prompt audit di root dihapus atas konfirmasi pemilik; rujukan audit dan RTM
   menunjuk salinan historis pada commit agar bukti sumber tetap tersedia.

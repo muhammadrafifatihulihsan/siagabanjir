@@ -2031,7 +2031,7 @@ FRD/SRS, kontrak dan desain produk tidak berubah; seluruh TC aplikasi tetap NOT_
 
 ## 49. Perintah ringkas main lokal - 21 Oktober 2026
 
-WS-DEC-049 dipenuhi oleh [GIT-CEPAT.txt](GIT-CEPAT.txt): clone pertama, main
+WS-DEC-049 dipenuhi oleh [GIT-CEPAT.md](GIT-CEPAT.md): clone pertama, main
 lokal dengan upstream anggota, siklus commit/push/PR dan sinkronisasi setelah
 merge. Instruksi bersama membedakan nama lokal dari remote; CI dan aturan PR
 tetap. Bukti pemeriksaan dicatat di WORKSPACE. Produk, kontrak, DESIGN dan
