@@ -5,19 +5,35 @@ name: SiagaBanjir CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, development, branch-rafi, branch-melia, branch-hasan]
   pull_request:
-    branches: [main]
+    branches: [main, development]
+    types: [opened, synchronize, reopened, edited, ready_for_review]
 
 permissions:
   contents: read
 
 jobs:
+  validate-pr-policy:
+    name: Validasi Arah PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Periksa pasangan branch dan repository
+        run: python -B -X utf8 .github/scripts/validate_pr_policy.py
+
   validate-docs:
     name: Validasi Dokumentasi
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Python
         uses: actions/setup-python@v7
@@ -50,6 +66,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -76,6 +94,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
 
       - name: Setup EditorConfig Checker
         uses: editorconfig-checker/action-editorconfig-checker@7e30171fc973d78099d7dfc78e27c07d3c4a639f

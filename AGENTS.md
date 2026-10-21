@@ -58,10 +58,14 @@ membedakan dukungan dokumentasi dari pemuatan yang benar-benar diuji.
 - Jangan mengubah izin/global config, Git identity atau remote, maupun
   push/deploy tanpa mandat yang mencakup tindakan tersebut.
 
+Alur kontribusi mengikuti [panduan GitHub](docs/GITHUB-WORKFLOW.md): branch-rafi,
+branch-melia, branch-hasan → development → main melalui PR dalam repo yang sama.
+Branch permanen tidak dihapus; mandat push tidak mengizinkan merge atau Settings.
+
 ## Otomatisasi dan versioning
 
 - [CI](.github/workflows/ci.yml) memvalidasi Markdown, link, skill YAML,
-  format, OpenAPI/contoh serta regresi validator pada push/PR ke main. Script validasi tersedia
+  format, OpenAPI/contoh serta regresi validator pada push kelima branch permanen serta PR ke main/development; arah PR juga diperiksa. Script validasi tersedia
   di `.github/scripts/` untuk pemeriksaan lokal.
 - Versioning mengikuti [Semantic Versioning](docs/VERSIONING.md).
   Perubahan dicatat di [CHANGELOG](CHANGELOG.md). Tag `vX.X.X`
