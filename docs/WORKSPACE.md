@@ -431,3 +431,9 @@ siklus dengan merge anggota ke development lalu development ke main lulus.
 Link internal, lint Markdown, EditorConfig dan diff whitespace lulus.
 Perubahan editorial ini tidak mengubah aturan PR, produk, kontrak, skill atau
 adapter; sumber tersebut tetap berlaku. Tidak melakukan push pada repo tim.
+
+Versi per anggota menambahkan blok Rafi, Hasan dan Melia serta satu pembaruan
+main bersama. Sintaks Bash, kecocokan clone/push/compare ketiga anggota, link
+internal, lint Markdown, EditorConfig dan diff whitespace diperiksa lulus.
+Alur Git sama dengan simulasi sebelumnya; tidak mengulang tes aplikasi atau
+push. Perubahan awal pemilik pada contoh staging/pesan commit dipertahankan.

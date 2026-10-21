@@ -19,6 +19,11 @@ fetch origin dan fast-forward main lokal dari origin/main untuk siklus berikut.
 Siklus kedua menunggu promosi development ke main selesai; tujuan PR tetap
 development. Setup identitas dan rincian pemeriksaan ada di panduan lengkap.
 
+TXT kini memisahkan perintah Rafi, Hasan dan Melia tanpa penggantian nama
+branch. Pembaruan main untuk siklus berikut ditulis sekali. Edit awal pemilik
+pada TXT (git add . dan pesan commit sederhana) dipertahankan dalam contoh;
+semua file perubahan diperiksa sebelum staging.
+
 ### Riwayat panduan panjang dan publikasi
 
 Permintaan pemilik pada 21 Oktober 2026 menghasilkan satu

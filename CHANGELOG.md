@@ -18,6 +18,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- TXT Git menyediakan blok Rafi, Hasan dan Melia siap salin, dengan satu
+  langkah pembaruan main bersama untuk tugas berikutnya.
+
 - TXT Git dipadatkan menjadi dua siklus; pembaruan main lokal diambil dari
   origin/main setelah PR anggota dan promosi ke main selesai digabung.
 

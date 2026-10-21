@@ -1,28 +1,39 @@
-# GIT BASH - salin per bagian. Berhenti jika ada error.
-# Contoh Melia; Hasan/Rafi: ganti branch-melia dengan branch-hasan/branch-rafi.
-# Living document: rules/documentation.md. Panduan lengkap: docs/GITHUB-WORKFLOW.md.
+# GIT BASH - pilih bagian namamu; clone sekali, salin per langkah.
+# Berhenti jika error. Sebelum git add ., periksa semua file perubahan.
+# Living document: rules/documentation.md. Detail: docs/GITHUB-WORKFLOW.md.
 
-# 1. PERTAMA KALI: CLONE -> NGODING -> PUSH -> PR
+# RAFI - CLONE PERTAMA
+git clone --branch branch-rafi https://github.com/muhammadrafifatihulihsan/siagabanjir.git
+cd siagabanjir
+git branch -m main
+# NGODING, lalu simpan dan push:
+git add .
+git commit -m "pesan kita"
+git push origin main:branch-rafi
+# GitHub -> New pull request: base development, compare branch-rafi.
+
+# HASAN - CLONE PERTAMA
+git clone --branch branch-hasan https://github.com/muhammadrafifatihulihsan/siagabanjir.git
+cd siagabanjir
+git branch -m main
+# NGODING, lalu simpan dan push:
+git add .
+git commit -m "pesan kita"
+git push origin main:branch-hasan
+# GitHub -> New pull request: base development, compare branch-hasan.
+
+# MELIA - CLONE PERTAMA
 git clone --branch branch-melia https://github.com/muhammadrafifatihulihsan/siagabanjir.git
 cd siagabanjir
 git branch -m main
-
-# Ngoding. Setelah selesai, ganti path file dan pesan commit di bawah.
-git add -- "path/file-yang-diubah"
-git commit -m "feat: jelaskan perubahan"
+# NGODING, lalu simpan dan push:
+git add .
+git commit -m "pesan kita"
 git push origin main:branch-melia
+# GitHub -> New pull request: base development, compare branch-melia.
 
-# GitHub -> Pull requests -> New pull request
-# base: development | compare: branch-melia -> Create pull request.
-
-# 2. BERIKUTNYA: UPDATE MAIN -> NGODING -> PUSH -> PR
-# Setelah Rafi merge PR ke development DAN promosinya ke main; folder kerja bersih.
+# TUGAS BERIKUTNYA - SAMA UNTUK SEMUA (di folder siagabanjir)
+# Setelah PR ke development DAN promosi ke main sudah merge; folder kerja bersih.
 git fetch origin
 git merge --ff-only origin/main
-
-# Ngoding lagi. Setelah selesai:
-git add -- "path/file-yang-diubah"
-git commit -m "feat: jelaskan perubahan berikutnya"
-git push origin main:branch-melia
-
-# Buat PR lagi: base development | compare branch-melia. Ulangi bagian 2.
+# Ngoding lagi -> ulangi add, commit, push, dan PR sesuai namamu. Tidak clone lagi.
