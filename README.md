@@ -62,4 +62,4 @@ Anggota baru dapat memakai [panduan Git dari clone sampai PR](docs/GIT-UNTUK-PEM
 
 ## Lisensi
 
-**All Rights Reserved.** Ketentuan penggunaan tercantum dalam [LICENSE](LICENSE).
+**All Rights Reserved.** Ketentuan penggunaan tercantum dalam [LICENSE](LICENSE) nya.
