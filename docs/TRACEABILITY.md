@@ -2073,3 +2073,11 @@ Tes regresi memeriksa perataan status, ruang deskripsi dan badge utuh di layar
 sempit, selain navigasi, skala teks dan aksesibilitas yang sudah ada.
 [Bukti](WORKSPACE.md#home-layout-name) membedakan pemeriksaan Web/widget dari
 Android fisik, TalkBack dan TC produk yang tetap NOT_RUN. Kontrak tidak berubah.
+
+## 54. Branding saat aplikasi dibuka - 23 Oktober 2026
+
+[WS-DEC-055](DECISIONS.md#branding-startup-055) diterapkan pada launcher Android,
+ikon/manifest Web, resource launch theme dan bootstrap Web. Aset berasal dari
+logo pemilik. [Bukti](WORKSPACE.md#branding-startup) mencakup build APK/Web,
+inspeksi resource dan startup/retry browser; bukan penerimaan TC bisnis atau
+bukti cold start Android pada perangkat fisik.

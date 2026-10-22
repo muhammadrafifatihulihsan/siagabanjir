@@ -591,3 +591,36 @@ inspeksi browser pada 320 dan 390 memeriksa perataan ikon/chevron. Nol request
 eksternal dan page error. Android fisik/TalkBack tetap NOT_RUN.
 DESIGN, catatan aset, handoff dan changelog diperbarui; requirement, kontrak,
 struktur, penamaan, rules/skills/adapter tidak terdampak oleh perapian ini.
+
+<a id="branding-startup"></a>
+
+## Ikon dan splash SiagaBanjir - 23 Oktober 2026
+
+[WS-DEC-055](DECISIONS.md#branding-startup-055) memakai path logo tetes air
+pemilik untuk mengganti seluruh ikon Flutter bawaan yang direferensikan
+launcher Android dan Web. Generator lokal menghasilkan bitmap/vector;
+Android mendukung adaptive/monochrome dan splash API 31 serta sebelumnya.
+Web memakai logo dan Inter lokal hingga runApp selesai, tanpa delay paksa.
+
+Bukti aktual Windows:
+
+- PASS build APK debug; aapt dump badging membaca label SiagaBanjir dan
+  resource launcher baru. APK lokal di build/app/outputs/flutter-apk.
+- PASS build Web tanpa CDN. Chrome headless menahan main.dart.js untuk
+  merekam [splash](../apps/siagabanjir/design/splash-web-preview.png), lalu
+  melepasnya dan memastikan splash dihapus serta flutter-view tersedia.
+- PASS simulasi unduhan engine gagal: pesan/retry muncul, muat ulang setelah
+  koneksi dipulihkan berhasil masuk aplikasi. Temuan awal error preload belum
+  tertangkap diperbaiki dengan handler startup sebelum hasil PASS.
+- Browser normal: nol permintaan eksternal dan nol page error.
+- PASS XML resource, dimensi seluruh ikon dan area aman maskable Web.
+  Regenerasi aset berhasil; Markdownlint/tautan 42 Markdown, EditorConfig
+  Checker 4.0.2 dan pemeriksaan diff lulus setelah koreksi format.
+- Android fisik, masking launcher aktual, cold start light/night dan TalkBack
+  NOT_RUN. ADB menemukan perangkat tetapi tidak melakukan install/launch.
+  Build tidak membuktikan tampilan semua versi Android.
+
+DESIGN, README aplikasi/aset, keputusan, RTM, changelog dan handoff diperbarui.
+AGENTS/rules/skills/adapter, requirement/kontrak dan backend tidak berubah:
+mandat hanya identitas visual startup, tanpa perubahan fitur, struktur atau
+cara pemuatan instruksi. Source Dart dan dependensi Flutter tetap.

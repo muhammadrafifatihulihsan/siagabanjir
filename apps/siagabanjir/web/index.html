@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -31,16 +31,17 @@
 
   <title>SiagaBanjir</title>
   <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563EB">
+  <link rel="stylesheet" href="splash.css">
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <main id="splash" aria-label="Memuat SiagaBanjir">
+    <img src="icons/brand.svg" width="96" height="96" alt="">
+    <h1>SiagaBanjir</h1>
+    <p id="startup-status" role="status">Menyiapkan aplikasi...</p>
+    <button id="startup-retry" hidden>Muat ulang</button>
+  </main>
+  <noscript>Aktifkan JavaScript untuk membuka SiagaBanjir.</noscript>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

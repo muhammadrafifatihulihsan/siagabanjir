@@ -8,6 +8,14 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Ikon launcher bawaan Flutter diganti logo SiagaBanjir, termasuk adaptive dan
+monochrome Android serta ikon Web/favicon. Splash native light/night dan
+Android 12+ tersedia; Web memakai Inter lokal dan tombol retry saat startup
+gagal. Tidak ada timer tambahan atau perubahan beranda/backend.
+[WS-DEC-055](DECISIONS.md#branding-startup-055) dan
+[bukti branding](WORKSPACE.md#branding-startup) menjadi acuan terbaru.
+Build APK debug dan Web lulus; belum install/cold start pada HP fisik.
+
 Perapian lanjutan atas revisi layout hanya menyentuh ikon/chevron dua kartu
 Dokumen Siaga dan Lapor Banjir: rata tengah terhadap teks dan ukuran glyph
 seimbang. Font, header status, akses cepat serta navbar tidak berubah.

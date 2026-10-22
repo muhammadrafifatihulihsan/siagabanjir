@@ -89,3 +89,33 @@ Perapian lanjutan dua kartu menengahkan ikon/chevron terhadap teks. Lingkaran
 44 tetap sama; ukuran widget dokumen 24 dan kamera 22 menyeimbangkan glyph
 terlihat sekitar 21 karena padding transparan hasil slice berbeda. Ikon sumber,
 font, header kartu dan bagian beranda lain tetap.
+
+## Ikon aplikasi dan splash
+
+Logo tetes air berasal dari [slice brand](icons/brand.svg) milik pemilik,
+bukan logo baru pihak ketiga. [Master launcher](launcher.svg) memakai biru
+`#2563EB` di atas `#EFF6FF`. [Generator](generate_branding.py) menghasilkan PNG
+launcher Android lima density, ikon Web 192/512 biasa dan maskable, favicon,
+logo SVG Web serta vector Android dari satu path sumber.
+
+Jalankan `python apps/siagabanjir/design/generate_branding.py` dari root dengan
+Python, Playwright dan Chrome lokal. Ini alat pengembangan, bukan dependency
+runtime. File hasil disimpan di repository; sumber SVG awal tidak diubah.
+Glyph dipusatkan pada kanvas 108 dan masuk area aman adaptive/maskable.
+Android 26+ memakai foreground/background adaptive; 33+ memiliki monochrome.
+
+Splash Android sebelum API 31 memakai launch background, API 31+ memakai
+windowSplashScreenBackground/AnimatedIcon; varian light/night memakai latar
+`#F8FAFC` sesuai tema aplikasi. Native splash berakhir ketika frame Flutter siap,
+tanpa timer atau halaman Flutter tambahan. Logo vector tidak memakai font.
+
+Web memakai logo, judul Inter lokal dan status pemuatan pada HTML/CSS lokal.
+Bootstrap menghapus splash setelah runApp selesai; kegagalan startup memberi
+pesan dan tombol muat ulang. Tidak ada penundaan buatan atau animasi.
+[Pratinjau splash Web](splash-web-preview.png) direkam saat entrypoint ditahan
+oleh alat tes; bukan screenshot splash Android.
+
+Acuan resmi: [adaptive icons Android](https://developer.android.com/develop/ui/compose/system/icon_design_adaptive),
+[splash Android](https://developer.android.com/develop/ui/views/launch/splash-screen),
+[launch Flutter Android](https://docs.flutter.dev/platform-integration/android/splash-screen),
+[bootstrap Web](https://docs.flutter.dev/platform-integration/web/initialization).

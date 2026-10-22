@@ -1032,3 +1032,18 @@ merekam kondisi saat itu, sementara tautan menuju sumber saat ini.
 Pemilik menyetujui bacaan terbatas ke skill, aturan, UI Flutter, konfigurasi
 dan referensi nama/path terdampak. Commit lokal termasuk mandat; push tidak.
 [Bukti pemeriksaan](WORKSPACE.md#home-layout-name) tidak menaikkan TC bisnis.
+
+<a id="branding-startup-055"></a>
+
+## 45. Ikon aplikasi dan splash - 23 Oktober 2026
+
+**WS-DEC-055 - CURRENT_USER_CONFIRMED.** Pemilik meminta mengganti ikon bawaan
+Flutter dengan ikon sendiri, memperbaiki splash, serta commit dan update
+setiap perubahan. Logo tetes air dari SVG pemilik dipakai sebagai identitas
+launcher Android/Web dan splash, dengan aset lokal tanpa package baru.
+
+Android menyediakan legacy, adaptive/monochrome dan splash sebelum/sesudah
+API 31. Web memakai Inter lokal dan bootstrap yang melepas splash ketika
+aplikasi siap, dengan retry bila gagal; tidak menambahkan timer paksa.
+Layout beranda, applicationId, backend dan kontrak tetap. Commit lokal
+termasuk mandat, push/install perangkat/deploy tidak dilakukan.

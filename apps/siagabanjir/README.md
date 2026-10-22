@@ -177,6 +177,12 @@ akses, lifecycle, atau kontrak tersebut.
 
 ## Pengembangan dan pemeriksaan
 
+Ikon launcher Android/Web dan splash memakai logo tetes air lokal. Regenerasi
+serta sumber ada di [catatan branding](design/README.md#ikon-aplikasi-dan-splash).
+APK debug sudah berhasil dibangun dengan `flutter build apk --debug --no-pub`;
+ini pemeriksaan build, bukan bukti cold start pada HP. Perubahan resource
+native memerlukan build/install ulang, bukan hot reload.
+
 Manifest saat ini: package `siagabanjir`, versi `1.0.0+1`, batas Dart `^3.13.5`;
 dependensi langsung Flutter SDK dan `cupertino_icons`, dengan `flutter_test`
 dan `flutter_lints` untuk pengembangan. Batas manifest bukan bukti versi SDK

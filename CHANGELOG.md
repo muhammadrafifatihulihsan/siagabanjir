@@ -9,6 +9,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Ikon SiagaBanjir dari logo tetes air lokal untuk launcher Android, ikon
+  adaptif/monochrome, Web dan favicon. Splash native Android serta pemuatan
+  Web memakai identitas yang sama; Web menyediakan pemulihan gagal startup.
+
 - Satu mockup beranda warga Flutter mengikuti SVG pemilik, dengan 17 ikon
   hasil slice lokal, panel pratinjau fitur, layout adaptif dan tes widget.
   Seluruh status/angka adalah contoh; belum ada integrasi backend/perangkat.

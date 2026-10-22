@@ -57,6 +57,13 @@ warna/kartu sumber dipertahankan; tidak menambah fitur bisnis atau dekorasi.
 
 ### Pedoman umum fitur berikutnya
 
+Ikon launcher dan splash menggunakan logo tetes air dari SVG pemilik:
+biru #2563EB di atas #EFF6FF untuk ikon, latar #F8FAFC untuk splash. Native
+Android mengikuti bentuk/masking launcher serta splash OS; Web memakai judul
+SiagaBanjir dan status pemuatan dengan Inter lokal. Tidak menunda masuk ke
+beranda untuk memamerkan splash. [Sumber dan regenerasi](../apps/siagabanjir/design/README.md#ikon-aplikasi-dan-splash)
+memuat konfigurasi platform; perubahan ini tidak mengubah layout beranda.
+
 Warga membutuhkan pengiriman laporan yang jelas dan bacaan Pantau yang mudah
 dipindai; admin membutuhkan antrean, bukti dan tindakan review yang terurut.
 Mulai dari kebutuhan itu sebelum memilih komponen.
