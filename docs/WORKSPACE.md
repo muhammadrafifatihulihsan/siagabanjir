@@ -27,7 +27,7 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Belum tersedia; folder aplikasi berisi penanda kosong |
+| Backend / Flutter | Backend masih penanda kosong; scaffold Flutter Android/Web sudah dibuat tim |
 | Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -48,7 +48,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | apps/server dan apps/app untuk setup tim, saat ini hanya penanda kosong |
+| [apps](../apps/README.md) | apps/server masih kosong; apps/app berisi scaffold Flutter tim |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -57,8 +57,8 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [.github](../.github/) | CI, rilis, validator, dan template pull request |
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
-Scaffold aplikasi lama sudah ditarik. Wadah apps yang sekarang berisi tempat
-kosong untuk tim; root tidak berisi tools/reports/database/cache aktif.
+Scaffold aplikasi lama sudah ditarik. Tim kemudian membuat scaffold Flutter
+di apps/app; apps/server masih kosong. Root tidak berisi tools/reports/database/cache aktif.
 Fungsi baseline BRD/PRD/FRD/SRS tetap. Errata kontrak menyelaraskan replay
 rahasia dengan SRS-IF-004; tidak menambah endpoint atau fitur produk.
 Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
@@ -99,6 +99,9 @@ LF untuk teks umum; bat/cmd memakai CRLF. Folder arsip lokal, bila dibuat
 kembali, diabaikan Git dan dikecualikan pemformatan EditorConfig.
 Ukuran indentasi Markdown tidak dipaksa kelipatan dua; markdownlint memeriksa
 struktur daftar, heading dan blok kode, sementara pemeriksaan EOL tetap aktif.
+XML di apps/app/android juga memakai indent_size unset untuk menerima alignment
+komentar template Flutter. Encoding, EOL, newline akhir, indentasi spasi dan
+trailing whitespace tetap diperiksa; detail pada [panduan CI](GITHUB-WORKFLOW.md#otomatisasi-cicd).
 Sumber: [EditorConfig](https://spec.editorconfig.org/) dan
 [Git attributes](https://git-scm.com/docs/gitattributes).
 

@@ -9,8 +9,9 @@ Satu wadah kode tim, bernama `apps/`.
 | server/ | Backend/API/worker yang diinisialisasi tim |
 | app/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
 
-Kedua direktori hanya berisi `.gitkeep`. Tim menentukan pembagian subproyek
-Flutter di dalam `app/`. Buka root repository agar panduan bersama terlihat.
+`server/` masih berisi `.gitkeep`; `app/` sudah memiliki scaffold Flutter
+dengan target Android dan Web dari setup tim. Pembagian fitur warga/admin
+belum diimplementasikan. Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti
 [panduan commit, push dan PR](../docs/GITHUB-WORKFLOW.md).
 
@@ -22,7 +23,9 @@ aplikasi sudah diuji di semua OS.
 ## Informasi setelah tim selesai setup
 
 Isi README aplikasi dari manifest dan hasil yang benar-benar diperiksa.
-Saat ini belum ada perintah build/run yang dapat dijalankan dari wadah ini.
+Proyek Flutter berada di `app/`; backend belum memiliki perintah build/run.
+Pemeriksaan format XML Android mengikuti pengecualian terbatas pada
+[panduan CI](../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd).
 
 | Informasi | Isi yang perlu dicatat setelah tersedia |
 |---|---|

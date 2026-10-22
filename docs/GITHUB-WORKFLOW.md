@@ -207,6 +207,13 @@ atau berikan path-nya secara eksplisit. Redocly menggunakan
 [konfigurasi proyek](../.redocly.yaml) untuk menemukan kesalahan kontrak dan komponen
 yang tidak dirujuk. Validasi skema tidak menggantikan tes perilaku aplikasi.
 
+XML di `apps/app/android/` tidak dipaksa memiliki ukuran indentasi tertentu:
+komentar template Flutter memakai spasi untuk menyelaraskan teks. Aturan
+encoding, EOL, newline akhir, indentasi spasi dan trailing whitespace tetap
+diperiksa melalui `.editorconfig`; file Dart dan job CI lain tetap diperiksa.
+Untuk melihat path/baris error dalam log biasa, jalankan
+`editorconfig-checker -format default` dari root repository.
+
 ## Pemeriksaan dan commit
 
 Untuk setiap unit perubahan, jalankan pemeriksaan sesuai
@@ -279,7 +286,8 @@ Rafi membuka **base main, compare development** pada repo yang sama. Checklist:
 - Diff dan keputusan/kontrak/dokumentasi selaras; konflik diselesaikan.
 - Seluruh job CI pada revisi PR terbaru sukses; review diperbarui bila isi berubah.
 - Bukti integrasi warga/admin/backend tersedia ketika aplikasinya sudah ada.
-  Saat ini apps kosong: pengujian aplikasi NOT_RUN, promosi hanya baseline workspace.
+  Scaffold Flutter sudah tersedia; pengujian aplikasi tetap NOT_RUN sampai
+  dijalankan dan dicatat pada build yang bersangkutan.
 - Rafi memutuskan penerimaan; merge tidak diotorisasi hanya oleh instruksi push.
 - Periksa CI sesudah merge, lalu sinkronkan branch anggota. Rilis/tag memerlukan
   mandat terpisah dan mengikuti [versioning](VERSIONING.md).
