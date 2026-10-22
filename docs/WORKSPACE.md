@@ -2,7 +2,7 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 21 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
+Kondisi 23 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
 Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
@@ -27,7 +27,7 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend masih penanda kosong; scaffold Flutter Android/Web sudah dibuat tim |
+| Backend / Flutter | Backend masih penanda kosong; scaffold Flutter dengan folder 15 fitur warga/admin, belum implementasi fitur |
 | Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -48,7 +48,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | apps/server masih kosong; apps/app berisi scaffold Flutter tim |
+| [apps](../apps/README.md) | apps/server masih kosong; [Flutter](../apps/app/README.md) memiliki scaffold dan struktur per fitur |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -72,6 +72,7 @@ Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
 | Tujuan dan batas produk | [BRD](BRD.md), [PRD](PRD.md), mandat terbaru pada [DECISIONS](DECISIONS.md) | Keputusan historis tetap dibaca sesuai tanggal dan statusnya |
 | Fungsi dan penerimaan | [FRD](FRD.md), AC/TC | Approval spesifikasi tidak membuktikan implementasi lulus |
 | Arsitektur/stack dan batas lapisan | [SRS konteks](SRS.md#srs-context) | Manifest/kode aktual menunjukkan yang sudah dibuat; perbedaan perlu ditelusuri |
+| Struktur Flutter dan pembagian fitur | [README Flutter](../apps/app/README.md) | Folder tersedia tidak berarti fitur atau kontrak repository sudah diimplementasikan |
 | Model data/integritas | [SRS data](SRS.md#srs-data) | Cocokkan dengan migrasi SQL/constraint setelah tim membuatnya |
 | Wire API dan semantik | [OpenAPI](openapi.json), [contoh](examples.json), [SRS antarmuka](SRS.md#srs-interfaces) | Schema dan aturan akses/transaksi saling melengkapi; contoh/ringkasan tidak mengalahkan kontrak |
 | UI/ikon dan interaksi | [DESIGN](DESIGN.md), FRD | Token visual tidak mengubah hak akses atau arti status bisnis |
@@ -452,3 +453,25 @@ dengan TXT sebelumnya. Blok Bash, lint Markdown, link internal, skill YAML,
 EditorConfig dan diff whitespace diperiksa lulus. Referensi aktif diperbarui;
 kontrak, produk, desain, adapter dan CI tidak berubah. Mandat mencakup commit
 dan push branch-rafi; SHA serta hasil CI dilaporkan saat serah hasil.
+
+<a id="flutter-feature-first"></a>
+
+## Struktur Flutter Feature-First - 23 Oktober 2026
+
+[WS-DEC-051](DECISIONS.md#flutter-feature-first-051) menambahkan 53 placeholder:
+45 layer pada 15 fitur, tujuh lokasi app/core/shared, dan satu test/features.
+[README Flutter](../apps/app/README.md) menjadi panduan struktur dan pembagian
+kerja. Counter, tes bawaan, manifest, lockfile, platform dan backend tetap.
+
+Pemeriksaan lokal Windows PASS: 53 placeholder kosong dan cakupan 15 fitur,
+Markdownlint 0.17.2 pada 41 Markdown tracked, tautan internal pada 41 Markdown,
+EditorConfig Checker 4.0.2, serta git diff --check. Hanya tujuh Markdown dan
+53 penanda kosong berubah. Lint awal dengan glob luas ikut memeriksa dokumentasi
+vendor dalam cache lokal; pemeriksaan akhir memakai daftar Markdown tracked
+dari git ls-files, tanpa mengubah aturan lint/CI atau ignore repository.
+Runtime Flutter, provider/perangkat, lintas OS dan CI remote NOT_RUN.
+
+Dokumentasi terdampak: README aplikasi/indeks apps, WORKSPACE, DECISIONS,
+TRACEABILITY, handoff dan CHANGELOG. README publik, spesifikasi/kontrak, DESIGN,
+AGENTS, rules, skills dan adapter tetap sesuai: tidak ada perubahan perilaku,
+path panduan lama, atau cara pemuatan instruksi. Baseline dan TC produk tetap.
