@@ -2040,7 +2040,7 @@ adapter IDE tidak berubah; adapter tetap merujuk instruksi bersama.
 ## 50. Struktur fitur Flutter - 23 Oktober 2026
 
 [WS-DEC-051](DECISIONS.md#flutter-feature-first-051) diterapkan melalui
-[README Flutter](../apps/app/README.md) dan folder lib/app, lib/core, lib/shared,
+[README Flutter](../apps/siagabanjir/README.md) dan folder lib/app, lib/core, lib/shared,
 lib/features serta test/features di apps/app. Lima belas fitur warga/admin
 masing-masing memiliki presentation, domain dan data dengan penanda kosong.
 SRS-DEC-009 tetap menjadi dasar controller/repository; tidak ada implementasi
@@ -2054,7 +2054,7 @@ perakitan app dan tema bersama di Flutter, serta aset slice lokal dari SVG
 pemilik. FRD bagian 17 dan DESIGN menjadi acuan navigasi/aksesibilitas;
 tes widget memeriksa pintu masuk panel, kembali, ukuran layar/teks, label,
 target sentuh dan kontras. Ini verifikasi mockup, bukan PASS FR/TC bisnis.
-Pemetaan pintu masuk ke folder produk ada pada [README Flutter](../apps/app/README.md#mockup-beranda-warga).
+Pemetaan pintu masuk ke folder produk ada pada [README Flutter](../apps/siagabanjir/README.md#mockup-beranda-warga).
 Bukti dan batas platform: [WORKSPACE](WORKSPACE.md#home-mockup).
 
 ## 52. Revisi font dan label beranda - 23 Oktober 2026
@@ -2064,3 +2064,12 @@ pubspec, registrasi lisensi dan penghapusan dua label beranda. Tes memuat font
 asli untuk layout/aksesibilitas. Nama package/folder dan identitas platform
 tetap; tidak ada perubahan API atau status TC bisnis.
 [Bukti pemeriksaan](WORKSPACE.md#home-local-font) mencatat hasil revisi ini.
+
+## 53. Layout dan penamaan Flutter - 23 Oktober 2026
+
+[WS-DEC-054](DECISIONS.md#home-layout-name-054) diterapkan pada header/status,
+isi kartu dan badge akses cepat, serta folder/package/nama tampilan Flutter.
+Tes regresi memeriksa perataan status, ruang deskripsi dan badge utuh di layar
+sempit, selain navigasi, skala teks dan aksesibilitas yang sudah ada.
+[Bukti](WORKSPACE.md#home-layout-name) membedakan pemeriksaan Web/widget dari
+Android fisik, TalkBack dan TC produk yang tetap NOT_RUN. Kontrak tidak berubah.

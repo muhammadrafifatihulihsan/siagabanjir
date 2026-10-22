@@ -971,7 +971,7 @@ Satu package apps/app dipertahankan. Setiap fitur memiliki presentation, domain,
 dan data; app merakit dependensi, core menampung infrastruktur, shared menampung
 UI bersama. Controller tetap ChangeNotifier/ValueNotifier sesuai SRS-DEC-009.
 Domain menampung model/kontrak Dart murni; use case hanya ketika diperlukan.
-Batas dan daftar fitur menjadi sumber operasional di [README Flutter](../apps/app/README.md).
+Batas dan daftar fitur menjadi sumber operasional di [README Flutter](../apps/siagabanjir/README.md).
 
 Placeholder .gitkeep mencatat folder di Git. Source counter, tes bawaan,
 manifest/dependensi dan platform tidak diubah. Penataan tidak mengubah API,
@@ -995,7 +995,7 @@ Teks menjadi widget, 17 ikon diekstrak dari sumber, dan font tetap bawaan.
 DESIGN/rule UI/skill UI mencatat pengecualian aset dan token yang terarah.
 Kebutuhan produk, level penilaian, kuota dan kontrak tidak berubah. Bukti ada
 pada [WORKSPACE](WORKSPACE.md#home-mockup), asal aset pada
-[catatan desain](../apps/app/design/README.md). Tidak mengotorisasi push/deploy.
+[catatan desain](../apps/siagabanjir/design/README.md). Tidak mengotorisasi push/deploy.
 
 <a id="home-font-053"></a>
 
@@ -1011,3 +1011,24 @@ Ini revisi tampilan atas WS-DEC-052. Data tetap statis; penghapusan label bukan
 perubahan penerimaan fitur bisnis atau klaim data layanan. Penjelasan naming
 membedakan folder, package Dart, nama launcher dan applicationId; tidak ada
 rename pada revisi ini. Bukti: [WORKSPACE](WORKSPACE.md#home-local-font).
+
+<a id="home-layout-name-054"></a>
+
+## 44. Layout beranda dan nama aplikasi - 23 Oktober 2026
+
+**WS-DEC-054 - CURRENT_USER_CONFIRMED.** Pemilik meminta inspeksi skill dan
+perbaikan layout 3/3 berkas, Lapor Banjir serta keterbacaan masyarakat dewasa;
+Inter lokal dipertahankan. Header/status, susunan teks dan badge dibuat adaptif.
+Satu mockup dan batas data WS-DEC-052/053 tetap, tanpa backend.
+
+Pemilik menetapkan SiagaBanjir sebagai nama tampilan dan meminta rename folder.
+Folder apps/app menjadi apps/siagabanjir, package Dart menjadi siagabanjir,
+label Android dan metadata Web menjadi SiagaBanjir. ApplicationId/namespace
+Android dipertahankan agar tidak memutus identitas instalasi; lib/app dan
+android/app tetap nama lapisan/modul teknis. Referensi aktif, import dan
+pengecualian EditorConfig diselaraskan; path pada uraian historis tetap
+merekam kondisi saat itu, sementara tautan menuju sumber saat ini.
+
+Pemilik menyetujui bacaan terbatas ke skill, aturan, UI Flutter, konfigurasi
+dan referensi nama/path terdampak. Commit lokal termasuk mandat; push tidak.
+[Bukti pemeriksaan](WORKSPACE.md#home-layout-name) tidak menaikkan TC bisnis.

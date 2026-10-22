@@ -52,7 +52,7 @@ class HomeHeader extends StatelessWidget {
                     child: Text(
                       'Koto Tangah, Padang',
                       style: TextStyle(
-                        fontSize: 11,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: SiagaTheme.muted,
                       ),

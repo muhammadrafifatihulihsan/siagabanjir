@@ -26,6 +26,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Folder Flutter menjadi apps/siagabanjir dan package Dart siagabanjir;
+  label Android serta metadata Web memakai SiagaBanjir. Referensi aktif dan
+  pengecualian format mengikuti folder baru; identitas instalasi Android tetap.
+- Layout status berkas/kuota dan isi kartu beranda adaptif terhadap ruang/teks.
+  Label pendukung diperbesar dan badge akses cepat tidak memecah kata.
+
 - Beranda memakai Inter 4.1 yang dibundel lokal beserta lisensi dan lima weight.
   Label Data contoh serta catatan Mockup beranda dihapus sesuai revisi pemilik.
 

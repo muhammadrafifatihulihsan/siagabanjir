@@ -48,7 +48,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/app/README.md) memiliki struktur fitur dan mockup beranda; [aset](../apps/app/design/README.md) merujuk SVG pemilik |
+| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki struktur fitur dan mockup beranda; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -58,7 +58,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
 Scaffold aplikasi lama sudah ditarik. Tim kemudian membuat scaffold Flutter
-di apps/app; apps/server masih kosong. Root tidak berisi tools/reports/database/cache aktif.
+di apps/siagabanjir; apps/server masih kosong. Root tidak berisi tools/reports/database/cache aktif.
 Fungsi baseline BRD/PRD/FRD/SRS tetap. Errata kontrak menyelaraskan replay
 rahasia dengan SRS-IF-004; tidak menambah endpoint atau fitur produk.
 Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
@@ -72,7 +72,7 @@ Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
 | Tujuan dan batas produk | [BRD](BRD.md), [PRD](PRD.md), mandat terbaru pada [DECISIONS](DECISIONS.md) | Keputusan historis tetap dibaca sesuai tanggal dan statusnya |
 | Fungsi dan penerimaan | [FRD](FRD.md), AC/TC | Approval spesifikasi tidak membuktikan implementasi lulus |
 | Arsitektur/stack dan batas lapisan | [SRS konteks](SRS.md#srs-context) | Manifest/kode aktual menunjukkan yang sudah dibuat; perbedaan perlu ditelusuri |
-| Struktur Flutter dan pembagian fitur | [README Flutter](../apps/app/README.md) | Folder tersedia tidak berarti fitur atau kontrak repository sudah diimplementasikan |
+| Struktur Flutter dan pembagian fitur | [README Flutter](../apps/siagabanjir/README.md) | Folder tersedia tidak berarti fitur atau kontrak repository sudah diimplementasikan |
 | Model data/integritas | [SRS data](SRS.md#srs-data) | Cocokkan dengan migrasi SQL/constraint setelah tim membuatnya |
 | Wire API dan semantik | [OpenAPI](openapi.json), [contoh](examples.json), [SRS antarmuka](SRS.md#srs-interfaces) | Schema dan aturan akses/transaksi saling melengkapi; contoh/ringkasan tidak mengalahkan kontrak |
 | UI/ikon dan interaksi | [DESIGN](DESIGN.md), FRD | Token visual tidak mengubah hak akses atau arti status bisnis |
@@ -100,7 +100,7 @@ LF untuk teks umum; bat/cmd memakai CRLF. Folder arsip lokal, bila dibuat
 kembali, diabaikan Git dan dikecualikan pemformatan EditorConfig.
 Ukuran indentasi Markdown tidak dipaksa kelipatan dua; markdownlint memeriksa
 struktur daftar, heading dan blok kode, sementara pemeriksaan EOL tetap aktif.
-XML di apps/app/android juga memakai indent_size unset untuk menerima alignment
+XML di apps/siagabanjir/android juga memakai indent_size unset untuk menerima alignment
 komentar template Flutter. Encoding, EOL, newline akhir, indentasi spasi dan
 trailing whitespace tetap diperiksa; detail pada [panduan CI](GITHUB-WORKFLOW.md#otomatisasi-cicd).
 Sumber: [EditorConfig](https://spec.editorconfig.org/) dan
@@ -460,7 +460,7 @@ dan push branch-rafi; SHA serta hasil CI dilaporkan saat serah hasil.
 
 [WS-DEC-051](DECISIONS.md#flutter-feature-first-051) menambahkan 53 placeholder:
 45 layer pada 15 fitur, tujuh lokasi app/core/shared, dan satu test/features.
-[README Flutter](../apps/app/README.md) menjadi panduan struktur dan pembagian
+[README Flutter](../apps/siagabanjir/README.md) menjadi panduan struktur dan pembagian
 kerja. Counter, tes bawaan, manifest, lockfile, platform dan backend tetap.
 
 Pemeriksaan lokal Windows PASS: 53 placeholder kosong dan cakupan 15 fitur,
@@ -495,7 +495,7 @@ Bukti lokal Windows, Flutter 3.47.7 stable / Dart 3.13.5:
   headless memblokir seluruh URL eksternal: nol permintaan eksternal dan nol
   page error pada beranda/panel. Aktivasi dan kembali dengan keyboard lulus.
 - Inspeksi visual membandingkan SVG dengan render 390 x 1097 serta viewport
-  320 x 640 dan 1024 x 768. [Pratinjau](../apps/app/design/beranda-preview.png)
+  320 x 640 dan 1024 x 768. [Pratinjau](../apps/siagabanjir/design/beranda-preview.png)
   disimpan; perubahan dari SVG terbatas adaptasi layout, label contoh, target
   sentuh, font bawaan dan kontras. Bukan klaim kesamaan setiap piksel.
 - PASS Markdownlint 0.17.2 dan tautan internal pada 42 Markdown, metadata delapan
@@ -517,7 +517,7 @@ tetap sesuai cakupan dan tidak perlu perubahan mekanisme instruksi.
 
 [WS-DEC-053](DECISIONS.md#home-font-053) mengganti font bawaan dengan Inter 4.1
 lokal, lima weight asli, serta menghapus dua label development dari beranda.
-[Aset dan lisensi](../apps/app/design/README.md#font-inter-lokal) menjadi acuan.
+[Aset dan lisensi](../apps/siagabanjir/design/README.md#font-inter-lokal) menjadi acuan.
 Screenshot beranda yang ditautkan pada bukti sebelumnya kini mengikuti revisi
 ini; bukti sebelumnya mencatat hasil implementasi pertama.
 
@@ -535,3 +535,45 @@ README aplikasi, catatan aset, DESIGN, keputusan, RTM, handoff dan CHANGELOG
 diperbarui; lisensi font dicakup pada LICENSE dan OTF ditandai binary.
 FRD/SRS/kontrak, backend, AGENTS/rules/skills/adapter tetap karena revisi ini
 hanya font dan dua label pada satu mockup. Tidak mengganti nama aplikasi/folder.
+
+<a id="home-layout-name"></a>
+
+## Layout beranda dan penamaan - 23 Oktober 2026
+
+[WS-DEC-054](DECISIONS.md#home-layout-name-054) memindahkan Flutter ke
+apps/siagabanjir, mengganti package Dart/import ke siagabanjir serta label
+Android, judul/manifest Web ke SiagaBanjir. ApplicationId Android tetap.
+Folder lama sempat terkunci Windows; pemindahan isi berhasil dan folder lama
+sudah tidak ada. Tidak mengubah konfigurasi global/izin atau backend.
+
+Temuan: Flexible/Expanded pada header kartu menyisakan ruang kanan dan
+membatasi badge; ikon menyempitkan deskripsi pada layar kecil. Header kini
+memakai lebar alami dengan wrap, deskripsi memakai seluruh lebar saat sempit.
+Label pendukung/navigasi 12, judul kartu 16, isi 14 dan tinggi baris 1.4 memakai
+Inter lokal. Inspeksi lanjutan menemukan badge akses cepat pecah di tengah
+kata pada 320; wrap utuh diperbaiki dan dimasukkan ke regresi.
+
+Bukti lokal Windows, Flutter 3.47.7 / Dart 3.13.5:
+
+- PASS pub get offline setelah rename; lockfile/dependensi tetap.
+- PASS analyzer dan 12 widget test: navigasi/kembali, aset lokal, layar
+  320/360/390/1024, skala teks 1/1.3/2, perataan status kanan dan deskripsi
+  lebar pada 320. Label, target sentuh Android dan kontras diperiksa sebelum
+  dan sesudah scroll ke kartu bawah dengan font Inter asli.
+- PASS build Web tanpa CDN. Chrome headless pada 320/360/390/1024 memblokir
+  URL eksternal: nol permintaan eksternal dan nol page error, judul SiagaBanjir.
+  Screenshot awal dan [kartu bawah](../apps/siagabanjir/design/beranda-cards-preview.png)
+  diperbarui. Inspeksi visual pada 320 dan 390 memeriksa wrap badge, perataan
+  kartu dan ruang deskripsi; tidak mengklaim kesamaan setiap piksel Figma.
+- PASS Markdownlint 0.17.2 dan tautan pada 42 Markdown, YAML delapan skill,
+  EditorConfig Checker 4.0.2 serta diff whitespace. Seluruh 139 file proyek
+  lama tersedia di folder baru; font, ikon, SVG sumber dan lockfile identik.
+- Nama Android diverifikasi pada manifest sumber; build APK, perangkat Android,
+  TalkBack, TC bisnis dan CI remote NOT_RUN.
+
+Referensi aktif pada AGENTS, workflow, skill workspace/Flutter, README apps,
+DESIGN, panduan CI, LICENSE, keputusan, RTM dan handoff mengikuti path baru.
+Uraian historis tetap mencatat nama saat itu; tautannya menuju sumber saat ini.
+Adapter IDE dan katalog tetap merujuk sumber bersama tanpa path aplikasi,
+sehingga tidak memerlukan perubahan. FRD/SRS/kontrak/backend tetap karena
+perubahan hanya layout dan penamaan, tanpa perubahan fungsi atau data produk.

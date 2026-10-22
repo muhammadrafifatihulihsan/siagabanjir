@@ -10,14 +10,14 @@ Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ### Acuan beranda warga dari pemilik
 
-Mandat 23 Oktober 2026 memakai [SVG beranda](../apps/app/design/app_beranda.svg)
-sebagai acuan wajib satu layar. [Catatan aset](../apps/app/design/README.md)
+Mandat 23 Oktober 2026 memakai [SVG beranda](../apps/siagabanjir/design/app_beranda.svg)
+sebagai acuan wajib satu layar. [Catatan aset](../apps/siagabanjir/design/README.md)
 memuat sumber, slicing dan batas mockup. Ini pengecualian terarah terhadap
 baseline ikon Material di bawah: 17 ikon beranda memakai hasil slice lokal,
 sedangkan kontrol tambahan panel memakai Material. Tidak memakai package ikon
 atau font remote. Ketentuan ini tidak mengganti seluruh desain fitur lainnya.
 
-Tema pada `apps/app/lib/shared/theme/siaga_theme.dart` memakai latar #F8FAFC,
+Tema pada `apps/siagabanjir/lib/shared/theme/siaga_theme.dart` memakai latar #F8FAFC,
 teks #0F172A, biru #2563EB, judul status #1E3A8A, dan teks sekunder #64748B.
 Teks sekunder di permukaan berwarna memakai #475569 untuk kontras. Kartu status
 biru #D5E4FF; akses cepat biru muda/merah muda/ungu muda/hijau mengikuti SVG.
@@ -35,6 +35,21 @@ permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
 dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
 Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
 aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
+
+### Revisi keterbacaan kartu beranda
+
+Header kartu memakai badge dan status dengan ruang alami: status rata kanan
+ketika muat, berpindah baris saat ruang sempit/teks besar. Isi kartu memakai
+judul 16/700, deskripsi 14/400 dengan tinggi baris 1.4; label status 12/600.
+Deskripsi mendapat lebar penuh ketika lebar dalam kartu kurang dari 260
+logical pixels setelah pembesaran teks. Tidak memakai ellipsis atau mengecilkan
+font untuk memaksa teks muat. Ikon dan chevron tetap aset lokal dari SVG;
+kedua kartu punya petunjuk navigasi yang konsisten.
+
+Label lokasi, badge akses cepat dan navigasi dinaikkan ke 12 untuk keterbacaan.
+Badge akses cepat berpindah utuh ketika tidak muat di samping ikon. Struktur
+warna/kartu sumber dipertahankan; tidak menambah fitur bisnis atau dekorasi.
+[Bukti revisi](WORKSPACE.md#home-layout-name) mencatat batas inspeksi aktual.
 
 ### Pedoman umum fitur berikutnya
 

@@ -28,7 +28,7 @@ Untuk mengekstrak ulang, gunakan Python dengan Playwright pada lingkungan
 pengembangan dan browser Chromium yang sudah terpasang. Dari root repository:
 
 ```sh
-python apps/app/design/slice_icons.py --browser "<path-browser-chromium>"
+python apps/siagabanjir/design/slice_icons.py --browser "<path-browser-chromium>"
 ```
 
 Perintah menulis ulang SVG hasil slice dan PNG; periksa diff setelahnya.
@@ -77,3 +77,10 @@ Bukti pemeriksaan dan batas platform ada pada
 [Pratinjau hasil Flutter](beranda-preview.png) direkam dari build Web lokal
 pada viewport 390 x 1097, device scale 2. Gambar adalah bukti tampilan mockup,
 bukan screenshot Android atau aset yang ditampilkan aplikasi.
+
+Revisi layout berikutnya memperbaiki perataan status 3/3 dan kuota, ruang
+teks kartu, serta badge akses cepat pada layar sempit. Deskripsi kartu dapat
+berpindah ke bawah ikon/judul tanpa mengecilkan font. Judul kartu 16, isi 14,
+label pendukung/navigasi 12; pembesaran teks tetap mengikuti pengguna.
+[Pratinjau kartu setelah scroll](beranda-cards-preview.png) melengkapi screenshot
+awal, sehingga seluruh kartu Lapor Banjir dapat diperiksa di atas navbar.

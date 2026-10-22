@@ -140,10 +140,23 @@ Font Inter 4.1 weight 400/500/600/700/800 dibundel pada assets/fonts/inter;
 asal dan lisensinya ada pada catatan desain. Tulisan Data contoh dan catatan
 Mockup beranda sudah dihapus sesuai revisi pemilik; datanya tetap statis.
 
-Nama folder apps/app dan package Dart app tidak menentukan nama launcher saat
-runtime. Saat ini android:label dan manifest Web masih app; judul Flutter
-sudah SiagaBanjir. Nama tampilan bisa diganti tanpa mengubah folder/import
-package atau applicationId. Revisi ini belum mengubah identitas aplikasi.
+Nama tampilan Android, judul Web, nama instalasi Web dan judul Flutter adalah
+**SiagaBanjir**. Folder proyek kini `apps/siagabanjir`, package Dart
+`siagabanjir`; import memakai `package:siagabanjir/...`. Setelah mengambil
+perubahan ini, buka folder baru lalu jalankan `flutter pub get` untuk
+memperbarui metadata lokal. Hentikan sesi run lama sebelum berpindah folder.
+
+Android applicationId/namespace tetap `com.example.app` agar identitas
+instalasi yang sudah ada tidak berubah. Itu bukan nama yang ditampilkan ke
+warga. Penetapan ID distribusi final dilakukan sebelum rilis aplikasi.
+`lib/app` dan modul Gradle `android/app` tetap bernama app karena merupakan
+nama lapisan perakitan/modul, bukan nama produk.
+
+Kartu dokumen/laporan memakai status rata kanan saat ruang cukup, lalu
+berpindah baris saat teks membesar. Deskripsi memakai lebar penuh pada ruang
+sempit. Judul 16, isi 14, label pendukung/navigasi 12 logical pixels memakai
+Inter lokal tanpa mengunci pembesaran teks. Badge akses cepat berpindah utuh
+ke baris berikut, bukan terbelah di tengah kata.
 
 ## Batas data dan platform
 
@@ -164,7 +177,7 @@ akses, lifecycle, atau kontrak tersebut.
 
 ## Pengembangan dan pemeriksaan
 
-Manifest saat penataan: package `app`, versi `1.0.0+1`, batas Dart `^3.13.5`;
+Manifest saat ini: package `siagabanjir`, versi `1.0.0+1`, batas Dart `^3.13.5`;
 dependensi langsung Flutter SDK dan `cupertino_icons`, dengan `flutter_test`
 dan `flutter_lints` untuk pengembangan. Batas manifest bukan bukti versi SDK
 terpasang. Tidak ada dependensi baru pada penataan folder ini.
@@ -172,7 +185,7 @@ terpasang. Tidak ada dependensi baru pada penataan folder ini.
 Jalankan dari root repository di PowerShell atau Bash:
 
 ```sh
-cd apps/app
+cd apps/siagabanjir
 flutter --version
 flutter pub get
 flutter analyze
@@ -191,7 +204,7 @@ diff sebelum commit. Analyze/test/run dapat menghasilkan cache/build lokal.
 Untuk review Web dengan renderer lokal, jalankan
 `flutter build web --no-web-resources-cdn --no-wasm-dry-run`.
 SDK yang diverifikasi: Flutter 3.47.7 stable dan Dart 3.13.5 pada Windows.
-Analyze, delapan widget test dan build Web dijalankan untuk mockup beranda;
+Analyze, dua belas widget test dan build Web dijalankan untuk mockup beranda;
 bukti perangkat Android belum tersedia.
 
 Tes berikutnya mengikuti `test/features/<nama_fitur>/<layer>`: unit test

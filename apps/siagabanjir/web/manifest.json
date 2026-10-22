@@ -1,11 +1,11 @@
 {
-    "name": "app",
-    "short_name": "app",
+    "name": "SiagaBanjir",
+    "short_name": "SiagaBanjir",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "SiagaBanjir untuk kesiapsiagaan dan pelaporan banjir warga.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

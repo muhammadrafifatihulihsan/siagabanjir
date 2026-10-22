@@ -57,7 +57,7 @@ class HomeNavigation extends StatelessWidget {
                   label,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: selected ? SiagaTheme.blue : SiagaTheme.mutedOnTint,
                   ),

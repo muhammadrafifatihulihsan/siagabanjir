@@ -44,7 +44,7 @@ membedakan dukungan dokumentasi dari pemuatan yang benar-benar diuji.
 ## Batas mandat
 
 - **Tim menginisialisasi backend dan Flutter sendiri** di
-  [apps/](apps/README.md): `server/` dan `app/`.
+  [apps/](apps/README.md): `server/` dan `siagabanjir/`.
 - Setup panduan tidak membuat package, source, migrasi, seed, lockfile atau
   memasang SDK/dependensi. Gunakan proyek aktual tim setelah tersedia.
   Dependensi validator workspace yang dimandatkan terpisah dari aplikasi;

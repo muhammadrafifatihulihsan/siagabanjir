@@ -24,7 +24,7 @@ tautan yang benar; bukan sekadar rencana.
    Bedakan dokumen approved, kode milik tim, artefak generated, dan arsip.
    Jangan membaca secret atau menganggap semua file untracked boleh dihapus.
 2. Tentukan perubahan minimum. Pertahankan satu wadah `apps/` dengan
-   `server/` dan `app/`. Saat masih kosong, biarkan penanda kosong;
+   `server/` dan `siagabanjir/`. Saat masih kosong, biarkan penanda kosong;
    jangan membuat manifest, source, migrasi, seed atau runner.
 3. Tempatkan aturan bersama pada rules; prosedur tugas pada skill tersendiri
    dengan YAML name/description yang menyatakan pemicu dan batas cakupan.
