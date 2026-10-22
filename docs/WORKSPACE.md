@@ -27,8 +27,8 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend masih penanda kosong; scaffold Flutter dengan folder 15 fitur warga/admin, belum implementasi fitur |
-| Pengujian aplikasi, provider, perangkat, dan UAT | NOT_RUN |
+| Backend / Flutter | Backend kosong; 15 folder fitur produk dan satu mockup beranda warga dengan aset lokal |
+| Pengujian | Widget mockup dan build Web diperiksa; TC produk, provider, perangkat, dan UAT tetap NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
 dan backend bersama. Persetujuan spesifikasi berbeda dari penerimaan implementasi.
@@ -48,7 +48,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | apps/server masih kosong; [Flutter](../apps/app/README.md) memiliki scaffold dan struktur per fitur |
+| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/app/README.md) memiliki struktur fitur dan mockup beranda; [aset](../apps/app/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -475,3 +475,38 @@ Dokumentasi terdampak: README aplikasi/indeks apps, WORKSPACE, DECISIONS,
 TRACEABILITY, handoff dan CHANGELOG. README publik, spesifikasi/kontrak, DESIGN,
 AGENTS, rules, skills dan adapter tetap sesuai: tidak ada perubahan perilaku,
 path panduan lama, atau cara pemuatan instruksi. Baseline dan TC produk tetap.
+
+<a id="home-mockup"></a>
+
+## Mockup beranda warga - 23 Oktober 2026
+
+Mandat [WS-DEC-052](DECISIONS.md#home-mockup-052): satu layar berdasarkan SVG
+pemilik dan panel pratinjau lokal. Source SVG dan 17 slice vector dipelihara
+untuk regenerasi; hanya PNG ikon 24.295 byte masuk bundle runtime.
+Tidak menambah package Flutter, backend, akses perangkat atau persistensi.
+
+Bukti lokal Windows, Flutter 3.47.7 stable / Dart 3.13.5:
+
+- PASS flutter analyze dan delapan widget test: aset lokal, seluruh pintu masuk
+  panel/kembali, notifikasi/menu Lengkap, scroll Beranda, lebar 320/390/1024,
+  text scale 2 pada 320, label aksesibel, target sentuh Android dan kontras teks
+  pada viewport tes. Temuan wrap badge dan kontras diperbaiki sebelum hasil akhir.
+- PASS build Web dengan no-web-resources-cdn dan no-wasm-dry-run. Browser Chrome
+  headless memblokir seluruh URL eksternal: nol permintaan eksternal dan nol
+  page error pada beranda/panel. Aktivasi dan kembali dengan keyboard lulus.
+- Inspeksi visual membandingkan SVG dengan render 390 x 1097 serta viewport
+  320 x 640 dan 1024 x 768. [Pratinjau](../apps/app/design/beranda-preview.png)
+  disimpan; perubahan dari SVG terbatas adaptasi layout, label contoh, target
+  sentuh, font bawaan dan kontras. Bukan klaim kesamaan setiap piksel.
+- PASS Markdownlint 0.17.2 dan tautan internal pada 42 Markdown, metadata delapan
+  skill, EditorConfig Checker 4.0.2 dan git diff --check. Skrip slicing dijalankan
+  ulang setelah perbaikan indentasi/EOL; 17 PNG RGBA berukuran 3x sesuai mask,
+  SVG mandiri tanpa referensi eksternal, dan salinan SVG identik dengan sumber.
+
+Android build/perangkat, TalkBack, integrasi API, provider, TC produk/UAT dan
+CI remote NOT_RUN. Tidak mengklaim aksesibilitas penuh dari tes widget/browser.
+
+README aplikasi/apps, DESIGN, rule UI, skill UI, keputusan, RTM, handoff dan
+CHANGELOG diselaraskan. FRD/SRS/kontrak dan TC produk tidak berubah karena
+mockup belum mengimplementasikan perilaku bisnis; AGENTS/adapter/README publik
+tetap sesuai cakupan dan tidak perlu perubahan mekanisme instruksi.

@@ -8,6 +8,20 @@ Flutter Android/Web di apps/app; apps/server masih berisi penanda kosong.
 
 ## Perubahan terakhir
 
+Pada 23 Oktober 2026, tugas berikutnya menghasilkan satu mockup beranda warga
+sesuai SVG pemilik. Header, status, empat akses cepat, kartu dokumen/laporan
+serta navbar memakai widget Flutter dan 17 ikon slice lokal. Semua tombol
+membuka panel pratinjau yang dapat ditutup; belum ada backend, data akun,
+akses perangkat atau transaksi. Angka diberi penanda contoh.
+
+Bacaan ulang terbatas tugas ini disetujui pemilik; konteks bacaan penuh pada
+tugas struktur sebelumnya dipertahankan. [WS-DEC-052](DECISIONS.md#home-mockup-052)
+mencatat mandat; [README Flutter](../apps/app/README.md) dan
+[asal aset](../apps/app/design/README.md) menjadi petunjuk kelanjutan.
+[Bukti pemeriksaan](WORKSPACE.md#home-mockup) membedakan widget/build/browser
+dari pengujian Android dan TC produk yang belum dilakukan. Tidak ada mandat push.
+Catatan struktur dan CI di bawah adalah riwayat sebelumnya.
+
 Pada 23 Oktober 2026, pemilik menyetujui implementasi struktur Flutter
 Feature-First + Layered Architecture untuk warga Android dan admin Web.
 Folder 15 fitur dengan tiga layer, app/core/shared dan test/features tersedia

@@ -6,10 +6,10 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 **Feature-First + Layered Architecture**: kelompokkan kode berdasarkan fitur,
 lalu pisahkan tanggung jawab di dalam fitur.
 
-Status 23 Oktober 2026: folder tersedia dengan `.gitkeep`; fitur belum
-diimplementasikan. `lib/main.dart` dan `test/widget_test.dart` masih counter bawaan.
-Folder bukan bukti fitur, integrasi API, atau isolasi akun sudah berjalan.
-Backend tidak termasuk penataan ini.
+Status 23 Oktober 2026: aplikasi membuka satu mockup beranda warga sesuai SVG
+pemilik. Lima belas fitur produk tetap berupa folder `.gitkeep`; fitur `home`
+berisi UI dan panel pratinjau lokal. Belum ada integrasi API, sesi atau
+penyimpanan data. Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -31,12 +31,14 @@ lib/
       domain/
       data/
 test/
-  widget_test.dart
   features/
+    home/
+      home_screen_test.dart
 ```
 
 `<nama_fitur>` adalah notasi contoh; nama sebenarnya ada pada tabel berikut.
-Setiap fitur memiliki tiga folder layer. `.gitkeep` mempertahankan folder
+Setiap fitur produk memiliki tiga folder layer; `home` hanya membutuhkan
+presentation untuk mockup saat ini. `.gitkeep` mempertahankan folder
 kosong di Git; hapus penanda ketika folder sudah berisi implementasi.
 
 ## Pembagian fitur
@@ -46,6 +48,7 @@ menentukan pembagian kepada Rafi, Melia, dan Hasan melalui tabel berikut.
 
 | Folder di lib/features | Tanggung jawab | Pemilik |
 |---|---|---|
+| home | Beranda warga dan pintu masuk pratinjau fitur | Belum ditetapkan |
 | auth | Login, pendaftaran, pemulihan, logout | Belum ditetapkan |
 | account | Profil dan pengaturan akun | Belum ditetapkan |
 | ktp_verification | Pemeriksaan dan konfirmasi KTP | Belum ditetapkan |
@@ -109,6 +112,30 @@ Gunakan file/folder `snake_case`. Widget khusus fitur tetap di fiturnya;
 pindahkan ke `shared/widgets` ketika dipakai lintas fitur. Tema mengikuti
 [DESIGN](../../docs/DESIGN.md).
 
+## Mockup beranda warga
+
+Kode berada di `lib/features/home/presentation`; `app/siaga_banjir_app.dart`
+merakit aplikasi dan membuka panel fitur. Tema berada di `shared/theme`.
+State yang tersedia hanya scroll dan navigasi panel, sehingga belum memerlukan
+controller bisnis atau repository kosong. Semua angka adalah data contoh.
+
+| Aksi beranda | Tujuan integrasi berikutnya |
+|---|---|
+| Pantau Status / Pantau Wilayah | monitor |
+| Kontak Darurat / Tas Siaga / Panduan Selamat | contacts / emergency_bag / guides |
+| Dokumen Siaga Keluarga / Data Keluarga | documents / family |
+| Lapor Banjir Cepat / Lapor / Riwayat | reports |
+| Notifikasi / Profil | messages / account |
+
+Saat ini aksi membuka panel pratinjau yang dapat ditutup; Lengkap menampilkan
+pilihan fitur, dan Beranda menggulir kembali ke atas. Tidak ada request API,
+akses perangkat, penyimpanan atau login. Panel tidak menyatakan aksi bisnis
+berhasil. Fitur admin tetap berupa struktur folder.
+
+[Acuan visual dan aset](design/README.md) menjelaskan SVG pemilik, 17 ikon lokal,
+script slicing dan penyesuaian aksesibilitas. Bukti aktual ada pada
+[WORKSPACE](../../docs/WORKSPACE.md#home-mockup).
+
 ## Batas data dan platform
 
 - `data` adalah kode klien Flutter, bukan backend. Kredensial provider/database
@@ -152,7 +179,11 @@ Petunjuk berlaku lintas Windows/macOS/Linux; runtime setiap OS belum diuji.
 
 `flutter pub get` mengunduh dependensi dan dapat memperbarui lockfile; periksa
 diff sebelum commit. Analyze/test/run dapat menghasilkan cache/build lokal.
-Perintah pengembangan di atas tidak dijalankan untuk perubahan folder saja.
+Untuk review Web dengan renderer lokal, jalankan
+`flutter build web --no-web-resources-cdn --no-wasm-dry-run`.
+SDK yang diverifikasi: Flutter 3.47.7 stable dan Dart 3.13.5 pada Windows.
+Analyze, delapan widget test dan build Web dijalankan untuk mockup beranda;
+bukti perangkat Android belum tersedia.
 
 Tes berikutnya mengikuti `test/features/<nama_fitur>/<layer>`: unit test
 controller/repository, widget test layar, dan integrasi ketika alurnya tersedia.

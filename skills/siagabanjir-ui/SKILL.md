@@ -21,6 +21,8 @@ Periksa layar/kode tim jika tersedia; folder kosong bukan alasan membuat aplikas
    jalan kembali/batal tanpa kehilangan input sesuai FRD.
 2. Periksa komponen/token yang sudah ada. Terapkan Material 3, set Material
    Icons bawaan Flutter, pemetaan makna dan token yang ada di DESIGN.
+   Untuk beranda berbasis SVG pemilik, ikuti pengecualian aset slice lokal
+   yang tercatat di DESIGN; jangan menggantinya dengan ikon tebakan.
 3. Tata hierarki konten sesuai tugas. Untuk warga, tekankan langkah dan status
    kirim; untuk admin, antrean/bukti/tindakan. Hindari menyalin dashboard generik
    atau menjadikan semua informasi kartu dekoratif.

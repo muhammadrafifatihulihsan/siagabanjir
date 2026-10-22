@@ -2046,3 +2046,13 @@ masing-masing memiliki presentation, domain dan data dengan penanda kosong.
 SRS-DEC-009 tetap menjadi dasar controller/repository; tidak ada implementasi
 perilaku atau perubahan kontrak. Hasil pemeriksaan dicatat pada
 [bukti workspace](WORKSPACE.md#flutter-feature-first). TC aplikasi tetap NOT_RUN.
+
+## 51. Mockup beranda warga - 23 Oktober 2026
+
+[WS-DEC-052](DECISIONS.md#home-mockup-052) dipenuhi oleh home/presentation,
+perakitan app dan tema bersama di Flutter, serta aset slice lokal dari SVG
+pemilik. FRD bagian 17 dan DESIGN menjadi acuan navigasi/aksesibilitas;
+tes widget memeriksa pintu masuk panel, kembali, ukuran layar/teks, label,
+target sentuh dan kontras. Ini verifikasi mockup, bukan PASS FR/TC bisnis.
+Pemetaan pintu masuk ke folder produk ada pada [README Flutter](../apps/app/README.md#mockup-beranda-warga).
+Bukti dan batas platform: [WORKSPACE](WORKSPACE.md#home-mockup).

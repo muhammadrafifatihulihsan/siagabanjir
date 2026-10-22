@@ -9,6 +9,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Satu mockup beranda warga Flutter mengikuti SVG pemilik, dengan 17 ikon
+  hasil slice lokal, panel pratinjau fitur, layout adaptif dan tes widget.
+  Seluruh status/angka adalah contoh; belum ada integrasi backend/perangkat.
+
 - Struktur Flutter Feature-First + Layered Architecture untuk 15 fitur warga/admin,
   folder infrastruktur/UI bersama, serta panduan layer dan pembagian kerja tim.
   Tahap ini hanya placeholder dan dokumentasi; aplikasi counter tetap.

@@ -977,3 +977,22 @@ Placeholder .gitkeep mencatat folder di Git. Source counter, tes bawaan,
 manifest/dependensi dan platform tidak diubah. Penataan tidak mengubah API,
 requirement, atau penerimaan TC produk. Commit lokal termasuk mandat tetap;
 push, merge, dan deploy tidak termasuk tugas ini.
+
+<a id="home-mockup-052"></a>
+
+## 42. Mockup beranda warga dari SVG - 23 Oktober 2026
+
+**WS-DEC-052 - CURRENT_USER_CONFIRMED.** Pemilik meminta satu beranda Flutter
+mengikuti app_beranda.svg sebagai contoh penghubung fitur, dengan ikon hasil
+slice/aset lokal dan interaksi mockup; tidak mencakup backend atau layar fitur
+lengkap. Pemilik mengizinkan bacaan ulang terbatas untuk tugas beranda ini
+ke instruksi, desain/UI, Flutter, requirement beranda dan kode terdampak.
+Bacaan penuh tugas struktur sebelumnya tetap menjadi konteks.
+
+Fitur home/presentation ditambahkan tanpa repository/controller bisnis kosong.
+Navigasi panel dirakit di app; angka sumber tetap ilustrasi berlabel Data contoh.
+Teks menjadi widget, 17 ikon diekstrak dari sumber, dan font tetap bawaan.
+DESIGN/rule UI/skill UI mencatat pengecualian aset dan token yang terarah.
+Kebutuhan produk, level penilaian, kuota dan kontrak tidak berubah. Bukti ada
+pada [WORKSPACE](WORKSPACE.md#home-mockup), asal aset pada
+[catatan desain](../apps/app/design/README.md). Tidak mengotorisasi push/deploy.

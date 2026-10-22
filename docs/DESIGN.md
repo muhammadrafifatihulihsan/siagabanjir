@@ -3,10 +3,36 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
-Ini keputusan desain proyek untuk pekerjaan berikutnya; belum ada UI berjalan.
+Satu mockup beranda warga sudah tersedia; fitur bisnis belum diimplementasikan.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ## Arah visual dan isi layar
+
+### Acuan beranda warga dari pemilik
+
+Mandat 23 Oktober 2026 memakai [SVG beranda](../apps/app/design/app_beranda.svg)
+sebagai acuan wajib satu layar. [Catatan aset](../apps/app/design/README.md)
+memuat sumber, slicing dan batas mockup. Ini pengecualian terarah terhadap
+baseline ikon Material di bawah: 17 ikon beranda memakai hasil slice lokal,
+sedangkan kontrol tambahan panel memakai Material. Tidak memakai package ikon
+atau font remote. Ketentuan ini tidak mengganti seluruh desain fitur lainnya.
+
+Tema pada `apps/app/lib/shared/theme/siaga_theme.dart` memakai latar #F8FAFC,
+teks #0F172A, biru #2563EB, judul status #1E3A8A, dan teks sekunder #64748B.
+Teks sekunder di permukaan berwarna memakai #475569 untuk kontras. Kartu status
+biru #D5E4FF; akses cepat biru muda/merah muda/ungu muda/hijau mengikuti SVG.
+Radius beranda 12/16/20/22/24 sesuai komponen sumber, sebagai pengecualian token
+awal 8/12. Font bawaan Flutter; teks tetap widget yang dapat diperbesar.
+
+Beranda membatasi konten pada lebar 600 logical pixels, memakai scroll dengan
+header/navbar menetap, dan grid dua kolom yang menjadi satu pada teks besar.
+Area sentuh minimal 48; label waktu/navigasi diperkuat kontrasnya dari sumber.
+Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
+penanda Data contoh, bukan data layanan atau perubahan level/kuota normatif.
+Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
+aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
+
+### Pedoman umum fitur berikutnya
 
 Warga membutuhkan pengiriman laporan yang jelas dan bacaan Pantau yang mudah
 dipindai; admin membutuhkan antrean, bukti dan tindakan review yang terurut.
@@ -53,7 +79,7 @@ ikon hanya untuk mendapatkan glyph yang sudah tersedia.
 
 Saat tim menginisialisasi Flutter, pastikan konfigurasi Material font sesuai
 [panduan Icons Flutter](https://api.flutter.dev/flutter/material/Icons-class.html),
-termasuk uses-material-design. Tidak ada pubspec yang dibuat pada tahap ini.
+termasuk uses-material-design, yang sudah aktif pada pubspec proyek tim.
 
 | Makna | Ikon dasar |
 |---|---|
