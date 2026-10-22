@@ -16,7 +16,7 @@ terkait [FRD](../../docs/FRD.md)/[SRS](../../docs/SRS.md).
 Untuk perubahan UI, baca [DESIGN](../../docs/DESIGN.md) dan
 [aturan UI](../../rules/ui.md): komponen Material 3, ikon standar, token,
 aksesibilitas, serta pemeriksaan visual pada state yang relevan.
-Inspeksi `apps/app/` untuk menemukan proyek warga/admin, manifest, routing,
+Inspeksi `apps/siagabanjir/` untuk menemukan proyek warga/admin, manifest, routing,
 repository dan perintah tes sebenarnya. Jika masih kosong, laporkan kondisi
 itu dan kerjakan telaah mandiri yang diminta; jangan menjalankan flutter create.
 

@@ -207,7 +207,7 @@ atau berikan path-nya secara eksplisit. Redocly menggunakan
 [konfigurasi proyek](../.redocly.yaml) untuk menemukan kesalahan kontrak dan komponen
 yang tidak dirujuk. Validasi skema tidak menggantikan tes perilaku aplikasi.
 
-XML di `apps/app/android/` tidak dipaksa memiliki ukuran indentasi tertentu:
+XML di `apps/siagabanjir/android/` tidak dipaksa memiliki ukuran indentasi tertentu:
 komentar template Flutter memakai spasi untuk menyelaraskan teks. Aturan
 encoding, EOL, newline akhir, indentasi spasi dan trailing whitespace tetap
 diperiksa melalui `.editorconfig`; file Dart dan job CI lain tetap diperiksa.

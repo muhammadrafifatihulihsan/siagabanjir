@@ -4,14 +4,63 @@
 
 Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
-Flutter Android/Web di apps/app; apps/server masih berisi penanda kosong.
+Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong.
 
 ## Perubahan terakhir
+
+Ikon launcher bawaan Flutter diganti logo SiagaBanjir, termasuk adaptive dan
+monochrome Android serta ikon Web/favicon. Splash native light/night dan
+Android 12+ tersedia; Web memakai Inter lokal dan tombol retry saat startup
+gagal. Tidak ada timer tambahan atau perubahan beranda/backend.
+[WS-DEC-055](DECISIONS.md#branding-startup-055) dan
+[bukti branding](WORKSPACE.md#branding-startup) menjadi acuan terbaru.
+Build APK debug dan Web lulus; belum install/cold start pada HP fisik.
+
+Perapian lanjutan atas revisi layout hanya menyentuh ikon/chevron dua kartu
+Dokumen Siaga dan Lapor Banjir: rata tengah terhadap teks dan ukuran glyph
+seimbang. Font, header status, akses cepat serta navbar tidak berubah.
+Bukti dilanjutkan pada [layout beranda](WORKSPACE.md#home-layout-name).
+
+Revisi layout/nama 23 Oktober 2026: folder Flutter menjadi apps/siagabanjir,
+package Dart siagabanjir, label Android/Web SiagaBanjir. ApplicationId Android
+tetap agar identitas instalasi tidak berubah. Jalankan flutter pub get di
+folder baru setelah pull; perbarui working directory terminal/IDE pribadi.
+
+Kartu berkas/laporan memakai header adaptif dan deskripsi lebih lapang;
+label pendukung/navigasi 12, judul kartu 16, isi 14 dengan Inter lokal.
+Badge akses cepat tidak lagi memecah kata pada layar sempit. Palet, ikon SVG,
+satu layar dan panel lokal tetap; backend tidak disentuh.
+Mandat dan batas bacaan terdampak: [WS-DEC-054](DECISIONS.md#home-layout-name-054).
+Hasil pemeriksaan terkini: [WORKSPACE](WORKSPACE.md#home-layout-name).
+Tidak ada mandat push. Catatan berikut merupakan riwayat revisi sebelumnya.
+
+Revisi beranda berikutnya pada 23 Oktober 2026 memakai Inter 4.1 lokal
+weight 400/500/600/700/800 beserta lisensinya, atas pilihan eksplisit pemilik.
+Tulisan Data contoh dan catatan Mockup beranda dihapus; data masih statis.
+Nama font asli Figma belum teridentifikasi karena SVG berisi outline.
+[WS-DEC-053](DECISIONS.md#home-font-053) dan [bukti revisi](WORKSPACE.md#home-local-font)
+menjadi acuan terbaru. Nama folder/package/launcher belum diganti; pertanyaan
+pemilik tentang nama dijawab sebagai penjelasan dampak. Tidak ada mandat push.
+Catatan di bawah merekam implementasi sebelum revisi font/label ini.
+
+Pada 23 Oktober 2026, tugas berikutnya menghasilkan satu mockup beranda warga
+sesuai SVG pemilik. Header, status, empat akses cepat, kartu dokumen/laporan
+serta navbar memakai widget Flutter dan 17 ikon slice lokal. Semua tombol
+membuka panel pratinjau yang dapat ditutup; belum ada backend, data akun,
+akses perangkat atau transaksi. Angka diberi penanda contoh.
+
+Bacaan ulang terbatas tugas ini disetujui pemilik; konteks bacaan penuh pada
+tugas struktur sebelumnya dipertahankan. [WS-DEC-052](DECISIONS.md#home-mockup-052)
+mencatat mandat; [README Flutter](../apps/siagabanjir/README.md) dan
+[asal aset](../apps/siagabanjir/design/README.md) menjadi petunjuk kelanjutan.
+[Bukti pemeriksaan](WORKSPACE.md#home-mockup) membedakan widget/build/browser
+dari pengujian Android dan TC produk yang belum dilakukan. Tidak ada mandat push.
+Catatan struktur dan CI di bawah adalah riwayat sebelumnya.
 
 Pada 23 Oktober 2026, pemilik menyetujui implementasi struktur Flutter
 Feature-First + Layered Architecture untuk warga Android dan admin Web.
 Folder 15 fitur dengan tiga layer, app/core/shared dan test/features tersedia
-sebagai placeholder. [README Flutter](../apps/app/README.md) memuat batas layer,
+sebagai placeholder. [README Flutter](../apps/siagabanjir/README.md) memuat batas layer,
 contoh penempatan kode, perintah pengembangan, dan tabel pemilik fitur yang
 belum ditetapkan. Keputusan: [WS-DEC-051](DECISIONS.md#flutter-feature-first-051).
 
@@ -175,7 +224,7 @@ Publikasi baseline selesai. Ekspor session lokal sudah tidak ditemukan pada
 pemeriksaan penutupan; handoff aktif ini tetap dipelihara. Catatan penutupan
 ditambahkan sesudah rilis, tanpa memindahkan tag v0.1.0.
 
-1. Tim menginisialisasi backend di apps/server dan melanjutkan scaffold Flutter di apps/app.
+1. Tim menginisialisasi backend di apps/server dan melanjutkan scaffold Flutter di apps/siagabanjir.
 2. Periksa manifest dan kode aktual sebelum menetapkan versi, perintah build,
    konfigurasi, atau tes aplikasi. Lengkapi README aplikasi sesuai hasil nyata.
 3. Implementasikan milestone PRD: akun/dokumen/KTP, laporan/AI, admin/Pantau,

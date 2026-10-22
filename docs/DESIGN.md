@@ -3,10 +3,66 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
-Ini keputusan desain proyek untuk pekerjaan berikutnya; belum ada UI berjalan.
+Satu mockup beranda warga sudah tersedia; fitur bisnis belum diimplementasikan.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ## Arah visual dan isi layar
+
+### Acuan beranda warga dari pemilik
+
+Mandat 23 Oktober 2026 memakai [SVG beranda](../apps/siagabanjir/design/app_beranda.svg)
+sebagai acuan wajib satu layar. [Catatan aset](../apps/siagabanjir/design/README.md)
+memuat sumber, slicing dan batas mockup. Ini pengecualian terarah terhadap
+baseline ikon Material di bawah: 17 ikon beranda memakai hasil slice lokal,
+sedangkan kontrol tambahan panel memakai Material. Tidak memakai package ikon
+atau font remote. Ketentuan ini tidak mengganti seluruh desain fitur lainnya.
+
+Tema pada `apps/siagabanjir/lib/shared/theme/siaga_theme.dart` memakai latar #F8FAFC,
+teks #0F172A, biru #2563EB, judul status #1E3A8A, dan teks sekunder #64748B.
+Teks sekunder di permukaan berwarna memakai #475569 untuk kontras. Kartu status
+biru #D5E4FF; akses cepat biru muda/merah muda/ungu muda/hijau mengikuti SVG.
+Radius beranda 12/16/20/22/24 sesuai komponen sumber, sebagai pengecualian token
+awal 8/12. Revisi pemilik memakai Inter 4.1 lokal weight 400/500/600/700/800;
+teks tetap widget yang dapat diperbesar. SVG berisi outline, jadi Inter adalah
+pilihan yang disetujui, bukan klaim identifikasi font Figma asli.
+
+Beranda membatasi konten pada lebar 600 logical pixels, memakai scroll dengan
+header/navbar menetap, dan grid dua kolom yang menjadi satu pada teks besar.
+Area sentuh minimal 48; label waktu/navigasi diperkuat kontrasnya dari sumber.
+Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
+data statis, bukan data layanan atau perubahan level/kuota normatif. Atas
+permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
+dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
+Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
+aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
+
+### Revisi keterbacaan kartu beranda
+
+Header kartu memakai badge dan status dengan ruang alami: status rata kanan
+ketika muat, berpindah baris saat ruang sempit/teks besar. Isi kartu memakai
+judul 16/700, deskripsi 14/400 dengan tinggi baris 1.4; label status 12/600.
+Deskripsi mendapat lebar penuh ketika lebar dalam kartu kurang dari 260
+logical pixels setelah pembesaran teks. Tidak memakai ellipsis atau mengecilkan
+font untuk memaksa teks muat. Ikon dan chevron tetap aset lokal dari SVG;
+kedua kartu punya petunjuk navigasi yang konsisten. Ikon utama dan chevron
+rata tengah secara vertikal terhadap blok teks (judul pada susunan sempit).
+Lingkaran ikon tetap 44; slice dokumen ditampilkan 24 dan kamera 22 agar
+bentang glyph terlihat sama sekitar 21, mengimbangi padding transparan sumber.
+Ini penyesuaian optis pada dua kartu saja; aset asli tidak diubah.
+
+Label lokasi, badge akses cepat dan navigasi dinaikkan ke 12 untuk keterbacaan.
+Badge akses cepat berpindah utuh ketika tidak muat di samping ikon. Struktur
+warna/kartu sumber dipertahankan; tidak menambah fitur bisnis atau dekorasi.
+[Bukti revisi](WORKSPACE.md#home-layout-name) mencatat batas inspeksi aktual.
+
+### Pedoman umum fitur berikutnya
+
+Ikon launcher dan splash menggunakan logo tetes air dari SVG pemilik:
+biru #2563EB di atas #EFF6FF untuk ikon, latar #F8FAFC untuk splash. Native
+Android mengikuti bentuk/masking launcher serta splash OS; Web memakai judul
+SiagaBanjir dan status pemuatan dengan Inter lokal. Tidak menunda masuk ke
+beranda untuk memamerkan splash. [Sumber dan regenerasi](../apps/siagabanjir/design/README.md#ikon-aplikasi-dan-splash)
+memuat konfigurasi platform; perubahan ini tidak mengubah layout beranda.
 
 Warga membutuhkan pengiriman laporan yang jelas dan bacaan Pantau yang mudah
 dipindai; admin membutuhkan antrean, bukti dan tindakan review yang terurut.
@@ -53,7 +109,7 @@ ikon hanya untuk mendapatkan glyph yang sudah tersedia.
 
 Saat tim menginisialisasi Flutter, pastikan konfigurasi Material font sesuai
 [panduan Icons Flutter](https://api.flutter.dev/flutter/material/Icons-class.html),
-termasuk uses-material-design. Tidak ada pubspec yang dibuat pada tahap ini.
+termasuk uses-material-design, yang sudah aktif pada pubspec proyek tim.
 
 | Makna | Ikon dasar |
 |---|---|

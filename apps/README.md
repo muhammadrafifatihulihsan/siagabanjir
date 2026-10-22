@@ -7,13 +7,14 @@ Satu wadah kode tim, bernama `apps/`.
 | Folder | Tanggung jawab |
 |---|---|
 | server/ | Backend/API/worker yang diinisialisasi tim |
-| app/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
+| siagabanjir/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
 
-`server/` masih berisi `.gitkeep`; `app/` sudah memiliki scaffold Flutter
+`server/` masih berisi `.gitkeep`; `siagabanjir/` sudah memiliki scaffold Flutter
 dengan target Android dan Web dari setup tim. Folder 15 fitur warga/admin
-beserta layer sudah disiapkan; perilaku fitur
-belum diimplementasikan. Struktur, batas layer dan pembagian kerja ada pada
-[README Flutter](app/README.md). Buka root repository agar panduan bersama terlihat.
+beserta layer sudah disiapkan. Fitur home menampilkan satu mockup beranda warga
+dengan aset lokal dan panel pratinjau; perilaku bisnis belum diimplementasikan.
+Struktur, batas layer dan pembagian kerja ada pada
+[README Flutter](siagabanjir/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti
 [panduan commit, push dan PR](../docs/GITHUB-WORKFLOW.md).
 
@@ -25,7 +26,7 @@ aplikasi sudah diuji di semua OS.
 ## Informasi setelah tim selesai setup
 
 Isi README aplikasi dari manifest dan hasil yang benar-benar diperiksa.
-Proyek Flutter berada di `app/`; backend belum memiliki perintah build/run.
+Proyek Flutter berada di `siagabanjir/`; backend belum memiliki perintah build/run.
 Pemeriksaan format XML Android mengikuti pengecualian terbatas pada
 [panduan CI](../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd).
 

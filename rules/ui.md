@@ -9,6 +9,8 @@ Aturan ini berlaku saat merancang, mengimplementasikan atau mereview tampilan.
   tindakan utama dan state; setiap komponen harus punya fungsi yang jelas.
 - Gunakan komponen Material 3 dan satu set ikon Material bawaan Flutter.
   Ikon navigasi/tindakan bukan emoji, gambar AI atau campuran library.
+  Pengecualian beranda dari SVG pemilik memakai hasil slice lokal sesuai
+  [keputusan desain beranda](../docs/DESIGN.md#acuan-beranda-warga-dari-pemilik).
 - Terapkan token tema, jarak, tipografi dan status secara konsisten.
   Hindari dekorasi yang mengaburkan tugas: hero pemasaran di layar operasional,
   kartu berulang tanpa alasan, badge/statistik palsu, atau efek visual berlebihan.
