@@ -3,10 +3,29 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
-Repository menyediakan spesifikasi dan panduan kerja; apps/server dan apps/app
-masih berisi penanda kosong. Tim menginisialisasi backend dan Flutter.
+Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
+Flutter Android/Web di apps/app; apps/server masih berisi penanda kosong.
 
 ## Perubahan terakhir
+
+Pada 22 Oktober 2026, pemilik meminta perbaikan CI yang menolak format bawaan
+Flutter. EditorConfig Checker 4.0.2 mereproduksi 12 laporan error pada komentar
+XML Android di commit 33e0f58. `.editorconfig` kini mengecualikan ukuran
+indentasi khusus XML di apps/app/android; aturan format lain dan seluruh job CI
+dipertahankan. File XML Flutter tidak diubah.
+
+Pemilik mengizinkan pembatasan bacaan untuk tugas ini ke aturan proyek, CI,
+EditorConfig dan file Flutter terdampak; bukan klaim seluruh spesifikasi dibaca.
+Verifikasi lokal Windows PASS: EditorConfig Checker 4.0.2 pada seluruh file
+tracked, Markdownlint 0.17.2 dan link internal pada 41 Markdown, serta
+git diff --check. Enam fixture sementara lulus: alignment komentar XML Android
+diterima; trailing whitespace, newline akhir hilang dan tab tetap ditolak;
+indentasi ganjil pada Dart dan XML di luar Android tetap ditolak. Fixture
+dibersihkan otomatis. Pemeriksaan Flutter/build dan CI remote NOT_RUN;
+tidak ada mandat push.
+Spesifikasi/kontrak, DESIGN, AGENTS, rules, skills, adapter dan RTM tidak berubah
+karena perbaikan hanya menyelaraskan format, tanpa perubahan fungsi produk
+atau hasil TC aplikasi. Riwayat pekerjaan terdahulu dipertahankan di bawah.
 
 Pemilik meminta panduan Git cepat dikonversi ke Markdown lalu commit/push.
 [GIT-CEPAT.md](GIT-CEPAT.md) kini memakai judul per anggota, blok kode terpisah
@@ -143,7 +162,7 @@ Publikasi baseline selesai. Ekspor session lokal sudah tidak ditemukan pada
 pemeriksaan penutupan; handoff aktif ini tetap dipelihara. Catatan penutupan
 ditambahkan sesudah rilis, tanpa memindahkan tag v0.1.0.
 
-1. Tim menginisialisasi backend di apps/server dan Flutter di apps/app.
+1. Tim menginisialisasi backend di apps/server dan melanjutkan scaffold Flutter di apps/app.
 2. Periksa manifest dan kode aktual sebelum menetapkan versi, perintah build,
    konfigurasi, atau tes aplikasi. Lengkapi README aplikasi sesuai hasil nyata.
 3. Implementasikan milestone PRD: akun/dokumen/KTP, laporan/AI, admin/Pantau,

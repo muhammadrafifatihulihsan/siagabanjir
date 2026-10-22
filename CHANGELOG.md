@@ -18,6 +18,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- EditorConfig tidak memaksa ukuran indentasi XML Android Flutter agar
+  alignment komentar template diterima; pemeriksaan format lainnya tetap aktif.
+- Status workspace mencatat scaffold Flutter Android/Web yang sudah dibuat tim.
+
 - Git cepat dikonversi dari TXT ke Markdown dengan bagian per anggota dan
   blok kode; seluruh rujukan aktif memakai GIT-CEPAT.md. Perintah tetap sama.
 
