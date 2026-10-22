@@ -8,6 +8,19 @@ Flutter Android/Web di apps/app; apps/server masih berisi penanda kosong.
 
 ## Perubahan terakhir
 
+Pada 23 Oktober 2026, pemilik menyetujui implementasi struktur Flutter
+Feature-First + Layered Architecture untuk warga Android dan admin Web.
+Folder 15 fitur dengan tiga layer, app/core/shared dan test/features tersedia
+sebagai placeholder. [README Flutter](../apps/app/README.md) memuat batas layer,
+contoh penempatan kode, perintah pengembangan, dan tabel pemilik fitur yang
+belum ditetapkan. Keputusan: [WS-DEC-051](DECISIONS.md#flutter-feature-first-051).
+
+Bacaan penuh sumber aktif diselesaikan pada tahap riset/perencanaan tugas ini.
+Source Dart, tes counter, manifest, lockfile, Android/Web dan backend tidak
+berubah. Implementasi fitur dan pembagian nama anggota menjadi langkah tim
+berikutnya. Bukti pemeriksaan: [WORKSPACE](WORKSPACE.md#flutter-feature-first).
+Tidak ada mandat push. Catatan CI sebelumnya berikut tetap merupakan riwayat.
+
 Pada 22 Oktober 2026, pemilik meminta perbaikan CI yang menolak format bawaan
 Flutter. EditorConfig Checker 4.0.2 mereproduksi 12 laporan error pada komentar
 XML Android di commit 33e0f58. `.editorconfig` kini mengecualikan ukuran

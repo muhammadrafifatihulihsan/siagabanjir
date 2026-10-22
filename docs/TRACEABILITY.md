@@ -2036,3 +2036,13 @@ lokal dengan upstream anggota, siklus commit/push/PR dan sinkronisasi setelah
 merge. Instruksi bersama membedakan nama lokal dari remote; CI dan aturan PR
 tetap. Bukti pemeriksaan dicatat di WORKSPACE. Produk, kontrak, DESIGN dan
 adapter IDE tidak berubah; adapter tetap merujuk instruksi bersama.
+
+## 50. Struktur fitur Flutter - 23 Oktober 2026
+
+[WS-DEC-051](DECISIONS.md#flutter-feature-first-051) diterapkan melalui
+[README Flutter](../apps/app/README.md) dan folder lib/app, lib/core, lib/shared,
+lib/features serta test/features di apps/app. Lima belas fitur warga/admin
+masing-masing memiliki presentation, domain dan data dengan penanda kosong.
+SRS-DEC-009 tetap menjadi dasar controller/repository; tidak ada implementasi
+perilaku atau perubahan kontrak. Hasil pemeriksaan dicatat pada
+[bukti workspace](WORKSPACE.md#flutter-feature-first). TC aplikasi tetap NOT_RUN.
