@@ -10,8 +10,10 @@ Satu wadah kode tim, bernama `apps/`.
 | app/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
 
 `server/` masih berisi `.gitkeep`; `app/` sudah memiliki scaffold Flutter
-dengan target Android dan Web dari setup tim. Pembagian fitur warga/admin
-belum diimplementasikan. Buka root repository agar panduan bersama terlihat.
+dengan target Android dan Web dari setup tim. Folder 15 fitur warga/admin
+beserta layer sudah disiapkan; perilaku fitur
+belum diimplementasikan. Struktur, batas layer dan pembagian kerja ada pada
+[README Flutter](app/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti
 [panduan commit, push dan PR](../docs/GITHUB-WORKFLOW.md).
 

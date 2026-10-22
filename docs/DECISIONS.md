@@ -957,3 +957,23 @@ main melalui PR, contoh memakai fetch, reset --hard origin/main dan clean -fd.
 Perubahan lokal dan untracked dibuang; ignored dipertahankan. Ini pengecualian
 eksplisit untuk prosedur pengguna pada TXT, bukan izin AI membersihkan workspace
 demi status bersih. Tidak mengotorisasi force push atau perubahan alur PR.
+
+<a id="flutter-feature-first-051"></a>
+
+## 41. Struktur Flutter per fitur - 23 Oktober 2026
+
+**WS-DEC-051 - CURRENT_USER_CONFIRMED.** Pemilik meminta riset dan struktur
+Feature-First + Layered Architecture untuk membagi pekerjaan tim bertiga,
+memilih cakupan warga Android dan admin Web, lalu meminta implementasi rencana.
+Mandat hanya folder dan panduan Flutter; backend dan implementasi fitur ditunda.
+
+Satu package apps/app dipertahankan. Setiap fitur memiliki presentation, domain,
+dan data; app merakit dependensi, core menampung infrastruktur, shared menampung
+UI bersama. Controller tetap ChangeNotifier/ValueNotifier sesuai SRS-DEC-009.
+Domain menampung model/kontrak Dart murni; use case hanya ketika diperlukan.
+Batas dan daftar fitur menjadi sumber operasional di [README Flutter](../apps/app/README.md).
+
+Placeholder .gitkeep mencatat folder di Git. Source counter, tes bawaan,
+manifest/dependensi dan platform tidak diubah. Penataan tidak mengubah API,
+requirement, atau penerimaan TC produk. Commit lokal termasuk mandat tetap;
+push, merge, dan deploy tidak termasuk tugas ini.

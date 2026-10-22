@@ -9,6 +9,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Struktur Flutter Feature-First + Layered Architecture untuk 15 fitur warga/admin,
+  folder infrastruktur/UI bersama, serta panduan layer dan pembagian kerja tim.
+  Tahap ini hanya placeholder dan dokumentasi; aplikasi counter tetap.
+
 - GIT-CEPAT.md berisi perintah Git Bash singkat: main lokal melacak branch
   remote anggota, push eksplisit, PR development, dan siklus sesudah merge.
 
