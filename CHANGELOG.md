@@ -9,6 +9,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Ikon SiagaBanjir dari logo tetes air lokal untuk launcher Android, ikon
+  adaptif/monochrome, Web dan favicon. Splash native Android serta pemuatan
+  Web memakai identitas yang sama; Web menyediakan pemulihan gagal startup.
+
+- Satu mockup beranda warga Flutter mengikuti SVG pemilik, dengan 17 ikon
+  hasil slice lokal, panel pratinjau fitur, layout adaptif dan tes widget.
+  Seluruh status/angka adalah contoh; belum ada integrasi backend/perangkat.
+
 - Struktur Flutter Feature-First + Layered Architecture untuk 15 fitur warga/admin,
   folder infrastruktur/UI bersama, serta panduan layer dan pembagian kerja tim.
   Tahap ini hanya placeholder dan dokumentasi; aplikasi counter tetap.
@@ -21,6 +29,18 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- Ikon utama dan chevron kartu Dokumen Siaga/Lapor Banjir diratakan tengah;
+  ukuran optis dokumen disetarakan dengan kamera tanpa mengubah aset sumber.
+
+- Folder Flutter menjadi apps/siagabanjir dan package Dart siagabanjir;
+  label Android serta metadata Web memakai SiagaBanjir. Referensi aktif dan
+  pengecualian format mengikuti folder baru; identitas instalasi Android tetap.
+- Layout status berkas/kuota dan isi kartu beranda adaptif terhadap ruang/teks.
+  Label pendukung diperbesar dan badge akses cepat tidak memecah kata.
+
+- Beranda memakai Inter 4.1 yang dibundel lokal beserta lisensi dan lima weight.
+  Label Data contoh serta catatan Mockup beranda dihapus sesuai revisi pemilik.
 
 - EditorConfig tidak memaksa ukuran indentasi XML Android Flutter agar
   alignment komentar template diterima; pemeriksaan format lainnya tetap aktif.

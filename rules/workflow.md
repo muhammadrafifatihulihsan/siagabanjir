@@ -55,7 +55,7 @@ mandiri. Status pelaksanaan tetap mengikuti bukti aktual.
 ## Batas pekerjaan
 
 - Setup workspace berarti instruksi, rules, skills, dan dokumentasi kerja.
-  Inisialisasi Flutter/backend dilakukan tim di `apps/app/` dan
+  Inisialisasi Flutter/backend dilakukan tim di `apps/siagabanjir/` dan
   `apps/server/`; perapian workspace tidak mengizinkan scaffold.
 - Jangan menambah hosting, orkestrasi, CI, instalasi global, atau layanan baru
   hanya untuk memenuhi template. Periksa kebutuhan konkret terlebih dahulu.
