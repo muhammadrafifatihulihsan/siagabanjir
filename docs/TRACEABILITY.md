@@ -2056,3 +2056,11 @@ tes widget memeriksa pintu masuk panel, kembali, ukuran layar/teks, label,
 target sentuh dan kontras. Ini verifikasi mockup, bukan PASS FR/TC bisnis.
 Pemetaan pintu masuk ke folder produk ada pada [README Flutter](../apps/app/README.md#mockup-beranda-warga).
 Bukti dan batas platform: [WORKSPACE](WORKSPACE.md#home-mockup).
+
+## 52. Revisi font dan label beranda - 23 Oktober 2026
+
+[WS-DEC-053](DECISIONS.md#home-font-053) diterapkan pada tema Inter, aset font,
+pubspec, registrasi lisensi dan penghapusan dua label beranda. Tes memuat font
+asli untuk layout/aksesibilitas. Nama package/folder dan identitas platform
+tetap; tidak ada perubahan API atau status TC bisnis.
+[Bukti pemeriksaan](WORKSPACE.md#home-local-font) mencatat hasil revisi ini.

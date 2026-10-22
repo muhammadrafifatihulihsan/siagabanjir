@@ -8,6 +8,15 @@ Flutter Android/Web di apps/app; apps/server masih berisi penanda kosong.
 
 ## Perubahan terakhir
 
+Revisi beranda berikutnya pada 23 Oktober 2026 memakai Inter 4.1 lokal
+weight 400/500/600/700/800 beserta lisensinya, atas pilihan eksplisit pemilik.
+Tulisan Data contoh dan catatan Mockup beranda dihapus; data masih statis.
+Nama font asli Figma belum teridentifikasi karena SVG berisi outline.
+[WS-DEC-053](DECISIONS.md#home-font-053) dan [bukti revisi](WORKSPACE.md#home-local-font)
+menjadi acuan terbaru. Nama folder/package/launcher belum diganti; pertanyaan
+pemilik tentang nama dijawab sebagai penjelasan dampak. Tidak ada mandat push.
+Catatan di bawah merekam implementasi sebelum revisi font/label ini.
+
 Pada 23 Oktober 2026, tugas berikutnya menghasilkan satu mockup beranda warga
 sesuai SVG pemilik. Header, status, empat akses cepat, kartu dokumen/laporan
 serta navbar memakai widget Flutter dan 17 ikon slice lokal. Semua tombol

@@ -22,13 +22,17 @@ teks #0F172A, biru #2563EB, judul status #1E3A8A, dan teks sekunder #64748B.
 Teks sekunder di permukaan berwarna memakai #475569 untuk kontras. Kartu status
 biru #D5E4FF; akses cepat biru muda/merah muda/ungu muda/hijau mengikuti SVG.
 Radius beranda 12/16/20/22/24 sesuai komponen sumber, sebagai pengecualian token
-awal 8/12. Font bawaan Flutter; teks tetap widget yang dapat diperbesar.
+awal 8/12. Revisi pemilik memakai Inter 4.1 lokal weight 400/500/600/700/800;
+teks tetap widget yang dapat diperbesar. SVG berisi outline, jadi Inter adalah
+pilihan yang disetujui, bukan klaim identifikasi font Figma asli.
 
 Beranda membatasi konten pada lebar 600 logical pixels, memakai scroll dengan
 header/navbar menetap, dan grid dua kolom yang menjadi satu pada teks besar.
 Area sentuh minimal 48; label waktu/navigasi diperkuat kontrasnya dari sumber.
 Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
-penanda Data contoh, bukan data layanan atau perubahan level/kuota normatif.
+data statis, bukan data layanan atau perubahan level/kuota normatif. Atas
+permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
+dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
 Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
 aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
 

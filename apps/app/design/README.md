@@ -15,11 +15,12 @@ brand, notifications, home, report, history, profile, water, arrow, monitor,
 contacts, bag, guides, document_badge, documents, chevron, ai_badge dan camera.
 Grup dan mask dipertahankan sebagai SVG mandiri di [icons](icons/).
 Rasterisasi transparan 3x menghasilkan PNG di [assets/icons/home](../assets/icons/home/).
-Total PNG runtime 24.295 byte; hanya direktori PNG tersebut masuk bundle aplikasi.
+Total PNG runtime 24.295 byte; SVG sumber tidak masuk bundle aplikasi.
 
 Teks dan kartu dibangun sebagai widget Flutter, bukan screenshot dengan area
-klik. Font bawaan Flutter dipakai karena sumber SVG mengubah teks menjadi
-path dan tidak menyertakan file font. Tidak ada font, ikon, atau gambar remote
+klik. Font Inter lokal dipilih pemilik pada revisi berikutnya; SVG mengubah teks
+menjadi path sehingga nama font Figma asli belum terverifikasi.
+Tidak ada font, ikon, atau gambar remote
 pada kode layar. Titik status digambar sebagai lingkaran Flutter agar tidak
 memicu font Unicode cadangan dari internet.
 
@@ -34,12 +35,29 @@ Perintah menulis ulang SVG hasil slice dan PNG; periksa diff setelahnya.
 Playwright hanya alat pengembangan, bukan dependensi aplikasi Flutter.
 Sumber desain penuh tidak didaftarkan sebagai aset runtime.
 
+### Font Inter lokal
+
+Font berasal dari [rilis resmi Inter 4.1](https://github.com/rsms/inter/releases/tag/v4.1),
+arsip Inter-4.1.zip, direktori extras/otf. File asli Regular (400), Medium (500),
+SemiBold (600), Bold (700) dan ExtraBold (800) disimpan tanpa modifikasi pada
+[assets/fonts/inter](../assets/fonts/inter/), total 3.132.960 byte.
+[Lisensi SIL OFL 1.1](../assets/fonts/inter/OFL.txt) disertakan dalam bundle
+dan didaftarkan ke LicenseRegistry Flutter. Lisensi proyek tidak menggantikan
+lisensi font pihak ketiga ini.
+
+Pubspec memetakan setiap weight secara eksplisit; tema memakai keluarga Inter.
+Tidak memakai google_fonts atau HTTP saat aplikasi berjalan. Bentuk glyph
+tidak bergantung pada font sistem HP, meski rasterisasi layar dan pembesaran
+teks dapat berbeda antarperangkat. Pemilihan Inter adalah persetujuan pemilik
+untuk mendekati desain, bukan verifikasi jenis font asli Figma.
+
 ## Adaptasi dan batas mockup
 
 - Hierarki, palet, ikon, teks utama, kartu dan navigasi mengikuti SVG.
   Kontras label waktu/navigasi diperkuat; target sentuh minimal 48 logical pixels.
-- Label `Data contoh` dan catatan mockup membedakan angka ilustrasi dari data
-  sungguhan. Siaga 2, tinggi air, 3 notifikasi, 3/3 berkas dan kuota 1/2 bukan
+- Tulisan Data contoh dan catatan Mockup beranda dihapus atas permintaan pemilik.
+  Status pengembangan dicatat di dokumentasi. Siaga 2, tinggi air, 3 notifikasi,
+  3/3 berkas dan kuota 1/2 tetap ilustrasi, bukan
   status resmi, berkas tersimpan atau aturan kuota produk.
 - Konten dapat digulir, header/navigasi tetap terlihat. Teks besar mengubah
   grid menjadi satu kolom; lebar konten dibatasi 600 logical pixels pada Web.

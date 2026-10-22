@@ -996,3 +996,18 @@ DESIGN/rule UI/skill UI mencatat pengecualian aset dan token yang terarah.
 Kebutuhan produk, level penilaian, kuota dan kontrak tidak berubah. Bukti ada
 pada [WORKSPACE](WORKSPACE.md#home-mockup), asal aset pada
 [catatan desain](../apps/app/design/README.md). Tidak mengotorisasi push/deploy.
+
+<a id="home-font-053"></a>
+
+## 43. Font lokal dan teks beranda - 23 Oktober 2026
+
+**WS-DEC-053 - CURRENT_USER_CONFIRMED.** Pemilik meminta menghapus tulisan
+Data contoh dan Mockup beranda, menyimpan font sebagai aset untuk konsistensi
+perangkat, lalu memilih Inter lokal setelah dijelaskan bahwa SVG tidak
+menyimpan nama font asli Figma. Inter 4.1 asli, weight 400/500/600/700/800,
+dibundel bersama lisensi OFL; tema dan tes memakai aset tersebut.
+
+Ini revisi tampilan atas WS-DEC-052. Data tetap statis; penghapusan label bukan
+perubahan penerimaan fitur bisnis atau klaim data layanan. Penjelasan naming
+membedakan folder, package Dart, nama launcher dan applicationId; tidak ada
+rename pada revisi ini. Bukti: [WORKSPACE](WORKSPACE.md#home-local-font).

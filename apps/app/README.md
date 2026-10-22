@@ -136,6 +136,15 @@ berhasil. Fitur admin tetap berupa struktur folder.
 script slicing dan penyesuaian aksesibilitas. Bukti aktual ada pada
 [WORKSPACE](../../docs/WORKSPACE.md#home-mockup).
 
+Font Inter 4.1 weight 400/500/600/700/800 dibundel pada assets/fonts/inter;
+asal dan lisensinya ada pada catatan desain. Tulisan Data contoh dan catatan
+Mockup beranda sudah dihapus sesuai revisi pemilik; datanya tetap statis.
+
+Nama folder apps/app dan package Dart app tidak menentukan nama launcher saat
+runtime. Saat ini android:label dan manifest Web masih app; judul Flutter
+sudah SiagaBanjir. Nama tampilan bisa diganti tanpa mengubah folder/import
+package atau applicationId. Revisi ini belum mengubah identitas aplikasi.
+
 ## Batas data dan platform
 
 - `data` adalah kode klien Flutter, bukan backend. Kredensial provider/database

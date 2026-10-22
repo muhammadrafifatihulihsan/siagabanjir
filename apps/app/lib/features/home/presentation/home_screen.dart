@@ -100,12 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         action: HomeAction.report,
                         onTap: () => widget.onOpen(HomeAction.report),
                       ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'Mockup beranda • Semua status dan angka adalah contoh.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 11, color: SiagaTheme.muted),
-                      ),
                     ],
                   ),
                 ),

@@ -1,9 +1,25 @@
 import 'package:app/app/siaga_banjir_app.dart';
 import 'package:app/features/home/presentation/home_preview_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUpAll(() async {
+    final fonts = FontLoader('Inter');
+    for (final weight in [
+      'Regular',
+      'Medium',
+      'SemiBold',
+      'Bold',
+      'ExtraBold',
+    ]) {
+      fonts.addFont(rootBundle.load('assets/fonts/inter/Inter-$weight.otf'));
+    }
+    await fonts.load();
+  });
+
   Future<void> openHome(
     WidgetTester tester, {
     Size size = const Size(390, 844),
@@ -19,12 +35,20 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('Home labels mock data and bundles every image locally', (
+  testWidgets('Home bundles images locally without development labels', (
     tester,
   ) async {
     await openHome(tester);
     expect(find.text('SiagaBanjir'), findsOneWidget);
-    expect(find.text('Data contoh'), findsOneWidget);
+    expect(
+      Theme.of(tester.element(find.text('SiagaBanjir')))
+          .textTheme
+          .bodyMedium
+          ?.fontFamily,
+      'Inter',
+    );
+    expect(find.text('Data contoh'), findsNothing);
+    expect(find.textContaining('Mockup beranda'), findsNothing);
     final images = tester.widgetList<Image>(find.byType(Image));
     expect(images, isNotEmpty);
     expect(images.every((image) => image.image is AssetImage), isTrue);

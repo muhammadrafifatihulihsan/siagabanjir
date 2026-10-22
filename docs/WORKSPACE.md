@@ -510,3 +510,28 @@ README aplikasi/apps, DESIGN, rule UI, skill UI, keputusan, RTM, handoff dan
 CHANGELOG diselaraskan. FRD/SRS/kontrak dan TC produk tidak berubah karena
 mockup belum mengimplementasikan perilaku bisnis; AGENTS/adapter/README publik
 tetap sesuai cakupan dan tidak perlu perubahan mekanisme instruksi.
+
+<a id="home-local-font"></a>
+
+## Revisi font lokal beranda - 23 Oktober 2026
+
+[WS-DEC-053](DECISIONS.md#home-font-053) mengganti font bawaan dengan Inter 4.1
+lokal, lima weight asli, serta menghapus dua label development dari beranda.
+[Aset dan lisensi](../apps/app/design/README.md#font-inter-lokal) menjadi acuan.
+Screenshot beranda yang ditautkan pada bukti sebelumnya kini mengikuti revisi
+ini; bukti sebelumnya mencatat hasil implementasi pertama.
+
+PASS analyzer dan delapan tes widget yang memuat aset font Inter, termasuk
+layout 320/390/1024, skala teks 2, label, target sentuh dan kontras pada viewport
+tes. Build Web tanpa CDN lulus. Chrome headless memuat kelima font Inter dari
+aset lokal, tanpa permintaan eksternal atau page error; dua label tidak ada
+di layar, panel tetap dapat dibuka/ditutup. Screenshot diperbarui dan diperiksa
+pada 390 x 1097; viewport 320 x 640 juga direkam untuk pemeriksaan layout.
+PASS Markdownlint 0.17.2 dan tautan internal pada 42 Markdown, EditorConfig
+Checker 4.0.2 serta git diff --check. Tidak menambah package atau mengubah lockfile.
+Android/perangkat, TalkBack, TC bisnis dan CI remote tetap NOT_RUN.
+
+README aplikasi, catatan aset, DESIGN, keputusan, RTM, handoff dan CHANGELOG
+diperbarui; lisensi font dicakup pada LICENSE dan OTF ditandai binary.
+FRD/SRS/kontrak, backend, AGENTS/rules/skills/adapter tetap karena revisi ini
+hanya font dan dua label pada satu mockup. Tidak mengganti nama aplikasi/folder.

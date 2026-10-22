@@ -122,14 +122,6 @@ class HomeStatusCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Text(
-              'Data contoh',
-              style: TextStyle(
-                fontSize: 11,
-                color: SiagaTheme.deepBlue,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
           ],
         ),
       ],

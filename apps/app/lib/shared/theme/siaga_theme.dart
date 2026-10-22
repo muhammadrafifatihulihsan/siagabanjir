@@ -11,6 +11,7 @@ abstract final class SiagaTheme {
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
+    fontFamily: 'Inter',
     colorScheme: ColorScheme.fromSeed(
       seedColor: blue,
       primary: blue,

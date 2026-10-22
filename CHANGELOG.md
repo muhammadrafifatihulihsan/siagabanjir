@@ -26,6 +26,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Beranda memakai Inter 4.1 yang dibundel lokal beserta lisensi dan lima weight.
+  Label Data contoh serta catatan Mockup beranda dihapus sesuai revisi pemilik.
+
 - EditorConfig tidak memaksa ukuran indentasi XML Android Flutter agar
   alignment komentar template diterima; pemeriksaan format lainnya tetap aktif.
 - Status workspace mencatat scaffold Flutter Android/Web yang sudah dibuat tim.
