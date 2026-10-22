@@ -577,3 +577,17 @@ Uraian historis tetap mencatat nama saat itu; tautannya menuju sumber saat ini.
 Adapter IDE dan katalog tetap merujuk sumber bersama tanpa path aplikasi,
 sehingga tidak memerlukan perubahan. FRD/SRS/kontrak/backend tetap karena
 perubahan hanya layout dan penamaan, tanpa perubahan fungsi atau data produk.
+
+### Perapian ikon dua kartu
+
+Revisi berikutnya atas permintaan pemilik hanya mengubah HomeFeatureAction:
+ikon utama dan chevron rata tengah terhadap blok teks; padding atas chevron
+dihapus. Lingkaran 44 tetap; widget dokumen 24 dan kamera 22 menyeimbangkan
+bentang glyph terlihat sekitar 21 berdasarkan alpha bounds aset slice.
+Aset asli, font, header kartu, akses cepat dan navbar tidak berubah.
+
+PASS analyzer, 12 tes widget dan build Web tanpa CDN. Screenshot diperbarui;
+inspeksi browser pada 320 dan 390 memeriksa perataan ikon/chevron. Nol request
+eksternal dan page error. Android fisik/TalkBack tetap NOT_RUN.
+DESIGN, catatan aset, handoff dan changelog diperbarui; requirement, kontrak,
+struktur, penamaan, rules/skills/adapter tidak terdampak oleh perapian ini.

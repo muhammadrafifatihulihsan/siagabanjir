@@ -8,6 +8,11 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Perapian lanjutan atas revisi layout hanya menyentuh ikon/chevron dua kartu
+Dokumen Siaga dan Lapor Banjir: rata tengah terhadap teks dan ukuran glyph
+seimbang. Font, header status, akses cepat serta navbar tidak berubah.
+Bukti dilanjutkan pada [layout beranda](WORKSPACE.md#home-layout-name).
+
 Revisi layout/nama 23 Oktober 2026: folder Flutter menjadi apps/siagabanjir,
 package Dart siagabanjir, label Android/Web SiagaBanjir. ApplicationId Android
 tetap agar identitas instalasi tidak berubah. Jalankan flutter pub get di

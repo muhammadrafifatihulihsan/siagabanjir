@@ -44,7 +44,11 @@ judul 16/700, deskripsi 14/400 dengan tinggi baris 1.4; label status 12/600.
 Deskripsi mendapat lebar penuh ketika lebar dalam kartu kurang dari 260
 logical pixels setelah pembesaran teks. Tidak memakai ellipsis atau mengecilkan
 font untuk memaksa teks muat. Ikon dan chevron tetap aset lokal dari SVG;
-kedua kartu punya petunjuk navigasi yang konsisten.
+kedua kartu punya petunjuk navigasi yang konsisten. Ikon utama dan chevron
+rata tengah secara vertikal terhadap blok teks (judul pada susunan sempit).
+Lingkaran ikon tetap 44; slice dokumen ditampilkan 24 dan kamera 22 agar
+bentang glyph terlihat sama sekitar 21, mengimbangi padding transparan sumber.
+Ini penyesuaian optis pada dua kartu saja; aset asli tidak diubah.
 
 Label lokasi, badge akses cepat dan navigasi dinaikkan ke 12 untuk keterbacaan.
 Badge akses cepat berpindah utuh ketika tidak muat di samping ikon. Struktur

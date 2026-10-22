@@ -49,7 +49,7 @@ class HomeFeatureAction extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Container(
                           width: 44,
@@ -60,7 +60,14 @@ class HomeFeatureAction extends StatelessWidget {
                                 ? const Color(0xFFEFF6FF)
                                 : const Color(0xFFDBEAFE),
                           ),
-                          child: Center(child: HomeIcon(action.icon)),
+                          child: Center(
+                            // The document slice has more transparent padding.
+                            // These sizes give both glyphs a ~21 px visible span.
+                            child: HomeIcon(
+                              action.icon,
+                              size: documents ? 24 : 22,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -83,7 +90,7 @@ class HomeFeatureAction extends StatelessWidget {
                           ),
                         ),
                         const Padding(
-                          padding: EdgeInsets.only(left: 8, top: 2),
+                          padding: EdgeInsets.only(left: 8),
                           child: HomeIcon('chevron', size: 18),
                         ),
                       ],

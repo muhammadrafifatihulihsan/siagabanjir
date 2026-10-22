@@ -26,6 +26,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Ikon utama dan chevron kartu Dokumen Siaga/Lapor Banjir diratakan tengah;
+  ukuran optis dokumen disetarakan dengan kamera tanpa mengubah aset sumber.
+
 - Folder Flutter menjadi apps/siagabanjir dan package Dart siagabanjir;
   label Android serta metadata Web memakai SiagaBanjir. Referensi aktif dan
   pengecualian format mengikuti folder baru; identitas instalasi Android tetap.

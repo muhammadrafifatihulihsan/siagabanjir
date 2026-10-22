@@ -84,3 +84,8 @@ berpindah ke bawah ikon/judul tanpa mengecilkan font. Judul kartu 16, isi 14,
 label pendukung/navigasi 12; pembesaran teks tetap mengikuti pengguna.
 [Pratinjau kartu setelah scroll](beranda-cards-preview.png) melengkapi screenshot
 awal, sehingga seluruh kartu Lapor Banjir dapat diperiksa di atas navbar.
+
+Perapian lanjutan dua kartu menengahkan ikon/chevron terhadap teks. Lingkaran
+44 tetap sama; ukuran widget dokumen 24 dan kamera 22 menyeimbangkan glyph
+terlihat sekitar 21 karena padding transparan hasil slice berbeda. Ikon sumber,
+font, header kartu dan bagian beranda lain tetap.
