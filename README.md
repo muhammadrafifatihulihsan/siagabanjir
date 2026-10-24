@@ -52,6 +52,9 @@ laporan pribadi.
 **Aplikasi belum tersedia untuk digunakan.** Saat ini proyek berada pada tahap
 spesifikasi dan persiapan pengembangan. Fitur di atas merupakan rancangan untuk
 demo akademik; rilis yang tersedia masih berisi dokumentasi proyek.
+Pratinjau Flutter beranda dan halaman buat laporan sudah tersedia untuk review
+desain lokal; kamera, GPS, penyimpanan dan pengiriman belum terintegrasi.
+Lihat [README Flutter](apps/siagabanjir/README.md).
 
 ## Informasi pengembangan
 

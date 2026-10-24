@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../features/home/presentation/home_action.dart';
 import '../features/home/presentation/home_preview_sheet.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/reports/presentation/report_create_screen.dart';
 import '../shared/theme/siaga_theme.dart';
 
 class SiagaBanjirApp extends StatelessWidget {
@@ -20,6 +21,20 @@ class SiagaBanjirApp extends StatelessWidget {
   );
 
   Future<void> _openPreview(BuildContext context, HomeAction action) async {
+    if (action == HomeAction.report) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => ReportCreateScreen(
+            onNotifications: () =>
+                _openPreview(routeContext, HomeAction.notifications),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
     final next = await showModalBottomSheet<HomeAction>(
       context: context,
       isScrollControlled: true,

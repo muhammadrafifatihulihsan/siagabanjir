@@ -1,10 +1,10 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../home_action.dart';
-import 'home_icon.dart';
 
 class HomeFeatureAction extends StatelessWidget {
   const HomeFeatureAction({
@@ -63,7 +63,7 @@ class HomeFeatureAction extends StatelessWidget {
                           child: Center(
                             // The document slice has more transparent padding.
                             // These sizes give both glyphs a ~21 px visible span.
-                            child: HomeIcon(
+                            child: LocalIcon(
                               action.icon,
                               size: documents ? 24 : 22,
                             ),
@@ -91,7 +91,7 @@ class HomeFeatureAction extends StatelessWidget {
                         ),
                         const Padding(
                           padding: EdgeInsets.only(left: 8),
-                          child: HomeIcon('chevron', size: 18),
+                          child: LocalIcon('chevron', size: 18),
                         ),
                       ],
                     ),

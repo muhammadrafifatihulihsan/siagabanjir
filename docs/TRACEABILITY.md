@@ -2081,3 +2081,22 @@ ikon/manifest Web, resource launch theme dan bootstrap Web. Aset berasal dari
 logo pemilik. [Bukti](WORKSPACE.md#branding-startup) mencakup build APK/Web,
 inspeksi resource dan startup/retry browser; bukan penerimaan TC bisnis atau
 bukti cold start Android pada perangkat fisik.
+
+## 55. Desain halaman buat laporan - 25 Oktober 2026
+
+[WS-DEC-056](DECISIONS.md#report-create-ui-056) diterapkan pada presentation
+reports, route aplikasi, widget bersama dan tes widget. Halaman menampilkan
+area bukti, lokasi dan deskripsi terkait alur FR-REPORT-001/002/003; inspeksi
+ini tidak membuktikan validasi/pengiriman/media/GPS atau menaikkan TC menjadi PASS.
+Kategori dan kebutuhan dari SVG hanya state UI, tanpa field kontrak baru.
+[Bukti](WORKSPACE.md#report-create-ui) mencatat pemeriksaan lokal; integrasi API,
+penyimpanan, kamera, GPS, provider dan perangkat fisik tetap NOT_RUN.
+
+## 56. Penyelarasan UI/UX dan slicing laporan - 25 Oktober 2026
+
+[WS-DEC-057](DECISIONS.md#report-uiux-057) diterapkan pada widget form terpisah,
+navbar bersama, token warna, komentar kode dan pemisahan tes alur/input/layout.
+Pemeriksaan mencakup pilihan awal kosong, eksklusivitas kategori, Tab/Space,
+konfirmasi/batal keluar, fokus, tab aktif, keyboard, viewport dan aksesibilitas.
+[Bukti](WORKSPACE.md#report-uiux-refinement) tidak menaikkan status TC bisnis;
+FR-REPORT-001/002/003 dan kontrak tetap menunggu integrasi media/lokasi/kirim.

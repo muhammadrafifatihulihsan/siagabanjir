@@ -67,8 +67,6 @@ void main() {
         'Tas Siaga',
         'Panduan Selamat',
         'Dokumen Siaga Keluarga',
-        'Lapor Banjir Cepat',
-        'Lapor',
         'Riwayat',
         'Profil',
       ]) {

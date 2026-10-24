@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
-import 'home_icon.dart';
 
 class HomeStatusCard extends StatelessWidget {
   const HomeStatusCard({super.key, required this.onMonitor});
@@ -64,7 +64,7 @@ class HomeStatusCard extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                HomeIcon('water', size: 14),
+                LocalIcon('water', size: 14),
                 SizedBox(width: 4),
                 Flexible(
                   child: Text(
@@ -118,7 +118,7 @@ class HomeStatusCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8),
-                  HomeIcon('arrow', size: 14),
+                  LocalIcon('arrow', size: 14),
                 ],
               ),
             ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../home_action.dart';
-import 'home_icon.dart';
 
 class HomeQuickAccess extends StatelessWidget {
   const HomeQuickAccess({super.key, required this.onOpen});
@@ -112,7 +112,7 @@ class HomeQuickAccess extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Center(child: HomeIcon(action.icon)),
+                        child: Center(child: LocalIcon(action.icon)),
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(
