@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
-Satu mockup beranda warga sudah tersedia; fitur bisnis belum diimplementasikan.
+Mockup beranda dan halaman buat laporan tersedia; fitur bisnis belum diimplementasikan.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ## Arah visual dan isi layar
@@ -33,7 +33,8 @@ Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
 data statis, bukan data layanan atau perubahan level/kuota normatif. Atas
 permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
 dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
-Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
+Lapor membuka halaman buat laporan; pintu masuk lainnya membuka panel
+pratinjau dengan tutup/kembali. Tidak ada
 aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
 
 ### Revisi keterbacaan kartu beranda
@@ -197,3 +198,43 @@ Sumber visual utama dibaca 18 Oktober 2026; pemeriksaan referensi skill dan
 alur ditambahkan 19 Oktober 2026 pada [riset skill](SKILL-RESEARCH.md).
 Versi SDK aktual diverifikasi setelah
 setup tim tersedia; riset ini tidak mengubah patch dependency dalam SRS.
+
+### Halaman buat laporan dari SVG pemilik
+
+Mandat 25 Oktober 2026 memakai [reports_create.svg](../apps/siagabanjir/design/reports_create.svg)
+sebagai acuan kartu kamera, lokasi, kategori, kebutuhan, deskripsi dan kirim.
+Inter lokal, palet biru, kartu putih radius 22, header bersama dan navbar Lapor
+aktif menyambungkan tampilan dengan beranda. Ikon kontrol memakai Material;
+header/navbar memakai aset lokal yang sudah tersedia. Konten dapat digulir,
+lebar maksimal 600; pilihan menjadi satu kolom pada ruang sempit/teks besar.
+
+Alamat diberi label contoh; klaim kamera terverifikasi, akurasi GPS dan kirim
+otomatis offline diganti keterangan kemampuan aktual. Kategori dan kebutuhan
+hanya pilihan lokal; tidak mengubah kontrak atau menyediakan dispatch bantuan.
+Deskripsi tanpa label opsional mengikuti baseline. Konfirmasi keluar melindungi
+isian lokal, bukan penyimpanan draf. [Bukti](WORKSPACE.md#report-create-ui).
+
+### Penyelarasan UI/UX laporan dengan home
+
+Revisi atas mandat pemilik mempertahankan urutan SVG dengan prinsip UI home:
+judul section 16/700, isi dan pilihan 14 dengan tinggi baris 1.4, label pendukung
+12, kartu radius 22 dan jarak kelompok 16. CitizenNavigation menjadi komponen
+bersama; ikon aktif biru dan nonaktif abu-abu, label/pill memperjelas state.
+Token selectionBackground #EFF6FF dan navigationBackground #E1EDFF dipakai
+bersama untuk menghindari variasi warna per layar.
+
+Pilihan kategori/kebutuhan dimulai kosong. Radio menandakan satu pilihan;
+checkbox menandakan beberapa pilihan. Instruksi singkat, indikator bentuk,
+semantics checked dan garis fokus tidak mengandalkan warna saja. Dua kolom
+memiliki tinggi minimum dua baris yang mengikuti skala teks; pada ruang sempit
+berubah satu kolom. Kontrol bertepi memakai #64748B, pilihan/fokus #2563EB.
+
+Deskripsi memiliki label menetap, contoh spesifik, penghitung karakter Indonesia
+dan fokus yang jelas. Header/navbar sementara disembunyikan saat keyboard
+terbuka. Tab aktif menggulir ke awal; preferensi pengurangan animasi dihormati.
+Batal keluar mempertahankan teks dan memulihkan fokus; konfirmasi hanya untuk
+isian yang masih ada. Dialog dapat digulir pada teks besar.
+
+Perisai hijau dihapus karena dapat menyiratkan foto telah diverifikasi;
+penjelasan kamera memakai teks netral. Ini revisi UI lokal, bukan integrasi
+kamera/GPS/kirim atau perubahan kontrak. [Bukti](WORKSPACE.md#report-uiux-refinement).
