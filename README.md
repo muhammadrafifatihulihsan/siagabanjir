@@ -22,7 +22,7 @@ kesiapsiagaannya.
   laporan sendiri, memantau lokasi yang dilaporkan, dan menyiapkan kebutuhan keluarga.
 - **Pengelola (admin)**, melalui aplikasi web, untuk memeriksa laporan,
   memperbarui hasil tinjauan, mencatat tindak lanjut, dan menyampaikan informasi
-  kepada warga.
+  kepada warga yang menggunakan aplikasi.
 
 ## Fitur yang direncanakan
 
