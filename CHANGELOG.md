@@ -9,6 +9,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Halaman buat laporan Flutter sesuai SVG pemilik, terhubung dari beranda,
+  dengan pilihan lokal, deskripsi dan konfirmasi keluar. Header/ikon bersama
+  digunakan lintas fitur; kamera, GPS dan kirim belum terintegrasi.
+
 - Ikon SiagaBanjir dari logo tetes air lokal untuk launcher Android, ikon
   adaptif/monochrome, Web dan favicon. Splash native Android serta pemuatan
   Web memakai identitas yang sama; Web menyediakan pemulihan gagal startup.

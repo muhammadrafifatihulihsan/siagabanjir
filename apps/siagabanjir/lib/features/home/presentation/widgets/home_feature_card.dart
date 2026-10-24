@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../home_action.dart';
-import 'home_icon.dart';
 import 'home_feature_action.dart';
 
 class HomeFeatureCard extends StatelessWidget {
@@ -49,7 +49,7 @@ class HomeFeatureCard extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    HomeIcon(
+                    LocalIcon(
                       documents ? 'document_badge' : 'ai_badge',
                       size: 12,
                     ),

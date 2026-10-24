@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
-Satu mockup beranda warga sudah tersedia; fitur bisnis belum diimplementasikan.
+Mockup beranda dan halaman buat laporan tersedia; fitur bisnis belum diimplementasikan.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ## Arah visual dan isi layar
@@ -33,7 +33,8 @@ Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
 data statis, bukan data layanan atau perubahan level/kuota normatif. Atas
 permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
 dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
-Seluruh pintu masuk membuka panel pratinjau dengan tutup/kembali; tidak ada
+Lapor membuka halaman buat laporan; pintu masuk lainnya membuka panel
+pratinjau dengan tutup/kembali. Tidak ada
 aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
 
 ### Revisi keterbacaan kartu beranda
@@ -197,3 +198,18 @@ Sumber visual utama dibaca 18 Oktober 2026; pemeriksaan referensi skill dan
 alur ditambahkan 19 Oktober 2026 pada [riset skill](SKILL-RESEARCH.md).
 Versi SDK aktual diverifikasi setelah
 setup tim tersedia; riset ini tidak mengubah patch dependency dalam SRS.
+
+### Halaman buat laporan dari SVG pemilik
+
+Mandat 25 Oktober 2026 memakai [reports_create.svg](../apps/siagabanjir/design/reports_create.svg)
+sebagai acuan kartu kamera, lokasi, kategori, kebutuhan, deskripsi dan kirim.
+Inter lokal, palet biru, kartu putih radius 22, header bersama dan navbar Lapor
+aktif menyambungkan tampilan dengan beranda. Ikon kontrol memakai Material;
+header/navbar memakai aset lokal yang sudah tersedia. Konten dapat digulir,
+lebar maksimal 600; pilihan menjadi satu kolom pada ruang sempit/teks besar.
+
+Alamat diberi label contoh; klaim kamera terverifikasi, akurasi GPS dan kirim
+otomatis offline diganti keterangan kemampuan aktual. Kategori dan kebutuhan
+hanya pilihan lokal; tidak mengubah kontrak atau menyediakan dispatch bantuan.
+Deskripsi tanpa label opsional mengikuti baseline. Konfirmasi keluar melindungi
+isian lokal, bukan penyimpanan draf. [Bukti](WORKSPACE.md#report-create-ui).

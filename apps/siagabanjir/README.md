@@ -6,10 +6,10 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 **Feature-First + Layered Architecture**: kelompokkan kode berdasarkan fitur,
 lalu pisahkan tanggung jawab di dalam fitur.
 
-Status 23 Oktober 2026: aplikasi membuka satu mockup beranda warga sesuai SVG
-pemilik. Lima belas fitur produk tetap berupa folder `.gitkeep`; fitur `home`
-berisi UI dan panel pratinjau lokal. Belum ada integrasi API, sesi atau
-penyimpanan data. Backend tidak termasuk pekerjaan ini.
+Status 25 Oktober 2026: aplikasi membuka beranda warga dan halaman buat laporan
+sesuai SVG pemilik. Fitur `home` dan presentation `reports` memiliki UI lokal;
+layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
+sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -127,7 +127,8 @@ controller bisnis atau repository kosong. Semua angka adalah data contoh.
 | Lapor Banjir Cepat / Lapor / Riwayat | reports |
 | Notifikasi / Profil | messages / account |
 
-Saat ini aksi membuka panel pratinjau yang dapat ditutup; Lengkap menampilkan
+Lapor dan Lapor Banjir Cepat membuka halaman buat laporan; aksi lainnya
+membuka panel pratinjau yang dapat ditutup. Lengkap menampilkan
 pilihan fitur, dan Beranda menggulir kembali ke atas. Tidak ada request API,
 akses perangkat, penyimpanan atau login. Panel tidak menyatakan aksi bisnis
 berhasil. Fitur admin tetap berupa struktur folder.
@@ -226,3 +227,20 @@ kondisional. Studi kasus memakai susunan campuran, bukan mewajibkan struktur
 ini. Adaptasi SiagaBanjir mengelompokkan layer per fitur untuk pembagian tugas,
 sambil mempertahankan controller proyek. Keputusan lokal dicatat pada
 [WS-DEC-051](../../docs/DECISIONS.md#flutter-feature-first-051).
+
+## Halaman buat laporan
+
+[ReportCreateScreen](lib/features/reports/presentation/report_create_screen.dart)
+mengikuti [SVG laporan](design/reports_create.svg). Kategori satu pilihan,
+kebutuhan beberapa pilihan dan deskripsi dapat diubah selama halaman terbuka.
+Pilihan awal mengikuti contoh SVG. Perubahan isian memicu konfirmasi sebelum
+keluar; membuka panel Riwayat/Profil/Notifikasi mempertahankan isian.
+Header dan ikon lokal yang dipakai lintas fitur berada di shared/widgets;
+app menyuntikkan callback navigasi tanpa dependensi reports ke presentation home.
+
+Kamera, GPS dan Kirim menampilkan penjelasan layanan belum tersedia; alamat
+adalah contoh. Tidak ada draf tersimpan, pengiriman offline, verifikasi foto
+atau permintaan bantuan nyata. Kategori/kebutuhan adalah state desain lokal,
+bukan field tambahan kontrak API. Deskripsi tidak diberi label opsional karena
+baseline produk mewajibkannya. Validasi bisnis menunggu integrasi berikutnya.
+[Bukti pemeriksaan](../../docs/WORKSPACE.md#report-create-ui).

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeIcon extends StatelessWidget {
-  const HomeIcon(this.name, {super.key, this.size = 22});
+class LocalIcon extends StatelessWidget {
+  const LocalIcon(this.name, {super.key, this.size = 22});
 
   final String name;
   final double size;

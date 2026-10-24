@@ -1,4 +1,4 @@
-# Acuan beranda warga
+# Acuan desain warga
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../../rules/documentation.md#living-documents).
 
@@ -61,7 +61,8 @@ untuk mendekati desain, bukan verifikasi jenis font asli Figma.
   status resmi, berkas tersimpan atau aturan kuota produk.
 - Konten dapat digulir, header/navigasi tetap terlihat. Teks besar mengubah
   grid menjadi satu kolom; lebar konten dibatasi 600 logical pixels pada Web.
-- Tombol membuka panel pratinjau dengan jalan kembali. Tidak mengirim laporan,
+- Lapor membuka halaman buat laporan; tombol lain membuka panel pratinjau
+  dengan jalan kembali. Tidak mengirim laporan,
   mengakses kamera/lokasi, menelepon, membaca dokumen atau melakukan login.
 - Beranda dipilih pada navbar selama panel tampil; tombol Beranda kembali ke
   atas. Menu Lengkap meneruskan ke panel fitur lain tanpa menumpuk panel.
@@ -119,3 +120,21 @@ Acuan resmi: [adaptive icons Android](https://developer.android.com/develop/ui/c
 [splash Android](https://developer.android.com/develop/ui/views/launch/splash-screen),
 [launch Flutter Android](https://docs.flutter.dev/platform-integration/android/splash-screen),
 [bootstrap Web](https://docs.flutter.dev/platform-integration/web/initialization).
+
+## Halaman buat laporan
+
+Pemilik memberikan reports_create.svg dari direktori Downloads pada
+25 Oktober 2026. [Salinan sumber](reports_create.svg) berukuran 390 x 1421;
+sumber dipertahankan sebagai acuan, bukan aset runtime atau aset berlisensi bebas.
+Kartu dan kontrol dibuat sebagai widget Flutter dengan Inter lokal, ikon
+Material dan header/navbar lokal yang dipakai bersama beranda.
+
+Hierarki dan susunan mengikuti sumber; teks kamera/GPS/kirim disesuaikan agar
+tidak mengklaim integrasi yang belum tersedia. Alamat dan pilihan awal merupakan
+contoh desain. Label deskripsi opsional dihapus untuk konsistensi baseline.
+Tidak ada perubahan API untuk kategori/kebutuhan, akses perangkat atau transaksi.
+[Bukti pemeriksaan](../../../docs/WORKSPACE.md#report-create-ui) membedakan
+preview Web dari perangkat Android dan penerimaan produk.
+
+[Pratinjau laporan Flutter](reports-create-preview.png) direkam dari build Web
+lokal pada viewport 390 x 1421, device scale 2; bukan screenshot Android.

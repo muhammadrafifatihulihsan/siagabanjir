@@ -8,6 +8,15 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Halaman buat laporan dari SVG pemilik kini tersedia melalui Lapor dan Lapor
+Banjir Cepat. Pilihan kategori/kebutuhan dan deskripsi interaktif lokal;
+konfirmasi keluar menjaga isian. Kamera, GPS, penyimpanan dan kirim belum
+terintegrasi. Header/ikon bersama berada di shared/widgets. Acuan terbaru:
+[WS-DEC-056](DECISIONS.md#report-create-ui-056),
+[README Flutter](../apps/siagabanjir/README.md#halaman-buat-laporan) dan
+[bukti laporan](WORKSPACE.md#report-create-ui). Tidak ada mandat push.
+Catatan berikut merupakan riwayat pekerjaan sebelumnya.
+
 Ikon launcher bawaan Flutter diganti logo SiagaBanjir, termasuk adaptive dan
 monochrome Android serta ikon Web/favicon. Splash native light/night dan
 Android 12+ tersedia; Web memakai Inter lokal dan tombol retry saat startup

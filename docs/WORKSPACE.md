@@ -624,3 +624,41 @@ DESIGN, README aplikasi/aset, keputusan, RTM, changelog dan handoff diperbarui.
 AGENTS/rules/skills/adapter, requirement/kontrak dan backend tidak berubah:
 mandat hanya identitas visual startup, tanpa perubahan fitur, struktur atau
 cara pemuatan instruksi. Source Dart dan dependensi Flutter tetap.
+
+<a id="report-create-ui"></a>
+
+## Halaman buat laporan Flutter - 25 Oktober 2026
+
+Mandat [WS-DEC-056](DECISIONS.md#report-create-ui-056) menghasilkan halaman
+buat laporan dari SVG pemilik, route dari dua tombol beranda, state pilihan
+lokal dan konfirmasi keluar. Header/ikon lintas fitur berada di shared/widgets.
+
+| Pemeriksaan lokal Windows | Hasil dan cakupan |
+|---|---|
+| Dart format lib/test | PASS, formatter SDK lokal |
+| flutter analyze --no-pub | PASS, tanpa isu |
+| flutter test --no-pub | PASS, 18 tes; regresi beranda dan 6 tes laporan |
+| Responsivitas laporan | PASS widget 320 x 640, teks 1x/2x, inset keyboard 250 |
+| Interaksi laporan | PASS dua route, pilihan, kamera/GPS/kirim belum tersedia, panel riwayat, batal/konfirmasi keluar |
+| Aksesibilitas otomatis | PASS label, target Android 48 dan kontras; kontrol laporan pada viewport penuh 390 x 1600 |
+| flutter build web --no-pub --no-web-resources-cdn --no-wasm-dry-run | PASS, build lokal |
+| Inspeksi Chrome headless | PASS, route Lapor dan screenshot 390 x 1421, scale 2 |
+| Markdownlint 0.17.2 | PASS, 10 dokumen terdampak |
+| Link internal dan skill | PASS, 42 Markdown dan 8 skill |
+| EditorConfig checker 4.0.2 / git diff --check | PASS |
+| Android fisik, TalkBack, kamera, GPS, API, provider, offline | NOT_RUN, integrasi belum tersedia |
+
+[Pratinjau laporan](../apps/siagabanjir/design/reports-create-preview.png)
+adalah hasil build Web, bukan screenshot Android. Kategori/kebutuhan hanya
+state desain; deskripsi tidak ditandai opsional. Alamat contoh dan dialog
+keterbatasan tidak menyatakan aksi bisnis berhasil. Tidak ada perubahan status
+TC bisnis atau kontrak. BRD/PRD/FRD/SRS, AGENTS, rules, skills dan adapter tidak
+memerlukan perubahan aturan; perubahan status/keputusan dicatat di README,
+DESIGN, keputusan, RTM, handoff dan changelog.
+
+Flutter pada sandbox sempat tertahan mengakses lock cache SDK di luar workspace;
+analisis, tes dan build berhasil dengan izin eksekusi SDK. Temuan awal tes
+(import semantics, cleanup handle, kontrol terpotong viewport tes) diperbaiki
+sebelum hasil PASS di atas. Validator EditorConfig 4.0.2 diunduh ke folder
+sementara sesuai versi CI; Markdownlint berjalan melalui npx.cmd. Tidak ada
+instalasi dependency aplikasi baru, perubahan global config atau push.

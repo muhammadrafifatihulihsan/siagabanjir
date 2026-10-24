@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
-import '../../../../shared/theme/siaga_theme.dart';
-import 'home_icon.dart';
+import '../theme/siaga_theme.dart';
 
-class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key, required this.onNotifications});
+class CitizenHeader extends StatelessWidget {
+  const CitizenHeader({super.key, required this.onNotifications});
 
   final VoidCallback onNotifications;
 
@@ -21,7 +21,7 @@ class HomeHeader extends StatelessWidget {
             border: Border.all(color: const Color(0xFFBFDBFE)),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: const Center(child: HomeIcon('brand', size: 20)),
+          child: const Center(child: LocalIcon('brand', size: 20)),
         ),
         const SizedBox(width: 10),
         const Expanded(
@@ -86,7 +86,9 @@ class HomeHeader extends StatelessWidget {
                         clipBehavior: Clip.antiAlias,
                         child: InkWell(
                           onTap: onNotifications,
-                          child: const Center(child: HomeIcon('notifications')),
+                          child: const Center(
+                            child: LocalIcon('notifications'),
+                          ),
                         ),
                       ),
                     ),

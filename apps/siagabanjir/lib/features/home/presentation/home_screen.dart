@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/citizen_header.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
 import 'home_action.dart';
 import 'widgets/home_feature_card.dart';
-import 'widgets/home_header.dart';
 import 'widgets/home_navigation.dart';
 import 'widgets/home_quick_access.dart';
 import 'widgets/home_status_card.dart';
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HomeHeader(
+              CitizenHeader(
                 onNotifications: () => widget.onOpen(HomeAction.notifications),
               ),
               Expanded(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../home_action.dart';
-import 'home_icon.dart';
 
 class HomeNavigation extends StatelessWidget {
   const HomeNavigation({super.key, required this.onOpen, required this.onHome});
@@ -51,7 +51,7 @@ class HomeNavigation extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                HomeIcon(icon),
+                LocalIcon(icon),
                 const SizedBox(height: 5),
                 Text(
                   label,
