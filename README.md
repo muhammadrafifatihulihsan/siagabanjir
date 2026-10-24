@@ -14,7 +14,8 @@ peninjauan pengelola, lalu menyajikan ringkasan yang mudah dibaca.
 
 Selain pelaporan, SiagaBanjir dirancang sebagai tempat untuk menyiapkan tas
 siaga, menyimpan salinan dokumen penting, serta menemukan kontak dan panduan
-kesiapsiagaan.
+kesiapsiagaan. yes yes yes
+apalah gitu bebas
 
 ## Untuk siapa?
 
