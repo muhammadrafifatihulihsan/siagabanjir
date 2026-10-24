@@ -213,3 +213,28 @@ otomatis offline diganti keterangan kemampuan aktual. Kategori dan kebutuhan
 hanya pilihan lokal; tidak mengubah kontrak atau menyediakan dispatch bantuan.
 Deskripsi tanpa label opsional mengikuti baseline. Konfirmasi keluar melindungi
 isian lokal, bukan penyimpanan draf. [Bukti](WORKSPACE.md#report-create-ui).
+
+### Penyelarasan UI/UX laporan dengan home
+
+Revisi atas mandat pemilik mempertahankan urutan SVG dengan prinsip UI home:
+judul section 16/700, isi dan pilihan 14 dengan tinggi baris 1.4, label pendukung
+12, kartu radius 22 dan jarak kelompok 16. CitizenNavigation menjadi komponen
+bersama; ikon aktif biru dan nonaktif abu-abu, label/pill memperjelas state.
+Token selectionBackground #EFF6FF dan navigationBackground #E1EDFF dipakai
+bersama untuk menghindari variasi warna per layar.
+
+Pilihan kategori/kebutuhan dimulai kosong. Radio menandakan satu pilihan;
+checkbox menandakan beberapa pilihan. Instruksi singkat, indikator bentuk,
+semantics checked dan garis fokus tidak mengandalkan warna saja. Dua kolom
+memiliki tinggi minimum dua baris yang mengikuti skala teks; pada ruang sempit
+berubah satu kolom. Kontrol bertepi memakai #64748B, pilihan/fokus #2563EB.
+
+Deskripsi memiliki label menetap, contoh spesifik, penghitung karakter Indonesia
+dan fokus yang jelas. Header/navbar sementara disembunyikan saat keyboard
+terbuka. Tab aktif menggulir ke awal; preferensi pengurangan animasi dihormati.
+Batal keluar mempertahankan teks dan memulihkan fokus; konfirmasi hanya untuk
+isian yang masih ada. Dialog dapat digulir pada teks besar.
+
+Perisai hijau dihapus karena dapat menyiratkan foto telah diverifikasi;
+penjelasan kamera memakai teks netral. Ini revisi UI lokal, bukan integrasi
+kamera/GPS/kirim atau perubahan kontrak. [Bukti](WORKSPACE.md#report-uiux-refinement).

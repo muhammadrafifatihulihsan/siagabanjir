@@ -8,6 +8,14 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Revisi UI/UX laporan mengikuti prinsip home: navbar bersama, judul 16/isi 14,
+indikator radio/checkbox/fokus, pilihan awal kosong, label deskripsi menetap,
+dan ruang menulis saat keyboard terbuka. Kode di-slicing menjadi widget per
+bagian dengan komentar `// ...` berbahasa Indonesia, mengikuti pola home.
+Acuan terbaru: [WS-DEC-057](DECISIONS.md#report-uiux-057) dan
+[bukti revisi](WORKSPACE.md#report-uiux-refinement). Kamera/GPS/kirim masih
+pratinjau lokal. Catatan di bawah merekam versi sebelumnya.
+
 Halaman buat laporan dari SVG pemilik kini tersedia melalui Lapor dan Lapor
 Banjir Cepat. Pilihan kategori/kebutuhan dan deskripsi interaktif lokal;
 konfirmasi keluar menjaga isian. Kamera, GPS, penyimpanan dan kirim belum

@@ -1064,3 +1064,19 @@ otomatis offline. Label opsional deskripsi tidak diterapkan karena baseline
 mewajibkannya. Kategori/kebutuhan bukan penambahan field kontrak atau dispatch.
 Pilihan awal mengikuti contoh desain, tanpa makna kebutuhan warga terverifikasi.
 Bukti dan batas integrasi: [WORKSPACE](WORKSPACE.md#report-create-ui).
+
+<a id="report-uiux-057"></a>
+
+## 47. Penyelarasan UI/UX dan slicing laporan - 25 Oktober 2026
+
+**WS-DEC-057 - CURRENT_USER_CONFIRMED.** Pemilik meminta pemeriksaan dan
+pemaksimalan UI/UX laporan mengikuti prinsip home, komentar `// ...` untuk
+menjelaskan fungsi bagian kode, serta slicing clean code sesuai program yang
+sudah tersedia. Implementasi memisahkan widget per tugas dan memakai navbar
+bersama. Komentar diterapkan per bagian bermakna, bukan mengulang sintaks.
+
+Revisi menggantikan pilihan awal contoh pada WS-DEC-056 dengan pilihan kosong,
+memperbesar teks pilihan, memberi indikator radio/checkbox/fokus, label input
+menetap, ruang keyboard dan navigasi tab aktif yang konsisten. Perisai hijau
+diganti informasi netral. Mandat tidak mencakup integrasi API/perangkat/push.
+[Bukti](WORKSPACE.md#report-uiux-refinement) membedakan tes UI dari TC bisnis.

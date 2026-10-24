@@ -233,9 +233,9 @@ sambil mempertahankan controller proyek. Keputusan lokal dicatat pada
 [ReportCreateScreen](lib/features/reports/presentation/report_create_screen.dart)
 mengikuti [SVG laporan](design/reports_create.svg). Kategori satu pilihan,
 kebutuhan beberapa pilihan dan deskripsi dapat diubah selama halaman terbuka.
-Pilihan awal mengikuti contoh SVG. Perubahan isian memicu konfirmasi sebelum
-keluar; membuka panel Riwayat/Profil/Notifikasi mempertahankan isian.
-Header dan ikon lokal yang dipakai lintas fitur berada di shared/widgets;
+Kategori dan kebutuhan mulai kosong agar pengguna memilih sendiri. Isian
+memicu konfirmasi sebelum keluar; membuka panel Riwayat/Profil/Notifikasi mempertahankan isian.
+Header, ikon lokal dan navbar yang dipakai lintas fitur berada di shared/widgets;
 app menyuntikkan callback navigasi tanpa dependensi reports ke presentation home.
 
 Kamera, GPS dan Kirim menampilkan penjelasan layanan belum tersedia; alamat
@@ -244,3 +244,22 @@ atau permintaan bantuan nyata. Kategori/kebutuhan adalah state desain lokal,
 bukan field tambahan kontrak API. Deskripsi tidak diberi label opsional karena
 baseline produk mewajibkannya. Validasi bisnis menunggu integrasi berikutnya.
 [Bukti pemeriksaan](../../docs/WORKSPACE.md#report-create-ui).
+
+### Slicing UI dan perilaku form
+
+ReportCreateScreen mengelola state sementara, fokus, scroll dan navigasi.
+Widget di presentation/widgets memisahkan susunan form (report_form), foto/lokasi
+(report_evidence_sections), pilihan (report_choice_section), input deskripsi
+(report_description_section), pembungkus kartu (report_section) dan dialog
+(report_dialogs). Pola ini mengikuti widget kecil home; tidak ada repository
+atau controller bisnis kosong. CitizenNavigation dipakai oleh kedua layar;
+HomeNavigation hanya menerjemahkan callback ke HomeAction.
+
+Komentar `// ...` berbahasa Indonesia menjelaskan tanggung jawab bagian UI,
+state, fokus, navigasi dan tes yang terkait. Judul section 16 dan isi/pilihan 14
+mengikuti hierarki home. Indikator radio/checkbox dan fokus keyboard membedakan
+status selain warna; label input menetap dan penghitung karakter berbahasa
+Indonesia. Saat keyboard terbuka, header/navbar sementara disembunyikan.
+Tab Lapor aktif menggulir ke awal tanpa menghapus input; batal keluar memulihkan
+fokus sebelumnya. Isian yang dibatalkan hingga kosong tidak meminta konfirmasi.
+[Bukti revisi UI/UX](../../docs/WORKSPACE.md#report-uiux-refinement).

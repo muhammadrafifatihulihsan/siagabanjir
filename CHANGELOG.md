@@ -34,6 +34,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- UI/UX laporan diselaraskan dengan home: navbar bersama, pilihan awal kosong,
+  indikator/fokus jelas, teks lebih terbaca, label input menetap dan ruang keyboard.
+  Widget dan tes di-slicing per tanggung jawab, dengan komentar fungsi berbahasa Indonesia.
+
 - Ikon utama dan chevron kartu Dokumen Siaga/Lapor Banjir diratakan tengah;
   ukuran optis dokumen disetarakan dengan kamera tanpa mengubah aset sumber.
 

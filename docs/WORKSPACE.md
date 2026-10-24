@@ -662,3 +662,45 @@ analisis, tes dan build berhasil dengan izin eksekusi SDK. Temuan awal tes
 sebelum hasil PASS di atas. Validator EditorConfig 4.0.2 diunduh ke folder
 sementara sesuai versi CI; Markdownlint berjalan melalui npx.cmd. Tidak ada
 instalasi dependency aplikasi baru, perubahan global config atau push.
+
+<a id="report-uiux-refinement"></a>
+
+## Revisi UI/UX dan slicing laporan - 25 Oktober 2026
+
+Mandat [WS-DEC-057](DECISIONS.md#report-uiux-057) melanjutkan desain laporan
+agar prinsip UI/UX dan pemisahan widget mengikuti home. Temuan inspeksi:
+navbar terduplikasi dan berbeda ikon/jarak, kategori 12 hanya ditandai warna,
+pilihan kebutuhan terisi otomatis, label deskripsi hilang ketika mengetik,
+dan perisai hijau berpotensi terbaca sebagai verifikasi. Revisi mengatasi
+hal tersebut melalui navbar bersama, teks 14, radio/checkbox, pilihan kosong,
+label menetap, fokus jelas dan informasi kamera netral.
+
+ReportCreateScreen turun dari 568 menjadi sekitar 158 baris; layar tetap
+mengelola lifecycle/state/navigasi. Enam widget/helper di presentation/widgets
+memisahkan susunan form, foto/lokasi, pilihan, deskripsi, section dan dialog.
+Masing-masing sekitar 43-150 baris, mengikuti tanggung jawab widget home.
+Komentar `// ...` berbahasa Indonesia menjelaskan bagian dan alasan interaksi.
+Tes dipecah menjadi alur route, input, layout dan helper setup bersama.
+
+| Pemeriksaan Windows | Hasil dan cakupan |
+|---|---|
+| flutter analyze --no-pub | PASS, tanpa isu setelah koreksi format tes |
+| flutter test --no-pub | PASS, 23 tes (12 home dan 11 laporan) |
+| Input/navigasi | PASS pilihan kosong, batal pilihan/isian, kategori eksklusif, Tab/Space, retensi teks, pemulihan fokus, tab aktif kembali ke atas |
+| Layout | PASS widget 320 x 640 teks 1x/2x dan keyboard 250, 844 x 390, 1024 x 768 |
+| Aksesibilitas otomatis | PASS label, target 48 dan kontras; seluruh kontrol laporan pada 390 x 1900 |
+| Build Web lokal | PASS --no-pub --no-web-resources-cdn --no-wasm-dry-run |
+| Inspeksi visual Chrome | PASS screenshot 390 x 1700 dan 320 x 640, scale 2 |
+| Dokumentasi/format | PASS Markdownlint 0.17.2 (8 dokumen), link (42 Markdown), 8 skill, EditorConfig 4.0.2 dan git diff --check |
+| Android fisik/TalkBack/API/perangkat | NOT_RUN; kamera, GPS, penyimpanan dan kirim belum terintegrasi |
+
+[Screenshot penuh](../apps/siagabanjir/design/reports-create-preview.png) dan
+[layar sempit](../apps/siagabanjir/design/reports-create-mobile-preview.png)
+memakai build Web lokal. Tidak ada klaim pixel-perfect atau penerimaan TC bisnis.
+Pemeriksaan awal memperbaiki constructor Semantics, format kode dan traversal
+fokus tes Android sebelum hasil akhir. Tidak ada perubahan dependency aplikasi.
+
+Dokumentasi terdampak: README Flutter/desain, DESIGN, DECISIONS, TRACEABILITY,
+handoff dan changelog. README root/apps tetap menggambarkan status pratinjau
+secara akurat; AGENTS/rules/skills/adapter tidak berubah karena prosedur/lokasi
+sumber bersama tetap. FRD/SRS/kontrak tidak berubah: revisi hanya UI lokal.

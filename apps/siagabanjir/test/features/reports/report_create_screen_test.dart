@@ -1,50 +1,22 @@
-import 'dart:ui' show Tristate, CheckedState;
+import 'dart:ui' show CheckedState;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
+
+import 'report_test_helpers.dart';
+
 import 'package:siagabanjir/features/reports/presentation/report_create_screen.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  setUpAll(() async {
-    final fonts = FontLoader('Inter');
-    for (final weight in [
-      'Regular',
-      'Medium',
-      'SemiBold',
-      'Bold',
-      'ExtraBold',
-    ]) {
-      fonts.addFont(rootBundle.load('assets/fonts/inter/Inter-$weight.otf'));
-    }
-    await fonts.load();
-  });
+  setUpAll(loadReportFonts);
 
-  Future<void> open(
-    WidgetTester tester, {
-    double scale = 1,
-    String entry = 'Lapor',
-  }) async {
-    tester.view.physicalSize = const Size(390, 844);
-    tester.view.devicePixelRatio = 1;
-    tester.platformDispatcher.textScaleFactorTestValue = scale;
-    addTearDown(tester.view.resetPhysicalSize);
-    addTearDown(tester.view.resetDevicePixelRatio);
-    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-    await tester.pumpWidget(const SiagaBanjirApp());
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text(entry));
-    await tester.tap(find.text(entry));
-    await tester.pumpAndSettle();
-  }
-
+  // Kedua pintu masuk harus mengarah ke layar laporan yang sama.
   for (final entry in ['Lapor', 'Lapor Banjir Cepat']) {
     testWidgets('$entry opens the report page and returns home', (
       tester,
     ) async {
-      await open(tester, entry: entry);
+      await openReport(tester, entry: entry);
       expect(find.byType(ReportCreateScreen), findsOneWidget);
       await tester.tap(find.text('Beranda').last);
       await tester.pumpAndSettle();
@@ -52,10 +24,11 @@ void main() {
     });
   }
 
+  // Memeriksa pilihan, keterbatasan layanan, retensi input, dan batal keluar.
   testWidgets(
     'Selections, unavailable services and discard preserve honest state',
     (tester) async {
-      await open(tester);
+      await openReport(tester);
       await tester.tap(find.text('Buka Kamera Ponsel'));
       await tester.pumpAndSettle();
       expect(find.text('Kamera belum tersedia'), findsOneWidget);
@@ -75,8 +48,8 @@ void main() {
         tester
             .getSemantics(find.text('Genangan Hujan'))
             .flagsCollection
-            .isSelected,
-        Tristate.isTrue,
+            .isChecked,
+        CheckedState.isTrue,
       );
       await tester.ensureVisible(find.text('Bantuan Logistik'));
       await tester.tap(find.text('Bantuan Logistik'));
@@ -116,40 +89,4 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
-
-  testWidgets('Report controls expose labels, touch targets and contrast', (
-    tester,
-  ) async {
-    final semantics = tester.ensureSemantics();
-    try {
-      await open(tester);
-      tester.view.physicalSize = const Size(390, 1600);
-      await tester.pumpAndSettle();
-      await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
-      await expectLater(tester, meetsGuideline(textContrastGuideline));
-    } finally {
-      semantics.dispose();
-    }
-  });
-
-  for (final scale in [1.0, 2.0]) {
-    testWidgets('Small screen and keyboard support text scale $scale', (
-      tester,
-    ) async {
-      await open(tester, scale: scale);
-      tester.view.physicalSize = const Size(320, 640);
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-      await tester.ensureVisible(find.text('Kirim Laporan Banjir'));
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-      await tester.ensureVisible(find.byType(TextField));
-      await tester.enterText(find.byType(TextField), 'Contoh kondisi');
-      tester.view.viewInsets = const FakeViewPadding(bottom: 250);
-      addTearDown(tester.view.resetViewInsets);
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-    });
-  }
 }

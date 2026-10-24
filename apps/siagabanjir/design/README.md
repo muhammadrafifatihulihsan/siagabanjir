@@ -130,11 +130,15 @@ Kartu dan kontrol dibuat sebagai widget Flutter dengan Inter lokal, ikon
 Material dan header/navbar lokal yang dipakai bersama beranda.
 
 Hierarki dan susunan mengikuti sumber; teks kamera/GPS/kirim disesuaikan agar
-tidak mengklaim integrasi yang belum tersedia. Alamat dan pilihan awal merupakan
-contoh desain. Label deskripsi opsional dihapus untuk konsistensi baseline.
+tidak mengklaim integrasi yang belum tersedia. Alamat merupakan contoh desain;
+revisi UI/UX memulai kategori/kebutuhan kosong. Label deskripsi opsional dihapus
+untuk konsistensi baseline.
 Tidak ada perubahan API untuk kategori/kebutuhan, akses perangkat atau transaksi.
 [Bukti pemeriksaan](../../../docs/WORKSPACE.md#report-create-ui) membedakan
 preview Web dari perangkat Android dan penerimaan produk.
 
 [Pratinjau laporan Flutter](reports-create-preview.png) direkam dari build Web
-lokal pada viewport 390 x 1421, device scale 2; bukan screenshot Android.
+lokal pada viewport 390 x 1700, device scale 2 setelah revisi UI/UX; bukan
+screenshot Android. [Layar sempit](reports-create-mobile-preview.png) memakai
+320 x 640. Navbar, indikator pilihan, tipografi dan fokus mengikuti
+[revisi desain](../../../docs/DESIGN.md#penyelarasan-uiux-laporan-dengan-home).
