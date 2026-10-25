@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../../shared/theme/siaga_theme.dart';
+import '../../../../shared/widgets/citizen_navigation.dart';
 import '../home_action.dart';
-import 'home_icon.dart';
 
+// Adapter home menerjemahkan destinasi bersama ke aksi fitur yang sudah tersedia.
 class HomeNavigation extends StatelessWidget {
   const HomeNavigation({
     super.key,
@@ -17,6 +17,7 @@ class HomeNavigation extends StatelessWidget {
   final HomeAction? currentAction;
 
   @override
+<<<<<<< HEAD
   Widget build(BuildContext context) {
     final isProfile = currentAction == HomeAction.profile;
     return Padding(
@@ -95,5 +96,21 @@ class HomeNavigation extends StatelessWidget {
         ),
       ),
     ),
+=======
+  Widget build(BuildContext context) => CitizenNavigation(
+    selected: CitizenDestination.home,
+    onSelect: (destination) {
+      switch (destination) {
+        case CitizenDestination.home:
+          onHome();
+        case CitizenDestination.report:
+          onOpen(HomeAction.report);
+        case CitizenDestination.history:
+          onOpen(HomeAction.history);
+        case CitizenDestination.profile:
+          onOpen(HomeAction.profile);
+      }
+    },
+>>>>>>> 74e0c57a1cb95a0ac90b91d61d52fa0f5698c652
   );
 }

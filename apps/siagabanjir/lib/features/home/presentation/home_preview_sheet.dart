@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
 import 'home_action.dart';
-import 'widgets/home_icon.dart';
 
 class HomePreviewSheet extends StatelessWidget {
   const HomePreviewSheet({super.key, required this.action});
@@ -26,7 +26,7 @@ class HomePreviewSheet extends StatelessWidget {
         children: [
           Row(
             children: [
-              HomeIcon(action.icon, size: 28),
+              LocalIcon(action.icon, size: 28),
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
@@ -72,9 +72,9 @@ class HomePreviewSheet extends StatelessWidget {
             ))
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: HomeIcon(destination.icon),
+                leading: LocalIcon(destination.icon),
                 title: Text(destination.title),
-                trailing: const HomeIcon('chevron', size: 18),
+                trailing: const LocalIcon('chevron', size: 18),
                 onTap: () => Navigator.pop(context, destination),
               ),
           if (action == HomeAction.notifications) ...[

@@ -12,7 +12,8 @@ Satu wadah kode tim, bernama `apps/`.
 `server/` masih berisi `.gitkeep`; `siagabanjir/` sudah memiliki scaffold Flutter
 dengan target Android dan Web dari setup tim. Folder 15 fitur warga/admin
 beserta layer sudah disiapkan. Fitur home menampilkan satu mockup beranda warga
-dengan aset lokal dan panel pratinjau; perilaku bisnis belum diimplementasikan.
+dengan aset lokal dan panel pratinjau. Fitur reports memiliki halaman buat
+laporan interaktif lokal sesuai SVG; perilaku bisnis belum diimplementasikan.
 Struktur, batas layer dan pembagian kerja ada pada
 [README Flutter](siagabanjir/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti

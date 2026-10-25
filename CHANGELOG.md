@@ -9,6 +9,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Halaman buat laporan Flutter sesuai SVG pemilik, terhubung dari beranda,
+  dengan pilihan lokal, deskripsi dan konfirmasi keluar. Header/ikon bersama
+  digunakan lintas fitur; kamera, GPS dan kirim belum terintegrasi.
+
 - Ikon SiagaBanjir dari logo tetes air lokal untuk launcher Android, ikon
   adaptif/monochrome, Web dan favicon. Splash native Android serta pemuatan
   Web memakai identitas yang sama; Web menyediakan pemulihan gagal startup.
@@ -29,6 +33,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- UI/UX laporan diselaraskan dengan home: navbar bersama, pilihan awal kosong,
+  indikator/fokus jelas, teks lebih terbaca, label input menetap dan ruang keyboard.
+  Widget dan tes di-slicing per tanggung jawab, dengan komentar fungsi berbahasa Indonesia.
 
 - Ikon utama dan chevron kartu Dokumen Siaga/Lapor Banjir diratakan tengah;
   ukuran optis dokumen disetarakan dengan kamera tanpa mengubah aset sumber.

@@ -8,6 +8,9 @@ abstract final class SiagaTheme {
   static const blue = Color(0xFF2563EB);
   static const deepBlue = Color(0xFF1E3A8A);
   static const border = Color(0xFFE2E8F0);
+  // Warna permukaan bersama menjaga pilihan form dan navbar tetap selaras home.
+  static const selectionBackground = Color(0xFFEFF6FF);
+  static const navigationBackground = Color(0xFFE1EDFF);
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
