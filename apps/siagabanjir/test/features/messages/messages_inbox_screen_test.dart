@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
@@ -55,16 +56,21 @@ void main() {
   });
 
   testWidgets('Filter tabs filter messages list correctly', (tester) async {
-    await _openInbox(tester);
+    // Layar lebih tinggi agar 4 kartu terrender sekaligus tanpa lazy-load.
+    await _openInbox(tester, size: const Size(390, 1200));
 
     // Verifikasi 4 filter tab awal dan 4 kartu pesan.
     expect(find.text('Semua (4)'), findsOneWidget);
     expect(find.text('Darurat (1)'), findsOneWidget);
     expect(find.text('Cuaca BMKG (1)'), findsOneWidget);
+    await tester.ensureVisible(find.text('Posko (1)'));
+    await tester.pumpAndSettle();
     expect(find.text('Posko (1)'), findsOneWidget);
     expect(find.byType(MessageCard), findsNWidgets(4));
 
     // Filter ke Darurat.
+    await tester.ensureVisible(find.text('Darurat (1)'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Darurat (1)'));
     await tester.pumpAndSettle();
     expect(find.byType(MessageCard), findsOneWidget);
@@ -74,6 +80,8 @@ void main() {
     );
 
     // Filter ke Cuaca BMKG.
+    await tester.ensureVisible(find.text('Cuaca BMKG (1)'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Cuaca BMKG (1)'));
     await tester.pumpAndSettle();
     expect(find.byType(MessageCard), findsOneWidget);
@@ -83,6 +91,8 @@ void main() {
     );
 
     // Filter ke Posko.
+    await tester.ensureVisible(find.text('Posko (1)'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Posko (1)'));
     await tester.pumpAndSettle();
     expect(find.byType(MessageCard), findsOneWidget);
@@ -92,6 +102,8 @@ void main() {
     );
 
     // Kembalikan ke Semua.
+    await tester.ensureVisible(find.text('Semua (4)'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Semua (4)'));
     await tester.pumpAndSettle();
     expect(find.byType(MessageCard), findsNWidgets(4));

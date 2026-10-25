@@ -92,14 +92,21 @@ void main() {
   );
 
   testWidgets(
-    'Notifications and complete access sheet have working destinations',
+    'Notifications opens MessagesInboxScreen and complete access sheet works',
     (tester) async {
       await openHome(tester);
+
+      // Ketuk tombol notifikasi → harus membuka MessagesInboxScreen.
       await tester.tap(find.byTooltip('Notifikasi'));
       await tester.pumpAndSettle();
-      expect(find.text('Contoh pembaruan wilayah'), findsOneWidget);
-      await tester.tap(find.byTooltip('Tutup pratinjau'));
+      expect(find.text('Peringatan Siaga'), findsOneWidget);
+
+      // Kembali ke beranda.
+      await tester.tap(find.bySemanticsLabel('Kembali'));
       await tester.pumpAndSettle();
+      expect(find.text('Peringatan Siaga'), findsNothing);
+
+      // Buka sheet Lengkap dan navigasi ke Data Keluarga.
       await tester.tap(find.text('Lengkap'));
       await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Data Keluarga'));
