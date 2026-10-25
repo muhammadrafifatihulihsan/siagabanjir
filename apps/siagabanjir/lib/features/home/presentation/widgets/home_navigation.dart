@@ -5,31 +5,58 @@ import '../home_action.dart';
 import 'home_icon.dart';
 
 class HomeNavigation extends StatelessWidget {
-  const HomeNavigation({super.key, required this.onOpen, required this.onHome});
+  const HomeNavigation({
+    super.key,
+    required this.onOpen,
+    required this.onHome,
+    this.currentAction,
+  });
 
   final ValueChanged<HomeAction> onOpen;
   final VoidCallback onHome;
+  final HomeAction? currentAction;
 
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.fromLTRB(18, 4, 18, 18),
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: const Color(0xFFE1EDFF),
-        borderRadius: BorderRadius.circular(24),
+  Widget build(BuildContext context) {
+    final isProfile = currentAction == HomeAction.profile;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(18, 4, 18, 18),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE1EDFF),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _item(
+              'Beranda',
+              'home',
+              onHome,
+              selected: !isProfile,
+            ),
+            _item(
+              'Lapor',
+              'report',
+              () => onOpen(HomeAction.report),
+            ),
+            _item(
+              'Riwayat',
+              'history',
+              () => onOpen(HomeAction.history),
+            ),
+            _item(
+              'Profil',
+              'profile',
+              () => onOpen(HomeAction.profile),
+              selected: isProfile,
+            ),
+          ],
+        ),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _item('Beranda', 'home', onHome, selected: true),
-          _item('Lapor', 'report', () => onOpen(HomeAction.report)),
-          _item('Riwayat', 'history', () => onOpen(HomeAction.history)),
-          _item('Profil', 'profile', () => onOpen(HomeAction.profile)),
-        ],
-      ),
-    ),
-  );
+    );
+  }
 
   Widget _item(
     String label,

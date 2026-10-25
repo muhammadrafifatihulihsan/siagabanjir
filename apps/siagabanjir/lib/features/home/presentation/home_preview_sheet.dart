@@ -57,6 +57,14 @@ class HomePreviewSheet extends StatelessWidget {
           const SizedBox(height: 8),
           Text(action.description),
           const SizedBox(height: 16),
+          if (action == HomeAction.profile) ...[
+            FilledButton.icon(
+              onPressed: () => Navigator.pop(context, HomeAction.profile),
+              icon: const Icon(Icons.person_outline),
+              label: const Text('Buka Halaman Profil Lengkap'),
+            ),
+            const SizedBox(height: 12),
+          ],
           if (action == HomeAction.all)
             for (final destination in HomeAction.values.where(
               (item) =>
