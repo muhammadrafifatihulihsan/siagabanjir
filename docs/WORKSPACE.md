@@ -704,3 +704,28 @@ Dokumentasi terdampak: README Flutter/desain, DESIGN, DECISIONS, TRACEABILITY,
 handoff dan changelog. README root/apps tetap menggambarkan status pratinjau
 secara akurat; AGENTS/rules/skills/adapter tidak berubah karena prosedur/lokasi
 sumber bersama tetap. FRD/SRS/kontrak tidak berubah: revisi hanya UI lokal.
+
+<a id="messages-inbox-ui"></a>
+
+## Kotak masuk pesan peringatan siaga - 25 Oktober 2026
+
+Mandat [WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) menghasilkan halaman
+kotak masuk peringatan siaga warga dari acuan messages_inbox.svg yang diserahkan pemilik.
+Layar diakses melalui tombol notifikasi pada CitizenHeader di beranda maupun laporan.
+
+Struktur dan widget di lib/features/messages/presentation:
+- MessagesHeader: tombol kembali (rounded 14, border #E2E8F0, touch target 48),
+  judul "Peringatan Siaga" 20/700, dan badge status "3 Baru" 14/700 #DC2626.
+- MessagesFilterTabs: pill tabs horizontal (Semua, Darurat, Cuaca BMKG, Posko).
+- MessageCard: kartu pesan dengan aksen garis semantik 4 px (merah untuk Siaga 2,
+  oranye untuk Potensi Banjir, biru untuk Posko, netral untuk Normal), instansi pengirim,
+  judul, deskripsi, dan tombol aksi (Rute Evakuasi, Bagikan, Hubungi Posko).
+- Dialog penjelasan aksi demo (message_dialogs.dart).
+- Navigasi bawah menggunakan CitizenNavigation bersama.
+- Render SVG ke PNG pada viewport 390 x 1094 tersimpan di
+  [messages-inbox-preview.png](../apps/siagabanjir/design/messages-inbox-preview.png).
+- Android fisik, push notification, backend, TC bisnis dan CI remote NOT_RUN.
+
+Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
+handoff, dan CHANGELOG.
+

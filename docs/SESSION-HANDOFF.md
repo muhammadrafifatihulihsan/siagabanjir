@@ -8,6 +8,16 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)
+kini tersedia melalui tombol notifikasi di header beranda maupun laporan.
+Layar menyediakan header dengan tombol kembali dan badge 3 Baru, 4 pill tab filter
+(Semua, Darurat, Cuaca BMKG, Posko), kartu pesan dengan garis aksen warna semantik,
+instansi sumber, judul, deskripsi, tombol aksi evakuasi/bagikan/posko dengan
+dialog demo, serta CitizenNavigation bersama yang terhubung kembali ke Beranda.
+Acuan terbaru: [WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) dan
+[bukti inbox](WORKSPACE.md#messages-inbox-ui). Pratinjau lokal tanpa push notification.
+Catatan di bawah merekam versi sebelumnya.
+
 Revisi UI/UX laporan mengikuti prinsip home: navbar bersama, judul 16/isi 14,
 indikator radio/checkbox/fokus, pilihan awal kosong, label deskripsi menetap,
 dan ruang menulis saat keyboard terbuka. Kode di-slicing menjadi widget per

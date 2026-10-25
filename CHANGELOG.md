@@ -9,6 +9,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Halaman kotak masuk peringatan siaga warga (MessagesInboxScreen) sesuai SVG
+  pemilik (messages_inbox.svg), terhubung dari tombol notifikasi pada CitizenHeader
+  di beranda maupun laporan. Fitur menyediakan header dengan status pesan baru,
+  filter tab horizontal (Semua, Darurat, Cuaca BMKG, Posko), kartu pesan dengan
+  aksen garis warna semantik vertikal, instansi pengirim, serta dialog aksi demo.
+
 - Halaman buat laporan Flutter sesuai SVG pemilik, terhubung dari beranda,
   dengan pilihan lokal, deskripsi dan konfirmasi keluar. Header/ikon bersama
   digunakan lintas fitur; kamera, GPS dan kirim belum terintegrasi.

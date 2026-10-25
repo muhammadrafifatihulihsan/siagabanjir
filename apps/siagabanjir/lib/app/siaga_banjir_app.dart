@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../features/home/presentation/home_action.dart';
 import '../features/home/presentation/home_preview_sheet.dart';
 import '../features/home/presentation/home_screen.dart';
+import '../features/messages/presentation/messages_inbox_screen.dart';
 import '../features/reports/presentation/report_create_screen.dart';
 import '../shared/theme/siaga_theme.dart';
 
@@ -28,6 +29,19 @@ class SiagaBanjirApp extends StatelessWidget {
           builder: (routeContext) => ReportCreateScreen(
             onNotifications: () =>
                 _openPreview(routeContext, HomeAction.notifications),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
+    if (action == HomeAction.notifications) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => MessagesInboxScreen(
+            onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),
           ),

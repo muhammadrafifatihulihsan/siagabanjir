@@ -1080,3 +1080,23 @@ memperbesar teks pilihan, memberi indikator radio/checkbox/fokus, label input
 menetap, ruang keyboard dan navigasi tab aktif yang konsisten. Perisai hijau
 diganti informasi netral. Mandat tidak mencakup integrasi API/perangkat/push.
 [Bukti](WORKSPACE.md#report-uiux-refinement) membedakan tes UI dari TC bisnis.
+
+<a id="messages-inbox-ui-058"></a>
+
+## 48. Desain kotak masuk pesan peringatan siaga - 25 Oktober 2026
+
+**WS-DEC-058 - CURRENT_USER_CONFIRMED.** Pemilik meminta fokus pada implementasi
+desain Flutter untuk halaman kotak masuk pesan dari messages_inbox.svg yang
+diserahkan. Mandat mencakup UI lokal, slicing widget, dan integrasi navigasi
+notifikasi; tidak mencakup integrasi push notification, backend, atau klaim
+panggilan darurat nyata.
+
+Implementasi menghasilkan MessagesInboxScreen di lib/features/messages/presentation
+yang terhubung dari tombol notifikasi pada CitizenHeader di beranda dan halaman laporan.
+UI mencakup header dengan tombol kembali dan badge jumlah pesan baru, tab filter
+horizontal pill (Semua, Darurat, Cuaca BMKG, Posko), kartu peringatan dengan aksen
+garis warna semantik vertikal di sisi kiri, instansi pengirim, judul, deskripsi,
+serta tombol aksi (Rute Evakuasi, Bagikan, Hubungi Posko) yang membuka dialog
+penjelasan simulasi demo akademik. Navigasi bawah memakai CitizenNavigation bersama.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#messages-inbox-ui).
+
