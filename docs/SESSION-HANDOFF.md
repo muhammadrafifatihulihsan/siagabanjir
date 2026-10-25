@@ -8,7 +8,6 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-<<<<<<< HEAD
 Implementasi layar profil pengguna warga (`features/account`) sesuai desain SVG
 pemilik (`account_warga_profile.svg`). Layar menampilkan kartu profil lengkap:
 avatar inisial RH dengan tombol kamera, nama, nomor telepon, badge domisili
@@ -21,7 +20,7 @@ Navigasi tab Profil dihubungkan dari alur beranda dan sheet pratinjau.
 8 tes widget lulus di `test/features/account/profile_screen_test.dart` (bebas overflow
 pada layar sempit 320x640 hingga skala teks 2.0). Seluruh 20 tes Flutter lulus dan
 `flutter analyze` bersih (0 issues).
-=======
+
 Revisi UI/UX laporan mengikuti prinsip home: navbar bersama, judul 16/isi 14,
 indikator radio/checkbox/fokus, pilihan awal kosong, label deskripsi menetap,
 dan ruang menulis saat keyboard terbuka. Kode di-slicing menjadi widget per
@@ -38,7 +37,6 @@ terintegrasi. Header/ikon bersama berada di shared/widgets. Acuan terbaru:
 [README Flutter](../apps/siagabanjir/README.md#halaman-buat-laporan) dan
 [bukti laporan](WORKSPACE.md#report-create-ui). Tidak ada mandat push.
 Catatan berikut merupakan riwayat pekerjaan sebelumnya.
->>>>>>> 74e0c57a1cb95a0ac90b91d61d52fa0f5698c652
 
 Ikon launcher bawaan Flutter diganti logo SiagaBanjir, termasuk adaptive dan
 monochrome Android serta ikon Web/favicon. Splash native light/night dan
