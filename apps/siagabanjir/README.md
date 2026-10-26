@@ -277,8 +277,20 @@ desain SVG pemilik (`auth_login.svg`). Komponen dipecah menjadi `LoginHeader` (l
 brand tetes air dan judul aplikasi), `LoginCard` (input ponsel/email, input sandi/PIN
 dengan toggle visibilitas, checkbox Ingat Saya, link Lupa Sandi, tombol submit primer,
 pemisah 'atau', serta tombol masuk Google dengan logo 4 warna presisi kurva SVG),
-dan `LoginFooter` (tautan daftar akun baru). Layout responsif dan adaptif terhadap
-pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
+dan `LoginFooter` (tautan daftar akun baru yang membuka `RegisterScreen`). Layout responsif
+dan adaptif terhadap pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
+
+## Halaman Pendaftaran Akun Baru (Register)
+
+[RegisterScreen](lib/features/auth/presentation/register_screen.dart) mengimplementasikan
+desain SVG pemilik (`auth_register.svg`). Komponen dipecah menjadi `LoginHeader` (logo
+brand tetes air dan nama aplikasi), `RegisterCard` (input nama lengkap KTP, nomor ponsel/email,
+kata sandi akun dengan toggle visibilitas, checkbox persetujuan Ketentuan Layanan & Privasi,
+tombol submit primer 'Daftar ke SiagaBanjir >', pemisah 'atau', serta tombol pendaftaran Google
+dengan logo 4 warna presisi kurva SVG), dan `RegisterFooter` (tautan kembali ke halaman login
+'Sudah punya akun? Masuk Sekarang'). Layar terhubung secara dua arah dengan `LoginScreen`.
+Layout responsif dan adaptif terhadap pembesaran teks hingga 2.0x dan inset keyboard.
+[Bukti register](../../docs/WORKSPACE.md#auth-register-ui).
 
 ## Kotak masuk pesan peringatan siaga
 

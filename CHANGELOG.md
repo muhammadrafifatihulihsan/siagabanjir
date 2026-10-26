@@ -7,6 +7,13 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Halaman pendaftaran akun baru warga (RegisterScreen) sesuai desain SVG pemilik
+  (`auth_register.svg`) pada fitur `auth`, mencakup `RegisterCard` (nama lengkap KTP,
+  nomor ponsel/email, sandi akun dengan toggle visibilitas, checkbox persetujuan syarat
+  & ketentuan privasi, tombol 'Daftar ke SiagaBanjir >', tombol daftar Google),
+  `RegisterFooter` ('Sudah punya akun? Masuk Sekarang'), serta integrasi navigasi dua arah
+  dengan `LoginScreen` dan 10 tes widget bebas overflow.
+
 - Halaman checklist tas siaga bencana (EmergencyBagScreen) sesuai desain SVG
   pemilik (emergency_bag_checklist.svg), terhubung dari akses cepat "Tas Siaga"
   pada beranda. Fitur menyediakan kartu ringkasan kesiapan logistik keluarga dengan

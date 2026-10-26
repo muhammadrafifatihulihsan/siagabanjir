@@ -8,19 +8,21 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Implementasi layar masuk ke akun / login warga (`features/auth`) sesuai desain SVG
-pemilik (`auth_login.svg`). Layar menampilkan kartu masuk lengkap:
+Implementasi layar pendaftaran akun baru warga (`features/auth`) sesuai desain SVG
+pemilik (`auth_register.svg`). Layar menampilkan kartu pendaftaran lengkap:
 header identitas brand tetes air dan nama aplikasi SiagaBanjir, kartu putih
-bertepi dengan judul 'Masuk ke Akun', deskripsi 'Pantau debit sungai dan lapor kondisi banjir',
-input nomor ponsel atau email, input kata sandi atau PIN dengan toggle visibilitas,
-checkbox Ingat Saya dan link Lupa Sandi, tombol utama 'Masuk ke SiagaBanjir >',
-pemisah 'atau', tombol masuk pihak ketiga 'Lanjut dengan Google' dengan logo 4 warna
-presisi kurva SVG, serta tautan pendaftaran 'Belum punya akun? Daftar Sekarang'.
-Pembersihan sisa conflict markers pada `home_navigation.dart` dan perbaikan import
-`CitizenHeader` pada `profile_screen.dart` dituntaskan sehingga seluruh 40 tes widget
-Flutter lulus (100% PASS) dan `flutter analyze` bersih (0 issues).
-Acuan terbaru: [WS-DEC-058](DECISIONS.md#auth-login-058) dan
-[bukti login](WORKSPACE.md#auth-login-ui). Tidak ada mandat push.
+bertepi (radius 22, border #E2E8F0, padding 22) dengan judul 'Daftar Akun Baru',
+deskripsi 'Daftar untuk pantau air dan lapor banjir cepat.', input nama lengkap (KTP)
+dengan ikon person, input nomor ponsel atau email dengan ikon phone, input kata sandi
+akun dengan ikon lock dan toggle visibilitas, checkbox kustom persetujuan Ketentuan Layanan
+& Privasi dengan tautan interaktif, tombol utama 'Daftar ke SiagaBanjir >', pemisah 'atau',
+tombol pendaftaran 'Lanjut dengan Google' dengan logo 4 warna presisi kurva SVG, serta
+tautan bawah 'Sudah punya akun? Masuk Sekarang'.
+Integrasi navigasi dua arah dengan `LoginScreen` dituntaskan secara alami saat
+'Daftar Sekarang' dan 'Masuk Sekarang' ditekan. Seluruh 59 tes widget Flutter lulus
+(100% PASS, termasuk 10 tes spesifik RegisterScreen) dan `flutter analyze` bersih (0 issues).
+Acuan terbaru: [WS-DEC-060](DECISIONS.md#auth-register-ui-060) dan
+[bukti register](WORKSPACE.md#auth-register-ui). Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.
 
 Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)

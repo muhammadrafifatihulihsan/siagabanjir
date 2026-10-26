@@ -784,3 +784,38 @@ Struktur dan widget di lib/features/emergency_bag:
 
 Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
 handoff, dan CHANGELOG.
+
+<a id="auth-register-ui"></a>
+
+## Layar pendaftaran akun baru (register) - 26 Oktober 2026
+
+Mandat [WS-DEC-060](DECISIONS.md#auth-register-ui-060) menghasilkan layar
+pendaftaran akun baru warga dari acuan `auth_register.svg` yang diserahkan pemilik.
+Layar terhubung secara dua arah dengan `LoginScreen`.
+
+Struktur dan widget di `lib/features/auth/presentation`:
+
+- `RegisterScreen`: layar utama formulir pendaftaran, menampung logo identitas SiagaBanjir,
+  kartu formulir, serta footer tautan kembali ke halaman masuk.
+- `RegisterCard`: kartu formulir putih bertepi (radius 22, border #E2E8F0, padding 22)
+  dengan judul 'Daftar Akun Baru', subjudul 'Daftar untuk pantau air dan lapor banjir cepat.',
+  input nama lengkap KTP, input nomor ponsel/email, input kata sandi akun dengan toggle
+  visibilitas, checkbox kustom persetujuan Ketentuan Layanan & Privasi, tombol submit primer
+  'Daftar ke SiagaBanjir >', garis pemisah 'atau', serta tombol pendaftaran Google dengan
+  logo 4 warna kurva SVG.
+- `RegisterFooter`: tautan 'Sudah punya akun? Masuk Sekarang'.
+- Integrasi alur: `LoginScreen` membuka `RegisterScreen` via navigasi saat 'Daftar Sekarang'
+  ditekan, dan `RegisterScreen` kembali ke `LoginScreen` saat 'Masuk Sekarang' ditekan.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (59 pengujian total, termasuk 10 tes spesifik RegisterScreen) |
+| Validasi form & error | PASS (validasi nama kosong, nomor/email kosong, sandi kosong, dan syarat ketentuan) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 390x1097, 1024x768, keyboard inset 250, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada input/tombol/tautan/checkbox) |
+| Navigasi dua arah | PASS (LoginScreen <-> RegisterScreen transisi mulus) |
+| Android fisik / Backend cloud | NOT_RUN (implementasi UI lokal; API server di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.

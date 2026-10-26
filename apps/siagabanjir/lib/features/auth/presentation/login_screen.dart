@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
+import 'register_screen.dart';
 import 'widgets/login_card.dart';
 import 'widgets/login_footer.dart';
 import 'widgets/login_header.dart';
@@ -88,7 +89,17 @@ class _LoginScreenState extends State<LoginScreen> {
     if (widget.onRegister != null) {
       widget.onRegister!();
     } else {
-      _showFeedback('Buka formulir pendaftaran akun warga.');
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (ctx) => RegisterScreen(
+            onLogin: () => Navigator.of(ctx).pop(),
+            onRegisterSuccess: (user) {
+              Navigator.of(ctx).pop();
+              _showFeedback('Akun $user berhasil didaftarkan. Silakan masuk.');
+            },
+          ),
+        ),
+      );
     }
   }
 

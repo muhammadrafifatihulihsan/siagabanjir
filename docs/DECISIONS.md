@@ -1139,3 +1139,30 @@ Implementasi menghasilkan:
   - `EmergencyBagInfoBanner`: banner himbauan penempatan tas siaga di dekat pintu utama.
   - Navigasi bawah menggunakan `CitizenNavigation` bersama yang terhubung kembali ke beranda, laporan, riwayat, dan profil.
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#emergency-bag-ui).
+
+<a id="auth-register-ui-060"></a>
+
+## 50. Desain layar pendaftaran akun baru (register) - 26 Oktober 2026
+
+**WS-DEC-060 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar pendaftaran akun baru warga dari `auth_register.svg` yang diserahkan.
+Mandat mencakup UI lokal, slicing widget mandiri (`RegisterScreen`, `RegisterCard`,
+`RegisterFooter`), integrasi navigasi dua arah dengan `LoginScreen`, serta
+pengujian responsivitas dan interaktivitas formulir. Mandat tidak mencakup
+integrasi backend API pendaftaran atau integrasi OAuth Google sungguhan.
+
+Implementasi menghasilkan:
+
+- Layar `RegisterScreen` di `lib/features/auth/presentation/register_screen.dart`
+  menampilkan logo identitas SiagaBanjir, kartu formulir putih bertepi, dan footer.
+- Widget `RegisterCard`:
+  - Input nama lengkap (KTP) dengan ikon person.
+  - Input nomor ponsel atau email dengan ikon phone.
+  - Input kata sandi akun dengan ikon lock dan toggle visibilitas sandi.
+  - Checkbox kustom persetujuan Ketentuan Layanan & Privasi dengan tautan aksesibel.
+  - Tombol utama 'Daftar ke SiagaBanjir >' (biru primer #2563EB, radius 14, tinggi 48).
+  - Garis pemisah 'atau' dan tombol 'Lanjut dengan Google' dengan logo 4 warna kurva SVG.
+- Widget `RegisterFooter`: tautan 'Sudah punya akun? Masuk Sekarang' yang membuka/kembali ke `LoginScreen`.
+- Integrasi alur: `LoginScreen` kini membuka `RegisterScreen` secara alami saat 'Daftar Sekarang' ditekan,
+  dan `RegisterScreen` kembali ke `LoginScreen` saat 'Masuk Sekarang' ditekan.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#auth-register-ui).
