@@ -347,4 +347,3 @@ Fitur menyediakan:
   sekunder "Unduh Semua Berkas Digital (ZIP)".
 - Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
-

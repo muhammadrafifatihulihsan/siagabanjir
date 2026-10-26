@@ -189,4 +189,3 @@ Layar dibangun menggunakan widget Flutter di `lib/features/documents/presentatio
 - Banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin panduan penyimpanan kedap air, legalisir, enkripsi, dan kesiapan darurat.
 - Dua tombol aksi di bawah: tombol primer "Simpan & Enkripsi Dokumen Siaga" (biru `#2563EB` dengan ikon centang) dan tombol sekunder "Unduh Semua Berkas Digital (ZIP)" (putih dengan border `#E2E8F0` dan ikon unduh).
 - Navigasi bawah menggunakan CitizenNavigation bersama yang terhubung kembali ke Beranda, Lapor, Riwayat, dan Profil.
-
