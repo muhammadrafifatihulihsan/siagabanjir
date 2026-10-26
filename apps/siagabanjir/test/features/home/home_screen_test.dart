@@ -1,4 +1,5 @@
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
+import 'package:siagabanjir/features/contacts/presentation/contacts_directory_screen.dart';
 import 'package:siagabanjir/features/emergency_bag/presentation/emergency_bag_screen.dart';
 import 'package:siagabanjir/features/home/presentation/home_preview_sheet.dart';
 import 'package:siagabanjir/features/home/presentation/widgets/home_feature_action.dart';
@@ -64,7 +65,6 @@ void main() {
       for (final label in [
         'Pantau Status',
         'Pantau Wilayah',
-        'Kontak Darurat',
         'Panduan Selamat',
         'Dokumen Siaga Keluarga',
         'Riwayat',
@@ -88,6 +88,25 @@ void main() {
         tester.getTopLeft(find.text('Sungai Batang Kuranji')).dy,
         lessThan(250),
       );
+    },
+  );
+
+  testWidgets(
+    'Kontak Darurat quick access opens ContactsDirectoryScreen and returns home',
+    (tester) async {
+      await openHome(tester);
+      final contactsTarget = find.text('Kontak Darurat');
+      await tester.ensureVisible(contactsTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(contactsTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ContactsDirectoryScreen), findsOneWidget);
+      expect(find.text('Kontak Darurat'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ContactsDirectoryScreen), findsNothing);
     },
   );
 
