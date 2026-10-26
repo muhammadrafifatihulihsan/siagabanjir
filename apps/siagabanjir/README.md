@@ -281,3 +281,24 @@ Fitur menyediakan:
 - Dialog penjelasan aksi demo [message_dialogs.dart](lib/features/messages/presentation/widgets/message_dialogs.dart).
 - Navigasi bawah menggunakan CitizenNavigation bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
+
+## Panduan Selamat (Detail Panduan Evakuasi)
+
+[GuidesDetailScreen](lib/features/guides/presentation/guides_detail_screen.dart)
+mengikuti acuan [guides_detail.svg](design/guides_detail.svg). Layar dapat
+diakses melalui kartu "Panduan Selamat" pada akses cepat beranda.
+Fitur menyediakan:
+
+- Header dengan tombol kembali dan judul **Panduan Selamat**.
+- Banner pemutar audio instruksi suara darurat ([GuidesAudioBanner](lib/features/guides/presentation/widgets/guides_audio_banner.dart))
+  dengan tombol toggle putar/henti panduan dan umpan balik SnackBar.
+- Judul bagian "Langkah Evakuasi Mandiri".
+- Lima kartu tahapan evakuasi berurutan ([GuidesStepCard](lib/features/guides/presentation/widgets/guides_step_card.dart))
+  bernomor 1 sampai 5 dengan badge biru, indikator accordion expand/collapse,
+  ringkasan, serta daftar panduan langkah terperinci.
+- Kartu petunjuk [GuidesDosAndDontsCard](lib/features/guides/presentation/widgets/guides_dos_and_donts_card.dart)
+  berisi hal-hal yang harus dilakukan ("Lakukan" beraksen hijau) dan hal-hal
+  yang harus dihindari ("Hindari" beraksen merah).
+- Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
+  kembali ke Beranda, Lapor, Riwayat, dan Profil.
+
