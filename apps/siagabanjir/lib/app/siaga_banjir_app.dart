@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../features/contacts/presentation/contacts_directory_screen.dart';
 import '../features/emergency_bag/presentation/emergency_bag_screen.dart';
 import '../features/account/presentation/profile_screen.dart';
 import '../features/home/presentation/home_action.dart';
@@ -56,6 +57,19 @@ class SiagaBanjirApp extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (routeContext) => MessagesInboxScreen(
+            onReport: () => _openPreview(routeContext, HomeAction.report),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
+    if (action == HomeAction.contacts) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => ContactsDirectoryScreen(
             onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),
