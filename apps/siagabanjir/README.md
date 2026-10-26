@@ -7,13 +7,11 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 lalu pisahkan tanggung jawab di dalam fitur.
 
 Status 26 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
-kotak masuk peringatan siaga, checklist tas siaga bencana, direktori kontak darurat,
-panduan selamat, dan brankas dokumen siaga keluarga sesuai SVG pemilik (`documents_vault.svg`).
-Fitur `home`, `reports`, `messages`, `emergency_bag`, `contacts`, `guides`, dan `documents`
-memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi
-API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
-profil pengguna, serta masuk ke akun (login) sesuai SVG pemilik (`auth_login.svg`).
-Fitur `home`, `reports`, `account`, dan `auth` memiliki presentation UI lokal;
+riwayat laporan banjir (`reports_history.svg`), kotak masuk peringatan siaga,
+checklist tas siaga bencana, direktori kontak darurat, panduan selamat,
+brankas dokumen siaga keluarga (`documents_vault.svg`), profil pengguna (`profile_citizen.svg`),
+serta masuk ke akun (`auth_login.svg`). Fitur `home`, `reports`, `messages`, `emergency_bag`,
+`contacts`, `guides`, `documents`, `account`, dan `auth` memiliki presentation UI lokal;
 layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
 sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
 Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,

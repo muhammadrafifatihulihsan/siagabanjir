@@ -78,6 +78,11 @@ class HomePreviewSheet extends StatelessWidget {
               onPressed: () => Navigator.pop(context, HomeAction.monitor),
               icon: const Icon(Icons.water_drop_outlined),
               label: const Text('Buka Pantau Wilayah'),
+          if (action == HomeAction.history) ...[
+            FilledButton.icon(
+              onPressed: () => Navigator.pop(context, HomeAction.history),
+              icon: const Icon(Icons.history_rounded),
+              label: const Text('Buka Riwayat Laporan Lengkap'),
             ),
             const SizedBox(height: 12),
           ],
