@@ -140,7 +140,11 @@ class ProfileHeaderCard extends StatelessWidget {
           height: 44,
           child: OutlinedButton.icon(
             onPressed: onEdit,
-            icon: const Icon(Icons.edit_outlined, size: 18, color: SiagaTheme.blue),
+            icon: const Icon(
+              Icons.edit_outlined,
+              size: 18,
+              color: SiagaTheme.blue,
+            ),
             label: const Text(
               'Edit Profil',
               style: TextStyle(

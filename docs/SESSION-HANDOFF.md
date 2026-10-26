@@ -8,6 +8,21 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Implementasi layar masuk ke akun / login warga (`features/auth`) sesuai desain SVG
+pemilik (`auth_login.svg`). Layar menampilkan kartu masuk lengkap:
+header identitas brand tetes air dan nama aplikasi SiagaBanjir, kartu putih
+bertepi dengan judul 'Masuk ke Akun', deskripsi 'Pantau debit sungai dan lapor kondisi banjir',
+input nomor ponsel atau email, input kata sandi atau PIN dengan toggle visibilitas,
+checkbox Ingat Saya dan link Lupa Sandi, tombol utama 'Masuk ke SiagaBanjir >',
+pemisah 'atau', tombol masuk pihak ketiga 'Lanjut dengan Google' dengan logo 4 warna
+presisi kurva SVG, serta tautan pendaftaran 'Belum punya akun? Daftar Sekarang'.
+Pembersihan sisa conflict markers pada `home_navigation.dart` dan perbaikan import
+`CitizenHeader` pada `profile_screen.dart` dituntaskan sehingga seluruh 40 tes widget
+Flutter lulus (100% PASS) dan `flutter analyze` bersih (0 issues).
+Acuan terbaru: [WS-DEC-058](DECISIONS.md#auth-login-058) dan
+[bukti login](WORKSPACE.md#auth-login-ui). Tidak ada mandat push.
+Catatan di bawah merekam riwayat pekerjaan sebelumnya.
+
 Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)
 kini tersedia melalui tombol notifikasi di header beranda maupun laporan.
 Layar menyediakan header dengan tombol kembali dan badge 3 Baru, 4 pill tab filter

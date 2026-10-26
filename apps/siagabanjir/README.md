@@ -11,6 +11,15 @@ kotak masuk peringatan siaga, checklist tas siaga bencana, dan direktori kontak 
 sesuai SVG pemilik. Fitur `home`, `reports`, `messages`, `emergency_bag`, dan `contacts`
 memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi
 API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+profil pengguna, serta masuk ke akun (login) sesuai SVG pemilik (`auth_login.svg`).
+Fitur `home`, `reports`, `account`, dan `auth` memiliki presentation UI lokal;
+layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
+sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
+dan kotak masuk peringatan siaga sesuai SVG pemilik. Fitur `home`, `reports`
+dan presentation `messages` memiliki UI lokal; layer bisnis dan fitur lainnya
+masih placeholder. Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data.
+Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -264,6 +273,16 @@ Indonesia. Saat keyboard terbuka, header/navbar sementara disembunyikan.
 Tab Lapor aktif menggulir ke awal tanpa menghapus input; batal keluar memulihkan
 fokus sebelumnya. Isian yang dibatalkan hingga kosong tidak meminta konfirmasi.
 [Bukti revisi UI/UX](../../docs/WORKSPACE.md#report-uiux-refinement).
+
+## Halaman Masuk ke Akun (Login)
+
+[LoginScreen](lib/features/auth/presentation/login_screen.dart) mengimplementasikan
+desain SVG pemilik (`auth_login.svg`). Komponen dipecah menjadi `LoginHeader` (logo
+brand tetes air dan judul aplikasi), `LoginCard` (input ponsel/email, input sandi/PIN
+dengan toggle visibilitas, checkbox Ingat Saya, link Lupa Sandi, tombol submit primer,
+pemisah 'atau', serta tombol masuk Google dengan logo 4 warna presisi kurva SVG),
+dan `LoginFooter` (tautan daftar akun baru). Layout responsif dan adaptif terhadap
+pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
 
 ## Kotak masuk pesan peringatan siaga
 
