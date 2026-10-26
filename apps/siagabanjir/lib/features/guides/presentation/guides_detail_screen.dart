@@ -8,7 +8,7 @@ import 'widgets/guides_detail_header.dart';
 import 'widgets/guides_dos_and_donts_card.dart';
 import 'widgets/guides_step_card.dart';
 
-// Layar Panduan Detail / Panduan Selamat sesuai desain referensi guides_detail.svg.
+// Layar Panduan Detail / Panduan Selamat persis sesuai desain referensi guides_detail.svg.
 class GuidesDetailScreen extends StatefulWidget {
   const GuidesDetailScreen({
     super.key,
@@ -26,7 +26,7 @@ class GuidesDetailScreen extends StatefulWidget {
 }
 
 class _GuidesDetailScreenState extends State<GuidesDetailScreen> {
-  final Set<int> _expandedSteps = {1};
+  final Set<int> _expandedSteps = {1, 2, 3, 4, 5};
   bool _isPlayingAudio = false;
 
   void _toggleStep(int stepNumber) {
@@ -49,8 +49,8 @@ class _GuidesDetailScreenState extends State<GuidesDetailScreen> {
       SnackBar(
         content: Text(
           _isPlayingAudio
-              ? 'Memutar instruksi suara evakuasi darurat...'
-              : 'Instruksi suara dihentikan.',
+              ? 'Memutar instruksi suara panduan...'
+              : 'Panduan suara dihentikan.',
         ),
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
@@ -93,7 +93,7 @@ class _GuidesDetailScreenState extends State<GuidesDetailScreen> {
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        'Langkah Evakuasi Mandiri',
+                        'Langkah Menghadapi Banjir',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,

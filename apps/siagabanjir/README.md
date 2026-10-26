@@ -291,14 +291,16 @@ Fitur menyediakan:
 
 - Header dengan tombol kembali dan judul **Panduan Selamat**.
 - Banner pemutar audio instruksi suara darurat ([GuidesAudioBanner](lib/features/guides/presentation/widgets/guides_audio_banner.dart))
-  dengan tombol toggle putar/henti panduan dan umpan balik SnackBar.
-- Judul bagian "Langkah Evakuasi Mandiri".
+  berjudul "Bantuan Suara Panduan" dengan tombol toggle "Dengarkan Panduan Suara" dan umpan balik SnackBar.
+- Judul bagian "Langkah Menghadapi Banjir".
 - Lima kartu tahapan evakuasi berurutan ([GuidesStepCard](lib/features/guides/presentation/widgets/guides_step_card.dart))
   bernomor 1 sampai 5 dengan badge biru, indikator accordion expand/collapse,
-  ringkasan, serta daftar panduan langkah terperinci.
+  serta uraian langkah terperinci persis sesuai SVG (Matikan Listrik & Gas Rumah,
+  Pindahkan Barang & Dokumen Berharga, Ambil Tas Siaga Bencana, Selamatkan Anggota
+  Keluarga, dan Evakuasi ke Titik Kumpul Aman).
 - Kartu petunjuk [GuidesDosAndDontsCard](lib/features/guides/presentation/widgets/guides_dos_and_donts_card.dart)
-  berisi hal-hal yang harus dilakukan ("Lakukan" beraksen hijau) dan hal-hal
-  yang harus dihindari ("Hindari" beraksen merah).
+  berisi hal-hal yang wajib dilakukan ("Wajib" beraksen hijau) dan hal-hal
+  yang dilarang ("Dilarang" beraksen merah).
 - Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
 

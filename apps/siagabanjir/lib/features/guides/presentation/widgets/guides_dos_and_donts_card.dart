@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../domain/guide_step.dart';
 
-// Kartu petunjuk "Lakukan" (hijau) dan "Hindari" (merah) sesuai desain referensi guides_detail.svg.
+// Kartu petunjuk "Wajib" (hijau) dan "Dilarang" (merah) persis sesuai desain referensi guides_detail.svg.
 class GuidesDosAndDontsCard extends StatelessWidget {
   const GuidesDosAndDontsCard({super.key});
 
@@ -11,29 +11,29 @@ class GuidesDosAndDontsCard extends StatelessWidget {
     builder: (context, constraints) {
       final textScale = MediaQuery.textScalerOf(context).scale(1);
       final isNarrow = constraints.maxWidth / textScale < 280;
-      final doCard = _buildCard(
-        title: 'Lakukan',
+      final wajibCard = _buildCard(
+        title: 'Wajib',
         icon: Icons.check_circle_outline_rounded,
         accentColor: const Color(0xFF059669),
         backgroundColor: const Color(0xFFECFDF5),
         borderColor: const Color(0xFFA7F3D0),
-        items: kGuideDoItems,
+        items: kGuideWajibItems,
       );
-      final dontCard = _buildCard(
-        title: 'Hindari',
+      final dilarangCard = _buildCard(
+        title: 'Dilarang',
         icon: Icons.highlight_off_rounded,
         accentColor: const Color(0xFFDC2626),
         backgroundColor: const Color(0xFFFEF2F2),
         borderColor: const Color(0xFFFECACA),
-        items: kGuideDontItems,
+        items: kGuideDilarangItems,
       );
 
       if (isNarrow) {
         return Column(
           children: [
-            doCard,
+            wajibCard,
             const SizedBox(height: 12),
-            dontCard,
+            dilarangCard,
           ],
         );
       }
@@ -42,9 +42,9 @@ class GuidesDosAndDontsCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: doCard),
+            Expanded(child: wajibCard),
             const SizedBox(width: 12),
-            Expanded(child: dontCard),
+            Expanded(child: dilarangCard),
           ],
         ),
       );

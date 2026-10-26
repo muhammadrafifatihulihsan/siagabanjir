@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../shared/theme/siaga_theme.dart';
 import '../../domain/guide_step.dart';
 
-// Kartu tahapan evakuasi mandiri dengan nomor urut, judul, dan detail yang dapat dibuka/tutup.
+// Kartu tahapan evakuasi mandiri dengan nomor urut, judul, dan uraian langkah persis sesuai SVG.
 class GuidesStepCard extends StatelessWidget {
   const GuidesStepCard({
     super.key,
@@ -34,12 +34,12 @@ class GuidesStepCard extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  width: 32,
-                  height: 32,
+                  width: 30,
+                  height: 30,
                   decoration: BoxDecoration(
                     color: const Color(0xFFEFF6FF),
                     border: Border.all(color: const Color(0xFFBFDBFE)),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: Center(
                     child: Text(
@@ -70,52 +70,23 @@ class GuidesStepCard extends StatelessWidget {
                       ? Icons.keyboard_arrow_up_rounded
                       : Icons.keyboard_arrow_down_rounded,
                   color: SiagaTheme.muted,
-                  size: 22,
+                  size: 20,
                 ),
               ],
             ),
             if (isExpanded) ...[
-              const SizedBox(height: 12),
-              const Divider(height: 1, color: SiagaTheme.border),
               const SizedBox(height: 10),
-              Text(
-                step.summary,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF475569),
-                ),
-              ),
-              const SizedBox(height: 8),
-              for (final item in step.instructions) ...[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 6, right: 8),
-                        width: 6,
-                        height: 6,
-                        decoration: const BoxDecoration(
-                          color: SiagaTheme.blue,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          item,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            height: 1.4,
-                            color: Color(0xFF334155),
-                          ),
-                        ),
-                      ),
-                    ],
+              Padding(
+                padding: const EdgeInsets.only(left: 42),
+                child: Text(
+                  step.description,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    height: 1.4,
+                    color: Color(0xFF334155),
                   ),
                 ),
-              ],
+              ),
             ],
           ],
         ),

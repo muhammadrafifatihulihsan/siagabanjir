@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 
-// Banner pemutar audio instruksi suara darurat sesuai desain referensi guides_detail.svg.
+// Banner pemutar audio instruksi suara darurat persis sesuai desain referensi guides_detail.svg.
 class GuidesAudioBanner extends StatelessWidget {
   const GuidesAudioBanner({
     super.key,
@@ -34,16 +34,16 @@ class GuidesAudioBanner extends StatelessWidget {
         Row(
           children: [
             Container(
-              width: 42,
-              height: 42,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
                 color: const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(
                 Icons.volume_up_rounded,
                 color: SiagaTheme.blue,
-                size: 22,
+                size: 20,
               ),
             ),
             const SizedBox(width: 12),
@@ -52,7 +52,7 @@ class GuidesAudioBanner extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Instruksi Suara Darurat',
+                    'Bantuan Suara Panduan',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -62,7 +62,7 @@ class GuidesAudioBanner extends StatelessWidget {
                   ),
                   SizedBox(height: 3),
                   Text(
-                    'Dengarkan instruksi suara dalam situasi darurat',
+                    'Dengarkan instruksi dan panduan suara',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
@@ -77,7 +77,7 @@ class GuidesAudioBanner extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Semantics(
-          label: isPlaying ? 'Hentikan Instruksi Suara' : 'Dengarkan Panduan',
+          label: isPlaying ? 'Hentikan Panduan Suara' : 'Dengarkan Panduan Suara',
           button: true,
           child: Material(
             color: isPlaying ? const Color(0xFF1E3A8A) : SiagaTheme.blue,
@@ -102,8 +102,8 @@ class GuidesAudioBanner extends StatelessWidget {
                     Flexible(
                       child: Text(
                         isPlaying
-                            ? 'Hentikan Instruksi Suara'
-                            : 'Dengarkan Panduan',
+                            ? 'Hentikan Panduan Suara'
+                            : 'Dengarkan Panduan Suara',
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontSize: 14,

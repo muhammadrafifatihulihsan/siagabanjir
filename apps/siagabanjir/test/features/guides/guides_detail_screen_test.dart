@@ -36,37 +36,41 @@ void main() {
   setUpAll(_loadTestFonts);
 
   testWidgets(
-    'Panduan Selamat tile opens GuidesDetailScreen with audio banner, 5 steps, and do/dont cards',
+    'Panduan Selamat tile opens GuidesDetailScreen matching exact SVG design elements',
     (tester) async {
       await _openGuidesDetail(tester);
       expect(find.byType(GuidesDetailScreen), findsOneWidget);
       expect(find.text('Panduan Selamat'), findsWidgets);
 
-      // Verifikasi banner audio darurat
-      expect(find.text('Instruksi Suara Darurat'), findsOneWidget);
+      // Verifikasi banner audio darurat persis sesuai SVG
+      expect(find.text('Bantuan Suara Panduan'), findsOneWidget);
       expect(
-        find.text('Dengarkan instruksi suara dalam situasi darurat'),
+        find.text('Dengarkan instruksi dan panduan suara'),
         findsOneWidget,
       );
-      expect(find.text('Dengarkan Panduan'), findsOneWidget);
+      expect(find.text('Dengarkan Panduan Suara'), findsOneWidget);
 
-      // Verifikasi judul bagian langkah evakuasi
-      expect(find.text('Langkah Evakuasi Mandiri'), findsOneWidget);
+      // Verifikasi judul bagian langkah evakuasi persis sesuai SVG
+      expect(find.text('Langkah Menghadapi Banjir'), findsOneWidget);
 
-      // Verifikasi 5 tahapan evakuasi
+      // Verifikasi 5 tahapan evakuasi persis sesuai SVG
       for (final step in kDefaultGuideSteps) {
         final stepTitle = find.text(step.title);
         await tester.ensureVisible(stepTitle);
         await tester.pumpAndSettle();
         expect(stepTitle, findsOneWidget);
+        expect(find.text(step.description), findsOneWidget);
       }
 
-      // Verifikasi kartu Lakukan dan Hindari
-      final doTitle = find.text('Lakukan');
-      await tester.ensureVisible(doTitle);
+      // Verifikasi kartu Wajib dan Dilarang persis sesuai SVG
+      final wajibTitle = find.text('Wajib');
+      await tester.ensureVisible(wajibTitle);
       await tester.pumpAndSettle();
-      expect(doTitle, findsOneWidget);
-      expect(find.text('Hindari'), findsOneWidget);
+      expect(wajibTitle, findsOneWidget);
+      expect(find.text('Dilarang'), findsOneWidget);
+
+      expect(find.text('Prioritaskan keselamatan jiwa.'), findsOneWidget);
+      expect(find.text('Menerobos arus deras di atas betis'), findsOneWidget);
 
       // Ketuk tombol kembali untuk kembali ke beranda
       final backButton = find.bySemanticsLabel('Kembali');
@@ -84,7 +88,7 @@ void main() {
     (tester) async {
       await _openGuidesDetail(tester);
 
-      final audioButton = find.text('Dengarkan Panduan');
+      final audioButton = find.text('Dengarkan Panduan Suara');
       await tester.ensureVisible(audioButton);
       await tester.pumpAndSettle();
 
@@ -92,59 +96,53 @@ void main() {
       await tester.tap(audioButton);
       await tester.pumpAndSettle();
 
-      expect(find.text('Hentikan Instruksi Suara'), findsOneWidget);
+      expect(find.text('Hentikan Panduan Suara'), findsOneWidget);
       expect(
-        find.text('Memutar instruksi suara evakuasi darurat...'),
+        find.text('Memutar instruksi suara panduan...'),
         findsOneWidget,
       );
 
       // Hentikan pemutaran audio
-      final stopButton = find.text('Hentikan Instruksi Suara');
+      final stopButton = find.text('Hentikan Panduan Suara');
       await tester.tap(stopButton);
       await tester.pumpAndSettle();
 
-      expect(find.text('Dengarkan Panduan'), findsOneWidget);
-      expect(find.text('Instruksi suara dihentikan.'), findsOneWidget);
+      expect(find.text('Dengarkan Panduan Suara'), findsOneWidget);
+      expect(find.text('Panduan suara dihentikan.'), findsOneWidget);
     },
   );
 
   testWidgets(
-    'Toggling step card accordion expands and collapses details',
+    'Toggling step card accordion collapses and re-expands details',
     (tester) async {
       await _openGuidesDetail(tester);
 
       // Langkah 1 terbuka secara default
       expect(
-        find.text(kDefaultGuideSteps[0].instructions[0]),
+        find.text(kDefaultGuideSteps[0].description),
         findsOneWidget,
       );
 
-      // Langkah 2 tertutup di awal
+      // Tutup langkah 1
+      final step1Header = find.text(kDefaultGuideSteps[0].title);
+      await tester.ensureVisible(step1Header);
+      await tester.pumpAndSettle();
+      await tester.tap(step1Header);
+      await tester.pumpAndSettle();
+
+      // Deskripsi langkah 1 sekarang tertutup
       expect(
-        find.text(kDefaultGuideSteps[1].instructions[0]),
+        find.text(kDefaultGuideSteps[0].description),
         findsNothing,
       );
 
-      // Buka langkah 2
-      final step2Header = find.text(kDefaultGuideSteps[1].title);
-      await tester.ensureVisible(step2Header);
-      await tester.pumpAndSettle();
-      await tester.tap(step2Header);
+      // Buka langkah 1 kembali
+      await tester.tap(step1Header);
       await tester.pumpAndSettle();
 
-      // Instruksi langkah 2 sekarang terlihat
       expect(
-        find.text(kDefaultGuideSteps[1].instructions[0]),
+        find.text(kDefaultGuideSteps[0].description),
         findsOneWidget,
-      );
-
-      // Tutup langkah 2 kembali
-      await tester.tap(step2Header);
-      await tester.pumpAndSettle();
-
-      expect(
-        find.text(kDefaultGuideSteps[1].instructions[0]),
-        findsNothing,
       );
     },
   );
@@ -164,7 +162,7 @@ void main() {
         expect(tester.takeException(), isNull);
 
         // Gulir hingga bawah
-        final scrollTarget = find.text('Hindari');
+        final scrollTarget = find.text('Dilarang');
         await tester.ensureVisible(scrollTarget);
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
@@ -188,7 +186,7 @@ void main() {
       await _openGuidesDetail(tester);
       expect(tester.takeException(), isNull);
 
-      final scrollTarget = find.text('Lakukan');
+      final scrollTarget = find.text('Wajib');
       await tester.ensureVisible(scrollTarget);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
