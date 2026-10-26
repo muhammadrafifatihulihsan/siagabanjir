@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../../domain/contact_entry.dart';

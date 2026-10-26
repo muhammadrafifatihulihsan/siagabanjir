@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
+import '../../../shared/widgets/citizen_header.dart';
 import '../../home/presentation/home_action.dart';
-import '../../home/presentation/widgets/home_header.dart';
 import '../../home/presentation/widgets/home_navigation.dart';
 import '../domain/user_profile.dart';
 import 'widgets/account_settings_section.dart';
@@ -102,7 +102,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HomeHeader(
+              CitizenHeader(
                 onNotifications: () => widget.onOpen(HomeAction.notifications),
               ),
               Expanded(

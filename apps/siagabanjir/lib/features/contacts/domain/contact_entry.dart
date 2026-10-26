@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
 // Kategori kontak umum sesuai FRD §FR-READY-003.
 enum ContactCategory {
