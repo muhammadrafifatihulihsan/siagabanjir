@@ -17,21 +17,28 @@ class HomeNavigation extends StatelessWidget {
   final HomeAction? currentAction;
 
   @override
-  Widget build(BuildContext context) => CitizenNavigation(
-    selected: currentAction == HomeAction.profile
-        ? CitizenDestination.profile
-        : CitizenDestination.home,
-    onSelect: (destination) {
-      switch (destination) {
-        case CitizenDestination.home:
-          onHome();
-        case CitizenDestination.report:
-          onOpen(HomeAction.report);
-        case CitizenDestination.history:
-          onOpen(HomeAction.history);
-        case CitizenDestination.profile:
-          onOpen(HomeAction.profile);
-      }
-    },
-  );
+  Widget build(BuildContext context) {
+    final selected = switch (currentAction) {
+      HomeAction.report => CitizenDestination.report,
+      HomeAction.history => CitizenDestination.history,
+      HomeAction.profile => CitizenDestination.profile,
+      _ => CitizenDestination.home,
+    };
+
+    return CitizenNavigation(
+      selected: selected,
+      onSelect: (destination) {
+        switch (destination) {
+          case CitizenDestination.home:
+            onHome();
+          case CitizenDestination.report:
+            onOpen(HomeAction.report);
+          case CitizenDestination.history:
+            onOpen(HomeAction.history);
+          case CitizenDestination.profile:
+            onOpen(HomeAction.profile);
+        }
+      },
+    );
+  }
 }
