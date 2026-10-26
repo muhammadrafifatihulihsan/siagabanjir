@@ -7,6 +7,18 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Halaman Dokumen Siaga / Brankas Dokumen Keluarga (DocumentsVaultScreen) sesuai desain
+  SVG pemilik (documents_vault.svg), terhubung dari kartu "Dokumen Siaga Keluarga" pada
+  beranda. Fitur menyediakan header dengan tombol kembali dan judul "Dokumen Siaga", kartu
+  ringkasan kesiapan dokumen keluarga dengan progress bar dan persentase kesiapan (100%),
+  tiga kartu berkas dokumen siaga (Kartu Keluarga, KTP Elektronik dengan badge "Vital",
+  dan Akta Kelahiran Anak) dengan nama berkas, metadata format/ukuran/status pembaruan,
+  tombol aksi "Ganti" (dengan dialog demo pemilihan berkas baru), dan badge status "Tersimpan",
+  banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin
+  panduan perlindungan fisik/digital, tombol primer "Simpan & Enkripsi Dokumen Siaga", tombol
+  sekunder "Unduh Semua Berkas Digital (ZIP)", serta integrasi navigasi bawah CitizenNavigation
+  dan tes widget komprehensif.
+
 - Halaman direktori kontak darurat (ContactsDirectoryScreen) sesuai desain SVG
   pemilik (contacts_directory.svg) dan FRD §FR-READY-003, terhubung dari akses
   cepat "Kontak Darurat" pada beranda. Fitur menyediakan header navigasi kembali,

@@ -175,3 +175,18 @@ Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/present
 - Navigasi bawah menggunakan CitizenNavigation bersama.
 
 [Pratinjau tas siaga](emergency-bag-preview.png) direkam dari render acuan desain pada viewport 390 x 1300.
+
+## Dokumen siaga keluarga (Documents Vault)
+
+Pemilik memberikan documents_vault.svg pada 26 Oktober 2026 sebagai acuan desain
+halaman brankas dokumen siaga keluarga. [Salinan sumber](documents_vault.svg)
+berukuran 390 x 1008; sumber dipertahankan sebagai acuan desain lokal.
+Layar dibangun menggunakan widget Flutter di `lib/features/documents/presentation`:
+
+- Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Dokumen Siaga".
+- Kartu ringkasan Dokumen Siaga Keluarga dengan persentase kesiapan (100%), progress bar biru, penghitung berkas (3 dari 3 Berkas Tersimpan), dan status "Siap Darurat".
+- Tiga kartu berkas dokumen siaga (Kartu Keluarga, KTP Elektronik dengan badge "Vital", dan Akta Kelahiran Anak) dengan nama berkas, metadata format/ukuran/status pembaruan, tombol aksi "Ganti" (dengan dialog demo pemilihan berkas baru), dan badge status "Tersimpan".
+- Banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin panduan penyimpanan kedap air, legalisir, enkripsi, dan kesiapan darurat.
+- Dua tombol aksi di bawah: tombol primer "Simpan & Enkripsi Dokumen Siaga" (biru `#2563EB` dengan ikon centang) dan tombol sekunder "Unduh Semua Berkas Digital (ZIP)" (putih dengan border `#E2E8F0` dan ikon unduh).
+- Navigasi bawah menggunakan CitizenNavigation bersama yang terhubung kembali ke Beranda, Lapor, Riwayat, dan Profil.
+

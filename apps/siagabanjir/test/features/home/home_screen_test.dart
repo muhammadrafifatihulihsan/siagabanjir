@@ -1,5 +1,6 @@
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/contacts/presentation/contacts_directory_screen.dart';
+import 'package:siagabanjir/features/documents/presentation/documents_vault_screen.dart';
 import 'package:siagabanjir/features/emergency_bag/presentation/emergency_bag_screen.dart';
 import 'package:siagabanjir/features/guides/presentation/guides_detail_screen.dart';
 import 'package:siagabanjir/features/home/presentation/home_preview_sheet.dart';
@@ -66,7 +67,6 @@ void main() {
       for (final label in [
         'Pantau Status',
         'Pantau Wilayah',
-        'Dokumen Siaga Keluarga',
         'Riwayat',
         'Profil',
       ]) {
@@ -145,6 +145,25 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Kembali'));
       await tester.pumpAndSettle();
       expect(find.byType(GuidesDetailScreen), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Dokumen Siaga Keluarga feature card opens DocumentsVaultScreen and returns home',
+    (tester) async {
+      await openHome(tester);
+      final docTarget = find.text('Dokumen Siaga Keluarga');
+      await tester.ensureVisible(docTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(docTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DocumentsVaultScreen), findsOneWidget);
+      expect(find.text('Dokumen Siaga'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(DocumentsVaultScreen), findsNothing);
     },
   );
 
