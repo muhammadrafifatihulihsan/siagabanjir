@@ -59,6 +59,7 @@ flutter:
 
   assets:
     - assets/icons/home/
+    - assets/images/reports/
     - assets/fonts/inter/OFL.txt
 
   fonts:
