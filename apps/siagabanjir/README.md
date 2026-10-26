@@ -8,11 +8,19 @@ lalu pisahkan tanggung jawab di dalam fitur.
 
 Status 26 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
 kotak masuk peringatan siaga, checklist tas siaga bencana, direktori kontak darurat,
-dokumen siaga keluarga (`documents_vault.svg`), dan pantau wilayah sesuai SVG pemilik
-(`monitor_public.svg`). Fitur `home`, `reports`, `messages`, `emergency_bag`, `contacts`,
-`documents`, dan `monitor` memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder.
-Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
-Fitur autentikasi dan profil pengguna warga (`auth` dan `account`) juga memiliki presentation UI lokal.
+panduan selamat, dan brankas dokumen siaga keluarga sesuai SVG pemilik (`documents_vault.svg`).
+Fitur `home`, `reports`, `messages`, `emergency_bag`, `contacts`, `guides`, dan `documents`
+memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi
+API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+profil pengguna, serta masuk ke akun (login) sesuai SVG pemilik (`auth_login.svg`).
+Fitur `home`, `reports`, `account`, dan `auth` memiliki presentation UI lokal;
+layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
+sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
+dan kotak masuk peringatan siaga sesuai SVG pemilik. Fitur `home`, `reports`
+dan presentation `messages` memiliki UI lokal; layer bisnis dan fitur lainnya
+masih placeholder. Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data.
+Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -323,3 +331,48 @@ mengimplementasikan desain SVG pemilik (`documents_vault.svg`). Komponen dipecah
 - `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
 - Akses fitur: terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
 [Bukti dokumen siaga](../../docs/WORKSPACE.md#documents-vault-ui).
+## Panduan Selamat (Detail Panduan Evakuasi)
+
+[GuidesDetailScreen](lib/features/guides/presentation/guides_detail_screen.dart)
+mengikuti acuan [guides_detail.svg](design/guides_detail.svg). Layar dapat
+diakses melalui kartu "Panduan Selamat" pada akses cepat beranda.
+Fitur menyediakan:
+
+- Header dengan tombol kembali dan judul **Panduan Selamat**.
+- Banner pemutar audio instruksi suara darurat ([GuidesAudioBanner](lib/features/guides/presentation/widgets/guides_audio_banner.dart))
+  berjudul "Bantuan Suara Panduan" dengan tombol toggle "Dengarkan Panduan Suara" dan umpan balik SnackBar.
+- Judul bagian "Langkah Menghadapi Banjir".
+- Lima kartu tahapan evakuasi berurutan ([GuidesStepCard](lib/features/guides/presentation/widgets/guides_step_card.dart))
+  bernomor 1 sampai 5 dengan badge biru, indikator accordion expand/collapse,
+  serta uraian langkah terperinci persis sesuai SVG (Matikan Listrik & Gas Rumah,
+  Pindahkan Barang & Dokumen Berharga, Ambil Tas Siaga Bencana, Selamatkan Anggota
+  Keluarga, dan Evakuasi ke Titik Kumpul Aman).
+- Kartu petunjuk [GuidesDosAndDontsCard](lib/features/guides/presentation/widgets/guides_dos_and_donts_card.dart)
+  berisi hal-hal yang wajib dilakukan ("Wajib" beraksen hijau) dan hal-hal
+  yang dilarang ("Dilarang" beraksen merah).
+- Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
+  kembali ke Beranda, Lapor, Riwayat, dan Profil.
+
+## Dokumen Siaga (Brankas Dokumen Keluarga)
+
+[DocumentsVaultScreen](lib/features/documents/presentation/documents_vault_screen.dart)
+mengikuti acuan [documents_vault.svg](design/documents_vault.svg). Layar dapat
+diakses melalui kartu "Dokumen Siaga Keluarga" pada beranda.
+Fitur menyediakan:
+
+- Header dengan tombol kembali dan judul **Dokumen Siaga**.
+- Kartu ringkasan kesiapan dokumen ([DocumentsSummaryCard](lib/features/documents/presentation/widgets/documents_summary_card.dart))
+  berjudul "Dokumen Siaga Keluarga" dengan progress bar, persentase kesiapan (100%),
+  penghitung berkas (3 dari 3 Berkas Tersimpan), dan status "Siap Darurat".
+- Tiga kartu berkas dokumen siaga ([DocumentCard](lib/features/documents/presentation/widgets/document_card.dart))
+  dengan nomor dan judul kategori, nama berkas, rincian format, ukuran berkas,
+  status pembaruan, badge "Vital" untuk KTP, tombol aksi "Ganti" (dengan dialog pemilihan berkas),
+  serta badge status "Tersimpan".
+- Banner panduan keamanan dokumen ([DocumentsSecurityBanner](lib/features/documents/presentation/widgets/documents_security_banner.dart))
+  berjudul "Panduan Keamanan Dokumen" beraksen biru dengan ikon perisai, badge "Vital",
+  dan 6 panduan penyimpanan/enkripsi fisik dan digital.
+- Tombol aksi bawah ([DocumentsBottomActions](lib/features/documents/presentation/widgets/documents_bottom_actions.dart)):
+  tombol primer "Simpan & Enkripsi Dokumen Siaga" dengan konfirmasi SnackBar dan tombol
+  sekunder "Unduh Semua Berkas Digital (ZIP)".
+- Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
+  kembali ke Beranda, Lapor, Riwayat, dan Profil.

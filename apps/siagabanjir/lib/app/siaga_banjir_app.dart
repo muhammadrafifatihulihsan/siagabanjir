@@ -67,11 +67,37 @@ class SiagaBanjirApp extends StatelessWidget {
       );
       return;
     }
+    if (action == HomeAction.guides) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => GuidesDetailScreen(
+            onReport: () => _openPreview(routeContext, HomeAction.report),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
     if (action == HomeAction.contacts) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
           builder: (routeContext) => ContactsDirectoryScreen(
+            onReport: () => _openPreview(routeContext, HomeAction.report),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
+    if (action == HomeAction.documents) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => DocumentsVaultScreen(
             onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),

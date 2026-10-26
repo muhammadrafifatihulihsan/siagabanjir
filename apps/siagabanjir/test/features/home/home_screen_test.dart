@@ -1,6 +1,8 @@
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/contacts/presentation/contacts_directory_screen.dart';
+import 'package:siagabanjir/features/documents/presentation/documents_vault_screen.dart';
 import 'package:siagabanjir/features/emergency_bag/presentation/emergency_bag_screen.dart';
+import 'package:siagabanjir/features/guides/presentation/guides_detail_screen.dart';
 import 'package:siagabanjir/features/home/presentation/home_preview_sheet.dart';
 import 'package:siagabanjir/features/home/presentation/widgets/home_feature_action.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +67,6 @@ void main() {
       for (final label in [
         'Pantau Status',
         'Pantau Wilayah',
-        'Panduan Selamat',
-        'Dokumen Siaga Keluarga',
         'Riwayat',
         'Profil',
       ]) {
@@ -126,6 +126,44 @@ void main() {
       await tester.tap(find.bySemanticsLabel('Kembali'));
       await tester.pumpAndSettle();
       expect(find.byType(EmergencyBagScreen), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Panduan Selamat quick access opens GuidesDetailScreen and returns home',
+    (tester) async {
+      await openHome(tester);
+      final guidesTarget = find.text('Panduan Selamat');
+      await tester.ensureVisible(guidesTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(guidesTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(GuidesDetailScreen), findsOneWidget);
+      expect(find.text('Panduan Selamat'), findsWidgets);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(GuidesDetailScreen), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Dokumen Siaga Keluarga feature card opens DocumentsVaultScreen and returns home',
+    (tester) async {
+      await openHome(tester);
+      final docTarget = find.text('Dokumen Siaga Keluarga');
+      await tester.ensureVisible(docTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(docTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DocumentsVaultScreen), findsOneWidget);
+      expect(find.text('Dokumen Siaga'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(DocumentsVaultScreen), findsNothing);
     },
   );
 
