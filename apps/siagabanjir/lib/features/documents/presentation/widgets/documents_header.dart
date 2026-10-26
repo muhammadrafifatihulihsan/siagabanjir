@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 
-// Header atas halaman Dokumen Siaga dengan tombol kembali dan judul "Dokumen Siaga" sesuai documents_vault.svg.
+// Header atas halaman Dokumen Siaga dengan tombol kembali aksesibel dan judul.
 class DocumentsHeader extends StatelessWidget {
   const DocumentsHeader({super.key, required this.onBack});
 
@@ -14,37 +14,32 @@ class DocumentsHeader extends StatelessWidget {
     child: Row(
       children: [
         Semantics(
-          label: 'Kembali',
           button: true,
+          label: 'Kembali',
           child: SizedBox(
             width: 48,
             height: 48,
             child: Material(
-              color: Colors.transparent,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+                side: const BorderSide(color: Color(0xFFE2E8F0)),
+              ),
               child: InkWell(
                 onTap: onBack,
                 borderRadius: BorderRadius.circular(14),
-                child: Center(
-                  child: Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: SiagaTheme.border),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 16,
-                      color: SiagaTheme.ink,
-                    ),
+                child: const Center(
+                  child: Icon(
+                    Icons.chevron_left_rounded,
+                    size: 24,
+                    color: SiagaTheme.ink,
                   ),
                 ),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 14),
         const Expanded(
           child: Text(
             'Dokumen Siaga',

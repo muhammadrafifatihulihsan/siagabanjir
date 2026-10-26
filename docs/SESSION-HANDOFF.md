@@ -8,19 +8,39 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Implementasi layar masuk ke akun / login warga (`features/auth`) sesuai desain SVG
-pemilik (`auth_login.svg`). Layar menampilkan kartu masuk lengkap:
-header identitas brand tetes air dan nama aplikasi SiagaBanjir, kartu putih
-bertepi dengan judul 'Masuk ke Akun', deskripsi 'Pantau debit sungai dan lapor kondisi banjir',
-input nomor ponsel atau email, input kata sandi atau PIN dengan toggle visibilitas,
-checkbox Ingat Saya dan link Lupa Sandi, tombol utama 'Masuk ke SiagaBanjir >',
-pemisah 'atau', tombol masuk pihak ketiga 'Lanjut dengan Google' dengan logo 4 warna
-presisi kurva SVG, serta tautan pendaftaran 'Belum punya akun? Daftar Sekarang'.
-Pembersihan sisa conflict markers pada `home_navigation.dart` dan perbaikan import
-`CitizenHeader` pada `profile_screen.dart` dituntaskan sehingga seluruh 40 tes widget
-Flutter lulus (100% PASS) dan `flutter analyze` bersih (0 issues).
-Acuan terbaru: [WS-DEC-058](DECISIONS.md#auth-login-058) dan
-[bukti login](WORKSPACE.md#auth-login-ui). Tidak ada mandat push.
+Implementasi layar pantau wilayah publik (`features/monitor`) sesuai desain SVG
+pemilik (`monitor_public.svg`). Layar menampilkan data pemantauan publik terkini:
+header dengan tombol kembali dan judul 'Pantau Wilayah', kartu sorotan utama
+bertepi biru muda (#BFDBFE) memuat nama sungai (Sungai Batang Kuranji), badge status
+'Siaga 2', angka ketinggian air (140 cm Tinggi Air), indikator kenaikan (▲ +20 cm),
+bar multi-segmen berwarna (Normal #A7F3D0, Waspada #FCD34D, Bahaya #FCA5A5), rentang
+angka ambang batas, dan banner peringatan batas luapan tanggul 150 cm (Sisa 10 cm);
+bagian daftar pos pantau sungai (Pos Kuranji, Pos Gadut, Pos Muaro); kartu status
+kesiapan pompa dan pintu air (Pintu Air Pintu 3 Buka 60%, Pompa Mobile Kuranji 2 Unit Siap)
+dengan ikon tetesan air #2563EB; serta CitizenNavigation bersama yang terhubung kembali
+ke Beranda, Lapor, Riwayat, dan Profil.
+Akses fitur terhubung dari kartu status pantau Beranda dan sheet pratinjau (`HomeAction.monitor`).
+Seluruh 86 tes widget Flutter lulus (100% PASS, mencakup seluruh suite tes aplikasi)
+dan `flutter analyze` bersih (0 issues). Markdownlint (MD032 & MD022) pada README terverifikasi 0 errors.
+Acuan terbaru: [WS-DEC-062](DECISIONS.md#monitor-public-ui-062) dan
+[bukti pantau wilayah](WORKSPACE.md#monitor-public-ui). Tidak ada mandat push.
+Catatan di bawah merekam riwayat pekerjaan sebelumnya.
+
+Implementasi layar dokumen siaga keluarga (`features/documents`) sesuai desain SVG
+pemilik (`documents_vault.svg`). Layar menampilkan brankas berkas kependudukan vital:
+header dengan tombol kembali dan judul 'Dokumen Siaga', judul halaman 'Dokumen Siaga Keluarga'
+dan deskripsi pengurusan pasca-banjir, kartu putih bertepi (radius 20, border #E2E8F0, padding 16)
+menampilkan 3 berkas (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran Anak) dengan badge format
+'Gambar / PDF', detail berkas, dan tombol 'Ganti' yang adaptif terhadap layar sempit,
+banner edukasi perlindungan data berkas sipil untuk dinas Disdukcapil, tombol aksi utama
+'Simpan & Perbarui Dokumen Siaga' (#2563EB) dan 'Unduh Semua Berkas untuk Dinas (ZIP)',
+serta CitizenNavigation bersama.
+Akses fitur terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau dan rute aplikasi.
+Seluruh 69 tes widget Flutter lulus (100% PASS, termasuk 10 tes spesifik DocumentsVaultScreen)
+dan `flutter analyze` bersih (0 issues).
+Acuan terbaru: [WS-DEC-061](DECISIONS.md#documents-vault-ui-061) dan
+[bukti dokumen siaga](WORKSPACE.md#documents-vault-ui). Persistensi berkas lokal
+direncanakan menggunakan SQLite atau alternatif lain pada tahap selanjutnya. Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.
 
 Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)

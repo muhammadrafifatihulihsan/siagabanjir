@@ -1139,3 +1139,89 @@ Implementasi menghasilkan:
   - `EmergencyBagInfoBanner`: banner himbauan penempatan tas siaga di dekat pintu utama.
   - Navigasi bawah menggunakan `CitizenNavigation` bersama yang terhubung kembali ke beranda, laporan, riwayat, dan profil.
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#emergency-bag-ui).
+
+<a id="auth-register-ui-060"></a>
+
+## 50. Desain layar pendaftaran akun baru (register) - 26 Oktober 2026
+
+**WS-DEC-060 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar pendaftaran akun baru warga dari `auth_register.svg` yang diserahkan.
+Mandat mencakup UI lokal, slicing widget mandiri (`RegisterScreen`, `RegisterCard`,
+`RegisterFooter`), integrasi navigasi dua arah dengan `LoginScreen`, serta
+pengujian responsivitas dan interaktivitas formulir. Mandat tidak mencakup
+integrasi backend API pendaftaran atau integrasi OAuth Google sungguhan.
+
+Implementasi menghasilkan:
+
+- Layar `RegisterScreen` di `lib/features/auth/presentation/register_screen.dart`
+  menampilkan logo identitas SiagaBanjir, kartu formulir putih bertepi, dan footer.
+- Widget `RegisterCard`:
+  - Input nama lengkap (KTP) dengan ikon person.
+  - Input nomor ponsel atau email dengan ikon phone.
+  - Input kata sandi akun dengan ikon lock dan toggle visibilitas sandi.
+  - Checkbox kustom persetujuan Ketentuan Layanan & Privasi dengan tautan aksesibel.
+  - Tombol utama 'Daftar ke SiagaBanjir >' (biru primer #2563EB, radius 14, tinggi 48).
+  - Garis pemisah 'atau' dan tombol 'Lanjut dengan Google' dengan logo 4 warna kurva SVG.
+- Widget `RegisterFooter`: tautan 'Sudah punya akun? Masuk Sekarang' yang membuka/kembali ke `LoginScreen`.
+- Integrasi alur: `LoginScreen` kini membuka `RegisterScreen` secara alami saat 'Daftar Sekarang' ditekan,
+  dan `RegisterScreen` kembali ke `LoginScreen` saat 'Masuk Sekarang' ditekan.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#auth-register-ui).
+
+<a id="documents-vault-ui-061"></a>
+
+## 51. Desain layar dokumen siaga keluarga - 26 Oktober 2026
+
+**WS-DEC-061 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar dokumen siaga keluarga dari `documents_vault.svg` yang diserahkan.
+Mandat mencakup UI lokal, pemodelan domain `FamilyDocument`, slicing widget mandiri
+(`DocumentsVaultScreen`, `DocumentsHeader`, `DocumentsVaultCard`, `DocumentsInfoBanner`,
+`DocumentsActionButtons`), integrasi rute navigasi dari kartu Dokumen Siaga di Beranda
+dan sheet pratinjau, serta pengujian responsivitas dan interaktivitas aksi berkas.
+Mandat saat ini tidak mencakup integrasi penyimpanan cloud atau enkripsi hardware nyata;
+penyimpanan berkas/dokumen lokal direncanakan menggunakan SQLite atau alternatif penyimpanan
+lainnya pada tahap lanjutan dan belum diimplementasikan pada tahap ini.
+
+Implementasi menghasilkan:
+
+- Domain `FamilyDocument` di `lib/features/documents/domain/family_document.dart`
+  dengan 3 dokumen kependudukan vital default (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran).
+- Layar `DocumentsVaultScreen` di `lib/features/documents/presentation/documents_vault_screen.dart`:
+  - `DocumentsHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48) dan judul "Dokumen Siaga".
+  - `DocumentsVaultCard`: kartu putih bertepi (radius 20, border #E2E8F0) menampilkan 3 berkas dengan badge format
+    `Gambar / PDF`, detail berkas, dan tombol `Ganti` adaptif terhadap layar sempit dan skala teks 2.0x.
+  - `DocumentsInfoBanner`: edukasi perlindungan data berkas kependudukan pasca-banjir untuk keperluan dinas Disdukcapil.
+  - `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan tombol
+    sekunder `Unduh Semua Berkas untuk Dinas (ZIP)`.
+  - Navigasi bawah menggunakan `CitizenNavigation` bersama.
+  - Integrasi navigasi: terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau dan rute aplikasi.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#documents-vault-ui).
+
+<a id="monitor-public-ui-062"></a>
+
+## 52. Desain layar pantau wilayah publik - 26 Oktober 2026
+
+**WS-DEC-062 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar pantau wilayah publik dari `monitor_public.svg` yang diserahkan.
+Mandat mencakup UI lokal, pemodelan domain `WaterLevelStatus`, `RiverPost`, `InfrastructureItem`,
+dan `FeaturedRiverStatus`, slicing widget mandiri (`RegionMonitorScreen`, `MonitorHeader`,
+`MonitorFeaturedCard`, `MonitorRiverPostsSection`, `MonitorInfrastructureCard`), integrasi
+rute navigasi dari kartu Pantau Status / Pantau Wilayah Beranda dan sheet pratinjau,
+serta pengujian responsivitas dan interaktivitas.
+Mandat tidak mencakup integrasi telemetry sensor IoT atau websocket real-time backend.
+
+Implementasi menghasilkan:
+
+- Domain pemantauan di `lib/features/monitor/domain/region_monitor_data.dart`:
+  - `WaterLevelStatus`: ambang Normal, Siaga 3, Siaga 2, dan Bahaya dengan warna semantik (#059669, #B45309, #991B1B).
+  - `RiverPost`: pos sungai (Sungai Batang Kuranji, Sungai Lubuk Kilangan, Sungai Batang Arau).
+  - `InfrastructureItem`: kesiapan infrastruktur (Pintu Air Pintu 3, Pompa Mobile Kuranji).
+  - `FeaturedRiverStatus`: metrik sungai sorotan (ketinggian air, tren kenaikan, batas luapan tanggul).
+- Layar `RegionMonitorScreen` di `lib/features/monitor/presentation/region_monitor_screen.dart`:
+  - `MonitorHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48x48) dan judul "Pantau Wilayah".
+  - `MonitorFeaturedCard`: kartu sorotan bertepi #BFDBFE dengan metrik ketinggian 140 cm (+20 cm),
+    bar multi-segmen berwarna (#A7F3D0, #FCD34D, #FCA5A5), rentang ambang batas, dan banner luapan tanggul (sisa 10 cm).
+  - `MonitorRiverPostsSection`: daftar pos sungai dengan badge status dan ketinggian air.
+  - `MonitorInfrastructureCard`: kartu kesiapan pintu air dan pompa bergerak dengan ikon tetesan air #2563EB.
+  - `CitizenNavigation`: navigasi bawah bersama (Beranda, Lapor, Riwayat, Profil).
+  - Integrasi navigasi: terhubung dari kartu status beranda dan sheet pratinjau (`HomeAction.monitor`).
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#monitor-public-ui).
