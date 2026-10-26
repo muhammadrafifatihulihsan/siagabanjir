@@ -7,6 +7,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Halaman brankas dokumen siaga keluarga (DocumentsVaultScreen) sesuai desain SVG
+  pemilik (`documents_vault.svg`) pada fitur `documents`, mencakup `DocumentsVaultCard`
+  (tiga berkas vital: KK, KTP, dan Akta Kelahiran Anak dengan badge format, detail,
+  dan tombol ganti berkas), `DocumentsInfoBanner` (edukasi perlindungan berkas sipil
+  untuk dinas Disdukcapil pasca-banjir), `DocumentsActionButtons` (simpan dokumen dan
+  unduh arsip dinas ZIP), integrasi rute navigasi dari kartu Dokumen Siaga di Beranda
+  dan sheet pratinjau, serta 10 tes widget bebas overflow.
+
 - Halaman pendaftaran akun baru warga (RegisterScreen) sesuai desain SVG pemilik
   (`auth_register.svg`) pada fitur `auth`, mencakup `RegisterCard` (nama lengkap KTP,
   nomor ponsel/email, sandi akun dengan toggle visibilitas, checkbox persetujuan syarat

@@ -308,3 +308,21 @@ Fitur menyediakan:
 - Dialog penjelasan aksi demo [message_dialogs.dart](lib/features/messages/presentation/widgets/message_dialogs.dart).
 - Navigasi bawah menggunakan CitizenNavigation bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
+
+## Halaman Dokumen Siaga Keluarga
+
+[DocumentsVaultScreen](lib/features/documents/presentation/documents_vault_screen.dart)
+mengimplementasikan desain SVG pemilik (`documents_vault.svg`). Komponen dipecah menjadi:
+
+- `DocumentsHeader`: tombol kembali aksesibel dan judul "Dokumen Siaga".
+- `DocumentsVaultCard`: kartu putih bertepi (`radius: 20`, border `#E2E8F0`, padding 16) yang
+  menampilkan tiga berkas dokumen kependudukan vital (Kartu Keluarga, KTP Kepala Keluarga,
+  dan Akta Kelahiran Anak / Berkas Vital) dengan badge format `Gambar / PDF`, detail tipe/ukuran/status,
+  serta tombol `Ganti` interaktif.
+- `DocumentsInfoBanner`: banner informasi biru muda (`#EFF6FF`, border `#BFDBFE`) berisi
+  edukasi perlindungan berkas sipil dan prosedur pencetakan/pengunduhan untuk dinas Disdukcapil pasca-banjir.
+- `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan tombol
+  sekunder `Unduh Semua Berkas untuk Dinas (ZIP)`.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+- Akses fitur: terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
+[Bukti dokumen siaga](../../docs/WORKSPACE.md#documents-vault-ui).

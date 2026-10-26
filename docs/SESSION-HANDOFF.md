@@ -8,21 +8,20 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Implementasi layar pendaftaran akun baru warga (`features/auth`) sesuai desain SVG
-pemilik (`auth_register.svg`). Layar menampilkan kartu pendaftaran lengkap:
-header identitas brand tetes air dan nama aplikasi SiagaBanjir, kartu putih
-bertepi (radius 22, border #E2E8F0, padding 22) dengan judul 'Daftar Akun Baru',
-deskripsi 'Daftar untuk pantau air dan lapor banjir cepat.', input nama lengkap (KTP)
-dengan ikon person, input nomor ponsel atau email dengan ikon phone, input kata sandi
-akun dengan ikon lock dan toggle visibilitas, checkbox kustom persetujuan Ketentuan Layanan
-& Privasi dengan tautan interaktif, tombol utama 'Daftar ke SiagaBanjir >', pemisah 'atau',
-tombol pendaftaran 'Lanjut dengan Google' dengan logo 4 warna presisi kurva SVG, serta
-tautan bawah 'Sudah punya akun? Masuk Sekarang'.
-Integrasi navigasi dua arah dengan `LoginScreen` dituntaskan secara alami saat
-'Daftar Sekarang' dan 'Masuk Sekarang' ditekan. Seluruh 59 tes widget Flutter lulus
-(100% PASS, termasuk 10 tes spesifik RegisterScreen) dan `flutter analyze` bersih (0 issues).
-Acuan terbaru: [WS-DEC-060](DECISIONS.md#auth-register-ui-060) dan
-[bukti register](WORKSPACE.md#auth-register-ui). Tidak ada mandat push.
+Implementasi layar dokumen siaga keluarga (`features/documents`) sesuai desain SVG
+pemilik (`documents_vault.svg`). Layar menampilkan brankas berkas kependudukan vital:
+header dengan tombol kembali dan judul 'Dokumen Siaga', judul halaman 'Dokumen Siaga Keluarga'
+dan deskripsi pengurusan pasca-banjir, kartu putih bertepi (radius 20, border #E2E8F0, padding 16)
+menampilkan 3 berkas (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran Anak) dengan badge format
+'Gambar / PDF', detail berkas, dan tombol 'Ganti' yang adaptif terhadap layar sempit,
+banner edukasi perlindungan data berkas sipil untuk dinas Disdukcapil, tombol aksi utama
+'Simpan & Perbarui Dokumen Siaga' (#2563EB) dan 'Unduh Semua Berkas untuk Dinas (ZIP)',
+serta CitizenNavigation bersama.
+Akses fitur terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau dan rute aplikasi.
+Seluruh 69 tes widget Flutter lulus (100% PASS, termasuk 10 tes spesifik DocumentsVaultScreen)
+dan `flutter analyze` bersih (0 issues).
+Acuan terbaru: [WS-DEC-061](DECISIONS.md#documents-vault-ui-061) dan
+[bukti dokumen siaga](WORKSPACE.md#documents-vault-ui). Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.
 
 Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)

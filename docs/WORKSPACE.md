@@ -819,3 +819,41 @@ Struktur dan widget di `lib/features/auth/presentation`:
 
 Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
 dan CHANGELOG.
+
+<a id="documents-vault-ui"></a>
+
+## Layar dokumen siaga keluarga - 26 Oktober 2026
+
+Mandat [WS-DEC-061](DECISIONS.md#documents-vault-ui-061) menghasilkan layar
+dokumen siaga keluarga warga dari acuan `documents_vault.svg` yang diserahkan pemilik.
+Layar terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
+
+Struktur dan widget di `lib/features/documents`:
+
+- Domain `FamilyDocument` di `domain/family_document.dart` memuat 3 berkas kependudukan
+  vital (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran Anak).
+- `DocumentsHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48) dan
+  judul "Dokumen Siaga" yang adaptif di dalam `Expanded`.
+- `DocumentsVaultCard`: kartu putih bertepi (radius 20, border #E2E8F0, padding 16)
+  menampilkan 3 item dokumen dengan `Wrap` judul dan badge format `Gambar / PDF`,
+  serta inner box adaptif LayoutBuilder yang menyusun ikon berkas biru muda, nama berkas,
+  subtitle status, dan tombol `Ganti` secara rapi tanpa overflow pada layar sempit.
+- `DocumentsInfoBanner`: edukasi perlindungan berkas sipil dan pencetakan Disdukcapil pasca-banjir
+  menggunakan `Text.rich` yang mewarisi scaling teks secara mulus.
+- `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan
+  tombol sekunder `Unduh Semua Berkas untuk Dinas (ZIP)` dengan `FittedBox` yang adaptif
+  terhadap pembesaran font 2.0x.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (69 pengujian total, termasuk 10 tes spesifik DocumentsVaultScreen) |
+| Interaktivitas dokumen | PASS (ganti berkas, simpan dokumen siaga, unduh paket dinas ZIP) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 390x1008, 1024x768, 844x390 landscape, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada tombol kembali, tombol ganti berkas, dan tombol aksi dinas) |
+| Integrasi Beranda | PASS (HomeScreen <-> DocumentsVaultScreen via pratinjau dan navigasi warga) |
+| Cloud storage / Hardware encryption | NOT_RUN (implementasi UI lokal; enkripsi/sinkronisasi server di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.

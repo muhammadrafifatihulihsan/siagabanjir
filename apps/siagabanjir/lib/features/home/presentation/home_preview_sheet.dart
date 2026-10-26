@@ -65,6 +65,14 @@ class HomePreviewSheet extends StatelessWidget {
             ),
             const SizedBox(height: 12),
           ],
+          if (action == HomeAction.documents) ...[
+            FilledButton.icon(
+              onPressed: () => Navigator.pop(context, HomeAction.documents),
+              icon: const Icon(Icons.folder_outlined),
+              label: const Text('Buka Dokumen Siaga Keluarga'),
+            ),
+            const SizedBox(height: 12),
+          ],
           if (action == HomeAction.all)
             for (final destination in HomeAction.values.where(
               (item) =>

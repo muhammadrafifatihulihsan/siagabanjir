@@ -1166,3 +1166,30 @@ Implementasi menghasilkan:
 - Integrasi alur: `LoginScreen` kini membuka `RegisterScreen` secara alami saat 'Daftar Sekarang' ditekan,
   dan `RegisterScreen` kembali ke `LoginScreen` saat 'Masuk Sekarang' ditekan.
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#auth-register-ui).
+
+<a id="documents-vault-ui-061"></a>
+
+## 51. Desain layar dokumen siaga keluarga - 26 Oktober 2026
+
+**WS-DEC-061 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar dokumen siaga keluarga dari `documents_vault.svg` yang diserahkan.
+Mandat mencakup UI lokal, pemodelan domain `FamilyDocument`, slicing widget mandiri
+(`DocumentsVaultScreen`, `DocumentsHeader`, `DocumentsVaultCard`, `DocumentsInfoBanner`,
+`DocumentsActionButtons`), integrasi rute navigasi dari kartu Dokumen Siaga di Beranda
+dan sheet pratinjau, serta pengujian responsivitas dan interaktivitas aksi berkas.
+Mandat tidak mencakup integrasi penyimpanan cloud atau enkripsi hardware nyata.
+
+Implementasi menghasilkan:
+
+- Domain `FamilyDocument` di `lib/features/documents/domain/family_document.dart`
+  dengan 3 dokumen kependudukan vital default (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran).
+- Layar `DocumentsVaultScreen` di `lib/features/documents/presentation/documents_vault_screen.dart`:
+  - `DocumentsHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48) dan judul "Dokumen Siaga".
+  - `DocumentsVaultCard`: kartu putih bertepi (radius 20, border #E2E8F0) menampilkan 3 berkas dengan badge format
+    `Gambar / PDF`, detail berkas, dan tombol `Ganti` adaptif terhadap layar sempit dan skala teks 2.0x.
+  - `DocumentsInfoBanner`: edukasi perlindungan data berkas kependudukan pasca-banjir untuk keperluan dinas Disdukcapil.
+  - `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan tombol
+    sekunder `Unduh Semua Berkas untuk Dinas (ZIP)`.
+  - Navigasi bawah menggunakan `CitizenNavigation` bersama.
+  - Integrasi navigasi: terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau dan rute aplikasi.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#documents-vault-ui).
