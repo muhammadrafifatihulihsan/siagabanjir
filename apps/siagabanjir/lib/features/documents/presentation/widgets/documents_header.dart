@@ -15,7 +15,7 @@ class DocumentsHeader extends StatelessWidget {
       children: [
         Semantics(
           button: true,
-          label: 'Kembali ke halaman sebelumnya',
+          label: 'Kembali',
           child: SizedBox(
             width: 48,
             height: 48,

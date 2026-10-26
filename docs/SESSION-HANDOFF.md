@@ -20,8 +20,8 @@ kesiapan pompa dan pintu air (Pintu Air Pintu 3 Buka 60%, Pompa Mobile Kuranji 2
 dengan ikon tetesan air #2563EB; serta CitizenNavigation bersama yang terhubung kembali
 ke Beranda, Lapor, Riwayat, dan Profil.
 Akses fitur terhubung dari kartu status pantau Beranda dan sheet pratinjau (`HomeAction.monitor`).
-Seluruh 79 tes widget Flutter lulus (100% PASS, termasuk 6 tes spesifik RegionMonitorScreen)
-dan `flutter analyze` bersih (0 issues).
+Seluruh 86 tes widget Flutter lulus (100% PASS, mencakup seluruh suite tes aplikasi)
+dan `flutter analyze` bersih (0 issues). Markdownlint (MD032 & MD022) pada README terverifikasi 0 errors.
 Acuan terbaru: [WS-DEC-062](DECISIONS.md#monitor-public-ui-062) dan
 [bukti pantau wilayah](WORKSPACE.md#monitor-public-ui). Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.

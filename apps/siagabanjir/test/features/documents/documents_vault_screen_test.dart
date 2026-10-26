@@ -192,7 +192,7 @@ void main() {
       expect(homeCalled, isTrue);
 
       // 5. Tombol kembali di header
-      await tester.tap(find.bySemanticsLabel('Kembali ke halaman sebelumnya'));
+      await tester.tap(find.bySemanticsLabel('Kembali'));
       await tester.pumpAndSettle();
     },
   );
@@ -211,22 +211,17 @@ void main() {
     // Verifikasi berada di Beranda
     expect(find.text('Dokumen Siaga'), findsOneWidget);
 
-    // Tap kartu Dokumen Siaga Keluarga untuk membuka HomePreviewSheet
+    // Tap kartu Dokumen Siaga Keluarga untuk membuka DocumentsVaultScreen
     await tester.ensureVisible(find.text('Dokumen Siaga Keluarga'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Dokumen Siaga Keluarga'));
-    await tester.pumpAndSettle();
-
-    // Tap tombol Buka Dokumen Siaga Keluarga pada pratinjau untuk membuka DocumentsVaultScreen
-    expect(find.text('Buka Dokumen Siaga Keluarga'), findsOneWidget);
-    await tester.tap(find.text('Buka Dokumen Siaga Keluarga'));
     await tester.pumpAndSettle();
 
     // Memastikan layar DocumentsVaultScreen terbuka
     expect(find.text('1. Kartu Keluarga (KK)'), findsOneWidget);
 
     // Tap tombol kembali untuk kembali ke Beranda
-    await tester.tap(find.bySemanticsLabel('Kembali ke halaman sebelumnya'));
+    await tester.tap(find.bySemanticsLabel('Kembali'));
     await tester.pumpAndSettle();
 
     // Memastikan kembali ke Beranda

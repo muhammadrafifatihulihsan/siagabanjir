@@ -330,7 +330,9 @@ mengimplementasikan desain SVG pemilik (`documents_vault.svg`). Komponen dipecah
   sekunder `Unduh Semua Berkas untuk Dinas (ZIP)`.
 - `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
 - Akses fitur: terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
+
 [Bukti dokumen siaga](../../docs/WORKSPACE.md#documents-vault-ui).
+
 ## Panduan Selamat (Detail Panduan Evakuasi)
 
 [GuidesDetailScreen](lib/features/guides/presentation/guides_detail_screen.dart)
