@@ -720,3 +720,66 @@ Mandat [WS-DEC-058](DECISIONS.md#auth-login-058) menghasilkan halaman masuk ke a
 | Responsivitas login | PASS widget 320 x 640 teks 1.0x dan 2.0x, 390 x 844 teks 1.0x dan 2.0x, 390 x 1097, 1024 x 768, keyboard inset 250 |
 | Perbaikan sisa conflict | PASS membersihkan conflict markers pada HomeNavigation dan memperbaiki import CitizenHeader pada ProfileScreen |
 | API/perangkat/OAuth nyata | NOT_RUN; integrasi backend dan OAuth Google belum tersedia |
+<a id="messages-inbox-ui"></a>
+
+## Kotak masuk pesan peringatan siaga - 25 Oktober 2026
+
+Mandat [WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) menghasilkan halaman
+kotak masuk peringatan siaga warga dari acuan messages_inbox.svg yang diserahkan pemilik.
+Layar diakses melalui tombol notifikasi pada CitizenHeader di beranda maupun laporan.
+
+Struktur dan widget di lib/features/messages/presentation:
+
+- MessagesHeader: tombol kembali (rounded 14, border #E2E8F0, touch target 48),
+  judul "Peringatan Siaga" 20/700, dan badge status "3 Baru" 14/700 #DC2626.
+- MessagesFilterTabs: pill tabs horizontal (Semua, Darurat, Cuaca BMKG, Posko).
+- MessageCard: kartu pesan dengan aksen garis semantik 4 px (merah untuk Siaga 2,
+  oranye untuk Potensi Banjir, biru untuk Posko, netral untuk Normal), instansi pengirim,
+  judul, deskripsi, dan tombol aksi (Rute Evakuasi, Bagikan, Hubungi Posko).
+- Dialog penjelasan aksi demo (message_dialogs.dart).
+- Navigasi bawah menggunakan CitizenNavigation bersama.
+- Render SVG ke PNG pada viewport 390 x 1094 tersimpan di
+  [messages-inbox-preview.png](../apps/siagabanjir/design/messages-inbox-preview.png).
+- Android fisik, push notification, backend, TC bisnis dan CI remote NOT_RUN.
+
+Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
+handoff, dan CHANGELOG.
+
+<a id="emergency-bag-ui"></a>
+
+## Checklist tas siaga bencana - 26 Oktober 2026
+
+Mandat [WS-DEC-059](DECISIONS.md#emergency-bag-ui-059) menghasilkan halaman
+checklist tas siaga bencana warga dari acuan `emergency_bag_checklist.svg` yang diserahkan pemilik.
+Layar diakses melalui tombol akses cepat "Tas Siaga" di beranda dan rute aplikasi.
+
+Struktur dan widget di lib/features/emergency_bag:
+
+- Domain `EmergencyBagItem` dan `EmergencyBagCategory` di `domain/emergency_bag_item.dart`
+  memuat 14 item default pada 4 kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi,
+  Pakaian & Perlengkapan) dengan 12 item awal tercentang (85%).
+- `EmergencyBagHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48),
+  dan judul "Tas Siaga Bencana" 20/700.
+- `EmergencyBagSummaryCard`: kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis,
+  penghitung barang tercentang "$checkedCount dari $totalCount Barang" 24/800, progress bar biru,
+  dan deskripsi kesiapan 3 hari. Menggunakan Expanded pada judul baris atas agar aman pada layar sempit dan pembesaran teks.
+- `EmergencyBagCategoryCard`: kartu per kategori dengan ikon semantik, penghitung status kategori
+  (misal 3/3, 2/4 dengan warna oranye saat belum lengkap), dan item checklist interaktif dengan
+  checkbox rounded kustom (status centang hijau emerald #10B981, belum tercentang border #CBD5E1)
+  serta touch target minimal 48 px.
+- `EmergencyBagInfoBanner`: banner himbauan penempatan tas siaga di dekat pintu utama.
+- Navigasi bawah menggunakan `CitizenNavigation` bersama.
+- Render SVG acuan ke PNG pada viewport 390 x 1300 tersimpan di
+  [emergency-bag-preview.png](../apps/siagabanjir/design/emergency-bag-preview.png).
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found) |
+| flutter test | PASS (32 pengujian: 4 emergency bag, 13 home, 3 messages, 12 reports) |
+| Interaktivitas checklist | PASS (toggle item memperbarui persentase, penghitung total, dan status per kategori secara reaktif) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 844x390, 1024x768, dan text scaling 2.0) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics checked/label pada checkbox dan tombol kembali) |
+| Android fisik / Backend cloud | NOT_RUN (implementasi UI lokal; sinkronisasi backend di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
+handoff, dan CHANGELOG.

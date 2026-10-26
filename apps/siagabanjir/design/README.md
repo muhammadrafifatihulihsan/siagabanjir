@@ -142,3 +142,36 @@ lokal pada viewport 390 x 1700, device scale 2 setelah revisi UI/UX; bukan
 screenshot Android. [Layar sempit](reports-create-mobile-preview.png) memakai
 320 x 640. Navbar, indikator pilihan, tipografi dan fokus mengikuti
 [revisi desain](../../../docs/DESIGN.md#penyelarasan-uiux-laporan-dengan-home).
+
+## Kotak masuk peringatan siaga
+
+Pemilik memberikan messages_inbox.svg pada 25 Oktober 2026 sebagai acuan desain
+kotak masuk peringatan siaga warga. [Salinan sumber](messages_inbox.svg)
+berukuran 390 x 1094; sumber dipertahankan sebagai acuan desain lokal.
+Layar dibangun menggunakan widget Flutter dengan font Inter lokal, header
+dengan tombol kembali dan badge jumlah pesan baru, tab filter horizontal
+(Semua, Darurat, Cuaca BMKG, Posko), kartu peringatan dengan aksen garis
+warna semantik di sisi kiri (merah untuk Siaga 2, oranye untuk Potensi Banjir,
+biru untuk Posko, dan netral untuk Normal), instansi pengirim, judul,
+keterangan, serta tombol aksi evakuasi/bagikan/posko.
+
+[Pratinjau kotak masuk pesan](messages-inbox-preview.png) direkam dari render
+SVG pada viewport 390 x 1094. Aksi evakuasi, bagikan, dan hubungi posko
+menyediakan dialog penjelasan demo tanpa klaim integrasi darurat resmi.
+Bottom navbar menggunakan CitizenNavigation bersama yang terhubung kembali
+ke beranda dan fitur lainnya.
+
+## Checklist tas siaga bencana
+
+Pemilik memberikan emergency_bag_checklist.svg pada 26 Oktober 2026 sebagai acuan
+desain halaman checklist tas siaga bencana warga. [Salinan sumber](emergency_bag_checklist.svg)
+berukuran 390 x 1283; sumber dipertahankan sebagai acuan desain lokal.
+Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/presentation`:
+
+- Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Tas Siaga Bencana".
+- Kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis, penghitung jumlah barang (default 12 dari 14 Barang), progress bar biru, dan deskripsi kebutuhan 3 hari mandiri.
+- Empat kartu kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi, Pakaian & Perlengkapan) dengan ikon semantik berlabel, penghitung status kategori (misal 3/3, 2/4), serta item checklist interaktif dengan checkbox rounded kustom (status centang hijau emerald `#10B981` dan belum tercentang `#CBD5E1`).
+- Banner himbauan penyimpanan tas siaga di dekat pintu utama.
+- Navigasi bawah menggunakan CitizenNavigation bersama.
+
+[Pratinjau tas siaga](emergency-bag-preview.png) direkam dari render acuan desain pada viewport 390 x 1300.

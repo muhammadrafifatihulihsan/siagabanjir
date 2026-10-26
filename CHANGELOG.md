@@ -7,7 +7,18 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
-### Ditambahkan
+- Halaman checklist tas siaga bencana (EmergencyBagScreen) sesuai desain SVG
+  pemilik (emergency_bag_checklist.svg), terhubung dari akses cepat "Tas Siaga"
+  pada beranda. Fitur menyediakan kartu ringkasan kesiapan logistik keluarga dengan
+  badge persentase dinamis dan progress bar, empat kartu kategori (Dokumen Berharga,
+  Obat & P3K Keluarga, Logistik & Komunikasi, Pakaian & Perlengkapan), checkbox
+  rounded kustom interaktif, banner himbauan pintu utama, serta navbar CitizenNavigation.
+
+- Halaman kotak masuk peringatan siaga warga (MessagesInboxScreen) sesuai SVG
+  pemilik (messages_inbox.svg), terhubung dari tombol notifikasi pada CitizenHeader
+  di beranda maupun laporan. Fitur menyediakan header dengan status pesan baru,
+  filter tab horizontal (Semua, Darurat, Cuaca BMKG, Posko), kartu pesan dengan
+  aksen garis warna semantik vertikal, instansi pengirim, serta dialog aksi demo.
 
 - Implementasi layar masuk ke akun (login) Flutter sesuai SVG pemilik (`auth_login.svg`)
   pada fitur `auth`, mencakup `LoginHeader`, `LoginCard`, tombol masuk Google

@@ -1,4 +1,5 @@
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
+import 'package:siagabanjir/features/emergency_bag/presentation/emergency_bag_screen.dart';
 import 'package:siagabanjir/features/home/presentation/home_preview_sheet.dart';
 import 'package:siagabanjir/features/home/presentation/widgets/home_feature_action.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,6 @@ void main() {
         'Pantau Status',
         'Pantau Wilayah',
         'Kontak Darurat',
-        'Tas Siaga',
         'Panduan Selamat',
         'Dokumen Siaga Keluarga',
         'Riwayat',
@@ -92,14 +92,40 @@ void main() {
   );
 
   testWidgets(
-    'Notifications and complete access sheet have working destinations',
+    'Tas Siaga quick access opens EmergencyBagScreen and returns home',
     (tester) async {
       await openHome(tester);
+      final bagTarget = find.text('Tas Siaga');
+      await tester.ensureVisible(bagTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(bagTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(EmergencyBagScreen), findsOneWidget);
+      expect(find.text('Tas Siaga Bencana'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(EmergencyBagScreen), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Notifications opens MessagesInboxScreen and complete access sheet works',
+    (tester) async {
+      await openHome(tester);
+
+      // Ketuk tombol notifikasi → harus membuka MessagesInboxScreen.
       await tester.tap(find.byTooltip('Notifikasi'));
       await tester.pumpAndSettle();
-      expect(find.text('Contoh pembaruan wilayah'), findsOneWidget);
-      await tester.tap(find.byTooltip('Tutup pratinjau'));
+      expect(find.text('Peringatan Siaga'), findsOneWidget);
+
+      // Kembali ke beranda.
+      await tester.tap(find.bySemanticsLabel('Kembali'));
       await tester.pumpAndSettle();
+      expect(find.text('Peringatan Siaga'), findsNothing);
+
+      // Buka sheet Lengkap dan navigasi ke Data Keluarga.
       await tester.tap(find.text('Lengkap'));
       await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Data Keluarga'));

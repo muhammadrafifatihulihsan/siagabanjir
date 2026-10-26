@@ -251,3 +251,24 @@ yang adaptif (Wrap). Tombol utama biru #2563EB dengan teks dan chevron putih,
 diikuti pemisah 'atau' dan tombol masuk Google dengan logo 4 warna presisi kurva SVG.
 Bagian bawah menyediakan tautan pendaftaran bagi warga yang belum memiliki akun.
 [Bukti pemeriksaan](WORKSPACE.md#auth-login-ui).
+### Kotak masuk peringatan siaga dari SVG pemilik
+
+Mandat 25 Oktober 2026 memakai [messages_inbox.svg](../apps/siagabanjir/design/messages_inbox.svg)
+sebagai acuan kotak masuk peringatan siaga warga. Layar diakses dari tombol
+notifikasi CitizenHeader di beranda maupun laporan. Struktur visual:
+
+- Header dengan tombol kembali (rounded 14, border #E2E8F0, touch target 48),
+  judul "Peringatan Siaga" 20/700 #0F172A, dan badge status "3 Baru" 14/700 #DC2626.
+- Tab filter horizontal berbentuk pill (Semua, Darurat, Cuaca BMKG, Posko).
+  Pill aktif menggunakan warna #0F172A dengan teks putih; pill tidak aktif
+  berlatar putih dengan border #E2E8F0 dan teks #334155.
+- Kartu pesan [MessageCard] berlatar putih dengan radius 20 dan border #E2E8F0.
+  Kartu memiliki aksen garis vertikal di sisi kiri selebar 4 px penanda tingkat/kategori:
+  merah #DC2626 untuk Siaga 2 (Waspada), oranye #D97706 untuk Potensi Banjir Kilat,
+  biru #2563EB untuk Posko Bencana Siaga, dan netral #E2E8F0 untuk Normal (Siaga 4).
+- Badge kategori, stempel waktu #64748B, nama instansi sumber #1D4ED8 13/600,
+  judul 16/700 #0F172A, deskripsi 14/400 #334155 dengan tinggi baris 1.4.
+- Tombol aksi: "Rute Evakuasi" (#EFF6FF, border #BFDBFE, teks #2563EB), "Bagikan"
+  (#F1F5F9, teks #0F172A), dan "Hubungi Posko" (#EFF6FF, border #BFDBFE, teks #2563EB).
+- Seluruh aksi dan ketukan kartu menampilkan dialog penjelasan demo tanpa
+  mengklaim panggilan darurat nyata. Navigasi bawah menggunakan CitizenNavigation bersama.

@@ -1096,3 +1096,46 @@ serta perbaikan sisa conflict markers pada `home_navigation.dart` dan
 sinkronisasi `CitizenHeader` pada `ProfileScreen`.
 Tidak mencakup backend nyata, sesi OAuth, atau push remote.
 Bukti dan batas pengujian: [WORKSPACE](WORKSPACE.md#auth-login-ui).
+<a id="messages-inbox-ui-058"></a>
+
+## 48. Desain kotak masuk pesan peringatan siaga - 25 Oktober 2026
+
+**WS-DEC-058 - CURRENT_USER_CONFIRMED.** Pemilik meminta fokus pada implementasi
+desain Flutter untuk halaman kotak masuk pesan dari messages_inbox.svg yang
+diserahkan. Mandat mencakup UI lokal, slicing widget, dan integrasi navigasi
+notifikasi; tidak mencakup integrasi push notification, backend, atau klaim
+panggilan darurat nyata.
+
+Implementasi menghasilkan MessagesInboxScreen di lib/features/messages/presentation
+yang terhubung dari tombol notifikasi pada CitizenHeader di beranda dan halaman laporan.
+UI mencakup header dengan tombol kembali dan badge jumlah pesan baru, tab filter
+horizontal pill (Semua, Darurat, Cuaca BMKG, Posko), kartu peringatan dengan aksen
+garis warna semantik vertikal di sisi kiri, instansi pengirim, judul, deskripsi,
+serta tombol aksi (Rute Evakuasi, Bagikan, Hubungi Posko) yang membuka dialog
+penjelasan simulasi demo akademik. Navigasi bawah memakai CitizenNavigation bersama.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#messages-inbox-ui).
+
+<a id="emergency-bag-ui-059"></a>
+
+## 49. Desain checklist tas siaga bencana - 26 Oktober 2026
+
+**WS-DEC-059 - CURRENT_USER_CONFIRMED.** Pemilik meminta fokus pada Flutter untuk
+mengimplementasikan desain checklist tas siaga dari `emergency_bag_checklist.svg`
+yang diserahkan dari direktori Downloads. Mandat mencakup pembangunan UI lokal,
+pemodelan data domain barang, widget interaktif checklist, dan integrasi rute
+pada tombol akses cepat "Tas Siaga" di beranda. Mandat tidak mencakup integrasi
+backend sinkronisasi akun atau cloud storage.
+
+Implementasi menghasilkan:
+
+- Domain `EmergencyBagItem` dan `EmergencyBagCategory` di `lib/features/emergency_bag/domain`
+  dengan 14 item default yang tepat mereproduksi kondisi awal desain (12 dari 14 barang tercentang, 85%).
+- UI `EmergencyBagScreen` di `lib/features/emergency_bag/presentation`:
+  - `EmergencyBagHeader`: tombol kembali aksesibel (target sentuh 48) dan judul "Tas Siaga Bencana".
+  - `EmergencyBagSummaryCard`: kartu ringkasan kemajuan kesiapan logistik keluarga dengan
+    badge persentase dinamis, penghitung jumlah barang tercentang, progress bar, dan keterangan kesiapan 3 hari.
+  - `EmergencyBagCategoryCard`: empat kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi,
+    Pakaian & Perlengkapan) dengan checkbox kustom rounded, transisi status visual, serta pembaruan progres kategori.
+  - `EmergencyBagInfoBanner`: banner himbauan penempatan tas siaga di dekat pintu utama.
+  - Navigasi bawah menggunakan `CitizenNavigation` bersama yang terhubung kembali ke beranda, laporan, riwayat, dan profil.
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#emergency-bag-ui).

@@ -23,6 +23,15 @@ Acuan terbaru: [WS-DEC-058](DECISIONS.md#auth-login-058) dan
 [bukti login](WORKSPACE.md#auth-login-ui). Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.
 
+Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)
+kini tersedia melalui tombol notifikasi di header beranda maupun laporan.
+Layar menyediakan header dengan tombol kembali dan badge 3 Baru, 4 pill tab filter
+(Semua, Darurat, Cuaca BMKG, Posko), kartu pesan dengan garis aksen warna semantik,
+instansi sumber, judul, deskripsi, tombol aksi evakuasi/bagikan/posko dengan
+dialog demo, serta CitizenNavigation bersama yang terhubung kembali ke Beranda.
+Acuan terbaru: [WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) dan
+[bukti inbox](WORKSPACE.md#messages-inbox-ui). Pratinjau lokal tanpa push notification.
+Catatan di bawah merekam versi sebelumnya.
 Implementasi layar profil pengguna warga (`features/account`) sesuai desain SVG
 pemilik (`account_warga_profile.svg`). Layar menampilkan kartu profil lengkap:
 avatar inisial RH dengan tombol kamera, nama, nomor telepon, badge domisili
