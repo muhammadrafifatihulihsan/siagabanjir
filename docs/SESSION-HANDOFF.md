@@ -17,6 +17,18 @@ dialog demo, serta CitizenNavigation bersama yang terhubung kembali ke Beranda.
 Acuan terbaru: [WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) dan
 [bukti inbox](WORKSPACE.md#messages-inbox-ui). Pratinjau lokal tanpa push notification.
 Catatan di bawah merekam versi sebelumnya.
+Implementasi layar profil pengguna warga (`features/account`) sesuai desain SVG
+pemilik (`account_warga_profile.svg`). Layar menampilkan kartu profil lengkap:
+avatar inisial RH dengan tombol kamera, nama, nomor telepon, badge domisili
+Koto Tangah Padang, tombol edit profil, bagian data pribadi & domisili (NIK KTP bertopeng,
+email, alamat, titik evakuasi), bagian kontak darurat keluarga SOS (Siti Rahma,
+Budi Santoso) dengan aksi panggilan langsung, bagian pengaturan & akun
+(toggle peringatan banjir interaktif, navigasi keamanan/bantuan/privasi/versi),
+serta tombol keluar dari akun dengan dialog konfirmasi.
+Navigasi tab Profil dihubungkan dari alur beranda dan sheet pratinjau.
+8 tes widget lulus di `test/features/account/profile_screen_test.dart` (bebas overflow
+pada layar sempit 320x640 hingga skala teks 2.0). Seluruh 20 tes Flutter lulus dan
+`flutter analyze` bersih (0 issues).
 
 Revisi UI/UX laporan mengikuti prinsip home: navbar bersama, judul 16/isi 14,
 indikator radio/checkbox/fokus, pilihan awal kosong, label deskripsi menetap,
