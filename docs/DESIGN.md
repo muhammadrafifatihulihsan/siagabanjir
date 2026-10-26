@@ -251,6 +251,7 @@ yang adaptif (Wrap). Tombol utama biru #2563EB dengan teks dan chevron putih,
 diikuti pemisah 'atau' dan tombol masuk Google dengan logo 4 warna presisi kurva SVG.
 Bagian bawah menyediakan tautan pendaftaran bagi warga yang belum memiliki akun.
 [Bukti pemeriksaan](WORKSPACE.md#auth-login-ui).
+
 ### Kotak masuk peringatan siaga dari SVG pemilik
 
 Mandat 25 Oktober 2026 memakai [messages_inbox.svg](../apps/siagabanjir/design/messages_inbox.svg)

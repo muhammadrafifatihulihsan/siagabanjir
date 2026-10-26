@@ -279,6 +279,7 @@ dengan toggle visibilitas, checkbox Ingat Saya, link Lupa Sandi, tombol submit p
 pemisah 'atau', serta tombol masuk Google dengan logo 4 warna presisi kurva SVG),
 dan `LoginFooter` (tautan daftar akun baru). Layout responsif dan adaptif terhadap
 pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
+
 ## Kotak masuk pesan peringatan siaga
 
 [MessagesInboxScreen](lib/features/messages/presentation/messages_inbox_screen.dart)

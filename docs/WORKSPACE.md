@@ -720,6 +720,7 @@ Mandat [WS-DEC-058](DECISIONS.md#auth-login-058) menghasilkan halaman masuk ke a
 | Responsivitas login | PASS widget 320 x 640 teks 1.0x dan 2.0x, 390 x 844 teks 1.0x dan 2.0x, 390 x 1097, 1024 x 768, keyboard inset 250 |
 | Perbaikan sisa conflict | PASS membersihkan conflict markers pada HomeNavigation dan memperbaiki import CitizenHeader pada ProfileScreen |
 | API/perangkat/OAuth nyata | NOT_RUN; integrasi backend dan OAuth Google belum tersedia |
+
 <a id="messages-inbox-ui"></a>
 
 ## Kotak masuk pesan peringatan siaga - 25 Oktober 2026
