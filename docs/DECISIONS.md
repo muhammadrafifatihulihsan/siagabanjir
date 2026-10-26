@@ -1177,7 +1177,9 @@ Mandat mencakup UI lokal, pemodelan domain `FamilyDocument`, slicing widget mand
 (`DocumentsVaultScreen`, `DocumentsHeader`, `DocumentsVaultCard`, `DocumentsInfoBanner`,
 `DocumentsActionButtons`), integrasi rute navigasi dari kartu Dokumen Siaga di Beranda
 dan sheet pratinjau, serta pengujian responsivitas dan interaktivitas aksi berkas.
-Mandat tidak mencakup integrasi penyimpanan cloud atau enkripsi hardware nyata.
+Mandat saat ini tidak mencakup integrasi penyimpanan cloud atau enkripsi hardware nyata;
+penyimpanan berkas/dokumen lokal direncanakan menggunakan SQLite atau alternatif penyimpanan
+lainnya pada tahap lanjutan dan belum diimplementasikan pada tahap ini.
 
 Implementasi menghasilkan:
 

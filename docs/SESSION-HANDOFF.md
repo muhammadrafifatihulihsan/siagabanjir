@@ -21,7 +21,8 @@ Akses fitur terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau d
 Seluruh 69 tes widget Flutter lulus (100% PASS, termasuk 10 tes spesifik DocumentsVaultScreen)
 dan `flutter analyze` bersih (0 issues).
 Acuan terbaru: [WS-DEC-061](DECISIONS.md#documents-vault-ui-061) dan
-[bukti dokumen siaga](WORKSPACE.md#documents-vault-ui). Tidak ada mandat push.
+[bukti dokumen siaga](WORKSPACE.md#documents-vault-ui). Persistensi berkas lokal
+direncanakan menggunakan SQLite atau alternatif lain pada tahap selanjutnya. Tidak ada mandat push.
 Catatan di bawah merekam riwayat pekerjaan sebelumnya.
 
 Halaman kotak masuk pesan peringatan siaga dari SVG pemilik (messages_inbox.svg)
