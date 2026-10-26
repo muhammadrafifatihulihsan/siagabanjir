@@ -146,6 +146,9 @@ class SiagaBanjirApp extends StatelessWidget {
             onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
     } else if (next == HomeAction.history) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(

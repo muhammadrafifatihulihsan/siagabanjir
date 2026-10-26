@@ -77,6 +77,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Diubah
 
+- Memulihkan penutup rute dan blok tombol Pantau yang hilang sebelum cabang
+  Riwayat, sehingga aplikasi kembali lolos analyzer dan seluruh 91 tes Flutter.
+
 - Pembersihan sisa conflict markers pada `HomeNavigation` dan penyesuaian import `CitizenHeader`
   pada `ProfileScreen`.
 

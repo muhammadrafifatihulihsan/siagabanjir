@@ -8,6 +8,28 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Perbaikan kompilasi 27 Oktober 2026 setelah pull main pada baseline `23d586a`:
+`siaga_banjir_app.dart` kehilangan penutup `RegionMonitorScreen`,
+`MaterialPageRoute` dan `Navigator.push`; `home_preview_sheet.dart` kehilangan
+penutup tombol/list Pantau sebelum cabang Riwayat. Penutup dipulihkan dan jarak
+setelah tombol Pantau mengikuti tombol pratinjau lain. Enam error berhasil
+direproduksi dengan `flutter analyze --no-pub` sebelum perbaikan.
+
+Verifikasi Windows, Flutter 3.47.7 / Dart 3.13.5: `flutter analyze --no-pub`
+PASS (0 issues), `flutter test --no-pub` PASS (91 tes, termasuk navigasi Pantau
+dan Riwayat), serta `git diff --check` PASS. Build dan perangkat fisik NOT_RUN.
+Pemilik secara eksplisit mengizinkan pembatasan bacaan ke aturan/skill,
+dokumentasi aplikasi dan kode/tes terkait untuk perbaikan ini; bukan klaim
+bacaan penuh seluruh spesifikasi. Commit disiapkan pada branch lokal
+`branch-rafi` dari baseline main; tidak ada mandat push.
+
+Dokumentasi diperbarui pada handoff dan CHANGELOG. README, spesifikasi/kontrak,
+DESIGN, keputusan/RTM, AGENTS, rules, skills dan adapter tidak diubah karena
+perbaikan hanya memulihkan sintaks/alur yang sudah ada, tanpa perubahan
+requirement, arsitektur atau bukti penerimaan produk. Catatan di bawah adalah
+riwayat pekerjaan sebelum integrasi tersebut, bukan hasil pengujian baseline
+main yang rusak.
+
 Implementasi layar pantau wilayah publik (`features/monitor`) sesuai desain SVG
 pemilik (`monitor_public.svg`). Layar menampilkan data pemantauan publik terkini:
 header dengan tombol kembali dan judul 'Pantau Wilayah', kartu sorotan utama
