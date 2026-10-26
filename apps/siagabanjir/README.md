@@ -322,4 +322,3 @@ Fitur menyediakan:
   yang dilarang ("Dilarang" beraksen merah).
 - Navigasi bawah menggunakan `CitizenNavigation` bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
-
