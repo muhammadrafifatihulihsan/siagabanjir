@@ -729,3 +729,40 @@ Struktur dan widget di lib/features/messages/presentation:
 Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
 handoff, dan CHANGELOG.
 
+<a id="emergency-bag-ui"></a>
+
+## Checklist tas siaga bencana - 26 Oktober 2026
+
+Mandat [WS-DEC-059](DECISIONS.md#emergency-bag-ui-059) menghasilkan halaman
+checklist tas siaga bencana warga dari acuan `emergency_bag_checklist.svg` yang diserahkan pemilik.
+Layar diakses melalui tombol akses cepat "Tas Siaga" di beranda dan rute aplikasi.
+
+Struktur dan widget di lib/features/emergency_bag:
+- Domain `EmergencyBagItem` dan `EmergencyBagCategory` di `domain/emergency_bag_item.dart`
+  memuat 14 item default pada 4 kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi,
+  Pakaian & Perlengkapan) dengan 12 item awal tercentang (85%).
+- `EmergencyBagHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48),
+  dan judul "Tas Siaga Bencana" 20/700.
+- `EmergencyBagSummaryCard`: kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis,
+  penghitung barang tercentang "$checkedCount dari $totalCount Barang" 24/800, progress bar biru,
+  dan deskripsi kesiapan 3 hari. Menggunakan Expanded pada judul baris atas agar aman pada layar sempit dan pembesaran teks.
+- `EmergencyBagCategoryCard`: kartu per kategori dengan ikon semantik, penghitung status kategori
+  (misal 3/3, 2/4 dengan warna oranye saat belum lengkap), dan item checklist interaktif dengan
+  checkbox rounded kustom (status centang hijau emerald #10B981, belum tercentang border #CBD5E1)
+  serta touch target minimal 48 px.
+- `EmergencyBagInfoBanner`: banner himbauan penempatan tas siaga di dekat pintu utama.
+- Navigasi bawah menggunakan `CitizenNavigation` bersama.
+- Render SVG acuan ke PNG pada viewport 390 x 1300 tersimpan di
+  [emergency-bag-preview.png](../apps/siagabanjir/design/emergency-bag-preview.png).
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found) |
+| flutter test | PASS (32 pengujian: 4 emergency bag, 13 home, 3 messages, 12 reports) |
+| Interaktivitas checklist | PASS (toggle item memperbarui persentase, penghitung total, dan status per kategori secara reaktif) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 844x390, 1024x768, dan text scaling 2.0) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics checked/label pada checkbox dan tombol kembali) |
+| Android fisik / Backend cloud | NOT_RUN (implementasi UI lokal; sinkronisasi backend di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
+handoff, dan CHANGELOG.

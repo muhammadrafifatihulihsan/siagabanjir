@@ -161,3 +161,17 @@ menyediakan dialog penjelasan demo tanpa klaim integrasi darurat resmi.
 Bottom navbar menggunakan CitizenNavigation bersama yang terhubung kembali
 ke beranda dan fitur lainnya.
 
+## Checklist tas siaga bencana
+
+Pemilik memberikan emergency_bag_checklist.svg pada 26 Oktober 2026 sebagai acuan
+desain halaman checklist tas siaga bencana warga. [Salinan sumber](emergency_bag_checklist.svg)
+berukuran 390 x 1283; sumber dipertahankan sebagai acuan desain lokal.
+Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/presentation`:
+- Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Tas Siaga Bencana".
+- Kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis, penghitung jumlah barang (default 12 dari 14 Barang), progress bar biru, dan deskripsi kebutuhan 3 hari mandiri.
+- Empat kartu kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi, Pakaian & Perlengkapan) dengan ikon semantik berlabel, penghitung status kategori (misal 3/3, 2/4), serta item checklist interaktif dengan checkbox rounded kustom (status centang hijau emerald `#10B981` dan belum tercentang `#CBD5E1`).
+- Banner himbauan penyimpanan tas siaga di dekat pintu utama.
+- Navigasi bawah menggunakan CitizenNavigation bersama.
+
+[Pratinjau tas siaga](emergency-bag-preview.png) direkam dari render acuan desain pada viewport 390 x 1300.
+

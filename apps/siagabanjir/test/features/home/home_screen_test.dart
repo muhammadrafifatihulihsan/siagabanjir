@@ -1,4 +1,5 @@
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
+import 'package:siagabanjir/features/emergency_bag/presentation/emergency_bag_screen.dart';
 import 'package:siagabanjir/features/home/presentation/home_preview_sheet.dart';
 import 'package:siagabanjir/features/home/presentation/widgets/home_feature_action.dart';
 import 'package:flutter/material.dart';
@@ -64,7 +65,6 @@ void main() {
         'Pantau Status',
         'Pantau Wilayah',
         'Kontak Darurat',
-        'Tas Siaga',
         'Panduan Selamat',
         'Dokumen Siaga Keluarga',
         'Riwayat',
@@ -88,6 +88,25 @@ void main() {
         tester.getTopLeft(find.text('Sungai Batang Kuranji')).dy,
         lessThan(250),
       );
+    },
+  );
+
+  testWidgets(
+    'Tas Siaga quick access opens EmergencyBagScreen and returns home',
+    (tester) async {
+      await openHome(tester);
+      final bagTarget = find.text('Tas Siaga');
+      await tester.ensureVisible(bagTarget);
+      await tester.pumpAndSettle();
+      await tester.tap(bagTarget);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(EmergencyBagScreen), findsOneWidget);
+      expect(find.text('Tas Siaga Bencana'), findsOneWidget);
+
+      await tester.tap(find.bySemanticsLabel('Kembali'));
+      await tester.pumpAndSettle();
+      expect(find.byType(EmergencyBagScreen), findsNothing);
     },
   );
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../features/emergency_bag/presentation/emergency_bag_screen.dart';
 import '../features/home/presentation/home_action.dart';
 import '../features/home/presentation/home_preview_sheet.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -29,6 +30,19 @@ class SiagaBanjirApp extends StatelessWidget {
           builder: (routeContext) => ReportCreateScreen(
             onNotifications: () =>
                 _openPreview(routeContext, HomeAction.notifications),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+      return;
+    }
+    if (action == HomeAction.bag) {
+      await Navigator.push<void>(
+        context,
+        MaterialPageRoute(
+          builder: (routeContext) => EmergencyBagScreen(
+            onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),
           ),
