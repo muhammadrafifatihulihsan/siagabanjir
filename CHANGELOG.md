@@ -7,6 +7,16 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Halaman pantau wilayah publik (RegionMonitorScreen) sesuai desain SVG pemilik
+  (`monitor_public.svg`) pada fitur `monitor`, mencakup `MonitorHeader` (tombol kembali
+  dan judul halaman adaptif), `MonitorFeaturedCard` (kartu sorotan sungai utama bertepi
+  #BFDBFE dengan metrik ketinggian 140 cm, tren ▲ +20 cm, bar segmen warna ambang batas
+  Normal/Waspada/Bahaya, rentang cm, dan peringatan luapan tanggul 150 cm / sisa 10 cm),
+  `MonitorRiverPostsSection` (daftar pos pantau sungai: Kuranji, Gadut, Muaro),
+  `MonitorInfrastructureCard` (status operasional Pintu Air Pintu 3 Buka 60% dan Pompa
+  Mobile Kuranji 2 Unit Siap), integrasi navigasi dari kartu status pantau Beranda
+  dan sheet pratinjau (`HomeAction.monitor`), serta 6 tes widget bebas overflow.
+
 - Halaman brankas dokumen siaga keluarga (DocumentsVaultScreen) sesuai desain SVG
   pemilik (`documents_vault.svg`) pada fitur `documents`, mencakup `DocumentsVaultCard`
   (tiga berkas vital: KK, KTP, dan Akta Kelahiran Anak dengan badge format, detail,

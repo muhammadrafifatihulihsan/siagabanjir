@@ -1195,3 +1195,33 @@ Implementasi menghasilkan:
   - Navigasi bawah menggunakan `CitizenNavigation` bersama.
   - Integrasi navigasi: terhubung dari kartu Dokumen Siaga Beranda melalui sheet pratinjau dan rute aplikasi.
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#documents-vault-ui).
+
+<a id="monitor-public-ui-062"></a>
+
+## 52. Desain layar pantau wilayah publik - 26 Oktober 2026
+
+**WS-DEC-062 - CURRENT_USER_CONFIRMED.** Pemilik mengonfirmasi implementasi desain
+layar pantau wilayah publik dari `monitor_public.svg` yang diserahkan.
+Mandat mencakup UI lokal, pemodelan domain `WaterLevelStatus`, `RiverPost`, `InfrastructureItem`,
+dan `FeaturedRiverStatus`, slicing widget mandiri (`RegionMonitorScreen`, `MonitorHeader`,
+`MonitorFeaturedCard`, `MonitorRiverPostsSection`, `MonitorInfrastructureCard`), integrasi
+rute navigasi dari kartu Pantau Status / Pantau Wilayah Beranda dan sheet pratinjau,
+serta pengujian responsivitas dan interaktivitas.
+Mandat tidak mencakup integrasi telemetry sensor IoT atau websocket real-time backend.
+
+Implementasi menghasilkan:
+
+- Domain pemantauan di `lib/features/monitor/domain/region_monitor_data.dart`:
+  - `WaterLevelStatus`: ambang Normal, Siaga 3, Siaga 2, dan Bahaya dengan warna semantik (#059669, #B45309, #991B1B).
+  - `RiverPost`: pos sungai (Sungai Batang Kuranji, Sungai Lubuk Kilangan, Sungai Batang Arau).
+  - `InfrastructureItem`: kesiapan infrastruktur (Pintu Air Pintu 3, Pompa Mobile Kuranji).
+  - `FeaturedRiverStatus`: metrik sungai sorotan (ketinggian air, tren kenaikan, batas luapan tanggul).
+- Layar `RegionMonitorScreen` di `lib/features/monitor/presentation/region_monitor_screen.dart`:
+  - `MonitorHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48x48) dan judul "Pantau Wilayah".
+  - `MonitorFeaturedCard`: kartu sorotan bertepi #BFDBFE dengan metrik ketinggian 140 cm (+20 cm),
+    bar multi-segmen berwarna (#A7F3D0, #FCD34D, #FCA5A5), rentang ambang batas, dan banner luapan tanggul (sisa 10 cm).
+  - `MonitorRiverPostsSection`: daftar pos sungai dengan badge status dan ketinggian air.
+  - `MonitorInfrastructureCard`: kartu kesiapan pintu air dan pompa bergerak dengan ikon tetesan air #2563EB.
+  - `CitizenNavigation`: navigasi bawah bersama (Beranda, Lapor, Riwayat, Profil).
+  - Integrasi navigasi: terhubung dari kartu status beranda dan sheet pratinjau (`HomeAction.monitor`).
+Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#monitor-public-ui).

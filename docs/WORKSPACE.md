@@ -857,3 +857,43 @@ Struktur dan widget di `lib/features/documents`:
 
 Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
 dan CHANGELOG.
+
+<a id="monitor-public-ui"></a>
+
+## Layar pantau wilayah publik - 26 Oktober 2026
+
+Mandat [WS-DEC-062](DECISIONS.md#monitor-public-ui-062) menghasilkan layar
+pantau wilayah publik dari acuan `monitor_public.svg` yang diserahkan pemilik.
+Layar terhubung dari kartu status pantau beranda dan bottom sheet pratinjau (`HomeAction.monitor`).
+
+Struktur dan widget di `lib/features/monitor`:
+
+- Domain di `domain/region_monitor_data.dart`:
+  - `WaterLevelStatus`: enum ambang Normal (#059669), Siaga 3 (#B45309), Siaga 2 (#B45309), dan Bahaya (#991B1B).
+  - `RiverPost`: model pos sungai individual (nama, lokasi pos, ketinggian cm, status).
+  - `InfrastructureItem`: kesiapan operasional pintu air dan pompa bergerak.
+  - `FeaturedRiverStatus`: metrik pos sungai sorotan utama (ketinggian cm, delta tren kenaikan, batas luapan tanggul).
+- `MonitorHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48x48) dan
+  judul "Pantau Wilayah" adaptif di dalam `Expanded`.
+- `MonitorFeaturedCard`: kartu sorotan bertepi #BFDBFE (radius 20) menampilkan metrik ketinggian
+  140 cm dan kenaikan ▲ +20 cm, indikator multi-segmen ambang batas (#A7F3D0, #FCD34D, #FCA5A5),
+  rentang angka ambang batas, serta banner peringatan luapan tanggul 150 cm (sisa 10 cm).
+- `MonitorRiverPostsSection`: bagian daftar pos sungai menampilkan Sungai Batang Kuranji (140 cm, Siaga 2),
+  Sungai Lubuk Kilangan (110 cm, Siaga 3), dan Sungai Batang Arau (95 cm, Normal) dengan metrik
+  kanan yang dilindungi `FittedBox` scale down.
+- `MonitorInfrastructureCard`: kartu status kesiapan pompa dan pintu air (Pintu Air Pintu 3 Buka 60%,
+  Pompa Mobile Kuranji 2 Unit Siap) menggunakan `Wrap` responsif dan ikon tetesan air #2563EB.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (79 pengujian total, termasuk 6 tes spesifik RegionMonitorScreen) |
+| Integritas Metrik Air & Tanggul | PASS (140 cm, Siaga 2, ▲ +20 cm, luapan 150 cm / sisa 10 cm, pos kuranji/gadut/muaro) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 1024x768, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada tombol kembali, label judul adaptif) |
+| Integrasi Beranda | PASS (HomeScreen <-> RegionMonitorScreen via pratinjau dan navigasi warga) |
+| Sensor IoT / Realtime websocket | NOT_RUN (implementasi UI lokal; integrasi hardware telemetry di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.

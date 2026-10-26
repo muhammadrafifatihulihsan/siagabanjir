@@ -8,6 +8,24 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Implementasi layar pantau wilayah publik (`features/monitor`) sesuai desain SVG
+pemilik (`monitor_public.svg`). Layar menampilkan data pemantauan publik terkini:
+header dengan tombol kembali dan judul 'Pantau Wilayah', kartu sorotan utama
+bertepi biru muda (#BFDBFE) memuat nama sungai (Sungai Batang Kuranji), badge status
+'Siaga 2', angka ketinggian air (140 cm Tinggi Air), indikator kenaikan (▲ +20 cm),
+bar multi-segmen berwarna (Normal #A7F3D0, Waspada #FCD34D, Bahaya #FCA5A5), rentang
+angka ambang batas, dan banner peringatan batas luapan tanggul 150 cm (Sisa 10 cm);
+bagian daftar pos pantau sungai (Pos Kuranji, Pos Gadut, Pos Muaro); kartu status
+kesiapan pompa dan pintu air (Pintu Air Pintu 3 Buka 60%, Pompa Mobile Kuranji 2 Unit Siap)
+dengan ikon tetesan air #2563EB; serta CitizenNavigation bersama yang terhubung kembali
+ke Beranda, Lapor, Riwayat, dan Profil.
+Akses fitur terhubung dari kartu status pantau Beranda dan sheet pratinjau (`HomeAction.monitor`).
+Seluruh 79 tes widget Flutter lulus (100% PASS, termasuk 6 tes spesifik RegionMonitorScreen)
+dan `flutter analyze` bersih (0 issues).
+Acuan terbaru: [WS-DEC-062](DECISIONS.md#monitor-public-ui-062) dan
+[bukti pantau wilayah](WORKSPACE.md#monitor-public-ui). Tidak ada mandat push.
+Catatan di bawah merekam riwayat pekerjaan sebelumnya.
+
 Implementasi layar dokumen siaga keluarga (`features/documents`) sesuai desain SVG
 pemilik (`documents_vault.svg`). Layar menampilkan brankas berkas kependudukan vital:
 header dengan tombol kembali dan judul 'Dokumen Siaga', judul halaman 'Dokumen Siaga Keluarga'

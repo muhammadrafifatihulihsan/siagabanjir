@@ -7,19 +7,12 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 lalu pisahkan tanggung jawab di dalam fitur.
 
 Status 26 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
-kotak masuk peringatan siaga, checklist tas siaga bencana, dan direktori kontak darurat
-sesuai SVG pemilik. Fitur `home`, `reports`, `messages`, `emergency_bag`, dan `contacts`
-memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi
-API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
-profil pengguna, serta masuk ke akun (login) sesuai SVG pemilik (`auth_login.svg`).
-Fitur `home`, `reports`, `account`, dan `auth` memiliki presentation UI lokal;
-layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
-sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
-Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
-dan kotak masuk peringatan siaga sesuai SVG pemilik. Fitur `home`, `reports`
-dan presentation `messages` memiliki UI lokal; layer bisnis dan fitur lainnya
-masih placeholder. Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data.
-Backend tidak termasuk pekerjaan ini.
+kotak masuk peringatan siaga, checklist tas siaga bencana, direktori kontak darurat,
+dokumen siaga keluarga (`documents_vault.svg`), dan pantau wilayah sesuai SVG pemilik
+(`monitor_public.svg`). Fitur `home`, `reports`, `messages`, `emergency_bag`, `contacts`,
+`documents`, dan `monitor` memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder.
+Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+Fitur autentikasi dan profil pengguna warga (`auth` dan `account`) juga memiliki presentation UI lokal.
 
 ## Struktur
 
@@ -63,8 +56,8 @@ menentukan pembagian kepada Rafi, Melia, dan Hasan melalui tabel berikut.
 | account | Profil dan pengaturan akun | Belum ditetapkan |
 | ktp_verification | Pemeriksaan dan konfirmasi KTP | Belum ditetapkan |
 | reports | Draf, pengiriman, riwayat dan hasil laporan warga | Belum ditetapkan |
-| monitor | Pantau laporan publik | Belum ditetapkan |
-| documents | Dokumen pribadi dan status penghapusannya | Belum ditetapkan |
+| monitor | Pantau laporan publik dan tinggi air sungai (UI monitor_public.svg tersedia) | Belum ditetapkan |
+| documents | Dokumen siaga keluarga (UI documents_vault.svg tersedia) | Belum ditetapkan |
 | family | Data keluarga dan peninjauan hasil ekstraksi | Belum ditetapkan |
 | emergency_bag | Kebutuhan dan progres tas siaga | Belum ditetapkan |
 | contacts | Kontak publik dan kontak pribadi lokal (UI direktori contacts_directory.svg tersedia) | Belum ditetapkan |
