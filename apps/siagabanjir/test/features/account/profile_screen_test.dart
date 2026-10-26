@@ -39,10 +39,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: SiagaTheme.light,
-        home: ProfileScreen(
-          onOpen: onOpen ?? (_) {},
-          onHome: onHome ?? () {},
-        ),
+        home: ProfileScreen(onOpen: onOpen ?? (_) {}, onHome: onHome ?? () {}),
       ),
     );
     await tester.pumpAndSettle();
@@ -128,13 +125,13 @@ void main() {
     await tester.tap(switchFinder);
     await tester.pumpAndSettle();
     expect(tester.widget<Switch>(switchFinder).value, isFalse);
-    expect(
-      find.text('Peringatan siaga banjir dinonaktifkan.'),
-      findsOneWidget,
-    );
+    expect(find.text('Peringatan siaga banjir dinonaktifkan.'), findsOneWidget);
 
     // Test emergency call
-    await tester.scrollUntilVisible(find.byIcon(Icons.phone_outlined).first, 200);
+    await tester.scrollUntilVisible(
+      find.byIcon(Icons.phone_outlined).first,
+      200,
+    );
     await tester.tap(find.byIcon(Icons.phone_outlined).first);
     await tester.pumpAndSettle();
     expect(
@@ -154,9 +151,8 @@ void main() {
     expect(find.text('Keluar dari Akun?'), findsNothing);
 
     // Dismiss snackbar and tap Beranda in navigation
-    ScaffoldMessenger.of(
-      tester.element(find.byType(ProfileScreen)),
-    ).hideCurrentSnackBar();
+    ScaffoldMessenger.of(tester.element(find.byType(ProfileScreen)))
+        .hideCurrentSnackBar();
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Beranda'));
@@ -172,15 +168,16 @@ void main() {
     (const Size(320, 640), 2.0),
     (const Size(390, 844), 2.0),
   ]) {
-    testWidgets('No overflow on Profile at ${scenario.$1}, scale ${scenario.$2}', (
-      tester,
-    ) async {
-      await openProfile(tester, size: scenario.$1, scale: scenario.$2);
-      expect(tester.takeException(), isNull);
+    testWidgets(
+      'No overflow on Profile at ${scenario.$1}, scale ${scenario.$2}',
+      (tester) async {
+        await openProfile(tester, size: scenario.$1, scale: scenario.$2);
+        expect(tester.takeException(), isNull);
 
-      await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);
-      await tester.pumpAndSettle();
-      expect(tester.takeException(), isNull);
-    });
+        await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      },
+    );
   }
 }

@@ -9,6 +9,13 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ### Ditambahkan
 
+- Implementasi layar masuk ke akun (login) Flutter sesuai SVG pemilik (`auth_login.svg`)
+  pada fitur `auth`, mencakup `LoginHeader`, `LoginCard`, tombol masuk Google
+  dengan kurva 4 warna SVG, tautan pendaftaran, dan 9 tes widget bebas overflow.
+
+- Implementasi layar profil pengguna warga (`features/account`) sesuai desain SVG
+  pemilik (`account_warga_profile.svg`) beserta 8 tes widget bebas overflow.
+
 - Halaman buat laporan Flutter sesuai SVG pemilik, terhubung dari beranda,
   dengan pilihan lokal, deskripsi dan konfirmasi keluar. Header/ikon bersama
   digunakan lintas fitur; kamera, GPS dan kirim belum terintegrasi.
@@ -33,6 +40,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- Pembersihan sisa conflict markers pada `HomeNavigation` dan penyesuaian import `CitizenHeader`
+  pada `ProfileScreen`.
 
 - UI/UX laporan diselaraskan dengan home: navbar bersama, pilihan awal kosong,
   indikator/fokus jelas, teks lebih terbaca, label input menetap dan ruang keyboard.

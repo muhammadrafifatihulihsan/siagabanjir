@@ -704,3 +704,19 @@ Dokumentasi terdampak: README Flutter/desain, DESIGN, DECISIONS, TRACEABILITY,
 handoff dan changelog. README root/apps tetap menggambarkan status pratinjau
 secara akurat; AGENTS/rules/skills/adapter tidak berubah karena prosedur/lokasi
 sumber bersama tetap. FRD/SRS/kontrak tidak berubah: revisi hanya UI lokal.
+
+<a id="auth-login-ui"></a>
+
+## Halaman Masuk ke Akun (Login) - 26 Oktober 2026
+
+Mandat [WS-DEC-058](DECISIONS.md#auth-login-058) menghasilkan halaman masuk ke akun
+(login) pada fitur `auth` sesuai SVG pemilik (`auth_login.svg`).
+
+| Pemeriksaan Windows | Hasil dan cakupan |
+|---|---|
+| flutter analyze --no-pub | PASS, 0 issue (bersih) |
+| flutter test --no-pub | PASS, 40 tes (12 home, 11 reports, 8 account, 9 auth) |
+| Input dan interaksi login | PASS validasi input kosong, toggle sandi/PIN, checkbox Ingat Saya, link Lupa Sandi, tombol submit dan tombol Google |
+| Responsivitas login | PASS widget 320 x 640 teks 1.0x dan 2.0x, 390 x 844 teks 1.0x dan 2.0x, 390 x 1097, 1024 x 768, keyboard inset 250 |
+| Perbaikan sisa conflict | PASS membersihkan conflict markers pada HomeNavigation dan memperbaiki import CitizenHeader pada ProfileScreen |
+| API/perangkat/OAuth nyata | NOT_RUN; integrasi backend dan OAuth Google belum tersedia |

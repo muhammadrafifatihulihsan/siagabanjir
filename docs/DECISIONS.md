@@ -1080,3 +1080,19 @@ memperbesar teks pilihan, memberi indikator radio/checkbox/fokus, label input
 menetap, ruang keyboard dan navigasi tab aktif yang konsisten. Perisai hijau
 diganti informasi netral. Mandat tidak mencakup integrasi API/perangkat/push.
 [Bukti](WORKSPACE.md#report-uiux-refinement) membedakan tes UI dari TC bisnis.
+
+<a id="auth-login-058"></a>
+
+## 48. Desain halaman masuk ke akun (login) - 26 Oktober 2026
+
+**WS-DEC-058 - CURRENT_USER_CONFIRMED.** Pemilik meminta implementasi codingan
+layar masuk ke akun (login) di fitur `auth` sesuai desain SVG `auth_login.svg`
+setelah pembacaan dan pemahaman lengkap atas proyek SiagaBanjir.
+Mandat mencakup slicing clean code ke widget per tugas (`LoginHeader`, `LoginCard`,
+`GoogleSignInButton`, `LoginFooter`), interaksi form (validasi ponsel/email dan sandi/PIN,
+toggle visibilitas sandi, checkbox Ingat Saya, link Lupa Sandi dan Daftar Sekarang,
+serta tombol masuk Google dengan logo 4 warna presisi kurva SVG),
+serta perbaikan sisa conflict markers pada `home_navigation.dart` dan
+sinkronisasi `CitizenHeader` pada `ProfileScreen`.
+Tidak mencakup backend nyata, sesi OAuth, atau push remote.
+Bukti dan batas pengujian: [WORKSPACE](WORKSPACE.md#auth-login-ui).

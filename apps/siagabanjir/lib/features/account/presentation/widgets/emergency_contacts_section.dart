@@ -42,10 +42,7 @@ class EmergencyContactsSection extends StatelessWidget {
             ),
             child: const Text(
               '+ Tambah',
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-              ),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
             ),
           ),
         ],
@@ -95,8 +92,12 @@ class _ContactRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final avatarBg = isFirst ? const Color(0xFFFEE2E2) : const Color(0xFFDBEAFE);
-    final avatarFg = isFirst ? const Color(0xFFDC2626) : const Color(0xFF2563EB);
+    final avatarBg = isFirst
+        ? const Color(0xFFFEE2E2)
+        : const Color(0xFFDBEAFE);
+    final avatarFg = isFirst
+        ? const Color(0xFFDC2626)
+        : const Color(0xFF2563EB);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

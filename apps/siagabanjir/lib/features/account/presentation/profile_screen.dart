@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
+import '../../../shared/widgets/citizen_header.dart';
+import '../../auth/presentation/login_screen.dart';
 import '../../home/presentation/home_action.dart';
-import '../../home/presentation/widgets/home_header.dart';
 import '../../home/presentation/widgets/home_navigation.dart';
 import '../domain/user_profile.dart';
 import 'widgets/account_settings_section.dart';
@@ -85,13 +86,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             onPressed: () {
               Navigator.of(dialogContext).pop(true);
-              _showFeedback('Berhasil keluar dari akun.');
             },
             child: const Text('Keluar'),
           ),
         ],
       ),
-    );
+    ).then((confirmed) {
+      if (confirmed == true && mounted) {
+        _showFeedback('Berhasil keluar dari akun.');
+        Navigator.of(context).push(
+          MaterialPageRoute<void>(
+            builder: (ctx) =>
+                LoginScreen(onLoginSuccess: (user) => Navigator.of(ctx).pop()),
+          ),
+        );
+      }
+    });
   }
 
   @override
@@ -102,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HomeHeader(
+              CitizenHeader(
                 onNotifications: () => widget.onOpen(HomeAction.notifications),
               ),
               Expanded(
@@ -134,9 +144,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       const SizedBox(height: 20),
                       EmergencyContactsSection(
                         contacts: widget.initialProfile.contacts,
-                        onAddContact: () => _showFeedback(
-                          'Tambah kontak darurat keluarga.',
-                        ),
+                        onAddContact: () =>
+                            _showFeedback('Tambah kontak darurat keluarga.'),
                         onCallContact: (contact) => _showFeedback(
                           'Menghubungi ${contact.name} (${contact.phone})...',
                         ),
@@ -153,13 +162,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 : 'Peringatan siaga banjir dinonaktifkan.',
                           );
                         },
-                        onSecurity: () => _showFeedback(
-                          'Menu keamanan & kata sandi.',
-                        ),
+                        onSecurity: () =>
+                            _showFeedback('Menu keamanan & kata sandi.'),
                         onHelpFaq: () => _showFeedback('Pusat bantuan & FAQ.'),
-                        onPrivacy: () => _showFeedback(
-                          'Kebijakan privasi data warga.',
-                        ),
+                        onPrivacy: () =>
+                            _showFeedback('Kebijakan privasi data warga.'),
                         onVersionTap: () => _showFeedback(
                           'SiagaBanjir ${widget.initialProfile.appVersion}',
                         ),

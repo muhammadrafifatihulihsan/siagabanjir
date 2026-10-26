@@ -238,3 +238,16 @@ isian yang masih ada. Dialog dapat digulir pada teks besar.
 Perisai hijau dihapus karena dapat menyiratkan foto telah diverifikasi;
 penjelasan kamera memakai teks netral. Ini revisi UI lokal, bukan integrasi
 kamera/GPS/kirim atau perubahan kontrak. [Bukti](WORKSPACE.md#report-uiux-refinement).
+
+### Halaman masuk ke akun (login) dari SVG pemilik
+
+Mandat 26 Oktober 2026 memakai `auth_login.svg` sebagai acuan tampilan layar masuk warga.
+Palet latar #F8FAFC, kartu putih radius 22 bertepi #E2E8F0, judul section 22/800,
+isi/label 13/700, teks input 14/600 dengan Inter lokal. Wadah brand tetes air 58x58
+radius 18 memakai biru muda #EFF6FF dengan border #BFDBFE.
+Input nomor ponsel/email dan kata sandi/PIN berlatar #F8FAFC dengan border #E2E8F0
+dan fokus biru #2563EB. Baris opsi memakai Checkbox Ingat Saya serta link Lupa Sandi
+yang adaptif (Wrap). Tombol utama biru #2563EB dengan teks dan chevron putih,
+diikuti pemisah 'atau' dan tombol masuk Google dengan logo 4 warna presisi kurva SVG.
+Bagian bawah menyediakan tautan pendaftaran bagi warga yang belum memiliki akun.
+[Bukti pemeriksaan](WORKSPACE.md#auth-login-ui).
