@@ -62,8 +62,8 @@ menentukan pembagian kepada Rafi, Melia, dan Hasan melalui tabel berikut.
 | account | Profil dan pengaturan akun | Belum ditetapkan |
 | ktp_verification | Pemeriksaan dan konfirmasi KTP | Belum ditetapkan |
 | reports | Draf, pengiriman, riwayat dan hasil laporan warga | Belum ditetapkan |
-| monitor | Pantau laporan publik | Belum ditetapkan |
-| documents | Dokumen pribadi dan status penghapusannya | Belum ditetapkan |
+| monitor | Pantau laporan publik dan tinggi air sungai (UI monitor_public.svg tersedia) | Belum ditetapkan |
+| documents | Dokumen siaga keluarga (UI documents_vault.svg tersedia) | Belum ditetapkan |
 | family | Data keluarga dan peninjauan hasil ekstraksi | Belum ditetapkan |
 | emergency_bag | Kebutuhan dan progres tas siaga | Belum ditetapkan |
 | contacts | Kontak publik dan kontak pribadi lokal (UI direktori contacts_directory.svg tersedia) | Belum ditetapkan |
@@ -280,8 +280,20 @@ desain SVG pemilik (`auth_login.svg`). Komponen dipecah menjadi `LoginHeader` (l
 brand tetes air dan judul aplikasi), `LoginCard` (input ponsel/email, input sandi/PIN
 dengan toggle visibilitas, checkbox Ingat Saya, link Lupa Sandi, tombol submit primer,
 pemisah 'atau', serta tombol masuk Google dengan logo 4 warna presisi kurva SVG),
-dan `LoginFooter` (tautan daftar akun baru). Layout responsif dan adaptif terhadap
-pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
+dan `LoginFooter` (tautan daftar akun baru yang membuka `RegisterScreen`). Layout responsif
+dan adaptif terhadap pembesaran teks hingga 2.0x dan inset keyboard. [Bukti login](../../docs/WORKSPACE.md#auth-login-ui).
+
+## Halaman Pendaftaran Akun Baru (Register)
+
+[RegisterScreen](lib/features/auth/presentation/register_screen.dart) mengimplementasikan
+desain SVG pemilik (`auth_register.svg`). Komponen dipecah menjadi `LoginHeader` (logo
+brand tetes air dan nama aplikasi), `RegisterCard` (input nama lengkap KTP, nomor ponsel/email,
+kata sandi akun dengan toggle visibilitas, checkbox persetujuan Ketentuan Layanan & Privasi,
+tombol submit primer 'Daftar ke SiagaBanjir >', pemisah 'atau', serta tombol pendaftaran Google
+dengan logo 4 warna presisi kurva SVG), dan `RegisterFooter` (tautan kembali ke halaman login
+'Sudah punya akun? Masuk Sekarang'). Layar terhubung secara dua arah dengan `LoginScreen`.
+Layout responsif dan adaptif terhadap pembesaran teks hingga 2.0x dan inset keyboard.
+[Bukti register](../../docs/WORKSPACE.md#auth-register-ui).
 
 ## Kotak masuk pesan peringatan siaga
 
@@ -299,6 +311,25 @@ Fitur menyediakan:
 - Dialog penjelasan aksi demo [message_dialogs.dart](lib/features/messages/presentation/widgets/message_dialogs.dart).
 - Navigasi bawah menggunakan CitizenNavigation bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
+
+## Halaman Dokumen Siaga Keluarga
+
+[DocumentsVaultScreen](lib/features/documents/presentation/documents_vault_screen.dart)
+mengimplementasikan desain SVG pemilik (`documents_vault.svg`). Komponen dipecah menjadi:
+
+- `DocumentsHeader`: tombol kembali aksesibel dan judul "Dokumen Siaga".
+- `DocumentsVaultCard`: kartu putih bertepi (`radius: 20`, border `#E2E8F0`, padding 16) yang
+  menampilkan tiga berkas dokumen kependudukan vital (Kartu Keluarga, KTP Kepala Keluarga,
+  dan Akta Kelahiran Anak / Berkas Vital) dengan badge format `Gambar / PDF`, detail tipe/ukuran/status,
+  serta tombol `Ganti` interaktif.
+- `DocumentsInfoBanner`: banner informasi biru muda (`#EFF6FF`, border `#BFDBFE`) berisi
+  edukasi perlindungan berkas sipil dan prosedur pencetakan/pengunduhan untuk dinas Disdukcapil pasca-banjir.
+- `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan tombol
+  sekunder `Unduh Semua Berkas untuk Dinas (ZIP)`.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+- Akses fitur: terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
+
+[Bukti dokumen siaga](../../docs/WORKSPACE.md#documents-vault-ui).
 
 ## Panduan Selamat (Detail Panduan Evakuasi)
 

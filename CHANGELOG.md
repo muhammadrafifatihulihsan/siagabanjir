@@ -7,25 +7,30 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
-- Halaman Dokumen Siaga / Brankas Dokumen Keluarga (DocumentsVaultScreen) sesuai desain
-  SVG pemilik (documents_vault.svg), terhubung dari kartu "Dokumen Siaga Keluarga" pada
-  beranda. Fitur menyediakan header dengan tombol kembali dan judul "Dokumen Siaga", kartu
-  ringkasan kesiapan dokumen keluarga dengan progress bar dan persentase kesiapan (100%),
-  tiga kartu berkas dokumen siaga (Kartu Keluarga, KTP Elektronik dengan badge "Vital",
-  dan Akta Kelahiran Anak) dengan nama berkas, metadata format/ukuran/status pembaruan,
-  tombol aksi "Ganti" (dengan dialog demo pemilihan berkas baru), dan badge status "Tersimpan",
-  banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin
-  panduan perlindungan fisik/digital, tombol primer "Simpan & Enkripsi Dokumen Siaga", tombol
-  sekunder "Unduh Semua Berkas Digital (ZIP)", serta integrasi navigasi bawah CitizenNavigation
-  dan tes widget komprehensif.
+- Halaman pantau wilayah publik (RegionMonitorScreen) sesuai desain SVG pemilik
+  (`monitor_public.svg`) pada fitur `monitor`, mencakup `MonitorHeader` (tombol kembali
+  dan judul halaman adaptif), `MonitorFeaturedCard` (kartu sorotan sungai utama bertepi
+  #BFDBFE dengan metrik ketinggian 140 cm, tren ▲ +20 cm, bar segmen warna ambang batas
+  Normal/Waspada/Bahaya, rentang cm, dan peringatan luapan tanggul 150 cm / sisa 10 cm),
+  `MonitorRiverPostsSection` (daftar pos pantau sungai: Kuranji, Gadut, Muaro),
+  `MonitorInfrastructureCard` (status operasional Pintu Air Pintu 3 Buka 60% dan Pompa
+  Mobile Kuranji 2 Unit Siap), integrasi navigasi dari kartu status pantau Beranda
+  dan sheet pratinjau (`HomeAction.monitor`), serta 6 tes widget bebas overflow.
 
-- Halaman direktori kontak darurat (ContactsDirectoryScreen) sesuai desain SVG
-  pemilik (contacts_directory.svg) dan FRD §FR-READY-003, terhubung dari akses
-  cepat "Kontak Darurat" pada beranda. Fitur menyediakan header navigasi kembali,
-  banner disclaimer data contoh sintesis, tab filter kategori horizontal (Semua,
-  Darurat, Kesehatan, Infrastruktur, Posko) dengan penghitungan kuantitas, kartu
-  kontak dengan badge kategori, instansi, deskripsi, nomor telepon, aksi salin
-  nomor ke clipboard dengan SnackBar konfirmasi, serta navigasi bawah CitizenNavigation.
+- Halaman brankas dokumen siaga keluarga (DocumentsVaultScreen) sesuai desain SVG
+  pemilik (`documents_vault.svg`) pada fitur `documents`, mencakup `DocumentsVaultCard`
+  (tiga berkas vital: KK, KTP, dan Akta Kelahiran Anak dengan badge format, detail,
+  dan tombol ganti berkas), `DocumentsInfoBanner` (edukasi perlindungan berkas sipil
+  untuk dinas Disdukcapil pasca-banjir), `DocumentsActionButtons` (simpan dokumen dan
+  unduh arsip dinas ZIP), integrasi rute navigasi dari kartu Dokumen Siaga di Beranda
+  dan sheet pratinjau, serta 10 tes widget bebas overflow.
+
+- Halaman pendaftaran akun baru warga (RegisterScreen) sesuai desain SVG pemilik
+  (`auth_register.svg`) pada fitur `auth`, mencakup `RegisterCard` (nama lengkap KTP,
+  nomor ponsel/email, sandi akun dengan toggle visibilitas, checkbox persetujuan syarat
+  & ketentuan privasi, tombol 'Daftar ke SiagaBanjir >', tombol daftar Google),
+  `RegisterFooter` ('Sudah punya akun? Masuk Sekarang'), serta integrasi navigasi dua arah
+  dengan `LoginScreen` dan 10 tes widget bebas overflow.
 
 - Halaman checklist tas siaga bencana (EmergencyBagScreen) sesuai desain SVG
   pemilik (emergency_bag_checklist.svg), terhubung dari akses cepat "Tas Siaga"

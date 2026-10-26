@@ -2,119 +2,130 @@ import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
-import '../domain/document_entry.dart';
-import 'widgets/document_card.dart';
-import 'widgets/documents_bottom_actions.dart';
+import '../domain/family_document.dart';
+import 'widgets/documents_action_buttons.dart';
 import 'widgets/documents_header.dart';
-import 'widgets/documents_security_banner.dart';
-import 'widgets/documents_summary_card.dart';
+import 'widgets/documents_info_banner.dart';
+import 'widgets/documents_vault_card.dart';
 
-// Layar Dokumen Siaga / Brankas Dokumen Keluarga persis sesuai desain referensi documents_vault.svg.
+// Layar Brankas Dokumen Siaga Keluarga sesuai desain spesifikasi documents_vault.svg.
+// Memfasilitasi penyimpanan cadangan berkas kependudukan vital (KK, KTP, Akta Kelahiran)
+// secara terenkripsi di perangkat untuk pengurusan administrasi kependudukan pasca-banjir.
 class DocumentsVaultScreen extends StatefulWidget {
   const DocumentsVaultScreen({
     super.key,
-    required this.onReport,
-    required this.onHistory,
-    required this.onProfile,
+    this.onHome,
+    this.onReport,
+    this.onHistory,
+    this.onProfile,
+    this.onSaveDocuments,
+    this.onDownloadZip,
+    this.onChangeDocument,
+    this.initialDocuments = kDefaultFamilyDocuments,
   });
 
-  final VoidCallback onReport;
-  final VoidCallback onHistory;
-  final VoidCallback onProfile;
+  final VoidCallback? onHome;
+  final VoidCallback? onReport;
+  final VoidCallback? onHistory;
+  final VoidCallback? onProfile;
+  final VoidCallback? onSaveDocuments;
+  final VoidCallback? onDownloadZip;
+  final ValueChanged<FamilyDocument>? onChangeDocument;
+  final List<FamilyDocument> initialDocuments;
 
   @override
   State<DocumentsVaultScreen> createState() => _DocumentsVaultScreenState();
 }
 
 class _DocumentsVaultScreenState extends State<DocumentsVaultScreen> {
-  late List<DocumentEntry> _entries;
+  final _scroll = ScrollController();
+  late List<FamilyDocument> _documents;
 
   @override
   void initState() {
     super.initState();
-    _entries = List.of(kDefaultDocumentEntries);
+    _documents = List.of(widget.initialDocuments);
   }
 
-  void _onChangeFile(String id) {
-    final entry = _entries.firstWhere((e) => e.id == id);
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text('Ganti ${entry.categoryTitle}'),
-        content: Text(
-          'Pilih dokumen pengganti untuk "${entry.fileName}".\n\nFormat didukung: PDF, JPG, PNG (Maks 10 MB per berkas).',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text('Berkas ${entry.categoryTitle} berhasil diperbarui.'),
-                    backgroundColor: SiagaTheme.blue,
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: SiagaTheme.blue,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text('Pilih Berkas'),
-          ),
-        ],
+  @override
+  void dispose() {
+    _scroll.dispose();
+    super.dispose();
+  }
+
+  void _showFeedback(String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
 
-  void _onSaveAndEncrypt() {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(
-          content: Text('Seluruh dokumen siaga telah diamankan & dienkripsi secara lokal.'),
-          backgroundColor: Color(0xFF10B981),
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 3),
+  void _handleChangeDocument(FamilyDocument doc) {
+    if (widget.onChangeDocument != null) {
+      widget.onChangeDocument!(doc);
+    } else {
+      showDialog<void>(
+        context: context,
+        builder: (dialogCtx) => AlertDialog(
+          title: Text('Ganti ${doc.numberTitle}'),
+          content: Text(
+            'Pilih berkas pengganti untuk ${doc.fileName} dari penyimpanan perangkat '
+            '(format PDF atau Gambar JPG/PNG maksimal 5 MB).',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogCtx).pop(),
+              child: const Text('Batal'),
+            ),
+            FilledButton(
+              onPressed: () {
+                Navigator.of(dialogCtx).pop();
+                _showFeedback('Pilih berkas baru untuk ${doc.numberTitle}.');
+              },
+              child: const Text('Pilih Berkas'),
+            ),
+          ],
         ),
       );
+    }
   }
 
-  void _onDownloadZip() {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(
-          content: Text('Mengunduh arsip berkas digital terenkripsi (ZIP)...'),
-          backgroundColor: SiagaTheme.blue,
-          behavior: SnackBarBehavior.floating,
-          duration: Duration(seconds: 2),
-        ),
-      );
+  void _handleSave() {
+    _showFeedback('Dokumen siaga keluarga berhasil disimpan dan diperbarui.');
+    widget.onSaveDocuments?.call();
+  }
+
+  void _handleDownloadZip() {
+    _showFeedback(
+      'Menyiapkan paket berkas dinas (ZIP) untuk pengurusan Disdukcapil...',
+    );
+    widget.onDownloadZip?.call();
   }
 
   void _onNavigationSelect(CitizenDestination destination) {
     switch (destination) {
       case CitizenDestination.home:
-        Navigator.pop(context);
+        if (widget.onHome != null) {
+          widget.onHome!();
+        } else if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
       case CitizenDestination.report:
-        widget.onReport();
+        widget.onReport?.call();
       case CitizenDestination.history:
-        widget.onHistory();
+        widget.onHistory?.call();
       case CitizenDestination.profile:
-        widget.onProfile();
+        widget.onProfile?.call();
     }
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: const Color(0xFFF8FAFC),
+    backgroundColor: SiagaTheme.background,
     body: SafeArea(
       child: Center(
         child: ConstrainedBox(
@@ -122,29 +133,59 @@ class _DocumentsVaultScreenState extends State<DocumentsVaultScreen> {
           child: Column(
             children: [
               DocumentsHeader(
-                onBack: () => Navigator.pop(context),
+                onBack: () {
+                  if (Navigator.of(context).canPop()) {
+                    Navigator.of(context).pop();
+                  } else if (widget.onHome != null) {
+                    widget.onHome!();
+                  }
+                },
               ),
               Expanded(
                 child: SingleChildScrollView(
                   key: const PageStorageKey('documents-vault-scroll'),
+                  controller: _scroll,
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      DocumentsSummaryCard(entries: _entries),
-                      const SizedBox(height: 18),
-                      for (final entry in _entries) ...[
-                        DocumentCard(
-                          entry: entry,
-                          onChangeFile: _onChangeFile,
+                      // Judul utama halaman dan deskripsi tujuan
+                      const Text(
+                        'Dokumen Siaga Keluarga',
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: Color(0xFF0F172A),
+                          height: 1.2,
                         ),
-                        const SizedBox(height: 16),
-                      ],
-                      const DocumentsSecurityBanner(),
+                      ),
+                      const SizedBox(height: 6),
+                      const Text(
+                        'Simpan cadangan berkas kependudukan untuk pengurusan pasca-banjir.',
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w400,
+                          color: SiagaTheme.muted,
+                          height: 1.4,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Kartu daftar dokumen sipil
+                      DocumentsVaultCard(
+                        documents: _documents,
+                        onChangeDocument: _handleChangeDocument,
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Banner perlindungan data sipil
+                      const DocumentsInfoBanner(),
                       const SizedBox(height: 20),
-                      DocumentsBottomActions(
-                        onSaveAndEncrypt: _onSaveAndEncrypt,
-                        onDownloadZip: _onDownloadZip,
+
+                      // Tombol aksi: simpan & unduh zip
+                      DocumentsActionButtons(
+                        onSave: _handleSave,
+                        onDownloadZip: _handleDownloadZip,
                       ),
                     ],
                   ),

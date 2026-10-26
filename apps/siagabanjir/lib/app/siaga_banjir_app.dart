@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../features/account/presentation/profile_screen.dart';
 import '../features/contacts/presentation/contacts_directory_screen.dart';
 import '../features/documents/presentation/documents_vault_screen.dart';
 import '../features/emergency_bag/presentation/emergency_bag_screen.dart';
 import '../features/guides/presentation/guides_detail_screen.dart';
-import '../features/account/presentation/profile_screen.dart';
 import '../features/home/presentation/home_action.dart';
 import '../features/home/presentation/home_preview_sheet.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/messages/presentation/messages_inbox_screen.dart';
+import '../features/monitor/presentation/region_monitor_screen.dart';
 import '../features/reports/presentation/report_create_screen.dart';
 import '../features/reports/presentation/reports_history_screen.dart';
 import '../shared/theme/siaga_theme.dart';
@@ -99,6 +100,7 @@ class SiagaBanjirApp extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (routeContext) => DocumentsVaultScreen(
+            onHome: () => Navigator.pop(routeContext),
             onReport: () => _openPreview(routeContext, HomeAction.report),
             onHistory: () => _openPreview(routeContext, HomeAction.history),
             onProfile: () => _openPreview(routeContext, HomeAction.profile),
@@ -125,6 +127,25 @@ class SiagaBanjirApp extends StatelessWidget {
           ),
         ),
       );
+    } else if (next == HomeAction.documents) {
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (routeContext) => DocumentsVaultScreen(
+            onHome: () => Navigator.pop(routeContext),
+            onReport: () => _openPreview(routeContext, HomeAction.report),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          ),
+        ),
+      );
+    } else if (next == HomeAction.monitor) {
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (routeContext) => RegionMonitorScreen(
+            onHome: () => Navigator.pop(routeContext),
+            onReport: () => _openPreview(routeContext, HomeAction.report),
+            onHistory: () => _openPreview(routeContext, HomeAction.history),
+            onProfile: () => _openPreview(routeContext, HomeAction.profile),
     } else if (next == HomeAction.history) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(

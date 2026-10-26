@@ -784,3 +784,116 @@ Struktur dan widget di lib/features/emergency_bag:
 
 Dokumentasi terdampak: README Flutter/desain/apps, DESIGN, DECISIONS, TRACEABILITY,
 handoff, dan CHANGELOG.
+
+<a id="auth-register-ui"></a>
+
+## Layar pendaftaran akun baru (register) - 26 Oktober 2026
+
+Mandat [WS-DEC-060](DECISIONS.md#auth-register-ui-060) menghasilkan layar
+pendaftaran akun baru warga dari acuan `auth_register.svg` yang diserahkan pemilik.
+Layar terhubung secara dua arah dengan `LoginScreen`.
+
+Struktur dan widget di `lib/features/auth/presentation`:
+
+- `RegisterScreen`: layar utama formulir pendaftaran, menampung logo identitas SiagaBanjir,
+  kartu formulir, serta footer tautan kembali ke halaman masuk.
+- `RegisterCard`: kartu formulir putih bertepi (radius 22, border #E2E8F0, padding 22)
+  dengan judul 'Daftar Akun Baru', subjudul 'Daftar untuk pantau air dan lapor banjir cepat.',
+  input nama lengkap KTP, input nomor ponsel/email, input kata sandi akun dengan toggle
+  visibilitas, checkbox kustom persetujuan Ketentuan Layanan & Privasi, tombol submit primer
+  'Daftar ke SiagaBanjir >', garis pemisah 'atau', serta tombol pendaftaran Google dengan
+  logo 4 warna kurva SVG.
+- `RegisterFooter`: tautan 'Sudah punya akun? Masuk Sekarang'.
+- Integrasi alur: `LoginScreen` membuka `RegisterScreen` via navigasi saat 'Daftar Sekarang'
+  ditekan, dan `RegisterScreen` kembali ke `LoginScreen` saat 'Masuk Sekarang' ditekan.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (59 pengujian total, termasuk 10 tes spesifik RegisterScreen) |
+| Validasi form & error | PASS (validasi nama kosong, nomor/email kosong, sandi kosong, dan syarat ketentuan) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 390x1097, 1024x768, keyboard inset 250, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada input/tombol/tautan/checkbox) |
+| Navigasi dua arah | PASS (LoginScreen <-> RegisterScreen transisi mulus) |
+| Android fisik / Backend cloud | NOT_RUN (implementasi UI lokal; API server di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.
+
+<a id="documents-vault-ui"></a>
+
+## Layar dokumen siaga keluarga - 26 Oktober 2026
+
+Mandat [WS-DEC-061](DECISIONS.md#documents-vault-ui-061) menghasilkan layar
+dokumen siaga keluarga warga dari acuan `documents_vault.svg` yang diserahkan pemilik.
+Layar terhubung dari kartu Dokumen Siaga di Beranda dan bottom sheet pratinjau.
+
+Struktur dan widget di `lib/features/documents`:
+
+- Domain `FamilyDocument` di `domain/family_document.dart` memuat 3 berkas kependudukan
+  vital (Kartu Keluarga, KTP Kepala Keluarga, Akta Kelahiran Anak).
+- `DocumentsHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48) dan
+  judul "Dokumen Siaga" yang adaptif di dalam `Expanded`.
+- `DocumentsVaultCard`: kartu putih bertepi (radius 20, border #E2E8F0, padding 16)
+  menampilkan 3 item dokumen dengan `Wrap` judul dan badge format `Gambar / PDF`,
+  serta inner box adaptif LayoutBuilder yang menyusun ikon berkas biru muda, nama berkas,
+  subtitle status, dan tombol `Ganti` secara rapi tanpa overflow pada layar sempit.
+- `DocumentsInfoBanner`: edukasi perlindungan berkas sipil dan pencetakan Disdukcapil pasca-banjir
+  menggunakan `Text.rich` yang mewarisi scaling teks secara mulus.
+- `DocumentsActionButtons`: tombol utama `Simpan & Perbarui Dokumen Siaga` (#2563EB) dan
+  tombol sekunder `Unduh Semua Berkas untuk Dinas (ZIP)` dengan `FittedBox` yang adaptif
+  terhadap pembesaran font 2.0x.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (69 pengujian total, termasuk 10 tes spesifik DocumentsVaultScreen) |
+| Interaktivitas dokumen | PASS (ganti berkas, simpan dokumen siaga, unduh paket dinas ZIP) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 390x1008, 1024x768, 844x390 landscape, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada tombol kembali, tombol ganti berkas, dan tombol aksi dinas) |
+| Integrasi Beranda | PASS (HomeScreen <-> DocumentsVaultScreen via pratinjau dan navigasi warga) |
+| Cloud storage / Hardware encryption | NOT_RUN (implementasi UI lokal; enkripsi/sinkronisasi server di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.
+
+<a id="monitor-public-ui"></a>
+
+## Layar pantau wilayah publik - 26 Oktober 2026
+
+Mandat [WS-DEC-062](DECISIONS.md#monitor-public-ui-062) menghasilkan layar
+pantau wilayah publik dari acuan `monitor_public.svg` yang diserahkan pemilik.
+Layar terhubung dari kartu status pantau beranda dan bottom sheet pratinjau (`HomeAction.monitor`).
+
+Struktur dan widget di `lib/features/monitor`:
+
+- Domain di `domain/region_monitor_data.dart`:
+  - `WaterLevelStatus`: enum ambang Normal (#059669), Siaga 3 (#B45309), Siaga 2 (#B45309), dan Bahaya (#991B1B).
+  - `RiverPost`: model pos sungai individual (nama, lokasi pos, ketinggian cm, status).
+  - `InfrastructureItem`: kesiapan operasional pintu air dan pompa bergerak.
+  - `FeaturedRiverStatus`: metrik pos sungai sorotan utama (ketinggian cm, delta tren kenaikan, batas luapan tanggul).
+- `MonitorHeader`: tombol kembali (rounded 14, border #E2E8F0, touch target 48x48) dan
+  judul "Pantau Wilayah" adaptif di dalam `Expanded`.
+- `MonitorFeaturedCard`: kartu sorotan bertepi #BFDBFE (radius 20) menampilkan metrik ketinggian
+  140 cm dan kenaikan ▲ +20 cm, indikator multi-segmen ambang batas (#A7F3D0, #FCD34D, #FCA5A5),
+  rentang angka ambang batas, serta banner peringatan luapan tanggul 150 cm (sisa 10 cm).
+- `MonitorRiverPostsSection`: bagian daftar pos sungai menampilkan Sungai Batang Kuranji (140 cm, Siaga 2),
+  Sungai Lubuk Kilangan (110 cm, Siaga 3), dan Sungai Batang Arau (95 cm, Normal) dengan metrik
+  kanan yang dilindungi `FittedBox` scale down.
+- `MonitorInfrastructureCard`: kartu status kesiapan pompa dan pintu air (Pintu Air Pintu 3 Buka 60%,
+  Pompa Mobile Kuranji 2 Unit Siap) menggunakan `Wrap` responsif dan ikon tetesan air #2563EB.
+- `CitizenNavigation`: navigasi bawah bersama terhubung ke Beranda, Lapor, Riwayat, dan Profil.
+
+| Pemeriksaan | Hasil dan cakupan |
+|---|---|
+| flutter analyze | PASS (No issues found, 0 warnings/lints) |
+| flutter test | PASS (79 pengujian total, termasuk 6 tes spesifik RegionMonitorScreen) |
+| Integritas Metrik Air & Tanggul | PASS (140 cm, Siaga 2, ▲ +20 cm, luapan 150 cm / sisa 10 cm, pos kuranji/gadut/muaro) |
+| Layout & Responsivitas | PASS (bebas overflow pada ukuran 320x640, 390x844, 1024x768, dan text scaling 2.0x) |
+| Aksesibilitas | PASS (target sentuh >= 48x48, Semantics pada tombol kembali, label judul adaptif) |
+| Integrasi Beranda | PASS (HomeScreen <-> RegionMonitorScreen via pratinjau dan navigasi warga) |
+| Sensor IoT / Realtime websocket | NOT_RUN (implementasi UI lokal; integrasi hardware telemetry di luar mandat) |
+
+Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
+dan CHANGELOG.
