@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../features/account/presentation/profile_screen.dart';
-import '../features/contacts/presentation/contacts_directory_screen.dart';
-import '../features/documents/presentation/documents_vault_screen.dart';
-import '../features/emergency_bag/presentation/emergency_bag_screen.dart';
-import '../features/guides/presentation/guides_detail_screen.dart';
-import '../features/home/presentation/home_action.dart';
-import '../features/home/presentation/home_preview_sheet.dart';
-import '../features/home/presentation/home_screen.dart';
-import '../features/messages/presentation/messages_inbox_screen.dart';
-import '../features/monitor/presentation/region_monitor_screen.dart';
-import '../features/reports/presentation/report_create_screen.dart';
-import '../features/reports/presentation/reports_history_screen.dart';
+import '../features/akun/presentation/layar_profil.dart';
+import '../features/kontak/presentation/layar_direktori_kontak.dart';
+import '../features/dokumen/presentation/layar_dokumen_siaga.dart';
+import '../features/tas_siaga/presentation/layar_tas_siaga.dart';
+import '../features/panduan/presentation/layar_detail_panduan.dart';
+import '../features/beranda/presentation/aksi_beranda.dart';
+import '../features/beranda/presentation/panel_pratinjau_beranda.dart';
+import '../features/beranda/presentation/layar_beranda.dart';
+import '../features/pesan/presentation/layar_kotak_masuk.dart';
+import '../features/pantau/presentation/layar_pantau_wilayah.dart';
+import '../features/laporan/presentation/layar_buat_laporan.dart';
+import '../features/laporan/presentation/layar_riwayat_laporan.dart';
 import '../shared/theme/siaga_theme.dart';
 
 class SiagaBanjirApp extends StatelessWidget {
@@ -24,139 +24,138 @@ class SiagaBanjirApp extends StatelessWidget {
     theme: SiagaTheme.light,
     home: Builder(
       builder: (context) =>
-          HomeScreen(onOpen: (action) => _openPreview(context, action)),
+          LayarBeranda(onOpen: (action) => _openPreview(context, action)),
     ),
   );
 
-  Future<void> _openPreview(BuildContext context, HomeAction action) async {
-    if (action == HomeAction.report) {
+  Future<void> _openPreview(BuildContext context, AksiBeranda action) async {
+    if (action == AksiBeranda.report) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => ReportCreateScreen(
+          builder: (routeContext) => LayarBuatLaporan(
             onNotifications: () =>
-                _openPreview(routeContext, HomeAction.notifications),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+                _openPreview(routeContext, AksiBeranda.notifications),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    if (action == HomeAction.bag) {
+    if (action == AksiBeranda.bag) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => EmergencyBagScreen(
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          builder: (routeContext) => LayarTasSiaga(
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    if (action == HomeAction.notifications) {
+    if (action == AksiBeranda.notifications) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => MessagesInboxScreen(
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          builder: (routeContext) => LayarKotakMasuk(
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    if (action == HomeAction.guides) {
+    if (action == AksiBeranda.guides) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => GuidesDetailScreen(
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          builder: (routeContext) => LayarDetailPanduan(
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    if (action == HomeAction.contacts) {
+    if (action == AksiBeranda.contacts) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => ContactsDirectoryScreen(
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+          builder: (routeContext) => LayarDirektoriKontak(
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    if (action == HomeAction.documents) {
+    if (action == AksiBeranda.documents) {
       await Navigator.push<void>(
         context,
         MaterialPageRoute(
-          builder: (routeContext) => DocumentsVaultScreen(
+          builder: (routeContext) => LayarDokumenSiaga(
             onHome: () => Navigator.pop(routeContext),
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
       return;
     }
-    final next = await showModalBottomSheet<HomeAction>(
+    final next = await showModalBottomSheet<AksiBeranda>(
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
       showDragHandle: true,
-      builder: (context) => HomePreviewSheet(action: action),
+      builder: (context) => PanelPratinjauBeranda(action: action),
     );
     if (!context.mounted) return;
 
-    if (next == HomeAction.profile) {
+    if (next == AksiBeranda.profile) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (ctx) => ProfileScreen(
+          builder: (ctx) => LayarProfil(
             onOpen: (act) => _openPreview(ctx, act),
             onHome: () => Navigator.of(ctx).pop(),
           ),
         ),
       );
-    } else if (next == HomeAction.documents) {
+    } else if (next == AksiBeranda.documents) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (routeContext) => DocumentsVaultScreen(
+          builder: (routeContext) => LayarDokumenSiaga(
             onHome: () => Navigator.pop(routeContext),
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
-    } else if (next == HomeAction.monitor) {
+    } else if (next == AksiBeranda.monitor) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (routeContext) => RegionMonitorScreen(
+          builder: (routeContext) => LayarPantauWilayah(
             onHome: () => Navigator.pop(routeContext),
-            onReport: () => _openPreview(routeContext, HomeAction.report),
-            onHistory: () => _openPreview(routeContext, HomeAction.history),
-            onProfile: () => _openPreview(routeContext, HomeAction.profile),
+            onReport: () => _openPreview(routeContext, AksiBeranda.report),
+            onHistory: () => _openPreview(routeContext, AksiBeranda.history),
+            onProfile: () => _openPreview(routeContext, AksiBeranda.profile),
           ),
         ),
       );
-    } else if (next == HomeAction.history) {
+    } else if (next == AksiBeranda.history) {
       await Navigator.of(context).push(
         MaterialPageRoute<void>(
-          builder: (ctx) => ReportsHistoryScreen(
-            onNotifications: () =>
-                _openPreview(ctx, HomeAction.notifications),
-            onReport: () => _openPreview(ctx, HomeAction.report),
-            onProfile: () => _openPreview(ctx, HomeAction.profile),
+          builder: (ctx) => LayarRiwayatLaporan(
+            onNotifications: () => _openPreview(ctx, AksiBeranda.notifications),
+            onReport: () => _openPreview(ctx, AksiBeranda.report),
+            onProfile: () => _openPreview(ctx, AksiBeranda.profile),
           ),
         ),
       );

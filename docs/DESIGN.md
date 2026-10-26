@@ -263,7 +263,7 @@ notifikasi CitizenHeader di beranda maupun laporan. Struktur visual:
 - Tab filter horizontal berbentuk pill (Semua, Darurat, Cuaca BMKG, Posko).
   Pill aktif menggunakan warna #0F172A dengan teks putih; pill tidak aktif
   berlatar putih dengan border #E2E8F0 dan teks #334155.
-- Kartu pesan [MessageCard] berlatar putih dengan radius 20 dan border #E2E8F0.
+- Kartu pesan `KartuPesan` berlatar putih dengan radius 20 dan border #E2E8F0.
   Kartu memiliki aksen garis vertikal di sisi kiri selebar 4 px penanda tingkat/kategori:
   merah #DC2626 untuk Siaga 2 (Waspada), oranye #D97706 untuk Potensi Banjir Kilat,
   biru #2563EB untuk Posko Bencana Siaga, dan netral #E2E8F0 untuk Normal (Siaga 4).

@@ -8,6 +8,34 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Penataan Flutter 27 Oktober 2026 mengikuti
+[WS-DEC-063](DECISIONS.md#flutter-indonesia-063). Sepuluh fitur kini bernama
+`akun`, `autentikasi`, `beranda`, `dokumen`, `kontak`, `laporan`, `panduan`,
+`pantau`, `pesan` dan `tas_siaga`, selaras antara lib dan test. File serta
+kelas/enum fitur ikut memakai Indonesia. Layer teknis, API Flutter, callback,
+fixture, ID data dan aset tetap. [README Flutter](../apps/siagabanjir/README.md)
+memuat peta nama lama/baru dan batas implementasi.
+
+Dihapus: 48 penanda `.gitkeep`, direktori kosong, serta lima file dokumen lama
+tanpa pemakai. Lima model UI yang mengimpor Flutter dipindah ke
+presentation/models; domain tersisa Dart murni. Requirement admin/keluarga/KTP
+tetap berlaku meski placeholder dihapus. Perilaku UI tidak diubah.
+
+Verifikasi: analyzer 0 issues, seluruh 91 tes PASS, build Web dan APK debug
+PASS. Audit impor dan perbandingan token 91 file juga PASS; tidak ada perubahan
+alur di luar nama/impor/format. [Bukti dan batas](WORKSPACE.md#flutter-indonesia)
+memisahkan build/widget dari perangkat/UAT yang tidak dijalankan.
+Pemilik mengizinkan fokus bacaan audit Flutter; seluruh spesifikasi/kontrak
+tidak dibaca ulang. Beberapa aksi tetap simulasi meski labelnya menyatakan
+berhasil; integrasi dan penyelarasan pesan menjadi pekerjaan berikutnya.
+
+Dokumentasi dan skill Flutter diselaraskan dalam unit yang sama. Tidak ada
+perubahan requirement/kontrak, aset atau dependensi. Branch lokal `branch-rafi`;
+commit disiapkan sesuai mandat tetap, tanpa push. Riwayat di bawah menggunakan
+nama/path lama; lokasi terbaru mengikuti README, bukan placeholder historis.
+
+### Riwayat perbaikan kompilasi sebelum penataan
+
 Perbaikan kompilasi 27 Oktober 2026 setelah pull main pada baseline `23d586a`:
 `siaga_banjir_app.dart` kehilangan penutup `RegionMonitorScreen`,
 `MaterialPageRoute` dan `Navigator.push`; `home_preview_sheet.dart` kehilangan

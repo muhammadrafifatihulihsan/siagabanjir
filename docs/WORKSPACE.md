@@ -2,8 +2,8 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 23 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
-Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
+Kondisi 27 Oktober 2026: panduan kerja lintas OS/IDE, backend kosong, dan
+sepuluh fitur pratinjau Flutter warga dengan nama Indonesia. UI mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
 
@@ -22,12 +22,16 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 
 ## Status dan versi
 
+Struktur/nama Flutter terbaru mengikuti [audit 27 Oktober](#flutter-indonesia).
+Path, nama kelas dan jumlah placeholder pada catatan bertanggal sebelumnya
+adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
+
 | Komponen | Baseline |
 |---|---|
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend kosong; 15 folder fitur produk dan satu mockup beranda warga dengan aset lokal |
+| Backend / Flutter | Backend kosong; sepuluh fitur UI warga, folder kosong dihapus; [struktur aktual](../apps/siagabanjir/README.md#struktur) |
 | Pengujian | Widget mockup dan build Web diperiksa; TC produk, provider, perangkat, dan UAT tetap NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -48,7 +52,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki struktur fitur dan mockup beranda; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
+| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki sepuluh fitur UI warga; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -897,3 +901,58 @@ Struktur dan widget di `lib/features/monitor`:
 
 Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
 dan CHANGELOG.
+
+<a id="flutter-indonesia"></a>
+
+## Audit struktur Flutter dan nama Indonesia - 27 Oktober 2026
+
+Mandat [WS-DEC-063](DECISIONS.md#flutter-indonesia-063) diperiksa dari baseline
+lokal `2008c8c` pada `branch-rafi`, dengan tree awal bersih. Pemilik mengizinkan
+fokus bacaan pada kode/tes Flutter, aturan/skill, arsitektur dan rujukan terdampak.
+Semua 96 file Dart awal ditinjau; audit juga memeriksa manifest, navigasi,
+konfigurasi Android/Web, struktur aset dan dokumentasi terkait. Skill lokal
+workspace, Flutter dan review dipakai; skill eksternal `tech-debt` dari katalog
+Engineering pemilik menjadi acuan prioritas, tanpa instalasi atau penyalinan skill.
+
+Hasil pembersihan berdasarkan penggunaan aktual:
+
+| Temuan | Tindakan |
+|---|---|
+| 48 `.gitkeep` serta enam fitur/core/layer kosong | Hapus penanda dan direktori kosong di lib; requirement fitur mendatang tetap |
+| Lima file dokumen lama tidak terjangkau dari main maupun semua tes | Hapus DocumentEntry, DocumentCard, DocumentsBottomActions, DocumentsSecurityBanner, DocumentsSummaryCard |
+| Nama Inggris pada fitur/file/kelas | Pindah 85 file fitur dan tes; samakan sepuluh nama fitur Indonesia pada lib/test |
+| Lima model UI mengimpor Flutter dalam domain | Pindah ke presentation/models; domain tersisa Dart murni |
+| README mencampur dua implementasi dokumen dan struktur placeholder | Ganti dengan struktur serta perilaku aktual, tautkan riwayat keputusan |
+
+Setelah penataan terdapat 76 file Dart lib dan 15 file test/helper. Pemeriksaan
+impor mengonfirmasi semuanya terjangkau dari main atau tes, tanpa impor hilang
+atau `.gitkeep` lib. Perbandingan token terhadap baseline pada 91 file membuktikan
+perubahan hanya nama/impor/format; literal UI dan alur tetap. Script audit/migrasi
+sementara dihapus setelah pemeriksaan, bukan menjadi tooling baru repository.
+
+Pemeriksaan Windows dengan Flutter 3.47.7 stable / Dart 3.13.5:
+
+| Pemeriksaan | Hasil |
+|---|---|
+| dart format lib test | PASS; 91 file diformat |
+| flutter analyze --no-pub | PASS; 0 issues |
+| flutter test --no-pub --reporter expanded | PASS; 91 tes |
+| flutter build web --no-pub --no-web-resources-cdn --no-wasm-dry-run | PASS; build/web |
+| flutter build apk --debug --no-pub | PASS; build/app/outputs/flutter-apk/app-debug.apk |
+| Markdownlint pada 11 dokumen terdampak | PASS; 0 error |
+| Validator tautan internal dan metadata skill | PASS; 42 Markdown dan delapan skill |
+| git diff --check | PASS |
+
+Gradle mencetak peringatan native access Java tetapi build berhasil. Tes/build
+bukan pemeriksaan visual baru, perangkat fisik, provider/backend, macOS/Linux,
+TalkBack atau UAT; semuanya di luar bukti tugas ini. Beberapa label/umpan balik
+simulasi autentikasi, dokumen dan audio masih menyiratkan hasil nyata; README
+mencatat keterbatasan tersebut untuk tahap integrasi. Tidak ada perubahan
+requirement, endpoint, data contoh, aset, dependensi atau konfigurasi SDK.
+
+Dokumentasi terdampak diselaraskan: README root/apps/Flutter/desain, DESIGN
+(nama kartu pesan), skill Flutter, keputusan, keterlacakan, CHANGELOG dan handoff.
+AGENTS, rules, katalog skill, adapter IDE dan konfigurasi bersama tidak memiliki
+path fitur lama yang perlu diganti. BRD/PRD/FRD/SRS serta kontrak tidak diubah
+karena penataan internal tidak mengubah kebutuhan atau perilaku produk.
+Riwayat path lama dipertahankan sebagai riwayat dengan rujukan pemetaan terbaru.

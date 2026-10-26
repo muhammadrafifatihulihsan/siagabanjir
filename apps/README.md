@@ -10,11 +10,11 @@ Satu wadah kode tim, bernama `apps/`.
 | siagabanjir/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
 
 `server/` masih berisi `.gitkeep`; `siagabanjir/` sudah memiliki scaffold Flutter
-dengan target Android dan Web dari setup tim. Folder 15 fitur warga/admin
-beserta layer sudah disiapkan. Fitur home menampilkan satu mockup beranda warga
-dengan aset lokal dan panel pratinjau. Fitur reports memiliki halaman buat
-laporan interaktif lokal sesuai SVG. Fitur messages menyediakan halaman kotak
-masuk peringatan siaga sesuai acuan messages_inbox.svg; perilaku bisnis belum diimplementasikan.
+dengan target Android dan Web dari setup tim. Sepuluh fitur UI warga memakai
+nama folder Indonesia: akun, autentikasi, beranda, dokumen, kontak, laporan,
+panduan, pantau, pesan dan tas_siaga. Folder kosong dan kode dokumen lama yang
+tidak digunakan sudah dihapus; layer dibuat sesuai kebutuhan implementasi.
+Layar masih memakai data/state lokal; integrasi bisnis dan admin belum tersedia.
 Struktur, batas layer dan pembagian kerja ada pada
 [README Flutter](siagabanjir/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti

@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Versi: **0.1.0**\
-Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; tahap 5 panduan workspace; kondisi terbaru pada §48**\
+Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; penataan Flutter terbaru pada §58**\
 Tanggal pencatatan: **21 Oktober 2026**\
 Dokumen terkait: [BRD.md](BRD.md), [PRD.md](PRD.md), [DECISIONS.md](DECISIONS.md), dan [FRD.md](FRD.md).
 
@@ -11,7 +11,8 @@ Dokumen ini memetakan sumber, keputusan, requirement, dan bukti penerimaan. USER
 
 **Status historis:** catatan draf/pertanyaan/riset di bawah mempertahankan waktu pencatatannya. Status final mengikuti [penutupan v1.0.0](#frd-finalization-trace), bukan status terbuka pada putaran lama.
 
-**Kondisi workspace terbaru:** lihat [§48](#workspace-github-workflow-traceability). Auditor
+**Kondisi workspace terbaru:** lihat [penataan Flutter](#flutter-indonesia-trace)
+dan [alur GitHub](#workspace-github-workflow-traceability). Auditor
 dan perintah pemeriksaan pada catatan tahap lama adalah riwayat; berkasnya
 tidak tersedia dalam workspace publik. Jangan menjalankannya langsung pada
 struktur workspace baru; validator aktif ada pada .github/scripts/.
@@ -2111,3 +2112,24 @@ sesuai acuan messages_inbox.svg yang diserahkan pemilik. Inspeksi ini tidak
 membuktikan push notification, panggilan darurat aktif, atau integrasi backend;
 TC bisnis terkait peringatan siaga tetap NOT_RUN.
 [Bukti](WORKSPACE.md#messages-inbox-ui) mencatat hasil implementasi dan inspeksi lokal.
+
+<a id="flutter-indonesia-trace"></a>
+
+## 58. Audit struktur Flutter dan nama Indonesia - 27 Oktober 2026
+
+[WS-DEC-063](DECISIONS.md#flutter-indonesia-063) menerapkan mandat pemilik pada
+sepuluh fitur, impor aplikasi, file/kelas/model UI dan seluruh tes. Semua 96
+file Dart awal dibaca dalam audit; penelusuran impor main dan tes menunjukkan
+lima file dokumen lama tidak terjangkau. Setelah penghapusan tersisa 91 file
+Dart (76 lib dan 15 test/helper), dengan 91 kasus tes yang sama.
+
+Enam fitur kosong dan core/layer kosong dihapus; requirement admin, keluarga
+dan KTP tidak dihapus. Model yang memakai Flutter dipindah ke presentation/models
+agar batas domain Dart murni sesuai panduan arsitektur. Nama teknis/kontrak dan
+perilaku UI tetap. Pemetaan path ada pada [README Flutter](../apps/siagabanjir/README.md#pembagian-fitur).
+Nama/path pada catatan tahap sebelumnya adalah riwayat sebelum migrasi.
+
+[Bukti](WORKSPACE.md#flutter-indonesia) mencakup analyzer, suite widget dan build.
+Tidak ada perubahan FR/AC/TC atau wire API; tes UI tidak menaikkan status TC
+bisnis, provider, perangkat fisik atau UAT. Bacaan dibatasi sesuai izin eksplisit
+pemilik untuk audit Flutter; seluruh spesifikasi/kontrak tidak dibaca ulang.

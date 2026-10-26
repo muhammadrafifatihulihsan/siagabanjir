@@ -7,6 +7,13 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Penataan Flutter: sepuluh folder fitur beserta file/kelas/enum dan tes memakai
+  nama Indonesia; hapus 48 penanda folder kosong dan lima file dokumen tanpa
+  pemakai. Lima model yang memakai Flutter dipindah ke presentation/models.
+  README dan rujukan struktur diselaraskan; perilaku UI tetap.
+  Nama lama pada catatan implementasi di bawah adalah riwayat sebelum
+  [migrasi WS-DEC-063](docs/DECISIONS.md#flutter-indonesia-063).
+
 - Halaman pantau wilayah publik (RegionMonitorScreen) sesuai desain SVG pemilik
   (`monitor_public.svg`) pada fitur `monitor`, mencakup `MonitorHeader` (tombol kembali
   dan judul halaman adaptif), `MonitorFeaturedCard` (kartu sorotan sungai utama bertepi

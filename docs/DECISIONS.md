@@ -20,6 +20,10 @@
 
 Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Catatan keputusan menggunakan parafrasa; ID sumber, tanggal, cakupan, dan urutan otorisasi dipertahankan.
 
+Nama/path Flutter pada keputusan lama merekam struktur saat keputusan dibuat.
+Pemetaan aktif dan pengganti kebijakan placeholder ada pada
+[WS-DEC-063](#flutter-indonesia-063); tidak mengubah riwayat persetujuan produk.
+
 **Riwayat persetujuan:** BRD-APPROVAL menetapkan BRD v0.1.0 sebagai baseline dan mengotorisasi penyusunan PRD. Persetujuan PRD serta kelanjutan FRD dicatat pada [PRD-APPROVAL-01](#prd-approval-01). Persetujuan final FRD/SRS dan keputusan workspace tercatat pada bagian berikut sesuai urutan waktunya.
 
 Bagian 2–5 serta Change Log tahap 1 mempertahankan riwayat keadaan ketika keputusan dicatat. Jika keputusan dirinci atau berubah pada tahap 2, keputusan baru dicatat dengan prefix PRD dan rujukan perubahan; pilihan lama tidak diam-diam diganti. Register OPEN pada bagian 6 merekam agenda tahap 1; disposisi berikutnya ditelusuri pada catatan PRD/FRD/SRS.
@@ -1225,3 +1229,32 @@ Implementasi menghasilkan:
   - `CitizenNavigation`: navigasi bawah bersama (Beranda, Lapor, Riwayat, Profil).
   - Integrasi navigasi: terhubung dari kartu status beranda dan sheet pratinjau (`HomeAction.monitor`).
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#monitor-public-ui).
+
+<a id="flutter-indonesia-063"></a>
+
+## 53. Penataan fitur Flutter berbahasa Indonesia - 27 Oktober 2026
+
+**WS-DEC-063 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit seluruh struktur
+Flutter, penghapusan folder tidak terpakai, nama folder fitur Indonesia, dan
+penyesuaian nama kode bila memungkinkan. Pemilik juga secara eksplisit
+mengizinkan fokus bacaan pada Flutter, aturan/skill, arsitektur dan rujukan
+terdampak; ini bukan klaim membaca ulang seluruh spesifikasi/kontrak.
+
+Implementasi mengganti nama sepuluh fitur beserta file, kelas/enum dan tes;
+pemetaan menjadi sumber operasional di [README Flutter](../apps/siagabanjir/README.md).
+Nama teknis layer, API Flutter, properti/callback, fixture, ID data dan aset tetap.
+Lima model dengan Color/IconData dipindahkan dari domain ke presentation/models.
+Domain tersisa berupa Dart murni; tidak ada penambahan state manager/dependensi.
+
+Penelusuran impor dari main dan semua tes menemukan satu model dan empat widget
+dokumen lama tanpa pemakai. Kelimanya dihapus, bersama 48 `.gitkeep`, enam fitur
+kosong, layer kosong dan core kosong. Bagian WS-DEC-051 yang menyediakan
+placeholder digantikan kebijakan membuat folder ketika ada implementasi.
+Pemisahan tanggung jawab per fitur/layer tetap berlaku. Penghapusan folder
+admin/keluarga/KTP tidak membatalkan requirement produk.
+
+Perubahan dibatasi pada struktur/nama dan dokumentasi; perilaku UI, data contoh,
+kontrak API serta status penerimaan produk tetap. Integrasi layanan dan perbaikan
+umpan balik simulasi dicatat sebagai tindak lanjut, bukan diklaim sudah selesai.
+[Bukti pemeriksaan](WORKSPACE.md#flutter-indonesia) memisahkan tes/build dari UAT.
+Commit lokal mengikuti mandat tetap; tidak ada mandat push.

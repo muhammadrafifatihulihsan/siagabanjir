@@ -61,8 +61,8 @@ untuk mendekati desain, bukan verifikasi jenis font asli Figma.
   status resmi, berkas tersimpan atau aturan kuota produk.
 - Konten dapat digulir, header/navigasi tetap terlihat. Teks besar mengubah
   grid menjadi satu kolom; lebar konten dibatasi 600 logical pixels pada Web.
-- Lapor membuka halaman buat laporan; tombol lain membuka panel pratinjau
-  dengan jalan kembali. Tidak mengirim laporan,
+- Navigasi saat ini membuka layar lokal atau panel sesuai
+  [peta beranda](../README.md#mockup-beranda-warga). Tidak mengirim laporan,
   mengakses kamera/lokasi, menelepon, membaca dokumen atau melakukan login.
 - Beranda dipilih pada navbar selama panel tampil; tombol Beranda kembali ke
   atas. Menu Lengkap meneruskan ke panel fitur lain tanpa menumpuk panel.
@@ -166,7 +166,7 @@ ke beranda dan fitur lainnya.
 Pemilik memberikan emergency_bag_checklist.svg pada 26 Oktober 2026 sebagai acuan
 desain halaman checklist tas siaga bencana warga. [Salinan sumber](emergency_bag_checklist.svg)
 berukuran 390 x 1283; sumber dipertahankan sebagai acuan desain lokal.
-Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/presentation`:
+Layar dibangun menggunakan widget Flutter di `lib/features/tas_siaga/presentation`:
 
 - Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Tas Siaga Bencana".
 - Kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis, penghitung jumlah barang (default 12 dari 14 Barang), progress bar biru, dan deskripsi kebutuhan 3 hari mandiri.
@@ -181,11 +181,14 @@ Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/present
 Pemilik memberikan documents_vault.svg pada 26 Oktober 2026 sebagai acuan desain
 halaman brankas dokumen siaga keluarga. [Salinan sumber](documents_vault.svg)
 berukuran 390 x 1008; sumber dipertahankan sebagai acuan desain lokal.
-Layar dibangun menggunakan widget Flutter di `lib/features/documents/presentation`:
+Layar aktif berada di `lib/features/dokumen/presentation`; penataan 27 Oktober
+2026 menghapus widget alternatif lama yang tidak diimpor. Susunan aktif:
 
 - Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Dokumen Siaga".
-- Kartu ringkasan Dokumen Siaga Keluarga dengan persentase kesiapan (100%), progress bar biru, penghitung berkas (3 dari 3 Berkas Tersimpan), dan status "Siap Darurat".
-- Tiga kartu berkas dokumen siaga (Kartu Keluarga, KTP Elektronik dengan badge "Vital", dan Akta Kelahiran Anak) dengan nama berkas, metadata format/ukuran/status pembaruan, tombol aksi "Ganti" (dengan dialog demo pemilihan berkas baru), dan badge status "Tersimpan".
-- Banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin panduan penyimpanan kedap air, legalisir, enkripsi, dan kesiapan darurat.
-- Dua tombol aksi di bawah: tombol primer "Simpan & Enkripsi Dokumen Siaga" (biru `#2563EB` dengan ikon centang) dan tombol sekunder "Unduh Semua Berkas Digital (ZIP)" (putih dengan border `#E2E8F0` dan ikon unduh).
+- Judul Dokumen Siaga Keluarga dan keterangan pengurusan pasca-banjir.
+- Tiga berkas contoh (KK, KTP Kepala Keluarga/Pasangan dan Akta Kelahiran Anak)
+  dalam `KartuDokumenSiaga`, dengan badge format Gambar / PDF, metadata dan tombol Ganti.
+- `BannerInfoDokumen` tentang perlindungan berkas sipil dan pencetakan untuk dinas.
+- `TombolAksiDokumen`: Simpan & Perbarui Dokumen Siaga dan Unduh Semua Berkas
+  untuk Dinas (ZIP). Umpan balik masih simulasi; tidak menyimpan atau mengenkripsi berkas.
 - Navigasi bawah menggunakan CitizenNavigation bersama yang terhubung kembali ke Beranda, Lapor, Riwayat, dan Profil.
