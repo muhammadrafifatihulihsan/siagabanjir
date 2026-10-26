@@ -6,11 +6,11 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 **Feature-First + Layered Architecture**: kelompokkan kode berdasarkan fitur,
 lalu pisahkan tanggung jawab di dalam fitur.
 
-Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
-dan kotak masuk peringatan siaga sesuai SVG pemilik. Fitur `home`, `reports`
-dan presentation `messages` memiliki UI lokal; layer bisnis dan fitur lainnya
-masih placeholder. Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data.
-Backend tidak termasuk pekerjaan ini.
+Status 26 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
+kotak masuk peringatan siaga, checklist tas siaga bencana, dan direktori kontak darurat
+sesuai SVG pemilik. Fitur `home`, `reports`, `messages`, `emergency_bag`, dan `contacts`
+memiliki UI lokal; layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi
+API, sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -58,7 +58,7 @@ menentukan pembagian kepada Rafi, Melia, dan Hasan melalui tabel berikut.
 | documents | Dokumen pribadi dan status penghapusannya | Belum ditetapkan |
 | family | Data keluarga dan peninjauan hasil ekstraksi | Belum ditetapkan |
 | emergency_bag | Kebutuhan dan progres tas siaga | Belum ditetapkan |
-| contacts | Kontak publik dan kontak pribadi lokal | Belum ditetapkan |
+| contacts | Kontak publik dan kontak pribadi lokal (UI direktori contacts_directory.svg tersedia) | Belum ditetapkan |
 | guides | Panduan kesiapsiagaan dan TTS | Belum ditetapkan |
 | messages | Kotak masuk warga dan status baca (UI pratinjau messages_inbox.svg tersedia) | Belum ditetapkan |
 | admin_reports | Antrean, kelompok, review, koreksi dan catatan laporan | Belum ditetapkan |

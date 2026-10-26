@@ -7,6 +7,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Halaman direktori kontak darurat (ContactsDirectoryScreen) sesuai desain SVG
+  pemilik (contacts_directory.svg) dan FRD §FR-READY-003, terhubung dari akses
+  cepat "Kontak Darurat" pada beranda. Fitur menyediakan header navigasi kembali,
+  banner disclaimer data contoh sintesis, tab filter kategori horizontal (Semua,
+  Darurat, Kesehatan, Infrastruktur, Posko) dengan penghitungan kuantitas, kartu
+  kontak dengan badge kategori, instansi, deskripsi, nomor telepon, aksi salin
+  nomor ke clipboard dengan SnackBar konfirmasi, serta navigasi bawah CitizenNavigation.
+
 - Halaman checklist tas siaga bencana (EmergencyBagScreen) sesuai desain SVG
   pemilik (emergency_bag_checklist.svg), terhubung dari akses cepat "Tas Siaga"
   pada beranda. Fitur menyediakan kartu ringkasan kesiapan logistik keluarga dengan
