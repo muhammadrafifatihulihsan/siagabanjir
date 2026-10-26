@@ -143,9 +143,6 @@ void main() {
 
       // 5. Uncheck Terms & Conditions -> triggers terms error
       final checkboxFinder = find.byType(Checkbox);
-      expect(tester.widget<Checkbox>(checkboxFinder).value, isTrue);
-      await tester.tap(find.text('Saya setuju '));
-      await tester.pumpAndSettle();
       expect(tester.widget<Checkbox>(checkboxFinder).value, isFalse);
 
       await tester.tap(find.text('Daftar ke SiagaBanjir'));
@@ -164,7 +161,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(registeredUser, 'Rahmat Hidayat');
       expect(
-        find.text('Pendaftaran berhasil untuk Rahmat Hidayat.'),
+        find.text('Simulasi pendaftaran untuk Rahmat Hidayat.'),
         findsOneWidget,
       );
 
@@ -174,6 +171,7 @@ void main() {
       expect(termsTapped, isTrue);
 
       // 8. Test Google Sign Up tap
+      await tester.ensureVisible(find.text('Lanjut dengan Google'));
       await tester.tap(find.text('Lanjut dengan Google'));
       await tester.pumpAndSettle();
       expect(googleTapped, isTrue);

@@ -138,7 +138,7 @@ void main() {
       await tester.tap(find.text('Masuk ke SiagaBanjir'));
       await tester.pumpAndSettle();
       expect(loggedInUser, '081234567890');
-      expect(find.text('Berhasil masuk sebagai 081234567890.'), findsOneWidget);
+      expect(find.text('Simulasi masuk sebagai 081234567890.'), findsOneWidget);
 
       // 6. Test Forgot Password tap
       await tester.tap(find.text('Lupa Sandi?'));

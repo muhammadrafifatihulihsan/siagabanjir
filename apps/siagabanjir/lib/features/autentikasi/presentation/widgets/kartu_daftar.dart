@@ -57,7 +57,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         const Text(
           'Daftar Akun Baru',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: SiagaTheme.judulHalaman,
             fontWeight: FontWeight.w800,
             color: Color(0xFF0F172A),
             height: 1.2,
@@ -68,7 +68,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         const Text(
           'Daftar untuk pantau air dan lapor banjir cepat.',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w400,
             color: SiagaTheme.muted,
             height: 1.4,
@@ -80,7 +80,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         const Text(
           'Nama Lengkap (KTP)',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -99,7 +99,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         const Text(
           'Nomor Ponsel atau Email',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -118,7 +118,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         const Text(
           'Kata Sandi Akun',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -185,7 +185,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
                       const Text(
                         'Saya setuju ',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: SiagaTheme.isi,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF334155),
                         ),
@@ -204,7 +204,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
                             child: Text(
                               'Ketentuan Layanan & Privasi',
                               style: TextStyle(
-                                fontSize: 13,
+                                fontSize: SiagaTheme.isi,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF2563EB),
                               ),
@@ -245,7 +245,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
                     Text(
                       'Daftar ke SiagaBanjir',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: SiagaTheme.judulBagian,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
@@ -273,7 +273,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
               child: Text(
                 'atau',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w500,
                   color: Color(0xFF64748B),
                 ),
@@ -306,7 +306,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
       obscureText: obscureText,
       keyboardType: keyboardType,
       style: const TextStyle(
-        fontSize: 14,
+        fontSize: SiagaTheme.isi,
         fontWeight: FontWeight.w600,
         color: Color(0xFF0F172A),
       ),
@@ -316,7 +316,7 @@ class _KartuDaftarState extends State<KartuDaftar> {
         fillColor: const Color(0xFFF8FAFC),
         hintText: hintText,
         hintStyle: const TextStyle(
-          fontSize: 14,
+          fontSize: SiagaTheme.isi,
           fontWeight: FontWeight.w400,
           color: Color(0xFF94A3B8),
         ),

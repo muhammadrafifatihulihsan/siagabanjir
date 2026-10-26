@@ -10,11 +10,13 @@ class KartuLangkahPanduan extends StatelessWidget {
     required this.step,
     required this.isExpanded,
     required this.onToggle,
+    this.onRead,
   });
 
   final LangkahPanduan step;
   final bool isExpanded;
   final VoidCallback onToggle;
+  final VoidCallback? onRead;
 
   @override
   Widget build(BuildContext context) => Material(
@@ -45,7 +47,7 @@ class KartuLangkahPanduan extends StatelessWidget {
                     child: Text(
                       '${step.number}',
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: SiagaTheme.isi,
                         fontWeight: FontWeight.w800,
                         color: SiagaTheme.blue,
                       ),
@@ -57,7 +59,7 @@ class KartuLangkahPanduan extends StatelessWidget {
                   child: Text(
                     step.title,
                     style: const TextStyle(
-                      fontSize: 15,
+                      fontSize: SiagaTheme.judulBagian,
                       fontWeight: FontWeight.w700,
                       color: SiagaTheme.ink,
                       height: 1.25,
@@ -65,6 +67,16 @@ class KartuLangkahPanduan extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
+                if (onRead != null)
+                  IconButton(
+                    tooltip: 'Dengarkan langkah ${step.number}',
+                    onPressed: onRead,
+                    icon: const Icon(
+                      Icons.volume_up_outlined,
+                      size: 20,
+                      color: SiagaTheme.blue,
+                    ),
+                  ),
                 Icon(
                   isExpanded
                       ? Icons.keyboard_arrow_up_rounded
@@ -81,7 +93,7 @@ class KartuLangkahPanduan extends StatelessWidget {
                 child: Text(
                   step.description,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: SiagaTheme.isi,
                     height: 1.4,
                     color: Color(0xFF334155),
                   ),

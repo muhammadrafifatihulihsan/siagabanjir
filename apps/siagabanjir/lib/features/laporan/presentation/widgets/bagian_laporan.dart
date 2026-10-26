@@ -37,7 +37,7 @@ class BagianLaporan extends StatelessWidget {
           Text(
             hint!,
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: SiagaTheme.isi,
               height: 1.4,
               color: SiagaTheme.mutedOnTint,
             ),

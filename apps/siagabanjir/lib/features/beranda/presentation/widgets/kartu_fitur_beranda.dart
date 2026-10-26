@@ -62,7 +62,7 @@ class KartuFiturBeranda extends StatelessWidget {
                       child: Text(
                         documents ? 'Dokumen Siaga' : 'AI Vision',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: SiagaTheme.keterangan,
                           height: 1.3,
                           fontWeight: FontWeight.w700,
                           color: accent,
@@ -75,7 +75,7 @@ class KartuFiturBeranda extends StatelessWidget {
               Text(
                 documents ? '3/3 Berkas Siaga' : 'Sisa kuota: 1/2',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   height: 1.3,
                   fontWeight: FontWeight.w600,
                   color: SiagaTheme.mutedOnTint,

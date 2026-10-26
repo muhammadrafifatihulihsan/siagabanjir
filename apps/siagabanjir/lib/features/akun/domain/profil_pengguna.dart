@@ -24,7 +24,7 @@ class ProfilPengguna {
     required this.evacuationPoint,
     required this.contacts,
     this.floodAlertEnabled = true,
-    this.appVersion = 'v2.4.0 (Terbaru)',
+    this.appVersion = 'v1.0.0+1 (Demo)',
   });
 
   final String name;
@@ -39,6 +39,28 @@ class ProfilPengguna {
   final bool floodAlertEnabled;
   final String appVersion;
 
+  ProfilPengguna copyWith({
+    String? name,
+    String? phone,
+    String? location,
+    String? initials,
+    String? address,
+    String? evacuationPoint,
+    List<KontakDarurat>? contacts,
+  }) => ProfilPengguna(
+    name: name ?? this.name,
+    phone: phone ?? this.phone,
+    location: location ?? this.location,
+    initials: initials ?? this.initials,
+    nik: nik,
+    email: email,
+    address: address ?? this.address,
+    evacuationPoint: evacuationPoint ?? this.evacuationPoint,
+    contacts: contacts ?? this.contacts,
+    floodAlertEnabled: floodAlertEnabled,
+    appVersion: appVersion,
+  );
+
   static const defaultMock = ProfilPengguna(
     name: 'Rahmat Hidayat',
     phone: '+62 812-3456-7890',
@@ -46,7 +68,7 @@ class ProfilPengguna {
     initials: 'RH',
     nik: '137107*********01',
     email: 'rahmat.hidayat@email.com',
-    address: 'Jl. Adinegoro No. 12, RT 02 / RW 04, L...',
+    address: 'Jl. Adinegoro No. 12, RT 02 / RW 04, Lubuk Buaya',
     evacuationPoint: 'Masjid Raya Koto Tangah (300 m)',
     contacts: [
       KontakDarurat(

@@ -61,7 +61,7 @@ class HeaderPesan extends StatelessWidget {
           Text(
             '$unreadCount Baru',
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: SiagaTheme.isi,
               fontWeight: FontWeight.w700,
               color: Color(0xFFDC2626),
             ),

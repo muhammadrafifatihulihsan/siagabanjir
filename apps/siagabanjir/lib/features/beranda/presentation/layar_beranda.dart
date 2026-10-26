@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import '../../../shared/widgets/lingkup_navigasi.dart';
+
 import 'package:siagabanjir/shared/widgets/citizen_header.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
@@ -9,20 +12,22 @@ import 'widgets/akses_cepat_beranda.dart';
 import 'widgets/kartu_status_beranda.dart';
 
 class LayarBeranda extends StatefulWidget {
-  const LayarBeranda({super.key, required this.onOpen});
+  const LayarBeranda({super.key, required this.onOpen, this.scrollController});
 
   final ValueChanged<AksiBeranda> onOpen;
+
+  final ScrollController? scrollController;
 
   @override
   State<LayarBeranda> createState() => _LayarBerandaState();
 }
 
 class _LayarBerandaState extends State<LayarBeranda> {
-  final _scroll = ScrollController();
+  late final _scroll = widget.scrollController ?? ScrollController();
 
   @override
   void dispose() {
-    _scroll.dispose();
+    if (widget.scrollController == null) _scroll.dispose();
     super.dispose();
   }
 
@@ -46,9 +51,11 @@ class _LayarBerandaState extends State<LayarBeranda> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              CitizenHeader(
-                onNotifications: () => widget.onOpen(AksiBeranda.notifications),
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenHeader(
+                  onNotifications: () =>
+                      widget.onOpen(AksiBeranda.notifications),
+                ),
               Expanded(
                 child: SingleChildScrollView(
                   key: const PageStorageKey('home-scroll'),
@@ -67,7 +74,7 @@ class _LayarBerandaState extends State<LayarBeranda> {
                             child: Text(
                               'Akses Kesiapsiagaan',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: SiagaTheme.judulBagian,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -82,7 +89,7 @@ class _LayarBerandaState extends State<LayarBeranda> {
                             child: const Text(
                               'Lengkap',
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: SiagaTheme.isi,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -104,7 +111,8 @@ class _LayarBerandaState extends State<LayarBeranda> {
                   ),
                 ),
               ),
-              NavigasiBeranda(onOpen: widget.onOpen, onHome: _backToTop),
+              if (!LingkupNavigasi.aktif(context))
+                NavigasiBeranda(onOpen: widget.onOpen, onHome: _backToTop),
             ],
           ),
         ),

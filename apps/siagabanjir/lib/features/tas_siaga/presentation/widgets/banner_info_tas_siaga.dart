@@ -23,7 +23,7 @@ class BannerInfoTasSiaga extends StatelessWidget {
           child: Text(
             'Simpan tas di dekat pintu utama yang mudah dijangkau saat sirine siaga berbunyi.',
             style: TextStyle(
-              fontSize: 13,
+              fontSize: SiagaTheme.isi,
               height: 1.35,
               fontWeight: FontWeight.w500,
               color: Color(0xFF1D4ED8),

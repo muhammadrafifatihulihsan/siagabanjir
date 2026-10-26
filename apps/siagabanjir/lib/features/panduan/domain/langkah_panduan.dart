@@ -1,4 +1,4 @@
-// Model dan data acuan untuk tahapan panduan evakuasi darurat banjir persis sesuai desain SVG.
+// Model dan data acuan untuk tahapan panduan evakuasi darurat banjir mengikuti acuan desain pemilik.
 class LangkahPanduan {
   const LangkahPanduan({
     required this.number,
@@ -20,7 +20,7 @@ const kDefaultGuideSteps = <LangkahPanduan>[
   ),
   LangkahPanduan(
     number: 2,
-    title: 'Pindahkan Barang & Dokumen Berharga',
+    title: 'Pindahkan Dokumen & Barang Berharga',
     description: 'Amankan barang elektronik dan berkas penting ke lantai atas atau tempat tinggi.',
   ),
   LangkahPanduan(
@@ -30,12 +30,12 @@ const kDefaultGuideSteps = <LangkahPanduan>[
   ),
   LangkahPanduan(
     number: 4,
-    title: 'Selamatkan Anggota Keluarga',
-    description: 'Pastikan anak-anak, lansia, dan orang sakit dievakuasi lebih dulu ke tempat aman.',
+    title: 'Gunakan Alas Kaki Tertutup',
+    description: 'Kenakan sepatu boots atau sepatu tertutup tebal untuk menghindari pecahan paku, kaca, dan gigitan ular.',
   ),
   LangkahPanduan(
     number: 5,
-    title: 'Evakuasi ke Titik Kumpul Aman',
+    title: 'Evakuasi ke Posko Titik Kumpul',
     description: 'Ikuti jalur evakuasi resmi, hindari jembatan rapuh dan got untuk menuju posko.',
   ),
 ];

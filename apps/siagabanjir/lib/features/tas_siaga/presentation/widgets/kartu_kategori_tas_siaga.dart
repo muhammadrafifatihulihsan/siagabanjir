@@ -39,7 +39,7 @@ class KartuKategoriTasSiaga extends StatelessWidget {
               child: Text(
                 category.title,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.ink,
                 ),
@@ -48,7 +48,7 @@ class KartuKategoriTasSiaga extends StatelessWidget {
             Text(
               '$_checkedCount/$_totalCount',
               style: TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 fontWeight: FontWeight.w700,
                 color: _isAllChecked
                     ? const Color(0xFF64748B)
@@ -108,7 +108,7 @@ class KartuKategoriTasSiaga extends StatelessWidget {
                 child: Text(
                   item.title,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: SiagaTheme.isi,
                     height: 1.35,
                     color: item.isChecked
                         ? const Color(0xFF334155)

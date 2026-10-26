@@ -1,129 +1,124 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
+import '../pengendali_suara.dart';
 
-// Banner pemutar audio instruksi suara darurat persis sesuai desain referensi guides_detail.svg.
 class BannerAudioPanduan extends StatelessWidget {
   const BannerAudioPanduan({
     super.key,
-    required this.isPlaying,
-    required this.onTogglePlay,
+    required this.pengendali,
+    required this.onPutar,
   });
-
-  final bool isPlaying;
-  final VoidCallback onTogglePlay;
+  final PengendaliSuara pengendali;
+  final VoidCallback onPutar;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(14),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      border: Border.all(color: const Color(0xFFBFDBFE)),
-      boxShadow: [
-        BoxShadow(
-          color: const Color(0xFF2563EB).withValues(alpha: 0.04),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: pengendali,
+    builder: (context, _) {
+      final status = pengendali.status;
+      final aktif = status == StatusNarasi.berbicara;
+      final jeda = status == StatusNarasi.jeda;
+      return Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: const Color(0xFFBFDBFE)),
         ),
-      ],
-    ),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(10),
+            const Row(
+              children: [
+                Icon(
+                  Icons.volume_up_outlined,
+                  color: SiagaTheme.blue,
+                  size: 24,
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Bantuan Suara Panduan',
+                        style: TextStyle(
+                          fontSize: SiagaTheme.judulBagian,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Dengarkan instruksi dibacakan sistem',
+                        style: TextStyle(
+                          fontSize: SiagaTheme.keterangan,
+                          color: SiagaTheme.muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            FilledButton.icon(
+              onPressed: pengendali.sibuk
+                  ? null
+                  : aktif
+                  ? pengendali.jeda
+                  : jeda
+                  ? pengendali.lanjut
+                  : onPutar,
+              icon: Icon(
+                aktif ? Icons.pause_rounded : Icons.play_arrow_rounded,
               ),
-              child: const Icon(
-                Icons.volume_up_rounded,
-                color: SiagaTheme.blue,
-                size: 20,
+              label: Text(
+                pengendali.sibuk
+                    ? 'Menyiapkan Suara...'
+                    : aktif
+                    ? 'Jeda Panduan Suara'
+                    : jeda
+                    ? 'Lanjutkan Panduan Suara'
+                    : 'Dengarkan Panduan Suara',
+                textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(width: 12),
-            const Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Bantuan Suara Panduan',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: SiagaTheme.ink,
-                      height: 1.2,
-                    ),
+            if (aktif || jeda || pengendali.sibuk) ...[
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
+                onPressed: pengendali.hentikan,
+                icon: const Icon(Icons.stop_rounded),
+                label: const Text('Hentikan Panduan Suara'),
+              ),
+            ],
+            if (pengendali.pesan != null) ...[
+              const SizedBox(height: 12),
+              Semantics(
+                liveRegion: true,
+                child: Text(
+                  pengendali.pesan!,
+                  style: const TextStyle(
+                    fontSize: SiagaTheme.isi,
+                    color: Color(0xFF991B1B),
                   ),
-                  SizedBox(height: 3),
-                  Text(
-                    'Dengarkan instruksi dan panduan suara',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                      color: SiagaTheme.muted,
-                      height: 1.2,
-                    ),
-                  ),
-                ],
+                ),
+              ),
+            ],
+            const SizedBox(height: 8),
+            Text(
+              pengendali.info?.perluJaringan == false
+                  ? 'Menggunakan suara Indonesia yang tersedia di perangkat.'
+                  : 'Suara mengikuti mesin TTS perangkat dan mungkin membutuhkan internet.',
+              style: const TextStyle(
+                fontSize: SiagaTheme.keterangan,
+                height: 1.4,
+                color: SiagaTheme.muted,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 12),
-        Semantics(
-          label: isPlaying
-              ? 'Hentikan Panduan Suara'
-              : 'Dengarkan Panduan Suara',
-          button: true,
-          child: Material(
-            color: isPlaying ? const Color(0xFF1E3A8A) : SiagaTheme.blue,
-            borderRadius: BorderRadius.circular(12),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: onTogglePlay,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 11,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      isPlaying
-                          ? Icons.stop_circle_rounded
-                          : Icons.play_arrow_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 6),
-                    Flexible(
-                      child: Text(
-                        isPlaying
-                            ? 'Hentikan Panduan Suara'
-                            : 'Dengarkan Panduan Suara',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    ),
+      );
+    },
   );
 }

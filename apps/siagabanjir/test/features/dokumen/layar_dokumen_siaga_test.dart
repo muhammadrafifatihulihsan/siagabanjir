@@ -77,15 +77,24 @@ void main() {
     // Tiga berkas dokumen keluarga
     expect(find.text('1. Kartu Keluarga (KK)'), findsOneWidget);
     expect(find.text('scan_kk_asli_keluarga.pdf'), findsOneWidget);
-    expect(find.text('PDF • 1.4 MB • Siap cetak dinas'), findsOneWidget);
+    expect(
+      find.text('PDF • 1.4 MB • Contoh • belum ada berkas'),
+      findsOneWidget,
+    );
 
     expect(find.text('2. KTP Kepala Keluarga / Pasangan'), findsOneWidget);
     expect(find.text('ktp_rahmad_hidayat.jpg'), findsOneWidget);
-    expect(find.text('Gambar JPG • 840 KB • Siap cetak dinas'), findsOneWidget);
+    expect(
+      find.text('Gambar JPG • 840 KB • Contoh • belum ada berkas'),
+      findsOneWidget,
+    );
 
     expect(find.text('3. Akta Kelahiran Anak / Berkas Vital'), findsOneWidget);
     expect(find.text('akta_kelahiran_anak.pdf'), findsOneWidget);
-    expect(find.text('PDF • 920 KB • Siap cetak dinas'), findsOneWidget);
+    expect(
+      find.text('PDF • 920 KB • Contoh • belum ada berkas'),
+      findsOneWidget,
+    );
 
     // Tiga badge format berkas & tiga tombol Ganti
     expect(find.text('Gambar / PDF'), findsNWidgets(3));
@@ -94,7 +103,9 @@ void main() {
     // Banner perlindungan berkas sipil
     expect(find.textContaining('Perlindungan Berkas Sipil:'), findsOneWidget);
     expect(
-      find.textContaining('Berkas tersimpan terenkripsi pada perangkat Anda.'),
+      find.textContaining(
+        'Berkas yang dipilih hanya tersedia selama halaman ini terbuka.',
+      ),
       findsOneWidget,
     );
 
@@ -142,11 +153,6 @@ void main() {
       await tester.tap(find.text('Simpan & Perbarui Dokumen Siaga'));
       await tester.pumpAndSettle();
       expect(saveCalled, isTrue);
-      expect(
-        find.text('Dokumen siaga keluarga berhasil disimpan dan diperbarui.'),
-        findsOneWidget,
-      );
-
       // Sembunyikan snackbar sebelum tap tombol berikutnya
       ScaffoldMessenger.of(tester.element(find.byType(LayarDokumenSiaga)))
           .hideCurrentSnackBar();
@@ -160,13 +166,6 @@ void main() {
       await tester.tap(find.text('Unduh Semua Berkas untuk Dinas (ZIP)'));
       await tester.pumpAndSettle();
       expect(downloadCalled, isTrue);
-      expect(
-        find.text(
-          'Menyiapkan paket berkas dinas (ZIP) untuk pengurusan Disdukcapil...',
-        ),
-        findsOneWidget,
-      );
-
       // Sembunyikan snackbar sebelum navigasi
       ScaffoldMessenger.of(tester.element(find.byType(LayarDokumenSiaga)))
           .hideCurrentSnackBar();

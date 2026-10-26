@@ -27,7 +27,11 @@ class BagianDeskripsiLaporan extends StatelessWidget {
       minLines: 3,
       maxLines: 6,
       maxLength: 2000,
-      style: const TextStyle(fontSize: 14, height: 1.4, color: SiagaTheme.ink),
+      style: const TextStyle(
+        fontSize: SiagaTheme.isi,
+        height: 1.4,
+        color: SiagaTheme.ink,
+      ),
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       // Sentuhan di luar input menutup keyboard tanpa menghapus isi form.
@@ -39,7 +43,7 @@ class BagianDeskripsiLaporan extends StatelessWidget {
                 '$currentLength / $maxLength karakter',
                 semanticsLabel: '$currentLength dari $maxLength karakter',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   color: SiagaTheme.mutedOnTint,
                 ),
               ),

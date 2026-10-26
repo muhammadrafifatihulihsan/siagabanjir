@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/lingkup_navigasi.dart';
+
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
 import '../domain/langkah_panduan.dart';
@@ -7,6 +9,9 @@ import 'widgets/banner_audio_panduan.dart';
 import 'widgets/header_detail_panduan.dart';
 import 'widgets/kartu_anjuran_larangan.dart';
 import 'widgets/kartu_langkah_panduan.dart';
+import '../data/mesin_suara_perangkat.dart';
+import '../domain/mesin_suara.dart';
+import 'pengendali_suara.dart';
 
 // Layar Panduan Detail / Panduan Selamat persis sesuai desain referensi guides_detail.svg.
 class LayarDetailPanduan extends StatefulWidget {
@@ -15,11 +20,13 @@ class LayarDetailPanduan extends StatefulWidget {
     required this.onReport,
     required this.onHistory,
     required this.onProfile,
+    this.mesinSuara,
   });
 
   final VoidCallback onReport;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
+  final MesinSuara? mesinSuara;
 
   @override
   State<LayarDetailPanduan> createState() => _LayarDetailPanduanState();
@@ -27,7 +34,15 @@ class LayarDetailPanduan extends StatefulWidget {
 
 class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
   final Set<int> _expandedSteps = {1, 2, 3, 4, 5};
-  bool _isPlayingAudio = false;
+  late final _suara = PengendaliSuara(
+    widget.mesinSuara ?? MesinSuaraPerangkat(),
+  );
+
+  @override
+  void dispose() {
+    _suara.dispose();
+    super.dispose();
+  }
 
   void _toggleStep(int stepNumber) {
     setState(() {
@@ -39,24 +54,14 @@ class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
     });
   }
 
-  void _toggleAudio() {
-    setState(() {
-      _isPlayingAudio = !_isPlayingAudio;
-    });
-    final messenger = ScaffoldMessenger.of(context);
-    messenger.hideCurrentSnackBar();
-    messenger.showSnackBar(
-      SnackBar(
-        content: Text(
-          _isPlayingAudio
-              ? 'Memutar instruksi suara panduan...'
-              : 'Panduan suara dihentikan.',
-        ),
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  void _putarSemua() => _suara.putar(
+    kDefaultGuideSteps
+        .map(
+          (step) =>
+              'Langkah ${step.number}. ${step.title}. ${step.description}',
+        )
+        .join('\n'),
+  );
 
   void _onNavigationSelect(CitizenDestination destination) {
     switch (destination) {
@@ -88,14 +93,14 @@ class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       BannerAudioPanduan(
-                        isPlaying: _isPlayingAudio,
-                        onTogglePlay: _toggleAudio,
+                        pengendali: _suara,
+                        onPutar: _putarSemua,
                       ),
                       const SizedBox(height: 20),
                       const Text(
                         'Langkah Menghadapi Banjir',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: SiagaTheme.judulBagian,
                           fontWeight: FontWeight.w700,
                           color: SiagaTheme.ink,
                           height: 1.2,
@@ -107,6 +112,9 @@ class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
                           step: step,
                           isExpanded: _expandedSteps.contains(step.number),
                           onToggle: () => _toggleStep(step.number),
+                          onRead: () => _suara.putar(
+                            '${step.title}. ${step.description}',
+                          ),
                         ),
                         const SizedBox(height: 12),
                       ],
@@ -116,10 +124,11 @@ class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
                   ),
                 ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),

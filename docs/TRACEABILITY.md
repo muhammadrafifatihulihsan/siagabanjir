@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Versi: **0.1.0**\
-Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; penataan Flutter terbaru pada §58**\
+Status: **Register lintas tahap — BRD/PRD 0.1.0 dan FRD/SRS 1.0.0 APPROVED; audit UI/UX Flutter terbaru pada §59**\
 Tanggal pencatatan: **21 Oktober 2026**\
 Dokumen terkait: [BRD.md](BRD.md), [PRD.md](PRD.md), [DECISIONS.md](DECISIONS.md), dan [FRD.md](FRD.md).
 
@@ -11,7 +11,7 @@ Dokumen ini memetakan sumber, keputusan, requirement, dan bukti penerimaan. USER
 
 **Status historis:** catatan draf/pertanyaan/riset di bawah mempertahankan waktu pencatatannya. Status final mengikuti [penutupan v1.0.0](#frd-finalization-trace), bukan status terbuka pada putaran lama.
 
-**Kondisi workspace terbaru:** lihat [penataan Flutter](#flutter-indonesia-trace)
+**Kondisi workspace terbaru:** lihat [audit UI/UX Flutter](#flutter-uiux-trace)
 dan [alur GitHub](#workspace-github-workflow-traceability). Auditor
 dan perintah pemeriksaan pada catatan tahap lama adalah riwayat; berkasnya
 tidak tersedia dalam workspace publik. Jangan menjalankannya langsung pada
@@ -2133,3 +2133,26 @@ Nama/path pada catatan tahap sebelumnya adalah riwayat sebelum migrasi.
 Tidak ada perubahan FR/AC/TC atau wire API; tes UI tidak menaikkan status TC
 bisnis, provider, perangkat fisik atau UAT. Bacaan dibatasi sesuai izin eksplisit
 pemilik untuk audit Flutter; seluruh spesifikasi/kontrak tidak dibaca ulang.
+
+<a id="flutter-uiux-trace"></a>
+
+## 59. Audit UI/UX dan interaksi lokal Flutter - 27 Oktober 2026
+
+[WS-DEC-064](DECISIONS.md#flutter-uiux-064) dan
+[checklist/bukti](WORKSPACE.md#flutter-uiux) mencakup navigasi langsung, retensi
+empat tab, dialog/typografi/scroll, edit profil/kontak/keluarga, kamera, TTS,
+serta pemilihan dan ekspor berkas lokal.
+
+| Area | Requirement terkait | Bukti dan batas |
+|---|---|---|
+| Profil dan keluar | FR-AUTH-004/008 | Form dan reset state demo diuji; autentikasi/versioning server belum ada |
+| Kamera dan draf | FR-REPORT-001/007 | Adapter kamera dan retensi isian tab; bukan validasi media/pengiriman/draf persisten produk |
+| Kontak pribadi/umum | FR-READY-003/004/005 | Filter/salin dan CRUD lokal; nomor fixture belum resmi, belum penyimpanan lintas sesi per akun |
+| Panduan suara | FR-READY-006 | Controller TTS, jeda/lanjut/stop dan error diuji fake; suara HP NOT_RUN sesuai pemilik |
+| Dokumen/keluarga | FRD §30.25/30.27 | Form keluarga, berkas lokal dan ZIP nyata di Web; belum vault terenkripsi atau data keluarga server |
+| Aksesibilitas/UI | DESIGN dan rules/ui | Layout adaptif, teks 200%, fokus/dialog, token tema, inspeksi browser |
+
+Analyzer 0 issues dan 101 tes PASS; build Web/APK PASS. Pemilih berkas/ZIP Web
+juga PASS dengan bytes sintetis. Kamera/TTS/native picker, UAT dan TC bisnis
+**tidak dinaikkan menjadi PASS** oleh tes widget/build. Instruksi terbaru pemilik
+menggantikan izin uji HP sebelumnya: pemilik akan mengujinya sendiri.

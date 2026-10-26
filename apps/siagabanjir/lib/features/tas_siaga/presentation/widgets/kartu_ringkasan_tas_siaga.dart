@@ -43,7 +43,7 @@ class KartuRingkasanTasSiaga extends StatelessWidget {
               child: Text(
                 'Kesiapan Logistik Keluarga',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.blue,
                 ),
@@ -59,7 +59,7 @@ class KartuRingkasanTasSiaga extends StatelessWidget {
               child: Text(
                 '$_percentage%',
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.blue,
                 ),
@@ -71,7 +71,7 @@ class KartuRingkasanTasSiaga extends StatelessWidget {
         Text(
           '$checkedCount dari $totalCount Barang',
           style: const TextStyle(
-            fontSize: 24,
+            fontSize: SiagaTheme.judulHalaman,
             fontWeight: FontWeight.w800,
             color: SiagaTheme.ink,
             height: 1.2,
@@ -90,7 +90,11 @@ class KartuRingkasanTasSiaga extends StatelessWidget {
         const SizedBox(height: 12),
         const Text(
           'Perlengkapan cukup untuk bertahan hidup mandiri 3 hari saat evakuasi.',
-          style: TextStyle(fontSize: 13, height: 1.35, color: SiagaTheme.muted),
+          style: TextStyle(
+            fontSize: SiagaTheme.isi,
+            height: 1.35,
+            color: SiagaTheme.muted,
+          ),
         ),
       ],
     ),

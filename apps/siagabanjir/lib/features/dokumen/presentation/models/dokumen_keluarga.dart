@@ -50,7 +50,7 @@ const List<DokumenKeluarga> kDefaultFamilyDocuments = [
     fileName: 'scan_kk_asli_keluarga.pdf',
     fileType: 'PDF',
     fileSize: '1.4 MB',
-    status: 'Siap cetak dinas',
+    status: 'Contoh • belum ada berkas',
     icon: Icons.description_outlined,
   ),
   DokumenKeluarga(
@@ -60,7 +60,7 @@ const List<DokumenKeluarga> kDefaultFamilyDocuments = [
     fileName: 'ktp_rahmad_hidayat.jpg',
     fileType: 'Gambar JPG',
     fileSize: '840 KB',
-    status: 'Siap cetak dinas',
+    status: 'Contoh • belum ada berkas',
     icon: Icons.badge_outlined,
   ),
   DokumenKeluarga(
@@ -70,7 +70,7 @@ const List<DokumenKeluarga> kDefaultFamilyDocuments = [
     fileName: 'akta_kelahiran_anak.pdf',
     fileType: 'PDF',
     fileSize: '920 KB',
-    status: 'Siap cetak dinas',
+    status: 'Contoh • belum ada berkas',
     icon: Icons.assignment_outlined,
   ),
 ];

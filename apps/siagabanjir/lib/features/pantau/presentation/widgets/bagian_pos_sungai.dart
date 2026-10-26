@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../models/data_pantau_wilayah.dart';
@@ -15,27 +16,28 @@ class BagianPosSungai extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
       // Header bagian pos pantau
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      Wrap(
+        alignment: WrapAlignment.spaceBetween,
+        spacing: 8,
+        runSpacing: 8,
         children: [
-          const Expanded(
-            child: Text(
-              'Pos Pantau Sungai',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF0F172A),
-              ),
+          const Text(
+            'Pos Pantau Sungai',
+            style: TextStyle(
+              fontSize: SiagaTheme.judulBagian,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF0F172A),
             ),
           ),
-          const SizedBox(width: 8),
           Text(
             lastUpdatedText,
-            style: const TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+            style: const TextStyle(
+              fontSize: SiagaTheme.isi,
+              color: Color(0xFF64748B),
+            ),
           ),
         ],
       ),
@@ -75,7 +77,7 @@ class _KartuPosSungai extends StatelessWidget {
               Text(
                 post.name,
                 style: const TextStyle(
-                  fontSize: 15.5,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
                 ),
@@ -84,7 +86,7 @@ class _KartuPosSungai extends StatelessWidget {
               Text(
                 post.postLocation,
                 style: const TextStyle(
-                  fontSize: 12.5,
+                  fontSize: SiagaTheme.keterangan,
                   color: Color(0xFF64748B),
                 ),
               ),
@@ -104,7 +106,7 @@ class _KartuPosSungai extends StatelessWidget {
               Text(
                 '${post.waterLevelCm} cm',
                 style: const TextStyle(
-                  fontSize: 17,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w800,
                   color: Color(0xFF0F172A),
                 ),
@@ -122,7 +124,7 @@ class _KartuPosSungai extends StatelessWidget {
                 child: Text(
                   post.displayStatus,
                   style: TextStyle(
-                    fontSize: 11.5,
+                    fontSize: SiagaTheme.keterangan,
                     fontWeight: FontWeight.w700,
                     color: post.status.badgeForeground,
                   ),

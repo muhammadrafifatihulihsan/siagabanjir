@@ -70,7 +70,7 @@ void main() {
 
   // Navigasi Tab dan Space harus dapat memilih kategori tanpa mouse/sentuhan.
   testWidgets(
-    'Keyboard selection is exclusive and cancel restores field focus',
+    'Keyboard selection is exclusive and switching tabs retains input',
     (tester) async {
       final semantics = tester.ensureSemantics();
       try {
@@ -115,13 +115,11 @@ void main() {
         );
         await tester.ensureVisible(find.byType(TextField));
         await tester.enterText(find.byType(TextField), 'Air di jalan');
-        final field = tester.widget<TextField>(find.byType(TextField));
         await tester.binding.handlePopRoute();
         await tester.pumpAndSettle();
-        expect(find.text('Keluar dari laporan?'), findsOneWidget);
-        await tester.tap(find.text('Lanjut mengisi'));
+        expect(find.text('Keluar dari laporan?'), findsNothing);
+        await tester.tap(find.text('Lapor').last);
         await tester.pumpAndSettle();
-        expect(field.focusNode!.hasFocus, isTrue);
         expect(find.text('Air di jalan'), findsOneWidget);
       } finally {
         semantics.dispose();

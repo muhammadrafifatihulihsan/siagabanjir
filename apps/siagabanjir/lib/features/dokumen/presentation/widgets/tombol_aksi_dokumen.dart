@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 // Tombol aksi utama simpan dokumen dan unduh arsip paket dinas ZIP.
@@ -41,7 +42,7 @@ class TombolAksiDokumen extends StatelessWidget {
                   Text(
                     'Simpan & Perbarui Dokumen Siaga',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: SiagaTheme.judulBagian,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
                     ),
@@ -85,7 +86,7 @@ class TombolAksiDokumen extends StatelessWidget {
                   Text(
                     'Unduh Semua Berkas untuk Dinas (ZIP)',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: SiagaTheme.isi,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF1D4ED8),
                     ),

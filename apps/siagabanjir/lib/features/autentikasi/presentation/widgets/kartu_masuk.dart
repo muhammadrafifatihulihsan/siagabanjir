@@ -55,7 +55,7 @@ class _KartuMasukState extends State<KartuMasuk> {
         const Text(
           'Masuk ke Akun',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: SiagaTheme.judulHalaman,
             fontWeight: FontWeight.w800,
             color: Color(0xFF0F172A),
             height: 1.2,
@@ -66,7 +66,7 @@ class _KartuMasukState extends State<KartuMasuk> {
         const Text(
           'Pantau debit sungai dan lapor kondisi banjir.',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w400,
             color: SiagaTheme.muted,
             height: 1.4,
@@ -78,7 +78,7 @@ class _KartuMasukState extends State<KartuMasuk> {
         const Text(
           'Nomor Ponsel atau Email',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -97,7 +97,7 @@ class _KartuMasukState extends State<KartuMasuk> {
         const Text(
           'Kata Sandi atau PIN',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -166,7 +166,7 @@ class _KartuMasukState extends State<KartuMasuk> {
                     const Text(
                       'Ingat Saya',
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: SiagaTheme.isi,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFF0F172A),
                       ),
@@ -188,7 +188,7 @@ class _KartuMasukState extends State<KartuMasuk> {
                   child: Text(
                     'Lupa Sandi?',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: SiagaTheme.isi,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF2563EB),
                     ),
@@ -224,7 +224,7 @@ class _KartuMasukState extends State<KartuMasuk> {
                     Text(
                       'Masuk ke SiagaBanjir',
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: SiagaTheme.judulBagian,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
@@ -252,7 +252,7 @@ class _KartuMasukState extends State<KartuMasuk> {
               child: Text(
                 'atau',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w500,
                   color: Color(0xFF64748B),
                 ),
@@ -285,7 +285,7 @@ class _KartuMasukState extends State<KartuMasuk> {
       obscureText: obscureText,
       keyboardType: keyboardType,
       style: const TextStyle(
-        fontSize: 14,
+        fontSize: SiagaTheme.isi,
         fontWeight: FontWeight.w600,
         color: Color(0xFF0F172A),
       ),
@@ -295,7 +295,7 @@ class _KartuMasukState extends State<KartuMasuk> {
         fillColor: const Color(0xFFF8FAFC),
         hintText: hintText,
         hintStyle: const TextStyle(
-          fontSize: 14,
+          fontSize: SiagaTheme.isi,
           fontWeight: FontWeight.w400,
           color: Color(0xFF94A3B8),
         ),

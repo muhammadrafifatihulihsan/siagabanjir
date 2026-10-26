@@ -130,7 +130,7 @@ class _PilihanLaporanState extends State<_PilihanLaporan> {
                     child: Text(
                       widget.label,
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: SiagaTheme.isi,
                         height: 1.4,
                         fontWeight: FontWeight.w600,
                         color: widget.selected

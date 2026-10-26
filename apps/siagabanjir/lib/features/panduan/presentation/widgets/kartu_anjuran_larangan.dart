@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/langkah_panduan.dart';
@@ -72,7 +73,7 @@ class KartuAnjuranLarangan extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w800,
                   color: accentColor,
                 ),
@@ -90,7 +91,7 @@ class KartuAnjuranLarangan extends StatelessWidget {
                 Text(
                   '• ',
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: SiagaTheme.isi,
                     fontWeight: FontWeight.w700,
                     color: accentColor,
                   ),
@@ -99,7 +100,7 @@ class KartuAnjuranLarangan extends StatelessWidget {
                   child: Text(
                     item,
                     style: const TextStyle(
-                      fontSize: 12.5,
+                      fontSize: SiagaTheme.keterangan,
                       height: 1.35,
                       color: Color(0xFF334155),
                     ),

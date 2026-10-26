@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/widgets/dialog_siaga.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
@@ -31,7 +32,7 @@ class _LayarDaftarState extends State<LayarDaftar> {
   final _nameController = TextEditingController();
   final _identifierController = TextEditingController();
   final _passwordController = TextEditingController();
-  bool _agreedToTerms = true;
+  bool _agreedToTerms = false;
 
   @override
   void dispose() {
@@ -78,7 +79,7 @@ class _LayarDaftarState extends State<LayarDaftar> {
       return;
     }
 
-    _showFeedback('Pendaftaran berhasil untuk $name.');
+    _showFeedback('Simulasi pendaftaran untuk $name.');
     widget.onRegisterSuccess?.call(name);
   }
 
@@ -100,12 +101,12 @@ class _LayarDaftarState extends State<LayarDaftar> {
     } else {
       showDialog<void>(
         context: context,
-        builder: (dialogCtx) => AlertDialog(
+        builder: (dialogCtx) => DialogSiaga(
           title: const Text('Ketentuan Layanan & Privasi'),
           content: const SingleChildScrollView(
             child: Text(
-              'Dengan mendaftar SiagaBanjir, Anda menyetujui penggunaan data pribadi '
-              'secara aman untuk koordinasi kesiapsiagaan darurat banjir dan pelaporan warga.',
+              'Formulir ini merupakan simulasi lokal dan tidak membuat akun pada server. '
+              'Gunakan data uji serta sandi contoh. Isian dibuang ketika halaman ditutup.',
             ),
           ),
           actions: [
@@ -123,7 +124,11 @@ class _LayarDaftarState extends State<LayarDaftar> {
     if (widget.onGoogleSignUp != null) {
       widget.onGoogleSignUp!();
     } else {
-      _showFeedback('Pendaftaran akun dengan akun Google.');
+      tampilkanInfoSiaga(
+        context,
+        'Daftar dengan Google',
+        'Integrasi Google belum terhubung. Gunakan formulir dengan data uji untuk mencoba alur demo.',
+      );
     }
   }
 
@@ -142,6 +147,11 @@ class _LayarDaftarState extends State<LayarDaftar> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const HeaderMasuk(),
+                const SizedBox(height: 16),
+                const Text(
+                  'Mode demo lokal. Gunakan data uji dan sandi contoh.',
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 24),
                 KartuDaftar(
                   nameController: _nameController,

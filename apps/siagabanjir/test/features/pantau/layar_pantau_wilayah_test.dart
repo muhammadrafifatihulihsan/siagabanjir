@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
-import 'package:siagabanjir/features/beranda/presentation/panel_pratinjau_beranda.dart';
+import 'package:siagabanjir/features/beranda/presentation/panel_akses_fitur.dart';
 import 'package:siagabanjir/features/pantau/presentation/layar_pantau_wilayah.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/kartu_sorotan_pantau.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/header_pantau.dart';
@@ -169,46 +169,38 @@ void main() {
       expect(homeTapped, isTrue);
     });
 
-    testWidgets(
-      'Home preview sheet opens LayarPantauWilayah via Buka Pantau Wilayah',
-      (tester) async {
-        tester.view.physicalSize = const Size(390, 844);
-        tester.view.devicePixelRatio = 1.0;
-        addTearDown(tester.view.resetPhysicalSize);
-        addTearDown(tester.view.resetDevicePixelRatio);
+    testWidgets('Pantau Wilayah langsung terbuka tanpa pratinjau', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
 
-        await tester.pumpWidget(const SiagaBanjirApp());
-        await tester.pumpAndSettle();
+      await tester.pumpWidget(const SiagaBanjirApp());
+      await tester.pumpAndSettle();
 
-        // Tap "Pantau Wilayah" to open preview sheet
-        final target = find.text('Pantau Wilayah');
-        await tester.ensureVisible(target);
-        await tester.pumpAndSettle();
-        await tester.tap(target);
-        await tester.pumpAndSettle();
+      // Tap "Pantau Wilayah" to open preview sheet
+      final target = find.text('Pantau Wilayah');
+      await tester.ensureVisible(target);
+      await tester.pumpAndSettle();
+      await tester.tap(target);
+      await tester.pumpAndSettle();
 
-        expect(find.byType(PanelPratinjauBeranda), findsOneWidget);
+      expect(find.byType(PanelAksesFitur), findsNothing);
 
-        // Verify action button to open full monitor screen
-        final openButton = find.text('Buka Pantau Wilayah');
-        expect(openButton, findsOneWidget);
+      // Screen LayarPantauWilayah should now be open
+      expect(find.byType(LayarPantauWilayah), findsOneWidget);
+      expect(find.text('Batas luapan tanggul: 150 cm'), findsOneWidget);
 
-        await tester.tap(openButton);
-        await tester.pumpAndSettle();
+      // Pressing back returns to home
+      final backBtn = find.bySemanticsLabel('Kembali');
+      await tester.tap(backBtn);
+      await tester.pumpAndSettle();
 
-        // Screen LayarPantauWilayah should now be open
-        expect(find.byType(LayarPantauWilayah), findsOneWidget);
-        expect(find.text('Batas luapan tanggul: 150 cm'), findsOneWidget);
-
-        // Pressing back returns to home
-        final backBtn = find.bySemanticsLabel('Kembali');
-        await tester.tap(backBtn);
-        await tester.pumpAndSettle();
-
-        expect(find.byType(LayarPantauWilayah), findsNothing);
-        expect(find.text('SiagaBanjir'), findsOneWidget);
-      },
-    );
+      expect(find.byType(LayarPantauWilayah), findsNothing);
+      expect(find.text('SiagaBanjir'), findsOneWidget);
+    });
 
     testWidgets(
       'Responsive & overflow-free on narrow screen (320x640) with 2.0x text scale',

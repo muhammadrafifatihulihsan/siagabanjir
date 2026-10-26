@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entri_riwayat_laporan.dart';
@@ -60,7 +61,7 @@ class TabFilterRiwayatLaporan extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 14,
+                fontSize: SiagaTheme.isi,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                 color: isSelected ? Colors.white : const Color(0xFF1E293B),
               ),

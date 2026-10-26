@@ -3,7 +3,7 @@ import 'package:siagabanjir/features/kontak/presentation/layar_direktori_kontak.
 import 'package:siagabanjir/features/dokumen/presentation/layar_dokumen_siaga.dart';
 import 'package:siagabanjir/features/tas_siaga/presentation/layar_tas_siaga.dart';
 import 'package:siagabanjir/features/panduan/presentation/layar_detail_panduan.dart';
-import 'package:siagabanjir/features/beranda/presentation/panel_pratinjau_beranda.dart';
+import 'package:siagabanjir/features/beranda/presentation/panel_akses_fitur.dart';
 import 'package:siagabanjir/features/beranda/presentation/widgets/aksi_fitur_beranda.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,40 +60,33 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets(
-    'Every home entry opens its preview and returns without losing scroll',
-    (tester) async {
-      await openHome(tester);
-      for (final label in [
-        'Pantau Status',
-        'Pantau Wilayah',
-        'Riwayat',
-        'Profil',
-      ]) {
-        final target = find.text(label);
-        await tester.ensureVisible(target);
-        await tester.pumpAndSettle();
-        await tester.tap(target);
-        await tester.pumpAndSettle();
-        expect(
-          find.byType(PanelPratinjauBeranda),
-          findsOneWidget,
-          reason: label,
-        );
-        expect(find.text('PRATINJAU FITUR'), findsOneWidget);
-        await tester.tap(find.byTooltip('Tutup pratinjau'));
-        await tester.pumpAndSettle();
-        expect(find.byType(PanelPratinjauBeranda), findsNothing);
-        expect(tester.takeException(), isNull, reason: label);
-      }
-      await tester.tap(find.text('Beranda'));
+  testWidgets('Fitur utama langsung terbuka dan kembali ke beranda', (
+    tester,
+  ) async {
+    await openHome(tester);
+    for (final label in [
+      'Pantau Status',
+      'Pantau Wilayah',
+      'Riwayat',
+      'Profil',
+    ]) {
+      final target = find.text(label);
+      await tester.ensureVisible(target);
       await tester.pumpAndSettle();
-      expect(
-        tester.getTopLeft(find.text('Sungai Batang Kuranji')).dy,
-        lessThan(250),
-      );
-    },
-  );
+      await tester.tap(target);
+      await tester.pumpAndSettle();
+      expect(find.byType(PanelAksesFitur), findsNothing, reason: label);
+      await tester.tap(find.text('Beranda').last);
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull, reason: label);
+    }
+    await tester.tap(find.text('Beranda'));
+    await tester.pumpAndSettle();
+    expect(
+      tester.getTopLeft(find.text('Sungai Batang Kuranji')).dy,
+      lessThan(250),
+    );
+  });
 
   testWidgets(
     'Kontak Darurat quick access opens LayarDirektoriKontak and returns home',
@@ -192,13 +185,10 @@ void main() {
       await tester.tap(find.text('Data Keluarga'));
       await tester.pumpAndSettle();
       expect(find.text('Data Keluarga'), findsOneWidget);
-      expect(
-        find.text('Tempat melengkapi anggota dan kebutuhan keluarga.'),
-        findsOneWidget,
-      );
-      await tester.tap(find.text('Kembali ke Beranda'));
+      expect(find.text('Tambah Anggota'), findsOneWidget);
+      await tester.tap(find.text('Beranda').last);
       await tester.pumpAndSettle();
-      expect(find.byType(PanelPratinjauBeranda), findsNothing);
+      expect(find.byType(PanelAksesFitur), findsNothing);
     },
   );
 

@@ -35,7 +35,7 @@ class TombolMasukGoogle extends StatelessWidget {
               Text(
                 'Lanjut dengan Google',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF0F172A),
                 ),

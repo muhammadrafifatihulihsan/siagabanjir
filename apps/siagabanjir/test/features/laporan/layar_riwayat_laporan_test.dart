@@ -27,8 +27,6 @@ Future<void> _openReportsHistory(
   // Ketuk tab Riwayat di bottom navigation bar beranda lalu buka layar penuh.
   await tester.tap(find.text('Riwayat'));
   await tester.pumpAndSettle();
-  await tester.tap(find.text('Buka Riwayat Laporan Lengkap'));
-  await tester.pumpAndSettle();
 }
 
 void main() {

@@ -63,9 +63,10 @@ untuk mendekati desain, bukan verifikasi jenis font asli Figma.
   grid menjadi satu kolom; lebar konten dibatasi 600 logical pixels pada Web.
 - Navigasi saat ini membuka layar lokal atau panel sesuai
   [peta beranda](../README.md#mockup-beranda-warga). Tidak mengirim laporan,
-  mengakses kamera/lokasi, menelepon, membaca dokumen atau melakukan login.
+  mengambil lokasi, menelepon atau melakukan login server. Kamera, TTS serta
+  pemilihan/ekspor berkas lokal kini tersedia sesuai [audit UI/UX](../../../docs/WORKSPACE.md#flutter-uiux).
 - Beranda dipilih pada navbar selama panel tampil; tombol Beranda kembali ke
-  atas. Menu Lengkap meneruskan ke panel fitur lain tanpa menumpuk panel.
+  atas. Menu Lengkap meneruskan ke layar fitur tanpa menumpuk panel.
 
 Build pratinjau memakai `flutter build web --no-web-resources-cdn --no-wasm-dry-run`;
 renderer dan font fallback dasar dilayani dari build lokal. Ini bukan pemasangan

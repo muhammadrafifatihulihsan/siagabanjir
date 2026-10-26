@@ -1,4 +1,9 @@
+import '../data/layanan_berkas.dart';
+
+import 'package:siagabanjir/shared/widgets/dialog_siaga.dart';
 import 'package:flutter/material.dart';
+
+import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
@@ -9,12 +14,12 @@ import 'widgets/banner_info_dokumen.dart';
 import 'widgets/kartu_dokumen_siaga.dart';
 
 // Layar Brankas Dokumen Siaga Keluarga sesuai desain spesifikasi documents_vault.svg.
-// Memfasilitasi penyimpanan cadangan berkas kependudukan vital (KK, KTP, Akta Kelahiran)
-// secara terenkripsi di perangkat untuk pengurusan administrasi kependudukan pasca-banjir.
+// Pemilihan dan ekspor berkas lokal; brankas terenkripsi belum terintegrasi.
 class LayarDokumenSiaga extends StatefulWidget {
   const LayarDokumenSiaga({
     super.key,
     this.onHome,
+    this.layananBerkas,
     this.onReport,
     this.onHistory,
     this.onProfile,
@@ -24,6 +29,7 @@ class LayarDokumenSiaga extends StatefulWidget {
     this.initialDocuments = kDefaultFamilyDocuments,
   });
 
+  final LayananBerkas? layananBerkas;
   final VoidCallback? onHome;
   final VoidCallback? onReport;
   final VoidCallback? onHistory;
@@ -39,6 +45,9 @@ class LayarDokumenSiaga extends StatefulWidget {
 
 class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
   final _scroll = ScrollController();
+  final _berkas = <String, BerkasPilihan>{};
+  bool _sibuk = false;
+  late final _layanan = widget.layananBerkas ?? LayananBerkas();
   late List<DokumenKeluarga> _documents;
 
   @override
@@ -64,46 +73,134 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
     );
   }
 
-  void _handleChangeDocument(DokumenKeluarga doc) {
+  Future<void> _handleChangeDocument(DokumenKeluarga doc) async {
+    if (_sibuk) return;
     if (widget.onChangeDocument != null) {
       widget.onChangeDocument!(doc);
-    } else {
-      showDialog<void>(
-        context: context,
-        builder: (dialogCtx) => AlertDialog(
-          title: Text('Ganti ${doc.numberTitle}'),
-          content: Text(
-            'Pilih berkas pengganti untuk ${doc.fileName} dari penyimpanan perangkat '
-            '(format PDF atau Gambar JPG/PNG maksimal 5 MB).',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(dialogCtx).pop(),
-              child: const Text('Batal'),
-            ),
-            FilledButton(
-              onPressed: () {
-                Navigator.of(dialogCtx).pop();
-                _showFeedback('Pilih berkas baru untuk ${doc.numberTitle}.');
-              },
-              child: const Text('Pilih Berkas'),
-            ),
-          ],
+      return;
+    }
+    final pilih = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => DialogSiaga(
+        title: Text('Ganti ${doc.numberTitle}'),
+        content: const Text(
+          'Pilih PDF atau gambar JPG/PNG maksimal 5 MB. Gunakan berkas uji. Berkas berada dalam memori halaman ini sampai Anda mengekspor ZIP; belum ada brankas terenkripsi.',
         ),
-      );
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Batal'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Pilih Berkas'),
+          ),
+        ],
+      ),
+    );
+    if (pilih != true || !mounted) return;
+    setState(() => _sibuk = true);
+    try {
+      final hasil = await _layanan.pilih();
+      if (hasil == null || !mounted) return;
+      setState(() {
+        _berkas[doc.id] = hasil;
+        _documents = _documents
+            .map(
+              (item) => item.id == doc.id
+                  ? item.copyWith(
+                      fileName: hasil.nama,
+                      fileSize: hasil.ukuran,
+                      fileType: hasil.ekstensi.toUpperCase(),
+                      status: 'Dipilih • belum diekspor',
+                    )
+                  : item,
+            )
+            .toList();
+      });
+    } catch (_) {
+      if (mounted) {
+        await tampilkanInfoSiaga(
+          context,
+          'Berkas belum dapat dipilih',
+          'Gunakan PDF, JPG atau PNG yang valid, maksimal 5 MB. Berkas sebelumnya tetap ada.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _sibuk = false);
     }
   }
 
   void _handleSave() {
-    _showFeedback('Dokumen siaga keluarga berhasil disimpan dan diperbarui.');
-    widget.onSaveDocuments?.call();
+    if (widget.onSaveDocuments != null) {
+      widget.onSaveDocuments!();
+      return;
+    }
+    if (_berkas.isEmpty) {
+      _showFeedback('Pilih berkas melalui tombol Ganti terlebih dahulu.');
+      return;
+    }
+    setState(
+      () => _documents = _documents
+          .map(
+            (doc) => _berkas.containsKey(doc.id)
+                ? doc.copyWith(status: 'Siap diekspor • sesi ini')
+                : doc,
+          )
+          .toList(),
+    );
+    _showFeedback(
+      'Pilihan dikonfirmasi untuk sesi ini. Ekspor ZIP untuk menyimpan salinan.',
+    );
   }
 
-  void _handleDownloadZip() {
-    _showFeedback(
-      'Menyiapkan paket berkas dinas (ZIP) untuk pengurusan Disdukcapil...',
+  Future<void> _handleDownloadZip() async {
+    if (_sibuk) return;
+    if (widget.onDownloadZip != null) {
+      widget.onDownloadZip!();
+      return;
+    }
+    if (_berkas.isEmpty) {
+      _showFeedback('Pilih berkas melalui tombol Ganti terlebih dahulu.');
+      return;
+    }
+    final lanjut = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => DialogSiaga(
+        title: const Text('Ekspor salinan dokumen?'),
+        content: Text(
+          'ZIP berisi ${_berkas.length} berkas yang Anda pilih. Berkas contoh tidak disertakan. Salinan ZIP tidak terenkripsi; pilih lokasi penyimpanan yang Anda percaya.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Batal'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Ekspor ZIP'),
+          ),
+        ],
+      ),
     );
-    widget.onDownloadZip?.call();
+    if (lanjut != true || !mounted) return;
+    setState(() => _sibuk = true);
+    try {
+      final berhasil = await _layanan.ekspor(Map.of(_berkas));
+      if (mounted && berhasil) {
+        _showFeedback('Ekspor ZIP diteruskan ke penyimpanan perangkat.');
+      }
+    } catch (_) {
+      if (mounted) {
+        await tampilkanInfoSiaga(
+          context,
+          'Ekspor belum berhasil',
+          'Coba lagi dan pilih lokasi penyimpanan yang tersedia. Berkas tetap ada selama halaman ini terbuka.',
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _sibuk = false);
+    }
   }
 
   void _onNavigationSelect(CitizenDestination destination) {
@@ -153,7 +250,7 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
                       const Text(
                         'Dokumen Siaga Keluarga',
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: SiagaTheme.judulHalaman,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF0F172A),
                           height: 1.2,
@@ -163,7 +260,7 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
                       const Text(
                         'Simpan cadangan berkas kependudukan untuk pengurusan pasca-banjir.',
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: SiagaTheme.isi,
                           fontWeight: FontWeight.w400,
                           color: SiagaTheme.muted,
                           height: 1.4,
@@ -182,6 +279,10 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
                       const BannerInfoDokumen(),
                       const SizedBox(height: 20),
 
+                      if (_sibuk)
+                        const LinearProgressIndicator(
+                          semanticsLabel: 'Memproses berkas',
+                        ),
                       // Tombol aksi: simpan & unduh zip
                       TombolAksiDokumen(
                         onSave: _handleSave,
@@ -191,10 +292,11 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
                   ),
                 ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),

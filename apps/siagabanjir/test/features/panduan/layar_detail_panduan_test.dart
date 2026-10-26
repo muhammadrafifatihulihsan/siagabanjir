@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+
+import 'mesin_suara_uji.dart';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
@@ -44,10 +48,7 @@ void main() {
 
       // Verifikasi banner audio darurat persis sesuai SVG
       expect(find.text('Bantuan Suara Panduan'), findsOneWidget);
-      expect(
-        find.text('Dengarkan instruksi dan panduan suara'),
-        findsOneWidget,
-      );
+      expect(find.text('Dengarkan instruksi dibacakan sistem'), findsOneWidget);
       expect(find.text('Dengarkan Panduan Suara'), findsOneWidget);
 
       // Verifikasi judul bagian langkah evakuasi persis sesuai SVG
@@ -84,9 +85,20 @@ void main() {
   );
 
   testWidgets(
-    'Audio banner toggles playback state and displays feedback snackbar',
+    'Audio banner menjalankan mesin dan kontrol jeda, lanjut, berhenti',
     (tester) async {
-      await _openGuidesDetail(tester);
+      final mesin = MesinSuaraUji();
+      await tester.pumpWidget(
+        MaterialApp(
+          home: LayarDetailPanduan(
+            mesinSuara: mesin,
+            onReport: () {},
+            onHistory: () {},
+            onProfile: () {},
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
 
       final audioButton = find.text('Dengarkan Panduan Suara');
       await tester.ensureVisible(audioButton);
@@ -97,7 +109,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Hentikan Panduan Suara'), findsOneWidget);
-      expect(find.text('Memutar instruksi suara panduan...'), findsOneWidget);
+      expect(mesin.dibaca.single, contains(kDefaultGuideSteps.first.title));
+      await tester.tap(find.text('Jeda Panduan Suara'));
+      await tester.pumpAndSettle();
+      expect(mesin.dijeda, 1);
+      await tester.tap(find.text('Lanjutkan Panduan Suara'));
+      await tester.pumpAndSettle();
+      expect(mesin.dibaca.length, 2);
 
       // Hentikan pemutaran audio
       final stopButton = find.text('Hentikan Panduan Suara');
@@ -105,7 +123,7 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Dengarkan Panduan Suara'), findsOneWidget);
-      expect(find.text('Panduan suara dihentikan.'), findsOneWidget);
+      expect(mesin.berhenti, greaterThanOrEqualTo(2));
     },
   );
 

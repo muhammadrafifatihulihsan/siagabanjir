@@ -33,7 +33,7 @@ enum AksiBeranda {
   report(
     'Lapor Banjir Cepat',
     'camera',
-    'Tempat memulai laporan banjir. Kamera, analisis, dan pengiriman belum diaktifkan.',
+    'Tempat memulai laporan banjir. Kamera tersedia; analisis dan pengiriman belum terhubung.',
   ),
   history(
     'Riwayat Laporan',

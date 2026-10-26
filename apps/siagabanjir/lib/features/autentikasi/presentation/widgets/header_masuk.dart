@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/local_icon.dart';
@@ -28,7 +29,7 @@ class HeaderMasuk extends StatelessWidget {
         'SiagaBanjir',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 24,
+          fontSize: SiagaTheme.judulHalaman,
           fontWeight: FontWeight.w800,
           color: Color(0xFF1D4ED8),
           letterSpacing: -0.5,
@@ -41,7 +42,7 @@ class HeaderMasuk extends StatelessWidget {
         'Tanggap Darurat Banjir Warga',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: SiagaTheme.isi,
           fontWeight: FontWeight.w500,
           color: Color(0xFF64748B),
           height: 1.3,

@@ -1,4 +1,7 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/pesan_siaga.dart';
@@ -86,7 +89,7 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                         child: Text(
                           'Tidak ada pesan pada kategori ini.',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: SiagaTheme.isi,
                             color: Color(0xFF64748B),
                           ),
                         ),
@@ -110,10 +113,11 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                         },
                       ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),

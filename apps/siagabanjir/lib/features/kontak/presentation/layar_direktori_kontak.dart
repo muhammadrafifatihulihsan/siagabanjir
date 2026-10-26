@@ -1,4 +1,8 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../shared/widgets/lingkup_navigasi.dart';
+
 import 'package:flutter/services.dart';
 
 import '../../../shared/widgets/citizen_navigation.dart';
@@ -6,6 +10,7 @@ import 'models/entri_kontak.dart';
 import 'widgets/kartu_kontak.dart';
 import 'widgets/tab_filter_kontak.dart';
 import 'widgets/header_kontak.dart';
+import 'widgets/kartu_bantuan.dart';
 
 // Layar Direktori Kontak Darurat sesuai SVG contacts_directory.
 // Menampilkan kontak publik (FR-READY-003); data sintetis, nomor contoh tidak diklaim resmi.
@@ -66,7 +71,7 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
         SnackBar(
           content: Text(
             'Nomor ${contact.phone} disalin.',
-            style: const TextStyle(fontSize: 14),
+            style: const TextStyle(fontSize: SiagaTheme.isi),
           ),
           behavior: SnackBarBehavior.floating,
           margin: const EdgeInsets.fromLTRB(20, 0, 20, 16),
@@ -104,7 +109,7 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
                   child: const Text(
                     'Data contoh — nomor belum diverifikasi resmi. Salin nomor untuk menghubungi melalui dialer.',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: SiagaTheme.keterangan,
                       color: Color(0xFF78350F),
                       height: 1.4,
                     ),
@@ -122,18 +127,29 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
                         child: Text(
                           'Tidak ada kontak pada kategori ini.',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: SiagaTheme.isi,
                             color: Color(0xFF64748B),
                           ),
                         ),
                       )
                     : ListView.separated(
                         padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-                        itemCount: _filteredContacts.length,
+                        itemCount:
+                            _filteredContacts.length +
+                            (_selectedCategory == null ? 2 : 0),
                         separatorBuilder: (context, index) =>
                             const SizedBox(height: 14),
                         itemBuilder: (_, index) {
-                          final contact = _filteredContacts[index];
+                          if (_selectedCategory == null && index == 0) {
+                            return const KartuBantuan();
+                          }
+                          if (_selectedCategory == null &&
+                              index == _filteredContacts.length + 1) {
+                            return const KartuBantuan(posko: true);
+                          }
+                          final contact =
+                              _filteredContacts[index -
+                                  (_selectedCategory == null ? 1 : 0)];
                           return KartuKontak(
                             contact: contact,
                             onCopy: () => _copyNumber(contact),
@@ -141,10 +157,11 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
                         },
                       ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),

@@ -67,7 +67,7 @@ class TabFilterPesan extends StatelessWidget {
             child: Text(
               label,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 fontWeight: active ? FontWeight.w700 : FontWeight.w600,
                 color: active ? Colors.white : const Color(0xFF334155),
               ),

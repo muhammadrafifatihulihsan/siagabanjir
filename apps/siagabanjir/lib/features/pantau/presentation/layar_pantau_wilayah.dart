@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/lingkup_navigasi.dart';
+
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/data_pantau_wilayah.dart';
@@ -99,10 +101,11 @@ class LayarPantauWilayah extends StatelessWidget {
               ),
 
               // Navigasi bawah bersama
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: (dest) => _onNavigationSelect(context, dest),
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: (dest) => _onNavigationSelect(context, dest),
+                ),
             ],
           ),
         ),

@@ -1,4 +1,6 @@
+import 'package:siagabanjir/shared/widgets/dialog_siaga.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
 import '../models/pesan_siaga.dart';
@@ -10,12 +12,12 @@ Future<void> showMessageActionExplanation(
   PesanSiaga message,
 ) => showDialog<void>(
   context: context,
-  builder: (context) => AlertDialog(
+  builder: (context) => DialogSiaga(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     title: Text(
       action,
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: SiagaTheme.judulBagian,
         fontWeight: FontWeight.w700,
         color: SiagaTheme.ink,
       ),
@@ -23,12 +25,26 @@ Future<void> showMessageActionExplanation(
     content: Text(
       _explanationFor(action, message),
       style: const TextStyle(
-        fontSize: 14,
+        fontSize: SiagaTheme.isi,
         color: Color(0xFF334155),
         height: 1.4,
       ),
     ),
     actions: [
+      if (action == 'Bagikan')
+        FilledButton.icon(
+          onPressed: () async {
+            await Clipboard.setData(
+              ClipboardData(
+                text:
+                    'CONTOH DEMO — bukan peringatan aktual\n${message.title}\n${message.body}',
+              ),
+            );
+            if (context.mounted) Navigator.pop(context);
+          },
+          icon: const Icon(Icons.copy_outlined),
+          label: const Text('Salin Teks Contoh'),
+        ),
       TextButton(
         onPressed: () => Navigator.pop(context),
         child: const Text(
@@ -44,9 +60,11 @@ Future<void> showMessageActionExplanation(
 Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
     showDialog<void>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (context) => DialogSiaga(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
+        title: Wrap(
+          spacing: 12,
+          runSpacing: 8,
           children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -57,17 +75,16 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
               child: Text(
                 message.badgeLabel,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w700,
                   color: message.badgeTextColor,
                 ),
               ),
             ),
-            const Spacer(),
             Text(
               message.timestamp,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: SiagaTheme.keterangan,
                 fontWeight: FontWeight.w500,
                 color: SiagaTheme.muted,
               ),
@@ -82,7 +99,7 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
               Text(
                 message.agency,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF1D4ED8),
                 ),
@@ -91,7 +108,7 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
               Text(
                 message.title,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.ink,
                 ),
@@ -100,7 +117,7 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
               Text(
                 message.body,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   color: Color(0xFF334155),
                   height: 1.4,
                 ),
@@ -128,10 +145,10 @@ String _explanationFor(String action, PesanSiaga message) {
     case 'Rute Evakuasi':
       return 'Fitur rute evakuasi menuju titik aman (${message.agency}) disimulasikan untuk demo Kota Padang.';
     case 'Bagikan':
-      return 'Teks peringatan "${message.title}" siap disalin atau dibagikan ke keluarga.';
+      return 'Salin teks "${message.title}" untuk mencoba alur berbagi. Teks salinan diberi penanda contoh demo agar tidak dianggap peringatan aktual.';
     case 'Hubungi Posko':
       return 'Kontak posko kedaruratan (${message.agency}) disimulasikan untuk keperluan pengujian demo.';
     default:
-      return 'Tindakan $action untuk pesan "${message.title}" sedang diproses.';
+      return 'Tindakan $action untuk pesan "${message.title}" belum tersedia pada demo ini.';
   }
 }

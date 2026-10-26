@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/lingkup_navigasi.dart';
+
 import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/barang_tas_siaga.dart';
 import 'widgets/kartu_kategori_tas_siaga.dart';
@@ -98,10 +100,11 @@ class _LayarTasSiagaState extends State<LayarTasSiaga> {
                   ),
                 ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.home,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.home,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),

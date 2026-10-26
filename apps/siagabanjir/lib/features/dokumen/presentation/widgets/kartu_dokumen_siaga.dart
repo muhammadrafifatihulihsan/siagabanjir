@@ -53,7 +53,7 @@ class KartuDokumenSiaga extends StatelessWidget {
           Text(
             doc.numberTitle,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: SiagaTheme.judulBagian,
               fontWeight: FontWeight.w700,
               color: Color(0xFF0F172A),
               height: 1.25,
@@ -68,7 +68,7 @@ class KartuDokumenSiaga extends StatelessWidget {
             child: Text(
               doc.badge,
               style: const TextStyle(
-                fontSize: 11,
+                fontSize: SiagaTheme.keterangan,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF64748B),
                 letterSpacing: 0.2,
@@ -105,7 +105,7 @@ class KartuDokumenSiaga extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
                   height: 1.2,
@@ -114,10 +114,8 @@ class KartuDokumenSiaga extends StatelessWidget {
               const SizedBox(height: 3),
               Text(
                 doc.subtitle,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w400,
                   color: SiagaTheme.muted,
                   height: 1.3,
@@ -145,7 +143,7 @@ class KartuDokumenSiaga extends StatelessWidget {
                 child: const Text(
                   'Ganti',
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: SiagaTheme.isi,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF1D4ED8),
                   ),

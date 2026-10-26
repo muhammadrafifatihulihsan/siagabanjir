@@ -11,6 +11,10 @@ abstract final class SiagaTheme {
   // Warna permukaan bersama menjaga pilihan form dan navbar tetap selaras home.
   static const selectionBackground = Color(0xFFEFF6FF);
   static const navigationBackground = Color(0xFFE1EDFF);
+  static const double judulHalaman = 22;
+  static const double judulBagian = 16;
+  static const double isi = 14;
+  static const double keterangan = 12;
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
@@ -22,7 +26,7 @@ abstract final class SiagaTheme {
     ),
     scaffoldBackgroundColor: background,
     textTheme: const TextTheme(
-      bodyMedium: TextStyle(fontSize: 14, color: ink, height: 1.3),
+      bodyMedium: TextStyle(fontSize: 14, color: ink, height: 1.4),
       bodyLarge: TextStyle(fontSize: 16, color: ink, height: 1.3),
       titleMedium: TextStyle(
         fontSize: 16,
@@ -31,6 +35,35 @@ abstract final class SiagaTheme {
       ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
+    dialogTheme: DialogThemeData(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: deepBlue,
+      contentTextStyle: const TextStyle(
+        fontFamily: 'Inter',
+        color: Colors.white,
+        fontSize: 14,
+        height: 1.4,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: background,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      contentPadding: const EdgeInsets.all(16),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(minimumSize: const Size(48, 48)),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+    ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(minimumSize: const Size(48, 48)),
     ),

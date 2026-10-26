@@ -65,7 +65,7 @@ void main() {
     expect(find.text('137107*********01'), findsOneWidget);
     expect(find.text('rahmat.hidayat@email.com'), findsOneWidget);
     expect(
-      find.text('Jl. Adinegoro No. 12, RT 02 / RW 04, L...'),
+      find.text('Jl. Adinegoro No. 12, RT 02 / RW 04, Lubuk Buaya'),
       findsOneWidget,
     );
     expect(find.text('Masjid Raya Koto Tangah (300 m)'), findsOneWidget);
@@ -88,7 +88,7 @@ void main() {
     expect(find.text('Pusat Bantuan & FAQ'), findsOneWidget);
     expect(find.text('Kebijakan Privasi Data'), findsOneWidget);
     expect(find.text('Versi Aplikasi'), findsOneWidget);
-    expect(find.text('v2.4.0 (Terbaru)'), findsOneWidget);
+    expect(find.text('v1.0.0+1 (Demo)'), findsOneWidget);
 
     // Logout button
     await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);
@@ -112,10 +112,12 @@ void main() {
     // Test Edit Profil tap
     await tester.tap(find.text('Edit Profil'));
     await tester.pumpAndSettle();
-    expect(
-      find.text('Fitur edit profil siap dihubungkan ke formulir akun.'),
-      findsOneWidget,
-    );
+    expect(find.text('Simpan Perubahan'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextFormField).first, 'Warga Penguji');
+    await tester.tap(find.text('Simpan Perubahan'));
+    await tester.pumpAndSettle();
+    expect(find.text('Warga Penguji'), findsOneWidget);
 
     // Test toggle flood alert
     await tester.scrollUntilVisible(find.byType(Switch), 200);
@@ -125,19 +127,19 @@ void main() {
     await tester.tap(switchFinder);
     await tester.pumpAndSettle();
     expect(tester.widget<Switch>(switchFinder).value, isFalse);
-    expect(find.text('Peringatan siaga banjir dinonaktifkan.'), findsOneWidget);
-
-    // Test emergency call
-    await tester.scrollUntilVisible(
-      find.byIcon(Icons.phone_outlined).first,
-      200,
-    );
-    await tester.tap(find.byIcon(Icons.phone_outlined).first);
-    await tester.pumpAndSettle();
     expect(
-      find.text('Menghubungi Siti Rahma (0813-8899-7711)...'),
+      find.text('Preferensi peringatan dinonaktifkan untuk sesi demo.'),
       findsOneWidget,
     );
+
+    // Test emergency call
+    await tester.scrollUntilVisible(find.byIcon(Icons.more_horiz).first, 200);
+    await tester.tap(find.byIcon(Icons.more_horiz).first);
+    await tester.pumpAndSettle();
+    expect(find.text('Salin Nomor'), findsOneWidget);
+
+    await tester.tap(find.text('Tutup'));
+    await tester.pumpAndSettle();
 
     // Test logout dialog
     await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);

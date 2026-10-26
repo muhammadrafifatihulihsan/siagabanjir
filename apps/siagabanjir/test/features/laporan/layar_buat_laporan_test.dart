@@ -29,11 +29,6 @@ void main() {
     'Selections, unavailable services and discard preserve honest state',
     (tester) async {
       await openReport(tester);
-      await tester.tap(find.text('Buka Kamera Ponsel'));
-      await tester.pumpAndSettle();
-      expect(find.text('Kamera belum tersedia'), findsOneWidget);
-      await tester.tap(find.text('Mengerti'));
-      await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Sinkronisasi Lokasi GPS'));
       await tester.tap(find.text('Sinkronisasi Lokasi GPS'));
       await tester.pumpAndSettle();
@@ -72,20 +67,15 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Riwayat').last);
       await tester.pumpAndSettle();
-      await tester.tap(find.byTooltip('Tutup pratinjau'));
+      await tester.tap(find.text('Lapor').last);
       await tester.pumpAndSettle();
       expect(find.text('Air menggenangi jalan.'), findsOneWidget);
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
-      expect(find.text('Keluar dari laporan?'), findsOneWidget);
-      await tester.tap(find.text('Lanjut mengisi'));
+      expect(find.byType(LayarBuatLaporan), findsNothing);
+      await tester.tap(find.text('Lapor').last);
       await tester.pumpAndSettle();
       expect(find.text('Air menggenangi jalan.'), findsOneWidget);
-      await tester.tap(find.text('Beranda').last);
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Keluar'));
-      await tester.pumpAndSettle();
-      expect(find.byType(LayarBuatLaporan), findsNothing);
       expect(tester.takeException(), isNull);
     },
   );

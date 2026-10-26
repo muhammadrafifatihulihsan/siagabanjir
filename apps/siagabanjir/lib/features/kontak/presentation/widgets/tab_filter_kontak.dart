@@ -62,7 +62,7 @@ class TabFilterKontak extends StatelessWidget {
               child: Text(
                 '$label ($count)',
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w600,
                   color: active ? Colors.white : const Color(0xFF334155),
                 ),

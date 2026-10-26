@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/local_icon.dart';
@@ -32,7 +33,7 @@ class KartuInfrastrukturPantau extends StatelessWidget {
               child: Text(
                 'Status Pompa & Pintu Air',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
                 ),
@@ -61,7 +62,7 @@ class KartuInfrastrukturPantau extends StatelessWidget {
                 Text(
                   items[i].title,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: SiagaTheme.isi,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF334155),
                   ),
@@ -69,7 +70,7 @@ class KartuInfrastrukturPantau extends StatelessWidget {
                 Text(
                   items[i].status,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: SiagaTheme.isi,
                     fontWeight: FontWeight.w700,
                     color: items[i].highlightColor,
                   ),

@@ -29,7 +29,7 @@ class BagianPengaturanAkun extends StatelessWidget {
       const Text(
         'Pengaturan & Akun',
         style: TextStyle(
-          fontSize: 16,
+          fontSize: SiagaTheme.judulBagian,
           fontWeight: FontWeight.w700,
           color: SiagaTheme.ink,
         ),
@@ -60,7 +60,7 @@ class BagianPengaturanAkun extends StatelessWidget {
                     child: Text(
                       'Peringatan Siaga Banjir',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: SiagaTheme.isi,
                         fontWeight: FontWeight.w700,
                         color: SiagaTheme.ink,
                       ),
@@ -115,7 +115,7 @@ class BagianPengaturanAkun extends StatelessWidget {
               trailing: Text(
                 appVersion,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w500,
                   color: SiagaTheme.muted,
                 ),
@@ -157,7 +157,7 @@ class BagianPengaturanAkun extends StatelessWidget {
               child: Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.ink,
                 ),

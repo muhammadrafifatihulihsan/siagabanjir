@@ -4,7 +4,9 @@
 
 Satu package Flutter untuk target Android warga dan Web admin. Kode saat ini
 berisi **pratinjau UI warga dengan data lokal**, belum integrasi backend,
-autentikasi nyata, kamera, GPS, penyimpanan dokumen, atau layanan admin.
+autentikasi nyata, GPS, brankas dokumen terenkripsi, atau layanan admin.
+Adapter kamera/TTS perangkat dan pemilihan/ekspor berkas lokal sudah tersedia;
+pengujian HP belum dijalankan sesuai instruksi pemilik.
 Build Web dipakai untuk pemeriksaan UI warga, bukan implementasi admin.
 
 Penataan 27 Oktober 2026 mempertahankan **Feature-First + Layered Architecture**
@@ -18,6 +20,7 @@ Keputusan: [WS-DEC-063](../../docs/DECISIONS.md#flutter-indonesia-063).
 lib/
   main.dart
   app/                         # perakitan aplikasi dan navigasi
+  core/perangkat/              # kamera sistem dan pemulihan hasil
   shared/
     theme/                     # tema dan token tampilan bersama
     widgets/                   # header, navigasi warga, ikon lokal
@@ -27,6 +30,7 @@ lib/
     beranda/
     dokumen/
     kontak/
+    keluarga/
     laporan/
     panduan/
     pantau/
@@ -38,8 +42,9 @@ test/
 
 Setiap fitur mempunyai `presentation` untuk layar dan `widgets`.
 `presentation/models` menampung model tampilan yang membawa `Color`/`IconData`.
-`domain` hanya ada pada `akun`, `laporan`, dan `panduan`, dengan model Dart murni.
-Belum ada implementasi `data` atau infrastruktur bersama `core`.
+`domain` berisi model Dart murni pada akun, laporan, panduan, dan keluarga.
+Adapter TTS ada pada `panduan/data`, berkas lokal pada `dokumen/data`, dan
+kamera bersama pada `core/perangkat`. Tidak ada layer placeholder.
 
 ## Pembagian fitur
 
@@ -53,6 +58,7 @@ anggota menemukan kode setelah pull; semua layar berada di `presentation`.
 | home | beranda | layar_beranda.dart |
 | documents | dokumen | layar_dokumen_siaga.dart |
 | contacts | kontak | layar_direktori_kontak.dart |
+| family (sebelumnya kosong) | keluarga | layar_keluarga.dart |
 | reports | laporan | layar_buat_laporan.dart, layar_riwayat_laporan.dart |
 | guides | panduan | layar_detail_panduan.dart |
 | monitor | pantau | layar_pantau_wilayah.dart |
@@ -70,7 +76,7 @@ Enam folder lama yang hanya berisi penanda kosong dihapus: `admin_content`,
 `admin_messages`, `admin_reporting`, `admin_reports`, `family` dan
 `ktp_verification`. Requirement admin, keluarga dan KTP **tetap berlaku**;
 buat folder bernama Indonesia ketika implementasinya dimulai. Menu Data Keluarga
-masih berupa panel pratinjau beranda.
+kini membuka formulir lokal pada fitur `keluarga`; folder dibuat bersama implementasinya.
 
 Model `DocumentEntry` dan empat widget dokumen lama dihapus setelah penelusuran
 impor dari `main.dart` dan semua tes membuktikan tidak ada pemakai aktif.
@@ -93,23 +99,24 @@ dibutuhkan. State UI sederhana saat ini memakai `StatefulWidget`; tidak perlu
 repository, controller, file ekspor atau use case kosong.
 
 Komunikasi bisnis lintas fitur nantinya memakai kontrak domain melalui `app`.
-UI profil saat ini masih memakai pembungkus navigasi beranda dan membuka layar
-masuk; dependensi presentasi lokal ini belum menjadi arsitektur sesi produksi.
+Profil meneruskan logout ke callback app. Kerangka warga membuang route/state
+sesi demo dan membuat sesi baru setelah simulasi masuk; ini belum autentikasi produksi.
 Widget bersama berada di `shared/widgets`. Perubahan lintas fitur dikoordinasikan
 melalui [PR tim](../../docs/GITHUB-WORKFLOW.md).
 
 ## Mockup beranda warga
 
 [SiagaBanjirApp](lib/app/siaga_banjir_app.dart) merakit aplikasi. Beranda membuka
-laporan, kontak, tas siaga, panduan, dokumen dan pesan secara langsung. Pantau,
-Riwayat dan Profil dibuka melalui panel pratinjau dengan tombol menuju layar
-lengkap. Lengkap menampilkan daftar akses; Beranda menggulir ke atas.
+seluruh fitur secara langsung. `KerangkaWarga` mempertahankan empat tab
+Beranda/Lapor/Riwayat/Profil dengan IndexedStack dan ScrollController masing-masing.
+Header yang sama dipakai ulang; navbar hanya memperbarui pilihan. Halaman detail
+memiliki judul/kembali, dan tombol Lengkap membuka `PanelAksesFitur`.
+Mengetuk tab aktif menggulir ke atas; pindah tab mempertahankan isian/posisi.
 
 Data tinggi air, kuota, jumlah dokumen dan notifikasi masih contoh statis.
-Autentikasi, panggilan, audio, enkripsi/simpan dokumen dan unduh ZIP belum
-terhubung layanan nyata, meskipun sebagian label/umpan balik UI menggambarkan
-hasil berhasil. Integrasi dan penyelarasan pesan tersebut adalah pekerjaan
-berikutnya; penataan ini mempertahankan perilaku dan tes yang sudah ada.
+Autentikasi dan panggilan tidak dijalankan. Kamera dan TTS memakai adapter
+plugin perangkat. Dokumen memilih berkas lokal dan mengekspor ZIP atas tindakan
+pengguna; bukan penyimpanan terenkripsi. Pesan hasil mengikuti efek sebenarnya.
 
 [Acuan visual dan aset](design/README.md) menjelaskan SVG, ikon lokal, Inter
 dan branding. Direktori aset `assets/icons/home` dan `assets/images/reports`
@@ -123,9 +130,12 @@ mengelola state sementara, fokus, scroll, pilihan kategori/kebutuhan, deskripsi
 serta konfirmasi keluar. Widget formulir, bukti, pilihan, deskripsi, bagian kartu
 dan dialog berada di `lib/features/laporan/presentation/widgets`.
 
-Kategori/kebutuhan dimulai kosong. Batal keluar mempertahankan isian/fokus;
-tab Lapor menggulir ke atas. Kamera, GPS dan Kirim menjelaskan layanan belum
-tersedia. Tidak ada draf persisten atau pengiriman nyata. Riwayat menampilkan
+Kategori/kebutuhan dimulai kosong. Tab Lapor menggulir ke atas dan isian/foto
+tetap ada saat berpindah tab. Layar laporan mandiri tetap mengonfirmasi keluar.
+Kamera membuka aplikasi kamera sistem, menampilkan foto, dan mempertahankan foto
+lama ketika dibatalkan/gagal. Android memeriksa hasil kamera yang tertunda saat
+startup dan meminta pilihan tujuan sebelum memasukkannya ke laporan.
+GPS dan Kirim menjelaskan layanan belum tersedia. Tidak ada draf persisten. Riwayat menampilkan
 contoh laporan dengan filter status dan dialog foto/detail.
 
 ## Dokumen dan fitur pendukung
@@ -133,13 +143,18 @@ contoh laporan dengan filter status dan dialog foto/detail.
 [LayarDokumenSiaga](lib/features/dokumen/presentation/layar_dokumen_siaga.dart)
 memakai `HeaderDokumen`, `KartuDokumenSiaga`, `BannerInfoDokumen` dan
 `TombolAksiDokumen`. Tiga berkas contoh memiliki tombol Ganti, Simpan dan Unduh
-ZIP; tidak ada progress bar atau widget ringkasan dari implementasi lama.
+ZIP. PDF/JPG/PNG maksimal 5 MB diperiksa ukuran, ekstensi dan signature dasarnya;
+berkas berada dalam memori halaman. Simpan mengonfirmasi pilihan sesi, bukan
+menulis brankas. ZIP hanya memuat berkas pilihan, tanpa fixture, dan tidak
+terenkripsi. Pengguna memilih ekspor secara eksplisit. Tidak ada unggahan server.
 
 Kontak menyediakan filter dan salin nomor ke clipboard; nomor belum diverifikasi.
 Tas siaga mengubah centang/progres dalam memori. Panduan menampilkan accordion
-dan simulasi audio. Pesan menyediakan filter/dialog demo. Pantau menampilkan
+dan TTS Indonesia dengan putar/jeda/lanjut/hentikan serta audio per langkah.
+Pesan menyediakan filter/dialog dan salin teks bertanda demo. Pantau menampilkan
 sungai/infrastruktur statis. Profil, masuk dan daftar memiliki form/umpan balik
-lokal; belum ada autentikasi, sesi atau isolasi data per akun.
+lokal; profil/kontak dapat diedit, dan keluarga mendukung tambah/edit/hapus.
+Logout membuang state demo. Belum ada autentikasi atau isolasi data akun server.
 
 ## Batas data dan platform
 
@@ -158,8 +173,9 @@ Rujukan: [FRD](../../docs/FRD.md), [SRS](../../docs/SRS.md),
 ## Pengembangan dan pemeriksaan
 
 Manifest: versi `1.0.0+1`, batas Dart `>=3.13.0 <4.0.0`, Flutter SDK dan
-`cupertino_icons`; pengembangan memakai `flutter_test` dan `flutter_lints`.
-Penataan folder tidak menambah dependensi. SDK pemeriksaan: Flutter 3.47.7 stable
+`cupertino_icons`, `image_picker`, `flutter_tts`, `file_selector`, `archive` dan
+`file_saver`; pengembangan memakai `flutter_test` dan `flutter_lints`.
+Versi persis ada di pubspec.lock. SDK pemeriksaan: Flutter 3.47.7 stable
 / Dart 3.13.5 pada Windows. Dari root repository, gunakan PowerShell atau Bash:
 
 ```sh
@@ -180,10 +196,28 @@ memperbarui lockfile; tinjau diff. Hentikan sesi run lama dan jalankan ulang set
 nama file berubah. Petunjuk lintas OS tidak berarti runtime semua OS sudah diuji.
 
 Tes berada di `test/features/<nama_fitur>`; tambahkan subfolder layer ketika tes
-controller/repository diperlukan. [Bukti terbaru](../../docs/WORKSPACE.md#flutter-indonesia)
+controller/repository diperlukan. [Bukti terbaru](../../docs/WORKSPACE.md#flutter-uiux)
 membedakan build/tes widget dari perangkat fisik, backend dan UAT.
 
 ## Dasar keputusan
+
+### Pemeriksaan manual oleh pemilik
+
+Build debug tersedia di `build/app/outputs/flutter-apk/app-debug.apk` setelah
+perintah build. Agen tidak memasang atau menjalankan APK di HP sesuai mandat.
+
+1. Edit Profil lalu pindah tab dan kembali; perubahan harus tetap ada. Keluar
+   dari akun demo lalu masuk kembali harus mengembalikan fixture awal.
+2. Buka Kamera pada laporan/avatar, ambil objek uji, batalkan pengambilan ulang,
+   dan periksa bahwa foto sebelumnya tetap ada. Foto belum dikirim ke server.
+3. Di Panduan, coba putar, jeda, lanjut, hentikan dan speaker per langkah.
+   Pastikan suara berhenti ketika meninggalkan halaman. Voice Indonesia mengikuti
+   mesin Teks ke Ucapan HP; kegagalan tidak menghilangkan teks panduan.
+4. Pilih berkas uji PDF/JPG/PNG melalui Ganti, konfirmasi pilihan, lalu ekspor ZIP
+   ke lokasi yang dipilih sendiri. ZIP hanya berisi berkas pilihan, bukan fixture.
+
+Kamera/TTS/pemilih berkas Android tetap NOT_RUN oleh agen; build dan fake test
+tidak menggantikan pemeriksaan perangkat tersebut.
 
 [WS-DEC-051](../../docs/DECISIONS.md#flutter-feature-first-051) menetapkan
 pemisahan per fitur/layer. [WS-DEC-063](../../docs/DECISIONS.md#flutter-indonesia-063)

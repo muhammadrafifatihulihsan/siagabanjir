@@ -44,7 +44,7 @@ class KartuStatusBeranda extends StatelessWidget {
         const Text(
           'Sungai Batang Kuranji',
           style: TextStyle(
-            fontSize: 22,
+            fontSize: SiagaTheme.judulHalaman,
             height: 1.2,
             fontWeight: FontWeight.w800,
             color: SiagaTheme.deepBlue,
@@ -53,7 +53,11 @@ class KartuStatusBeranda extends StatelessWidget {
         const SizedBox(height: 4),
         const Text(
           'Potensi luapan air. Amankan barang berharga.',
-          style: TextStyle(fontSize: 16, height: 1.3, color: Color(0xFF475569)),
+          style: TextStyle(
+            fontSize: SiagaTheme.judulBagian,
+            height: 1.3,
+            color: Color(0xFF475569),
+          ),
         ),
         const SizedBox(height: 12),
         const Wrap(
@@ -70,7 +74,7 @@ class KartuStatusBeranda extends StatelessWidget {
                   child: Text(
                     'Tinggi Air: 140 cm (+20)',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: SiagaTheme.judulBagian,
                       fontWeight: FontWeight.w700,
                       color: SiagaTheme.deepBlue,
                     ),
@@ -80,7 +84,10 @@ class KartuStatusBeranda extends StatelessWidget {
             ),
             Text(
               '10 mnt lalu',
-              style: TextStyle(fontSize: 12, color: SiagaTheme.mutedOnTint),
+              style: TextStyle(
+                fontSize: SiagaTheme.keterangan,
+                color: SiagaTheme.mutedOnTint,
+              ),
             ),
           ],
         ),
@@ -112,7 +119,7 @@ class KartuStatusBeranda extends StatelessWidget {
                     child: Text(
                       'Pantau Status',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: SiagaTheme.judulBagian,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -157,7 +164,7 @@ class KartuStatusBeranda extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              fontSize: 12,
+              fontSize: SiagaTheme.keterangan,
               fontWeight: FontWeight.w700,
               color: foreground,
             ),

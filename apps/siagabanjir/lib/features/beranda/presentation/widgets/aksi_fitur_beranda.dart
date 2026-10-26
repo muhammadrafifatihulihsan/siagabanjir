@@ -24,7 +24,7 @@ class AksiFiturBeranda extends StatelessWidget {
           ? 'Scan KK, KTP & berkas penting'
           : 'Kamera AI Vision deteksi ketinggian genangan',
       style: const TextStyle(
-        fontSize: 14,
+        fontSize: SiagaTheme.isi,
         height: 1.4,
         color: SiagaTheme.mutedOnTint,
       ),
@@ -77,7 +77,7 @@ class AksiFiturBeranda extends StatelessWidget {
                               Text(
                                 action.title,
                                 style: const TextStyle(
-                                  fontSize: 16,
+                                  fontSize: SiagaTheme.judulBagian,
                                   fontWeight: FontWeight.w700,
                                   height: 1.3,
                                 ),

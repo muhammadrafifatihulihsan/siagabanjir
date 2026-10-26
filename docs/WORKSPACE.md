@@ -23,6 +23,7 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 ## Status dan versi
 
 Struktur/nama Flutter terbaru mengikuti [audit 27 Oktober](#flutter-indonesia).
+Perilaku UI dan bukti terbaru mengikuti [audit UI/UX](#flutter-uiux).
 Path, nama kelas dan jumlah placeholder pada catatan bertanggal sebelumnya
 adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
 
@@ -956,3 +957,84 @@ AGENTS, rules, katalog skill, adapter IDE dan konfigurasi bersama tidak memiliki
 path fitur lama yang perlu diganti. BRD/PRD/FRD/SRS serta kontrak tidak diubah
 karena penataan internal tidak mengubah kebutuhan atau perilaku produk.
 Riwayat path lama dipertahankan sebagai riwayat dengan rujukan pemetaan terbaru.
+
+<a id="flutter-uiux"></a>
+
+## Audit UI/UX Flutter warga - 27 Oktober 2026
+
+Mandat [WS-DEC-064](DECISIONS.md#flutter-uiux-064), baseline `06e3b2e`, branch
+lokal `branch-rafi`, tree awal bersih. Audit melanjutkan cakupan bacaan Flutter,
+aturan/skill, arsitektur dan rujukan terdampak sesuai izin pemilik; tidak
+mengklaim membaca ulang seluruh spesifikasi/kontrak. Dua belas SVG aktif dari
+direktori desain pemilik dirender menjadi tiga papan pembanding lokal.
+`deprecated_admin_posko.svg` dikecualikan karena bukan layar warga aktif.
+
+### Checklist seluruh permintaan
+
+| Permintaan | Hasil implementasi dan pemeriksaan |
+|---|---|
+| Audit semua tampilan | Dua belas layar sumber diperiksa; keluarga/formulir lokal ditambahkan. Inspeksi Chrome dan regresi widget |
+| Ukuran mengikuti Beranda | Token 22/16/14/12, Inter, tinggi isi 1.4; metrik/hero punya hierarki sendiri |
+| Sesuaikan desain | Kartu kontak ringkas, kartu darurat/posko, speaker dan judul langkah panduan, bar warna Pantau, status dokumen tidak terpotong |
+| Profil langsung terbuka | Empat tab langsung; Pantau dan fitur lain langsung ke layar. Hanya Lengkap menjadi daftar akses |
+| Lengkapi Edit Profil | Form tervalidasi, perubahan tampak pada kartu dan bertahan lintas tab; versi/alamat tidak lagi placeholder terpotong |
+| Lengkapi tombol lain | CRUD kontak/keluarga, berkas dan ZIP nyata, salin pesan bertanda demo; layanan server yang belum ada dijelaskan jujur |
+| Kamera bisa dicoba | image_picker untuk laporan/avatar, preview, batal/error mempertahankan foto, pemulihan hasil Android saat startup |
+| Header/navbar efisien | Header instance yang sama, empat tab IndexedStack dengan controller sendiri, navbar memperbarui pilihan; tes identitas state/widget |
+| Scroll nyaman | Bouncing tanpa glow, reduced motion clamping/jump; keyboard tidak menyusutkan area dua kali |
+| Popup sesuai tema | DialogSiaga berbasis Material, fokus/back/scroll tetap tersedia; navbar tidak tertutup snackbar |
+| TTS berfungsi | Mesin OS melalui flutter_tts, suara Indonesia, putar/jeda/lanjut/hentikan/per langkah, berhenti saat keluar/background, pesan gagal tetap menyisakan teks |
+| Skill eksternal dan nama Indonesia | design-critique, accessibility-review, design-system dibaca/dipakai; sebelas fitur Indonesia, termasuk keluarga |
+| Jangan uji HP dahulu | Tidak install/run/test pada Samsung. Kamera/TTS/native picker belum dibuktikan pada perangkat |
+
+### Bukti eksekusi
+
+Lingkungan Windows, Flutter 3.47.7 / Dart 3.13.5:
+
+- PASS: `flutter analyze --no-pub`, 0 issues.
+- PASS: `flutter test --no-pub`, 101 tes. Termasuk retensi tab, identitas header,
+  reset sesi setelah logout, profil, kamera fake berhasil/batal/error, lifecycle
+  TTS fake, keluarga, ZIP, dan layout 320 px dengan teks 200%.
+- PASS: build Web lokal tanpa CDN dan APK debug. APK tidak dipasang ke HP.
+- PASS: Chrome headless untuk 12 layar warga dan dialog edit profil, serta
+  Beranda/Profil pada viewport 320x640, 390x844, 1024x768. Tidak ada pageerror.
+  Screenshot diperiksa secara visual; bukan klaim pixel-perfect seluruh state.
+- PASS: pemilih berkas Web dan unduh ZIP nyata memakai PDF sintetis. Arsip hanya
+  berisi `doc_kk_uji-dokumen.pdf`, dan bytes hasil ekstraksi sama dengan input.
+- PASS: format Dart (115 file, tidak ada perubahan), diff whitespace, UTF-8/LF,
+  Markdownlint pada 10 dokumen terdampak, link internal (42 Markdown), dan 8 skill.
+- NOT_RUN atas instruksi pengguna: kamera/TTS/picker Android di HP, audio fisik,
+  kenyamanan scroll/performa FPS perangkat, UAT, backend/provider dan Web admin.
+
+Artefak kerja lokal (diabaikan Git sesuai aturan build yang sudah ada) berada di
+`apps/siagabanjir/build/audit/`: papan desain, screenshot aktual, log tes/build,
+serta ZIP sintetis. APK: `apps/siagabanjir/build/app/outputs/flutter-apk/app-debug.apk`.
+Tes/widget dan dokumen bukti masuk source; generated build tidak ikut commit.
+
+### Batas dan rujukan
+
+State profil/kontak dan isian laporan hanya selama sesi; keluarga/dokumen hanya
+selama halaman terbuka. Keluar dari demo membuang state, bukan mencabut token
+server. Simpan dokumen mengonfirmasi pilihan memori; ekspor ZIP menulis salinan
+pilihan pengguna, **tanpa enkripsi**. Autentikasi server, GPS, kirim laporan,
+analisis AI dan pembaruan data publik belum terhubung. Nilai/nomor/jarak fixture
+bukan informasi darurat terverifikasi. Filter/kontak tambahan dipertahankan;
+label tindakan disesuaikan dengan kemampuan nyata meski berbeda dari SVG.
+
+Suara tergantung engine/voice Indonesia yang tersedia dan dapat memerlukan
+jaringan. Jeda Android mengikuti dukungan plugin (Android 8/API 26 ke atas);
+build tidak membuktikan suara terdengar atau hasil kamera benar pada HP.
+Gradle masih mengeluarkan peringatan kompatibilitas KGP dari flutter_tts untuk
+versi Flutter mendatang; build saat ini berhasil. Duplikasi platform-tools
+pada SDK lokal adalah peringatan lingkungan; konfigurasi global tidak diubah.
+
+Rujukan implementasi resmi: [image_picker](https://pub.dev/packages/image_picker),
+[flutter_tts](https://pub.dev/packages/flutter_tts),
+[file_selector](https://pub.dev/packages/file_selector),
+[file_saver](https://pub.dev/packages/file_saver). Versi terkunci pada pubspec.lock.
+
+Dokumen terdampak diperbarui: README root/apps/Flutter/desain, DESIGN, keputusan,
+TRACEABILITY, handoff dan CHANGELOG. AGENTS, rules, delapan skill dan adapter IDE
+sudah sesuai prosedur; tidak perlu perubahan kosmetik. Baseline FRD/SRS dan
+OpenAPI tidak diubah karena tidak ada perubahan kontrak atau klaim penerimaan
+bisnis. Commit lokal diwajibkan; push tidak diminta.

@@ -126,7 +126,7 @@ class AksesCepatBeranda extends StatelessWidget {
                         child: Text(
                           badge,
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: SiagaTheme.keterangan,
                             height: 1.2,
                             fontWeight: FontWeight.w700,
                             color: accent,
@@ -140,7 +140,7 @@ class AksesCepatBeranda extends StatelessWidget {
                 Text(
                   action.title,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: SiagaTheme.judulBagian,
                     height: 1.2,
                     fontWeight: FontWeight.w700,
                     color: SiagaTheme.ink,
@@ -150,7 +150,7 @@ class AksesCepatBeranda extends StatelessWidget {
                 Text(
                   description,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: SiagaTheme.isi,
                     height: 1.35,
                     color: Color(0xFF475569),
                   ),

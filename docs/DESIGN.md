@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
 Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
-Mockup beranda dan halaman buat laporan tersedia; fitur bisnis belum diimplementasikan.
+Seluruh layar warga tersedia sebagai demo lokal; integrasi bisnis server belum tersedia.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
 ## Arah visual dan isi layar
@@ -33,9 +33,8 @@ Angka Siaga 2, tinggi air, notifikasi, berkas dan kuota adalah ilustrasi dengan
 data statis, bukan data layanan atau perubahan level/kuota normatif. Atas
 permintaan pemilik, label Data contoh dan catatan Mockup beranda dihilangkan
 dari layar; keterbatasan pengembangan tetap dicatat pada dokumentasi.
-Lapor membuka halaman buat laporan; pintu masuk lainnya membuka panel
-pratinjau dengan tutup/kembali. Tidak ada
-aksi perangkat atau transaksi. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
+Semua pintu masuk fitur kini membuka layar langsung. Menu Lengkap berupa daftar
+akses. Kamera, TTS dan ekspor berkas lokal tersedia; transaksi server belum ada. Bukti: [mockup beranda](WORKSPACE.md#home-mockup).
 
 ### Revisi keterbacaan kartu beranda
 
@@ -83,6 +82,39 @@ Mulai dari kebutuhan itu sebelum memilih komponen.
 - Hindari pola template yang tidak membantu: hero pemasaran di antrean admin,
   gradient/glow/glass dekoratif, emoji pengganti ikon, judul bombastis,
   lorem ipsum, badge “AI” di semua elemen, serta angka demo seolah data aktual.
+
+## Audit UI/UX warga 27 Oktober 2026
+
+[WS-DEC-064](DECISIONS.md#flutter-uiux-064) memakai Beranda sebagai tolok ukur
+keterbacaan: Inter, judul halaman 22, judul bagian 16, isi 14, keterangan 12,
+tinggi baris isi 1.4. Angka metrik dan judul autentikasi tetap memiliki hierarki
+tersendiri. Ukuran ini token bersama, bukan alasan memotong teks besar.
+
+Empat tab mempertahankan state/scroll, header memakai instance widget yang sama,
+dan navbar berada pada slot bottomNavigationBar agar snackbar tidak menutupinya.
+Indikator tab tetap diperbarui ketika pilihan berubah; tidak mengklaim semua
+render/paint berhenti. Keyboard menyembunyikan header/navbar dan hanya kerangka
+luar menyesuaikan ruang. Halaman detail tetap mempunyai tombol kembali.
+
+Dialog memakai DialogSiaga (Material AlertDialog dengan radius 24, latar putih,
+Inter dan isi yang dapat digulir), sehingga fokus, semantics dan tombol kembali
+tetap berasal dari Flutter. Scroll memakai bouncing tanpa glow; reduced motion
+memakai clamping dan aksi kembali ke atas tanpa animasi. Ini pilihan perilaku,
+bukan pengukuran peningkatan FPS pada HP.
+
+Perbandingan 12 SVG aktif mempertahankan susunan utama dan warna tiap fitur.
+Direktori kontak memakai kartu ringkas ikon/nama/nomor/aksi, kartu darurat dan
+posko; filter serta kontak tambahan dipertahankan agar informasi lama tetap ada.
+Aksi kontak publik tetap salin/informasi, bukan klaim nomor resmi atau panggilan.
+Panduan memulihkan judul langkah 4 tentang alas kaki tertutup dan speaker tiap
+langkah. Bar warna Pantau diperbaiki agar benar-benar memiliki tinggi tampilan.
+Status dokumen tidak dipotong, dan nama berkas panjang tetap boleh disingkat.
+
+Penyimpangan sengaja dari SVG: pesan penyimpanan/enkripsi/registrasi harus sesuai
+kemampuan demo, persetujuan daftar dimulai kosong, target sentuh diperbesar,
+dan dialog/input ditambah untuk tindakan nyata. Tidak menyalin klaim bahwa
+nomor, jarak posko, hasil AI atau status banjir fixture telah diverifikasi.
+Nama folder tetap Indonesia. Desain deprecated_admin_posko tidak diimplementasikan.
 
 ## Token dan komponen
 

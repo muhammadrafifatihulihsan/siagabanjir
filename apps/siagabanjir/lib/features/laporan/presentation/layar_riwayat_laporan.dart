@@ -1,4 +1,7 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
+
+import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/widgets/citizen_header.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
@@ -11,6 +14,7 @@ import 'widgets/tab_filter_riwayat_laporan.dart';
 class LayarRiwayatLaporan extends StatefulWidget {
   const LayarRiwayatLaporan({
     super.key,
+    this.scrollController,
     required this.onNotifications,
     required this.onReport,
     required this.onProfile,
@@ -22,17 +26,19 @@ class LayarRiwayatLaporan extends StatefulWidget {
   final VoidCallback onProfile;
   final VoidCallback? onHome;
 
+  final ScrollController? scrollController;
+
   @override
   State<LayarRiwayatLaporan> createState() => _LayarRiwayatLaporanState();
 }
 
 class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
-  final _scrollController = ScrollController();
+  late final _scrollController = widget.scrollController ?? ScrollController();
   FilterRiwayatLaporan _selectedFilter = FilterRiwayatLaporan.all;
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    if (widget.scrollController == null) _scrollController.dispose();
     super.dispose();
   }
 
@@ -84,7 +90,8 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              CitizenHeader(onNotifications: widget.onNotifications),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenHeader(onNotifications: widget.onNotifications),
               Expanded(
                 child: SingleChildScrollView(
                   controller: _scrollController,
@@ -96,7 +103,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
                       const Text(
                         'Riwayat Laporan',
                         style: TextStyle(
-                          fontSize: 24,
+                          fontSize: SiagaTheme.judulHalaman,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF0F172A),
                           letterSpacing: -0.5,
@@ -106,7 +113,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
                       const Text(
                         'Pantau status laporan dan riwayat foto banjir.',
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: SiagaTheme.isi,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF64748B),
                         ),
@@ -136,10 +143,11 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
                   ),
                 ),
               ),
-              CitizenNavigation(
-                selected: CitizenDestination.history,
-                onSelect: _onNavigationSelect,
-              ),
+              if (!LingkupNavigasi.aktif(context))
+                CitizenNavigation(
+                  selected: CitizenDestination.history,
+                  onSelect: _onNavigationSelect,
+                ),
             ],
           ),
         ),
@@ -169,7 +177,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
         const Text(
           'Tidak ada laporan',
           style: TextStyle(
-            fontSize: 16,
+            fontSize: SiagaTheme.judulBagian,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
           ),
@@ -178,7 +186,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
         const Text(
           'Belum ada laporan dengan filter status ini.',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 13, color: Color(0xFF64748B)),
+          style: TextStyle(fontSize: SiagaTheme.isi, color: Color(0xFF64748B)),
         ),
       ],
     ),

@@ -52,9 +52,10 @@ laporan pribadi.
 **Aplikasi belum tersedia untuk digunakan.** Saat ini proyek berada pada tahap
 spesifikasi dan persiapan pengembangan. Fitur di atas merupakan rancangan untuk
 demo akademik; rilis yang tersedia masih berisi dokumentasi proyek.
-Pratinjau Flutter tersedia dalam sepuluh fitur warga dengan folder berbahasa
-Indonesia, termasuk beranda, akun, laporan, pantau dan dokumen. Kamera, GPS,
-penyimpanan dan pengiriman belum terintegrasi.
+Pratinjau Flutter tersedia dalam sebelas fitur warga dengan folder berbahasa
+Indonesia. Navigasi langsung, edit profil/kontak/keluarga lokal, adapter kamera,
+TTS perangkat, pemilihan berkas dan ekspor ZIP sudah tersedia untuk pengujian.
+GPS, autentikasi server, brankas terenkripsi dan pengiriman belum terintegrasi.
 Lihat [README Flutter](apps/siagabanjir/README.md).
 
 ## Informasi pengembangan

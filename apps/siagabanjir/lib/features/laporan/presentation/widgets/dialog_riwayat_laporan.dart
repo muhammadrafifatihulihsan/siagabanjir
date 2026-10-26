@@ -1,3 +1,5 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
+import 'package:siagabanjir/shared/widgets/dialog_siaga.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entri_riwayat_laporan.dart';
@@ -37,6 +39,7 @@ Future<void> showReportHistoryPhotoDialog(
               top: 8,
               right: 8,
               child: IconButton.filled(
+                tooltip: 'Tutup foto',
                 style: IconButton.styleFrom(
                   backgroundColor: Colors.black.withValues(alpha: 0.5),
                   foregroundColor: Colors.white,
@@ -55,7 +58,7 @@ Future<void> showReportHistoryPhotoDialog(
               Text(
                 item.location,
                 style: const TextStyle(
-                  fontSize: 16,
+                  fontSize: SiagaTheme.judulBagian,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
                 ),
@@ -64,7 +67,7 @@ Future<void> showReportHistoryPhotoDialog(
               Text(
                 'Status: ${item.statusLabel} • ${item.timestamp}',
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w500,
                   color: Color(0xFF64748B),
                 ),
@@ -82,12 +85,12 @@ Future<void> showReportHistoryDetailDialog(
   EntriRiwayatLaporan item,
 ) => showDialog<void>(
   context: context,
-  builder: (context) => AlertDialog(
+  builder: (context) => DialogSiaga(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     title: Text(
       item.location,
       style: const TextStyle(
-        fontSize: 18,
+        fontSize: SiagaTheme.judulBagian,
         fontWeight: FontWeight.w800,
         color: Color(0xFF0F172A),
       ),
@@ -100,13 +103,16 @@ Future<void> showReportHistoryDetailDialog(
           children: [
             const Text(
               'Status: ',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: SiagaTheme.isi,
+              ),
             ),
             Text(
               item.statusLabel,
               style: const TextStyle(
                 fontWeight: FontWeight.w700,
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 color: Color(0xFF2563EB),
               ),
             ),
@@ -115,12 +121,18 @@ Future<void> showReportHistoryDetailDialog(
         const SizedBox(height: 8),
         Text(
           'Waktu: ${item.timestamp}',
-          style: const TextStyle(fontSize: 13, color: Color(0xFF475569)),
+          style: const TextStyle(
+            fontSize: SiagaTheme.isi,
+            color: Color(0xFF475569),
+          ),
         ),
         const SizedBox(height: 6),
         Text(
           'Kondisi: ${item.waterLevel} (${item.floodType})',
-          style: const TextStyle(fontSize: 13, color: Color(0xFF475569)),
+          style: const TextStyle(
+            fontSize: SiagaTheme.isi,
+            color: Color(0xFF475569),
+          ),
         ),
         const SizedBox(height: 12),
         Container(
@@ -133,7 +145,7 @@ Future<void> showReportHistoryDetailDialog(
           child: Text(
             item.progressNote,
             style: const TextStyle(
-              fontSize: 13,
+              fontSize: SiagaTheme.isi,
               fontWeight: FontWeight.w600,
               color: Color(0xFF1E293B),
             ),

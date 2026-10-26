@@ -58,7 +58,7 @@ class KartuPesan extends StatelessWidget {
                               child: Text(
                                 message.badgeLabel,
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: SiagaTheme.keterangan,
                                   fontWeight: FontWeight.w700,
                                   color: message.badgeTextColor,
                                 ),
@@ -67,7 +67,7 @@ class KartuPesan extends StatelessWidget {
                             Text(
                               message.timestamp,
                               style: const TextStyle(
-                                fontSize: 12,
+                                fontSize: SiagaTheme.keterangan,
                                 fontWeight: FontWeight.w500,
                                 color: SiagaTheme.muted,
                               ),
@@ -78,7 +78,7 @@ class KartuPesan extends StatelessWidget {
                         Text(
                           message.agency,
                           style: const TextStyle(
-                            fontSize: 13,
+                            fontSize: SiagaTheme.isi,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFF1D4ED8),
                           ),
@@ -87,7 +87,7 @@ class KartuPesan extends StatelessWidget {
                         Text(
                           message.title,
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: SiagaTheme.judulBagian,
                             fontWeight: FontWeight.w700,
                             color: SiagaTheme.ink,
                             height: 1.25,
@@ -97,7 +97,7 @@ class KartuPesan extends StatelessWidget {
                         Text(
                           message.body,
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: SiagaTheme.isi,
                             color: Color(0xFF334155),
                             height: 1.4,
                           ),
@@ -145,7 +145,7 @@ class KartuPesan extends StatelessWidget {
             child: Text(
               actionLabel,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 fontWeight: FontWeight.w600,
                 color: isSecondary ? SiagaTheme.ink : const Color(0xFF2563EB),
               ),

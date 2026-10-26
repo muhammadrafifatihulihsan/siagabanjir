@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/dialog_siaga.dart';
+
 import '../../../shared/theme/siaga_theme.dart';
 import 'layar_daftar.dart';
 import 'widgets/kartu_masuk.dart';
@@ -65,7 +67,7 @@ class _LayarMasukState extends State<LayarMasuk> {
       return;
     }
 
-    _showFeedback('Berhasil masuk sebagai $identifier.');
+    _showFeedback('Simulasi masuk sebagai $identifier.');
     widget.onLoginSuccess?.call(identifier);
   }
 
@@ -73,7 +75,11 @@ class _LayarMasukState extends State<LayarMasuk> {
     if (widget.onForgotPassword != null) {
       widget.onForgotPassword!();
     } else {
-      _showFeedback('Fitur pemulihan kata sandi atau PIN.');
+      tampilkanInfoSiaga(
+        context,
+        'Pemulihan akun',
+        'Pemulihan sandi membutuhkan layanan akun yang belum terhubung. Gunakan data uji untuk mencoba formulir demo.',
+      );
     }
   }
 
@@ -81,7 +87,11 @@ class _LayarMasukState extends State<LayarMasuk> {
     if (widget.onGoogleLogin != null) {
       widget.onGoogleLogin!();
     } else {
-      _showFeedback('Autentikasi dengan akun Google.');
+      tampilkanInfoSiaga(
+        context,
+        'Masuk dengan Google',
+        'Integrasi Google belum terhubung. Tidak ada akun Google yang diminta atau digunakan dalam sesi demo ini.',
+      );
     }
   }
 
@@ -95,7 +105,9 @@ class _LayarMasukState extends State<LayarMasuk> {
             onLogin: () => Navigator.of(ctx).pop(),
             onRegisterSuccess: (user) {
               Navigator.of(ctx).pop();
-              _showFeedback('Akun $user berhasil didaftarkan. Silakan masuk.');
+              _showFeedback(
+                'Simulasi daftar selesai. Silakan mencoba formulir masuk.',
+              );
             },
           ),
         ),
@@ -118,6 +130,11 @@ class _LayarMasukState extends State<LayarMasuk> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const HeaderMasuk(),
+                const SizedBox(height: 16),
+                const Text(
+                  'Mode demo lokal. Gunakan data uji dan sandi contoh.',
+                  textAlign: TextAlign.center,
+                ),
                 const SizedBox(height: 24),
                 KartuMasuk(
                   identifierController: _identifierController,

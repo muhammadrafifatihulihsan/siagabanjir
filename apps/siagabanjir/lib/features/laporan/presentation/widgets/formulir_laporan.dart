@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'dart:typed_data';
+
 import '../../../../shared/theme/siaga_theme.dart';
 import 'bagian_pilihan_laporan.dart';
 import 'bagian_deskripsi_laporan.dart';
@@ -19,6 +21,8 @@ class FormulirLaporan extends StatelessWidget {
     required this.onCamera,
     required this.onLocation,
     required this.onSubmit,
+    this.foto,
+    this.memuatFoto = false,
   });
 
   final TextEditingController description;
@@ -31,6 +35,8 @@ class FormulirLaporan extends StatelessWidget {
   final VoidCallback onCamera;
   final VoidCallback onLocation;
   final VoidCallback onSubmit;
+  final Uint8List? foto;
+  final bool memuatFoto;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -42,7 +48,7 @@ class FormulirLaporan extends StatelessWidget {
         child: const Text(
           'Lapor Kejadian Banjir',
           style: TextStyle(
-            fontSize: 24,
+            fontSize: SiagaTheme.judulHalaman,
             fontWeight: FontWeight.w800,
             height: 1.2,
           ),
@@ -52,13 +58,18 @@ class FormulirLaporan extends StatelessWidget {
       const Text(
         'Lengkapi foto, lokasi, dan kondisi kejadian.',
         style: TextStyle(
-          fontSize: 14,
+          fontSize: SiagaTheme.isi,
           height: 1.4,
           color: SiagaTheme.mutedOnTint,
         ),
       ),
       const SizedBox(height: 16),
-      BagianBuktiLaporan(onCamera: onCamera, onLocation: onLocation),
+      BagianBuktiLaporan(
+        onCamera: onCamera,
+        onLocation: onLocation,
+        foto: foto,
+        memuatFoto: memuatFoto,
+      ),
       // Pilihan tunggal dan jamak diberi petunjuk berbeda untuk mencegah salah isi.
       BagianPilihanLaporan(
         title: 'Kategori Luapan Banjir',
@@ -98,7 +109,10 @@ class FormulirLaporan extends StatelessWidget {
         label: const Text(
           'Kirim Laporan Banjir',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontSize: SiagaTheme.judulBagian,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
       const SizedBox(height: 8),
@@ -106,7 +120,7 @@ class FormulirLaporan extends StatelessWidget {
         'Pratinjau desain. Laporan belum disimpan atau dikirim.',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontSize: 14,
+          fontSize: SiagaTheme.isi,
           height: 1.4,
           color: SiagaTheme.mutedOnTint,
         ),

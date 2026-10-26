@@ -15,7 +15,7 @@ class BagianInfoProfil extends StatelessWidget {
       const Text(
         'Data Pribadi & Domisili',
         style: TextStyle(
-          fontSize: 16,
+          fontSize: SiagaTheme.judulBagian,
           fontWeight: FontWeight.w700,
           color: SiagaTheme.ink,
         ),
@@ -99,7 +99,7 @@ class _BarisInfo extends StatelessWidget {
               Text(
                 label,
                 style: const TextStyle(
-                  fontSize: 11,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w500,
                   color: SiagaTheme.muted,
                 ),
@@ -107,10 +107,8 @@ class _BarisInfo extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: SiagaTheme.ink,
                 ),

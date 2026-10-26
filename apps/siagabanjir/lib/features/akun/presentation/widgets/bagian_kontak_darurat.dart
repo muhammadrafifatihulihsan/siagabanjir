@@ -26,7 +26,7 @@ class BagianKontakDarurat extends StatelessWidget {
             child: Text(
               'Kontak Darurat Keluarga (SOS)',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: SiagaTheme.judulBagian,
                 fontWeight: FontWeight.w700,
                 color: SiagaTheme.ink,
               ),
@@ -38,11 +38,14 @@ class BagianKontakDarurat extends StatelessWidget {
             style: TextButton.styleFrom(
               foregroundColor: SiagaTheme.blue,
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              minimumSize: const Size(48, 40),
+              minimumSize: const Size(48, 48),
             ),
             child: const Text(
               '+ Tambah',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontSize: SiagaTheme.isi,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -109,7 +112,7 @@ class _BarisKontak extends StatelessWidget {
             child: Text(
               contact.initials,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 fontWeight: FontWeight.w800,
                 color: avatarFg,
               ),
@@ -123,7 +126,7 @@ class _BarisKontak extends StatelessWidget {
                 Text(
                   contact.name,
                   style: const TextStyle(
-                    fontSize: 14,
+                    fontSize: SiagaTheme.isi,
                     fontWeight: FontWeight.w700,
                     color: SiagaTheme.ink,
                   ),
@@ -132,7 +135,7 @@ class _BarisKontak extends StatelessWidget {
                 Text(
                   '${contact.relation} • ${contact.phone}',
                   style: const TextStyle(
-                    fontSize: 12,
+                    fontSize: SiagaTheme.keterangan,
                     fontWeight: FontWeight.w500,
                     color: SiagaTheme.muted,
                   ),
@@ -147,16 +150,20 @@ class _BarisKontak extends StatelessWidget {
               side: const BorderSide(color: Color(0xFFBBF7D0)),
             ),
             clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: onCall,
-              child: const SizedBox(
-                width: 44,
-                height: 44,
-                child: Center(
-                  child: Icon(
-                    Icons.phone_outlined,
-                    size: 20,
-                    color: Color(0xFF16A34A),
+            child: Semantics(
+              label: 'Kelola kontak ${contact.name}',
+              button: true,
+              child: InkWell(
+                onTap: onCall,
+                child: const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Center(
+                    child: Icon(
+                      Icons.more_horiz,
+                      size: 20,
+                      color: Color(0xFF16A34A),
+                    ),
                   ),
                 ),
               ),

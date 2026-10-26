@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../domain/entri_riwayat_laporan.dart';
@@ -54,7 +55,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
           textAlign: TextAlign.end,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
-            fontSize: 12,
+            fontSize: SiagaTheme.keterangan,
             fontWeight: FontWeight.w500,
             color: Color(0xFF64748B),
           ),
@@ -88,7 +89,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
               Text(
                 item.statusLabel,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFFB45309),
                 ),
@@ -119,7 +120,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
               Text(
                 item.statusLabel,
                 style: const TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF15803D),
                 ),
@@ -138,7 +139,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
           child: Text(
             item.statusLabel,
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: SiagaTheme.keterangan,
               fontWeight: FontWeight.w700,
               color: Color(0xFF2563EB),
             ),
@@ -163,7 +164,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
                 Text(
                   item.location,
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: SiagaTheme.judulBagian,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF0F172A),
                     height: 1.25,
@@ -186,7 +187,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
                       child: Text(
                         item.waterLevel,
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: SiagaTheme.keterangan,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF2563EB),
                         ),
@@ -204,7 +205,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
                       child: Text(
                         item.floodType,
                         style: const TextStyle(
-                          fontSize: 12,
+                          fontSize: SiagaTheme.keterangan,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF334155),
                         ),
@@ -269,7 +270,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
                         'Foto',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 11,
+                          fontSize: SiagaTheme.keterangan,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
@@ -309,7 +310,7 @@ class KartuRiwayatLaporan extends StatelessWidget {
             child: Text(
               item.progressNote,
               style: const TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 fontWeight: FontWeight.w600,
                 color: Color(0xFF1E293B),
               ),

@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 class TombolKeluar extends StatelessWidget {
@@ -24,7 +25,7 @@ class TombolKeluar extends StatelessWidget {
               Text(
                 'Keluar dari Akun',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFFDC2626),
                 ),

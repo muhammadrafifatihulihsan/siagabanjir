@@ -17,7 +17,7 @@ class FooterDaftar extends StatelessWidget {
         const Text(
           'Sudah punya akun? ',
           style: TextStyle(
-            fontSize: 14,
+            fontSize: SiagaTheme.isi,
             fontWeight: FontWeight.w400,
             color: SiagaTheme.muted,
           ),
@@ -33,7 +33,7 @@ class FooterDaftar extends StatelessWidget {
               child: Text(
                 'Masuk Sekarang',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF2563EB),
                 ),

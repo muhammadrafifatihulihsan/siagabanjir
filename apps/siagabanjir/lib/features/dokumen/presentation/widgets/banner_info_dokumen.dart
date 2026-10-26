@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 // Banner informasi perlindungan berkas sipil dan prosedur dinas pasca-banjir.
@@ -21,7 +22,7 @@ class BannerInfoDokumen extends StatelessWidget {
           child: Text.rich(
             const TextSpan(
               style: TextStyle(
-                fontSize: 13,
+                fontSize: SiagaTheme.isi,
                 color: Color(0xFF1E3A8A),
                 height: 1.45,
               ),
@@ -32,9 +33,9 @@ class BannerInfoDokumen extends StatelessWidget {
                 ),
                 TextSpan(
                   text:
-                      'Berkas tersimpan terenkripsi pada perangkat Anda. Saat dokumen fisik '
-                      'hilang/rusak akibat banjir, Anda dapat langsung mengunduh paket dinas atau '
-                      'mencetaknya untuk pengajuan ke Disdukcapil atau Kelurahan terdekat.',
+                      'Berkas yang dipilih hanya tersedia selama halaman ini terbuka. '
+                      'Ekspor ZIP untuk menyimpan salinan. Penyimpanan terenkripsi belum terhubung; '
+                      'gunakan berkas uji tanpa data pribadi.',
                 ),
               ],
             ),

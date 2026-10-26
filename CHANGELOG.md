@@ -7,6 +7,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Audit UI/UX warga: token teks mengikuti Beranda, navigasi langsung, empat tab
+  mempertahankan state/scroll dan header bersama, navbar tidak tertutup snackbar,
+  dialog bertema serta scroll dengan reduced motion. Edit profil/kontak/keluarga,
+  kamera sistem dengan pemulihan hasil Android, TTS Indonesia dan kontrol audio,
+  pilih PDF/gambar serta ekspor ZIP lokal tersedia. Pesan autentikasi/dokumen
+  diselaraskan dengan kemampuan demo. Nama fitur tetap Indonesia.
+  Bukti dan batas perangkat: [audit UI/UX](docs/WORKSPACE.md#flutter-uiux).
+
 - Penataan Flutter: sepuluh folder fitur beserta file/kelas/enum dan tes memakai
   nama Indonesia; hapus 48 penanda folder kosong dan lima file dokumen tanpa
   pemakai. Lima model yang memakai Flutter dipindah ke presentation/models.

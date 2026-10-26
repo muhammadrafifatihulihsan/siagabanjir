@@ -8,6 +8,35 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Audit UI/UX 27 Oktober 2026 mengikuti
+[WS-DEC-064](DECISIONS.md#flutter-uiux-064). Seluruh checklist pemilik dan bukti
+ada pada [WORKSPACE](WORKSPACE.md#flutter-uiux). Empat tab kini langsung terbuka,
+mempertahankan state/scroll, memakai header bersama dan navbar yang tidak
+tertutup snackbar. Token teks mengikuti Beranda; dialog bertema, ruang keyboard,
+layout kecil/teks besar, kartu kontak dan bar warna Pantau diperbaiki.
+
+Edit profil, CRUD kontak/keluarga, kamera laporan/avatar, pemulihan hasil kamera
+Android, TTS Indonesia dengan jeda/lanjut/stop, pilih PDF/gambar dan ekspor ZIP
+lokal tersedia. Nama folder tetap Indonesia. Dokumen hanya berada dalam memori
+halaman sampai diekspor; ZIP tidak terenkripsi. Autentikasi/GPS/pengiriman/AI
+dan layanan bisnis belum terhubung. Logout membuat sesi demo baru dengan state
+bersih; bukan autentikasi server. Pesan UI tidak mengaku menyimpan akun/vault.
+
+Verifikasi: analyzer 0 issues; 101 tes PASS; build Web dan APK debug PASS.
+Inspeksi Chrome mencakup 12 layar serta dialog edit profil dan viewport
+320/390/1024. Pemilih berkas dan unduh ZIP Web diuji dengan berkas sintetis;
+isi arsip cocok. Artefak lokal berada di build/audit, tidak masuk source.
+**HP NOT_RUN atas instruksi terbaru pemilik**: tidak memasang atau membuka APK.
+Pengguna akan memeriksa kamera/suara sendiri. TTS bergantung voice/engine OS;
+Gradle memperingatkan pemakaian KGP plugin flutter_tts pada Flutter mendatang.
+
+Dokumentasi living diperbarui bersama implementasi. Kontrak/spec baseline,
+AGENTS/rules/skills/adapter tidak berubah karena tidak ada perubahan mandat
+atau wire API. Branch `branch-rafi`, baseline `06e3b2e`; commit lokal diwajibkan,
+tanpa push. Catatan berikut adalah riwayat sebelum audit UI/UX ini.
+
+### Riwayat penataan folder
+
 Penataan Flutter 27 Oktober 2026 mengikuti
 [WS-DEC-063](DECISIONS.md#flutter-indonesia-063). Sepuluh fitur kini bernama
 `akun`, `autentikasi`, `beranda`, `dokumen`, `kontak`, `laporan`, `panduan`,

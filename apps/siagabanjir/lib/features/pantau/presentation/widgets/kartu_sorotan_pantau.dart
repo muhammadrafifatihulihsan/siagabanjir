@@ -1,3 +1,4 @@
+import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../models/data_pantau_wilayah.dart';
@@ -22,24 +23,22 @@ class KartuSorotanPantau extends StatelessWidget {
       border: Border.all(color: const Color(0xFFBFDBFE), width: 1.5),
     ),
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Baris judul sungai & badge status
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          spacing: 8,
+          runSpacing: 8,
           children: [
-            Expanded(
-              child: Text(
-                featuredRiver.name,
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF2563EB),
-                ),
+            Text(
+              featuredRiver.name,
+              style: const TextStyle(
+                fontSize: SiagaTheme.judulBagian,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF2563EB),
               ),
             ),
-            const SizedBox(width: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
@@ -49,7 +48,7 @@ class KartuSorotanPantau extends StatelessWidget {
               child: Text(
                 featuredRiver.statusLabel,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: SiagaTheme.keterangan,
                   fontWeight: FontWeight.w700,
                   color: featuredRiver.status.badgeForeground,
                 ),
@@ -88,7 +87,7 @@ class KartuSorotanPantau extends StatelessWidget {
                   const Text(
                     'cm Tinggi Air',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: SiagaTheme.isi,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFF64748B),
                     ),
@@ -99,7 +98,7 @@ class KartuSorotanPantau extends StatelessWidget {
             Text(
               featuredRiver.formattedChange,
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: SiagaTheme.isi,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFFB45309),
               ),
@@ -114,6 +113,7 @@ class KartuSorotanPantau extends StatelessWidget {
           child: SizedBox(
             height: 8,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: const [
                 Expanded(
                   flex: 100,
@@ -135,19 +135,25 @@ class KartuSorotanPantau extends StatelessWidget {
           children: const [
             Text(
               'Normal: 0–99 cm',
-              style: TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+              style: TextStyle(
+                fontSize: SiagaTheme.keterangan,
+                color: Color(0xFF64748B),
+              ),
             ),
             Text(
               'Waspada: 100–149 cm',
               style: TextStyle(
-                fontSize: 11.5,
+                fontSize: SiagaTheme.keterangan,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFFB45309),
               ),
             ),
             Text(
               'Bahaya: 150+ cm',
-              style: TextStyle(fontSize: 11.5, color: Color(0xFF64748B)),
+              style: TextStyle(
+                fontSize: SiagaTheme.keterangan,
+                color: Color(0xFF64748B),
+              ),
             ),
           ],
         ),
@@ -170,7 +176,7 @@ class KartuSorotanPantau extends StatelessWidget {
               Text(
                 'Batas luapan tanggul: ${featuredRiver.spillLimitCm} cm',
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1D4ED8),
                 ),
@@ -178,7 +184,7 @@ class KartuSorotanPantau extends StatelessWidget {
               Text(
                 'Sisa ${featuredRiver.spillRemainingCm} cm',
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: SiagaTheme.isi,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFFB45309),
                 ),
