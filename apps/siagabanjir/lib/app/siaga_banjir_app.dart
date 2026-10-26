@@ -10,6 +10,7 @@ import '../features/home/presentation/home_preview_sheet.dart';
 import '../features/home/presentation/home_screen.dart';
 import '../features/messages/presentation/messages_inbox_screen.dart';
 import '../features/reports/presentation/report_create_screen.dart';
+import '../features/reports/presentation/reports_history_screen.dart';
 import '../shared/theme/siaga_theme.dart';
 
 class SiagaBanjirApp extends StatelessWidget {
@@ -121,6 +122,17 @@ class SiagaBanjirApp extends StatelessWidget {
           builder: (ctx) => ProfileScreen(
             onOpen: (act) => _openPreview(ctx, act),
             onHome: () => Navigator.of(ctx).pop(),
+          ),
+        ),
+      );
+    } else if (next == HomeAction.history) {
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (ctx) => ReportsHistoryScreen(
+            onNotifications: () =>
+                _openPreview(ctx, HomeAction.notifications),
+            onReport: () => _openPreview(ctx, HomeAction.report),
+            onProfile: () => _openPreview(ctx, HomeAction.profile),
           ),
         ),
       );
