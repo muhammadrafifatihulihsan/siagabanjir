@@ -244,6 +244,7 @@ kamera/GPS/kirim atau perubahan kontrak. [Bukti](WORKSPACE.md#report-uiux-refine
 Mandat 25 Oktober 2026 memakai [messages_inbox.svg](../apps/siagabanjir/design/messages_inbox.svg)
 sebagai acuan kotak masuk peringatan siaga warga. Layar diakses dari tombol
 notifikasi CitizenHeader di beranda maupun laporan. Struktur visual:
+
 - Header dengan tombol kembali (rounded 14, border #E2E8F0, touch target 48),
   judul "Peringatan Siaga" 20/700 #0F172A, dan badge status "3 Baru" 14/700 #DC2626.
 - Tab filter horizontal berbentuk pill (Semua, Darurat, Cuaca BMKG, Posko).
@@ -259,4 +260,3 @@ notifikasi CitizenHeader di beranda maupun laporan. Struktur visual:
   (#F1F5F9, teks #0F172A), dan "Hubungi Posko" (#EFF6FF, border #BFDBFE, teks #2563EB).
 - Seluruh aksi dan ketukan kartu menampilkan dialog penjelasan demo tanpa
   mengklaim panggilan darurat nyata. Navigasi bawah menggunakan CitizenNavigation bersama.
-

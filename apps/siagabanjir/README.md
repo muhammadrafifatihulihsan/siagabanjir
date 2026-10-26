@@ -271,6 +271,7 @@ fokus sebelumnya. Isian yang dibatalkan hingga kosong tidak meminta konfirmasi.
 mengikuti acuan [messages_inbox.svg](design/messages_inbox.svg). Layar dapat
 diakses melalui tombol notifikasi pada CitizenHeader di beranda maupun laporan.
 Fitur menyediakan:
+
 - Header dengan tombol kembali, judul Peringatan Siaga, dan badge pesan baru.
 - Tab filter horizontal (Semua, Darurat, Cuaca BMKG, Posko).
 - Kartu pesan [MessageCard](lib/features/messages/presentation/widgets/message_card.dart)
@@ -280,4 +281,3 @@ Fitur menyediakan:
 - Dialog penjelasan aksi demo [message_dialogs.dart](lib/features/messages/presentation/widgets/message_dialogs.dart).
 - Navigasi bawah menggunakan CitizenNavigation bersama yang menghubungkan
   kembali ke Beranda, Lapor, Riwayat, dan Profil.
-

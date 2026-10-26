@@ -714,6 +714,7 @@ kotak masuk peringatan siaga warga dari acuan messages_inbox.svg yang diserahkan
 Layar diakses melalui tombol notifikasi pada CitizenHeader di beranda maupun laporan.
 
 Struktur dan widget di lib/features/messages/presentation:
+
 - MessagesHeader: tombol kembali (rounded 14, border #E2E8F0, touch target 48),
   judul "Peringatan Siaga" 20/700, dan badge status "3 Baru" 14/700 #DC2626.
 - MessagesFilterTabs: pill tabs horizontal (Semua, Darurat, Cuaca BMKG, Posko).
@@ -738,6 +739,7 @@ checklist tas siaga bencana warga dari acuan `emergency_bag_checklist.svg` yang 
 Layar diakses melalui tombol akses cepat "Tas Siaga" di beranda dan rute aplikasi.
 
 Struktur dan widget di lib/features/emergency_bag:
+
 - Domain `EmergencyBagItem` dan `EmergencyBagCategory` di `domain/emergency_bag_item.dart`
   memuat 14 item default pada 4 kategori (Dokumen Berharga, Obat & P3K Keluarga, Logistik & Komunikasi,
   Pakaian & Perlengkapan) dengan 12 item awal tercentang (85%).

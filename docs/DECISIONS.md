@@ -1112,6 +1112,7 @@ pada tombol akses cepat "Tas Siaga" di beranda. Mandat tidak mencakup integrasi
 backend sinkronisasi akun atau cloud storage.
 
 Implementasi menghasilkan:
+
 - Domain `EmergencyBagItem` dan `EmergencyBagCategory` di `lib/features/emergency_bag/domain`
   dengan 14 item default yang tepat mereproduksi kondisi awal desain (12 dari 14 barang tercentang, 85%).
 - UI `EmergencyBagScreen` di `lib/features/emergency_bag/presentation`:
