@@ -6,10 +6,11 @@ Satu package Flutter untuk Android warga dan Web admin memakai
 **Feature-First + Layered Architecture**: kelompokkan kode berdasarkan fitur,
 lalu pisahkan tanggung jawab di dalam fitur.
 
-Status 25 Oktober 2026: aplikasi membuka beranda warga dan halaman buat laporan
-sesuai SVG pemilik. Fitur `home` dan presentation `reports` memiliki UI lokal;
-layer bisnis dan fitur lainnya masih placeholder. Belum ada integrasi API,
-sesi, kamera, GPS atau penyimpanan data. Backend tidak termasuk pekerjaan ini.
+Status 25 Oktober 2026: aplikasi membuka beranda warga, halaman buat laporan,
+dan kotak masuk peringatan siaga sesuai SVG pemilik. Fitur `home`, `reports`
+dan presentation `messages` memiliki UI lokal; layer bisnis dan fitur lainnya
+masih placeholder. Belum ada integrasi API, sesi, kamera, GPS atau penyimpanan data.
+Backend tidak termasuk pekerjaan ini.
 
 ## Struktur
 
@@ -59,7 +60,7 @@ menentukan pembagian kepada Rafi, Melia, dan Hasan melalui tabel berikut.
 | emergency_bag | Kebutuhan dan progres tas siaga | Belum ditetapkan |
 | contacts | Kontak publik dan kontak pribadi lokal | Belum ditetapkan |
 | guides | Panduan kesiapsiagaan dan TTS | Belum ditetapkan |
-| messages | Kotak masuk warga dan status baca | Belum ditetapkan |
+| messages | Kotak masuk warga dan status baca (UI pratinjau messages_inbox.svg tersedia) | Belum ditetapkan |
 | admin_reports | Antrean, kelompok, review, koreksi dan catatan laporan | Belum ditetapkan |
 | admin_reporting | Pengaturan pelaporan, kuota, cleanup dan audit | Belum ditetapkan |
 | admin_content | Pengelolaan kontak publik, panduan dan katalog tas | Belum ditetapkan |
@@ -263,3 +264,20 @@ Indonesia. Saat keyboard terbuka, header/navbar sementara disembunyikan.
 Tab Lapor aktif menggulir ke awal tanpa menghapus input; batal keluar memulihkan
 fokus sebelumnya. Isian yang dibatalkan hingga kosong tidak meminta konfirmasi.
 [Bukti revisi UI/UX](../../docs/WORKSPACE.md#report-uiux-refinement).
+
+## Kotak masuk pesan peringatan siaga
+
+[MessagesInboxScreen](lib/features/messages/presentation/messages_inbox_screen.dart)
+mengikuti acuan [messages_inbox.svg](design/messages_inbox.svg). Layar dapat
+diakses melalui tombol notifikasi pada CitizenHeader di beranda maupun laporan.
+Fitur menyediakan:
+
+- Header dengan tombol kembali, judul Peringatan Siaga, dan badge pesan baru.
+- Tab filter horizontal (Semua, Darurat, Cuaca BMKG, Posko).
+- Kartu pesan [MessageCard](lib/features/messages/presentation/widgets/message_card.dart)
+  dengan aksen garis warna semantik (merah untuk Siaga 2, oranye untuk Potensi
+  Banjir, biru untuk Posko, dan abu-abu netral untuk Normal), instansi pengirim,
+  judul 16/700, isi 14/400, dan tombol aksi evakuasi/bagikan/posko.
+- Dialog penjelasan aksi demo [message_dialogs.dart](lib/features/messages/presentation/widgets/message_dialogs.dart).
+- Navigasi bawah menggunakan CitizenNavigation bersama yang menghubungkan
+  kembali ke Beranda, Lapor, Riwayat, dan Profil.

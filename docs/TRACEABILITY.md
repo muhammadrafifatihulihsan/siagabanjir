@@ -2100,3 +2100,14 @@ Pemeriksaan mencakup pilihan awal kosong, eksklusivitas kategori, Tab/Space,
 konfirmasi/batal keluar, fokus, tab aktif, keyboard, viewport dan aksesibilitas.
 [Bukti](WORKSPACE.md#report-uiux-refinement) tidak menaikkan status TC bisnis;
 FR-REPORT-001/002/003 dan kontrak tetap menunggu integrasi media/lokasi/kirim.
+
+## 57. Desain kotak masuk pesan peringatan siaga - 25 Oktober 2026
+
+[WS-DEC-058](DECISIONS.md#messages-inbox-ui-058) diterapkan pada presentation
+messages, model data SiagaMessage, slicing widget (header, filter pill, kartu
+pesan dengan aksen garis vertikal semantik, dialog penjelasan aksi), routing
+aplikasi, serta tes widget. Halaman menampilkan daftar peringatan siaga warga
+sesuai acuan messages_inbox.svg yang diserahkan pemilik. Inspeksi ini tidak
+membuktikan push notification, panggilan darurat aktif, atau integrasi backend;
+TC bisnis terkait peringatan siaga tetap NOT_RUN.
+[Bukti](WORKSPACE.md#messages-inbox-ui) mencatat hasil implementasi dan inspeksi lokal.
