@@ -37,6 +37,9 @@ Persetujuan tersebut berlaku untuk spesifikasi; pengujian aplikasi tetap NOT_RUN
 | [GIT-UNTUK-PEMULA](GIT-UNTUK-PEMULA.md) | Urutan salin-tempel setup pertama, kerja harian, commit/push, PR/revisi, sesudah merge dan clone di perangkat lain |
 | [VERSIONING](VERSIONING.md) | Kebijakan versi dan prosedur rilis |
 | [SESSION-HANDOFF](SESSION-HANDOFF.md) | Kondisi terkini dan pekerjaan berikutnya |
+| [CODE_OF_CONDUCT](../CODE_OF_CONDUCT.md) | Pedoman etika dan standar perilaku kontributor |
+| [CONTRIBUTING](../CONTRIBUTING.md) | Panduan kontribusi, alur branch, commit, dan Pull Request |
+| [SECURITY](../SECURITY.md) | Kebijakan pelaporan kerentanan dan standar keamanan |
 
 Instruksi utama ada di [AGENTS](../AGENTS.md), prosedur pada
 [katalog skill](../SKILL.md), dan aturan bersama di [rules](../rules/workflow.md).
