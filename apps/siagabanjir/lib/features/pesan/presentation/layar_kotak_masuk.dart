@@ -8,7 +8,7 @@ import 'models/pesan_siaga.dart';
 import 'widgets/kartu_pesan.dart';
 import 'widgets/dialog_pesan.dart';
 import 'widgets/tab_filter_pesan.dart';
-import 'widgets/header_pesan.dart';
+import '../../../shared/widgets/header_halaman.dart';
 
 // Layar Kotak Masuk Pesan Peringatan Siaga sesuai SVG messages_inbox.
 class LayarKotakMasuk extends StatefulWidget {
@@ -64,9 +64,10 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HeaderPesan(
+              HeaderHalaman(
+                judul: 'Peringatan Siaga',
                 onBack: () => Navigator.pop(context),
-                unreadCount: _unreadCount,
+                keterangan: '$_unreadCount Baru',
               ),
               TabFilterPesan(
                 selected: _selectedCategory,
@@ -78,9 +79,6 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                     .length,
                 weatherCount: kSampleSiagaMessages
                     .where((m) => m.category == KategoriPesan.weather)
-                    .length,
-                shelterCount: kSampleSiagaMessages
-                    .where((m) => m.category == KategoriPesan.shelter)
                     .length,
               ),
               Expanded(

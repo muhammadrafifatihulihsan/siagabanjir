@@ -1,3 +1,6 @@
+import '../domain/entri_riwayat_laporan.dart';
+import '../../../shared/widgets/dialog_siaga.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/perangkat/layanan_foto.dart';
@@ -12,6 +15,7 @@ import 'widgets/dialog_laporan.dart';
 class LayarBuatLaporan extends StatefulWidget {
   const LayarBuatLaporan({
     super.key,
+    this.onSimpan,
     this.scrollController,
     this.layananFoto,
     this.fotoDipulihkan,
@@ -20,6 +24,7 @@ class LayarBuatLaporan extends StatefulWidget {
     required this.onProfile,
   });
 
+  final ValueChanged<EntriRiwayatLaporan>? onSimpan;
   final VoidCallback onNotifications;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
@@ -72,6 +77,68 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     } finally {
       if (mounted) setState(() => _memuatFoto = false);
     }
+  }
+
+  bool _menyimpan = false;
+  Future<void> _simpan() async {
+    if (_menyimpan || _memuatFoto) return;
+    if (_category == null || _description.text.trim().isEmpty) {
+      await _explain(
+        'Lengkapi laporan',
+        'Pilih kategori dan isi deskripsi kejadian sebelum menyimpan.',
+      );
+      return;
+    }
+    if (widget.onSimpan == null) {
+      await _explain(
+        'Riwayat belum tersedia',
+        'Buka formulir melalui aplikasi untuk menyimpan catatan sesi.',
+      );
+      return;
+    }
+    _menyimpan = true;
+    final setuju = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => DialogSiaga(
+        title: const Text('Simpan ke Riwayat?'),
+        content: const Text(
+          'Catatan dan foto disimpan selama sesi demo ini. Belum dikirim ke petugas dan akan hilang saat keluar dari akun.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Batal'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Simpan Catatan'),
+          ),
+        ],
+      ),
+    );
+    _menyimpan = false;
+    if (!mounted || setuju != true) return;
+    widget.onSimpan!(
+      EntriRiwayatLaporan(
+        waktu: DateTime.now(),
+        kategori: _category!,
+        deskripsi: _description.text.trim(),
+        kebutuhan: List.unmodifiable(_needs),
+        foto: _foto?.bytes,
+      ),
+    );
+    setState(() {
+      _description.clear();
+      _category = null;
+      _needs.clear();
+      _foto = null;
+    });
+    widget.fotoDipulihkan?.value = null;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Catatan tersimpan di Riwayat untuk sesi ini.'),
+      ),
+    );
   }
 
   // Membatalkan semua isian mengembalikan form ke kondisi bersih.
@@ -183,10 +250,7 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
                           'GPS belum tersedia',
                           'Alamat yang tampil adalah contoh. Lokasi perangkat belum dibaca.',
                         ),
-                        onSubmit: () => _explain(
-                          'Laporan belum dikirim',
-                          'Pengiriman dan penyimpanan belum tersedia. Isian tetap ada selama halaman ini terbuka.',
-                        ),
+                        onSubmit: _simpan,
                       ),
                     ),
                   ),

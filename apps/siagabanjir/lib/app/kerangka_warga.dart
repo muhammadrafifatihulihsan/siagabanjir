@@ -1,3 +1,7 @@
+import '../features/laporan/domain/entri_riwayat_laporan.dart';
+import '../features/dokumen/presentation/layar_dokumen_siaga.dart';
+import '../features/kontak/domain/kontak_darurat.dart';
+
 import 'package:flutter/material.dart';
 
 import '../core/perangkat/layanan_foto.dart';
@@ -25,6 +29,9 @@ class KerangkaWarga extends StatefulWidget {
 }
 
 class _KerangkaWargaState extends State<KerangkaWarga> {
+  final _riwayat = ValueNotifier<List<EntriRiwayatLaporan>>([]);
+  final _dokumen = ValueNotifier<List<DokumenSesi>>([]);
+  final _kontakPribadi = ValueNotifier<List<KontakDarurat>>([]);
   final _navigator = GlobalKey<NavigatorState>();
   final _pengamat = PengamatHalaman();
   final _tab = ValueNotifier(CitizenDestination.home);
@@ -91,11 +98,20 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
 
   Widget _halamanTab(CitizenDestination tab) => _halaman.putIfAbsent(tab, () {
     return switch (tab) {
-      CitizenDestination.home => LayarBeranda(
-        onOpen: _buka,
-        scrollController: _scroll[0],
+      CitizenDestination.home => Theme(
+        data: Theme.of(context).copyWith(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          outlinedButtonTheme: OutlinedButtonThemeData(
+            style: OutlinedButton.styleFrom(minimumSize: const Size(48, 48)),
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+          ),
+        ),
+        child: LayarBeranda(onOpen: _buka, scrollController: _scroll[0]),
       ),
       CitizenDestination.report => LayarBuatLaporan(
+        onSimpan: (item) => _riwayat.value = [item, ..._riwayat.value],
         fotoDipulihkan: _fotoDipulihkan,
         scrollController: _scroll[1],
         onNotifications: () => _buka(AksiBeranda.notifications),
@@ -103,6 +119,7 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
         onProfile: () => _pilih(CitizenDestination.profile),
       ),
       CitizenDestination.history => LayarRiwayatLaporan(
+        riwayat: _riwayat,
         scrollController: _scroll[2],
         onNotifications: () => _buka(AksiBeranda.notifications),
         onReport: () => _pilih(CitizenDestination.report),
@@ -182,7 +199,12 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
     await _navigator.currentState!.push<void>(
       MaterialPageRoute(
         settings: RouteSettings(name: aksi.name),
-        builder: (_) => halamanFitur(aksi, _buka),
+        builder: (_) => halamanFitur(
+          aksi,
+          _buka,
+          kontakPribadi: _kontakPribadi,
+          dokumen: _dokumen,
+        ),
       ),
     );
     _membukaDetail = false;
@@ -191,6 +213,9 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
   @override
   void dispose() {
     _tab.dispose();
+    _kontakPribadi.dispose();
+    _dokumen.dispose();
+    _riwayat.dispose();
     _fotoDipulihkan.dispose();
     _pengamat.dispose();
     for (final controller in _scroll) {

@@ -1279,3 +1279,30 @@ Persetujuan awal pengujian Samsung **digantikan instruksi terbaru pemilik**:
 tidak menguji perangkat; pemilik akan memeriksa HP sendiri. Tidak memasang atau
 membuka APK di HP. Build, tes otomatis dan inspeksi browser lokal tetap berjalan.
 Commit lokal diwajibkan; push tidak diminta. [Bukti/checklist](WORKSPACE.md#flutter-uiux).
+
+<a id="flutter-uiux-lanjutan-065"></a>
+
+## 55. Penyederhanaan fitur warga dan kecepatan TTS - 27 Oktober 2026
+
+**WS-DEC-065 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit lanjutan seluruh
+layar selain Beranda: konsistensi font, ikon, tombol, dialog dan hierarki;
+foto kamera/galeri di Edit Profil; kontak pribadi pindah ke Kontak Darurat
+dengan tambah/edit/hapus; dokumen PDF/foto/scan berkategori KTP, KK, Lainnya
+dengan nama sendiri tanpa spasi; konfirmasi hasil; riwayat singkat berdasarkan
+isian pelapor dan detail melalui ketukan; hapus arahan rute/posko. Tambahan
+mandat memperbaiki suara Panduan Selamat yang terasa terlalu cepat.
+
+Ini menggantikan susunan SVG terdahulu pada area tersebut, bukan desain Beranda.
+Badge hanya untuk status yang berguna. Galeri hanya untuk foto profil;
+foto laporan tetap kamera. Scan dokumen menghasilkan foto, bukan OCR/PDF otomatis.
+Riwayat demo dimulai kosong; Simpan ke Riwayat merekam kategori, deskripsi,
+kebutuhan, foto opsional dan waktu lokal, tanpa status proses/tim rekaan.
+Kontak pribadi dan dokumen bertahan selama sesi saat route dibuka ulang.
+Keluar dari akun/aplikasi membuang state demo; persistensi per akun, vault
+terenkripsi dan pengiriman server tetap pekerjaan integrasi baseline.
+
+TTS menetapkan kecepatan normal eksplisit (flutter_tts Android 0.5 -> native 1x,
+Web 1.0) dan pitch 1.0, menolak pemutaran ulang teks yang sedang aktif dan
+melindungi status dari hasil jeda yang terlambat. Kecepatan fisik di HP belum
+diverifikasi. Instruksi tidak menguji HP tetap berlaku; tidak ada mandat push.
+[Checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).

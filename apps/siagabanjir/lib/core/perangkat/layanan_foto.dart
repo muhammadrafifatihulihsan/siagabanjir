@@ -13,9 +13,13 @@ class LayananFoto {
   LayananFoto({ImagePicker? picker}) : _picker = picker ?? ImagePicker();
   final ImagePicker _picker;
 
-  Future<FotoPilihan?> ambil() async {
+  Future<FotoPilihan?> ambil() => _pilih(ImageSource.camera);
+
+  Future<FotoPilihan?> galeri() => _pilih(ImageSource.gallery);
+
+  Future<FotoPilihan?> _pilih(ImageSource sumber) async {
     final file = await _picker.pickImage(
-      source: ImageSource.camera,
+      source: sumber,
       maxWidth: 1600,
       maxHeight: 1600,
       imageQuality: 85,

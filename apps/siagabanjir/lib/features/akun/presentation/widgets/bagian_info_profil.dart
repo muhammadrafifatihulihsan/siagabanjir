@@ -53,12 +53,6 @@ class BagianInfoProfil extends StatelessWidget {
               label: 'Alamat Tempat Tinggal',
               value: profile.address,
             ),
-            const Divider(height: 1, color: Color(0xFFF1F5F9), indent: 64),
-            _BarisInfo(
-              icon: Icons.location_on_outlined,
-              label: 'Titik Evakuasi Mandiri Terdekat',
-              value: profile.evacuationPoint,
-            ),
           ],
         ),
       ),
@@ -83,13 +77,13 @@ class _BarisInfo extends StatelessWidget {
     child: Row(
       children: [
         Container(
-          width: 36,
-          height: 36,
+          width: 44,
+          height: 44,
           decoration: BoxDecoration(
             color: const Color(0xFFEFF6FF),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Icon(icon, size: 18, color: SiagaTheme.blue),
+          child: Icon(icon, size: 24, color: SiagaTheme.blue),
         ),
         const SizedBox(width: 14),
         Expanded(

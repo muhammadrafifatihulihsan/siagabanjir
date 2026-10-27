@@ -48,7 +48,10 @@ void main() {
 
       // Verifikasi banner audio darurat persis sesuai SVG
       expect(find.text('Bantuan Suara Panduan'), findsOneWidget);
-      expect(find.text('Dengarkan instruksi dibacakan sistem'), findsOneWidget);
+      expect(
+        find.text('Narasi bahasa Indonesia • kecepatan normal'),
+        findsOneWidget,
+      );
       expect(find.text('Dengarkan Panduan Suara'), findsOneWidget);
 
       // Verifikasi judul bagian langkah evakuasi persis sesuai SVG

@@ -38,7 +38,7 @@ void main() {
     await _openInbox(tester);
     expect(find.byType(LayarKotakMasuk), findsOneWidget);
     expect(find.text('Peringatan Siaga'), findsOneWidget);
-    expect(find.text('3 Baru'), findsOneWidget);
+    expect(find.text('2 Baru'), findsOneWidget);
 
     // Ketuk tombol kembali di header.
     await tester.tap(find.bySemanticsLabel('Kembali'));
@@ -59,13 +59,11 @@ void main() {
     await _openInbox(tester, size: const Size(390, 1200));
 
     // Verifikasi 4 filter tab awal dan 4 kartu pesan.
-    expect(find.text('Semua (4)'), findsOneWidget);
+    expect(find.text('Semua (3)'), findsOneWidget);
     expect(find.text('Darurat (1)'), findsOneWidget);
     expect(find.text('Cuaca BMKG (1)'), findsOneWidget);
-    await tester.ensureVisible(find.text('Posko (1)'));
-    await tester.pumpAndSettle();
-    expect(find.text('Posko (1)'), findsOneWidget);
-    expect(find.byType(KartuPesan), findsNWidgets(4));
+    expect(find.text('Posko (1)'), findsNothing);
+    expect(find.byType(KartuPesan), findsNWidgets(3));
 
     // Filter ke Darurat.
     await tester.ensureVisible(find.text('Darurat (1)'));
@@ -89,23 +87,12 @@ void main() {
       findsOneWidget,
     );
 
-    // Filter ke Posko.
-    await tester.ensureVisible(find.text('Posko (1)'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Posko (1)'));
-    await tester.pumpAndSettle();
-    expect(find.byType(KartuPesan), findsOneWidget);
-    expect(
-      find.text('Pembukaan Posko Pengungsian di SMPN 12 Padang'),
-      findsOneWidget,
-    );
-
     // Kembalikan ke Semua.
-    await tester.ensureVisible(find.text('Semua (4)'));
+    await tester.ensureVisible(find.text('Semua (3)'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Semua (4)'));
+    await tester.tap(find.text('Semua (3)'));
     await tester.pumpAndSettle();
-    expect(find.byType(KartuPesan), findsNWidgets(4));
+    expect(find.byType(KartuPesan), findsNWidgets(3));
   });
 
   testWidgets('Action buttons and card tap trigger dialogs properly', (
@@ -113,10 +100,11 @@ void main() {
   ) async {
     await _openInbox(tester);
 
-    // Ketuk tombol aksi Rute Evakuasi.
-    await tester.tap(find.text('Rute Evakuasi'));
+    expect(find.text('Rute Evakuasi'), findsNothing);
+    // Aksi berbagi masih tersedia.
+    await tester.tap(find.text('Bagikan'));
     await tester.pumpAndSettle();
-    expect(find.text('Rute Evakuasi'), findsWidgets);
+    expect(find.text('Salin Teks Contoh'), findsOneWidget);
     expect(find.text('Mengerti'), findsOneWidget);
     await tester.tap(find.text('Mengerti'));
     await tester.pumpAndSettle();

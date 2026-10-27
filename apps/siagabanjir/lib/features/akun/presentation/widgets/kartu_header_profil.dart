@@ -10,16 +10,12 @@ class KartuHeaderProfil extends StatelessWidget {
     super.key,
     required this.profile,
     required this.onEdit,
-    this.onChangeAvatar,
     this.foto,
-    this.memuatFoto = false,
   });
 
   final ProfilPengguna profile;
   final VoidCallback onEdit;
-  final VoidCallback? onChangeAvatar;
   final Uint8List? foto;
-  final bool memuatFoto;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -40,58 +36,20 @@ class KartuHeaderProfil extends StatelessWidget {
       children: [
         Row(
           children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8, bottom: 8),
-                  child: CircleAvatar(
-                    radius: 36,
-                    backgroundColor: const Color(0xFFBFDBFE),
-                    backgroundImage: foto == null ? null : MemoryImage(foto!),
-                    child: foto != null
-                        ? null
-                        : Text(
-                            profile.initials,
-                            style: const TextStyle(
-                              fontSize: SiagaTheme.judulHalaman,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF1D4ED8),
-                            ),
-                          ),
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  child: Material(
-                    color: SiagaTheme.blue,
-                    shape: const CircleBorder(
-                      side: BorderSide(color: Colors.white, width: 2),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: IconButton(
-                      tooltip: 'Ambil foto profil',
-                      onPressed: memuatFoto ? null : onChangeAvatar,
-                      constraints: const BoxConstraints(
-                        minWidth: 48,
-                        minHeight: 48,
+            CircleAvatar(
+              radius: 36,
+              backgroundColor: SiagaTheme.selectionBackground,
+              backgroundImage: foto == null ? null : MemoryImage(foto!),
+              child: foto == null
+                  ? Text(
+                      profile.initials,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w700,
+                        color: SiagaTheme.blue,
                       ),
-                      icon: memuatFoto
-                          ? const SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            )
-                          : const Icon(
-                              Icons.camera_alt_rounded,
-                              size: 20,
-                              color: Colors.white,
-                            ),
-                    ),
-                  ),
-                ),
-              ],
+                    )
+                  : null,
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -116,37 +74,11 @@ class KartuHeaderProfil extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 6),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEFF6FF),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Color(0xFF10B981),
-                            shape: BoxShape.circle,
-                          ),
-                          child: SizedBox(width: 6, height: 6),
-                        ),
-                        const SizedBox(width: 5),
-                        Flexible(
-                          child: Text(
-                            profile.location,
-                            style: const TextStyle(
-                              fontSize: SiagaTheme.keterangan,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF1D4ED8),
-                            ),
-                          ),
-                        ),
-                      ],
+                  Text(
+                    profile.location,
+                    style: const TextStyle(
+                      fontSize: SiagaTheme.isi,
+                      color: SiagaTheme.muted,
                     ),
                   ),
                 ],
@@ -161,7 +93,7 @@ class KartuHeaderProfil extends StatelessWidget {
             onPressed: onEdit,
             icon: const Icon(
               Icons.edit_outlined,
-              size: 18,
+              size: 24,
               color: SiagaTheme.blue,
             ),
             label: const Text(

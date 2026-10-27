@@ -11,7 +11,7 @@ class LangkahPanduan {
   final String description;
 }
 
-// 5 tahapan utama langkah menghadapi banjir persis sesuai desain referensi guides_detail.svg.
+// 5 tahapan utama langkah menghadapi banjir mengikuti revisi pemilik tanpa arahan rute/posko.
 const kDefaultGuideSteps = <LangkahPanduan>[
   LangkahPanduan(
     number: 1,
@@ -35,8 +35,8 @@ const kDefaultGuideSteps = <LangkahPanduan>[
   ),
   LangkahPanduan(
     number: 5,
-    title: 'Evakuasi ke Posko Titik Kumpul',
-    description: 'Ikuti jalur evakuasi resmi, hindari jembatan rapuh dan got untuk menuju posko.',
+    title: 'Kabari Keluarga',
+    description: 'Sampaikan kondisi dan keberadaan Anda kepada keluarga melalui kontak yang sudah disiapkan.',
   ),
 ];
 

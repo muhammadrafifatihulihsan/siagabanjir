@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 enum KategoriKontak {
   emergency('Darurat'),
   health('Kesehatan'),
-  infrastructure('Infrastruktur'),
-  posko('Posko');
+  infrastructure('Infrastruktur');
 
   const KategoriKontak(this.label);
   final String label;
@@ -106,22 +105,5 @@ const List<EntriKontak> kPublicContacts = [
     category: KategoriKontak.infrastructure,
     description: 'Gangguan distribusi air bersih',
     accentColor: Color(0xFF2563EB),
-  ),
-  // Posko
-  EntriKontak(
-    name: 'Posko Bencana Kecamatan Kuranji',
-    agency: 'Kecamatan Kuranji',
-    phone: '0751-445566',
-    category: KategoriKontak.posko,
-    description: 'Posko evakuasi wilayah Kuranji',
-    accentColor: Color(0xFF7C3AED),
-  ),
-  EntriKontak(
-    name: 'Posko Bencana Kecamatan Padang Timur',
-    agency: 'Kecamatan Padang Timur',
-    phone: '0751-556677',
-    category: KategoriKontak.posko,
-    description: 'Posko evakuasi wilayah Padang Timur',
-    accentColor: Color(0xFF7C3AED),
   ),
 ];

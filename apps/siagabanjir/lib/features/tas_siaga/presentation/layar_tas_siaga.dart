@@ -5,7 +5,7 @@ import '../../../shared/widgets/lingkup_navigasi.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/barang_tas_siaga.dart';
 import 'widgets/kartu_kategori_tas_siaga.dart';
-import 'widgets/header_tas_siaga.dart';
+import '../../../shared/widgets/header_halaman.dart';
 import 'widgets/banner_info_tas_siaga.dart';
 import 'widgets/kartu_ringkasan_tas_siaga.dart';
 
@@ -74,7 +74,10 @@ class _LayarTasSiagaState extends State<LayarTasSiaga> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HeaderTasSiaga(onBack: () => Navigator.pop(context)),
+              HeaderHalaman(
+                judul: 'Tas Siaga Bencana',
+                onBack: () => Navigator.pop(context),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   key: const PageStorageKey('emergency-bag-scroll'),

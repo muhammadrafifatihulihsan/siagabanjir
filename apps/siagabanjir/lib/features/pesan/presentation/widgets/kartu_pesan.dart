@@ -124,35 +124,8 @@ class KartuPesan extends StatelessWidget {
     ),
   );
 
-  Widget _actionButton(String actionLabel) {
-    final isSecondary = actionLabel == 'Bagikan';
-    return Semantics(
-      button: true,
-      label: actionLabel,
-      child: Material(
-        color: isSecondary ? const Color(0xFFF1F5F9) : const Color(0xFFEFF6FF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: isSecondary
-              ? BorderSide.none
-              : const BorderSide(color: Color(0xFFBFDBFE)),
-        ),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: () => onAction(actionLabel),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(
-              actionLabel,
-              style: TextStyle(
-                fontSize: SiagaTheme.isi,
-                fontWeight: FontWeight.w600,
-                color: isSecondary ? SiagaTheme.ink : const Color(0xFF2563EB),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  Widget _actionButton(String actionLabel) => OutlinedButton(
+    onPressed: () => onAction(actionLabel),
+    child: Text(actionLabel),
+  );
 }

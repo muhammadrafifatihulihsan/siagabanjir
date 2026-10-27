@@ -13,15 +13,7 @@ Future<void> showMessageActionExplanation(
 ) => showDialog<void>(
   context: context,
   builder: (context) => DialogSiaga(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    title: Text(
-      action,
-      style: const TextStyle(
-        fontSize: SiagaTheme.judulBagian,
-        fontWeight: FontWeight.w700,
-        color: SiagaTheme.ink,
-      ),
-    ),
+    title: Text(action),
     content: Text(
       _explanationFor(action, message),
       style: const TextStyle(
@@ -61,7 +53,6 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
     showDialog<void>(
       context: context,
       builder: (context) => DialogSiaga(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Wrap(
           spacing: 12,
           runSpacing: 8,
@@ -142,12 +133,8 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
 
 String _explanationFor(String action, PesanSiaga message) {
   switch (action) {
-    case 'Rute Evakuasi':
-      return 'Fitur rute evakuasi menuju titik aman (${message.agency}) disimulasikan untuk demo Kota Padang.';
     case 'Bagikan':
       return 'Salin teks "${message.title}" untuk mencoba alur berbagi. Teks salinan diberi penanda contoh demo agar tidak dianggap peringatan aktual.';
-    case 'Hubungi Posko':
-      return 'Kontak posko kedaruratan (${message.agency}) disimulasikan untuk keperluan pengujian demo.';
     default:
       return 'Tindakan $action untuk pesan "${message.title}" belum tersedia pada demo ini.';
   }

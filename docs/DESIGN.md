@@ -305,3 +305,23 @@ notifikasi CitizenHeader di beranda maupun laporan. Struktur visual:
   (#F1F5F9, teks #0F172A), dan "Hubungi Posko" (#EFF6FF, border #BFDBFE, teks #2563EB).
 - Seluruh aksi dan ketukan kartu menampilkan dialog penjelasan demo tanpa
   mengklaim panggilan darurat nyata. Navigasi bawah menggunakan CitizenNavigation bersama.
+
+## Revisi lanjutan fitur warga
+
+[WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065) menggantikan susunan
+profil/kontak/dokumen/riwayat dan aksi rute/posko pada uraian SVG sebelumnya.
+Beranda tetap acuan, tanpa perubahan source/aset. Ikon aksi Material berukuran
+24 dalam target 48, bukan menyamakan glyph dengan ilustrasi/brand atau angka
+metrik. Tombol/font dialog menggunakan Inter; judul dialog 20, isi 14, radius24.
+Filter pesan/kontak memiliki tinggi minimal 48. HeaderHalaman menggantikan enam
+header duplikat, dengan judul 22 dan kembali 48. Tema kartu baru putih tanpa tint;
+tombol radius 14, aksi salin biru, lokasi profil berupa teks tanpa titik status.
+
+Profil menempatkan kamera/galeri dalam Edit Profil. Kontak pribadi mendahului
+kontak umum; edit/hapus hanya untuk input sendiri. Dokumen dimulai kosong dengan
+satu CTA Tambah, kategori setelah memilih berkas, pesan hasil sesi dan ekspor
+ZIP sekunder. Nama/kategori/ukuran cukup sebagai metadata tanpa badge dekoratif.
+Riwayat menampilkan kategori, dua baris deskripsi dan waktu; detail di dialog.
+Rute, rekomendasi posko dan titik evakuasi profil dihapus atas mandat pemilik.
+Panduan memakai keterangan rate normal, putar/jeda/lanjut/stop; teks tetap tersedia.
+Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).

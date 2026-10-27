@@ -105,9 +105,9 @@ class FormulirLaporan extends StatelessWidget {
             borderRadius: BorderRadius.circular(14),
           ),
         ),
-        icon: const Icon(Icons.send_outlined, size: 20),
+        icon: const Icon(Icons.save_outlined, size: 24),
         label: const Text(
-          'Kirim Laporan Banjir',
+          'Simpan ke Riwayat',
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: SiagaTheme.judulBagian,
@@ -117,7 +117,7 @@ class FormulirLaporan extends StatelessWidget {
       ),
       const SizedBox(height: 8),
       const Text(
-        'Pratinjau desain. Laporan belum disimpan atau dikirim.',
+        'Catatan sesi demo, belum dikirim ke petugas.',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: SiagaTheme.isi,

@@ -8,6 +8,18 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Audit lanjutan mengikuti [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065).
+[Checklist lengkap](WORKSPACE.md#flutter-uiux-lanjutan) mencatat foto profil
+kamera/galeri dalam Edit Profil, kontak pribadi di Kontak Darurat, dokumen
+dinamis berkategori/nama kustom, riwayat lokal dari input tanpa proses/tim rekaan,
+penghapusan rute/posko, konsistensi tema, serta rate TTS normal dan guard putar.
+Beranda tidak diubah. Kontak/dokumen/riwayat ada selama sesi dan hilang setelah
+logout/aplikasi ditutup. ZIP tidak terenkripsi; server belum terhubung.
+101 tes PASS; bukti akhir lainnya ada pada WORKSPACE. Audio/HP NOT_RUN sesuai
+mandat. Baseline `6259a82`, branch `branch-rafi`; commit lokal, tanpa push.
+
+### Riwayat audit pertama
+
 Audit UI/UX 27 Oktober 2026 mengikuti
 [WS-DEC-064](DECISIONS.md#flutter-uiux-064). Seluruh checklist pemilik dan bukti
 ada pada [WORKSPACE](WORKSPACE.md#flutter-uiux). Empat tab kini langsung terbuka,

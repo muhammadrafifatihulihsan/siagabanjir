@@ -11,8 +11,7 @@ class TabFilterPesan extends StatelessWidget {
     required this.onSelect,
     this.emergencyCount = 1,
     this.weatherCount = 1,
-    this.shelterCount = 1,
-    this.totalCount = 4,
+    this.totalCount = 3,
   });
 
   final KategoriPesan selected;
@@ -20,7 +19,6 @@ class TabFilterPesan extends StatelessWidget {
   final int totalCount;
   final int emergencyCount;
   final int weatherCount;
-  final int shelterCount;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -39,8 +37,6 @@ class TabFilterPesan extends StatelessWidget {
           category: KategoriPesan.weather,
           label: 'Cuaca BMKG ($weatherCount)',
         ),
-        const SizedBox(width: 8),
-        _pill(category: KategoriPesan.shelter, label: 'Posko ($shelterCount)'),
       ],
     ),
   );
@@ -61,7 +57,7 @@ class TabFilterPesan extends StatelessWidget {
         child: InkWell(
           onTap: () => onSelect(category),
           child: Container(
-            constraints: const BoxConstraints(minHeight: 36),
+            constraints: const BoxConstraints(minHeight: 48),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             alignment: Alignment.center,
             child: Text(

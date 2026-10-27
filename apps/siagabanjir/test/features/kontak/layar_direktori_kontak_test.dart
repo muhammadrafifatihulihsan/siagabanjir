@@ -45,7 +45,7 @@ void main() {
       // Verifikasi banner info nomor contoh
       expect(
         find.text(
-          'Data contoh — nomor belum diverifikasi resmi. Salin nomor untuk menghubungi melalui dialer.',
+          'Nomor di bawah adalah contoh dan belum diverifikasi. Tidak untuk panggilan darurat nyata.',
         ),
         findsOneWidget,
       );
@@ -110,19 +110,8 @@ void main() {
     expect(find.text('PDAM Kota Padang'), findsOneWidget);
     expect(find.text('RSUP M. Djamil Padang'), findsNothing);
 
-    // Ketuk tab Posko
-    final poskoTab = find.text('Posko (2)');
-    await tester.ensureVisible(poskoTab);
-    await tester.pumpAndSettle();
-    await tester.tap(poskoTab);
-    await tester.pumpAndSettle();
-
-    expect(find.text('Posko Bencana Kecamatan Kuranji'), findsOneWidget);
-    expect(find.text('Posko Bencana Kecamatan Padang Timur'), findsOneWidget);
-    expect(find.text('PDAM Kota Padang'), findsNothing);
-
     // Kembali ke Semua
-    final semuaTab = find.text('Semua (11)');
+    final semuaTab = find.text('Semua (9)');
     await tester.ensureVisible(semuaTab);
     await tester.pumpAndSettle();
     await tester.tap(semuaTab);

@@ -59,11 +59,11 @@ void main() {
       semantics.dispose();
       await tester.ensureVisible(find.byType(TextField));
       await tester.enterText(find.byType(TextField), 'Air menggenangi jalan.');
-      await tester.ensureVisible(find.text('Kirim Laporan Banjir'));
-      await tester.tap(find.text('Kirim Laporan Banjir'));
+      await tester.ensureVisible(find.text('Simpan ke Riwayat'));
+      await tester.tap(find.text('Simpan ke Riwayat'));
       await tester.pumpAndSettle();
-      expect(find.text('Laporan belum dikirim'), findsOneWidget);
-      await tester.tap(find.text('Mengerti'));
+      expect(find.text('Simpan ke Riwayat?'), findsOneWidget);
+      await tester.tap(find.text('Batal'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Riwayat').last);
       await tester.pumpAndSettle();

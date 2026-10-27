@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
-import '../../domain/profil_pengguna.dart';
+import '../../domain/kontak_darurat.dart';
 
 class BagianKontakDarurat extends StatelessWidget {
   const BagianKontakDarurat({
@@ -24,7 +24,7 @@ class BagianKontakDarurat extends StatelessWidget {
         children: [
           const Expanded(
             child: Text(
-              'Kontak Darurat Keluarga (SOS)',
+              'Kontak Pribadi',
               style: TextStyle(
                 fontSize: SiagaTheme.judulBagian,
                 fontWeight: FontWeight.w700,
@@ -144,10 +144,10 @@ class _BarisKontak extends StatelessWidget {
             ),
           ),
           Material(
-            color: const Color(0xFFF0FDF4),
+            color: const Color(0xFFEFF6FF),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
-              side: const BorderSide(color: Color(0xFFBBF7D0)),
+              side: const BorderSide(color: Color(0xFFBFDBFE)),
             ),
             clipBehavior: Clip.antiAlias,
             child: Semantics(
@@ -161,8 +161,8 @@ class _BarisKontak extends StatelessWidget {
                   child: Center(
                     child: Icon(
                       Icons.more_horiz,
-                      size: 20,
-                      color: Color(0xFF16A34A),
+                      size: 24,
+                      color: Color(0xFF2563EB),
                     ),
                   ),
                 ),

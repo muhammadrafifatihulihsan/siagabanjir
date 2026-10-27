@@ -17,7 +17,7 @@ class BannerInfoTasSiaga extends StatelessWidget {
     child: const Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(Icons.info_outline_rounded, size: 20, color: SiagaTheme.blue),
+        Icon(Icons.info_outline_rounded, size: 24, color: SiagaTheme.blue),
         SizedBox(width: 10),
         Expanded(
           child: Text(

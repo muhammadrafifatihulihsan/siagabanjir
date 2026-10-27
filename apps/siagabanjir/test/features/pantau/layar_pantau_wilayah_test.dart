@@ -5,7 +5,7 @@ import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/beranda/presentation/panel_akses_fitur.dart';
 import 'package:siagabanjir/features/pantau/presentation/layar_pantau_wilayah.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/kartu_sorotan_pantau.dart';
-import 'package:siagabanjir/features/pantau/presentation/widgets/header_pantau.dart';
+import 'package:siagabanjir/shared/widgets/header_halaman.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/kartu_infrastruktur_pantau.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/bagian_pos_sungai.dart';
 import 'package:siagabanjir/shared/widgets/citizen_navigation.dart';
@@ -63,9 +63,9 @@ void main() {
         await pumpScreen(tester);
 
         // 1. Header
-        expect(find.byType(HeaderPantau), findsOneWidget);
+        expect(find.byType(HeaderHalaman), findsOneWidget);
         expect(find.text('Pantau Wilayah'), findsOneWidget);
-        expect(find.byIcon(Icons.chevron_left), findsOneWidget);
+        expect(find.byIcon(Icons.arrow_back_rounded), findsOneWidget);
 
         // 2. Featured card (Sungai Batang Kuranji)
         expect(find.byType(KartuSorotanPantau), findsOneWidget);

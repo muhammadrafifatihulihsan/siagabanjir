@@ -68,17 +68,8 @@ void main() {
       find.text('Jl. Adinegoro No. 12, RT 02 / RW 04, Lubuk Buaya'),
       findsOneWidget,
     );
-    expect(find.text('Masjid Raya Koto Tangah (300 m)'), findsOneWidget);
-
-    // Emergency contacts
-    await tester.scrollUntilVisible(
-      find.text('Kontak Darurat Keluarga (SOS)'),
-      200,
-    );
-    expect(find.text('Kontak Darurat Keluarga (SOS)'), findsOneWidget);
-    expect(find.text('+ Tambah'), findsOneWidget);
-    expect(find.text('Siti Rahma'), findsOneWidget);
-    expect(find.text('Budi Santoso'), findsOneWidget);
+    expect(find.byTooltip('Ambil foto profil'), findsNothing);
+    expect(find.text('Kontak Pribadi'), findsNothing);
 
     // Settings
     await tester.scrollUntilVisible(find.text('Pengaturan & Akun'), 200);
@@ -131,15 +122,6 @@ void main() {
       find.text('Preferensi peringatan dinonaktifkan untuk sesi demo.'),
       findsOneWidget,
     );
-
-    // Test emergency call
-    await tester.scrollUntilVisible(find.byIcon(Icons.more_horiz).first, 200);
-    await tester.tap(find.byIcon(Icons.more_horiz).first);
-    await tester.pumpAndSettle();
-    expect(find.text('Salin Nomor'), findsOneWidget);
-
-    await tester.tap(find.text('Tutup'));
-    await tester.pumpAndSettle();
 
     // Test logout dialog
     await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);

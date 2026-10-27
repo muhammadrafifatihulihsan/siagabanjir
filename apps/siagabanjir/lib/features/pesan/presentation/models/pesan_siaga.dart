@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Kategori filter pesan sesuai acuan SVG messages_inbox.
-enum KategoriPesan { all, emergency, weather, shelter }
+enum KategoriPesan { all, emergency, weather }
 
 // Model data representasi kartu pesan peringatan siaga.
 class PesanSiaga {
@@ -47,7 +47,7 @@ const kSampleSiagaMessages = [
     agency: 'BPBD Provinsi Sumatera Barat',
     title: 'Waspada Luapan Sungai Lubuk Kilangan & Kuranji',
     body: 'Hujan hulu lebat. Warga bantaran sungai radius 100 m diimbau bersiap evakuasi.',
-    actions: ['Rute Evakuasi', 'Bagikan'],
+    actions: ['Bagikan'],
     isNew: true,
   ),
   PesanSiaga(
@@ -61,20 +61,6 @@ const kSampleSiagaMessages = [
     agency: 'BMKG Stasiun Meteorologi Minangkabau',
     title: 'Peringatan Dini Cuaca Ekstrem Kota Padang',
     body: 'Potensi hujan lebat & angin kencang di Kuranji, Koto Tangah, Pauh.',
-    isNew: true,
-  ),
-  PesanSiaga(
-    id: 'msg-03',
-    category: KategoriPesan.shelter,
-    badgeLabel: 'Posko Bencana Siaga',
-    badgeBackground: Color(0xFFECFDF5),
-    badgeTextColor: Color(0xFF059669),
-    leftStripeColor: Color(0xFF2563EB),
-    timestamp: '06:15 WIB',
-    agency: 'Posko Utama BPBD Kuranji',
-    title: 'Pembukaan Posko Pengungsian di SMPN 12 Padang',
-    body: 'Kapasitas 150 jiwa, siap dapur umum dan tim medis PMI.',
-    actions: ['Hubungi Posko'],
     isNew: true,
   ),
   PesanSiaga(

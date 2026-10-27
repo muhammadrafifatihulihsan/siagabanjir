@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
-import 'package:siagabanjir/features/dokumen/presentation/models/dokumen_keluarga.dart';
 import 'package:siagabanjir/features/dokumen/presentation/layar_dokumen_siaga.dart';
 import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 
@@ -31,9 +30,6 @@ void main() {
     VoidCallback? onReport,
     VoidCallback? onHistory,
     VoidCallback? onProfile,
-    VoidCallback? onSaveDocuments,
-    VoidCallback? onDownloadZip,
-    ValueChanged<DokumenKeluarga>? onChangeDocument,
   }) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
@@ -50,149 +46,27 @@ void main() {
           onReport: onReport,
           onHistory: onHistory,
           onProfile: onProfile,
-          onSaveDocuments: onSaveDocuments,
-          onDownloadZip: onDownloadZip,
-          onChangeDocument: onChangeDocument,
         ),
       ),
     );
     await tester.pumpAndSettle();
   }
 
-  testWidgets('LayarDokumenSiaga displays all elements matching SVG design', (
+  testWidgets('Daftar dokumen dimulai kosong tanpa berkas rekaan', (
     tester,
   ) async {
     await openDocumentsVault(tester);
-
-    // Header bar & judul halaman
     expect(find.text('Dokumen Siaga'), findsOneWidget);
-    expect(find.text('Dokumen Siaga Keluarga'), findsOneWidget);
-    expect(
-      find.text(
-        'Simpan cadangan berkas kependudukan untuk pengurusan pasca-banjir.',
-      ),
-      findsOneWidget,
-    );
-
-    // Tiga berkas dokumen keluarga
-    expect(find.text('1. Kartu Keluarga (KK)'), findsOneWidget);
-    expect(find.text('scan_kk_asli_keluarga.pdf'), findsOneWidget);
-    expect(
-      find.text('PDF • 1.4 MB • Contoh • belum ada berkas'),
-      findsOneWidget,
-    );
-
-    expect(find.text('2. KTP Kepala Keluarga / Pasangan'), findsOneWidget);
-    expect(find.text('ktp_rahmad_hidayat.jpg'), findsOneWidget);
-    expect(
-      find.text('Gambar JPG • 840 KB • Contoh • belum ada berkas'),
-      findsOneWidget,
-    );
-
-    expect(find.text('3. Akta Kelahiran Anak / Berkas Vital'), findsOneWidget);
-    expect(find.text('akta_kelahiran_anak.pdf'), findsOneWidget);
-    expect(
-      find.text('PDF • 920 KB • Contoh • belum ada berkas'),
-      findsOneWidget,
-    );
-
-    // Tiga badge format berkas & tiga tombol Ganti
-    expect(find.text('Gambar / PDF'), findsNWidgets(3));
-    expect(find.text('Ganti'), findsNWidgets(3));
-
-    // Banner perlindungan berkas sipil
-    expect(find.textContaining('Perlindungan Berkas Sipil:'), findsOneWidget);
-    expect(
-      find.textContaining(
-        'Berkas yang dipilih hanya tersedia selama halaman ini terbuka.',
-      ),
-      findsOneWidget,
-    );
-
-    // Tombol aksi bawah
-    expect(find.text('Simpan & Perbarui Dokumen Siaga'), findsOneWidget);
-    expect(find.text('Unduh Semua Berkas untuk Dinas (ZIP)'), findsOneWidget);
-
-    // Navigasi warga
-    expect(find.text('Beranda'), findsOneWidget);
-    expect(find.text('Lapor'), findsOneWidget);
-    expect(find.text('Riwayat'), findsOneWidget);
-    expect(find.text('Profil'), findsOneWidget);
+    expect(find.text('Tambah Dokumen'), findsOneWidget);
+    expect(find.textContaining('Belum ada dokumen'), findsOneWidget);
+    await tester.tap(find.text('Tambah Dokumen'));
+    await tester.pumpAndSettle();
+    expect(find.text('Scan dengan Kamera'), findsOneWidget);
+    expect(find.text('Pilih PDF / Gambar'), findsOneWidget);
+    await tester.tap(find.text('Batal'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Belum ada dokumen'), findsOneWidget);
   });
-
-  testWidgets(
-    'Interactions on LayarDokumenSiaga trigger feedback and callbacks',
-    (tester) async {
-      DokumenKeluarga? changedDoc;
-      var saveCalled = false;
-      var downloadCalled = false;
-      var reportCalled = false;
-      var historyCalled = false;
-      var profileCalled = false;
-      var homeCalled = false;
-
-      await openDocumentsVault(
-        tester,
-        onChangeDocument: (doc) => changedDoc = doc,
-        onSaveDocuments: () => saveCalled = true,
-        onDownloadZip: () => downloadCalled = true,
-        onReport: () => reportCalled = true,
-        onHistory: () => historyCalled = true,
-        onProfile: () => profileCalled = true,
-        onHome: () => homeCalled = true,
-      );
-
-      // 1. Ganti berkas KK
-      await tester.tap(find.text('Ganti').first);
-      await tester.pumpAndSettle();
-      expect(changedDoc?.id, 'doc_kk');
-
-      // 2. Simpan & Perbarui Dokumen Siaga
-      await tester.ensureVisible(find.text('Simpan & Perbarui Dokumen Siaga'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Simpan & Perbarui Dokumen Siaga'));
-      await tester.pumpAndSettle();
-      expect(saveCalled, isTrue);
-      // Sembunyikan snackbar sebelum tap tombol berikutnya
-      ScaffoldMessenger.of(tester.element(find.byType(LayarDokumenSiaga)))
-          .hideCurrentSnackBar();
-      await tester.pumpAndSettle();
-
-      // 3. Unduh Semua Berkas untuk Dinas (ZIP)
-      await tester.ensureVisible(
-        find.text('Unduh Semua Berkas untuk Dinas (ZIP)'),
-      );
-      await tester.pumpAndSettle();
-      await tester.tap(find.text('Unduh Semua Berkas untuk Dinas (ZIP)'));
-      await tester.pumpAndSettle();
-      expect(downloadCalled, isTrue);
-      // Sembunyikan snackbar sebelum navigasi
-      ScaffoldMessenger.of(tester.element(find.byType(LayarDokumenSiaga)))
-          .hideCurrentSnackBar();
-      await tester.pumpAndSettle();
-
-      // 4. Navigasi Lapor, Riwayat, Profil, Beranda
-      await tester.tap(find.text('Lapor'));
-      await tester.pumpAndSettle();
-      expect(reportCalled, isTrue);
-
-      await tester.tap(find.text('Riwayat'));
-      await tester.pumpAndSettle();
-      expect(historyCalled, isTrue);
-
-      await tester.tap(find.text('Profil'));
-      await tester.pumpAndSettle();
-      expect(profileCalled, isTrue);
-
-      await tester.tap(find.text('Beranda'));
-      await tester.pumpAndSettle();
-      expect(homeCalled, isTrue);
-
-      // 5. Tombol kembali di header
-      await tester.tap(find.bySemanticsLabel('Kembali'));
-      await tester.pumpAndSettle();
-    },
-  );
 
   testWidgets(
     'Tile Dokumen Siaga on LayarBeranda opens LayarDokumenSiaga and returns home',
@@ -215,7 +89,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Memastikan layar LayarDokumenSiaga terbuka
-      expect(find.text('1. Kartu Keluarga (KK)'), findsOneWidget);
+      expect(find.text('Tambah Dokumen'), findsOneWidget);
 
       // Tap tombol kembali untuk kembali ke Beranda
       await tester.tap(find.bySemanticsLabel('Kembali'));
@@ -242,9 +116,7 @@ void main() {
         expect(tester.takeException(), isNull);
 
         // Memastikan tombol paling bawah dapat dijangkau tanpa exception overflow
-        await tester.ensureVisible(
-          find.text('Unduh Semua Berkas untuk Dinas (ZIP)'),
-        );
+        await tester.ensureVisible(find.text('Tambah Dokumen'));
         await tester.pumpAndSettle();
         expect(tester.takeException(), isNull);
       },

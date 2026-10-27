@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/dialog_siaga.dart';
-import '../../domain/profil_pengguna.dart';
+import '../../domain/kontak_darurat.dart';
 
 class FormulirKontak extends StatefulWidget {
   const FormulirKontak({super.key, this.kontak});

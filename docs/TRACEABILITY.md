@@ -2156,3 +2156,13 @@ Analyzer 0 issues dan 101 tes PASS; build Web/APK PASS. Pemilih berkas/ZIP Web
 juga PASS dengan bytes sintetis. Kamera/TTS/native picker, UAT dan TC bisnis
 **tidak dinaikkan menjadi PASS** oleh tes widget/build. Instruksi terbaru pemilik
 menggantikan izin uji HP sebelumnya: pemilik akan mengujinya sendiri.
+
+## 60. Audit lanjutan alur warga - 27 Oktober 2026
+
+[WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065) dan
+[bukti terkini](WORKSPACE.md#flutter-uiux-lanjutan) mencakup FR-AUTH-004
+(foto profil kamera/galeri), FR-READY-003/004/005 (kontak pribadi),
+FR-READY-006 (rate/pitch dan kontrol TTS), FR-REPORT-001/007 (isian/riwayat
+demo) serta FRD §30.25/30.27 (dokumen). UI riwayat tidak lagi mengarang proses
+atau tindak lanjut. Tes lokal bukan bukti penerimaan laporan, persistensi akun,
+enkripsi, provider atau kompatibilitas suara HP; TC produk tetap NOT_RUN.

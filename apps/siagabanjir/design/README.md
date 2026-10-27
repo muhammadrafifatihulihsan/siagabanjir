@@ -146,6 +146,9 @@ screenshot Android. [Layar sempit](reports-create-mobile-preview.png) memakai
 
 ## Kotak masuk peringatan siaga
 
+Uraian SVG di bawah adalah riwayat. Revisi WS-DEC-065 menghapus pesan/filter
+posko dan aksi rute; Bagikan menyalin teks bertanda contoh demo.
+
 Pemilik memberikan messages_inbox.svg pada 25 Oktober 2026 sebagai acuan desain
 kotak masuk peringatan siaga warga. [Salinan sumber](messages_inbox.svg)
 berukuran 390 x 1094; sumber dipertahankan sebagai acuan desain lokal.
@@ -182,14 +185,9 @@ Layar dibangun menggunakan widget Flutter di `lib/features/tas_siaga/presentatio
 Pemilik memberikan documents_vault.svg pada 26 Oktober 2026 sebagai acuan desain
 halaman brankas dokumen siaga keluarga. [Salinan sumber](documents_vault.svg)
 berukuran 390 x 1008; sumber dipertahankan sebagai acuan desain lokal.
-Layar aktif berada di `lib/features/dokumen/presentation`; penataan 27 Oktober
-2026 menghapus widget alternatif lama yang tidak diimpor. Susunan aktif:
-
-- Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Dokumen Siaga".
-- Judul Dokumen Siaga Keluarga dan keterangan pengurusan pasca-banjir.
-- Tiga berkas contoh (KK, KTP Kepala Keluarga/Pasangan dan Akta Kelahiran Anak)
-  dalam `KartuDokumenSiaga`, dengan badge format Gambar / PDF, metadata dan tombol Ganti.
-- `BannerInfoDokumen` tentang perlindungan berkas sipil dan pencetakan untuk dinas.
-- `TombolAksiDokumen`: Simpan & Perbarui Dokumen Siaga dan Unduh Semua Berkas
-  untuk Dinas (ZIP). Umpan balik masih simulasi; tidak menyimpan atau mengenkripsi berkas.
-- Navigasi bawah menggunakan CitizenNavigation bersama yang terhubung kembali ke Beranda, Lapor, Riwayat, dan Profil.
+Layar aktif berada di `lib/features/dokumen/presentation`. Revisi pemilik
+WS-DEC-065 mengganti slot tetap SVG menjadi daftar kosong/dinamis: Tambah Dokumen,
+pilih PDF/gambar atau scan kamera, kategori KTP/KK/Lainnya dan nama sendiri,
+konfirmasi hasil sesi, hapus dan ekspor ZIP. Badge format dekoratif dihapus.
+Sumber SVG tetap disimpan sebagai riwayat, tidak ditimpa desain baru.
+[Keputusan dan bukti](../../../docs/WORKSPACE.md#flutter-uiux-lanjutan).

@@ -14,6 +14,11 @@ class BerkasPilihan {
 
 /// Berkas hanya berada di memori sampai pengguna mengekspornya sendiri.
 class LayananBerkas {
+  static String namaDokumen(String nama) => nama
+      .trim()
+      .replaceAll(RegExp(r'\s+'), '')
+      .replaceAll(RegExp(r'[^a-zA-Z0-9_-]'), '');
+
   Future<BerkasPilihan?> pilih() async {
     final file = await openFile(
       acceptedTypeGroups: [

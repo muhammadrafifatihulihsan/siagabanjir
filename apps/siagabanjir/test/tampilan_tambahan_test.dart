@@ -99,7 +99,7 @@ void main() {
       await t.scrollUntilVisible(
         find.text('BPBD Kota Padang'),
         150,
-        scrollable: find.byType(Scrollable).last,
+        scrollable: find.byType(Scrollable).first,
       );
       expect(t.takeException(), isNull);
       await t.pumpWidget(

@@ -8,12 +8,12 @@ import '../../../shared/widgets/citizen_navigation.dart';
 import '../domain/entri_riwayat_laporan.dart';
 import 'widgets/kartu_riwayat_laporan.dart';
 import 'widgets/dialog_riwayat_laporan.dart';
-import 'widgets/tab_filter_riwayat_laporan.dart';
 
 // Layar Riwayat Laporan Warga sesuai desain SVG reports_history.
 class LayarRiwayatLaporan extends StatefulWidget {
   const LayarRiwayatLaporan({
     super.key,
+    this.riwayat,
     this.scrollController,
     required this.onNotifications,
     required this.onReport,
@@ -21,6 +21,7 @@ class LayarRiwayatLaporan extends StatefulWidget {
     this.onHome,
   });
 
+  final ValueNotifier<List<EntriRiwayatLaporan>>? riwayat;
   final VoidCallback onNotifications;
   final VoidCallback onReport;
   final VoidCallback onProfile;
@@ -34,27 +35,15 @@ class LayarRiwayatLaporan extends StatefulWidget {
 
 class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
   late final _scrollController = widget.scrollController ?? ScrollController();
-  FilterRiwayatLaporan _selectedFilter = FilterRiwayatLaporan.all;
+  late final _riwayat =
+      widget.riwayat ?? ValueNotifier<List<EntriRiwayatLaporan>>([]);
 
   @override
   void dispose() {
     if (widget.scrollController == null) _scrollController.dispose();
+    if (widget.riwayat == null) _riwayat.dispose();
     super.dispose();
   }
-
-  Map<FilterRiwayatLaporan, int> get _counts => {
-    FilterRiwayatLaporan.all: kSampleReportHistoryItems.length,
-    FilterRiwayatLaporan.inProgress: kSampleReportHistoryItems
-        .where((i) => i.matchesFilter(FilterRiwayatLaporan.inProgress))
-        .length,
-    FilterRiwayatLaporan.completed: kSampleReportHistoryItems
-        .where((i) => i.matchesFilter(FilterRiwayatLaporan.completed))
-        .length,
-  };
-
-  List<EntriRiwayatLaporan> get _filteredItems => kSampleReportHistoryItems
-      .where((item) => item.matchesFilter(_selectedFilter))
-      .toList();
 
   void _onNavigationSelect(CitizenDestination destination) {
     switch (destination) {
@@ -82,73 +71,67 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: const Color(0xFFF8FAFC),
-    body: SafeArea(
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 600),
-          child: Column(
-            children: [
-              if (!LingkupNavigasi.aktif(context))
-                CitizenHeader(onNotifications: widget.onNotifications),
-              Expanded(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  key: const PageStorageKey('reports-history-scroll'),
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Text(
-                        'Riwayat Laporan',
-                        style: TextStyle(
-                          fontSize: SiagaTheme.judulHalaman,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF0F172A),
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Pantau status laporan dan riwayat foto banjir.',
-                        style: TextStyle(
-                          fontSize: SiagaTheme.isi,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF64748B),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TabFilterRiwayatLaporan(
-                        selected: _selectedFilter,
-                        counts: _counts,
-                        onSelect: (filter) =>
-                            setState(() => _selectedFilter = filter),
-                      ),
-                      const SizedBox(height: 16),
-                      if (_filteredItems.isEmpty)
-                        _buildEmptyState()
-                      else
-                        for (final item in _filteredItems) ...[
-                          KartuRiwayatLaporan(
-                            item: item,
-                            onTap: () =>
-                                showReportHistoryDetailDialog(context, item),
-                            onPhotoTap: () =>
-                                showReportHistoryPhotoDialog(context, item),
+  Widget build(BuildContext context) => ValueListenableBuilder(
+    valueListenable: _riwayat,
+    builder: (context, daftar, _) => Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: SafeArea(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 600),
+            child: Column(
+              children: [
+                if (!LingkupNavigasi.aktif(context))
+                  CitizenHeader(onNotifications: widget.onNotifications),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    key: const PageStorageKey('reports-history-scroll'),
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const Text(
+                          'Riwayat Laporan',
+                          style: TextStyle(
+                            fontSize: SiagaTheme.judulHalaman,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFF0F172A),
+                            letterSpacing: -0.5,
                           ),
-                          const SizedBox(height: 14),
-                        ],
-                    ],
+                        ),
+                        const SizedBox(height: 4),
+                        const Text(
+                          'Catatan yang Anda simpan selama sesi demo. Ketuk laporan untuk melihat detail.',
+                          style: TextStyle(
+                            fontSize: SiagaTheme.isi,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF64748B),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        if (daftar.isEmpty)
+                          _buildEmptyState()
+                        else
+                          for (final item in daftar) ...[
+                            KartuRiwayatLaporan(
+                              item: item,
+                              onTap: () =>
+                                  showReportHistoryDetailDialog(context, item),
+                            ),
+                            const SizedBox(height: 14),
+                          ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              if (!LingkupNavigasi.aktif(context))
-                CitizenNavigation(
-                  selected: CitizenDestination.history,
-                  onSelect: _onNavigationSelect,
-                ),
-            ],
+                if (!LingkupNavigasi.aktif(context))
+                  CitizenNavigation(
+                    selected: CitizenDestination.history,
+                    onSelect: _onNavigationSelect,
+                  ),
+              ],
+            ),
           ),
         ),
       ),
@@ -184,7 +167,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
         ),
         const SizedBox(height: 4),
         const Text(
-          'Belum ada laporan dengan filter status ini.',
+          'Isi formulir Lapor untuk menambahkan catatan pertama Anda.',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: SiagaTheme.isi, color: Color(0xFF64748B)),
         ),

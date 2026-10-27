@@ -20,7 +20,7 @@ class TombolKeluar extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.logout_rounded, size: 20, color: Color(0xFFDC2626)),
+              Icon(Icons.logout_rounded, size: 24, color: Color(0xFFDC2626)),
               SizedBox(width: 8),
               Text(
                 'Keluar dari Akun',

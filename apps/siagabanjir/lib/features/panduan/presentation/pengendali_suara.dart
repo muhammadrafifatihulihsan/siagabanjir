@@ -28,7 +28,11 @@ class PengendaliSuara extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<void> putar(String teks) async {
-    if (sibuk) return;
+    if (_disposed ||
+        sibuk ||
+        (status == StatusNarasi.berbicara && teks == _teks)) {
+      return;
+    }
     final generasi = ++_generasi;
     final lanjut = status == StatusNarasi.jeda && teks == _teks;
     _teks = teks;
@@ -62,12 +66,13 @@ class PengendaliSuara extends ChangeNotifier with WidgetsBindingObserver {
 
   Future<void> jeda() async {
     if (status != StatusNarasi.berbicara) return;
-    ++_generasi;
+    final generasi = ++_generasi;
+    _ubah(StatusNarasi.menyiapkan);
     try {
       await mesin.jeda();
-      _ubah(StatusNarasi.jeda);
+      if (!_disposed && generasi == _generasi) _ubah(StatusNarasi.jeda);
     } catch (_) {
-      await hentikan();
+      if (!_disposed && generasi == _generasi) await hentikan();
     }
   }
 

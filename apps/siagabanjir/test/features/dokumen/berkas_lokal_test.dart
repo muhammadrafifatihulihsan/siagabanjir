@@ -25,6 +25,8 @@ class BerkasUji extends LayananBerkas {
 
 void main() {
   test('ZIP hanya memuat berkas pilihan dan mempertahankan isi', () {
+    expect(LayananBerkas.namaDokumen('pajak kendaraan'), 'pajakkendaraan');
+    expect(LayananBerkas.namaDokumen('../ a \t b'), 'ab');
     final file = BerkasUji().dokumen;
     final zip = LayananBerkas.buatZip({'doc_kk': file});
     final arsip = ZipDecoder().decodeBytes(zip);
@@ -48,19 +50,22 @@ void main() {
           home: LayarDokumenSiaga(layananBerkas: layanan),
         ),
       );
-      await t.tap(find.text('Ganti').first);
+      await t.tap(find.text('Tambah Dokumen'));
       await t.pumpAndSettle();
-      await t.tap(find.text('Pilih Berkas'));
+      await t.tap(find.text('Pilih PDF / Gambar'));
       await t.pumpAndSettle();
-      expect(find.text('uji.pdf'), findsOneWidget);
-      await t.ensureVisible(find.text('Unduh Semua Berkas untuk Dinas (ZIP)'));
-      await t.tap(find.text('Unduh Semua Berkas untuk Dinas (ZIP)'));
+      await t.tap(find.widgetWithText(FilledButton, 'Simpan Dokumen'));
       await t.pumpAndSettle();
-      expect(layanan.diekspor, isNull);
+      expect(find.text('KTP.pdf'), findsOneWidget);
+      await t.pump(const Duration(seconds: 4));
+      await t.ensureVisible(find.text('Ekspor ZIP'));
       await t.tap(find.text('Ekspor ZIP'));
       await t.pumpAndSettle();
-      expect(layanan.diekspor!.keys, ['doc_kk']);
-      expect(layanan.diekspor!['doc_kk']!.bytes, layanan.dokumen.bytes);
+      expect(layanan.diekspor, isNull);
+      await t.tap(find.widgetWithText(FilledButton, 'Ekspor ZIP'));
+      await t.pumpAndSettle();
+      expect(layanan.diekspor!.keys, ['1']);
+      expect(layanan.diekspor!['1']!.bytes, layanan.dokumen.bytes);
     },
   );
 }

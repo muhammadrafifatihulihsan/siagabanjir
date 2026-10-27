@@ -9,19 +9,22 @@ import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/entri_kontak.dart';
 import 'widgets/kartu_kontak.dart';
 import 'widgets/tab_filter_kontak.dart';
-import 'widgets/header_kontak.dart';
-import 'widgets/kartu_bantuan.dart';
+import '../../../shared/widgets/header_halaman.dart';
+import '../domain/kontak_darurat.dart';
+import 'widgets/kontak_pribadi.dart';
 
 // Layar Direktori Kontak Darurat sesuai SVG contacts_directory.
 // Menampilkan kontak publik (FR-READY-003); data sintetis, nomor contoh tidak diklaim resmi.
 class LayarDirektoriKontak extends StatefulWidget {
   const LayarDirektoriKontak({
     super.key,
+    this.kontakPribadi,
     required this.onReport,
     required this.onHistory,
     required this.onProfile,
   });
 
+  final ValueNotifier<List<KontakDarurat>>? kontakPribadi;
   final VoidCallback onReport;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
@@ -31,6 +34,14 @@ class LayarDirektoriKontak extends StatefulWidget {
 }
 
 class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
+  late final _pribadi =
+      widget.kontakPribadi ?? ValueNotifier<List<KontakDarurat>>([]);
+  @override
+  void dispose() {
+    if (widget.kontakPribadi == null) _pribadi.dispose();
+    super.dispose();
+  }
+
   // null = Semua kategori.
   KategoriKontak? _selectedCategory;
 
@@ -91,71 +102,45 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HeaderKontak(onBack: () => Navigator.pop(context)),
-              // Catatan data sintetis — sesuai FRD AC-READY-003-02.
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFEF9C3),
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: const Color(0xFFFDE68A)),
-                  ),
-                  child: const Text(
-                    'Data contoh — nomor belum diverifikasi resmi. Salin nomor untuk menghubungi melalui dialer.',
-                    style: TextStyle(
-                      fontSize: SiagaTheme.keterangan,
-                      color: Color(0xFF78350F),
-                      height: 1.4,
-                    ),
-                  ),
-                ),
-              ),
-              TabFilterKontak(
-                selected: _selectedCategory,
-                onSelect: (cat) => setState(() => _selectedCategory = cat),
-                counts: _counts,
+              HeaderHalaman(
+                judul: 'Kontak Darurat',
+                onBack: () => Navigator.pop(context),
               ),
               Expanded(
-                child: _filteredContacts.isEmpty
-                    ? const Center(
-                        child: Text(
-                          'Tidak ada kontak pada kategori ini.',
-                          style: TextStyle(
-                            fontSize: SiagaTheme.isi,
-                            color: Color(0xFF64748B),
-                          ),
-                        ),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
-                        itemCount:
-                            _filteredContacts.length +
-                            (_selectedCategory == null ? 2 : 0),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 14),
-                        itemBuilder: (_, index) {
-                          if (_selectedCategory == null && index == 0) {
-                            return const KartuBantuan();
-                          }
-                          if (_selectedCategory == null &&
-                              index == _filteredContacts.length + 1) {
-                            return const KartuBantuan(posko: true);
-                          }
-                          final contact =
-                              _filteredContacts[index -
-                                  (_selectedCategory == null ? 1 : 0)];
-                          return KartuKontak(
-                            contact: contact,
-                            onCopy: () => _copyNumber(contact),
-                          );
-                        },
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                  children: [
+                    KontakPribadi(kontak: _pribadi),
+                    const SizedBox(height: 24),
+                    const Text(
+                      'Kontak Umum',
+                      style: TextStyle(
+                        fontSize: SiagaTheme.judulBagian,
+                        fontWeight: FontWeight.w700,
                       ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      'Nomor di bawah adalah contoh dan belum diverifikasi. Tidak untuk panggilan darurat nyata.',
+                    ),
+                    const SizedBox(height: 12),
+                    TabFilterKontak(
+                      selected: _selectedCategory,
+                      onSelect: (cat) =>
+                          setState(() => _selectedCategory = cat),
+                      counts: _counts,
+                    ),
+                    for (final contact in _filteredContacts) ...[
+                      KartuKontak(
+                        contact: contact,
+                        onCopy: () => _copyNumber(contact),
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                    if (_filteredContacts.isEmpty)
+                      const Text('Tidak ada kontak pada kategori ini.'),
+                  ],
+                ),
               ),
               if (!LingkupNavigasi.aktif(context))
                 CitizenNavigation(

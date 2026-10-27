@@ -134,7 +134,7 @@ class BagianPengaturanAkun extends StatelessWidget {
       color: const Color(0xFFEFF6FF),
       borderRadius: BorderRadius.circular(10),
     ),
-    child: Icon(icon, size: 18, color: SiagaTheme.blue),
+    child: Icon(icon, size: 24, color: SiagaTheme.blue),
   );
 
   Widget _menuTile({

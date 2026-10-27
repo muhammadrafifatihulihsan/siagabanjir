@@ -1038,3 +1038,53 @@ TRACEABILITY, handoff dan CHANGELOG. AGENTS, rules, delapan skill dan adapter ID
 sudah sesuai prosedur; tidak perlu perubahan kosmetik. Baseline FRD/SRS dan
 OpenAPI tidak diubah karena tidak ada perubahan kontrak atau klaim penerimaan
 bisnis. Commit lokal diwajibkan; push tidak diminta.
+
+<a id="flutter-uiux-lanjutan"></a>
+
+## Audit lanjutan fitur warga - 27 Oktober 2026
+
+Mandat [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065) melanjutkan audit
+baseline `6259a82` pada branch `branch-rafi`. Bagian ini menggantikan batas
+state/antarmuka pada audit sebelumnya; catatan lama tetap merupakan riwayat.
+Bacaan difokuskan pada Flutter, skill/aturan, desain dan rujukan terdampak sesuai
+izin pemilik sebelumnya; tidak mengklaim membaca ulang seluruh kontrak panjang.
+Skill eksternal design-system dan accessibility-review digunakan kembali.
+
+| Permintaan | Implementasi |
+|---|---|
+| Semua halaman selain Beranda mengikuti hierarki home | Inter, isi 14, bagian 16, halaman 22; ikon tindakan 24, target 48; metrik/brand tetap sesuai perannya |
+| Popup konsisten | Tombol memakai Inter eksplisit; dialog pesan mengikuti radius/judul bersama; versi aplikasi menggunakan DialogSiaga |
+| Foto profil | Badge kamera avatar dihapus; Kamera/Galeri dalam Edit Profil, simpan atomik dan batal mempertahankan avatar |
+| Kontak keluarga pindah | Kontak Pribadi berada pada Kontak Darurat, CRUD/salin dan konfirmasi hapus; state disuntikkan app selama sesi |
+| Dokumen PDF/gambar/scan | Tambah Dokumen memilih sumber lalu kategori KTP/KK/Lainnya, nama kustom tanpa spasi, validasi 5 MB dan konfirmasi sukses sesi |
+| Badge seperlunya | Dokumen memakai nama/kategori/ukuran, riwayat tanpa badge proses atau tim rekaan |
+| Riwayat ringkas | Kosong sebelum input; simpan kategori/deskripsi/kebutuhan/foto, ringkasan dua baris; ketuk membuka detail |
+| Hapus rute/posko | Hapus aksi/pesan/kontak posko dan titik evakuasi profil; langkah panduan akhir menjadi kabari keluarga |
+| TTS terlalu cepat | Rate normal eksplisit dan pitch 1; ketukan teks aktif tidak memulai ulang, jeda terlambat tidak menghidupkan status lama |
+| Pengujian tanpa HP | Tes otomatis dan browser/build; suara/kamera/galeri nyata Android tetap NOT_RUN |
+
+### Bukti lanjutan
+
+- PASS: 101 tes Flutter, termasuk galeri simpan/batal, kontak tambah/edit/hapus
+  dan retensi route, dokumen nama kustom/batal, ZIP, riwayat hasil input,
+  pemanggilan rate/pitch adapter TTS dan pencegahan putar ulang teks aktif.
+- PASS: analyzer 0 issues; format 109 file Dart tanpa perubahan; build Web dan APK debug.
+- PASS: browser Chrome mencakup seluruh layar warga, dialog Edit Profil,
+  viewport 320/390/1024 dan pemilih berkas/ekspor ZIP sintetis. Isi ZIP cocok
+  dengan input; tidak ada pageerror. Kamera/galeri/TTS native tidak dijalankan.
+- PASS: Markdownlint 12 dokumen, tautan internal 42 Markdown, diff whitespace
+  serta normalisasi UTF-8/LF. HeaderHalaman dipakai tujuh fitur; enam header
+  duplikat dihapus. Beranda memiliki scope tema sendiri untuk menjaga acuan.
+- NOT_RUN: audio fisik/kecepatan yang terdengar, kamera/galeri/picker Android,
+  UAT dan backend. Tidak memasang atau menjalankan aplikasi pada HP.
+
+Dokumen dan kontak pribadi kini tersedia selama sesi, bukan hanya route.
+ZIP tetap tidak terenkripsi. Nama khusus disanitasi ke huruf/angka ASCII,
+underscore dan tanda hubung; semua whitespace dihapus, ekstensi dipertahankan.
+Nomor publik tetap data sintetis. Beranda mempertahankan ilustrasi jumlah lama,
+sesuai mandat tidak mengubah desain Beranda; bukan jumlah data sesi sebenarnya.
+
+FRD/SRS mencatat mandat tampilan terbaru; wire API dan invariant akses/persistensi
+baseline tidak diubah. AGENTS/rules/skills/adapter tidak memerlukan edit karena
+prosedurnya tetap. Sumber SVG disimpan sebagai referensi historis, bukan ditimpa.
+Commit lokal diwajibkan, push belum diminta.

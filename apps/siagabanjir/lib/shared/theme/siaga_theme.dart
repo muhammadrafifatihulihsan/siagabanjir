@@ -18,6 +18,7 @@ abstract final class SiagaTheme {
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
+    visualDensity: VisualDensity.standard,
     fontFamily: 'Inter',
     colorScheme: ColorScheme.fromSeed(
       seedColor: blue,
@@ -25,10 +26,32 @@ abstract final class SiagaTheme {
       surface: background,
     ),
     scaffoldBackgroundColor: background,
+    iconTheme: const IconThemeData(size: 24, color: ink),
+    cardTheme: CardThemeData(
+      color: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(color: border),
+      ),
+    ),
     textTheme: const TextTheme(
-      bodyMedium: TextStyle(fontSize: 14, color: ink, height: 1.4),
-      bodyLarge: TextStyle(fontSize: 16, color: ink, height: 1.3),
+      bodyMedium: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 14,
+        color: ink,
+        height: 1.4,
+      ),
+      bodyLarge: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 16,
+        color: ink,
+        height: 1.3,
+      ),
       titleMedium: TextStyle(
+        fontFamily: 'Inter',
         fontSize: 16,
         fontWeight: FontWeight.w700,
         color: ink,
@@ -59,13 +82,40 @@ abstract final class SiagaTheme {
       contentPadding: const EdgeInsets.all(16),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(minimumSize: const Size(48, 48)),
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     ),
     textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+      style: TextButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     ),
     filledButtonTheme: FilledButtonThemeData(
-      style: FilledButton.styleFrom(minimumSize: const Size(48, 48)),
+      style: FilledButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     ),
   );
 }

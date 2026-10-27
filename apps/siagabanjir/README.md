@@ -20,7 +20,7 @@ Keputusan: [WS-DEC-063](../../docs/DECISIONS.md#flutter-indonesia-063).
 lib/
   main.dart
   app/                         # perakitan aplikasi dan navigasi
-  core/perangkat/              # kamera sistem dan pemulihan hasil
+  core/perangkat/              # kamera/galeri sistem dan pemulihan hasil
   shared/
     theme/                     # tema dan token tampilan bersama
     widgets/                   # header, navigasi warga, ikon lokal
@@ -42,7 +42,7 @@ test/
 
 Setiap fitur mempunyai `presentation` untuk layar dan `widgets`.
 `presentation/models` menampung model tampilan yang membawa `Color`/`IconData`.
-`domain` berisi model Dart murni pada akun, laporan, panduan, dan keluarga.
+`domain` berisi model Dart murni pada akun, kontak, laporan, panduan, dan keluarga.
 Adapter TTS ada pada `panduan/data`, berkas lokal pada `dokumen/data`, dan
 kamera bersama pada `core/perangkat`. Tidak ada layer placeholder.
 
@@ -66,7 +66,7 @@ anggota menemukan kode setelah pull; semua layar berada di `presentation`.
 | emergency_bag | tas_siaga | layar_tas_siaga.dart |
 
 File, kelas dan enum fitur mengikuti bahasa Indonesia, misalnya `LayarBeranda`,
-`AksiBeranda`, `DokumenKeluarga` dan `KategoriStatusLaporan`. Istilah teknis
+`AksiBeranda`, `KontakDarurat` dan `EntriRiwayatLaporan`. Istilah teknis
 `lib`, `test`, `features`, `presentation`, `domain`, `models`, `widgets`, `app`
 dan `shared` dipertahankan. API Flutter, properti/callback, konstanta fixture,
 kunci aset dan ID data tetap memakai nama sebelumnya. File memakai `snake_case`,
@@ -78,9 +78,9 @@ Enam folder lama yang hanya berisi penanda kosong dihapus: `admin_content`,
 buat folder bernama Indonesia ketika implementasinya dimulai. Menu Data Keluarga
 kini membuka formulir lokal pada fitur `keluarga`; folder dibuat bersama implementasinya.
 
-Model `DocumentEntry` dan empat widget dokumen lama dihapus setelah penelusuran
-impor dari `main.dart` dan semua tes membuktikan tidak ada pemakai aktif.
-Layar dokumen menggunakan `DokumenKeluarga` dan empat widget aktif.
+Widget/model slot dokumen tetap telah dihapus. Dokumen kini berupa daftar
+dinamis melalui FormulirDokumen. Model KontakDarurat dan formulirnya dimiliki
+fitur kontak, bukan akun.
 
 ## Batas layer
 
@@ -135,26 +135,30 @@ tetap ada saat berpindah tab. Layar laporan mandiri tetap mengonfirmasi keluar.
 Kamera membuka aplikasi kamera sistem, menampilkan foto, dan mempertahankan foto
 lama ketika dibatalkan/gagal. Android memeriksa hasil kamera yang tertunda saat
 startup dan meminta pilihan tujuan sebelum memasukkannya ke laporan.
-GPS dan Kirim menjelaskan layanan belum tersedia. Tidak ada draf persisten. Riwayat menampilkan
-contoh laporan dengan filter status dan dialog foto/detail.
+GPS menjelaskan lokasi belum tersedia. Simpan ke Riwayat memvalidasi kategori
+dan deskripsi, meminta konfirmasi, lalu menyimpan kategori/deskripsi/kebutuhan,
+foto opsional dan waktu sesi. Daftar dimulai kosong; kartu ringkas membuka detail
+saat diketuk. Tidak ada draf persisten atau status/tim respons rekaan.
 
 ## Dokumen dan fitur pendukung
 
 [LayarDokumenSiaga](lib/features/dokumen/presentation/layar_dokumen_siaga.dart)
-memakai `HeaderDokumen`, `KartuDokumenSiaga`, `BannerInfoDokumen` dan
-`TombolAksiDokumen`. Tiga berkas contoh memiliki tombol Ganti, Simpan dan Unduh
-ZIP. PDF/JPG/PNG maksimal 5 MB diperiksa ukuran, ekstensi dan signature dasarnya;
-berkas berada dalam memori halaman. Simpan mengonfirmasi pilihan sesi, bukan
-menulis brankas. ZIP hanya memuat berkas pilihan, tanpa fixture, dan tidak
-terenkripsi. Pengguna memilih ekspor secara eksplisit. Tidak ada unggahan server.
+menyediakan Tambah Dokumen: pilih PDF/JPG/PNG atau scan berupa foto kamera,
+kemudian kategori KTP/KK/Lainnya. Nama lainnya mengikuti input tanpa whitespace
+dan disanitasi untuk nama berkas; ekstensi dipertahankan. Maksimal 5 MB per berkas.
+Sukses berarti ditambahkan ke sesi, bukan diunggah ke server. ZIP mengekspor
+berkas pilihan secara eksplisit, tanpa enkripsi. Dokumen dapat dihapus dengan
+konfirmasi dan bertahan saat halaman dibuka ulang selama sesi.
 
-Kontak menyediakan filter dan salin nomor ke clipboard; nomor belum diverifikasi.
-Tas siaga mengubah centang/progres dalam memori. Panduan menampilkan accordion
-dan TTS Indonesia dengan putar/jeda/lanjut/hentikan serta audio per langkah.
-Pesan menyediakan filter/dialog dan salin teks bertanda demo. Pantau menampilkan
-sungai/infrastruktur statis. Profil, masuk dan daftar memiliki form/umpan balik
-lokal; profil/kontak dapat diedit, dan keluarga mendukung tambah/edit/hapus.
-Logout membuang state demo. Belum ada autentikasi atau isolasi data akun server.
+Kontak Pribadi berada di Kontak Darurat: tambah/edit/hapus dengan konfirmasi,
+salin nomor, dan retensi sesi. Kontak umum contoh memiliki filter/salin, bukan
+nomor darurat terverifikasi. Rute dan saran posko dihapus sesuai mandat terbaru.
+Foto profil kamera/galeri berada dalam Edit Profil; Batal tidak mengubah avatar.
+Panduan memakai TTS normal eksplisit (Android plugin0.5/native1x, Web1.0),
+pitch1.0, putar/jeda/lanjut/hentikan dan speaker per langkah. Ketukan berulang
+teks aktif tidak memulai ulang. Tidak ada verifikasi suara HP oleh agen.
+Tas dan keluarga tetap lokal, pesan menyediakan salin teks bertanda demo.
+Logout membuang state demo; autentikasi/isolasi/persistensi akun server belum ada.
 
 ## Batas data dan platform
 
@@ -208,13 +212,14 @@ perintah build. Agen tidak memasang atau menjalankan APK di HP sesuai mandat.
 
 1. Edit Profil lalu pindah tab dan kembali; perubahan harus tetap ada. Keluar
    dari akun demo lalu masuk kembali harus mengembalikan fixture awal.
-2. Buka Kamera pada laporan/avatar, ambil objek uji, batalkan pengambilan ulang,
+2. Buka Kamera pada laporan atau Kamera/Galeri di Edit Profil, pilih objek uji, batalkan pengambilan ulang,
    dan periksa bahwa foto sebelumnya tetap ada. Foto belum dikirim ke server.
 3. Di Panduan, coba putar, jeda, lanjut, hentikan dan speaker per langkah.
    Pastikan suara berhenti ketika meninggalkan halaman. Voice Indonesia mengikuti
    mesin Teks ke Ucapan HP; kegagalan tidak menghilangkan teks panduan.
-4. Pilih berkas uji PDF/JPG/PNG melalui Ganti, konfirmasi pilihan, lalu ekspor ZIP
-   ke lokasi yang dipilih sendiri. ZIP hanya berisi berkas pilihan, bukan fixture.
+4. Tambahkan berkas uji PDF/JPG/PNG atau scan kamera, pilih kategori, lalu simpan.
+   Untuk Lainnya coba nama "pajak kendaraan"; hasilnya pajakkendaraan.ext.
+   Ekspor ZIP hanya memuat berkas pilihan. Coba batal/hapus dan buka ulang halaman.
 
 Kamera/TTS/pemilih berkas Android tetap NOT_RUN oleh agen; build dan fake test
 tidak menggantikan pemeriksaan perangkat tersebut.

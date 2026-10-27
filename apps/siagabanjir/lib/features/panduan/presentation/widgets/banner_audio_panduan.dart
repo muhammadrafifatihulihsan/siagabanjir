@@ -50,9 +50,9 @@ class BannerAudioPanduan extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Dengarkan instruksi dibacakan sistem',
+                        'Narasi bahasa Indonesia • kecepatan normal',
                         style: TextStyle(
-                          fontSize: SiagaTheme.keterangan,
+                          fontSize: SiagaTheme.isi,
                           color: SiagaTheme.muted,
                         ),
                       ),
@@ -111,7 +111,7 @@ class BannerAudioPanduan extends StatelessWidget {
                   ? 'Menggunakan suara Indonesia yang tersedia di perangkat.'
                   : 'Suara mengikuti mesin TTS perangkat dan mungkin membutuhkan internet.',
               style: const TextStyle(
-                fontSize: SiagaTheme.keterangan,
+                fontSize: SiagaTheme.isi,
                 height: 1.4,
                 color: SiagaTheme.muted,
               ),

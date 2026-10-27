@@ -6,7 +6,7 @@ import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
 import 'models/data_pantau_wilayah.dart';
 import 'widgets/kartu_sorotan_pantau.dart';
-import 'widgets/header_pantau.dart';
+import '../../../shared/widgets/header_halaman.dart';
 import 'widgets/kartu_infrastruktur_pantau.dart';
 import 'widgets/bagian_pos_sungai.dart';
 
@@ -67,7 +67,8 @@ class LayarPantauWilayah extends StatelessWidget {
           child: Column(
             children: [
               // Header atas dengan tombol kembali dan judul halaman
-              HeaderPantau(
+              HeaderHalaman(
+                judul: 'Pantau Wilayah',
                 onBack: () {
                   if (Navigator.of(context).canPop()) {
                     Navigator.of(context).pop();

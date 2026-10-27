@@ -20,7 +20,7 @@ class TabFilterKontak extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
     scrollDirection: Axis.horizontal,
-    padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+    padding: const EdgeInsets.only(top: 4, bottom: 12),
     child: Row(
       children: [
         _pill(context, null, 'Semua'),
@@ -31,7 +31,6 @@ class TabFilterKontak extends StatelessWidget {
         const SizedBox(width: 8),
         _pill(context, KategoriKontak.infrastructure, 'Infrastruktur'),
         const SizedBox(width: 8),
-        _pill(context, KategoriKontak.posko, 'Posko'),
       ],
     ),
   );
@@ -52,6 +51,8 @@ class TabFilterKontak extends StatelessWidget {
             onTap: () => onSelect(cat),
             borderRadius: BorderRadius.circular(20),
             child: Container(
+              constraints: const BoxConstraints(minHeight: 48),
+              alignment: Alignment.center,
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: active
                   ? null

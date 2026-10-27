@@ -6,14 +6,14 @@ import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
 import '../domain/langkah_panduan.dart';
 import 'widgets/banner_audio_panduan.dart';
-import 'widgets/header_detail_panduan.dart';
+import '../../../shared/widgets/header_halaman.dart';
 import 'widgets/kartu_anjuran_larangan.dart';
 import 'widgets/kartu_langkah_panduan.dart';
 import '../data/mesin_suara_perangkat.dart';
 import '../domain/mesin_suara.dart';
 import 'pengendali_suara.dart';
 
-// Layar Panduan Detail / Panduan Selamat persis sesuai desain referensi guides_detail.svg.
+// Panduan Selamat mengikuti tema bersama dan mandat tampilan warga.
 class LayarDetailPanduan extends StatefulWidget {
   const LayarDetailPanduan({
     super.key,
@@ -84,7 +84,10 @@ class _LayarDetailPanduanState extends State<LayarDetailPanduan> {
           constraints: const BoxConstraints(maxWidth: 600),
           child: Column(
             children: [
-              HeaderDetailPanduan(onBack: () => Navigator.pop(context)),
+              HeaderHalaman(
+                judul: 'Panduan Selamat',
+                onBack: () => Navigator.pop(context),
+              ),
               Expanded(
                 child: SingleChildScrollView(
                   key: const PageStorageKey('guides-detail-scroll'),

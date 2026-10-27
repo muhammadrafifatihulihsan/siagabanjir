@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import '../../../core/perangkat/layanan_foto.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 import 'widgets/formulir_profil.dart';
-import 'widgets/formulir_kontak.dart';
 import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
@@ -13,7 +11,6 @@ import '../../beranda/presentation/aksi_beranda.dart';
 import '../../beranda/presentation/widgets/navigasi_beranda.dart';
 import '../domain/profil_pengguna.dart';
 import 'widgets/bagian_pengaturan_akun.dart';
-import 'widgets/bagian_kontak_darurat.dart';
 import 'widgets/tombol_keluar.dart';
 import 'widgets/kartu_header_profil.dart';
 import 'widgets/bagian_info_profil.dart';
@@ -46,101 +43,23 @@ class _LayarProfilState extends State<LayarProfil> {
   late bool _floodAlertEnabled;
   late ProfilPengguna _profil;
   FotoPilihan? _foto;
-  bool _memuatFoto = false;
 
   Future<void> _editProfil() async {
-    final hasil = await showDialog<ProfilPengguna>(
-      context: context,
-      builder: (_) => FormulirProfil(profil: _profil),
-    );
+    final hasil =
+        await showDialog<({ProfilPengguna profil, FotoPilihan? foto})>(
+          context: context,
+          builder: (_) => FormulirProfil(
+            profil: _profil,
+            foto: _foto,
+            layananFoto: widget.layananFoto,
+          ),
+        );
     if (hasil != null && mounted) {
-      setState(() => _profil = hasil);
+      setState(() {
+        _profil = hasil.profil;
+        _foto = hasil.foto;
+      });
       _showFeedback('Profil diperbarui untuk sesi demo ini.');
-    }
-  }
-
-  Future<void> _ambilFoto() async {
-    if (_memuatFoto) return;
-    setState(() => _memuatFoto = true);
-    try {
-      final foto = await (widget.layananFoto ?? LayananFoto()).ambil();
-      if (mounted && foto != null) setState(() => _foto = foto);
-    } catch (_) {
-      if (mounted) {
-        await tampilkanInfoSiaga(
-          context,
-          'Kamera belum dapat dibuka',
-          'Periksa izin kamera dan coba lagi. Foto sebelumnya tetap dipertahankan.',
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _memuatFoto = false);
-    }
-  }
-
-  Future<void> _tambahKontak() async {
-    final hasil = await showDialog<KontakDarurat>(
-      context: context,
-      builder: (_) => const FormulirKontak(),
-    );
-    if (hasil != null && mounted) {
-      setState(
-        () =>
-            _profil = _profil.copyWith(contacts: [..._profil.contacts, hasil]),
-      );
-    }
-  }
-
-  Future<void> _aksiKontak(KontakDarurat kontak) async {
-    final aksi = await showDialog<String>(
-      context: context,
-      builder: (context) => DialogSiaga(
-        title: Text(kontak.name),
-        content: Text('${kontak.relation}\n${kontak.phone}'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Tutup'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'hapus'),
-            child: const Text('Hapus'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'edit'),
-            child: const Text('Edit'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(context, 'salin'),
-            child: const Text('Salin Nomor'),
-          ),
-        ],
-      ),
-    );
-    if (!mounted) return;
-    if (aksi == 'salin') {
-      await Clipboard.setData(ClipboardData(text: kontak.phone));
-      if (mounted) _showFeedback('Nomor kontak disalin.');
-    } else if (aksi == 'hapus') {
-      setState(
-        () => _profil = _profil.copyWith(
-          contacts: _profil.contacts.where((c) => c != kontak).toList(),
-        ),
-      );
-    } else if (aksi == 'edit') {
-      final hasil = await showDialog<KontakDarurat>(
-        context: context,
-        builder: (_) => FormulirKontak(kontak: kontak),
-      );
-      if (hasil != null && mounted) {
-        setState(
-          () => _profil = _profil.copyWith(
-            contacts: _profil.contacts
-                .map((c) => c == kontak ? hasil : c)
-                .toList(),
-          ),
-        );
-      }
     }
   }
 
@@ -245,18 +164,10 @@ class _LayarProfilState extends State<LayarProfil> {
                       KartuHeaderProfil(
                         profile: _profil,
                         onEdit: _editProfil,
-                        onChangeAvatar: _ambilFoto,
                         foto: _foto?.bytes,
-                        memuatFoto: _memuatFoto,
                       ),
                       const SizedBox(height: 20),
                       BagianInfoProfil(profile: _profil),
-                      const SizedBox(height: 20),
-                      BagianKontakDarurat(
-                        contacts: _profil.contacts,
-                        onAddContact: _tambahKontak,
-                        onCallContact: _aksiKontak,
-                      ),
                       const SizedBox(height: 20),
                       BagianPengaturanAkun(
                         floodAlertEnabled: _floodAlertEnabled,
@@ -284,15 +195,10 @@ class _LayarProfilState extends State<LayarProfil> {
                           'Privasi Data',
                           'Edit profil dan foto berada dalam sesi demo ini. Foto kamera dapat berada di cache perangkat. Tidak ada unggahan ke server. Gunakan data uji, bukan dokumen pribadi.',
                         ),
-                        onVersionTap: () => showAboutDialog(
-                          context: context,
-                          applicationName: 'SiagaBanjir',
-                          applicationVersion: '1.0.0+1',
-                          children: [
-                            const Text(
-                              'Pratinjau warga untuk pengujian lokal.',
-                            ),
-                          ],
+                        onVersionTap: () => tampilkanInfoSiaga(
+                          context,
+                          'SiagaBanjir 1.0.0+1',
+                          'Pratinjau warga untuk pengujian lokal.',
                         ),
                       ),
                       const SizedBox(height: 20),

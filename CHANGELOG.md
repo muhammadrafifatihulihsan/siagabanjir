@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Audit lanjutan UI warga: kamera/galeri dalam Edit Profil, kontak pribadi pindah
+  ke direktori dengan CRUD, tambah dokumen berkategori dan nama tanpa spasi,
+  riwayat dari input dengan detail melalui ketukan, hapus rute/posko, selaraskan
+  ikon/tombol/dialog, serta rate TTS normal eksplisit dan pencegahan putar ganda.
+  [Bukti dan batas](docs/WORKSPACE.md#flutter-uiux-lanjutan).
+
 - Audit UI/UX warga: token teks mengikuti Beranda, navigasi langsung, empat tab
   mempertahankan state/scroll dan header bersama, navbar tidak tertutup snackbar,
   dialog bertema serta scroll dengan reduced motion. Edit profil/kontak/keluarga,

@@ -32,10 +32,9 @@ class KartuKontak extends StatelessWidget {
                   KategoriKontak.emergency => Icons.shield_outlined,
                   KategoriKontak.health => Icons.health_and_safety_outlined,
                   KategoriKontak.infrastructure => Icons.water_drop_outlined,
-                  KategoriKontak.posko => Icons.home_outlined,
                 },
                 color: SiagaTheme.blue,
-                size: 22,
+                size: 24,
               ),
             ),
             const SizedBox(width: 12),
@@ -54,7 +53,7 @@ class KartuKontak extends StatelessWidget {
                   Text(
                     contact.phone,
                     style: const TextStyle(
-                      fontSize: SiagaTheme.keterangan,
+                      fontSize: SiagaTheme.isi,
                       color: SiagaTheme.muted,
                       fontWeight: FontWeight.w600,
                     ),
@@ -73,11 +72,11 @@ class KartuKontak extends StatelessWidget {
           child: TextButton.icon(
             onPressed: onCopy,
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF047857),
-              backgroundColor: const Color(0xFFECFDF5),
-              side: const BorderSide(color: Color(0xFFA7F3D0)),
+              foregroundColor: SiagaTheme.blue,
+              backgroundColor: SiagaTheme.selectionBackground,
+              side: const BorderSide(color: Color(0xFFBFDBFE)),
             ),
-            icon: const Icon(Icons.copy_outlined, size: 16),
+            icon: const Icon(Icons.copy_outlined, size: 24),
             label: const Text('Salin'),
           ),
         );

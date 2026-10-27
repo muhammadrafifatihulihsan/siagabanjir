@@ -14,9 +14,9 @@ void main() {
       await openReport(tester);
       tester.view.physicalSize = size;
       await tester.pumpAndSettle();
-      await tester.ensureVisible(find.text('Kirim Laporan Banjir'));
+      await tester.ensureVisible(find.text('Simpan ke Riwayat'));
       await tester.pumpAndSettle();
-      expect(find.text('Kirim Laporan Banjir').hitTestable(), findsOneWidget);
+      expect(find.text('Simpan ke Riwayat').hitTestable(), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   }
@@ -46,7 +46,7 @@ void main() {
       tester.view.physicalSize = const Size(320, 640);
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
-      await tester.ensureVisible(find.text('Kirim Laporan Banjir'));
+      await tester.ensureVisible(find.text('Simpan ke Riwayat'));
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
       await tester.ensureVisible(find.byType(TextField));

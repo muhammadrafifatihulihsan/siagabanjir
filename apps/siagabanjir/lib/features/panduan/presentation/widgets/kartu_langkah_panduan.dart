@@ -73,7 +73,7 @@ class KartuLangkahPanduan extends StatelessWidget {
                     onPressed: onRead,
                     icon: const Icon(
                       Icons.volume_up_outlined,
-                      size: 20,
+                      size: 24,
                       color: SiagaTheme.blue,
                     ),
                   ),
@@ -82,7 +82,7 @@ class KartuLangkahPanduan extends StatelessWidget {
                       ? Icons.keyboard_arrow_up_rounded
                       : Icons.keyboard_arrow_down_rounded,
                   color: SiagaTheme.muted,
-                  size: 20,
+                  size: 24,
                 ),
               ],
             ),

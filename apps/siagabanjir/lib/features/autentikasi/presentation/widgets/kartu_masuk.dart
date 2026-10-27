@@ -114,7 +114,7 @@ class _KartuMasukState extends State<KartuMasuk> {
               _obscurePassword
                   ? Icons.visibility_outlined
                   : Icons.visibility_off_outlined,
-              size: 20,
+              size: 24,
               color: const Color(0xFF64748B),
             ),
             tooltip: _obscurePassword
@@ -232,7 +232,7 @@ class _KartuMasukState extends State<KartuMasuk> {
                     SizedBox(width: 6),
                     Icon(
                       Icons.chevron_right_rounded,
-                      size: 20,
+                      size: 24,
                       color: Colors.white,
                     ),
                   ],
@@ -299,7 +299,7 @@ class _KartuMasukState extends State<KartuMasuk> {
           fontWeight: FontWeight.w400,
           color: Color(0xFF94A3B8),
         ),
-        prefixIcon: Icon(prefixIcon, size: 20, color: const Color(0xFF64748B)),
+        prefixIcon: Icon(prefixIcon, size: 24, color: const Color(0xFF64748B)),
         suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 14,
