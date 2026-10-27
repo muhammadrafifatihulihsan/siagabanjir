@@ -20,6 +20,11 @@ Inspeksi `apps/siagabanjir/` untuk menemukan proyek warga/admin, manifest, routi
 repository dan perintah tes sebenarnya. Jika masih kosong, laporkan kondisi
 itu dan kerjakan telaah mandiri yang diminta; jangan menjalankan flutter create.
 
+Ikuti [struktur Flutter aktual](../../apps/siagabanjir/README.md#struktur): nama
+fitur/file/kelas Indonesia, layer hanya ketika ada implementasi. Model tampilan
+yang membawa Color/IconData berada di presentation/models, bukan domain.
+Jangan membuat ulang folder placeholder berdasarkan catatan historis.
+
 ## Prosedur
 
 1. Petakan layar/aksi ke aktor dan FR/AC/TC. Tentukan data publik, data privat

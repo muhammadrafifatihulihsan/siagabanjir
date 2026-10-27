@@ -20,6 +20,10 @@
 
 Register ini menyimpan keputusan, alasan, konflik, risiko, persoalan terbuka, dan perubahan. Penomoran `DEC-001`–`DEC-042` mengikuti `BR-001`–`BR-042` dalam BRD; `PRD-DEC-001`–`PRD-DEC-043` mengikuti urutan pertanyaan `PRD-Q001`–`PRD-Q043`, bukan nomor requirement PRD. Catatan keputusan menggunakan parafrasa; ID sumber, tanggal, cakupan, dan urutan otorisasi dipertahankan.
 
+Nama/path Flutter pada keputusan lama merekam struktur saat keputusan dibuat.
+Pemetaan aktif dan pengganti kebijakan placeholder ada pada
+[WS-DEC-063](#flutter-indonesia-063); tidak mengubah riwayat persetujuan produk.
+
 **Riwayat persetujuan:** BRD-APPROVAL menetapkan BRD v0.1.0 sebagai baseline dan mengotorisasi penyusunan PRD. Persetujuan PRD serta kelanjutan FRD dicatat pada [PRD-APPROVAL-01](#prd-approval-01). Persetujuan final FRD/SRS dan keputusan workspace tercatat pada bagian berikut sesuai urutan waktunya.
 
 Bagian 2–5 serta Change Log tahap 1 mempertahankan riwayat keadaan ketika keputusan dicatat. Jika keputusan dirinci atau berubah pada tahap 2, keputusan baru dicatat dengan prefix PRD dan rujukan perubahan; pilihan lama tidak diam-diam diganti. Register OPEN pada bagian 6 merekam agenda tahap 1; disposisi berikutnya ditelusuri pada catatan PRD/FRD/SRS.
@@ -1225,3 +1229,80 @@ Implementasi menghasilkan:
   - `CitizenNavigation`: navigasi bawah bersama (Beranda, Lapor, Riwayat, Profil).
   - Integrasi navigasi: terhubung dari kartu status beranda dan sheet pratinjau (`HomeAction.monitor`).
 Bukti dan batas implementasi: [WORKSPACE](WORKSPACE.md#monitor-public-ui).
+
+<a id="flutter-indonesia-063"></a>
+
+## 53. Penataan fitur Flutter berbahasa Indonesia - 27 Oktober 2026
+
+**WS-DEC-063 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit seluruh struktur
+Flutter, penghapusan folder tidak terpakai, nama folder fitur Indonesia, dan
+penyesuaian nama kode bila memungkinkan. Pemilik juga secara eksplisit
+mengizinkan fokus bacaan pada Flutter, aturan/skill, arsitektur dan rujukan
+terdampak; ini bukan klaim membaca ulang seluruh spesifikasi/kontrak.
+
+Implementasi mengganti nama sepuluh fitur beserta file, kelas/enum dan tes;
+pemetaan menjadi sumber operasional di [README Flutter](../apps/siagabanjir/README.md).
+Nama teknis layer, API Flutter, properti/callback, fixture, ID data dan aset tetap.
+Lima model dengan Color/IconData dipindahkan dari domain ke presentation/models.
+Domain tersisa berupa Dart murni; tidak ada penambahan state manager/dependensi.
+
+Penelusuran impor dari main dan semua tes menemukan satu model dan empat widget
+dokumen lama tanpa pemakai. Kelimanya dihapus, bersama 48 `.gitkeep`, enam fitur
+kosong, layer kosong dan core kosong. Bagian WS-DEC-051 yang menyediakan
+placeholder digantikan kebijakan membuat folder ketika ada implementasi.
+Pemisahan tanggung jawab per fitur/layer tetap berlaku. Penghapusan folder
+admin/keluarga/KTP tidak membatalkan requirement produk.
+
+Perubahan dibatasi pada struktur/nama dan dokumentasi; perilaku UI, data contoh,
+kontrak API serta status penerimaan produk tetap. Integrasi layanan dan perbaikan
+umpan balik simulasi dicatat sebagai tindak lanjut, bukan diklaim sudah selesai.
+[Bukti pemeriksaan](WORKSPACE.md#flutter-indonesia) memisahkan tes/build dari UAT.
+Commit lokal mengikuti mandat tetap; tidak ada mandat push.
+
+<a id="flutter-uiux-064"></a>
+
+## 54. Audit UI/UX dan interaksi warga - 27 Oktober 2026
+
+**WS-DEC-064 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit semua tampilan,
+ukuran teks berpatokan Beranda, kesesuaian SVG, navigasi langsung, edit profil,
+kamera yang bisa dicoba, TTS perangkat, komponen dialog bertema, scroll nyaman,
+serta retensi kerangka navigasi. Folder fitur tetap Indonesia. Katalog skill
+eksternal diperiksa; design-critique, accessibility-review dan design-system
+digunakan sebagai metode audit, tanpa mengungguli aturan proyek.
+
+Implementasi memakai IndexedStack untuk empat tab, komponen Material bertema,
+adapter kamera/TTS dan berkas lokal, serta formulir profil/kontak/keluarga.
+Autentikasi, GPS, layanan laporan dan brankas terenkripsi tidak diinisialisasi.
+Ini tidak mengubah kontrak produk atau baseline approved.
+
+Persetujuan awal pengujian Samsung **digantikan instruksi terbaru pemilik**:
+tidak menguji perangkat; pemilik akan memeriksa HP sendiri. Tidak memasang atau
+membuka APK di HP. Build, tes otomatis dan inspeksi browser lokal tetap berjalan.
+Commit lokal diwajibkan; push tidak diminta. [Bukti/checklist](WORKSPACE.md#flutter-uiux).
+
+<a id="flutter-uiux-lanjutan-065"></a>
+
+## 55. Penyederhanaan fitur warga dan kecepatan TTS - 27 Oktober 2026
+
+**WS-DEC-065 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit lanjutan seluruh
+layar selain Beranda: konsistensi font, ikon, tombol, dialog dan hierarki;
+foto kamera/galeri di Edit Profil; kontak pribadi pindah ke Kontak Darurat
+dengan tambah/edit/hapus; dokumen PDF/foto/scan berkategori KTP, KK, Lainnya
+dengan nama sendiri tanpa spasi; konfirmasi hasil; riwayat singkat berdasarkan
+isian pelapor dan detail melalui ketukan; hapus arahan rute/posko. Tambahan
+mandat memperbaiki suara Panduan Selamat yang terasa terlalu cepat.
+
+Ini menggantikan susunan SVG terdahulu pada area tersebut, bukan desain Beranda.
+Badge hanya untuk status yang berguna. Galeri hanya untuk foto profil;
+foto laporan tetap kamera. Scan dokumen menghasilkan foto, bukan OCR/PDF otomatis.
+Riwayat demo dimulai kosong; Simpan ke Riwayat merekam kategori, deskripsi,
+kebutuhan, foto opsional dan waktu lokal, tanpa status proses/tim rekaan.
+Kontak pribadi dan dokumen bertahan selama sesi saat route dibuka ulang.
+Keluar dari akun/aplikasi membuang state demo; persistensi per akun, vault
+terenkripsi dan pengiriman server tetap pekerjaan integrasi baseline.
+
+TTS menetapkan kecepatan normal eksplisit (flutter_tts Android 0.5 -> native 1x,
+Web 1.0) dan pitch 1.0, menolak pemutaran ulang teks yang sedang aktif dan
+melindungi status dari hasil jeda yang terlambat. Kecepatan fisik di HP belum
+diverifikasi. Instruksi tidak menguji HP tetap berlaku; tidak ada mandat push.
+[Checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).

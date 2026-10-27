@@ -11,9 +11,14 @@ abstract final class SiagaTheme {
   // Warna permukaan bersama menjaga pilihan form dan navbar tetap selaras home.
   static const selectionBackground = Color(0xFFEFF6FF);
   static const navigationBackground = Color(0xFFE1EDFF);
+  static const double judulHalaman = 22;
+  static const double judulBagian = 16;
+  static const double isi = 14;
+  static const double keterangan = 12;
 
   static ThemeData get light => ThemeData(
     useMaterial3: true,
+    visualDensity: VisualDensity.standard,
     fontFamily: 'Inter',
     colorScheme: ColorScheme.fromSeed(
       seedColor: blue,
@@ -21,18 +26,96 @@ abstract final class SiagaTheme {
       surface: background,
     ),
     scaffoldBackgroundColor: background,
+    iconTheme: const IconThemeData(size: 24, color: ink),
+    cardTheme: CardThemeData(
+      color: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: const BorderSide(color: border),
+      ),
+    ),
     textTheme: const TextTheme(
-      bodyMedium: TextStyle(fontSize: 14, color: ink, height: 1.3),
-      bodyLarge: TextStyle(fontSize: 16, color: ink, height: 1.3),
+      bodyMedium: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 14,
+        color: ink,
+        height: 1.4,
+      ),
+      bodyLarge: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 16,
+        color: ink,
+        height: 1.3,
+      ),
       titleMedium: TextStyle(
+        fontFamily: 'Inter',
         fontSize: 16,
         fontWeight: FontWeight.w700,
         color: ink,
       ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white),
+    dialogTheme: DialogThemeData(
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: deepBlue,
+      contentTextStyle: const TextStyle(
+        fontFamily: 'Inter',
+        color: Colors.white,
+        fontSize: 14,
+        height: 1.4,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: background,
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+      contentPadding: const EdgeInsets.all(16),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
     filledButtonTheme: FilledButtonThemeData(
-      style: FilledButton.styleFrom(minimumSize: const Size(48, 48)),
+      style: FilledButton.styleFrom(
+        minimumSize: const Size(48, 48),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        iconSize: 24,
+        textStyle: const TextStyle(
+          fontFamily: 'Inter',
+          fontSize: isi,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     ),
   );
 }

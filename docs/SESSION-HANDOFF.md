@@ -8,6 +8,105 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Perbaikan bug TTS Panduan Selamat 27 Oktober 2026. `flutter_tts 4.x` menggunakan
+skala `1.0 = kecepatan normal` di Android (bukan 0.5); komentar lama "Android
+plugin mengalikan nilai ini dua kali" tidak berlaku sejak versi 4. `awaitSpeakCompletion(true)`
+mencegah narasi bertumpuk akibat ketukan berulang. Commit `661e960`, branch `branch-rafi`;
+101 tes PASS; working tree bersih; tanpa push.
+
+### Riwayat audit UI/UX lanjutan
+
+Audit lanjutan mengikuti [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065).
+[Checklist lengkap](WORKSPACE.md#flutter-uiux-lanjutan) mencatat foto profil
+kamera/galeri dalam Edit Profil, kontak pribadi di Kontak Darurat, dokumen
+dinamis berkategori/nama kustom, riwayat lokal dari input tanpa proses/tim rekaan,
+penghapusan rute/posko, konsistensi tema, serta rate TTS normal dan guard putar.
+Beranda tidak diubah. Kontak/dokumen/riwayat ada selama sesi dan hilang setelah
+logout/aplikasi ditutup. ZIP tidak terenkripsi; server belum terhubung.
+101 tes PASS; bukti akhir lainnya ada pada WORKSPACE. Audio/HP NOT_RUN sesuai
+mandat. Baseline `6259a82`; lihat commit `661e960` untuk perbaikan TTS.
+
+### Riwayat audit pertama
+
+Audit UI/UX 27 Oktober 2026 mengikuti
+[WS-DEC-064](DECISIONS.md#flutter-uiux-064). Seluruh checklist pemilik dan bukti
+ada pada [WORKSPACE](WORKSPACE.md#flutter-uiux). Empat tab kini langsung terbuka,
+mempertahankan state/scroll, memakai header bersama dan navbar yang tidak
+tertutup snackbar. Token teks mengikuti Beranda; dialog bertema, ruang keyboard,
+layout kecil/teks besar, kartu kontak dan bar warna Pantau diperbaiki.
+
+Edit profil, CRUD kontak/keluarga, kamera laporan/avatar, pemulihan hasil kamera
+Android, TTS Indonesia dengan jeda/lanjut/stop, pilih PDF/gambar dan ekspor ZIP
+lokal tersedia. Nama folder tetap Indonesia. Dokumen hanya berada dalam memori
+halaman sampai diekspor; ZIP tidak terenkripsi. Autentikasi/GPS/pengiriman/AI
+dan layanan bisnis belum terhubung. Logout membuat sesi demo baru dengan state
+bersih; bukan autentikasi server. Pesan UI tidak mengaku menyimpan akun/vault.
+
+Verifikasi: analyzer 0 issues; 101 tes PASS; build Web dan APK debug PASS.
+Inspeksi Chrome mencakup 12 layar serta dialog edit profil dan viewport
+320/390/1024. Pemilih berkas dan unduh ZIP Web diuji dengan berkas sintetis;
+isi arsip cocok. Artefak lokal berada di build/audit, tidak masuk source.
+**HP NOT_RUN atas instruksi terbaru pemilik**: tidak memasang atau membuka APK.
+Pengguna akan memeriksa kamera/suara sendiri. TTS bergantung voice/engine OS;
+Gradle memperingatkan pemakaian KGP plugin flutter_tts pada Flutter mendatang.
+
+Dokumentasi living diperbarui bersama implementasi. Kontrak/spec baseline,
+AGENTS/rules/skills/adapter tidak berubah karena tidak ada perubahan mandat
+atau wire API. Branch `branch-rafi`, baseline `06e3b2e`; commit lokal diwajibkan,
+tanpa push. Catatan berikut adalah riwayat sebelum audit UI/UX ini.
+
+### Riwayat penataan folder
+
+Penataan Flutter 27 Oktober 2026 mengikuti
+[WS-DEC-063](DECISIONS.md#flutter-indonesia-063). Sepuluh fitur kini bernama
+`akun`, `autentikasi`, `beranda`, `dokumen`, `kontak`, `laporan`, `panduan`,
+`pantau`, `pesan` dan `tas_siaga`, selaras antara lib dan test. File serta
+kelas/enum fitur ikut memakai Indonesia. Layer teknis, API Flutter, callback,
+fixture, ID data dan aset tetap. [README Flutter](../apps/siagabanjir/README.md)
+memuat peta nama lama/baru dan batas implementasi.
+
+Dihapus: 48 penanda `.gitkeep`, direktori kosong, serta lima file dokumen lama
+tanpa pemakai. Lima model UI yang mengimpor Flutter dipindah ke
+presentation/models; domain tersisa Dart murni. Requirement admin/keluarga/KTP
+tetap berlaku meski placeholder dihapus. Perilaku UI tidak diubah.
+
+Verifikasi: analyzer 0 issues, seluruh 91 tes PASS, build Web dan APK debug
+PASS. Audit impor dan perbandingan token 91 file juga PASS; tidak ada perubahan
+alur di luar nama/impor/format. [Bukti dan batas](WORKSPACE.md#flutter-indonesia)
+memisahkan build/widget dari perangkat/UAT yang tidak dijalankan.
+Pemilik mengizinkan fokus bacaan audit Flutter; seluruh spesifikasi/kontrak
+tidak dibaca ulang. Beberapa aksi tetap simulasi meski labelnya menyatakan
+berhasil; integrasi dan penyelarasan pesan menjadi pekerjaan berikutnya.
+
+Dokumentasi dan skill Flutter diselaraskan dalam unit yang sama. Tidak ada
+perubahan requirement/kontrak, aset atau dependensi. Branch lokal `branch-rafi`;
+commit disiapkan sesuai mandat tetap, tanpa push. Riwayat di bawah menggunakan
+nama/path lama; lokasi terbaru mengikuti README, bukan placeholder historis.
+
+### Riwayat perbaikan kompilasi sebelum penataan
+
+Perbaikan kompilasi 27 Oktober 2026 setelah pull main pada baseline `23d586a`:
+`siaga_banjir_app.dart` kehilangan penutup `RegionMonitorScreen`,
+`MaterialPageRoute` dan `Navigator.push`; `home_preview_sheet.dart` kehilangan
+penutup tombol/list Pantau sebelum cabang Riwayat. Penutup dipulihkan dan jarak
+setelah tombol Pantau mengikuti tombol pratinjau lain. Enam error berhasil
+direproduksi dengan `flutter analyze --no-pub` sebelum perbaikan.
+
+Verifikasi Windows, Flutter 3.47.7 / Dart 3.13.5: `flutter analyze --no-pub`
+PASS (0 issues), `flutter test --no-pub` PASS (91 tes, termasuk navigasi Pantau
+dan Riwayat), serta `git diff --check` PASS. Build dan perangkat fisik NOT_RUN.
+Pemilik secara eksplisit mengizinkan pembatasan bacaan ke aturan/skill,
+dokumentasi aplikasi dan kode/tes terkait untuk perbaikan ini; bukan klaim
+bacaan penuh seluruh spesifikasi. Commit disiapkan pada branch lokal
+`branch-rafi` dari baseline main; tidak ada mandat push.
+
+Dokumentasi diperbarui pada handoff dan CHANGELOG. README, spesifikasi/kontrak,
+DESIGN, keputusan/RTM, AGENTS, rules, skills dan adapter tidak diubah karena
+perbaikan hanya memulihkan sintaks/alur yang sudah ada, tanpa perubahan
+requirement, arsitektur atau bukti penerimaan produk. Catatan di bawah adalah
+riwayat pekerjaan sebelum integrasi tersebut, bukan hasil pengujian baseline
+main yang rusak.
+
 Implementasi layar pantau wilayah publik (`features/monitor`) sesuai desain SVG
 pemilik (`monitor_public.svg`). Layar menampilkan data pemantauan publik terkini:
 header dengan tombol kembali dan judul 'Pantau Wilayah', kartu sorotan utama

@@ -2,6 +2,16 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
+**Mandat tampilan terbaru (27 Oktober 2026):**
+[WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065) memindahkan kontak pribadi
+ke direktori, foto profil melalui kamera/galeri di Edit Profil, dokumen
+PDF/gambar/foto berkategori dengan nama kustom, riwayat ringkas dari input,
+serta menghapus arahan rute/posko dari UI warga. Status/tindak lanjut bisnis
+tidak dihapus dari kontrak server. Simpan sesi demo bukan penerimaan laporan
+atau vault persisten. Galeri profil tidak mengubah aturan bukti kamera laporan.
+TTS normal ditetapkan eksplisit; suara perangkat tetap perlu uji pemilik.
+Baseline dan riwayat keputusan di bawah dipertahankan.
+
 | Kontrol | Nilai |
 |---|---|
 | ID / versi / tanggal | SRS-SIAGABANJIR / v1.0.0 / 18 Oktober 2026 |

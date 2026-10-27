@@ -2,8 +2,8 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 23 Oktober 2026: panduan kerja lintas OS/IDE dan wadah `apps/`.
-Backend/Flutter tetap disiapkan tim. UI mendatang mengikuti
+Kondisi 27 Oktober 2026: panduan kerja lintas OS/IDE, backend kosong, dan
+sepuluh fitur pratinjau Flutter warga dengan nama Indonesia. UI mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
 
@@ -22,12 +22,17 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 
 ## Status dan versi
 
+Struktur/nama Flutter terbaru mengikuti [audit 27 Oktober](#flutter-indonesia).
+Perilaku UI dan bukti terbaru mengikuti [audit UI/UX](#flutter-uiux).
+Path, nama kelas dan jumlah placeholder pada catatan bertanggal sebelumnya
+adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
+
 | Komponen | Baseline |
 |---|---|
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend kosong; 15 folder fitur produk dan satu mockup beranda warga dengan aset lokal |
+| Backend / Flutter | Backend kosong; sepuluh fitur UI warga, folder kosong dihapus; [struktur aktual](../apps/siagabanjir/README.md#struktur) |
 | Pengujian | Widget mockup dan build Web diperiksa; TC produk, provider, perangkat, dan UAT tetap NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -48,7 +53,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki struktur fitur dan mockup beranda; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
+| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki sepuluh fitur UI warga; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -897,3 +902,189 @@ Struktur dan widget di `lib/features/monitor`:
 
 Dokumentasi terdampak: README Flutter/apps, DESIGN, DECISIONS, SESSION-HANDOFF,
 dan CHANGELOG.
+
+<a id="flutter-indonesia"></a>
+
+## Audit struktur Flutter dan nama Indonesia - 27 Oktober 2026
+
+Mandat [WS-DEC-063](DECISIONS.md#flutter-indonesia-063) diperiksa dari baseline
+lokal `2008c8c` pada `branch-rafi`, dengan tree awal bersih. Pemilik mengizinkan
+fokus bacaan pada kode/tes Flutter, aturan/skill, arsitektur dan rujukan terdampak.
+Semua 96 file Dart awal ditinjau; audit juga memeriksa manifest, navigasi,
+konfigurasi Android/Web, struktur aset dan dokumentasi terkait. Skill lokal
+workspace, Flutter dan review dipakai; skill eksternal `tech-debt` dari katalog
+Engineering pemilik menjadi acuan prioritas, tanpa instalasi atau penyalinan skill.
+
+Hasil pembersihan berdasarkan penggunaan aktual:
+
+| Temuan | Tindakan |
+|---|---|
+| 48 `.gitkeep` serta enam fitur/core/layer kosong | Hapus penanda dan direktori kosong di lib; requirement fitur mendatang tetap |
+| Lima file dokumen lama tidak terjangkau dari main maupun semua tes | Hapus DocumentEntry, DocumentCard, DocumentsBottomActions, DocumentsSecurityBanner, DocumentsSummaryCard |
+| Nama Inggris pada fitur/file/kelas | Pindah 85 file fitur dan tes; samakan sepuluh nama fitur Indonesia pada lib/test |
+| Lima model UI mengimpor Flutter dalam domain | Pindah ke presentation/models; domain tersisa Dart murni |
+| README mencampur dua implementasi dokumen dan struktur placeholder | Ganti dengan struktur serta perilaku aktual, tautkan riwayat keputusan |
+
+Setelah penataan terdapat 76 file Dart lib dan 15 file test/helper. Pemeriksaan
+impor mengonfirmasi semuanya terjangkau dari main atau tes, tanpa impor hilang
+atau `.gitkeep` lib. Perbandingan token terhadap baseline pada 91 file membuktikan
+perubahan hanya nama/impor/format; literal UI dan alur tetap. Script audit/migrasi
+sementara dihapus setelah pemeriksaan, bukan menjadi tooling baru repository.
+
+Pemeriksaan Windows dengan Flutter 3.47.7 stable / Dart 3.13.5:
+
+| Pemeriksaan | Hasil |
+|---|---|
+| dart format lib test | PASS; 91 file diformat |
+| flutter analyze --no-pub | PASS; 0 issues |
+| flutter test --no-pub --reporter expanded | PASS; 91 tes |
+| flutter build web --no-pub --no-web-resources-cdn --no-wasm-dry-run | PASS; build/web |
+| flutter build apk --debug --no-pub | PASS; build/app/outputs/flutter-apk/app-debug.apk |
+| Markdownlint pada 11 dokumen terdampak | PASS; 0 error |
+| Validator tautan internal dan metadata skill | PASS; 42 Markdown dan delapan skill |
+| git diff --check | PASS |
+
+Gradle mencetak peringatan native access Java tetapi build berhasil. Tes/build
+bukan pemeriksaan visual baru, perangkat fisik, provider/backend, macOS/Linux,
+TalkBack atau UAT; semuanya di luar bukti tugas ini. Beberapa label/umpan balik
+simulasi autentikasi, dokumen dan audio masih menyiratkan hasil nyata; README
+mencatat keterbatasan tersebut untuk tahap integrasi. Tidak ada perubahan
+requirement, endpoint, data contoh, aset, dependensi atau konfigurasi SDK.
+
+Dokumentasi terdampak diselaraskan: README root/apps/Flutter/desain, DESIGN
+(nama kartu pesan), skill Flutter, keputusan, keterlacakan, CHANGELOG dan handoff.
+AGENTS, rules, katalog skill, adapter IDE dan konfigurasi bersama tidak memiliki
+path fitur lama yang perlu diganti. BRD/PRD/FRD/SRS serta kontrak tidak diubah
+karena penataan internal tidak mengubah kebutuhan atau perilaku produk.
+Riwayat path lama dipertahankan sebagai riwayat dengan rujukan pemetaan terbaru.
+
+<a id="flutter-uiux"></a>
+
+## Audit UI/UX Flutter warga - 27 Oktober 2026
+
+Mandat [WS-DEC-064](DECISIONS.md#flutter-uiux-064), baseline `06e3b2e`, branch
+lokal `branch-rafi`, tree awal bersih. Audit melanjutkan cakupan bacaan Flutter,
+aturan/skill, arsitektur dan rujukan terdampak sesuai izin pemilik; tidak
+mengklaim membaca ulang seluruh spesifikasi/kontrak. Dua belas SVG aktif dari
+direktori desain pemilik dirender menjadi tiga papan pembanding lokal.
+`deprecated_admin_posko.svg` dikecualikan karena bukan layar warga aktif.
+
+### Checklist seluruh permintaan
+
+| Permintaan | Hasil implementasi dan pemeriksaan |
+|---|---|
+| Audit semua tampilan | Dua belas layar sumber diperiksa; keluarga/formulir lokal ditambahkan. Inspeksi Chrome dan regresi widget |
+| Ukuran mengikuti Beranda | Token 22/16/14/12, Inter, tinggi isi 1.4; metrik/hero punya hierarki sendiri |
+| Sesuaikan desain | Kartu kontak ringkas, kartu darurat/posko, speaker dan judul langkah panduan, bar warna Pantau, status dokumen tidak terpotong |
+| Profil langsung terbuka | Empat tab langsung; Pantau dan fitur lain langsung ke layar. Hanya Lengkap menjadi daftar akses |
+| Lengkapi Edit Profil | Form tervalidasi, perubahan tampak pada kartu dan bertahan lintas tab; versi/alamat tidak lagi placeholder terpotong |
+| Lengkapi tombol lain | CRUD kontak/keluarga, berkas dan ZIP nyata, salin pesan bertanda demo; layanan server yang belum ada dijelaskan jujur |
+| Kamera bisa dicoba | image_picker untuk laporan/avatar, preview, batal/error mempertahankan foto, pemulihan hasil Android saat startup |
+| Header/navbar efisien | Header instance yang sama, empat tab IndexedStack dengan controller sendiri, navbar memperbarui pilihan; tes identitas state/widget |
+| Scroll nyaman | Bouncing tanpa glow, reduced motion clamping/jump; keyboard tidak menyusutkan area dua kali |
+| Popup sesuai tema | DialogSiaga berbasis Material, fokus/back/scroll tetap tersedia; navbar tidak tertutup snackbar |
+| TTS berfungsi | Mesin OS melalui flutter_tts, suara Indonesia, putar/jeda/lanjut/hentikan/per langkah, berhenti saat keluar/background, pesan gagal tetap menyisakan teks |
+| Skill eksternal dan nama Indonesia | design-critique, accessibility-review, design-system dibaca/dipakai; sebelas fitur Indonesia, termasuk keluarga |
+| Jangan uji HP dahulu | Tidak install/run/test pada Samsung. Kamera/TTS/native picker belum dibuktikan pada perangkat |
+
+### Bukti eksekusi
+
+Lingkungan Windows, Flutter 3.47.7 / Dart 3.13.5:
+
+- PASS: `flutter analyze --no-pub`, 0 issues.
+- PASS: `flutter test --no-pub`, 101 tes. Termasuk retensi tab, identitas header,
+  reset sesi setelah logout, profil, kamera fake berhasil/batal/error, lifecycle
+  TTS fake, keluarga, ZIP, dan layout 320 px dengan teks 200%.
+- PASS: build Web lokal tanpa CDN dan APK debug. APK tidak dipasang ke HP.
+- PASS: Chrome headless untuk 12 layar warga dan dialog edit profil, serta
+  Beranda/Profil pada viewport 320x640, 390x844, 1024x768. Tidak ada pageerror.
+  Screenshot diperiksa secara visual; bukan klaim pixel-perfect seluruh state.
+- PASS: pemilih berkas Web dan unduh ZIP nyata memakai PDF sintetis. Arsip hanya
+  berisi `doc_kk_uji-dokumen.pdf`, dan bytes hasil ekstraksi sama dengan input.
+- PASS: format Dart (115 file, tidak ada perubahan), diff whitespace, UTF-8/LF,
+  Markdownlint pada 10 dokumen terdampak, link internal (42 Markdown), dan 8 skill.
+- NOT_RUN atas instruksi pengguna: kamera/TTS/picker Android di HP, audio fisik,
+  kenyamanan scroll/performa FPS perangkat, UAT, backend/provider dan Web admin.
+
+Artefak kerja lokal (diabaikan Git sesuai aturan build yang sudah ada) berada di
+`apps/siagabanjir/build/audit/`: papan desain, screenshot aktual, log tes/build,
+serta ZIP sintetis. APK: `apps/siagabanjir/build/app/outputs/flutter-apk/app-debug.apk`.
+Tes/widget dan dokumen bukti masuk source; generated build tidak ikut commit.
+
+### Batas dan rujukan
+
+State profil/kontak dan isian laporan hanya selama sesi; keluarga/dokumen hanya
+selama halaman terbuka. Keluar dari demo membuang state, bukan mencabut token
+server. Simpan dokumen mengonfirmasi pilihan memori; ekspor ZIP menulis salinan
+pilihan pengguna, **tanpa enkripsi**. Autentikasi server, GPS, kirim laporan,
+analisis AI dan pembaruan data publik belum terhubung. Nilai/nomor/jarak fixture
+bukan informasi darurat terverifikasi. Filter/kontak tambahan dipertahankan;
+label tindakan disesuaikan dengan kemampuan nyata meski berbeda dari SVG.
+
+Suara tergantung engine/voice Indonesia yang tersedia dan dapat memerlukan
+jaringan. Jeda Android mengikuti dukungan plugin (Android 8/API 26 ke atas);
+build tidak membuktikan suara terdengar atau hasil kamera benar pada HP.
+Gradle masih mengeluarkan peringatan kompatibilitas KGP dari flutter_tts untuk
+versi Flutter mendatang; build saat ini berhasil. Duplikasi platform-tools
+pada SDK lokal adalah peringatan lingkungan; konfigurasi global tidak diubah.
+
+Rujukan implementasi resmi: [image_picker](https://pub.dev/packages/image_picker),
+[flutter_tts](https://pub.dev/packages/flutter_tts),
+[file_selector](https://pub.dev/packages/file_selector),
+[file_saver](https://pub.dev/packages/file_saver). Versi terkunci pada pubspec.lock.
+
+Dokumen terdampak diperbarui: README root/apps/Flutter/desain, DESIGN, keputusan,
+TRACEABILITY, handoff dan CHANGELOG. AGENTS, rules, delapan skill dan adapter IDE
+sudah sesuai prosedur; tidak perlu perubahan kosmetik. Baseline FRD/SRS dan
+OpenAPI tidak diubah karena tidak ada perubahan kontrak atau klaim penerimaan
+bisnis. Commit lokal diwajibkan; push tidak diminta.
+
+<a id="flutter-uiux-lanjutan"></a>
+
+## Audit lanjutan fitur warga - 27 Oktober 2026
+
+Mandat [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065) melanjutkan audit
+baseline `6259a82` pada branch `branch-rafi`. Bagian ini menggantikan batas
+state/antarmuka pada audit sebelumnya; catatan lama tetap merupakan riwayat.
+Bacaan difokuskan pada Flutter, skill/aturan, desain dan rujukan terdampak sesuai
+izin pemilik sebelumnya; tidak mengklaim membaca ulang seluruh kontrak panjang.
+Skill eksternal design-system dan accessibility-review digunakan kembali.
+
+| Permintaan | Implementasi |
+|---|---|
+| Semua halaman selain Beranda mengikuti hierarki home | Inter, isi 14, bagian 16, halaman 22; ikon tindakan 24, target 48; metrik/brand tetap sesuai perannya |
+| Popup konsisten | Tombol memakai Inter eksplisit; dialog pesan mengikuti radius/judul bersama; versi aplikasi menggunakan DialogSiaga |
+| Foto profil | Badge kamera avatar dihapus; Kamera/Galeri dalam Edit Profil, simpan atomik dan batal mempertahankan avatar |
+| Kontak keluarga pindah | Kontak Pribadi berada pada Kontak Darurat, CRUD/salin dan konfirmasi hapus; state disuntikkan app selama sesi |
+| Dokumen PDF/gambar/scan | Tambah Dokumen memilih sumber lalu kategori KTP/KK/Lainnya, nama kustom tanpa spasi, validasi 5 MB dan konfirmasi sukses sesi |
+| Badge seperlunya | Dokumen memakai nama/kategori/ukuran, riwayat tanpa badge proses atau tim rekaan |
+| Riwayat ringkas | Kosong sebelum input; simpan kategori/deskripsi/kebutuhan/foto, ringkasan dua baris; ketuk membuka detail |
+| Hapus rute/posko | Hapus aksi/pesan/kontak posko dan titik evakuasi profil; langkah panduan akhir menjadi kabari keluarga |
+| TTS terlalu cepat | Rate normal eksplisit dan pitch 1; ketukan teks aktif tidak memulai ulang, jeda terlambat tidak menghidupkan status lama |
+| Pengujian tanpa HP | Tes otomatis dan browser/build; suara/kamera/galeri nyata Android tetap NOT_RUN |
+
+### Bukti lanjutan
+
+- PASS: 101 tes Flutter, termasuk galeri simpan/batal, kontak tambah/edit/hapus
+  dan retensi route, dokumen nama kustom/batal, ZIP, riwayat hasil input,
+  pemanggilan rate/pitch adapter TTS dan pencegahan putar ulang teks aktif.
+- PASS: analyzer 0 issues; format 109 file Dart tanpa perubahan; build Web dan APK debug.
+- PASS: browser Chrome mencakup seluruh layar warga, dialog Edit Profil,
+  viewport 320/390/1024 dan pemilih berkas/ekspor ZIP sintetis. Isi ZIP cocok
+  dengan input; tidak ada pageerror. Kamera/galeri/TTS native tidak dijalankan.
+- PASS: Markdownlint 12 dokumen, tautan internal 42 Markdown, diff whitespace
+  serta normalisasi UTF-8/LF. HeaderHalaman dipakai tujuh fitur; enam header
+  duplikat dihapus. Beranda memiliki scope tema sendiri untuk menjaga acuan.
+- NOT_RUN: audio fisik/kecepatan yang terdengar, kamera/galeri/picker Android,
+  UAT dan backend. Tidak memasang atau menjalankan aplikasi pada HP.
+
+Dokumen dan kontak pribadi kini tersedia selama sesi, bukan hanya route.
+ZIP tetap tidak terenkripsi. Nama khusus disanitasi ke huruf/angka ASCII,
+underscore dan tanda hubung; semua whitespace dihapus, ekstensi dipertahankan.
+Nomor publik tetap data sintetis. Beranda mempertahankan ilustrasi jumlah lama,
+sesuai mandat tidak mengubah desain Beranda; bukan jumlah data sesi sebenarnya.
+
+FRD/SRS mencatat mandat tampilan terbaru; wire API dan invariant akses/persistensi
+baseline tidak diubah. AGENTS/rules/skills/adapter tidak memerlukan edit karena
+prosedurnya tetap. Sumber SVG disimpan sebagai referensi historis, bukan ditimpa.
+Commit lokal diwajibkan, push belum diminta.

@@ -7,6 +7,32 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Bugfix TTS Panduan Selamat:** `flutter_tts 4.x` menggunakan `1.0` sebagai
+  kecepatan normal di Android (bukan 0.5); `awaitSpeakCompletion(true)` mencegah
+  narasi bertumpuk (efek suara ganda/kali-2) akibat ketukan berulang.
+  Tes `mesin_suara_perangkat_test.dart` diperbarui untuk memverifikasi nilai 1.0.
+
+- Audit lanjutan UI warga: kamera/galeri dalam Edit Profil, kontak pribadi pindah
+  ke direktori dengan CRUD, tambah dokumen berkategori dan nama tanpa spasi,
+  riwayat dari input dengan detail melalui ketukan, hapus rute/posko, selaraskan
+  ikon/tombol/dialog, serta rate TTS normal eksplisit dan pencegahan putar ganda.
+  [Bukti dan batas](docs/WORKSPACE.md#flutter-uiux-lanjutan).
+
+- Audit UI/UX warga: token teks mengikuti Beranda, navigasi langsung, empat tab
+  mempertahankan state/scroll dan header bersama, navbar tidak tertutup snackbar,
+  dialog bertema serta scroll dengan reduced motion. Edit profil/kontak/keluarga,
+  kamera sistem dengan pemulihan hasil Android, TTS Indonesia dan kontrol audio,
+  pilih PDF/gambar serta ekspor ZIP lokal tersedia. Pesan autentikasi/dokumen
+  diselaraskan dengan kemampuan demo. Nama fitur tetap Indonesia.
+  Bukti dan batas perangkat: [audit UI/UX](docs/WORKSPACE.md#flutter-uiux).
+
+- Penataan Flutter: sepuluh folder fitur beserta file/kelas/enum dan tes memakai
+  nama Indonesia; hapus 48 penanda folder kosong dan lima file dokumen tanpa
+  pemakai. Lima model yang memakai Flutter dipindah ke presentation/models.
+  README dan rujukan struktur diselaraskan; perilaku UI tetap.
+  Nama lama pada catatan implementasi di bawah adalah riwayat sebelum
+  [migrasi WS-DEC-063](docs/DECISIONS.md#flutter-indonesia-063).
+
 - Halaman pantau wilayah publik (RegionMonitorScreen) sesuai desain SVG pemilik
   (`monitor_public.svg`) pada fitur `monitor`, mencakup `MonitorHeader` (tombol kembali
   dan judul halaman adaptif), `MonitorFeaturedCard` (kartu sorotan sungai utama bertepi
@@ -76,6 +102,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   clone di perangkat lain, dan penanganan error dengan contoh Git Bash.
 
 ### Diubah
+
+- Memulihkan penutup rute dan blok tombol Pantau yang hilang sebelum cabang
+  Riwayat, sehingga aplikasi kembali lolos analyzer dan seluruh 91 tes Flutter.
 
 - Pembersihan sisa conflict markers pada `HomeNavigation` dan penyesuaian import `CitizenHeader`
   pada `ProfileScreen`.

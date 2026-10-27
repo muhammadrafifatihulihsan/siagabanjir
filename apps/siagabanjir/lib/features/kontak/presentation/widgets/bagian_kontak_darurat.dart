@@ -1,0 +1,176 @@
+import 'package:flutter/material.dart';
+
+import '../../../../shared/theme/siaga_theme.dart';
+import '../../domain/kontak_darurat.dart';
+
+class BagianKontakDarurat extends StatelessWidget {
+  const BagianKontakDarurat({
+    super.key,
+    required this.contacts,
+    required this.onAddContact,
+    required this.onCallContact,
+  });
+
+  final List<KontakDarurat> contacts;
+  final VoidCallback onAddContact;
+  final ValueChanged<KontakDarurat> onCallContact;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Expanded(
+            child: Text(
+              'Kontak Pribadi',
+              style: TextStyle(
+                fontSize: SiagaTheme.judulBagian,
+                fontWeight: FontWeight.w700,
+                color: SiagaTheme.ink,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          TextButton(
+            onPressed: onAddContact,
+            style: TextButton.styleFrom(
+              foregroundColor: SiagaTheme.blue,
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              minimumSize: const Size(48, 48),
+            ),
+            child: const Text(
+              '+ Tambah',
+              style: TextStyle(
+                fontSize: SiagaTheme.isi,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 8),
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: SiagaTheme.border),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.02),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            for (int i = 0; i < contacts.length; i++) ...[
+              if (i > 0)
+                const Divider(height: 1, color: Color(0xFFF1F5F9), indent: 64),
+              _BarisKontak(
+                contact: contacts[i],
+                isFirst: i == 0,
+                onCall: () => onCallContact(contacts[i]),
+              ),
+            ],
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+class _BarisKontak extends StatelessWidget {
+  const _BarisKontak({
+    required this.contact,
+    required this.isFirst,
+    required this.onCall,
+  });
+
+  final KontakDarurat contact;
+  final bool isFirst;
+  final VoidCallback onCall;
+
+  @override
+  Widget build(BuildContext context) {
+    final avatarBg = isFirst
+        ? const Color(0xFFFEE2E2)
+        : const Color(0xFFDBEAFE);
+    final avatarFg = isFirst
+        ? const Color(0xFFDC2626)
+        : const Color(0xFF2563EB);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: avatarBg,
+            child: Text(
+              contact.initials,
+              style: TextStyle(
+                fontSize: SiagaTheme.isi,
+                fontWeight: FontWeight.w800,
+                color: avatarFg,
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  contact.name,
+                  style: const TextStyle(
+                    fontSize: SiagaTheme.isi,
+                    fontWeight: FontWeight.w700,
+                    color: SiagaTheme.ink,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${contact.relation} • ${contact.phone}',
+                  style: const TextStyle(
+                    fontSize: SiagaTheme.keterangan,
+                    fontWeight: FontWeight.w500,
+                    color: SiagaTheme.muted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Material(
+            color: const Color(0xFFEFF6FF),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+              side: const BorderSide(color: Color(0xFFBFDBFE)),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: Semantics(
+              label: 'Kelola kontak ${contact.name}',
+              button: true,
+              child: InkWell(
+                onTap: onCall,
+                child: const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Center(
+                    child: Icon(
+                      Icons.more_horiz,
+                      size: 24,
+                      color: Color(0xFF2563EB),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
