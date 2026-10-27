@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Bugfix TTS Panduan Selamat:** `flutter_tts 4.x` menggunakan `1.0` sebagai
+  kecepatan normal di Android (bukan 0.5); `awaitSpeakCompletion(true)` mencegah
+  narasi bertumpuk (efek suara ganda/kali-2) akibat ketukan berulang.
+  Tes `mesin_suara_perangkat_test.dart` diperbarui untuk memverifikasi nilai 1.0.
+
 - Audit lanjutan UI warga: kamera/galeri dalam Edit Profil, kontak pribadi pindah
   ke direktori dengan CRUD, tambah dokumen berkategori dan nama tanpa spasi,
   riwayat dari input dengan detail melalui ketukan, hapus rute/posko, selaraskan

@@ -8,6 +8,14 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Perbaikan bug TTS Panduan Selamat 27 Oktober 2026. `flutter_tts 4.x` menggunakan
+skala `1.0 = kecepatan normal` di Android (bukan 0.5); komentar lama "Android
+plugin mengalikan nilai ini dua kali" tidak berlaku sejak versi 4. `awaitSpeakCompletion(true)`
+mencegah narasi bertumpuk akibat ketukan berulang. Commit `661e960`, branch `branch-rafi`;
+101 tes PASS; working tree bersih; tanpa push.
+
+### Riwayat audit UI/UX lanjutan
+
 Audit lanjutan mengikuti [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065).
 [Checklist lengkap](WORKSPACE.md#flutter-uiux-lanjutan) mencatat foto profil
 kamera/galeri dalam Edit Profil, kontak pribadi di Kontak Darurat, dokumen
@@ -16,7 +24,7 @@ penghapusan rute/posko, konsistensi tema, serta rate TTS normal dan guard putar.
 Beranda tidak diubah. Kontak/dokumen/riwayat ada selama sesi dan hilang setelah
 logout/aplikasi ditutup. ZIP tidak terenkripsi; server belum terhubung.
 101 tes PASS; bukti akhir lainnya ada pada WORKSPACE. Audio/HP NOT_RUN sesuai
-mandat. Baseline `6259a82`, branch `branch-rafi`; commit lokal, tanpa push.
+mandat. Baseline `6259a82`; lihat commit `661e960` untuk perbaikan TTS.
 
 ### Riwayat audit pertama
 
