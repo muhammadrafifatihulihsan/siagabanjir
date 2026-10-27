@@ -161,7 +161,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(registeredUser, 'Rahmat Hidayat');
       expect(
-        find.text('Simulasi pendaftaran untuk Rahmat Hidayat.'),
+        find.text('Pendaftaran berhasil. Selamat datang, Rahmat Hidayat.'),
         findsOneWidget,
       );
 

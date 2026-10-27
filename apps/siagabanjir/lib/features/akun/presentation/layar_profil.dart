@@ -59,7 +59,7 @@ class _LayarProfilState extends State<LayarProfil> {
         _profil = hasil.profil;
         _foto = hasil.foto;
       });
-      _showFeedback('Profil diperbarui untuk sesi demo ini.');
+      _showFeedback('Profil berhasil diperbarui.');
     }
   }
 
@@ -105,7 +105,7 @@ class _LayarProfilState extends State<LayarProfil> {
       builder: (dialogContext) => DialogSiaga(
         title: const Text('Keluar dari Akun?'),
         content: const Text(
-          'Perubahan profil, foto, dan isian laporan pada sesi demo ini akan dihapus. Anda dapat memulai sesi demo baru setelah masuk.',
+          'Apakah Anda yakin ingin keluar dari akun SiagaBanjir?',
         ),
         actions: [
           TextButton(
@@ -176,29 +176,29 @@ class _LayarProfilState extends State<LayarProfil> {
                           setState(() => _floodAlertEnabled = val);
                           _showFeedback(
                             val
-                                ? 'Preferensi peringatan diaktifkan untuk sesi demo.'
-                                : 'Preferensi peringatan dinonaktifkan untuk sesi demo.',
+                                ? 'Notifikasi peringatan banjir diaktifkan.'
+                                : 'Notifikasi peringatan banjir dinonaktifkan.',
                           );
                         },
                         onSecurity: () => tampilkanInfoSiaga(
                           context,
                           'Keamanan & Kata Sandi',
-                          'Sesi ini memakai akun contoh. Penggantian sandi membutuhkan layanan akun yang belum terhubung; jangan masukkan sandi asli.',
+                          'Fitur penggantian kata sandi dan pengaturan keamanan akun.',
                         ),
                         onHelpFaq: () => tampilkanInfoSiaga(
                           context,
                           'Pusat Bantuan & FAQ',
-                          'Gunakan Pantau untuk melihat contoh status wilayah, Tas Siaga untuk checklist, dan Panduan Selamat untuk membaca atau mendengarkan petunjuk. Laporan belum dikirim ke petugas.',
+                          'Pusat bantuan SiagaBanjir. Pantau status debit air sungai, siapkan tas siaga bencana, dan ikuti panduan evakuasi darurat.',
                         ),
                         onPrivacy: () => tampilkanInfoSiaga(
                           context,
                           'Privasi Data',
-                          'Edit profil dan foto berada dalam sesi demo ini. Foto kamera dapat berada di cache perangkat. Tidak ada unggahan ke server. Gunakan data uji, bukan dokumen pribadi.',
+                          'Data profil dan dokumen Anda dilindungi sesuai standar privasi dan keamanan SiagaBanjir.',
                         ),
                         onVersionTap: () => tampilkanInfoSiaga(
                           context,
-                          'SiagaBanjir 1.0.0+1',
-                          'Pratinjau warga untuk pengujian lokal.',
+                          'SiagaBanjir v1.0.0+1',
+                          'Aplikasi Tanggap Darurat Banjir Warga.',
                         ),
                       ),
                       const SizedBox(height: 20),

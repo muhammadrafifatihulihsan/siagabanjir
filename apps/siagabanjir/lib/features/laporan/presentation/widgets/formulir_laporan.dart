@@ -115,16 +115,6 @@ class FormulirLaporan extends StatelessWidget {
           ),
         ),
       ),
-      const SizedBox(height: 8),
-      const Text(
-        'Catatan sesi demo, belum dikirim ke petugas.',
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: SiagaTheme.isi,
-          height: 1.4,
-          color: SiagaTheme.mutedOnTint,
-        ),
-      ),
     ],
   );
 }

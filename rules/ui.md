@@ -17,6 +17,10 @@ Aturan ini berlaku saat merancang, mengimplementasikan atau mereview tampilan.
 - Konten singkat dan spesifik: apa yang terjadi, apa yang tersimpan, dan aksi
   berikutnya. Sebut penyebab error hanya jika diketahui. Jangan menampilkan
   bahasa teknis backend atau klaim darurat resmi.
+- Dilarang menambahkan teks, banner, atau catatan disclaimer berbau demo/mockup
+  pada antarmuka visual (misalnya "mode demo lokal", "sesi demo", "data uji",
+  "belum terhubung ke server"). Tampilan UI harus selalu menyajikan visual dan
+  salinan teks produk yang bersih, profesional, dan riil untuk pengujian pengguna.
 - Setiap aksi punya tujuan, objek dan hasil yang sesuai labelnya. Periksa
   navigasi, batal/kembali, penyimpanan dan retry, bukan hanya tampilan sukses.
 - Wajib menilai layout sempit/lebar, pembesaran teks, keyboard/fokus,

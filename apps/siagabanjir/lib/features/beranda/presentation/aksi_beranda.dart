@@ -3,7 +3,7 @@ enum AksiBeranda {
   notifications(
     'Notifikasi',
     'notifications',
-    'Tiga pemberitahuan contoh untuk melihat tampilan beranda.',
+    'Pusat informasi dan pemberitahuan peringatan banjir terkini.',
   ),
   monitor(
     'Pantau Wilayah',
@@ -13,7 +13,7 @@ enum AksiBeranda {
   contacts(
     'Kontak Darurat',
     'contacts',
-    'Tempat menemukan kontak posko dan nomor penting. Mockup ini tidak melakukan panggilan.',
+    'Tempat menemukan kontak posko dan nomor penting darurat.',
   ),
   bag(
     'Tas Siaga',
@@ -28,22 +28,22 @@ enum AksiBeranda {
   documents(
     'Dokumen Siaga Keluarga',
     'documents',
-    'Tempat mengelola KK, KTP, dan berkas penting. Tidak ada dokumen pribadi pada mockup ini.',
+    'Tempat mengelola KK, KTP, dan berkas penting keluarga.',
   ),
   report(
     'Lapor Banjir Cepat',
     'camera',
-    'Tempat memulai laporan banjir. Kamera tersedia; analisis dan pengiriman belum terhubung.',
+    'Laporkan kondisi genangan dan banjir di sekitar Anda secara cepat.',
   ),
   history(
     'Riwayat Laporan',
     'history',
-    'Tempat melihat laporan yang pernah dikirim. Belum ada laporan sungguhan pada mockup ini.',
+    'Lihat daftar dan status riwayat laporan kejadian banjir yang Anda kirimkan.',
   ),
   profile(
     'Profil',
     'profile',
-    'Tempat mengelola akun dan profil. Mockup ini tidak menggunakan sesi akun.',
+    'Kelola data pribadi, informasi domisili, dan preferensi akun SiagaBanjir.',
   ),
   family(
     'Data Keluarga',
@@ -53,7 +53,7 @@ enum AksiBeranda {
   all(
     'Akses Kesiapsiagaan',
     'home',
-    'Pilih fitur untuk mencoba pintu masuk dari beranda.',
+    'Pilih menu layanan siaga bencana banjir yang tersedia.',
   );
 
   const AksiBeranda(this.title, this.icon, this.description);

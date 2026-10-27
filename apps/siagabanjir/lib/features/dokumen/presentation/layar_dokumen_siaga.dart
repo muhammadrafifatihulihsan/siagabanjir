@@ -229,7 +229,7 @@ class _LayarDokumenSiagaState extends State<LayarDokumenSiaga> {
                     padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
                     children: [
                       const Text(
-                        'Tambahkan KTP, KK, atau dokumen pendukung. Berkas tersedia selama sesi demo; ekspor ZIP untuk menyimpan salinan.',
+                        'Simpan salinan digital KTP, KK, dan dokumen penting keluarga agar aman dan mudah diakses saat darurat.',
                       ),
                       const SizedBox(height: 16),
                       FilledButton.icon(

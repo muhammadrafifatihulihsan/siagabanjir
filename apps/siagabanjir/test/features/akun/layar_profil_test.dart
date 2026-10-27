@@ -79,7 +79,7 @@ void main() {
     expect(find.text('Pusat Bantuan & FAQ'), findsOneWidget);
     expect(find.text('Kebijakan Privasi Data'), findsOneWidget);
     expect(find.text('Versi Aplikasi'), findsOneWidget);
-    expect(find.text('v1.0.0+1 (Demo)'), findsOneWidget);
+    expect(find.text('v1.0.0+1'), findsOneWidget);
 
     // Logout button
     await tester.scrollUntilVisible(find.text('Keluar dari Akun'), 200);
@@ -119,7 +119,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.widget<Switch>(switchFinder).value, isFalse);
     expect(
-      find.text('Preferensi peringatan dinonaktifkan untuk sesi demo.'),
+      find.text('Notifikasi peringatan banjir dinonaktifkan.'),
       findsOneWidget,
     );
 

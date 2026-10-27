@@ -104,7 +104,7 @@ void main() {
     // Aksi berbagi masih tersedia.
     await tester.tap(find.text('Bagikan'));
     await tester.pumpAndSettle();
-    expect(find.text('Salin Teks Contoh'), findsOneWidget);
+    expect(find.text('Salin Pesan'), findsOneWidget);
     expect(find.text('Mengerti'), findsOneWidget);
     await tester.tap(find.text('Mengerti'));
     await tester.pumpAndSettle();

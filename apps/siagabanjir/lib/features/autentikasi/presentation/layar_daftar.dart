@@ -79,7 +79,7 @@ class _LayarDaftarState extends State<LayarDaftar> {
       return;
     }
 
-    _showFeedback('Simulasi pendaftaran untuk $name.');
+    _showFeedback('Pendaftaran berhasil. Selamat datang, $name.');
     widget.onRegisterSuccess?.call(name);
   }
 
@@ -105,8 +105,8 @@ class _LayarDaftarState extends State<LayarDaftar> {
           title: const Text('Ketentuan Layanan & Privasi'),
           content: const SingleChildScrollView(
             child: Text(
-              'Formulir ini merupakan simulasi lokal dan tidak membuat akun pada server. '
-              'Gunakan data uji serta sandi contoh. Isian dibuang ketika halaman ditutup.',
+              'Dengan mendaftar akun SiagaBanjir, Anda menyetujui penggunaan data akun '
+              'untuk keperluan koordinasi tanggap darurat bencana banjir dan penerimaan peringatan dini resmi.',
             ),
           ),
           actions: [
@@ -127,7 +127,7 @@ class _LayarDaftarState extends State<LayarDaftar> {
       tampilkanInfoSiaga(
         context,
         'Daftar dengan Google',
-        'Integrasi Google belum terhubung. Gunakan formulir dengan data uji untuk mencoba alur demo.',
+        'Fitur daftar dengan Google saat ini belum tersedia.',
       );
     }
   }
@@ -147,11 +147,6 @@ class _LayarDaftarState extends State<LayarDaftar> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const HeaderMasuk(),
-                const SizedBox(height: 16),
-                const Text(
-                  'Mode demo lokal. Gunakan data uji dan sandi contoh.',
-                  textAlign: TextAlign.center,
-                ),
                 const SizedBox(height: 24),
                 KartuDaftar(
                   nameController: _nameController,

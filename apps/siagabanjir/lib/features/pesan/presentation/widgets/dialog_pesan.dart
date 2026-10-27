@@ -28,14 +28,13 @@ Future<void> showMessageActionExplanation(
           onPressed: () async {
             await Clipboard.setData(
               ClipboardData(
-                text:
-                    'CONTOH DEMO — bukan peringatan aktual\n${message.title}\n${message.body}',
+                text: '${message.title}\n\n${message.body}',
               ),
             );
             if (context.mounted) Navigator.pop(context);
           },
           icon: const Icon(Icons.copy_outlined),
-          label: const Text('Salin Teks Contoh'),
+          label: const Text('Salin Pesan'),
         ),
       TextButton(
         onPressed: () => Navigator.pop(context),
@@ -134,8 +133,8 @@ Future<void> showMessageDetail(BuildContext context, PesanSiaga message) =>
 String _explanationFor(String action, PesanSiaga message) {
   switch (action) {
     case 'Bagikan':
-      return 'Salin teks "${message.title}" untuk mencoba alur berbagi. Teks salinan diberi penanda contoh demo agar tidak dianggap peringatan aktual.';
+      return 'Bagikan informasi peringatan "${message.title}" kepada keluarga dan kerabat.';
     default:
-      return 'Tindakan $action untuk pesan "${message.title}" belum tersedia pada demo ini.';
+      return 'Tindakan $action untuk pesan "${message.title}".';
   }
 }

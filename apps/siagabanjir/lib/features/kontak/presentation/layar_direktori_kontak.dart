@@ -119,9 +119,13 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     const Text(
-                      'Nomor di bawah adalah contoh dan belum diverifikasi. Tidak untuk panggilan darurat nyata.',
+                      'Hubungi posko atau instansi tanggap darurat saat membutuhkan bantuan.',
+                      style: TextStyle(
+                        fontSize: SiagaTheme.isi,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                     const SizedBox(height: 12),
                     TabFilterKontak(

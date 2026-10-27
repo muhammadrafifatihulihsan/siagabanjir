@@ -74,9 +74,13 @@ class _LayarKeluargaState extends State<LayarKeluarga> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 4),
                     const Text(
-                      'Catatan lokal selama halaman ini terbuka. Gunakan data uji; informasi belum dikirim ke petugas.',
+                      'Kelola daftar anggota keluarga dan kebutuhan khusus saat evakuasi bencana.',
+                      style: TextStyle(
+                        fontSize: SiagaTheme.isi,
+                        color: Color(0xFF64748B),
+                      ),
                     ),
                     const SizedBox(height: 20),
                     FilledButton.icon(

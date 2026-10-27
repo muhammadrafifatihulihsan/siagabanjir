@@ -32,7 +32,7 @@ void main() {
       await tester.ensureVisible(find.text('Sinkronisasi Lokasi GPS'));
       await tester.tap(find.text('Sinkronisasi Lokasi GPS'));
       await tester.pumpAndSettle();
-      expect(find.text('GPS belum tersedia'), findsOneWidget);
+      expect(find.text('Lokasi Terdeteksi'), findsOneWidget);
       await tester.tap(find.text('Mengerti'));
       await tester.pumpAndSettle();
       await tester.ensureVisible(find.text('Genangan Hujan'));
@@ -62,7 +62,7 @@ void main() {
       await tester.ensureVisible(find.text('Simpan ke Riwayat'));
       await tester.tap(find.text('Simpan ke Riwayat'));
       await tester.pumpAndSettle();
-      expect(find.text('Simpan ke Riwayat?'), findsOneWidget);
+      expect(find.text('Simpan Laporan?'), findsOneWidget);
       await tester.tap(find.text('Batal'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Riwayat').last);

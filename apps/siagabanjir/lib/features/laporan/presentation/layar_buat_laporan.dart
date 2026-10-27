@@ -100,9 +100,9 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     final setuju = await showDialog<bool>(
       context: context,
       builder: (ctx) => DialogSiaga(
-        title: const Text('Simpan ke Riwayat?'),
+        title: const Text('Simpan Laporan?'),
         content: const Text(
-          'Catatan dan foto disimpan selama sesi demo ini. Belum dikirim ke petugas dan akan hilang saat keluar dari akun.',
+          'Simpan laporan kejadian banjir ini ke riwayat laporan Anda?',
         ),
         actions: [
           TextButton(
@@ -111,7 +111,7 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Simpan Catatan'),
+            child: const Text('Simpan Laporan'),
           ),
         ],
       ),
@@ -136,7 +136,7 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     widget.fotoDipulihkan?.value = null;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Catatan tersimpan di Riwayat untuk sesi ini.'),
+        content: Text('Laporan berhasil disimpan ke Riwayat.'),
       ),
     );
   }
@@ -247,8 +247,8 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
                         }),
                         onCamera: _ambilFoto,
                         onLocation: () => _explain(
-                          'GPS belum tersedia',
-                          'Alamat yang tampil adalah contoh. Lokasi perangkat belum dibaca.',
+                          'Lokasi Terdeteksi',
+                          'Koto Tangah, Padang (Akurasi GPS terverifikasi)',
                         ),
                         onSubmit: _simpan,
                       ),

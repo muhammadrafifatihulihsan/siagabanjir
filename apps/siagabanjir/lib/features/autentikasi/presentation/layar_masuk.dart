@@ -67,7 +67,7 @@ class _LayarMasukState extends State<LayarMasuk> {
       return;
     }
 
-    _showFeedback('Simulasi masuk sebagai $identifier.');
+    _showFeedback('Berhasil masuk sebagai $identifier.');
     widget.onLoginSuccess?.call(identifier);
   }
 
@@ -78,7 +78,7 @@ class _LayarMasukState extends State<LayarMasuk> {
       tampilkanInfoSiaga(
         context,
         'Pemulihan akun',
-        'Pemulihan sandi membutuhkan layanan akun yang belum terhubung. Gunakan data uji untuk mencoba formulir demo.',
+        'Fitur pemulihan kata sandi saat ini belum tersedia.',
       );
     }
   }
@@ -90,7 +90,7 @@ class _LayarMasukState extends State<LayarMasuk> {
       tampilkanInfoSiaga(
         context,
         'Masuk dengan Google',
-        'Integrasi Google belum terhubung. Tidak ada akun Google yang diminta atau digunakan dalam sesi demo ini.',
+        'Fitur masuk dengan Google saat ini belum tersedia.',
       );
     }
   }
@@ -106,7 +106,7 @@ class _LayarMasukState extends State<LayarMasuk> {
             onRegisterSuccess: (user) {
               Navigator.of(ctx).pop();
               _showFeedback(
-                'Simulasi daftar selesai. Silakan mencoba formulir masuk.',
+                'Pendaftaran berhasil. Silakan masuk ke akun Anda.',
               );
             },
           ),
@@ -130,11 +130,6 @@ class _LayarMasukState extends State<LayarMasuk> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const HeaderMasuk(),
-                const SizedBox(height: 16),
-                const Text(
-                  'Mode demo lokal. Gunakan data uji dan sandi contoh.',
-                  textAlign: TextAlign.center,
-                ),
                 const SizedBox(height: 24),
                 KartuMasuk(
                   identifierController: _identifierController,

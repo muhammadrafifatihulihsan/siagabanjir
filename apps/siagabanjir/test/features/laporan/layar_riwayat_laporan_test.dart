@@ -29,7 +29,7 @@ void main() {
       await t.ensureVisible(find.text('Simpan ke Riwayat'));
       await t.tap(find.text('Simpan ke Riwayat'));
       await t.pumpAndSettle();
-      await t.tap(find.text('Simpan Catatan'));
+      await t.tap(find.text('Simpan Laporan'));
       await t.pumpAndSettle();
       await t.tap(find.text('Riwayat'));
       await t.pumpAndSettle();
