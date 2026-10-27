@@ -26,7 +26,7 @@ void main() {
     await mesin.putar('Panduan');
     expect(
       calls.singleWhere((c) => c.method == 'setSpeechRate').arguments,
-      1.0,
+      0.5,
     );
     expect(calls.singleWhere((c) => c.method == 'setPitch').arguments, 1.0);
     expect(

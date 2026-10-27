@@ -8,11 +8,11 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Perbaikan bug TTS Panduan Selamat 27 Oktober 2026. `flutter_tts 4.x` menggunakan
-skala `1.0 = kecepatan normal` di Android (bukan 0.5); komentar lama "Android
-plugin mengalikan nilai ini dua kali" tidak berlaku sejak versi 4. `awaitSpeakCompletion(true)`
-mencegah narasi bertumpuk akibat ketukan berulang. Commit `661e960`, branch `branch-rafi`;
-101 tes PASS; working tree bersih; tanpa push.
+Perbaikan bug TTS Panduan Selamat dan release v0.2.0 pada 27 Oktober 2026.
+Kecepatan TTS dipilih 0.5 (setengah kecepatan, lebih lambat dan jelas untuk
+panduan darurat) setelah uji pengguna di HP. `awaitSpeakCompletion(true)` mencegah
+narasi bertumpuk. Tag `v0.2.0` dibuat di SHA `1dc6534` dan dipush; workflow
+release GitHub berjalan. Commit terbaru `1dc6534`, branch `branch-rafi`; 101 tes PASS.
 
 ### Riwayat audit UI/UX lanjutan
 

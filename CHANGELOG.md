@@ -7,15 +7,18 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
-- **Bugfix TTS Panduan Selamat:** `flutter_tts 4.x` menggunakan `1.0` sebagai
-  kecepatan normal di Android (bukan 0.5); `awaitSpeakCompletion(true)` mencegah
-  narasi bertumpuk (efek suara ganda/kali-2) akibat ketukan berulang.
-  Tes `mesin_suara_perangkat_test.dart` diperbarui untuk memverifikasi nilai 1.0.
+## [0.2.0] — 2026-10-27
 
-- Audit lanjutan UI warga: kamera/galeri dalam Edit Profil, kontak pribadi pindah
-  ke direktori dengan CRUD, tambah dokumen berkategori dan nama tanpa spasi,
-  riwayat dari input dengan detail melalui ketukan, hapus rute/posko, selaraskan
-  ikon/tombol/dialog, serta rate TTS normal eksplisit dan pencegahan putar ganda.
+- **Panduan Selamat — perbaikan TTS:** kecepatan narasi kini eksplisit 0.5
+  (setengah kecepatan, lebih lambat dan jelas untuk panduan darurat);
+  `awaitSpeakCompletion(true)` mencegah narasi bertumpuk akibat ketukan berulang.
+  Tes `mesin_suara_perangkat_test.dart` memverifikasi nilai tersebut.
+
+- **Audit lanjutan UI warga:** foto profil via Edit Profil (kamera/galeri),
+  kontak pribadi CRUD di Kontak Darurat, alur dokumen tambah-kategori-simpan,
+  riwayat dari input formulir dengan detail ketukan, header bersama `HeaderHalaman`,
+  konsistensi tema tombol/dialog, penghapusan rute/posko dari panduan.
+  Beranda tidak diubah. Kontak/dokumen/riwayat ada selama sesi (demo lokal).
   [Bukti dan batas](docs/WORKSPACE.md#flutter-uiux-lanjutan).
 
 - Audit UI/UX warga: token teks mengikuti Beranda, navigasi langsung, empat tab

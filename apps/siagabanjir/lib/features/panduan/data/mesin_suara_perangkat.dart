@@ -17,8 +17,8 @@ class MesinSuaraPerangkat implements MesinSuara {
       throw StateError('Suara bahasa Indonesia belum tersedia pada perangkat.');
     }
     await _tts.setLanguage('id-ID');
-    // flutter_tts 4.x: skala 1.0 = kecepatan normal pada Android dan Web.
-    // Nilai 0.5 pada versi ini berarti setengah kecepatan (bukan normal).
+    // flutter_tts 4.x: skala 1.0 = normal, 0.5 = setengah kecepatan.
+    // Sengaja dipilih 0.5 agar narasi panduan darurat lebih lambat dan jelas.
     await _tts.setSpeechRate(0.5);
     await _tts.setPitch(1.0);
     // awaitSpeakCompletion(true) memastikan setiap speak() selesai sebelum
