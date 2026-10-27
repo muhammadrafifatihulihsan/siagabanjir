@@ -61,11 +61,12 @@ untuk mendekati desain, bukan verifikasi jenis font asli Figma.
   status resmi, berkas tersimpan atau aturan kuota produk.
 - Konten dapat digulir, header/navigasi tetap terlihat. Teks besar mengubah
   grid menjadi satu kolom; lebar konten dibatasi 600 logical pixels pada Web.
-- Lapor membuka halaman buat laporan; tombol lain membuka panel pratinjau
-  dengan jalan kembali. Tidak mengirim laporan,
-  mengakses kamera/lokasi, menelepon, membaca dokumen atau melakukan login.
+- Navigasi saat ini membuka layar lokal atau panel sesuai
+  [peta beranda](../README.md#mockup-beranda-warga). Tidak mengirim laporan,
+  mengambil lokasi, menelepon atau melakukan login server. Kamera, TTS serta
+  pemilihan/ekspor berkas lokal kini tersedia sesuai [audit UI/UX](../../../docs/WORKSPACE.md#flutter-uiux).
 - Beranda dipilih pada navbar selama panel tampil; tombol Beranda kembali ke
-  atas. Menu Lengkap meneruskan ke panel fitur lain tanpa menumpuk panel.
+  atas. Menu Lengkap meneruskan ke layar fitur tanpa menumpuk panel.
 
 Build pratinjau memakai `flutter build web --no-web-resources-cdn --no-wasm-dry-run`;
 renderer dan font fallback dasar dilayani dari build lokal. Ini bukan pemasangan
@@ -145,6 +146,9 @@ screenshot Android. [Layar sempit](reports-create-mobile-preview.png) memakai
 
 ## Kotak masuk peringatan siaga
 
+Uraian SVG di bawah adalah riwayat. Revisi WS-DEC-065 menghapus pesan/filter
+posko dan aksi rute; Bagikan menyalin teks bertanda contoh demo.
+
 Pemilik memberikan messages_inbox.svg pada 25 Oktober 2026 sebagai acuan desain
 kotak masuk peringatan siaga warga. [Salinan sumber](messages_inbox.svg)
 berukuran 390 x 1094; sumber dipertahankan sebagai acuan desain lokal.
@@ -166,7 +170,7 @@ ke beranda dan fitur lainnya.
 Pemilik memberikan emergency_bag_checklist.svg pada 26 Oktober 2026 sebagai acuan
 desain halaman checklist tas siaga bencana warga. [Salinan sumber](emergency_bag_checklist.svg)
 berukuran 390 x 1283; sumber dipertahankan sebagai acuan desain lokal.
-Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/presentation`:
+Layar dibangun menggunakan widget Flutter di `lib/features/tas_siaga/presentation`:
 
 - Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Tas Siaga Bencana".
 - Kartu ringkasan kesiapan logistik keluarga dengan badge persentase dinamis, penghitung jumlah barang (default 12 dari 14 Barang), progress bar biru, dan deskripsi kebutuhan 3 hari mandiri.
@@ -181,11 +185,9 @@ Layar dibangun menggunakan widget Flutter di `lib/features/emergency_bag/present
 Pemilik memberikan documents_vault.svg pada 26 Oktober 2026 sebagai acuan desain
 halaman brankas dokumen siaga keluarga. [Salinan sumber](documents_vault.svg)
 berukuran 390 x 1008; sumber dipertahankan sebagai acuan desain lokal.
-Layar dibangun menggunakan widget Flutter di `lib/features/documents/presentation`:
-
-- Header dengan tombol kembali (rounded 14, border `#E2E8F0`, touch target 48) dan judul "Dokumen Siaga".
-- Kartu ringkasan Dokumen Siaga Keluarga dengan persentase kesiapan (100%), progress bar biru, penghitung berkas (3 dari 3 Berkas Tersimpan), dan status "Siap Darurat".
-- Tiga kartu berkas dokumen siaga (Kartu Keluarga, KTP Elektronik dengan badge "Vital", dan Akta Kelahiran Anak) dengan nama berkas, metadata format/ukuran/status pembaruan, tombol aksi "Ganti" (dengan dialog demo pemilihan berkas baru), dan badge status "Tersimpan".
-- Banner panduan keamanan dokumen beraksen biru dengan ikon perisai, badge "Vital", dan 6 poin panduan penyimpanan kedap air, legalisir, enkripsi, dan kesiapan darurat.
-- Dua tombol aksi di bawah: tombol primer "Simpan & Enkripsi Dokumen Siaga" (biru `#2563EB` dengan ikon centang) dan tombol sekunder "Unduh Semua Berkas Digital (ZIP)" (putih dengan border `#E2E8F0` dan ikon unduh).
-- Navigasi bawah menggunakan CitizenNavigation bersama yang terhubung kembali ke Beranda, Lapor, Riwayat, dan Profil.
+Layar aktif berada di `lib/features/dokumen/presentation`. Revisi pemilik
+WS-DEC-065 mengganti slot tetap SVG menjadi daftar kosong/dinamis: Tambah Dokumen,
+pilih PDF/gambar atau scan kamera, kategori KTP/KK/Lainnya dan nama sendiri,
+konfirmasi hasil sesi, hapus dan ekspor ZIP. Badge format dekoratif dihapus.
+Sumber SVG tetap disimpan sebagai riwayat, tidak ditimpa desain baru.
+[Keputusan dan bukti](../../../docs/WORKSPACE.md#flutter-uiux-lanjutan).
