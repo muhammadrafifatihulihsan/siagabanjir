@@ -19,7 +19,7 @@ class MesinSuaraPerangkat implements MesinSuara {
     await _tts.setLanguage('id-ID');
     // flutter_tts 4.x: skala 1.0 = kecepatan normal pada Android dan Web.
     // Nilai 0.5 pada versi ini berarti setengah kecepatan (bukan normal).
-    await _tts.setSpeechRate(1.0);
+    await _tts.setSpeechRate(0.5);
     await _tts.setPitch(1.0);
     // awaitSpeakCompletion(true) memastikan setiap speak() selesai sebelum
     // permintaan berikutnya, mencegah narasi bertumpuk (suara ganda/cepat).
