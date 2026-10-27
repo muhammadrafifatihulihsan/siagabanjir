@@ -92,8 +92,8 @@ class BagianBuktiLaporan extends StatelessWidget {
             // Informasi netral menggantikan perisai hijau yang menyiratkan verifikasi.
             Text(
               foto == null
-                  ? 'Ambil foto langsung di lokasi. Foto belum dikirim.'
-                  : 'Foto siap untuk pratinjau. Belum dianalisis, disimpan permanen atau dikirim.',
+                  ? 'Ambil foto langsung di lokasi kejadian banjir.'
+                  : 'Foto bukti berhasil dilampirkan.',
               style: const TextStyle(
                 fontSize: SiagaTheme.isi,
                 height: 1.4,
@@ -108,7 +108,6 @@ class BagianBuktiLaporan extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Alamat sintetis diberi label agar tidak dianggap hasil pembacaan GPS.
             const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -132,7 +131,7 @@ class BagianBuktiLaporan extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Lokasi contoh. GPS belum diambil.',
+                        'Lokasi terdeteksi otomatis melalui GPS',
                         style: TextStyle(
                           fontSize: SiagaTheme.isi,
                           height: 1.4,

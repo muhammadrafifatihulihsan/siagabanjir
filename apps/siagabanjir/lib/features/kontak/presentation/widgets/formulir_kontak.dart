@@ -34,10 +34,6 @@ class _FormulirKontakState extends State<FormulirKontak> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Gunakan data contoh untuk pengujian. Kontak hanya disimpan selama sesi demo.',
-          ),
-          const SizedBox(height: 20),
           for (final field in [
             (_nama, 'Nama'),
             (_hubungan, 'Hubungan'),

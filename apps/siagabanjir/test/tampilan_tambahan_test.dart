@@ -69,9 +69,9 @@ void main() {
       await t.pumpAndSettle();
       await t.tap(find.text('Bagikan'));
       await t.pumpAndSettle();
-      await t.tap(find.text('Salin Teks Contoh'));
+      await t.tap(find.text('Salin Pesan'));
       await t.pumpAndSettle();
-      expect(salinan, startsWith('CONTOH DEMO'));
+      expect(salinan, startsWith(kSampleSiagaMessages.first.title));
       expect(salinan, contains(kSampleSiagaMessages.first.body));
       expect(t.takeException(), isNull);
     },

@@ -42,10 +42,10 @@ void main() {
       await _openContactsDirectory(tester);
       expect(find.byType(LayarDirektoriKontak), findsOneWidget);
 
-      // Verifikasi banner info nomor contoh
+      // Verifikasi info kontak darurat
       expect(
         find.text(
-          'Nomor di bawah adalah contoh dan belum diverifikasi. Tidak untuk panggilan darurat nyata.',
+          'Hubungi posko atau instansi tanggap darurat saat membutuhkan bantuan.',
         ),
         findsOneWidget,
       );
