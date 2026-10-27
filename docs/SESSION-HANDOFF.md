@@ -8,11 +8,14 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Perbaikan bug TTS Panduan Selamat dan release v0.2.0 pada 27 Oktober 2026.
+Perbaikan bug TTS Panduan Selamat, upload APK release v0.2.0 (`siagabanjir-v0.2.0-debug.apk`), dan implementasi 100% GitHub Community Standards pada 27 Oktober 2026.
 Kecepatan TTS dipilih 0.5 (setengah kecepatan, lebih lambat dan jelas untuk
 panduan darurat) setelah uji pengguna di HP. `awaitSpeakCompletion(true)` mencegah
-narasi bertumpuk. Tag `v0.2.0` dibuat di SHA `1dc6534` dan dipush; workflow
-release GitHub berjalan. Commit terbaru `1dc6534`, branch `branch-rafi`; 101 tes PASS.
+narasi bertumpuk. Release GitHub `v0.2.0` berstatus Latest Release dengan aset APK
+berhasil terpasang. Ditambahkan berkas standar komunitas berstandar industri:
+`CODE_OF_CONDUCT.md` (Contributor Covenant v2.1), `CONTRIBUTING.md`, dan `SECURITY.md`.
+Dokumentasi diselaraskan pada `INDEX.md`, `WORKSPACE.md`, dan `VERSIONING.md`.
+Commit terbaru pada branch `branch-rafi`; 101 tes Flutter PASS.
 
 ### Riwayat audit UI/UX lanjutan
 

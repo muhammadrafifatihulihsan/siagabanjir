@@ -23,6 +23,8 @@ dinyatakan siap digunakan. Pengujian aplikasi/provider/perangkat/UAT tetap NOT_R
 GitHub Release adalah publikasi pada tag tertentu, dengan catatan perubahan
 dan arsip repository. GitHub menyediakan unduhan ZIP/tarball otomatis; aset
 aplikasi ditambahkan hanya ketika tersedia dan telah diverifikasi.
+Setiap release yang dipublikasikan untuk milestone demo berstatus Latest Release
+(`prerelease: false`), kecuali jika pengguna secara khusus meminta penanda pra-rilis.
 Push branch biasa tidak membuat release.
 Sumber: [GitHub Releases](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases).
 
