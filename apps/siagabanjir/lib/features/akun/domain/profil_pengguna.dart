@@ -8,7 +8,7 @@ class ProfilPengguna {
     required this.email,
     required this.address,
     this.floodAlertEnabled = true,
-    this.appVersion = 'v1.0.0+1 (Demo)',
+    this.appVersion = 'v1.0.0+1',
   });
 
   final String name;

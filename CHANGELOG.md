@@ -7,6 +7,15 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Pembersihan visual UI produk riil:** Menghilangkan seluruh teks, banner, dialog,
+  dan feedback snackbar bernuansa disclaimer "mode demo lokal", "sesi demo", "data uji",
+  dan teks defensif sejenis di seluruh layar Flutter (`apps/siagabanjir`), mencakup layar masuk,
+  daftar, profil, formulir/riwayat laporan, kontak darurat, keluarga, dokumen siaga,
+  pesan peringatan, dan deskripsi menu beranda. Versi aplikasi diselaraskan menjadi `v1.0.0+1`.
+- **Aturan mutu UI (`rules/ui.md`):** Menambahkan aturan eksplisit yang melarang
+  teks/banner disclaimer demo pada antarmuka visual agar UI selalu menyajikan tampilan
+  produk yang bersih, profesional, dan riil untuk pengujian visual pengguna.
+
 ## [0.2.0] — 2026-10-27
 
 - **Panduan Selamat — perbaikan TTS:** kecepatan narasi kini eksplisit 0.5

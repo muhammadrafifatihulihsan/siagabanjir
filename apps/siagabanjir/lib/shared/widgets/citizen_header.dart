@@ -65,7 +65,7 @@ class CitizenHeader extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Semantics(
-          label: 'Notifikasi, 3 pemberitahuan contoh',
+          label: 'Notifikasi, 3 pemberitahuan',
           button: true,
           onTap: onNotifications,
           child: Tooltip(

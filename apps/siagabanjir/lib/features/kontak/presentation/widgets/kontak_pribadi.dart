@@ -97,8 +97,6 @@ class KontakPribadi extends StatelessWidget {
         ),
         if (daftar.isEmpty)
           const Text('Tambahkan keluarga atau orang yang dapat Anda hubungi.'),
-        const SizedBox(height: 8),
-        const Text('Kontak pribadi tersimpan selama sesi demo ini.'),
       ],
     ),
   );

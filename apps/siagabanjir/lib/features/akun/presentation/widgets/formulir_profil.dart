@@ -89,7 +89,7 @@ class _FormulirProfilState extends State<FormulirProfil> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            'Perubahan disimpan selama sesi demo ini. Email dan NIK tidak diubah melalui formulir ini.',
+            'Email dan NIK tidak dapat diubah melalui formulir ini.',
           ),
           const SizedBox(height: 20),
           if (_foto != null)

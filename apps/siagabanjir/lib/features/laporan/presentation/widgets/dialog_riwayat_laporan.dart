@@ -31,10 +31,6 @@ Future<void> showReportHistoryDetailDialog(
                 const Text('Pratinjau foto tidak tersedia.'),
           ),
         ],
-        const SizedBox(height: 16),
-        const Text(
-          'Catatan sesi demo. Belum dikirim ke petugas; lokasi perangkat belum dibaca.',
-        ),
       ],
     ),
     actions: [

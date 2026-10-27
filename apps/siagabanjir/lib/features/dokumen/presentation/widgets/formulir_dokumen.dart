@@ -58,10 +58,6 @@ class _FormulirDokumenState extends State<FormulirDokumen> {
                   : null,
             ),
           ],
-          const SizedBox(height: 16),
-          const Text(
-            'Dokumen tersedia selama sesi demo. Ekspor ZIP untuk menyimpan salinan; belum diunggah ke server.',
-          ),
         ],
       ),
     ),

@@ -102,7 +102,7 @@ class _LayarRiwayatLaporanState extends State<LayarRiwayatLaporan> {
                         ),
                         const SizedBox(height: 4),
                         const Text(
-                          'Catatan yang Anda simpan selama sesi demo. Ketuk laporan untuk melihat detail.',
+                          'Daftar laporan banjir yang telah Anda kirimkan. Ketuk laporan untuk melihat detail.',
                           style: TextStyle(
                             fontSize: SiagaTheme.isi,
                             fontWeight: FontWeight.w500,
