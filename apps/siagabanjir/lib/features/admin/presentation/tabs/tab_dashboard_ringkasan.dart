@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../../domain/klaster_wilayah.dart';
 import '../../domain/state_admin_siaga.dart';
 import '../widgets/admin_sidebar.dart';
-import '../widgets/modal_bukti_wilayah.dart';
+import '../widgets/kartu_klaster_admin.dart';
+import '../widgets/tata_letak_admin.dart';
 
 class TabDashboardRingkasan extends StatelessWidget {
   const TabDashboardRingkasan({
@@ -11,416 +12,113 @@ class TabDashboardRingkasan extends StatelessWidget {
     required this.state,
     required this.onNavigateToTab,
   });
-
   final StateAdminSiaga state;
   final ValueChanged<AdminMenuTab> onNavigateToTab;
 
   @override
   Widget build(BuildContext context) {
-    final totalLaporan = state.semuaLaporan.length;
-    final klasterAktif = state.klasterList.length;
-    final menungguVerifikasi = state.semuaLaporan
-        .where((l) => l.statusVerifikasi != StatusVerifikasiWilayah.terverifikasi)
+    final menunggu = state.semuaLaporan
+        .where(
+          (l) => l.statusVerifikasi == StatusVerifikasiWilayah.menungguTinjauan,
+        )
         .length;
-    final pesanAktif = state.pesanSiaga.length;
-
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Banner Salam Petugas & Jam Operasional
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF1E3A8A), Color(0xFF2563EB)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              borderRadius: BorderRadius.circular(18),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x1A1E3A8A),
-                  blurRadius: 16,
-                  offset: Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.shield_outlined,
-                            color: Colors.white70,
-                            size: 16,
-                          ),
-                          SizedBox(width: 6),
-                          Text(
-                            'PUSDALOPS-PB BPBD KOTA PADANG',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              color: Colors.white70,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 11,
-                              letterSpacing: 0.5,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        'Selamat Bertugas, ${state.profilAdmin.nama}',
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.3,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      const Text(
-                        'Ringkasan klaster wilayah dan verifikasi laporan banjir warga Kota Padang.',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: const Color(0xFF1E3A8A),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () => onNavigateToTab(AdminMenuTab.pusatOperasional),
-                  icon: const Icon(Icons.campaign_rounded, size: 18),
-                  label: const Text(
-                    'Pusat Aksi',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Baris 4 Kartu Metrik KPI Utama
-          Row(
-            children: [
-              Expanded(
-                child: _buildKpiCard(
-                  title: 'Total Laporan',
-                  value: '$totalLaporan',
-                  sub: 'Laporan warga',
-                  icon: Icons.assignment_outlined,
-                  color: const Color(0xFF2563EB),
-                  bg: const Color(0xFFEFF6FF),
-                  onTap: () => onNavigateToTab(AdminMenuTab.laporanIndividu),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildKpiCard(
-                  title: 'Wilayah Terdampak',
-                  value: '$klasterAktif',
-                  sub: 'Klaster AI',
-                  icon: Icons.hub_outlined,
-                  color: const Color(0xFFD97706),
-                  bg: const Color(0xFFFEF3C7),
-                  onTap: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildKpiCard(
-                  title: 'Menunggu Verifikasi',
-                  value: '$menungguVerifikasi',
-                  sub: 'Perlu ditinjau',
-                  icon: Icons.pending_actions_outlined,
-                  color: const Color(0xFFDC2626),
-                  bg: const Color(0xFFFEE2E2),
-                  onTap: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: _buildKpiCard(
-                  title: 'Siaran Aktif',
-                  value: '$pesanAktif',
-                  sub: 'Pesan peringatan',
-                  icon: Icons.notifications_active_outlined,
-                  color: const Color(0xFF059669),
-                  bg: const Color(0xFFECFDF5),
-                  onTap: () => onNavigateToTab(AdminMenuTab.pusatOperasional),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 28),
-
-          // Wilayah Kritis Laporan Terbanyak (Klaster AI)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Wilayah dengan Laporan Terbanyak',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF0F172A),
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  Text(
-                    'Laporan warga dikelompokkan oleh AI berdasarkan radius dan waktu.',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-              TextButton.icon(
-                onPressed: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
-                icon: const Icon(Icons.arrow_forward_rounded, size: 16),
-                label: const Text(
-                  'Lihat Semua',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-
-          // List Klaster Wilayah Ringkas
-          ...state.klasterList.map(
-            (klaster) => _buildKlasterCard(context, klaster),
-          ),
-        ],
+    final aktif =
+        state.klasterList
+            .where((k) => k.statusVerifikasi != StatusVerifikasiWilayah.selesai)
+            .toList()
+          ..sort((a, b) => b.totalLaporan.compareTo(a.totalLaporan));
+    final metrik = [
+      ('Menunggu Verifikasi', menunggu, AdminMenuTab.laporanIndividu),
+      (
+        'Total Laporan',
+        state.semuaLaporan.length,
+        AdminMenuTab.laporanIndividu,
       ),
-    );
-  }
-
-  Widget _buildKpiCard({
-    required String title,
-    required String value,
-    required String sub,
-    required IconData icon,
-    required Color color,
-    required Color bg,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFFE2E8F0)),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x060F172A),
-              blurRadius: 10,
-              offset: Offset(0, 2),
-            ),
-          ],
+      ('Wilayah Aktif', aktif.length, AdminMenuTab.klasterWilayah),
+      ('Siaran Aktif', state.pesanSiaga.length, AdminMenuTab.pusatOperasional),
+    ];
+    return HalamanAdmin(
+      children: [
+        const JudulAdmin(
+          'Dashboard',
+          description: 'Ringkasan laporan dan tinjauan wilayah.',
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final scale = MediaQuery.textScalerOf(context).scale(14) / 14;
+            final count = constraints.maxWidth / scale >= 900
+                ? 4
+                : constraints.maxWidth / scale >= 420
+                ? 2
+                : 1;
+            return Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                for (final m in metrik)
+                  SizedBox(
+                    width: (constraints.maxWidth - (count - 1) * 16) / count,
+                    child: Material(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        side: const BorderSide(color: Color(0xFFE2E8F0)),
+                      ),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(12),
+                        onTap: () => onNavigateToTab(m.$3),
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                m.$1,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  color: Color(0xFF475569),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Text(
+                                '${m.$2}',
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 32),
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: 16,
+          runSpacing: 8,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF64748B),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: bg,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(icon, color: color, size: 18),
-                ),
-              ],
+            const Text(
+              'Wilayah dengan Laporan Terbanyak',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
-            const SizedBox(height: 10),
-            Text(
-              value,
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 22,
-                fontWeight: FontWeight.w800,
-                color: Color(0xFF0F172A),
-                letterSpacing: -0.4,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              sub,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: color,
-              ),
+            TextButton(
+              onPressed: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
+              child: const Text('Lihat Semua Wilayah'),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildKlasterCard(BuildContext context, KlasterWilayahAi k) {
-    final level = k.tingkatTinggiAir;
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: level.badgeBackground,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              Icons.warning_amber_rounded,
-              color: level.badgeForeground,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 14),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      k.namaWilayah,
-                      style: const TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF0F172A),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: level.badgeBackground,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: Text(
-                        level.label,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                          color: level.badgeForeground,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${k.kecamatan} • Estimasi AI: ${k.estimasiKedalaman} • Butuh: ${k.kebutuhanDominan.join(", ")}',
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: const Color(0xFFEFF6FF),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              '${k.totalLaporan} Laporan',
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                color: Color(0xFF2563EB),
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: const Color(0xFF2563EB),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            onPressed: () => ModalBuktiWilayah.show(context, klaster: k, state: state),
-            child: const Text(
-              'Tinjau',
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ),
-        ],
-      ),
+        const SizedBox(height: 12),
+        if (aktif.isEmpty) const Text('Tidak ada wilayah aktif.'),
+        for (final k in aktif.take(3))
+          KartuKlasterAdmin(klaster: k, state: state),
+      ],
     );
   }
 }

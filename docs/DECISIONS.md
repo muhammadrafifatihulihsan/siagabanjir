@@ -1306,3 +1306,22 @@ Web 1.0) dan pitch 1.0, menolak pemutaran ulang teks yang sedang aktif dan
 melindungi status dari hasil jeda yang terlambat. Kecepatan fisik di HP belum
 diverifikasi. Instruksi tidak menguji HP tetap berlaku; tidak ada mandat push.
 [Checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
+
+<a id="admin-ui-audit-066"></a>
+
+## 56. Audit desain seluruh halaman admin - 1 November 2026
+
+**WS-DEC-066 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit dan perapian
+seluruh desain admin: posisi layout, pengurangan badge/teks berlebih, ikon
+standar tanpa stiker/emoji, pemanfaatan sumber skill eksternal lokal, serta
+commit lokal setiap unit selesai. Pemilik secara eksplisit mengizinkan bacaan
+fokus pada aturan/skill, desain, dokumentasi aplikasi dan spesifikasi/kode admin.
+Ini bukan klaim membaca ulang seluruh baseline dan kontrak panjang.
+
+Lima halaman, shell, tabel serta dialog bukti diselaraskan dengan
+[DESIGN](DESIGN.md#antarmuka-web-admin). Verifikasi ditempatkan setelah membuka
+bukti; selesai tersedia setelah status ditinjau. Isian/filter dipertahankan
+lintas tab. Angka menunggu mengecualikan laporan selesai. Penataan ini tidak
+mengganti model backend atau mengesahkan auto-approve lokal sebagai implementasi
+review berversi normatif. Bukti dan gap integrasi ada pada
+[WORKSPACE](WORKSPACE.md#admin-ui-audit). Tidak ada mandat push atau uji HP.

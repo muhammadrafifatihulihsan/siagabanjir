@@ -16,7 +16,8 @@ panduan, pantau, pesan, tas_siaga dan keluarga. Folder kosong dan kode dokumen l
 tidak digunakan sudah dihapus; layer dibuat sesuai kebutuhan implementasi.
 Layar memakai state lokal, kamera/galeri profil, TTS perangkat, dokumen berkategori
 dan ekspor ZIP. Kontak pribadi dan riwayat input berada dalam sesi demo.
-Integrasi bisnis, autentikasi server, brankas terenkripsi dan admin belum tersedia.
+Lima halaman admin Web tersedia sebagai pratinjau lokal dengan navigasi adaptif.
+Integrasi bisnis, autentikasi server dan brankas terenkripsi belum tersedia.
 Struktur, batas layer dan pembagian kerja ada pada
 [README Flutter](siagabanjir/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti

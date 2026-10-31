@@ -8,6 +8,23 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Audit desain admin 1 November 2026 mengikuti
+[WS-DEC-066](DECISIONS.md#admin-ui-audit-066). Lima halaman, navigasi, tabel,
+form, modal bukti dan foto dirapikan: sidebar/drawer adaptif, tanpa hero/ranking
+atau badge AI dekoratif, label ringkas, verifikasi melalui bukti dan draf lintas
+tab. Alasan hapus wajib menampilkan error field; metrik menunggu tidak memasukkan
+laporan selesai. [Temuan, bukti dan batas](WORKSPACE.md#admin-ui-audit).
+
+Analyzer 0 issues, 114 tes Flutter PASS, build Web PASS. Chrome memeriksa lima
+halaman pada 1440/768/390 px dan dialog bukti; widget mencakup teks 200%.
+Backend/provider/HP/UAT/screen reader NOT_RUN. Reset kuota, sandi, singleton
+sesi dan review tanpa versi masih gap implementasi awal, bukan layanan produksi.
+Branch `branch-rafi`; commit lokal diwajibkan, push tidak diminta. Dokumentasi
+terdampak diperbarui; kontrak/spec dan aturan/skill/adapter tidak berubah.
+Bacaan fokus admin diizinkan pengguna, bukan klaim seluruh kontrak dibaca ulang.
+
+### Riwayat implementasi admin sebelumnya
+
 Implementasi & Penyempurnaan Dashboard Web Admin SiagaBanjir (`features/admin`) pada 1 November 2026:
 
 - **Aset Sample Foto Banjir Riil untuk Data Dummy Admin & Warga**: Mengintegrasikan foto dokumentasi banjir riil (`assets/images/reports/sample_banjir.jpg`, `report_1.jpeg`, `report_2.jpeg`) sebagai data dummy visual di antarmuka Admin (`PreviewMediaLaporan`, galeri bukti klaster wilayah, pratinjau resolusi tinggi) dan Warga (`BagianBuktiLaporan` panduan visual, `KartuRiwayatLaporan`, dan dialog detail riwayat).

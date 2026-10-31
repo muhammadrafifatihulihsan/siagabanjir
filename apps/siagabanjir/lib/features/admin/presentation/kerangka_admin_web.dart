@@ -79,7 +79,9 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                 );
               } else {
                 Navigator.of(ctx).pushAndRemoveUntil(
-                  MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+                  MaterialPageRoute<void>(
+                    builder: (_) => const KerangkaWarga(),
+                  ),
                   (_) => false,
                 );
               }
@@ -112,7 +114,10 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
             onPressed: () => Navigator.pop(ctx),
             child: const Text(
               'Batal',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
           FilledButton(
@@ -125,7 +130,10 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
             },
             child: const Text(
               'Keluar',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -133,156 +141,92 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
     );
   }
 
-  String _getTabTitle(AdminMenuTab tab) {
-    switch (tab) {
-      case AdminMenuTab.dashboard:
-        return 'Dashboard Ringkasan';
-      case AdminMenuTab.klasterWilayah:
-        return 'Klaster Wilayah';
-      case AdminMenuTab.laporanIndividu:
-        return 'Laporan Warga';
-      case AdminMenuTab.pusatOperasional:
-        return 'Pusat Aksi';
-      case AdminMenuTab.pengaturanProfil:
-        return 'Profil Admin';
-    }
-  }
+  void _selectTab(AdminMenuTab tab) => setState(() => _currentTab = tab);
+
+  Widget _body() => IndexedStack(
+    index: _currentTab.index,
+    children: [
+      TabDashboardRingkasan(state: _state, onNavigateToTab: _selectTab),
+      TabWilayahKlasterAi(state: _state),
+      TabLaporanIndividu(state: _state),
+      TabPusatOperasional(state: _state),
+      TabPengaturanProfil(state: _state),
+    ],
+  );
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8FAFC),
-      body: Row(
-        children: [
-          // 1. Sidebar Kiri Tetap (260 px)
-          AdminSidebar(
-            selectedTab: _currentTab,
-            onSelectTab: (tab) => setState(() => _currentTab = tab),
-            onLogout: _handleLogout,
-            state: _state,
-          ),
-
-          // 2. Main Content Area di Kanan
-          Expanded(
-            child: Column(
-              children: [
-                // Top App Bar Web
-                Container(
-                  height: 64,
-                  padding: const EdgeInsets.symmetric(horizontal: 28),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    border: Border(
-                      bottom: BorderSide(color: Color(0xFFE2E8F0)),
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final scale = MediaQuery.textScalerOf(context).scale(14) / 14;
+      final sidebarVisible = constraints.maxWidth / scale >= 1100;
+      final sidebar = AdminSidebar(
+        selectedTab: _currentTab,
+        state: _state,
+        onLogout: _handleLogout,
+        onSelectTab: (tab) {
+          if (!sidebarVisible) Navigator.of(context).pop();
+          _selectTab(tab);
+        },
+      );
+      return Scaffold(
+        backgroundColor: const Color(0xFFF8FAFC),
+        drawer: sidebarVisible ? null : Drawer(child: SafeArea(child: sidebar)),
+        body: Row(
+          children: [
+            if (sidebarVisible) sidebar,
+            Expanded(
+              child: Column(
+                children: [
+                  Container(
+                    constraints: const BoxConstraints(minHeight: 64),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      border: Border(
+                        bottom: BorderSide(color: Color(0xFFE2E8F0)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        if (!sidebarVisible)
+                          Builder(
+                            builder: (context) => IconButton(
+                              tooltip: 'Buka navigasi',
+                              icon: const Icon(Icons.menu),
+                              onPressed: () =>
+                                  Scaffold.of(context).openDrawer(),
+                            ),
+                          ),
+                        const Expanded(
+                          child: Text(
+                            'Portal Admin',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xFF475569),
+                            ),
+                          ),
+                        ),
+                        TextButton.icon(
+                          onPressed: _switchToCitizenMode,
+                          icon: const Icon(
+                            Icons.phone_android_outlined,
+                            size: 20,
+                          ),
+                          label: const Text('Mode Warga'),
+                        ),
+                      ],
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      // Breadcrumb Judul Tab Aktif
-                      Text(
-                        _getTabTitle(_currentTab),
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF0F172A),
-                        ),
-                      ),
-                      const Spacer(),
-
-                      // Chip Status Siaga Padang
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFEF3C7),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: const Color(0xFFB45309).withValues(alpha: 0.3),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: const BoxDecoration(
-                                color: Color(0xFFB45309),
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              'Kota Padang: ${_state.labelSiagaKota}',
-                              style: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFFB45309),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 14),
-
-                      // Tombol Beralih ke Tampilan Warga
-                      OutlinedButton.icon(
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF2563EB),
-                          side: const BorderSide(color: Color(0xFFBFDBFE)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
-                          ),
-                        ),
-                        onPressed: _switchToCitizenMode,
-                        icon: const Icon(Icons.phone_android_rounded, size: 16),
-                        label: const Text(
-                          'Mode Warga',
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Dynamic Body Content Pane
-                Expanded(
-                  child: switch (_currentTab) {
-                    AdminMenuTab.dashboard => TabDashboardRingkasan(
-                        state: _state,
-                        onNavigateToTab: (t) => setState(() => _currentTab = t),
-                      ),
-                    AdminMenuTab.klasterWilayah => TabWilayahKlasterAi(
-                        state: _state,
-                      ),
-                    AdminMenuTab.laporanIndividu => TabLaporanIndividu(
-                        state: _state,
-                      ),
-                    AdminMenuTab.pusatOperasional => TabPusatOperasional(
-                        state: _state,
-                      ),
-                    AdminMenuTab.pengaturanProfil => TabPengaturanProfil(
-                        state: _state,
-                      ),
-                  },
-                ),
-              ],
+                  Expanded(child: _body()),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
+    },
+  );
 }

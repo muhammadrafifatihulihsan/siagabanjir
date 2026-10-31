@@ -4,12 +4,10 @@ import '../../../../shared/widgets/dialog_siaga.dart';
 import '../../../kontak/presentation/models/entri_kontak.dart';
 import '../../../pesan/presentation/models/pesan_siaga.dart';
 import '../../domain/state_admin_siaga.dart';
+import '../widgets/tata_letak_admin.dart';
 
 class TabPusatOperasional extends StatefulWidget {
-  const TabPusatOperasional({
-    super.key,
-    required this.state,
-  });
+  const TabPusatOperasional({super.key, required this.state});
 
   final StateAdminSiaga state;
 
@@ -23,7 +21,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
   // Controllers untuk Siaran Peringatan
   final _judulPesanController = TextEditingController();
   final _isiPesanController = TextEditingController();
-  final _instansiController = TextEditingController(text: 'PUSDALOPS BPBD Kota Padang');
+  final _instansiController = TextEditingController(
+    text: 'PUSDALOPS BPBD Kota Padang',
+  );
   KategoriPesan _kategoriPesanPilihan = KategoriPesan.emergency;
 
   // Controllers untuk Kontak Posko
@@ -154,90 +154,41 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header Judul
-          const Text(
-            'Pusat Aksi & Operasional',
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF0F172A),
-              letterSpacing: -0.3,
-            ),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Kelola siaran peringatan dini warga, kontak darurat posko, dan kebijakan kuota.',
-            style: TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 13,
-              fontWeight: FontWeight.w400,
-              color: Color(0xFF64748B),
-            ),
-          ),
-          const SizedBox(height: 20),
+    return HalamanAdmin(
+      maxWidth: 960,
+      children: [
+        const JudulAdmin('Pusat Aksi'),
+        // Sub-Tab Segmented Selector
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _buildSubTabItem(0, 'Siaran Peringatan', Icons.campaign_outlined),
+            const SizedBox(width: 8),
+            _buildSubTabItem(1, 'Kontak Posko', Icons.phone_in_talk_outlined),
+            const SizedBox(width: 8),
+            _buildSubTabItem(2, 'Kebijakan Kuota', Icons.tune_rounded),
+          ],
+        ),
+        const SizedBox(height: 24),
 
-          // Sub-Tab Segmented Selector
-          Row(
-            children: [
-              _buildSubTabItem(0, 'Siaran Peringatan', Icons.campaign_outlined),
-              const SizedBox(width: 8),
-              _buildSubTabItem(1, 'Kontak Posko', Icons.phone_in_talk_outlined),
-              const SizedBox(width: 8),
-              _buildSubTabItem(2, 'Kebijakan Kuota', Icons.tune_rounded),
-            ],
-          ),
-          const SizedBox(height: 24),
-
-          // Content Pane berdasarkan Sub-Tab Terpilih
-          if (_activeSubIndex == 0) _buildSubTabSiaranPeringatan(),
-          if (_activeSubIndex == 1) _buildSubTabKontakPosko(),
-          if (_activeSubIndex == 2) _buildSubTabKebijakanKuota(),
-        ],
-      ),
+        // Content Pane berdasarkan Sub-Tab Terpilih
+        if (_activeSubIndex == 0) _buildSubTabSiaranPeringatan(),
+        if (_activeSubIndex == 1) _buildSubTabKontakPosko(),
+        if (_activeSubIndex == 2) _buildSubTabKebijakanKuota(),
+      ],
     );
   }
 
   Widget _buildSubTabItem(int index, String label, IconData icon) {
     final isSelected = _activeSubIndex == index;
-    return InkWell(
-      onTap: () => setState(() => _activeSubIndex = index),
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF2563EB) : Colors.white,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: isSelected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 16,
-              color: isSelected ? Colors.white : const Color(0xFF64748B),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-                color: isSelected ? Colors.white : const Color(0xFF334155),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ChoiceChip(
+      label: Text(label),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      selectedColor: const Color(0xFFEFF6FF),
+      checkmarkColor: const Color(0xFF1D4ED8),
+      selected: isSelected,
+      onSelected: (_) => setState(() => _activeSubIndex = index),
     );
   }
 
@@ -258,7 +209,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Terbitkan Peringatan Dini',
+                'Siaran Baru',
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 15,
@@ -268,7 +219,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               ),
               const SizedBox(height: 4),
               const Text(
-                'Pesan yang diterbitkan langsung masuk ke tab Kotak Masuk aplikasi warga.',
+                'Kirim peringatan ke kotak masuk warga.',
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 12,
@@ -279,7 +230,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
               // Pilihan Kategori Peringatan
               const Text(
-                'Tingkat Peringatan:',
+                'Kategori',
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 12,
@@ -287,20 +238,20 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 ),
               ),
               const SizedBox(height: 8),
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
                 children: [
                   _buildRadioKategori(
                     KategoriPesan.emergency,
                     'Darurat',
                     const Color(0xFFDC2626),
                   ),
-                  const SizedBox(width: 12),
                   _buildRadioKategori(
                     KategoriPesan.weather,
                     'Cuaca BMKG',
                     const Color(0xFF0284C7),
                   ),
-                  const SizedBox(width: 12),
                   _buildRadioKategori(
                     KategoriPesan.all,
                     'Informasi Posko',
@@ -311,41 +262,29 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               const SizedBox(height: 16),
 
               // Input Judul
-              const Text(
-                'Judul Peringatan:',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 6),
               TextField(
                 controller: _judulPesanController,
                 decoration: InputDecoration(
-                  hintText: 'Contoh: Waspada Potensi Luapan Banjir Wilayah Koto Tangah',
+                  labelText: 'Judul peringatan',
+                  hintText: 'Contoh: Banjir di Koto Tangah',
                   isDense: true,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
 
               // Input Isi Pesan
-              const Text(
-                'Isi Pesan Peringatan:',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 6),
               TextField(
                 controller: _isiPesanController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: 'Tuliskan kondisi banjir, radius bahaya, dan instruksi evakuasi warga...',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  labelText: 'Isi peringatan',
+                  hintText: 'Tuliskan kondisi dan arahan untuk warga.',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -355,8 +294,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 child: FilledButton.icon(
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   onPressed: _kirimSiaran,
                   icon: const Icon(Icons.send_rounded, size: 16),
@@ -376,7 +320,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
         // Daftar Peringatan yang Sedang Mengudara
         const Text(
-          'Daftar Peringatan Aktif di Warga:',
+          'Siaran Aktif',
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 15,
@@ -392,37 +336,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
   Widget _buildRadioKategori(KategoriPesan kat, String label, Color color) {
     final isSelected = _kategoriPesanPilihan == kat;
-    return InkWell(
-      onTap: () => setState(() => _kategoriPesanPilihan = kat),
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: isSelected ? color.withValues(alpha: 0.12) : const Color(0xFFF8FAFC),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: isSelected ? color : const Color(0xFFCBD5E1)),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
-              size: 16,
-              color: color,
-            ),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                color: color,
-              ),
-            ),
-          ],
-        ),
-      ),
+    return ChoiceChip(
+      label: Text(label),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      selectedColor: const Color(0xFFEFF6FF),
+      checkmarkColor: const Color(0xFF1D4ED8),
+      selected: isSelected,
+      onSelected: (_) => setState(() => _kategoriPesanPilihan = kat),
     );
   }
 
@@ -438,23 +358,6 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: BoxDecoration(
-              color: msg.badgeBackground,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Text(
-              msg.badgeLabel,
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: msg.badgeTextColor,
-              ),
-            ),
-          ),
-          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -463,7 +366,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   msg.title,
                   style: const TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF0F172A),
                   ),
@@ -473,7 +376,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   '${msg.agency} • ${msg.timestamp}',
                   style: const TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 11,
+                    fontSize: 12,
                     color: Color(0xFF64748B),
                   ),
                 ),
@@ -506,7 +409,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               'Cabut',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -533,7 +436,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Tambah Kontak Posko Siaga Bencana',
+                'Tambah Kontak Posko',
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 15,
@@ -551,28 +454,27 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 ),
               ),
               const SizedBox(height: 16),
-              Row(
+              KolomAdaptifAdmin(
                 children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _namaKontakController,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        labelText: 'Nama Posko / Instansi',
-                        hintText: 'Contoh: Posko Evakuasi SMPN 13 Koto Tangah',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  TextField(
+                    controller: _namaKontakController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: 'Nama Posko / Instansi',
+                      hintText: 'Contoh: Posko Evakuasi SMPN 13 Koto Tangah',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: TextField(
-                      controller: _nomorKontakController,
-                      decoration: InputDecoration(
-                        isDense: true,
-                        labelText: 'Nomor Telepon / WhatsApp',
-                        hintText: 'Contoh: 0812-9988-7766',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  TextField(
+                    controller: _nomorKontakController,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      labelText: 'Nomor Telepon / WhatsApp',
+                      hintText: 'Contoh: 0812-9988-7766',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
@@ -585,7 +487,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   isDense: true,
                   labelText: 'Keterangan Wilayah Layanan',
                   hintText: 'Contoh: Melayani evakuasi dan logistik wilayah Lubuk Buaya sekitarnya',
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
               ),
               const SizedBox(height: 14),
@@ -594,7 +498,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 child: FilledButton.icon(
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   onPressed: _tambahKontakPosko,
                   icon: const Icon(Icons.add_call, size: 16),
@@ -614,7 +520,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
         // List Kontak Terdaftar
         const Text(
-          'Daftar Kontak Publik Aktif:',
+          'Kontak Publik',
           style: TextStyle(
             fontFamily: 'Inter',
             fontSize: 15,
@@ -623,58 +529,69 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           ),
         ),
         const SizedBox(height: 12),
-        ...widget.state.kontakDarurat.map((k) => Container(
-              margin: const EdgeInsets.only(bottom: 8),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEFF6FF),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Icon(Icons.phone_rounded, color: Color(0xFF2563EB), size: 20),
+        ...widget.state.kontakDarurat.map(
+          (k) => Container(
+            margin: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFF6FF),
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          k.name,
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 13,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xFF0F172A),
-                          ),
+                  child: const Icon(
+                    Icons.phone_rounded,
+                    color: Color(0xFF2563EB),
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        k.name,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFF0F172A),
                         ),
-                        Text(
-                          '${k.phone} • ${k.agency}',
-                          style: const TextStyle(
-                            fontFamily: 'Inter',
-                            fontSize: 11,
-                            color: Color(0xFF64748B),
-                          ),
+                      ),
+                      Text(
+                        '${k.phone} • ${k.agency}',
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 12,
+                          color: Color(0xFF64748B),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.delete_outline, size: 18, color: Color(0xFFDC2626)),
-                    onPressed: () {
-                      widget.state.hapusKontakPosko(k.name);
-                    },
+                ),
+                IconButton(
+                  tooltip: 'Hapus kontak',
+                  icon: const Icon(
+                    Icons.delete_outline,
+                    size: 18,
+                    color: Color(0xFFDC2626),
                   ),
-                ],
-              ),
-            )),
+                  onPressed: () {
+                    widget.state.hapusKontakPosko(k.name);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -693,7 +610,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Kebijakan Pengiriman Laporan & Kontrol Kuota',
+              'Pengaturan Laporan',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 15,
@@ -703,7 +620,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             ),
             const SizedBox(height: 4),
             const Text(
-              'Pengaturan pembatasan laporan untuk mencegah spam dan verifikasi keaslian foto laporan sesuai FR-CONTROL-001.',
+              'Atur sumber foto dan batas pengiriman per akun.',
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 12,
@@ -718,15 +635,15 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Izinkan Foto dari Galeri HP',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
               subtitle: const Text(
-                'Jika nonaktif, warga wajib mengambil foto langsung dengan kamera untuk membuktikan kondisi nyata.',
+                'Jika nonaktif, foto laporan harus diambil melalui kamera.',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 11,
+                  fontSize: 12,
                   color: Color(0xFF64748B),
                 ),
               ),
@@ -735,7 +652,11 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               onChanged: (val) {
                 widget.state.setIzinkanGaleri(val);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Kebijakan galeri diubah ke: ${val ? "Boleh Galeri" : "Wajib Kamera"}')),
+                  SnackBar(
+                    content: Text(
+                      'Kebijakan galeri diubah ke: ${val ? "Boleh Galeri" : "Wajib Kamera"}',
+                    ),
+                  ),
                 );
               },
             ),
@@ -747,7 +668,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Batas Kuota Laporan Warga',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -755,20 +676,27 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Saat ini: ${widget.state.kuotaMaksimal} laporan per ${widget.state.kuotaRentangJam} jam per akun.',
                 style: const TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 11,
+                  fontSize: 12,
                   color: Color(0xFF64748B),
                 ),
               ),
               trailing: FilledButton.tonal(
                 onPressed: () {
-                  final kuotaCtrl = TextEditingController(text: widget.state.kuotaMaksimal.toString());
-                  final jamCtrl = TextEditingController(text: widget.state.kuotaRentangJam.toString());
+                  final kuotaCtrl = TextEditingController(
+                    text: widget.state.kuotaMaksimal.toString(),
+                  );
+                  final jamCtrl = TextEditingController(
+                    text: widget.state.kuotaRentangJam.toString(),
+                  );
                   showDialog<void>(
                     context: context,
                     builder: (ctx) => DialogSiaga(
                       title: const Text(
                         'Ubah Parameter Kuota',
-                        style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -776,12 +704,16 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                           TextField(
                             controller: kuotaCtrl,
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(labelText: 'Maks Laporan'),
+                            decoration: const InputDecoration(
+                              labelText: 'Maks Laporan',
+                            ),
                           ),
                           TextField(
                             controller: jamCtrl,
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(labelText: 'Rentang Jam'),
+                            decoration: const InputDecoration(
+                              labelText: 'Rentang Jam',
+                            ),
                           ),
                         ],
                       ),
@@ -790,17 +722,26 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                           onPressed: () => Navigator.pop(ctx),
                           child: const Text(
                             'Batal',
-                            style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                         FilledButton(
                           onPressed: () {
-                            widget.state.setKuotaPengaturan(int.tryParse(kuotaCtrl.text) ?? 3, int.tryParse(jamCtrl.text) ?? 6);
+                            widget.state.setKuotaPengaturan(
+                              int.tryParse(kuotaCtrl.text) ?? 3,
+                              int.tryParse(jamCtrl.text) ?? 6,
+                            );
                             Navigator.pop(ctx);
                           },
                           child: const Text(
                             'Simpan',
-                            style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ],
@@ -824,7 +765,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Reset Kuota Darurat',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFFDC2626),
                 ),
@@ -833,7 +774,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Gunakan jika bencana meluas agar warga dapat melapor kembali tanpa hambatan kuota.',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 11,
+                  fontSize: 12,
                   color: Color(0xFF64748B),
                 ),
               ),
@@ -845,7 +786,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 onPressed: () {
                   widget.state.resetSemuaKuota();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Semua kuota akun warga telah direset.')),
+                    const SnackBar(
+                      content: Text('Semua kuota akun warga telah direset.'),
+                    ),
                   );
                 },
                 child: const Text(

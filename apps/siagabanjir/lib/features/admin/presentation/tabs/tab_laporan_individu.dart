@@ -4,12 +4,10 @@ import '../../../../shared/widgets/dialog_siaga.dart';
 import '../../domain/klaster_wilayah.dart';
 import '../../domain/state_admin_siaga.dart';
 import '../widgets/preview_media_laporan.dart';
+import '../widgets/tata_letak_admin.dart';
 
 class TabLaporanIndividu extends StatefulWidget {
-  const TabLaporanIndividu({
-    super.key,
-    required this.state,
-  });
+  const TabLaporanIndividu({super.key, required this.state});
 
   final StateAdminSiaga state;
 
@@ -63,7 +61,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                     item.namaPelapor,
                     style: const TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF64748B),
                     ),
@@ -109,7 +107,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                     _buildRowInfo(
                       'Status Verifikasi',
                       item.diverifikasiOtomatisWilayah
-                          ? 'Terverifikasi (Otomatis Klaster Wilayah)'
+                          ? '${item.statusVerifikasi.label} (melalui klaster wilayah)'
                           : item.statusVerifikasi.label,
                     ),
                     const SizedBox(height: 6),
@@ -127,7 +125,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 'Deskripsi Laporan:',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
                 ),
@@ -137,7 +135,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 item.deskripsi,
                 style: const TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 13,
+                  fontSize: 14,
                   color: Color(0xFF334155),
                   height: 1.4,
                 ),
@@ -146,15 +144,18 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           ),
         ),
         actions: [
-          if (item.statusVerifikasi != StatusVerifikasiWilayah.terverifikasi)
-            OutlinedButton(
+          if (item.statusVerifikasi == StatusVerifikasiWilayah.menungguTinjauan)
+            FilledButton(
               onPressed: () {
                 widget.state.verifikasiLaporanIndividu(item.id);
                 Navigator.pop(ctx);
               },
               child: const Text(
                 'Verifikasi',
-                style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           OutlinedButton(
@@ -168,14 +169,20 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
             ),
             child: const Text(
               'Hapus',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          FilledButton(
+          TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: const Text(
               'Tutup',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -183,101 +190,76 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
     );
   }
 
-  void _konfirmasiHapusLaporan(LaporanAdminItem item) {
-    final controller = TextEditingController();
-    showDialog<void>(
+  Future<void> _konfirmasiHapusLaporan(LaporanAdminItem item) async {
+    var alasan = '';
+    final formKey = GlobalKey<FormState>();
+    await showDialog<void>(
       context: context,
       builder: (ctx) => DialogSiaga(
-        title: const Text(
-          'Hapus Laporan',
-          style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              'Apakah Anda yakin ingin menghapus laporan ${item.id} oleh ${item.namaPelapor}?',
-              style: const TextStyle(
-                fontFamily: 'Inter',
-                fontSize: 13,
-                color: Color(0xFF334155),
+        title: const Text('Hapus Laporan'),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text('Hapus laporan ${item.id} oleh ${item.namaPelapor}?'),
+              const SizedBox(height: 12),
+              const Text(
+                'Isi, foto, dan catatan laporan tidak dapat dibuka kembali. '
+                'Laporan dikeluarkan dari wilayah tanpa mengembalikan kuota.',
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: controller,
-              decoration: const InputDecoration(
-                hintText: 'Alasan penghapusan (misal: foto tidak valid)...',
-                border: OutlineInputBorder(),
-                isDense: true,
+              const SizedBox(height: 16),
+              TextFormField(
+                onChanged: (value) => alasan = value,
+                maxLength: 500,
+                maxLines: 2,
+                decoration: const InputDecoration(
+                  labelText: 'Alasan penghapusan',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) => value == null || value.trim().isEmpty
+                    ? 'Isi alasan penghapusan.'
+                    : null,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
-              'Batal',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
-            ),
+            child: const Text('Batal'),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: const Color(0xFFDC2626),
             ),
             onPressed: () {
-              final alasan = controller.text.trim();
-              if (alasan.isEmpty) return;
-              widget.state.hapusLaporanSpam(item.id, alasan);
+              if (!formKey.currentState!.validate()) return;
+              widget.state.hapusLaporanSpam(item.id, alasan.trim());
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Laporan berhasil dihapus.'),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
             },
-            child: const Text(
-              'Hapus',
-              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
-            ),
+            child: const Text('Hapus Laporan'),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildRowInfo(String label, String value) {
-    return Row(
+  Widget _buildRowInfo(String label, String value) => Padding(
+    padding: const EdgeInsets.only(bottom: 8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          width: 150,
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF64748B),
-            ),
-          ),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF475569)),
         ),
-        Expanded(
-          child: Text(
-            value,
-            style: const TextStyle(
-              fontFamily: 'Inter',
-              fontSize: 12,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0F172A),
-            ),
-          ),
-        ),
+        const SizedBox(height: 4),
+        Text(value, style: const TextStyle(fontSize: 14)),
       ],
-    );
-  }
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -286,11 +268,16 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
 
     if (_filterStatus == 'menunggu') {
       list = list
-          .where((l) => l.statusVerifikasi == StatusVerifikasiWilayah.menungguTinjauan)
+          .where(
+            (l) =>
+                l.statusVerifikasi == StatusVerifikasiWilayah.menungguTinjauan,
+          )
           .toList();
     } else if (_filterStatus == 'diverifikasi') {
       list = list
-          .where((l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi)
+          .where(
+            (l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi,
+          )
           .toList();
     } else if (_filterStatus == 'selesai') {
       list = list
@@ -302,6 +289,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
       list = list
           .where(
             (l) =>
+                l.id.toLowerCase().contains(query) ||
                 l.namaPelapor.toLowerCase().contains(query) ||
                 l.namaWilayah.toLowerCase().contains(query) ||
                 l.deskripsi.toLowerCase().contains(query),
@@ -309,423 +297,177 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           .toList();
     }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(28),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Header Judul
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Laporan Warga',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF0F172A),
-                      letterSpacing: -0.3,
-                    ),
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                    'Akses data laporan warga untuk verifikasi, tinjauan foto bukti AI, dan penanganan spesifik.',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF1F5F9),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  '${list.length} dari ${widget.state.semuaLaporan.length} Laporan',
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF334155),
-                  ),
-                ),
-              ),
-            ],
+    return HalamanAdmin(
+      children: [
+        const JudulAdmin('Laporan Warga'),
+        TextField(
+          controller: _searchController,
+          onChanged: (_) => setState(() {}),
+          decoration: const InputDecoration(
+            labelText: 'Cari laporan',
+            hintText: 'ID, pelapor, wilayah, atau deskripsi',
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(),
           ),
-          const SizedBox(height: 20),
-
-          // Baris Filter & Search
-          Row(
-            children: [
-              // Search Input
-              Expanded(
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (_) => setState(() {}),
-                  decoration: InputDecoration(
-                    isDense: true,
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Cari nama warga, kelurahan, atau isi laporan...',
-                    hintStyle: const TextStyle(fontSize: 13, color: Color(0xFF94A3B8)),
-                    prefixIcon: const Icon(Icons.search_rounded, size: 20, color: Color(0xFF64748B)),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-                    ),
-                  ),
+        ),
+        const SizedBox(height: 16),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            _filter('Semua', 'semua'),
+            _filter('Menunggu', 'menunggu'),
+            _filter('Ditinjau', 'diverifikasi'),
+            _filter('Selesai', 'selesai'),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Text(
+          '${list.length} dari ${widget.state.semuaLaporan.length} laporan',
+          style: const TextStyle(fontSize: 14, color: Color(0xFF475569)),
+        ),
+        const SizedBox(height: 12),
+        if (list.isEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32),
+            child: Column(
+              children: [
+                const Text('Tidak ada laporan yang sesuai.'),
+                TextButton(
+                  onPressed: () => setState(() {
+                    _searchController.clear();
+                    _filterStatus = 'semua';
+                  }),
+                  child: const Text('Hapus Pencarian dan Filter'),
                 ),
-              ),
-              const SizedBox(width: 14),
-
-              // Filter Buttons
-              _buildFilterPill('Semua', 'semua'),
-              const SizedBox(width: 6),
-              _buildFilterPill('Menunggu', 'menunggu'),
-              const SizedBox(width: 6),
-              _buildFilterPill('Ditinjau', 'diverifikasi'),
-              const SizedBox(width: 6),
-              _buildFilterPill('Selesai', 'selesai'),
-            ],
-          ),
-          const SizedBox(height: 20),
-
-          // Tabel Laporan
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: const Color(0xFFE2E8F0)),
+              ],
             ),
-            child: list.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(40),
-                    child: Center(
-                      child: Text(
-                        'Tidak ada laporan warga pada filter ini.',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFF64748B),
-                        ),
-                      ),
-                    ),
-                  )
-                : Column(
-                    children: [
-                      // Header Tabel
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFF8FAFC),
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                          border: Border(bottom: BorderSide(color: Color(0xFFE2E8F0))),
-                        ),
-                        child: const Row(
-                          children: [
+          ),
+        if (list.isNotEmpty)
+          LayoutBuilder(
+            builder: (context, constraints) => SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: constraints.maxWidth),
+                child: DataTable(
+                  headingRowColor: const WidgetStatePropertyAll(
+                    Color(0xFFF1F5F9),
+                  ),
+                  dataRowMinHeight: 88,
+                  dataRowMaxHeight: double.infinity,
+                  columnSpacing: 20,
+                  horizontalMargin: 16,
+                  columns: const [
+                    DataColumn(label: Text('Laporan')),
+                    DataColumn(label: Text('Pelapor dan lokasi')),
+                    DataColumn(label: Text('Deskripsi')),
+                    DataColumn(label: Text('Status')),
+                    DataColumn(label: Text('Aksi')),
+                  ],
+                  rows: [
+                    for (final item in list)
+                      DataRow(
+                        cells: [
+                          DataCell(
+                            Row(
+                              children: [
+                                PreviewMediaLaporan(
+                                  item: item,
+                                  size: 48,
+                                  showZoomHint: false,
+                                ),
+                                const SizedBox(width: 12),
+                                SizedBox(
+                                  width: 130,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item.id,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        item.timestamp,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Color(0xFF475569),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          DataCell(
                             SizedBox(
-                              width: 110,
-                              child: Text(
-                                'ID & WAKTU',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
+                              width: 180,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.namaPelapor,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    item.namaWilayah,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      color: Color(0xFF475569),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
+                          ),
+                          DataCell(
                             SizedBox(
-                              width: 60,
+                              width: 240,
                               child: Text(
-                                'MEDIA',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
+                                item.deskripsi,
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Expanded(
-                              flex: 3,
-                              child: Text(
-                                'PELAPOR & LOKASI',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                'DESKRIPSI & KEBUTUHAN',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
-                            ),
+                          ),
+                          DataCell(
                             SizedBox(
                               width: 140,
-                              child: Text(
-                                'STATUS',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
+                              child: Text(item.statusVerifikasi.label),
                             ),
-                            SizedBox(
-                              width: 100,
-                              child: Text(
-                                'AKSI',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xFF64748B),
-                                ),
-                              ),
+                          ),
+                          DataCell(
+                            TextButton(
+                              onPressed: () => _showDetailLaporan(item),
+                              child: const Text('Lihat Detail'),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      // Baris Data
-                      ...list.map((item) => _buildRowItem(item)),
-                    ],
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterPill(String label, String value) {
-    final isSelected = _filterStatus == value;
-    return InkWell(
-      onTap: () => setState(() => _filterStatus = value),
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF2563EB) : Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: isSelected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
-          ),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
-            color: isSelected ? Colors.white : const Color(0xFF475569),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildRowItem(LaporanAdminItem item) {
-    final status = item.statusVerifikasi;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: Color(0xFFF1F5F9))),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // ID & Waktu
-          SizedBox(
-            width: 110,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.id,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF2563EB),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  item.timestamp.split('•').first.trim(),
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 10,
-                    color: Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Preview Media Thumbnail
-          SizedBox(
-            width: 60,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: PreviewMediaLaporan(
-                item: item,
-                size: 44,
-                showZoomHint: false,
-              ),
-            ),
-          ),
-          // Pelapor & Lokasi
-          Expanded(
-            flex: 3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.namaPelapor,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF0F172A),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  item.namaWilayah,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF64748B),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Deskripsi & Kebutuhan
-          Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.deskripsi,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontFamily: 'Inter',
-                    fontSize: 12,
-                    color: Color(0xFF334155),
-                  ),
-                ),
-                if (item.kebutuhan.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    'Butuh: ${item.kebutuhan.join(", ")}',
-                    style: const TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFFB45309),
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-          // Status
-          SizedBox(
-            width: 140,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: status.badgeBackground,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      status.label,
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: status.badgeForeground,
-                      ),
-                    ),
-                  ),
-                  if (item.diverifikasiOtomatisWilayah) ...[
-                    const SizedBox(height: 3),
-                    const Text(
-                      'Auto Wilayah',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 9,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF16A34A),
-                      ),
-                    ),
                   ],
-                ],
+                ),
               ),
             ),
           ),
-          // Aksi
-          SizedBox(
-            width: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  tooltip: 'Detail & Foto',
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.all(6),
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.visibility_outlined, size: 18, color: Color(0xFF2563EB)),
-                  onPressed: () => _showDetailLaporan(item),
-                ),
-                const SizedBox(width: 4),
-                IconButton(
-                  tooltip: 'Hapus',
-                  visualDensity: VisualDensity.compact,
-                  padding: const EdgeInsets.all(6),
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(Icons.delete_outline_rounded, size: 18, color: Color(0xFFDC2626)),
-                  onPressed: () => _konfirmasiHapusLaporan(item),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
+
+  Widget _filter(String label, String value) => ChoiceChip(
+    label: Text(label),
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+    selectedColor: const Color(0xFFEFF6FF),
+    checkmarkColor: const Color(0xFF1D4ED8),
+    selected: _filterStatus == value,
+    onSelected: (_) => setState(() => _filterStatus = value),
+  );
 }

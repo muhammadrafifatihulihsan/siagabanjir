@@ -326,21 +326,46 @@ Rute, rekomendasi posko dan titik evakuasi profil dihapus atas mandat pemilik.
 Panduan memakai keterangan rate normal, putar/jeda/lanjut/stop; teks tetap tersedia.
 Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
 
-## Antarmuka Dashboard Web Admin (Desktop Browser)
+## Antarmuka Web Admin
 
-Mengikuti mandat pemilik dan spesifikasi SRS untuk platform Web Admin (BPBD/Relawan):
+Revisi 1 November 2026 mengikuti [WS-DEC-066](DECISIONS.md#admin-ui-audit-066).
+Lima halaman memakai Inter, judul 22/700, bagian 16/700, isi 14, metadata
+12, jarak 8/16/24/32, permukaan netral dan biru untuk tindakan/pilihan.
+Ikon navigasi memakai Material outlined; tindakan tetap dalam set Material. Tidak ada emoji, stiker,
+kilau AI, ranking dekoratif, hero sambutan atau penanda status kota statis.
+Badge dipertahankan hanya untuk status tinjauan pada ringkasan wilayah.
 
-1. **Pemisahan Peran Pengguna (Role-based Login)**:
-   - Pada layar masuk (`LayarMasuk`), disediakan pemilih peran adaptif: `Warga` vs `Petugas / Admin`, serta tautan teks transparan tidak mencolok di bawah footer untuk akses langsung ke Warga atau Admin.
-   - Login dengan peran Petugas/Admin mengarahkan pengguna langsung ke rute `/admin` (`KerangkaAdminWeb`), sedangkan peran Warga diarahkan ke antarmuka aplikasi warga (`KerangkaWarga`).
-2. **Tata Letak Shell Desktop Responsif (`KerangkaAdminWeb`)**:
-   - Sidebar navigasi tetap di sisi kiri (lebar 260px) dengan logo SiagaBanjir, penanda `Portal Komando Petugas`, serta 5 menu navigasi terstruktur.
-   - Top bar navigasi desktop dengan breadcrumbs dinamis, indikator status siaga Padang, tombol alih cepat mode warga untuk kemudahan pengujian, dan identitas petugas.
-3. **Struktur 5 Menu Sidebar**:
-   - **Dashboard (Ringkasan Keseluruhan)**: Metrik ringkasan kartu (total laporan aktif, wilayah terdampak, status sungai Batang Kuranji, kesiapan tim SAR), antrean darurat cepat, dan riwayat aktivitas operasional.
-   - **Wilayah Klaster AI**: Daftar wilayah dengan laporan terbanyak yang dikelompokkan secara otomatis oleh model AI spasio-temporal (FRD-DEC-020: radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam). Menampilkan ranking wilayah (#1, #2, dst.), estimasi kedalaman, kebutuhan dominan, dan tombol "Buka Kumpulan Bukti".
-   - **Kumpulan Bukti Wilayah (`ModalBuktiWilayah`)**: Modal tampilan komprehensif yang mengumpulkan semua bukti foto dan catatan warga dalam satu wilayah klaster AI secara bersamaan, dilengkapi aksi verifikasi serentak (Verifikasi Posko, Kirim Tim SAR, Kirim Logistik, Tolak Palsu).
-   - **Laporan Individu**: Tabel granular per laporan/per user dengan kolom ID, nama pelapor, lokasi rinci, kedalaman, kebutuhan, status verifikasi, dan fitur pencarian/filter.
-   - **Pusat Operasional**: Tab aksi komando terpadu dengan sub-kontrol: Siaran Peringatan Darurat (Broadcast ke kotak masuk warga), Manajemen Kontak Posko Bencana, dan Kebijakan Kuota Pengiriman Laporan.
-   - **Pengaturan Profil**: Pengaturan profil petugas BPBD (NIP, Nama, Jabatan, Satuan Kerja) dan ubah kata sandi.
-   - **Tombol Keluar (Logout)**: Mengakhiri sesi admin dan kembali ke layar masuk dengan state bersih.
+- **Kerangka:** sidebar 240 px saat lebar efektif (lebar / skala teks) minimal
+  1100 px; di bawahnya memakai drawer dengan tombol Buka navigasi. Header hanya
+  Portal Admin dan Mode Warga. Judul konteks berada sekali pada halaman.
+  IndexedStack mempertahankan isian, filter dan posisi halaman selama sesi.
+- **Dashboard:** empat metrik dari state aktual; Menunggu Verifikasi hanya
+  menghitung status menunggu, Wilayah Aktif mengecualikan selesai. Ringkasan
+  maksimal tiga wilayah aktif diurutkan jumlah laporan. Tidak mengklaim urutan
+  volume sebagai prioritas risiko normatif FR-REVIEW-002.
+- **Klaster Wilayah:** nama, kecamatan, jumlah laporan, status tinjauan,
+  estimasi kedalaman dan kebutuhan. Lihat Bukti menjadi pintu peninjauan;
+  verifikasi massal berada dalam dialog bukti, dengan cakupan jumlah laporan.
+  Sesudah ditinjau tersedia Tandai Selesai; laporan selesai tidak ditawarkan
+  untuk diverifikasi ulang melalui kontrol ini.
+- **Laporan Warga:** pencarian ID/pelapor/wilayah/deskripsi, filter status,
+  jumlah hasil berupa teks dan DataTable dengan gulir horizontal. Lihat Detail
+  memuat isi lengkap, asal verifikasi wilayah dan hapus dengan alasan wajib.
+  Empty state menyediakan pemulihan pencarian/filter. Aksi hapus berada di
+  detail agar tidak sejajar dengan tombol pembacaan setiap baris.
+- **Pusat Aksi:** tiga pilihan Siaran Peringatan, Kontak Posko, Kebijakan Kuota
+  dapat membungkus. Form maksimal 960 px, label menetap, kategori berupa pilihan
+  Material; istilah FRD dan banner teknis dihapus dari antarmuka.
+- **Profil:** form maksimal 880 px, pasangan input berubah menjadi satu kolom
+  ketika lebar efektif kurang dari 640 px. Ikon berulang pada tiap field dihapus.
+- **Dialog/media:** bukti, metadata dan catatan berurutan, tanpa kartu/pill
+  berlapis. Foto terbuka penuh dengan contain dan pembesaran interaktif; gagal
+  memuat memakai indikator netral, bukan ilustrasi banjir atau badge BUKTI AI.
+
+Batas lebar halaman umum 1200 px; padding 24 atau 16 pada ruang di bawah 600 px.
+Teks mengikuti pengaturan pengguna. DataTable mempertahankan kolom yang dapat
+dibaca melalui gulir, bukan mengecilkan semua teks untuk memuat tabel desktop.
+
+Ini pratinjau lokal dengan fixture dan state yang sudah ada, bukan penerimaan
+kontrak backend. Keterbatasan autentikasi, reset kuota, sandi, AI, serta lifecycle
+laporan dicatat pada [bukti audit](WORKSPACE.md#admin-ui-audit).

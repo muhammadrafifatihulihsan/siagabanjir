@@ -2166,3 +2166,13 @@ FR-READY-006 (rate/pitch dan kontrol TTS), FR-REPORT-001/007 (isian/riwayat
 demo) serta FRD §30.25/30.27 (dokumen). UI riwayat tidak lagi mengarang proses
 atau tindak lanjut. Tes lokal bukan bukti penerimaan laporan, persistensi akun,
 enkripsi, provider atau kompatibilitas suara HP; TC produk tetap NOT_RUN.
+
+## 61. Perapian antarmuka admin - 1 November 2026
+
+[WS-DEC-066](DECISIONS.md#admin-ui-audit-066) ditelusuri ke FRD bagian 17
+(layout/keyboard/teks), FR-REVIEW-001/006/007 (bukti, tinjauan dan selesai),
+FR-CONTROL-004 (alasan hapus dan batal), FR-INBOX-001 (form siaran), serta
+DESIGN. [Bukti audit](WORKSPACE.md#admin-ui-audit) mencakup lima tab, dialog,
+pencarian/filter kosong, retensi draf, lebar 390/768/1280 dan skala teks 200%.
+Tes widget dan browser tidak meluluskan TC layanan: review berversi, ownership,
+kuota, AI, persistensi, penghapusan dan sinkronisasi backend tetap NOT_RUN.

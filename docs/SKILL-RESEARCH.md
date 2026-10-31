@@ -134,3 +134,18 @@ Hasil validasi aktual terdapat pada [WORKSPACE](WORKSPACE.md#audit-final).
 Routing manual melalui AGENTS tersedia. Penempatan native Codex belum tersedia
 dalam lingkungan yang diperiksa; izin tidak diubah. Validasi struktur tidak
 membuktikan pemilihan skill oleh agent terpisah atau pemuatan setiap IDE.
+
+## Referensi audit admin - 1 November 2026
+
+Koleksi SKILLS lokal pemilik: `anti-ui-slop/SKILL.md` dan
+`design-critique-ai-reviewer/SKILL.md` dibaca sebagai referensi hierarki,
+pengurangan ornamen dan temuan berbukti. Instruksi Figma tidak dijalankan karena
+keluarannya perubahan Flutter. `better-interface-ui/SKILL.md` dibaca sebagian
+(bagian awal aksesibilitas/layout/penulisan/tipografi); bukan klaim audit penuh
+sumber itu atau adopsi resep CSS/animasi. Prosedur aktif tetap skill proyek.
+
+`skill-installer` dan `find-skills` dibaca sesuai permintaan; direktori
+[skills.sh](https://www.skills.sh/) diperiksa untuk discovery. Sumber lokal
+cukup untuk tugas ini: tidak memasang skill/global config, menyalin bundel,
+atau menyimpulkan kualitas dari angka instalasi. Tidak ada pengujian Figma
+atau evaluasi agent eksternal. [Bukti hasil](WORKSPACE.md#admin-ui-audit).

@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Audit desain lima halaman admin: sidebar/drawer adaptif, ringkasan tanpa
+  hero/ranking/badge AI dekoratif, tabel dengan pencarian ID dan gulir horizontal,
+  form adaptif, draf lintas tab, bukti foto utuh dan alasan hapus wajib.
+  Verifikasi wilayah melalui dialog bukti; metrik menunggu tidak menghitung
+  laporan selesai. [Bukti dan batas](docs/WORKSPACE.md#admin-ui-audit).
+
 - **Aset Sample Foto Banjir Riil untuk Data Dummy Admin & Warga:**
   - Menjadikan foto banjir lapangan riil sebagai aset data dummy default (`assets/images/reports/sample_banjir.jpg`, `report_1.jpeg`, `report_2.jpeg`).
   - Terintegrasi di sisi Admin (`PreviewMediaLaporan` thumbnail tabel, modal bukti klaster wilayah, dan dialog pratinjau resolusi tinggi) serta di sisi Warga (`BagianBuktiLaporan` panduan visual foto banjir, `KartuRiwayatLaporan`, dan dialog detail riwayat laporan).
