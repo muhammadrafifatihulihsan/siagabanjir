@@ -101,8 +101,9 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
         children: [
           // Header Judul
           const Text(
-            'Pengaturan Profil & Akun Petugas BPBD',
+            'Pengaturan Profil Admin',
             style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: Color(0xFF0F172A),
@@ -111,8 +112,9 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
           ),
           const SizedBox(height: 4),
           const Text(
-            'Kelola identitas resmi petugas Pusdalops yang bertanggung jawab atas penanganan bencana dan verifikasi laporan.',
+            'Kelola identitas resmi petugas Pusdalops yang bertanggung jawab atas verifikasi laporan.',
             style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 13,
               fontWeight: FontWeight.w400,
               color: Color(0xFF64748B),
@@ -267,8 +269,11 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                     onPressed: _simpanProfil,
                     icon: const Icon(Icons.check_rounded, size: 18),
                     label: const Text(
-                      'Simpan Pembaruan Profil',
-                      style: TextStyle(fontWeight: FontWeight.w700),
+                      'Simpan Profil',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                   ),
                 ),
@@ -291,6 +296,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                 const Text(
                   'Keamanan & Sandi Akun Admin',
                   style: TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF0F172A),
@@ -298,8 +304,12 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'Perbarui kata sandi secara berkala untuk menjaga kerahasiaan akses kontrol siaga bencana.',
-                  style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                  'Perbarui kata sandi secara berkala untuk menjaga kerahasiaan akses kontrol.',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    color: Color(0xFF64748B),
+                  ),
                 ),
                 const SizedBox(height: 16),
 
@@ -342,7 +352,13 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                     ),
                     onPressed: _ubahSandi,
                     icon: const Icon(Icons.password_rounded, size: 16),
-                    label: const Text('Perbarui Kata Sandi'),
+                    label: const Text(
+                      'Ganti Sandi',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -365,6 +381,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
         Text(
           label,
           style: const TextStyle(
+            fontFamily: 'Inter',
             fontSize: 12,
             fontWeight: FontWeight.w700,
             color: Color(0xFF0F172A),
@@ -374,7 +391,11 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
         TextField(
           controller: controller,
           obscureText: obscureText,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
           decoration: InputDecoration(
             isDense: true,
             prefixIcon: Icon(icon, size: 18, color: const Color(0xFF64748B)),

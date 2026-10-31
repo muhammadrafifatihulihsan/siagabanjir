@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/dialog_siaga.dart';
 import '../../../kontak/presentation/models/entri_kontak.dart';
-import '../../../pantau/presentation/models/data_pantau_wilayah.dart';
 import '../../../pesan/presentation/models/pesan_siaga.dart';
 import '../../domain/state_admin_siaga.dart';
 
@@ -27,21 +26,10 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
   final _instansiController = TextEditingController(text: 'PUSDALOPS BPBD Kota Padang');
   KategoriPesan _kategoriPesanPilihan = KategoriPesan.emergency;
 
-  // Controllers untuk Kontrol Sungai
-  late int _waterLevelInput;
-  late StatusTinggiAir _statusSungaiInput;
-
   // Controllers untuk Kontak Posko
   final _namaKontakController = TextEditingController();
   final _nomorKontakController = TextEditingController();
   final _ketKontakController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _waterLevelInput = widget.state.sungaiSorotan.waterLevelCm;
-    _statusSungaiInput = widget.state.sungaiSorotan.status;
-  }
 
   @override
   void dispose() {
@@ -119,30 +107,8 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Peringatan siaga berhasil disiarkan ke seluruh inbox warga.'),
+        content: Text('Peringatan siaga berhasil disiarkan.'),
         backgroundColor: Color(0xFF1D4ED8),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
-
-  void _simpanStatusSungai() {
-    String label = 'Siaga 2';
-    if (_statusSungaiInput == StatusTinggiAir.normal) label = 'Normal';
-    if (_statusSungaiInput == StatusTinggiAir.siaga3) label = 'Siaga 3';
-    if (_statusSungaiInput == StatusTinggiAir.siaga2) label = 'Siaga 2';
-    if (_statusSungaiInput == StatusTinggiAir.bahaya) label = 'Bahaya (Siaga 1)';
-
-    widget.state.updateSungaiSorotan(
-      waterLevelCm: _waterLevelInput,
-      status: _statusSungaiInput,
-      statusLabel: label,
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Sensor Sungai Batang Kuranji diperbarui ke $_waterLevelInput cm ($label).'),
-        backgroundColor: const Color(0xFF059669),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -180,7 +146,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Nomor kontak posko darurat berhasil ditambahkan.'),
+        content: Text('Kontak posko berhasil ditambahkan.'),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -195,8 +161,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
         children: [
           // Header Judul
           const Text(
-            'Pusat Aksi & Pengaturan Operasional',
+            'Pusat Aksi & Operasional',
             style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: Color(0xFF0F172A),
@@ -205,8 +172,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           ),
           const SizedBox(height: 4),
           const Text(
-            'Kelola siaran peringatan dini ke warga, kontak darurat posko, sensor debit air, dan kebijakan kuota.',
+            'Kelola siaran peringatan dini warga, kontak darurat posko, dan kebijakan kuota.',
             style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 13,
               fontWeight: FontWeight.w400,
               color: Color(0xFF64748B),
@@ -217,13 +185,11 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           // Sub-Tab Segmented Selector
           Row(
             children: [
-              _buildSubTabItem(0, 'Siaran Peringatan (Broadcast)', Icons.campaign_outlined),
+              _buildSubTabItem(0, 'Siaran Peringatan', Icons.campaign_outlined),
               const SizedBox(width: 8),
-              _buildSubTabItem(1, 'Kontak Darurat & Posko', Icons.phone_in_talk_outlined),
+              _buildSubTabItem(1, 'Kontak Posko', Icons.phone_in_talk_outlined),
               const SizedBox(width: 8),
-              _buildSubTabItem(2, 'Kontrol Sensor Sungai', Icons.waves_rounded),
-              const SizedBox(width: 8),
-              _buildSubTabItem(3, 'Kebijakan Kuota & Galeri', Icons.tune_rounded),
+              _buildSubTabItem(2, 'Kebijakan Kuota', Icons.tune_rounded),
             ],
           ),
           const SizedBox(height: 24),
@@ -231,8 +197,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           // Content Pane berdasarkan Sub-Tab Terpilih
           if (_activeSubIndex == 0) _buildSubTabSiaranPeringatan(),
           if (_activeSubIndex == 1) _buildSubTabKontakPosko(),
-          if (_activeSubIndex == 2) _buildSubTabSensorSungai(),
-          if (_activeSubIndex == 3) _buildSubTabKebijakanKuota(),
+          if (_activeSubIndex == 2) _buildSubTabKebijakanKuota(),
         ],
       ),
     );
@@ -264,6 +229,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             Text(
               label,
               style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                 color: isSelected ? Colors.white : const Color(0xFF334155),
@@ -292,8 +258,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Terbitkan Peringatan Dini Baru ke Warga',
+                'Terbitkan Peringatan Dini',
                 style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
@@ -301,34 +268,42 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               ),
               const SizedBox(height: 4),
               const Text(
-                'Pesan yang diterbitkan akan langsung terkirim ke tab Kotak Masuk (Inbox) seluruh aplikasi warga.',
-                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                'Pesan yang diterbitkan langsung masuk ke tab Kotak Masuk aplikasi warga.',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  color: Color(0xFF64748B),
+                ),
               ),
               const SizedBox(height: 16),
 
               // Pilihan Kategori Peringatan
               const Text(
-                'Kategori Tingkat Peringatan:',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                'Tingkat Peringatan:',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 8),
               Row(
                 children: [
                   _buildRadioKategori(
                     KategoriPesan.emergency,
-                    'Darurat (Merah)',
+                    'Darurat',
                     const Color(0xFFDC2626),
                   ),
                   const SizedBox(width: 12),
                   _buildRadioKategori(
                     KategoriPesan.weather,
-                    'Cuaca BMKG (Biru)',
+                    'Cuaca BMKG',
                     const Color(0xFF0284C7),
                   ),
                   const SizedBox(width: 12),
                   _buildRadioKategori(
                     KategoriPesan.all,
-                    'Informasi Posko (Netral)',
+                    'Informasi Posko',
                     const Color(0xFF475569),
                   ),
                 ],
@@ -336,12 +311,19 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               const SizedBox(height: 16),
 
               // Input Judul
-              const Text('Judul Peringatan:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+              const Text(
+                'Judul Peringatan:',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: 6),
               TextField(
                 controller: _judulPesanController,
                 decoration: InputDecoration(
-                  hintText: 'Contoh: Waspada Luapan Sungai Batang Kuranji & Lubuk Kilangan',
+                  hintText: 'Contoh: Waspada Potensi Luapan Banjir Wilayah Koto Tangah',
                   isDense: true,
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 ),
@@ -349,13 +331,20 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               const SizedBox(height: 14),
 
               // Input Isi Pesan
-              const Text('Isi Instruksi / Pesan Peringatan:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+              const Text(
+                'Isi Pesan Peringatan:',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               const SizedBox(height: 6),
               TextField(
                 controller: _isiPesanController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: 'Tuliskan rincian kondisi banjir, radius bahaya, dan instruksi evakuasi...',
+                  hintText: 'Tuliskan kondisi banjir, radius bahaya, dan instruksi evakuasi warga...',
                   border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
                 ),
               ),
@@ -371,7 +360,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   ),
                   onPressed: _kirimSiaran,
                   icon: const Icon(Icons.send_rounded, size: 16),
-                  label: const Text('Siarkan Sekarang ke Seluruh Warga', style: TextStyle(fontWeight: FontWeight.w700)),
+                  label: const Text(
+                    'Kirim Siaran',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -381,8 +376,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
         // Daftar Peringatan yang Sedang Mengudara
         const Text(
-          'Daftar Peringatan yang Sedang Aktif di Warga:',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+          'Daftar Peringatan Aktif di Warga:',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF0F172A),
+          ),
         ),
         const SizedBox(height: 12),
         ...widget.state.pesanSiaga.map((msg) => _buildPesanItem(msg)),
@@ -414,6 +414,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             Text(
               label,
               style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                 color: color,
@@ -445,7 +446,12 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             ),
             child: Text(
               msg.badgeLabel,
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: msg.badgeTextColor),
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+                color: msg.badgeTextColor,
+              ),
             ),
           ),
           const SizedBox(width: 12),
@@ -455,15 +461,31 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               children: [
                 Text(
                   msg.title,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF0F172A),
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '${msg.agency} • ${msg.timestamp}',
-                  style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 11,
+                    color: Color(0xFF64748B),
+                  ),
                 ),
                 const SizedBox(height: 4),
-                Text(msg.body, style: const TextStyle(fontSize: 12, color: Color(0xFF334155))),
+                Text(
+                  msg.body,
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 12,
+                    color: Color(0xFF334155),
+                  ),
+                ),
               ],
             ),
           ),
@@ -477,10 +499,17 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             onPressed: () {
               widget.state.cabutPeringatan(msg.id);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Peringatan telah dicabut dari inbox warga.')),
+                const SnackBar(content: Text('Peringatan telah dicabut.')),
               );
             },
-            child: const Text('Cabut Siaran', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+            child: const Text(
+              'Cabut',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 11,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
           ),
         ],
       ),
@@ -504,13 +533,22 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Tambah Nomor Posko Siaga Bencana Lapangan',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                'Tambah Kontak Posko Siaga Bencana',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0F172A),
+                ),
               ),
               const SizedBox(height: 4),
               const Text(
-                'Nomor ini akan langsung terdaftar di direktori kontak darurat warga Kota Padang.',
-                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+                'Nomor ini akan terdaftar di direktori kontak darurat warga Kota Padang.',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 12,
+                  color: Color(0xFF64748B),
+                ),
               ),
               const SizedBox(height: 16),
               Row(
@@ -560,7 +598,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   ),
                   onPressed: _tambahKontakPosko,
                   icon: const Icon(Icons.add_call, size: 16),
-                  label: const Text('Daftarkan Nomor Kontak'),
+                  label: const Text(
+                    'Simpan Kontak',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -570,8 +614,13 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
         // List Kontak Terdaftar
         const Text(
-          'Daftar Kontak Publik yang Aktif di Direktori Warga:',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+          'Daftar Kontak Publik Aktif:',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 15,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF0F172A),
+          ),
         ),
         const SizedBox(height: 12),
         ...widget.state.kontakDarurat.map((k) => Container(
@@ -599,11 +648,20 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                       children: [
                         Text(
                           k.name,
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF0F172A),
+                          ),
                         ),
                         Text(
                           '${k.phone} • ${k.agency}',
-                          style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 11,
+                            color: Color(0xFF64748B),
+                          ),
                         ),
                       ],
                     ),
@@ -621,269 +679,186 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
     );
   }
 
-  // --- SUB-TAB 3: KONTROL SENSOR SUNGAI & INFRASTRUKTUR ---
-  Widget _buildSubTabSensorSungai() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Kontrol Sensor Sorotan Utama: Sungai Batang Kuranji',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+  // --- SUB-TAB 3: KEBIJAKAN KUOTA & SAKELAR GALERI ---
+  Widget _buildSubTabKebijakanKuota() {
+    return Material(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: Color(0xFFE2E8F0)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Kebijakan Pengiriman Laporan & Kontrol Kuota',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0F172A),
               ),
-              const SizedBox(height: 4),
-              const Text(
-                'Ubah angka ketinggian air dan status siaga. Data ini langsung terbarui di kartu sorotan Pantau Wilayah dan Beranda Warga.',
-                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+            ),
+            const SizedBox(height: 4),
+            const Text(
+              'Pengaturan pembatasan laporan untuk mencegah spam dan verifikasi keaslian foto laporan sesuai FR-CONTROL-001.',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 12,
+                color: Color(0xFF64748B),
               ),
-              const SizedBox(height: 20),
+            ),
+            const SizedBox(height: 20),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Tinggi Air Terkini: $_waterLevelInput cm (Batas Luapan: 150 cm)',
-                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
-                        ),
-                        Slider(
-                          value: _waterLevelInput.toDouble(),
-                          min: 50,
-                          max: 200,
-                          divisions: 30,
-                          label: '$_waterLevelInput cm',
-                          activeColor: const Color(0xFF2563EB),
-                          onChanged: (val) {
-                            setState(() {
-                              _waterLevelInput = val.round();
-                              if (_waterLevelInput >= 160) {
-                                _statusSungaiInput = StatusTinggiAir.bahaya;
-                              } else if (_waterLevelInput >= 130) {
-                                _statusSungaiInput = StatusTinggiAir.siaga2;
-                              } else if (_waterLevelInput >= 100) {
-                                _statusSungaiInput = StatusTinggiAir.siaga3;
-                              } else {
-                                _statusSungaiInput = StatusTinggiAir.normal;
-                              }
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 24),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Tingkat Status Siaga:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
-                      const SizedBox(height: 6),
-                      DropdownButton<StatusTinggiAir>(
-                        value: _statusSungaiInput,
-                        items: StatusTinggiAir.values
-                            .map(
-                              (st) => DropdownMenuItem(
-                                value: st,
-                                child: Text(st.label),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (val) {
-                          if (val != null) setState(() => _statusSungaiInput = val);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              Align(
-                alignment: Alignment.centerRight,
-                child: FilledButton.icon(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF059669),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  ),
-                  onPressed: _simpanStatusSungai,
-                  icon: const Icon(Icons.save_rounded, size: 16),
-                  label: const Text('Terapkan Pembaruan Sensor Sungai'),
+            // Sakelar Galeri
+            SwitchListTile(
+              title: const Text(
+                'Izinkan Foto dari Galeri HP',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-
-        // Infrastruktur Pintu Air & Pompa
-        const Text(
-          'Status Operasional Pintu Air & Pompa Mobile:',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
-        ),
-        const SizedBox(height: 12),
-        ...widget.state.infrastruktur.map((item) => Container(
-              margin: const EdgeInsets.only(bottom: 10),
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: const Color(0xFFE2E8F0)),
+              subtitle: const Text(
+                'Jika nonaktif, warga wajib mengambil foto langsung dengan kamera untuk membuktikan kondisi nyata.',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  color: Color(0xFF64748B),
+                ),
               ),
-              child: Row(
-                children: [
-                  const Icon(Icons.settings_input_component_outlined, color: Color(0xFF2563EB)),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
-                        Text('Status: ${item.status}', style: const TextStyle(fontSize: 12, color: Color(0xFF059669))),
-                      ],
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      final ctrl = TextEditingController(text: item.status);
-                      showDialog<void>(
-                        context: context,
-                        builder: (ctx) => DialogSiaga(
-                          title: Text('Ubah Status ${item.title}'),
-                          content: TextField(controller: ctrl, decoration: const InputDecoration(labelText: 'Status Operasional')),
-                          actions: [
-                            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal')),
-                            FilledButton(
-                              onPressed: () {
-                                widget.state.updateStatusInfrastruktur(item.id, ctrl.text.trim());
-                                Navigator.pop(ctx);
-                              },
-                              child: const Text('Simpan'),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    child: const Text('Ubah Status'),
-                  ),
-                ],
-              ),
-            )),
-      ],
-    );
-  }
-
-  // --- SUB-TAB 4: KEBIJAKAN KUOTA & SAKELAR GALERI ---
-  Widget _buildSubTabKebijakanKuota() {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Kebijakan Pengiriman Laporan & Kontrol Kuota',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
-          ),
-          const SizedBox(height: 4),
-          const Text(
-            'Pengaturan pembatasan laporan untuk mencegah spam dan verifikasi keaslian foto laporan sesuai FR-CONTROL-001.',
-            style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
-          ),
-          const SizedBox(height: 20),
-
-          // Sakelar Galeri
-          SwitchListTile(
-            title: const Text('Izinkan Unggah Foto dari Galeri HP', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
-            subtitle: const Text(
-              'Jika dimatikan (OFF), warga hanya diizinkan mengambil foto langsung melalui kamera HP untuk menjamin keaslian foto kejadian.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
-            ),
-            value: widget.state.izinkanGaleri,
-            activeTrackColor: const Color(0xFF2563EB),
-            onChanged: (val) {
-              widget.state.setIzinkanGaleri(val);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Kebijakan galeri diubah ke: ${val ? "Boleh Galeri" : "Wajib Kamera Langsung"}')),
-              );
-            },
-          ),
-          const Divider(height: 24),
-
-          // Batas Kuota Warga
-          ListTile(
-            title: const Text('Batas Kuota Laporan Warga', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
-            subtitle: Text(
-              'Saat ini: ${widget.state.kuotaMaksimal} laporan per ${widget.state.kuotaRentangJam} jam per akun warga.',
-              style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
-            ),
-            trailing: FilledButton.tonal(
-              onPressed: () {
-                final kuotaCtrl = TextEditingController(text: widget.state.kuotaMaksimal.toString());
-                final jamCtrl = TextEditingController(text: widget.state.kuotaRentangJam.toString());
-                showDialog<void>(
-                  context: context,
-                  builder: (ctx) => DialogSiaga(
-                    title: const Text('Ubah Parameter Kuota'),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextField(controller: kuotaCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Maks Laporan')),
-                        TextField(controller: jamCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Rentang Jam')),
-                      ],
-                    ),
-                    actions: [
-                      TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal')),
-                      FilledButton(
-                        onPressed: () {
-                          widget.state.setKuotaPengaturan(int.tryParse(kuotaCtrl.text) ?? 3, int.tryParse(jamCtrl.text) ?? 6);
-                          Navigator.pop(ctx);
-                        },
-                        child: const Text('Terapkan'),
-                      ),
-                    ],
-                  ),
-                );
-              },
-              child: const Text('Sesuaikan Kuota'),
-            ),
-          ),
-          const Divider(height: 24),
-
-          // Tombol Reset Kuota Darurat
-          ListTile(
-            title: const Text('Reset Kuota Darurat (Semua Warga)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFFDC2626))),
-            subtitle: const Text(
-              'Gunakan jika bencana banjir meluas dan warga perlu mengirim laporan darurat tambahan tanpa terhambat kuota.',
-              style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
-            ),
-            trailing: OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: const Color(0xFFDC2626),
-                side: const BorderSide(color: Color(0xFFFECACA)),
-              ),
-              onPressed: () {
-                widget.state.resetSemuaKuota();
+              value: widget.state.izinkanGaleri,
+              activeTrackColor: const Color(0xFF2563EB),
+              onChanged: (val) {
+                widget.state.setIzinkanGaleri(val);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Seluruh kuota akun warga telah direset menjadi 0 pemakaian.')),
+                  SnackBar(content: Text('Kebijakan galeri diubah ke: ${val ? "Boleh Galeri" : "Wajib Kamera"}')),
                 );
               },
-              child: const Text('Reset Kuota Warga'),
             ),
-          ),
-        ],
+            const Divider(height: 24),
+
+            // Batas Kuota Warga
+            ListTile(
+              title: const Text(
+                'Batas Kuota Laporan Warga',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              subtitle: Text(
+                'Saat ini: ${widget.state.kuotaMaksimal} laporan per ${widget.state.kuotaRentangJam} jam per akun.',
+                style: const TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+              trailing: FilledButton.tonal(
+                onPressed: () {
+                  final kuotaCtrl = TextEditingController(text: widget.state.kuotaMaksimal.toString());
+                  final jamCtrl = TextEditingController(text: widget.state.kuotaRentangJam.toString());
+                  showDialog<void>(
+                    context: context,
+                    builder: (ctx) => DialogSiaga(
+                      title: const Text(
+                        'Ubah Parameter Kuota',
+                        style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                      ),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: kuotaCtrl,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(labelText: 'Maks Laporan'),
+                          ),
+                          TextField(
+                            controller: jamCtrl,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(labelText: 'Rentang Jam'),
+                          ),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(ctx),
+                          child: const Text(
+                            'Batal',
+                            style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        FilledButton(
+                          onPressed: () {
+                            widget.state.setKuotaPengaturan(int.tryParse(kuotaCtrl.text) ?? 3, int.tryParse(jamCtrl.text) ?? 6);
+                            Navigator.pop(ctx);
+                          },
+                          child: const Text(
+                            'Simpan',
+                            style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Ubah Kuota',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+            const Divider(height: 24),
+
+            // Tombol Reset Kuota Darurat
+            ListTile(
+              title: const Text(
+                'Reset Kuota Darurat',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFFDC2626),
+                ),
+              ),
+              subtitle: const Text(
+                'Gunakan jika bencana meluas agar warga dapat melapor kembali tanpa hambatan kuota.',
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontSize: 11,
+                  color: Color(0xFF64748B),
+                ),
+              ),
+              trailing: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xFFDC2626),
+                  side: const BorderSide(color: Color(0xFFFECACA)),
+                ),
+                onPressed: () {
+                  widget.state.resetSemuaKuota();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Semua kuota akun warga telah direset.')),
+                  );
+                },
+                child: const Text(
+                  'Reset Kuota',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Penyempurnaan Dashboard Web Admin SiagaBanjir (`features/admin`):**
+  - *Penyesuaian Cakupan*: Menghapus panel kontrol sensor sungai Batang Kuranji dan infrastruktur pompa air dari Dashboard Admin Web agar fokus sepenuhnya pada penanganan laporan warga dan siaga darurat.
+  - *Auto-Approve Wilayah ke Laporan Individu*: Verifikasi klaster wilayah secara otomatis menyetujui seluruh laporan perorangan di wilayah tersebut (`diverifikasiOtomatisWilayah: true`) tanpa perlu verifikasi ganda.
+  - *Pratinjau Media Foto Laporan (`PreviewMediaLaporan`)*: Widget pratinjau foto bukti warga dengan thumbnail responsif dan modal interaktif beresolusi tinggi dengan indikator AI.
+  - *Standardisasi Tipografi & Label Ringkas*: Penerapan font `Inter` di seluruh antarmuka admin serta peringkasan label navigasi dan tombol sesuai praktik standar (`Dashboard`, `Klaster Wilayah`, `Laporan Warga`, `Pusat Aksi`, `Profil`, `Keluar`, `Lihat Bukti`, `Verifikasi Wilayah`, `Mode Warga`).
+  - *Pengujian Menyeluruh*: 106 tes Flutter PASS 100% dan `flutter analyze` 0 issues.
 - **Dashboard Web Admin SiagaBanjir (`features/admin`):** Implementasi lengkap antarmuka portal
   komando admin berbasis web desktop responsif untuk petugas BPBD/Relawan:
   - *Pemisahan Peran Pengguna*: Toggle login Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan

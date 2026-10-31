@@ -41,8 +41,10 @@ class LaporanAdminItem {
     required this.kategori,
     required this.deskripsi,
     required this.kebutuhan,
+    this.idKlaster = '',
     this.foto,
     this.statusVerifikasi = StatusVerifikasiWilayah.menungguTinjauan,
+    this.diverifikasiOtomatisWilayah = false,
     this.catatanPetugas = const [],
     this.estimasiAiTinggi = '40 - 60 cm',
   });
@@ -54,8 +56,10 @@ class LaporanAdminItem {
   final String kategori;
   final String deskripsi;
   final List<String> kebutuhan;
+  final String idKlaster;
   final Uint8List? foto;
   final StatusVerifikasiWilayah statusVerifikasi;
+  final bool diverifikasiOtomatisWilayah;
   final List<String> catatanPetugas;
   final String estimasiAiTinggi;
 
@@ -64,6 +68,7 @@ class LaporanAdminItem {
 
   LaporanAdminItem copyWith({
     StatusVerifikasiWilayah? statusVerifikasi,
+    bool? diverifikasiOtomatisWilayah,
     List<String>? catatanPetugas,
   }) => LaporanAdminItem(
     id: id,
@@ -73,8 +78,11 @@ class LaporanAdminItem {
     kategori: kategori,
     deskripsi: deskripsi,
     kebutuhan: kebutuhan,
+    idKlaster: idKlaster,
     foto: foto,
     statusVerifikasi: statusVerifikasi ?? this.statusVerifikasi,
+    diverifikasiOtomatisWilayah:
+        diverifikasiOtomatisWilayah ?? this.diverifikasiOtomatisWilayah,
     catatanPetugas: catatanPetugas ?? this.catatanPetugas,
     estimasiAiTinggi: estimasiAiTinggi,
   );

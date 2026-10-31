@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../shared/widgets/dialog_siaga.dart';
 import '../../domain/klaster_wilayah.dart';
 import '../../domain/state_admin_siaga.dart';
+import '../widgets/preview_media_laporan.dart';
 
 class TabLaporanIndividu extends StatefulWidget {
   const TabLaporanIndividu({
@@ -52,6 +53,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                   Text(
                     item.id,
                     style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF0F172A),
@@ -60,6 +62,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                   Text(
                     item.namaPelapor,
                     style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF64748B),
@@ -76,17 +79,15 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (item.foto != null) ...[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.memory(
-                    item.foto!,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
+              // Preview Media Interaktif Foto Bukti
+              Center(
+                child: PreviewMediaLaporan(
+                  item: item,
+                  size: 200,
+                  showZoomHint: true,
                 ),
-                const SizedBox(height: 14),
-              ],
+              ),
+              const SizedBox(height: 14),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
@@ -103,7 +104,14 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                     const SizedBox(height: 6),
                     _buildRowInfo('Kategori', item.kategori),
                     const SizedBox(height: 6),
-                    _buildRowInfo('Estimasi AI Kedalaman', item.estimasiAiTinggi),
+                    _buildRowInfo('AI Kedalaman', item.estimasiAiTinggi),
+                    const SizedBox(height: 6),
+                    _buildRowInfo(
+                      'Status Verifikasi',
+                      item.diverifikasiOtomatisWilayah
+                          ? 'Terverifikasi (Otomatis Klaster Wilayah)'
+                          : item.statusVerifikasi.label,
+                    ),
                     const SizedBox(height: 6),
                     _buildRowInfo(
                       'Kebutuhan Darurat',
@@ -116,8 +124,9 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
               ),
               const SizedBox(height: 14),
               const Text(
-                'Deskripsi Laporan Warga:',
+                'Deskripsi Laporan:',
                 style: TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0F172A),
@@ -127,6 +136,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
               Text(
                 item.deskripsi,
                 style: const TextStyle(
+                  fontFamily: 'Inter',
                   fontSize: 13,
                   color: Color(0xFF334155),
                   height: 1.4,
@@ -136,6 +146,17 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           ),
         ),
         actions: [
+          if (item.statusVerifikasi != StatusVerifikasiWilayah.terverifikasi)
+            OutlinedButton(
+              onPressed: () {
+                widget.state.verifikasiLaporanIndividu(item.id);
+                Navigator.pop(ctx);
+              },
+              child: const Text(
+                'Verifikasi',
+                style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+              ),
+            ),
           OutlinedButton(
             onPressed: () {
               Navigator.pop(ctx);
@@ -145,11 +166,17 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
               foregroundColor: const Color(0xFFDC2626),
               side: const BorderSide(color: Color(0xFFFECACA)),
             ),
-            child: const Text('Hapus (Spam/Hoaks)'),
+            child: const Text(
+              'Hapus',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Tutup'),
+            child: const Text(
+              'Tutup',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
         ],
       ),
@@ -161,20 +188,27 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
     showDialog<void>(
       context: context,
       builder: (ctx) => DialogSiaga(
-        title: const Text('Hapus Laporan Secara Permanen'),
+        title: const Text(
+          'Hapus Laporan',
+          style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'Apakah Anda yakin ingin menghapus laporan ${item.id} oleh ${item.namaPelapor}? Tindakan ini bersifat permanen sesuai standar FR-CONTROL-004.',
-              style: const TextStyle(fontSize: 13, color: Color(0xFF334155)),
+              'Apakah Anda yakin ingin menghapus laporan ${item.id} oleh ${item.namaPelapor}?',
+              style: const TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 13,
+                color: Color(0xFF334155),
+              ),
             ),
             const SizedBox(height: 12),
             TextField(
               controller: controller,
               decoration: const InputDecoration(
-                hintText: 'Alasan penghapusan (misal: foto bukan banjir)...',
+                hintText: 'Alasan penghapusan (misal: foto tidak valid)...',
                 border: OutlineInputBorder(),
                 isDense: true,
               ),
@@ -184,7 +218,10 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal'),
+            child: const Text(
+              'Batal',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+            ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -197,12 +234,15 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Laporan telah dihapus dari sistem.'),
+                  content: Text('Laporan berhasil dihapus.'),
                   behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            child: const Text('Hapus Permanen'),
+            child: const Text(
+              'Hapus',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
         ],
       ),
@@ -217,6 +257,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           child: Text(
             label,
             style: const TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12,
               fontWeight: FontWeight.w600,
               color: Color(0xFF64748B),
@@ -227,6 +268,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           child: Text(
             value,
             style: const TextStyle(
+              fontFamily: 'Inter',
               fontSize: 12,
               fontWeight: FontWeight.w700,
               color: Color(0xFF0F172A),
@@ -280,8 +322,9 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Laporan Warga Per-Individu',
+                    'Laporan Warga',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF0F172A),
@@ -290,8 +333,9 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    'Akses data granular per-user untuk verifikasi langsung, koreksi AI, dan penanganan spesifik.',
+                    'Akses data laporan warga untuk verifikasi, tinjauan foto bukti AI, dan penanganan spesifik.',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF64748B),
@@ -308,6 +352,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 child: Text(
                   '${list.length} dari ${widget.state.semuaLaporan.length} Laporan',
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF334155),
@@ -391,11 +436,79 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                         ),
                         child: const Row(
                           children: [
-                            SizedBox(width: 110, child: Text('ID & WAKTU', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B)))),
-                            Expanded(flex: 3, child: Text('PELAPOR & LOKASI', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B)))),
-                            Expanded(flex: 4, child: Text('DESKRIPSI & KEBUTUHAN', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B)))),
-                            SizedBox(width: 130, child: Text('STATUS', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B)))),
-                            SizedBox(width: 100, child: Text('AKSI', textAlign: TextAlign.right, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: Color(0xFF64748B)))),
+                            SizedBox(
+                              width: 110,
+                              child: Text(
+                                'ID & WAKTU',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 60,
+                              child: Text(
+                                'MEDIA',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                'PELAPOR & LOKASI',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 4,
+                              child: Text(
+                                'DESKRIPSI & KEBUTUHAN',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 140,
+                              child: Text(
+                                'STATUS',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 100,
+                              child: Text(
+                                'AKSI',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -426,6 +539,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
         child: Text(
           label,
           style: TextStyle(
+            fontFamily: 'Inter',
             fontSize: 12,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
             color: isSelected ? Colors.white : const Color(0xFF475569),
@@ -454,6 +568,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 Text(
                   item.id,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF2563EB),
@@ -462,9 +577,25 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 const SizedBox(height: 2),
                 Text(
                   item.timestamp.split('•').first.trim(),
-                  style: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
+                  style: const TextStyle(
+                    fontFamily: 'Inter',
+                    fontSize: 10,
+                    color: Color(0xFF64748B),
+                  ),
                 ),
               ],
+            ),
+          ),
+          // Preview Media Thumbnail
+          SizedBox(
+            width: 60,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: PreviewMediaLaporan(
+                item: item,
+                size: 44,
+                showZoomHint: false,
+              ),
             ),
           ),
           // Pelapor & Lokasi
@@ -476,6 +607,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 Text(
                   item.namaPelapor,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFF0F172A),
@@ -485,6 +617,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 Text(
                   item.namaWilayah,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF64748B),
@@ -504,6 +637,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     color: Color(0xFF334155),
                   ),
@@ -513,6 +647,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                   Text(
                     'Butuh: ${item.kebutuhan.join(", ")}',
                     style: const TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
                       color: Color(0xFFB45309),
@@ -524,23 +659,42 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           ),
           // Status
           SizedBox(
-            width: 130,
+            width: 140,
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: status.badgeBackground,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: Text(
-                  status.label,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: status.badgeForeground,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: status.badgeBackground,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      status.label,
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: status.badgeForeground,
+                      ),
+                    ),
                   ),
-                ),
+                  if (item.diverifikasiOtomatisWilayah) ...[
+                    const SizedBox(height: 3),
+                    const Text(
+                      'Auto Wilayah',
+                      style: TextStyle(
+                        fontFamily: 'Inter',
+                        fontSize: 9,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF16A34A),
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
           ),
@@ -551,12 +705,19 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 IconButton(
-                  tooltip: 'Lihat Detail & Foto',
+                  tooltip: 'Detail & Foto',
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.all(6),
+                  constraints: const BoxConstraints(),
                   icon: const Icon(Icons.visibility_outlined, size: 18, color: Color(0xFF2563EB)),
                   onPressed: () => _showDetailLaporan(item),
                 ),
+                const SizedBox(width: 4),
                 IconButton(
-                  tooltip: 'Hapus Laporan',
+                  tooltip: 'Hapus',
+                  visualDensity: VisualDensity.compact,
+                  padding: const EdgeInsets.all(6),
+                  constraints: const BoxConstraints(),
                   icon: const Icon(Icons.delete_outline_rounded, size: 18, color: Color(0xFFDC2626)),
                   onPressed: () => _konfirmasiHapusLaporan(item),
                 ),

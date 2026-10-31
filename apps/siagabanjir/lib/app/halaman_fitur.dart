@@ -44,9 +44,6 @@ Widget halamanFitur(
       onProfile: profil,
     ),
     AksiBeranda.monitor => LayarPantauWilayah(
-      featuredRiver: adminState.sungaiSorotan,
-      riverPosts: adminState.posSungai,
-      infrastructureItems: adminState.infrastruktur,
       onReport: laporan,
       onHistory: riwayat,
       onProfile: profil,

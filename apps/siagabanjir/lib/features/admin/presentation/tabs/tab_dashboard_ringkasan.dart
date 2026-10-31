@@ -17,9 +17,11 @@ class TabDashboardRingkasan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sungai = state.sungaiSorotan;
     final totalLaporan = state.semuaLaporan.length;
     final klasterAktif = state.klasterList.length;
+    final menungguVerifikasi = state.semuaLaporan
+        .where((l) => l.statusVerifikasi != StatusVerifikasiWilayah.terverifikasi)
+        .length;
     final pesanAktif = state.pesanSiaga.length;
 
     return SingleChildScrollView(
@@ -62,6 +64,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                           Text(
                             'PUSDALOPS-PB BPBD KOTA PADANG',
                             style: TextStyle(
+                              fontFamily: 'Inter',
                               color: Colors.white70,
                               fontWeight: FontWeight.w700,
                               fontSize: 11,
@@ -74,6 +77,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                       Text(
                         'Selamat Bertugas, ${state.profilAdmin.nama}',
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           color: Colors.white,
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
@@ -82,8 +86,9 @@ class TabDashboardRingkasan extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       const Text(
-                        'Pantauan realtime luapan sungai dan laporan banjir warga Kota Padang.',
+                        'Ringkasan klaster wilayah dan verifikasi laporan banjir warga Kota Padang.',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           color: Colors.white,
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -107,8 +112,12 @@ class TabDashboardRingkasan extends StatelessWidget {
                   onPressed: () => onNavigateToTab(AdminMenuTab.pusatOperasional),
                   icon: const Icon(Icons.campaign_rounded, size: 18),
                   label: const Text(
-                    'Siarkan Peringatan',
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
+                    'Pusat Aksi',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 13,
+                    ),
                   ),
                 ),
               ],
@@ -121,9 +130,9 @@ class TabDashboardRingkasan extends StatelessWidget {
             children: [
               Expanded(
                 child: _buildKpiCard(
-                  title: 'Total Laporan Warga',
+                  title: 'Total Laporan',
                   value: '$totalLaporan',
-                  sub: 'Laporan terkumpul',
+                  sub: 'Laporan warga',
                   icon: Icons.assignment_outlined,
                   color: const Color(0xFF2563EB),
                   bg: const Color(0xFFEFF6FF),
@@ -134,8 +143,8 @@ class TabDashboardRingkasan extends StatelessWidget {
               Expanded(
                 child: _buildKpiCard(
                   title: 'Wilayah Terdampak',
-                  value: '$klasterAktif Klaster',
-                  sub: 'Dikelompokkan AI',
+                  value: '$klasterAktif',
+                  sub: 'Klaster AI',
                   icon: Icons.hub_outlined,
                   color: const Color(0xFFD97706),
                   bg: const Color(0xFFFEF3C7),
@@ -145,21 +154,21 @@ class TabDashboardRingkasan extends StatelessWidget {
               const SizedBox(width: 16),
               Expanded(
                 child: _buildKpiCard(
-                  title: 'Batang Kuranji',
-                  value: '${sungai.waterLevelCm} cm',
-                  sub: sungai.statusLabel,
-                  icon: Icons.water_drop_outlined,
+                  title: 'Menunggu Verifikasi',
+                  value: '$menungguVerifikasi',
+                  sub: 'Perlu ditinjau',
+                  icon: Icons.pending_actions_outlined,
                   color: const Color(0xFFDC2626),
                   bg: const Color(0xFFFEE2E2),
-                  onTap: () => onNavigateToTab(AdminMenuTab.pusatOperasional),
+                  onTap: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
                 ),
               ),
               const SizedBox(width: 16),
               Expanded(
                 child: _buildKpiCard(
-                  title: 'Peringatan Aktif',
-                  value: '$pesanAktif Pesan',
-                  sub: 'Terkirim ke warga',
+                  title: 'Siaran Aktif',
+                  value: '$pesanAktif',
+                  sub: 'Pesan peringatan',
                   icon: Icons.notifications_active_outlined,
                   color: const Color(0xFF059669),
                   bg: const Color(0xFFECFDF5),
@@ -178,8 +187,9 @@ class TabDashboardRingkasan extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Wilayah dengan Laporan Terbanyak (Klaster AI)',
+                    'Wilayah dengan Laporan Terbanyak',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 16,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF0F172A),
@@ -187,8 +197,9 @@ class TabDashboardRingkasan extends StatelessWidget {
                   ),
                   SizedBox(height: 2),
                   Text(
-                    'Laporan warga yang dikelompokkan secara otomatis oleh AI berdasarkan jarak & waktu.',
+                    'Laporan warga dikelompokkan oleh AI berdasarkan radius dan waktu.',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF64748B),
@@ -200,8 +211,11 @@ class TabDashboardRingkasan extends StatelessWidget {
                 onPressed: () => onNavigateToTab(AdminMenuTab.klasterWilayah),
                 icon: const Icon(Icons.arrow_forward_rounded, size: 16),
                 label: const Text(
-                  'Lihat Semua Wilayah',
-                  style: TextStyle(fontWeight: FontWeight.w700),
+                  'Lihat Semua',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
@@ -211,77 +225,6 @@ class TabDashboardRingkasan extends StatelessWidget {
           // List Klaster Wilayah Ringkas
           ...state.klasterList.map(
             (klaster) => _buildKlasterCard(context, klaster),
-          ),
-
-          const SizedBox(height: 24),
-
-          // Infrastruktur Pompa & Pintu Air
-          const Text(
-            'Kesiapan Infrastruktur & Pompa Pengendali Banjir',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w800,
-              color: Color(0xFF0F172A),
-            ),
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: state.infrastruktur
-                .map(
-                  (infra) => Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 12),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: const Color(0xFFE2E8F0)),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEFF6FF),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: const Icon(
-                              Icons.build_circle_outlined,
-                              color: Color(0xFF2563EB),
-                              size: 20,
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  infra.title,
-                                  style: const TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF0F172A),
-                                  ),
-                                ),
-                                const SizedBox(height: 2),
-                                Text(
-                                  infra.status,
-                                  style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF059669),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                .toList(),
           ),
         ],
       ),
@@ -323,6 +266,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF64748B),
@@ -342,6 +286,7 @@ class TabDashboardRingkasan extends StatelessWidget {
             Text(
               value,
               style: const TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 22,
                 fontWeight: FontWeight.w800,
                 color: Color(0xFF0F172A),
@@ -352,6 +297,7 @@ class TabDashboardRingkasan extends StatelessWidget {
             Text(
               sub,
               style: TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
                 color: color,
@@ -397,6 +343,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                     Text(
                       k.namaWilayah,
                       style: const TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF0F172A),
@@ -415,6 +362,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                       child: Text(
                         level.label,
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
                           color: level.badgeForeground,
@@ -427,6 +375,7 @@ class TabDashboardRingkasan extends StatelessWidget {
                 Text(
                   '${k.kecamatan} • Estimasi AI: ${k.estimasiKedalaman} • Butuh: ${k.kebutuhanDominan.join(", ")}',
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF64748B),
@@ -442,8 +391,9 @@ class TabDashboardRingkasan extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              '${k.totalLaporan} Laporan Warga',
+              '${k.totalLaporan} Laporan',
               style: const TextStyle(
+                fontFamily: 'Inter',
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF2563EB),
@@ -461,8 +411,12 @@ class TabDashboardRingkasan extends StatelessWidget {
             ),
             onPressed: () => ModalBuktiWilayah.show(context, klaster: k, state: state),
             child: const Text(
-              'Tinjau Wilayah',
-              style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              'Tinjau',
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],

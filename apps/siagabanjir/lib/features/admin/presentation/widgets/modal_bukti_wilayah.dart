@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../shared/widgets/dialog_siaga.dart';
 import '../../domain/klaster_wilayah.dart';
 import '../../domain/state_admin_siaga.dart';
+import 'preview_media_laporan.dart';
 
 /// Modal dialog untuk meninjau seluruh bukti laporan warga dalam 1 klaster wilayah
 /// yang dikelompokkan oleh AI.
@@ -81,6 +82,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 Text(
                   k.namaWilayah,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF0F172A),
@@ -89,6 +91,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 Text(
                   '${k.kecamatan} • Agregasi AI: ${k.totalLaporan} Laporan Warga',
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF64748B),
@@ -128,6 +131,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                           const Text(
                             'Klasifikasi Otomatis AI (Standar FRD-DEC-020)',
                             style: TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF0F172A),
@@ -136,6 +140,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                           Text(
                             k.radiusKeterangan,
                             style: const TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
                               color: Color(0xFF64748B),
@@ -156,6 +161,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                       child: Text(
                         level.label,
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: level.badgeForeground,
@@ -371,7 +377,10 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.verified_rounded, size: 16),
-            label: const Text('Verifikasi Klaster Sekaligus'),
+            label: const Text(
+              'Verifikasi Wilayah',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
 
         // Aksi Tandai Selesai
@@ -386,12 +395,18 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
               Navigator.pop(context);
             },
             icon: const Icon(Icons.check_circle_outline_rounded, size: 16),
-            label: const Text('Tandai Selesai / Surut'),
+            label: const Text(
+              'Tandai Selesai',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
 
         FilledButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Tutup'),
+          child: const Text(
+            'Tutup',
+            style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+          ),
         ),
       ],
     );
@@ -399,39 +414,23 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
 
   Widget _buildLaporanItem(LaporanAdminItem item) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Thumbnail Foto Bukti
-          Container(
-            width: 70,
-            height: 70,
-            decoration: BoxDecoration(
-              color: const Color(0xFFEFF6FF),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color(0xFFBFDBFE)),
-            ),
-            child: item.foto != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.memory(item.foto!, fit: BoxFit.cover),
-                  )
-                : const Center(
-                    child: Icon(
-                      Icons.water_rounded,
-                      color: Color(0xFF2563EB),
-                      size: 28,
-                    ),
-                  ),
+          // Preview Media Interaktif (Thumbnail + Dialog Pratinjau Foto)
+          PreviewMediaLaporan(
+            item: item,
+            size: 72,
+            showZoomHint: true,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 14),
           // Rincian Deskripsi Laporan
           Expanded(
             child: Column(
@@ -440,17 +439,49 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      item.namaPelapor,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF0F172A),
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          item.namaPelapor,
+                          style: const TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF0F172A),
+                          ),
+                        ),
+                        if (item.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi) ...[
+                          const SizedBox(width: 6),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFDCFCE7),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.check, size: 10, color: Color(0xFF16A34A)),
+                                SizedBox(width: 2),
+                                Text(
+                                  'Terverifikasi',
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xFF16A34A),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                     Text(
                       item.timestamp,
                       style: const TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 10,
                         color: Color(0xFF64748B),
                       ),
@@ -461,8 +492,9 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 Text(
                   item.namaWilayah,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 11,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                     color: Color(0xFF2563EB),
                   ),
                 ),
@@ -470,6 +502,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 Text(
                   item.deskripsi,
                   style: const TextStyle(
+                    fontFamily: 'Inter',
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: Color(0xFF334155),
@@ -479,6 +512,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                 const SizedBox(height: 6),
                 Wrap(
                   spacing: 4,
+                  runSpacing: 4,
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -492,6 +526,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                       child: Text(
                         'AI Kedalaman: ${item.estimasiAiTinggi}',
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
                           color: Color(0xFF475569),
@@ -511,6 +546,7 @@ class _ModalBuktiWilayahState extends State<ModalBuktiWilayah> {
                         child: Text(
                           k,
                           style: const TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 10,
                             fontWeight: FontWeight.w600,
                             color: Color(0xFFB45309),

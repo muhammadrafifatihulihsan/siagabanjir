@@ -99,14 +99,21 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
     showDialog<void>(
       context: context,
       builder: (ctx) => DialogSiaga(
-        title: const Text('Konfirmasi Keluar Sesi Admin'),
+        title: const Text(
+          'Konfirmasi Keluar',
+          style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+        ),
         content: const Text(
-          'Apakah Anda yakin ingin keluar dari Portal Pusdalops Admin? Anda dapat masuk kembali dengan peran Petugas atau Warga.',
+          'Apakah Anda yakin ingin keluar dari Portal Admin?',
+          style: TextStyle(fontFamily: 'Inter'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Batal'),
+            child: const Text(
+              'Batal',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w600),
+            ),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
@@ -116,7 +123,10 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
               Navigator.pop(ctx);
               _performLogout();
             },
-            child: const Text('Keluar'),
+            child: const Text(
+              'Keluar',
+              style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700),
+            ),
           ),
         ],
       ),
@@ -126,15 +136,15 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
   String _getTabTitle(AdminMenuTab tab) {
     switch (tab) {
       case AdminMenuTab.dashboard:
-        return 'Dashboard Ringkasan Operasional';
+        return 'Dashboard Ringkasan';
       case AdminMenuTab.klasterWilayah:
-        return 'Wilayah Laporan Terbanyak (Klaster AI)';
+        return 'Klaster Wilayah';
       case AdminMenuTab.laporanIndividu:
-        return 'Daftar Laporan Warga Per-Individu';
+        return 'Laporan Warga';
       case AdminMenuTab.pusatOperasional:
-        return 'Pusat Aksi & Kontrol Operasional';
+        return 'Pusat Aksi';
       case AdminMenuTab.pengaturanProfil:
-        return 'Pengaturan Profil Petugas BPBD';
+        return 'Profil Admin';
     }
   }
 
@@ -172,6 +182,7 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                       Text(
                         _getTabTitle(_currentTab),
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 16,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF0F172A),
@@ -186,10 +197,10 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: _state.sungaiSorotan.status.badgeBackground,
+                          color: const Color(0xFFFEF3C7),
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: _state.sungaiSorotan.status.badgeForeground.withValues(alpha: 0.3),
+                            color: const Color(0xFFB45309).withValues(alpha: 0.3),
                           ),
                         ),
                         child: Row(
@@ -198,18 +209,19 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                             Container(
                               width: 8,
                               height: 8,
-                              decoration: BoxDecoration(
-                                color: _state.sungaiSorotan.status.badgeForeground,
+                              decoration: const BoxDecoration(
+                                color: Color(0xFFB45309),
                                 shape: BoxShape.circle,
                               ),
                             ),
                             const SizedBox(width: 6),
                             Text(
-                              'Kota Padang: ${_state.sungaiSorotan.statusLabel}',
-                              style: TextStyle(
+                              'Kota Padang: ${_state.labelSiagaKota}',
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
-                                color: _state.sungaiSorotan.status.badgeForeground,
+                                color: Color(0xFFB45309),
                               ),
                             ),
                           ],
@@ -217,7 +229,7 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                       ),
                       const SizedBox(width: 14),
 
-                      // Tombol Beralih ke Tampilan Warga (Sangat berguna saat demo)
+                      // Tombol Beralih ke Tampilan Warga
                       OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xFF2563EB),
@@ -233,8 +245,9 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                         onPressed: _switchToCitizenMode,
                         icon: const Icon(Icons.phone_android_rounded, size: 16),
                         label: const Text(
-                          'Mode Tampilan Warga',
+                          'Mode Warga',
                           style: TextStyle(
+                            fontFamily: 'Inter',
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                           ),

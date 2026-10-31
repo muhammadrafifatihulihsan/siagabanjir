@@ -31,8 +31,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Daftar Wilayah dengan Laporan Terbanyak (Klaster AI)',
+                    'Wilayah Laporan Terbanyak',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
                       color: Color(0xFF0F172A),
@@ -41,8 +42,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    'AI otomatis mengelompokkan laporan warga dalam radius 1.500 m / 6 jam agar admin dapat meninjau bukti sekaligus.',
+                    'Laporan warga dikelompokkan oleh AI berdasarkan radius 1.500 m / 6 jam.',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF64748B),
@@ -66,8 +68,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      '${daftarKlaster.length} Klaster Wilayah Aktif',
+                      '${daftarKlaster.length} Klaster Aktif',
                       style: const TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF1D4ED8),
@@ -109,8 +112,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Aturan Agregasi 1 Wilayah (Standar FRD-DEC-020 & DEC-023)',
+                        'Aturan Agregasi 1 Wilayah (FRD-DEC-020 & DEC-023)',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF0F172A),
@@ -118,8 +122,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'Dua laporan warga dikelompokkan ke dalam satu wilayah yang sama jika jarak geografis antar tetangga ≤ 1.500 meter dan selisih waktu ≤ 6 jam, dengan batas bentang maksimal keseluruhan klaster ≤ 3.000 meter / 12 jam. AI memverifikasi validitas foto genangan banjir sehingga admin dapat langsung mengambil tindakan kolektif.',
+                        'Laporan warga dikelompokkan ke dalam satu wilayah jika jarak antar tetangga ≤ 1.500 m dan rentang waktu ≤ 6 jam (maksimal bentang klaster 3.000 m / 12 jam). Memverifikasi wilayah otomatis menyetujui seluruh laporan di dalamnya.',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 12,
                           color: Color(0xFF475569),
                           height: 1.4,
@@ -189,6 +194,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                     child: Text(
                       '#$ranking',
                       style: const TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -207,6 +213,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                             child: Text(
                               k.namaWilayah,
                               style: const TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
                                 color: Color(0xFF0F172A),
@@ -225,6 +232,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                             child: Text(
                               level.label,
                               style: TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
                                 color: level.badgeForeground,
@@ -244,6 +252,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                             child: Text(
                               verifikasi.label,
                               style: TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 11,
                                 fontWeight: FontWeight.w700,
                                 color: verifikasi.badgeForeground,
@@ -256,6 +265,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                       Text(
                         '${k.kecamatan} • ${k.radiusKeterangan}',
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: Color(0xFF64748B),
@@ -268,7 +278,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
                         children: [
                           _buildMiniBadge(
                             icon: Icons.water_outlined,
-                            label: 'Estimasi Kedalaman: ${k.estimasiKedalaman}',
+                            label: 'Kedalaman: ${k.estimasiKedalaman}',
                             bg: const Color(0xFFF1F5F9),
                             text: const Color(0xFF334155),
                           ),
@@ -308,8 +318,9 @@ class TabWilayahKlasterAi extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Terkumpul ${k.totalLaporan} Bukti Foto & Laporan Warga',
+                      '${k.totalLaporan} Bukti Foto',
                       style: const TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: Color(0xFF0F172A),
@@ -328,8 +339,11 @@ class TabWilayahKlasterAi extends StatelessWidget {
                         onPressed: () => state.verifikasiKlaster(k.id),
                         icon: const Icon(Icons.check_circle_outline, size: 16),
                         label: const Text(
-                          'Verifikasi Sekaligus',
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          'Verifikasi Wilayah',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     const SizedBox(width: 8),
@@ -347,10 +361,11 @@ class TabWilayahKlasterAi extends StatelessWidget {
                       ),
                       onPressed: () =>
                           ModalBuktiWilayah.show(context, klaster: k, state: state),
-                      icon: const Icon(Icons.folder_open_rounded, size: 16),
+                      icon: const Icon(Icons.photo_library_outlined, size: 16),
                       label: const Text(
-                        'Buka Kumpulan Bukti Wilayah',
+                        'Lihat Bukti',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
@@ -386,6 +401,7 @@ class TabWilayahKlasterAi extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
+              fontFamily: 'Inter',
               fontSize: 11,
               fontWeight: FontWeight.w600,
               color: text,

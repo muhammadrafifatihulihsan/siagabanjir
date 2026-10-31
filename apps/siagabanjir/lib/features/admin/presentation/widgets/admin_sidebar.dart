@@ -65,6 +65,7 @@ class AdminSidebar extends StatelessWidget {
                       Text(
                         'SiagaBanjir',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
                           color: Color(0xFF0F172A),
@@ -81,8 +82,9 @@ class AdminSidebar extends StatelessWidget {
                           ),
                           SizedBox(width: 4),
                           Text(
-                            'ADMIN WEB PORTAL',
+                            'ADMIN WEB',
                             style: TextStyle(
+                              fontFamily: 'Inter',
                               fontSize: 10,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF2563EB),
@@ -108,15 +110,14 @@ class AdminSidebar extends StatelessWidget {
                 _buildMenuItem(
                   tab: AdminMenuTab.dashboard,
                   icon: Icons.dashboard_outlined,
-                  label: 'Dashboard Ringkasan',
+                  label: 'Dashboard',
                 ),
                 const SizedBox(height: 4),
                 _buildMenuItem(
                   tab: AdminMenuTab.klasterWilayah,
                   icon: Icons.hub_outlined,
-                  label: 'Wilayah Terbanyak',
-                  sublabel: 'Klaster AI',
-                  badgeText: '${state.klasterList.length} Wilayah',
+                  label: 'Klaster Wilayah',
+                  badgeText: '${state.klasterList.length}',
                   badgeColor: const Color(0xFFFEF3C7),
                   badgeTextColor: const Color(0xFFB45309),
                 ),
@@ -124,7 +125,7 @@ class AdminSidebar extends StatelessWidget {
                 _buildMenuItem(
                   tab: AdminMenuTab.laporanIndividu,
                   icon: Icons.assignment_outlined,
-                  label: 'Laporan Per-Individu',
+                  label: 'Laporan Warga',
                   badgeText: '${state.semuaLaporan.length}',
                   badgeColor: const Color(0xFFF1F5F9),
                   badgeTextColor: const Color(0xFF475569),
@@ -133,8 +134,7 @@ class AdminSidebar extends StatelessWidget {
                 _buildMenuItem(
                   tab: AdminMenuTab.pusatOperasional,
                   icon: Icons.tune_rounded,
-                  label: 'Pusat Aksi & Operasional',
-                  sublabel: 'Siaran, Kontak, Sensor',
+                  label: 'Pusat Aksi',
                 ),
                 const SizedBox(height: 16),
                 const Padding(
@@ -142,6 +142,7 @@ class AdminSidebar extends StatelessWidget {
                   child: Text(
                     'PENGATURAN',
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF94A3B8),
@@ -152,7 +153,7 @@ class AdminSidebar extends StatelessWidget {
                 _buildMenuItem(
                   tab: AdminMenuTab.pengaturanProfil,
                   icon: Icons.manage_accounts_outlined,
-                  label: 'Profil Petugas BPBD',
+                  label: 'Profil',
                 ),
               ],
             ),
@@ -181,6 +182,7 @@ class AdminSidebar extends StatelessWidget {
                               ? state.profilAdmin.nama[0]
                               : 'A',
                           style: const TextStyle(
+                            fontFamily: 'Inter',
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 14,
@@ -197,6 +199,7 @@ class AdminSidebar extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF0F172A),
@@ -205,6 +208,7 @@ class AdminSidebar extends StatelessWidget {
                             const Text(
                               'PUSDALOPS BPBD',
                               style: TextStyle(
+                                fontFamily: 'Inter',
                                 fontSize: 10,
                                 fontWeight: FontWeight.w600,
                                 color: Color(0xFF64748B),
@@ -231,8 +235,9 @@ class AdminSidebar extends StatelessWidget {
                       onPressed: onLogout,
                       icon: const Icon(Icons.logout_rounded, size: 16),
                       label: const Text(
-                        'Keluar Sesi',
+                        'Keluar',
                         style: TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                         ),
@@ -290,6 +295,7 @@ class AdminSidebar extends StatelessWidget {
                     Text(
                       label,
                       style: TextStyle(
+                        fontFamily: 'Inter',
                         fontSize: 13,
                         fontWeight:
                             isSelected ? FontWeight.w700 : FontWeight.w600,
@@ -302,6 +308,7 @@ class AdminSidebar extends StatelessWidget {
                       Text(
                         sublabel,
                         style: const TextStyle(
+                          fontFamily: 'Inter',
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                           color: Color(0xFF94A3B8),
@@ -323,6 +330,7 @@ class AdminSidebar extends StatelessWidget {
                   child: Text(
                     badgeText,
                     style: TextStyle(
+                      fontFamily: 'Inter',
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: badgeTextColor ?? const Color(0xFF475569),

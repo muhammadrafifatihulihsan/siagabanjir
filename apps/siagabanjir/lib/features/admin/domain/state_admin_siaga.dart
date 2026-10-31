@@ -24,27 +24,19 @@ class StateAdminSiaga extends ChangeNotifier {
       .toList()
     ..sort((a, b) => b.waktu.compareTo(a.waktu));
 
-  // 2. Data Pantau Sungai & Infrastruktur
-  StatusSungaiSorotan _sungaiSorotan = kDefaultFeaturedRiver;
-  StatusSungaiSorotan get sungaiSorotan => _sungaiSorotan;
+  // Status Siaga Operasional Kota Padang (berdasarkan tingkat tertinggi klaster)
+  StatusTinggiAir get tingkatSiagaKota => StatusTinggiAir.siaga2;
+  String get labelSiagaKota => 'Siaga 2 (Waspada)';
 
-  final List<PosSungai> _posSungai = List.from(kDefaultRiverPosts);
-  List<PosSungai> get posSungai => List.unmodifiable(_posSungai);
-
-  final List<ItemInfrastruktur> _infrastruktur = List.from(
-    kDefaultInfrastructureItems,
-  );
-  List<ItemInfrastruktur> get infrastruktur => List.unmodifiable(_infrastruktur);
-
-  // 3. Data Broadcast Peringatan Siaga
+  // 2. Data Broadcast Peringatan Siaga
   List<PesanSiaga> _pesanSiaga = List.from(kSampleSiagaMessages);
   List<PesanSiaga> get pesanSiaga => List.unmodifiable(_pesanSiaga);
 
-  // 4. Data Kontak Darurat Posko Publik
+  // 3. Data Kontak Darurat Posko Publik
   List<EntriKontak> _kontakDarurat = List.from(kPublicContacts);
   List<EntriKontak> get kontakDarurat => List.unmodifiable(_kontakDarurat);
 
-  // 5. Kebijakan Kuota & Sakelar Galeri
+  // 4. Kebijakan Kuota & Sakelar Galeri
   bool _izinkanGaleri = true;
   bool get izinkanGaleri => _izinkanGaleri;
 
@@ -54,7 +46,7 @@ class StateAdminSiaga extends ChangeNotifier {
   int _kuotaRentangJam = 6;
   int get kuotaRentangJam => _kuotaRentangJam;
 
-  // 6. Profil Petugas Admin
+  // 5. Profil Petugas Admin
   ProfilAdmin _profilAdmin = kDefaultProfilAdmin;
   ProfilAdmin get profilAdmin => _profilAdmin;
 
@@ -86,8 +78,9 @@ class StateAdminSiaga extends ChangeNotifier {
             namaWilayah: 'Kel. Lubuk Buaya, Koto Tangah',
             kategori: 'Banjir Pemukiman',
             deskripsi:
-                'Air Batang Kuranji meluap ke perumahan, air sudah sepinggang orang dewasa di depan rumah.',
+                'Banjir meluap ke perumahan warga, air sudah sepinggang orang dewasa di depan rumah.',
             kebutuhan: ['Perahu Karet', 'Evakuasi Lansia'],
+            idKlaster: 'klaster-koto-tangah',
             estimasiAiTinggi: '70 cm',
           ),
           LaporanAdminItem(
@@ -99,6 +92,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Jalan utama penghubung tergenang deras, kendaraan roda dua dan empat tidak bisa melintas.',
             kebutuhan: ['Truk Evakuasi'],
+            idKlaster: 'klaster-koto-tangah',
             estimasiAiTinggi: '60 cm',
           ),
           LaporanAdminItem(
@@ -110,6 +104,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Tanggul saluran primer rembes, air mulai masuk ke teras rumah warga.',
             kebutuhan: ['Karung Pasir', 'Logistik Makanan'],
+            idKlaster: 'klaster-koto-tangah',
             estimasiAiTinggi: '45 cm',
           ),
           LaporanAdminItem(
@@ -121,6 +116,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Ada 2 keluarga lansia terjebak di dalam rumah, butuh bantuan perahu evakuasi.',
             kebutuhan: ['Perahu Karet', 'Tenaga Medis'],
+            idKlaster: 'klaster-koto-tangah',
             estimasiAiTinggi: '80 cm',
           ),
           LaporanAdminItem(
@@ -132,6 +128,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Listrik padam dan air terus naik. Mohon bantuan personil BPBD.',
             kebutuhan: ['Logistik Makanan', 'Penerangan'],
+            idKlaster: 'klaster-koto-tangah',
             estimasiAiTinggi: '50 cm',
           ),
         ],
@@ -146,10 +143,9 @@ class StateAdminSiaga extends ChangeNotifier {
         estimasiKedalaman: '30 - 50 cm',
         statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
         indikatorAi: ['Genangan Jalan', 'Saluran Drainase Penuh'],
-        kebutuhanDominan: ['Pompa Alir', 'Pengalihan Lalu Lintas'],
+        kebutuhanDominan: ['Pembersihan Saluran', 'Pengalihan Lalu Lintas'],
         catatanTindakLanjut: [
-          '07:30 WIB: Pos Pantau Kuranji mencatat kenaikan air +15 cm.',
-          '08:15 WIB: Regu Pompa Mobile 2 dikerahkan ke lokasi.',
+          'Wilayah telah disetujui petugas BPBD. Tim TRC dikerahkan ke lokasi.',
         ],
         laporan: [
           LaporanAdminItem(
@@ -161,6 +157,9 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Simpang By Pass Sungai Sapih air meluap semata kaki, lajur lambat macet total.',
             kebutuhan: ['Pengalihan Arus'],
+            idKlaster: 'klaster-kuranji',
+            statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
+            diverifikasiOtomatisWilayah: true,
             estimasiAiTinggi: '35 cm',
           ),
           LaporanAdminItem(
@@ -172,6 +171,9 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Drainase tersumbat sampah ranting pohon, air meluber ke halaman.',
             kebutuhan: ['Pembersihan Saluran'],
+            idKlaster: 'klaster-kuranji',
+            statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
+            diverifikasiOtomatisWilayah: true,
             estimasiAiTinggi: '40 cm',
           ),
           LaporanAdminItem(
@@ -182,6 +184,9 @@ class StateAdminSiaga extends ChangeNotifier {
             kategori: 'Banjir Pemukiman',
             deskripsi: 'Debit selokan utama sangat deras, warga bersiap siaga.',
             kebutuhan: ['Karung Pasir'],
+            idKlaster: 'klaster-kuranji',
+            statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
+            diverifikasiOtomatisWilayah: true,
             estimasiAiTinggi: '30 cm',
           ),
           LaporanAdminItem(
@@ -191,7 +196,10 @@ class StateAdminSiaga extends ChangeNotifier {
             namaWilayah: 'Kel. Sungai Sapih, Kuranji',
             kategori: 'Genangan Air',
             deskripsi: 'Air rembesan mendekati pintu rumah, butuh pemantauan.',
-            kebutuhan: ['Pompa Air'],
+            kebutuhan: ['Pembersihan Drainase'],
+            idKlaster: 'klaster-kuranji',
+            statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
+            diverifikasiOtomatisWilayah: true,
             estimasiAiTinggi: '30 cm',
           ),
         ],
@@ -218,6 +226,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Genangan air setinggi 20 cm di jalan pasar Siteba pasca hujan lebat.',
             kebutuhan: ['Pengaturan Lalu Lintas'],
+            idKlaster: 'klaster-nanggalo',
             estimasiAiTinggi: '20 cm',
           ),
           LaporanAdminItem(
@@ -229,6 +238,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi:
                 'Parit jalan penuh namun belum meluap ke badan jalan raya.',
             kebutuhan: const [],
+            idKlaster: 'klaster-nanggalo',
             estimasiAiTinggi: '15 cm',
           ),
         ],
@@ -252,6 +262,7 @@ class StateAdminSiaga extends ChangeNotifier {
       kategori: kategori,
       deskripsi: deskripsi,
       kebutuhan: kebutuhan,
+      idKlaster: 'klaster-koto-tangah',
       foto: foto,
       estimasiAiTinggi: '50 cm',
     );
@@ -283,6 +294,7 @@ class StateAdminSiaga extends ChangeNotifier {
         .map(
           (l) => l.copyWith(
             statusVerifikasi: StatusVerifikasiWilayah.terverifikasi,
+            diverifikasiOtomatisWilayah: true,
           ),
         )
         .toList();
@@ -340,6 +352,10 @@ class StateAdminSiaga extends ChangeNotifier {
     notifyListeners();
   }
 
+  void verifikasiLaporanIndividu(String idLaporan) {
+    koreksiLaporanIndividu(idLaporan, StatusVerifikasiWilayah.terverifikasi);
+  }
+
   void koreksiLaporanIndividu(
     String idLaporan,
     StatusVerifikasiWilayah statusBaru,
@@ -368,38 +384,6 @@ class StateAdminSiaga extends ChangeNotifier {
         notifyListeners();
         return;
       }
-    }
-  }
-
-  // --- AKSI STATUS SUNGAI & SENSOR ---
-
-  void updateSungaiSorotan({
-    required int waterLevelCm,
-    required StatusTinggiAir status,
-    required String statusLabel,
-  }) {
-    final change = waterLevelCm - _sungaiSorotan.waterLevelCm;
-    _sungaiSorotan = StatusSungaiSorotan(
-      name: _sungaiSorotan.name,
-      waterLevelCm: waterLevelCm,
-      changeCm: change,
-      status: status,
-      spillLimitCm: 150,
-      spillRemainingCm: (150 - waterLevelCm).clamp(0, 150),
-      statusLabel: statusLabel,
-    );
-    notifyListeners();
-  }
-
-  void updateStatusInfrastruktur(String id, String statusBaru) {
-    final idx = _infrastruktur.indexWhere((it) => it.id == id);
-    if (idx != -1) {
-      _infrastruktur[idx] = ItemInfrastruktur(
-        id: id,
-        title: _infrastruktur[idx].title,
-        status: statusBaru,
-      );
-      notifyListeners();
     }
   }
 
