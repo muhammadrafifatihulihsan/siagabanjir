@@ -85,7 +85,10 @@ class _LayarMasukState extends State<LayarMasuk> {
     }
 
     _showFeedback('Berhasil masuk sebagai $identifier.');
-    widget.onLoginWithRole?.call(identifier, _selectedRole);
+    if (widget.onLoginWithRole != null) {
+      widget.onLoginWithRole!(identifier, _selectedRole);
+      return;
+    }
     widget.onLoginSuccess?.call(identifier);
   }
 
@@ -98,9 +101,12 @@ class _LayarMasukState extends State<LayarMasuk> {
           ? 'Masuk sebagai Petugas Admin.'
           : 'Masuk sebagai Warga.',
     );
-    if (widget.onLoginWithRole != null || widget.onLoginSuccess != null) {
-      widget.onLoginWithRole?.call(identifier, role);
-      widget.onLoginSuccess?.call(identifier);
+    if (widget.onLoginWithRole != null) {
+      widget.onLoginWithRole!(identifier, role);
+      return;
+    }
+    if (widget.onLoginSuccess != null) {
+      widget.onLoginSuccess!(identifier);
       return;
     }
 

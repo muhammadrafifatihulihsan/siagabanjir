@@ -10,7 +10,7 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 Implementasi Dashboard Web Admin SiagaBanjir (`features/admin`) dan Pemisahan Role Login pada 31 Oktober 2026.
 Mengikuti rancangan desktop portal komando untuk petugas BPBD/Relawan:
-- **Pemisahan Peran Pengguna (Role-based Login)**: Toggle role Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan otomatis ke `/admin` (`KerangkaAdminWeb`) atau `/warga` (`KerangkaWarga`), dilengkapi tombol teks transparan tidak mencolok untuk akses langsung ke Warga atau Admin.
+- **Pemisahan Peran Pengguna (Role-based Login) & Gerbang Masuk**: Aplikasi saat pertama kali dibuka (`main.dart`) kini mengarah langsung ke halaman login (`LayarMasuk`), yang menyediakan toggle peran Warga vs Petugas/Admin serta tombol teks transparan akses cepat. Masuk sebagai Warga mengarah ke antarmuka aplikasi warga (`KerangkaWarga` / Home), sedangkan Admin mengarah ke antarmuka komando (`KerangkaAdminWeb`).
 - **Sidebar 5 Menu Desktop**:
   1. *Dashboard*: Ringkasan KPI dan metrik darurat real-time.
   2. *Wilayah Klaster AI*: Daftar ranking wilayah terdampak terbanyak berdasarkan klasterisasi AI spasio-temporal (radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam sesuai FRD-DEC-020 & DEC-023).
@@ -19,7 +19,7 @@ Mengikuti rancangan desktop portal komando untuk petugas BPBD/Relawan:
   5. *Pengaturan Profil*: Profil petugas BPBD dan ganti kata sandi, serta tombol Logout.
 - **Kumpulan Bukti Wilayah (`ModalBuktiWilayah`)**: Dialog kolektif seluruh foto bukti dan laporan warga dalam 1 wilayah untuk verifikasi serentak (Verifikasi Posko, Kirim Tim SAR, Kirim Logistik, Tolak Palsu).
 - **Sinkronisasi Dua Arah (`StateAdminSiaga`)**: Laporan yang di-submit dari form warga langsung teragregasi otomatis ke klaster wilayah admin, dan pesan siaran dari admin seketika muncul di kotak masuk warga.
-- **Verifikasi**: `flutter analyze --no-pub` PASS (0 issues), 104 tes Flutter PASS (termasuk `dashboard_admin_test.dart` dan `layar_masuk_test.dart`). Link dan skill validator PASS. Branch lokal `branch-rafi`.
+- **Verifikasi**: `flutter analyze --no-pub` PASS (0 issues), 105 tes Flutter PASS (termasuk `dashboard_admin_test.dart` dan `layar_masuk_test.dart`). Link dan skill validator PASS. Branch lokal `branch-rafi`.
 
 ### Riwayat perbaikan bug TTS dan standar komunitas
 

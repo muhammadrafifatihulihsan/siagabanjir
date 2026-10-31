@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/admin/domain/state_admin_siaga.dart';
 import 'package:siagabanjir/features/admin/presentation/kerangka_admin_web.dart';
 import 'package:siagabanjir/features/autentikasi/domain/peran_pengguna.dart';
@@ -210,4 +211,37 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(SnackBar), findsOneWidget);
   });
+
+  testWidgets(
+    'SiagaBanjirApp with mulaiDariMasuk starts at LayarMasuk and navigates to Warga or Admin',
+    (tester) async {
+      tester.view.physicalSize = const Size(1280, 800);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      await tester.pumpWidget(const SiagaBanjirApp(mulaiDariMasuk: true));
+      await tester.pumpAndSettle();
+
+      // 1. Initial screen is login screen
+      expect(find.text('Masuk ke Akun'), findsOneWidget);
+      expect(find.text('Masuk sebagai Admin'), findsOneWidget);
+
+      // 2. Click Masuk sebagai Admin -> goes to KerangkaAdminWeb
+      await tester.ensureVisible(find.text('Masuk sebagai Admin'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Masuk sebagai Admin'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('ADMIN WEB PORTAL'), findsOneWidget);
+      expect(find.text('Mode Tampilan Warga'), findsOneWidget);
+
+      // 3. Click Mode Tampilan Warga -> goes to KerangkaWarga
+      await tester.tap(find.text('Mode Tampilan Warga'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('SiagaBanjir'), findsOneWidget);
+      expect(find.text('Beranda'), findsWidgets);
+    },
+  );
 }
