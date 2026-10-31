@@ -341,7 +341,6 @@ Mengikuti mandat pemilik dan spesifikasi SRS untuk platform Web Admin (BPBD/Rela
    - **Wilayah Klaster AI**: Daftar wilayah dengan laporan terbanyak yang dikelompokkan secara otomatis oleh model AI spasio-temporal (FRD-DEC-020: radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam). Menampilkan ranking wilayah (#1, #2, dst.), estimasi kedalaman, kebutuhan dominan, dan tombol "Buka Kumpulan Bukti".
    - **Kumpulan Bukti Wilayah (`ModalBuktiWilayah`)**: Modal tampilan komprehensif yang mengumpulkan semua bukti foto dan catatan warga dalam satu wilayah klaster AI secara bersamaan, dilengkapi aksi verifikasi serentak (Verifikasi Posko, Kirim Tim SAR, Kirim Logistik, Tolak Palsu).
    - **Laporan Individu**: Tabel granular per laporan/per user dengan kolom ID, nama pelapor, lokasi rinci, kedalaman, kebutuhan, status verifikasi, dan fitur pencarian/filter.
-   - **Pusat Operasional**: Tab aksi komando terpadu dengan 4 sub-kontrol: Siaran Peringatan Darurat (Broadcast ke kotak masuk warga), Manajemen Kontak Posko Bencana, Kontrol Sensor Ketinggian Air Sungai, dan Kebijakan Kuota Pengiriman Laporan.
+   - **Pusat Operasional**: Tab aksi komando terpadu dengan sub-kontrol: Siaran Peringatan Darurat (Broadcast ke kotak masuk warga), Manajemen Kontak Posko Bencana, dan Kebijakan Kuota Pengiriman Laporan.
    - **Pengaturan Profil**: Pengaturan profil petugas BPBD (NIP, Nama, Jabatan, Satuan Kerja) dan ubah kata sandi.
    - **Tombol Keluar (Logout)**: Mengakhiri sesi admin dan kembali ke layar masuk dengan state bersih.
-
