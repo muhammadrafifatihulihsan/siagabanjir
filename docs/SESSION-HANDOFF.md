@@ -8,16 +8,20 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
-Perbaikan bug TTS Panduan Selamat, upload APK release v0.2.0 (`siagabanjir-v0.2.0-debug.apk`), dan implementasi 100% GitHub Community Standards pada 27 Oktober 2026.
-Kecepatan TTS dipilih 0.5 (setengah kecepatan, lebih lambat dan jelas untuk
-panduan darurat) setelah uji pengguna di HP. `awaitSpeakCompletion(true)` mencegah
-narasi bertumpuk. Release GitHub `v0.2.0` berstatus Latest Release dengan aset APK
-berhasil terpasang. Ditambahkan berkas standar komunitas berstandar industri:
-`CODE_OF_CONDUCT.md` (Contributor Covenant v2.1), `CONTRIBUTING.md`, dan `SECURITY.md`.
-Dokumentasi diselaraskan pada `INDEX.md`, `WORKSPACE.md`, dan `VERSIONING.md`.
-Commit terbaru pada branch `branch-rafi`; 101 tes Flutter PASS.
+Implementasi Dashboard Web Admin SiagaBanjir (`features/admin`) dan Pemisahan Role Login pada 31 Oktober 2026.
+Mengikuti rancangan desktop portal komando untuk petugas BPBD/Relawan:
+- **Pemisahan Peran Pengguna (Role-based Login)**: Toggle role Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan otomatis ke `/admin` (`KerangkaAdminWeb`) atau `/warga` (`KerangkaWarga`).
+- **Sidebar 5 Menu Desktop**:
+  1. *Dashboard*: Ringkasan KPI dan metrik darurat real-time.
+  2. *Wilayah Klaster AI*: Daftar ranking wilayah terdampak terbanyak berdasarkan klasterisasi AI spasio-temporal (radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam sesuai FRD-DEC-020 & DEC-023).
+  3. *Laporan Individu*: Tabel data granular per user/laporan dengan pencarian dan filter status.
+  4. *Pusat Operasional*: Broadcast peringatan darurat ke kotak masuk warga, manajemen kontak posko bencana, kontrol sensor ketinggian air Batang Kuranji, dan kebijakan kuota pelaporan.
+  5. *Pengaturan Profil*: Profil petugas BPBD dan ganti kata sandi, serta tombol Logout.
+- **Kumpulan Bukti Wilayah (`ModalBuktiWilayah`)**: Dialog kolektif seluruh foto bukti dan laporan warga dalam 1 wilayah untuk verifikasi serentak (Verifikasi Posko, Kirim Tim SAR, Kirim Logistik, Tolak Palsu).
+- **Sinkronisasi Dua Arah (`StateAdminSiaga`)**: Laporan yang di-submit dari form warga langsung teragregasi otomatis ke klaster wilayah admin, dan pesan siaran dari admin seketika muncul di kotak masuk warga.
+- **Verifikasi**: `flutter analyze --no-pub` PASS (0 issues), 104 tes Flutter PASS (termasuk `dashboard_admin_test.dart` dan `layar_masuk_test.dart`). Link dan skill validator PASS. Branch lokal `branch-rafi`.
 
-### Riwayat audit UI/UX lanjutan
+### Riwayat perbaikan bug TTS dan standar komunitas
 
 Audit lanjutan mengikuti [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065).
 [Checklist lengkap](WORKSPACE.md#flutter-uiux-lanjutan) mencatat foto profil

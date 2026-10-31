@@ -3,26 +3,31 @@ import 'package:flutter/material.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
+import '../domain/peran_pengguna.dart';
 import 'layar_daftar.dart';
 import 'widgets/kartu_masuk.dart';
 import 'widgets/footer_masuk.dart';
 import 'widgets/header_masuk.dart';
 
 // Layar Masuk ke Akun (Login) SiagaBanjir sesuai spesifikasi desain auth_login.svg.
-// Memfasilitasi autentikasi warga untuk mengakses fitur pelaporan dan dokumen siaga.
+// Memfasilitasi autentikasi pengguna dengan pemisahan peran Warga vs Petugas Admin.
 class LayarMasuk extends StatefulWidget {
   const LayarMasuk({
     super.key,
     this.onLoginSuccess,
+    this.onLoginWithRole,
     this.onRegister,
     this.onForgotPassword,
     this.onGoogleLogin,
+    this.initialRole = PeranPengguna.warga,
   });
 
   final ValueChanged<String>? onLoginSuccess;
+  final void Function(String identifier, PeranPengguna role)? onLoginWithRole;
   final VoidCallback? onRegister;
   final VoidCallback? onForgotPassword;
   final VoidCallback? onGoogleLogin;
+  final PeranPengguna initialRole;
 
   @override
   State<LayarMasuk> createState() => _LayarMasukState();
@@ -33,6 +38,13 @@ class _LayarMasukState extends State<LayarMasuk> {
   final _identifierController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = true;
+  late PeranPengguna _selectedRole;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedRole = widget.initialRole;
+  }
 
   @override
   void dispose() {
@@ -58,7 +70,11 @@ class _LayarMasukState extends State<LayarMasuk> {
     final password = _passwordController.text;
 
     if (identifier.isEmpty) {
-      _showFeedback('Nomor ponsel atau email wajib diisi.');
+      _showFeedback(
+        _selectedRole == PeranPengguna.admin
+            ? 'Nomor ponsel atau email wajib diisi.'
+            : 'Nomor ponsel atau email wajib diisi.',
+      );
       return;
     }
 
@@ -68,6 +84,7 @@ class _LayarMasukState extends State<LayarMasuk> {
     }
 
     _showFeedback('Berhasil masuk sebagai $identifier.');
+    widget.onLoginWithRole?.call(identifier, _selectedRole);
     widget.onLoginSuccess?.call(identifier);
   }
 
@@ -135,6 +152,17 @@ class _LayarMasukState extends State<LayarMasuk> {
                   identifierController: _identifierController,
                   passwordController: _passwordController,
                   rememberMe: _rememberMe,
+                  selectedRole: _selectedRole,
+                  onRoleChanged: (role) {
+                    setState(() {
+                      _selectedRole = role;
+                      if (role == PeranPengguna.admin &&
+                          _identifierController.text.isEmpty) {
+                        _identifierController.text = 'admin.bpbd@padang.go.id';
+                        _passwordController.text = 'admin123';
+                      }
+                    });
+                  },
                   onRememberMeChanged: (val) {
                     setState(() => _rememberMe = val);
                   },

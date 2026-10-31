@@ -1,0 +1,890 @@
+import 'package:flutter/material.dart';
+
+import '../../../../shared/widgets/dialog_siaga.dart';
+import '../../../kontak/presentation/models/entri_kontak.dart';
+import '../../../pantau/presentation/models/data_pantau_wilayah.dart';
+import '../../../pesan/presentation/models/pesan_siaga.dart';
+import '../../domain/state_admin_siaga.dart';
+
+class TabPusatOperasional extends StatefulWidget {
+  const TabPusatOperasional({
+    super.key,
+    required this.state,
+  });
+
+  final StateAdminSiaga state;
+
+  @override
+  State<TabPusatOperasional> createState() => _TabPusatOperasionalState();
+}
+
+class _TabPusatOperasionalState extends State<TabPusatOperasional> {
+  int _activeSubIndex = 0;
+
+  // Controllers untuk Siaran Peringatan
+  final _judulPesanController = TextEditingController();
+  final _isiPesanController = TextEditingController();
+  final _instansiController = TextEditingController(text: 'PUSDALOPS BPBD Kota Padang');
+  KategoriPesan _kategoriPesanPilihan = KategoriPesan.emergency;
+
+  // Controllers untuk Kontrol Sungai
+  late int _waterLevelInput;
+  late StatusTinggiAir _statusSungaiInput;
+
+  // Controllers untuk Kontak Posko
+  final _namaKontakController = TextEditingController();
+  final _nomorKontakController = TextEditingController();
+  final _ketKontakController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _waterLevelInput = widget.state.sungaiSorotan.waterLevelCm;
+    _statusSungaiInput = widget.state.sungaiSorotan.status;
+  }
+
+  @override
+  void dispose() {
+    _judulPesanController.dispose();
+    _isiPesanController.dispose();
+    _instansiController.dispose();
+    _namaKontakController.dispose();
+    _nomorKontakController.dispose();
+    _ketKontakController.dispose();
+    super.dispose();
+  }
+
+  void _kirimSiaran() {
+    final judul = _judulPesanController.text.trim();
+    final isi = _isiPesanController.text.trim();
+    final instansi = _instansiController.text.trim();
+
+    if (judul.isEmpty || isi.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Judul dan isi peringatan wajib diisi.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    final String badgeLabel;
+    final Color badgeBg;
+    final Color badgeText;
+    final Color? stripe;
+
+    switch (_kategoriPesanPilihan) {
+      case KategoriPesan.emergency:
+        badgeLabel = 'Darurat • Siaga 2';
+        badgeBg = const Color(0xFFFEE2E2);
+        badgeText = const Color(0xFFDC2626);
+        stripe = const Color(0xFFDC2626);
+        break;
+      case KategoriPesan.weather:
+        badgeLabel = 'Cuaca BMKG';
+        badgeBg = const Color(0xFFD7EFFF);
+        badgeText = const Color(0xFF0284C7);
+        stripe = const Color(0xFFD97706);
+        break;
+      case KategoriPesan.all:
+        badgeLabel = 'Informasi Posko';
+        badgeBg = const Color(0xFFF1F5F9);
+        badgeText = const Color(0xFF475569);
+        stripe = const Color(0xFF2563EB);
+        break;
+    }
+
+    final waktu =
+        '${DateTime.now().hour.toString().padLeft(2, '0')}:${DateTime.now().minute.toString().padLeft(2, '0')} WIB';
+
+    final pesanBaru = PesanSiaga(
+      id: 'MSG-${DateTime.now().millisecondsSinceEpoch}',
+      category: _kategoriPesanPilihan,
+      badgeLabel: badgeLabel,
+      badgeBackground: badgeBg,
+      badgeTextColor: badgeText,
+      leftStripeColor: stripe,
+      timestamp: waktu,
+      agency: instansi.isEmpty ? 'BPBD Kota Padang' : instansi,
+      title: judul,
+      body: isi,
+      actions: const ['Bagikan'],
+      isNew: true,
+    );
+
+    widget.state.terbitkanPeringatanBaru(pesanBaru);
+    _judulPesanController.clear();
+    _isiPesanController.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Peringatan siaga berhasil disiarkan ke seluruh inbox warga.'),
+        backgroundColor: Color(0xFF1D4ED8),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  void _simpanStatusSungai() {
+    String label = 'Siaga 2';
+    if (_statusSungaiInput == StatusTinggiAir.normal) label = 'Normal';
+    if (_statusSungaiInput == StatusTinggiAir.siaga3) label = 'Siaga 3';
+    if (_statusSungaiInput == StatusTinggiAir.siaga2) label = 'Siaga 2';
+    if (_statusSungaiInput == StatusTinggiAir.bahaya) label = 'Bahaya (Siaga 1)';
+
+    widget.state.updateSungaiSorotan(
+      waterLevelCm: _waterLevelInput,
+      status: _statusSungaiInput,
+      statusLabel: label,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Sensor Sungai Batang Kuranji diperbarui ke $_waterLevelInput cm ($label).'),
+        backgroundColor: const Color(0xFF059669),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  void _tambahKontakPosko() {
+    final nama = _namaKontakController.text.trim();
+    final nomor = _nomorKontakController.text.trim();
+    final ket = _ketKontakController.text.trim();
+
+    if (nama.isEmpty || nomor.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Nama posko dan nomor telepon wajib diisi.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    widget.state.tambahKontakPosko(
+      EntriKontak(
+        name: nama,
+        agency: 'Posko Siaga Bencana Lapangan',
+        phone: nomor,
+        description: ket.isEmpty ? 'Posko Siaga Lapangan' : ket,
+        category: KategoriKontak.emergency,
+        accentColor: const Color(0xFFDC2626),
+      ),
+    );
+
+    _namaKontakController.clear();
+    _nomorKontakController.clear();
+    _ketKontakController.clear();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Nomor kontak posko darurat berhasil ditambahkan.'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(28),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Header Judul
+          const Text(
+            'Pusat Aksi & Pengaturan Operasional',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+              color: Color(0xFF0F172A),
+              letterSpacing: -0.3,
+            ),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Kelola siaran peringatan dini ke warga, kontak darurat posko, sensor debit air, dan kebijakan kuota.',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: Color(0xFF64748B),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // Sub-Tab Segmented Selector
+          Row(
+            children: [
+              _buildSubTabItem(0, 'Siaran Peringatan (Broadcast)', Icons.campaign_outlined),
+              const SizedBox(width: 8),
+              _buildSubTabItem(1, 'Kontak Darurat & Posko', Icons.phone_in_talk_outlined),
+              const SizedBox(width: 8),
+              _buildSubTabItem(2, 'Kontrol Sensor Sungai', Icons.waves_rounded),
+              const SizedBox(width: 8),
+              _buildSubTabItem(3, 'Kebijakan Kuota & Galeri', Icons.tune_rounded),
+            ],
+          ),
+          const SizedBox(height: 24),
+
+          // Content Pane berdasarkan Sub-Tab Terpilih
+          if (_activeSubIndex == 0) _buildSubTabSiaranPeringatan(),
+          if (_activeSubIndex == 1) _buildSubTabKontakPosko(),
+          if (_activeSubIndex == 2) _buildSubTabSensorSungai(),
+          if (_activeSubIndex == 3) _buildSubTabKebijakanKuota(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSubTabItem(int index, String label, IconData icon) {
+    final isSelected = _activeSubIndex == index;
+    return InkWell(
+      onTap: () => setState(() => _activeSubIndex = index),
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        decoration: BoxDecoration(
+          color: isSelected ? const Color(0xFF2563EB) : Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? const Color(0xFF2563EB) : const Color(0xFFE2E8F0),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 16,
+              color: isSelected ? Colors.white : const Color(0xFF64748B),
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
+                color: isSelected ? Colors.white : const Color(0xFF334155),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // --- SUB-TAB 1: SIARAN PERINGATAN DARURAT ---
+  Widget _buildSubTabSiaranPeringatan() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Form Terbitkan Siaran
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Terbitkan Peringatan Dini Baru ke Warga',
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF0F172A),
+                ),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Pesan yang diterbitkan akan langsung terkirim ke tab Kotak Masuk (Inbox) seluruh aplikasi warga.',
+                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 16),
+
+              // Pilihan Kategori Peringatan
+              const Text(
+                'Kategori Tingkat Peringatan:',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  _buildRadioKategori(
+                    KategoriPesan.emergency,
+                    'Darurat (Merah)',
+                    const Color(0xFFDC2626),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildRadioKategori(
+                    KategoriPesan.weather,
+                    'Cuaca BMKG (Biru)',
+                    const Color(0xFF0284C7),
+                  ),
+                  const SizedBox(width: 12),
+                  _buildRadioKategori(
+                    KategoriPesan.all,
+                    'Informasi Posko (Netral)',
+                    const Color(0xFF475569),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Input Judul
+              const Text('Judul Peringatan:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _judulPesanController,
+                decoration: InputDecoration(
+                  hintText: 'Contoh: Waspada Luapan Sungai Batang Kuranji & Lubuk Kilangan',
+                  isDense: true,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              const SizedBox(height: 14),
+
+              // Input Isi Pesan
+              const Text('Isi Instruksi / Pesan Peringatan:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+              const SizedBox(height: 6),
+              TextField(
+                controller: _isiPesanController,
+                maxLines: 3,
+                decoration: InputDecoration(
+                  hintText: 'Tuliskan rincian kondisi banjir, radius bahaya, dan instruksi evakuasi...',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              const SizedBox(height: 16),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF2563EB),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: _kirimSiaran,
+                  icon: const Icon(Icons.send_rounded, size: 16),
+                  label: const Text('Siarkan Sekarang ke Seluruh Warga', style: TextStyle(fontWeight: FontWeight.w700)),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Daftar Peringatan yang Sedang Mengudara
+        const Text(
+          'Daftar Peringatan yang Sedang Aktif di Warga:',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+        ),
+        const SizedBox(height: 12),
+        ...widget.state.pesanSiaga.map((msg) => _buildPesanItem(msg)),
+      ],
+    );
+  }
+
+  Widget _buildRadioKategori(KategoriPesan kat, String label, Color color) {
+    final isSelected = _kategoriPesanPilihan == kat;
+    return InkWell(
+      onTap: () => setState(() => _kategoriPesanPilihan = kat),
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withValues(alpha: 0.12) : const Color(0xFFF8FAFC),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: isSelected ? color : const Color(0xFFCBD5E1)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
+              size: 16,
+              color: color,
+            ),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPesanItem(PesanSiaga msg) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: msg.badgeBackground,
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              msg.badgeLabel,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: msg.badgeTextColor),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  msg.title,
+                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  '${msg.agency} • ${msg.timestamp}',
+                  style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                ),
+                const SizedBox(height: 4),
+                Text(msg.body, style: const TextStyle(fontSize: 12, color: Color(0xFF334155))),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              foregroundColor: const Color(0xFFDC2626),
+              side: const BorderSide(color: Color(0xFFFECACA)),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            ),
+            onPressed: () {
+              widget.state.cabutPeringatan(msg.id);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Peringatan telah dicabut dari inbox warga.')),
+              );
+            },
+            child: const Text('Cabut Siaran', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // --- SUB-TAB 2: KONTAK DARURAT & POSKO ---
+  Widget _buildSubTabKontakPosko() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Form Tambah Kontak Posko
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Tambah Nomor Posko Siaga Bencana Lapangan',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Nomor ini akan langsung terdaftar di direktori kontak darurat warga Kota Padang.',
+                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _namaKontakController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: 'Nama Posko / Instansi',
+                        hintText: 'Contoh: Posko Evakuasi SMPN 13 Koto Tangah',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: TextField(
+                      controller: _nomorKontakController,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelText: 'Nomor Telepon / WhatsApp',
+                        hintText: 'Contoh: 0812-9988-7766',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _ketKontakController,
+                decoration: InputDecoration(
+                  isDense: true,
+                  labelText: 'Keterangan Wilayah Layanan',
+                  hintText: 'Contoh: Melayani evakuasi dan logistik wilayah Lubuk Buaya sekitarnya',
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+              ),
+              const SizedBox(height: 14),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF2563EB),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: _tambahKontakPosko,
+                  icon: const Icon(Icons.add_call, size: 16),
+                  label: const Text('Daftarkan Nomor Kontak'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // List Kontak Terdaftar
+        const Text(
+          'Daftar Kontak Publik yang Aktif di Direktori Warga:',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+        ),
+        const SizedBox(height: 12),
+        ...widget.state.kontakDarurat.map((k) => Container(
+              margin: const EdgeInsets.only(bottom: 8),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF6FF),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(Icons.phone_rounded, color: Color(0xFF2563EB), size: 20),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          k.name,
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+                        ),
+                        Text(
+                          '${k.phone} • ${k.agency}',
+                          style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete_outline, size: 18, color: Color(0xFFDC2626)),
+                    onPressed: () {
+                      widget.state.hapusKontakPosko(k.name);
+                    },
+                  ),
+                ],
+              ),
+            )),
+      ],
+    );
+  }
+
+  // --- SUB-TAB 3: KONTROL SENSOR SUNGAI & INFRASTRUKTUR ---
+  Widget _buildSubTabSensorSungai() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: const Color(0xFFE2E8F0)),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Kontrol Sensor Sorotan Utama: Sungai Batang Kuranji',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+              ),
+              const SizedBox(height: 4),
+              const Text(
+                'Ubah angka ketinggian air dan status siaga. Data ini langsung terbarui di kartu sorotan Pantau Wilayah dan Beranda Warga.',
+                style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+              ),
+              const SizedBox(height: 20),
+
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tinggi Air Terkini: $_waterLevelInput cm (Batas Luapan: 150 cm)',
+                          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700),
+                        ),
+                        Slider(
+                          value: _waterLevelInput.toDouble(),
+                          min: 50,
+                          max: 200,
+                          divisions: 30,
+                          label: '$_waterLevelInput cm',
+                          activeColor: const Color(0xFF2563EB),
+                          onChanged: (val) {
+                            setState(() {
+                              _waterLevelInput = val.round();
+                              if (_waterLevelInput >= 160) {
+                                _statusSungaiInput = StatusTinggiAir.bahaya;
+                              } else if (_waterLevelInput >= 130) {
+                                _statusSungaiInput = StatusTinggiAir.siaga2;
+                              } else if (_waterLevelInput >= 100) {
+                                _statusSungaiInput = StatusTinggiAir.siaga3;
+                              } else {
+                                _statusSungaiInput = StatusTinggiAir.normal;
+                              }
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Tingkat Status Siaga:', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                      const SizedBox(height: 6),
+                      DropdownButton<StatusTinggiAir>(
+                        value: _statusSungaiInput,
+                        items: StatusTinggiAir.values
+                            .map(
+                              (st) => DropdownMenuItem(
+                                value: st,
+                                child: Text(st.label),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (val) {
+                          if (val != null) setState(() => _statusSungaiInput = val);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 14),
+              Align(
+                alignment: Alignment.centerRight,
+                child: FilledButton.icon(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF059669),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  ),
+                  onPressed: _simpanStatusSungai,
+                  icon: const Icon(Icons.save_rounded, size: 16),
+                  label: const Text('Terapkan Pembaruan Sensor Sungai'),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Infrastruktur Pintu Air & Pompa
+        const Text(
+          'Status Operasional Pintu Air & Pompa Mobile:',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F172A)),
+        ),
+        const SizedBox(height: 12),
+        ...widget.state.infrastruktur.map((item) => Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: const Color(0xFFE2E8F0)),
+              ),
+              child: Row(
+                children: [
+                  const Icon(Icons.settings_input_component_outlined, color: Color(0xFF2563EB)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.title, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                        Text('Status: ${item.status}', style: const TextStyle(fontSize: 12, color: Color(0xFF059669))),
+                      ],
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      final ctrl = TextEditingController(text: item.status);
+                      showDialog<void>(
+                        context: context,
+                        builder: (ctx) => DialogSiaga(
+                          title: Text('Ubah Status ${item.title}'),
+                          content: TextField(controller: ctrl, decoration: const InputDecoration(labelText: 'Status Operasional')),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal')),
+                            FilledButton(
+                              onPressed: () {
+                                widget.state.updateStatusInfrastruktur(item.id, ctrl.text.trim());
+                                Navigator.pop(ctx);
+                              },
+                              child: const Text('Simpan'),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    child: const Text('Ubah Status'),
+                  ),
+                ],
+              ),
+            )),
+      ],
+    );
+  }
+
+  // --- SUB-TAB 4: KEBIJAKAN KUOTA & SAKELAR GALERI ---
+  Widget _buildSubTabKebijakanKuota() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE2E8F0)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Kebijakan Pengiriman Laporan & Kontrol Kuota',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700, color: Color(0xFF0F172A)),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'Pengaturan pembatasan laporan untuk mencegah spam dan verifikasi keaslian foto laporan sesuai FR-CONTROL-001.',
+            style: TextStyle(fontSize: 12, color: Color(0xFF64748B)),
+          ),
+          const SizedBox(height: 20),
+
+          // Sakelar Galeri
+          SwitchListTile(
+            title: const Text('Izinkan Unggah Foto dari Galeri HP', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+            subtitle: const Text(
+              'Jika dimatikan (OFF), warga hanya diizinkan mengambil foto langsung melalui kamera HP untuk menjamin keaslian foto kejadian.',
+              style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+            ),
+            value: widget.state.izinkanGaleri,
+            activeTrackColor: const Color(0xFF2563EB),
+            onChanged: (val) {
+              widget.state.setIzinkanGaleri(val);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Kebijakan galeri diubah ke: ${val ? "Boleh Galeri" : "Wajib Kamera Langsung"}')),
+              );
+            },
+          ),
+          const Divider(height: 24),
+
+          // Batas Kuota Warga
+          ListTile(
+            title: const Text('Batas Kuota Laporan Warga', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+            subtitle: Text(
+              'Saat ini: ${widget.state.kuotaMaksimal} laporan per ${widget.state.kuotaRentangJam} jam per akun warga.',
+              style: const TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+            ),
+            trailing: FilledButton.tonal(
+              onPressed: () {
+                final kuotaCtrl = TextEditingController(text: widget.state.kuotaMaksimal.toString());
+                final jamCtrl = TextEditingController(text: widget.state.kuotaRentangJam.toString());
+                showDialog<void>(
+                  context: context,
+                  builder: (ctx) => DialogSiaga(
+                    title: const Text('Ubah Parameter Kuota'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(controller: kuotaCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Maks Laporan')),
+                        TextField(controller: jamCtrl, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: 'Rentang Jam')),
+                      ],
+                    ),
+                    actions: [
+                      TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Batal')),
+                      FilledButton(
+                        onPressed: () {
+                          widget.state.setKuotaPengaturan(int.tryParse(kuotaCtrl.text) ?? 3, int.tryParse(jamCtrl.text) ?? 6);
+                          Navigator.pop(ctx);
+                        },
+                        child: const Text('Terapkan'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              child: const Text('Sesuaikan Kuota'),
+            ),
+          ),
+          const Divider(height: 24),
+
+          // Tombol Reset Kuota Darurat
+          ListTile(
+            title: const Text('Reset Kuota Darurat (Semua Warga)', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: Color(0xFFDC2626))),
+            subtitle: const Text(
+              'Gunakan jika bencana banjir meluas dan warga perlu mengirim laporan darurat tambahan tanpa terhambat kuota.',
+              style: TextStyle(fontSize: 11, color: Color(0xFF64748B)),
+            ),
+            trailing: OutlinedButton(
+              style: OutlinedButton.styleFrom(
+                foregroundColor: const Color(0xFFDC2626),
+                side: const BorderSide(color: Color(0xFFFECACA)),
+              ),
+              onPressed: () {
+                widget.state.resetSemuaKuota();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Seluruh kuota akun warga telah direset menjadi 0 pemakaian.')),
+                );
+              },
+              child: const Text('Reset Kuota Warga'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

@@ -25,6 +25,7 @@ lib/
     theme/                     # tema dan token tampilan bersama
     widgets/                   # header, navigasi warga, ikon lokal
   features/
+    admin/                     # portal web dashboard komando BPBD/Relawan
     akun/
     autentikasi/
     beranda/
@@ -54,6 +55,7 @@ anggota menemukan kode setelah pull; semua layar berada di `presentation`.
 | Nama lama | Folder sekarang | File layar |
 |---|---|---|
 | account | akun | layar_profil.dart |
+| admin | admin | kerangka_admin_web.dart |
 | auth | autentikasi | layar_masuk.dart, layar_daftar.dart |
 | home | beranda | layar_beranda.dart |
 | documents | dokumen | layar_dokumen_siaga.dart |

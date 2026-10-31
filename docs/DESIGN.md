@@ -325,3 +325,23 @@ Riwayat menampilkan kategori, dua baris deskripsi dan waktu; detail di dialog.
 Rute, rekomendasi posko dan titik evakuasi profil dihapus atas mandat pemilik.
 Panduan memakai keterangan rate normal, putar/jeda/lanjut/stop; teks tetap tersedia.
 Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
+
+## Antarmuka Dashboard Web Admin (Desktop Browser)
+
+Mengikuti mandat pemilik dan spesifikasi SRS untuk platform Web Admin (BPBD/Relawan):
+
+1. **Pemisahan Peran Pengguna (Role-based Login)**:
+   - Pada layar masuk (`LayarMasuk`), disediakan pemilih peran adaptif: `Warga` vs `Petugas / Admin`.
+   - Login dengan peran Petugas/Admin mengarahkan pengguna langsung ke rute `/admin` (`KerangkaAdminWeb`), sedangkan peran Warga diarahkan ke antarmuka aplikasi warga (`KerangkaWarga`).
+2. **Tata Letak Shell Desktop Responsif (`KerangkaAdminWeb`)**:
+   - Sidebar navigasi tetap di sisi kiri (lebar 260px) dengan logo SiagaBanjir, penanda `Portal Komando Petugas`, serta 5 menu navigasi terstruktur.
+   - Top bar navigasi desktop dengan breadcrumbs dinamis, indikator status siaga Padang, tombol alih cepat mode warga untuk kemudahan pengujian, dan identitas petugas.
+3. **Struktur 5 Menu Sidebar**:
+   - **Dashboard (Ringkasan Keseluruhan)**: Metrik ringkasan kartu (total laporan aktif, wilayah terdampak, status sungai Batang Kuranji, kesiapan tim SAR), antrean darurat cepat, dan riwayat aktivitas operasional.
+   - **Wilayah Klaster AI**: Daftar wilayah dengan laporan terbanyak yang dikelompokkan secara otomatis oleh model AI spasio-temporal (FRD-DEC-020: radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam). Menampilkan ranking wilayah (#1, #2, dst.), estimasi kedalaman, kebutuhan dominan, dan tombol "Buka Kumpulan Bukti".
+   - **Kumpulan Bukti Wilayah (`ModalBuktiWilayah`)**: Modal tampilan komprehensif yang mengumpulkan semua bukti foto dan catatan warga dalam satu wilayah klaster AI secara bersamaan, dilengkapi aksi verifikasi serentak (Verifikasi Posko, Kirim Tim SAR, Kirim Logistik, Tolak Palsu).
+   - **Laporan Individu**: Tabel granular per laporan/per user dengan kolom ID, nama pelapor, lokasi rinci, kedalaman, kebutuhan, status verifikasi, dan fitur pencarian/filter.
+   - **Pusat Operasional**: Tab aksi komando terpadu dengan 4 sub-kontrol: Siaran Peringatan Darurat (Broadcast ke kotak masuk warga), Manajemen Kontak Posko Bencana, Kontrol Sensor Ketinggian Air Sungai, dan Kebijakan Kuota Pengiriman Laporan.
+   - **Pengaturan Profil**: Pengaturan profil petugas BPBD (NIP, Nama, Jabatan, Satuan Kerja) dan ubah kata sandi.
+   - **Tombol Keluar (Logout)**: Mengakhiri sesi admin dan kembali ke layar masuk dengan state bersih.
+

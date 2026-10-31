@@ -7,6 +7,20 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Dashboard Web Admin SiagaBanjir (`features/admin`):** Implementasi lengkap antarmuka portal
+  komando admin berbasis web desktop responsif untuk petugas BPBD/Relawan:
+  - *Pemisahan Peran Pengguna*: Toggle login Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan
+    otomatis ke rute `/admin` atau `/warga`.
+  - *Struktur 5 Menu Sidebar*: Tab 1 Ringkasan Dashboard (KPI & metrik terpadu), Tab 2 Wilayah Klaster AI
+    (ranking wilayah terdampak terbanyak berdasarkan radius $\le$ 1.500 m / 6 jam dan bentang total
+    $\le$ 3.000 m / 12 jam sesuai FRD-DEC-020), Tab 3 Laporan Individu (tabel granular per warga),
+    Tab 4 Pusat Operasional (broadcast siaran darurat, kontak posko, sensor sungai, kebijakan kuota),
+    serta Tab 5 Pengaturan Profil petugas BPBD dan tombol Keluar (logout).
+  - *Modal Bukti Kolektif Wilayah*: Dialog komprehensif kumpulan seluruh foto bukti dan catatan warga
+    dalam satu wilayah klaster untuk verifikasi dan instruksi tim evakuasi serentak.
+  - *Sinkronisasi Dua Arah*: Pelaporan warga dari formulir langsung teragregasi secara reaktif ke klaster
+    wilayah di state admin, dan siaran darurat dari admin seketika muncul pada kotak masuk peringatan warga.
+  - *Pengujian Unit & Widget*: Penambahan suite `dashboard_admin_test.dart` mencakup 104 tes Flutter PASS 100%.
 - **Pembersihan visual UI produk riil:** Menghilangkan seluruh teks, banner, dialog,
   dan feedback snackbar bernuansa disclaimer "mode demo lokal", "sesi demo", "data uji",
   dan teks defensif sejenis di seluruh layar Flutter (`apps/siagabanjir`), mencakup layar masuk,
