@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Aset Sample Foto Banjir Riil untuk Data Dummy Admin & Warga:**
+  - Menjadikan foto banjir lapangan riil sebagai aset data dummy default (`assets/images/reports/sample_banjir.jpg`, `report_1.jpeg`, `report_2.jpeg`).
+  - Terintegrasi di sisi Admin (`PreviewMediaLaporan` thumbnail tabel, modal bukti klaster wilayah, dan dialog pratinjau resolusi tinggi) serta di sisi Warga (`BagianBuktiLaporan` panduan visual foto banjir, `KartuRiwayatLaporan`, dan dialog detail riwayat laporan).
 - **Penyempurnaan Dashboard Web Admin SiagaBanjir (`features/admin`):**
   - *Penyesuaian Cakupan*: Menghapus panel kontrol sensor sungai Batang Kuranji dan infrastruktur pompa air dari Dashboard Admin Web agar fokus sepenuhnya pada penanganan laporan warga dan siaga darurat.
   - *Auto-Approve Wilayah ke Laporan Individu*: Verifikasi klaster wilayah secara otomatis menyetujui seluruh laporan perorangan di wilayah tersebut (`diverifikasiOtomatisWilayah: true`) tanpa perlu verifikasi ganda.

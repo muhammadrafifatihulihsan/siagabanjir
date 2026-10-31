@@ -85,7 +85,14 @@ class PreviewMediaLaporan extends StatelessWidget {
                         width: double.infinity,
                         fit: BoxFit.cover,
                       )
-                    : _buildFotografiMock(height: 240, isFull: true, item: item),
+                    : Image.asset(
+                        'assets/images/reports/sample_banjir.jpg',
+                        height: 260,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) =>
+                            _buildFotografiMock(height: 240, isFull: true, item: item),
+                      ),
               ),
               const SizedBox(height: 16),
 
@@ -322,10 +329,14 @@ class PreviewMediaLaporan extends StatelessWidget {
                           item.foto!,
                           fit: BoxFit.cover,
                         )
-                      : _buildFotografiMock(
-                          height: effHeight,
-                          isFull: false,
-                          item: item,
+                      : Image.asset(
+                          'assets/images/reports/sample_banjir.jpg',
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => _buildFotografiMock(
+                            height: effHeight,
+                            isFull: false,
+                            item: item,
+                          ),
                         ),
                 ),
               ),
