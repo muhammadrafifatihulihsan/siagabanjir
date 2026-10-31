@@ -10,7 +10,7 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 Implementasi Dashboard Web Admin SiagaBanjir (`features/admin`) dan Pemisahan Role Login pada 31 Oktober 2026.
 Mengikuti rancangan desktop portal komando untuk petugas BPBD/Relawan:
-- **Pemisahan Peran Pengguna (Role-based Login)**: Toggle role Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan otomatis ke `/admin` (`KerangkaAdminWeb`) atau `/warga` (`KerangkaWarga`).
+- **Pemisahan Peran Pengguna (Role-based Login)**: Toggle role Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan otomatis ke `/admin` (`KerangkaAdminWeb`) atau `/warga` (`KerangkaWarga`), dilengkapi tombol teks transparan tidak mencolok untuk akses langsung ke Warga atau Admin.
 - **Sidebar 5 Menu Desktop**:
   1. *Dashboard*: Ringkasan KPI dan metrik darurat real-time.
   2. *Wilayah Klaster AI*: Daftar ranking wilayah terdampak terbanyak berdasarkan klasterisasi AI spasio-temporal (radius $\le$ 1.500 m / 6 jam, bentang total $\le$ 3.000 m / 12 jam sesuai FRD-DEC-020 & DEC-023).

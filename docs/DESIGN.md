@@ -331,7 +331,7 @@ Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
 Mengikuti mandat pemilik dan spesifikasi SRS untuk platform Web Admin (BPBD/Relawan):
 
 1. **Pemisahan Peran Pengguna (Role-based Login)**:
-   - Pada layar masuk (`LayarMasuk`), disediakan pemilih peran adaptif: `Warga` vs `Petugas / Admin`.
+   - Pada layar masuk (`LayarMasuk`), disediakan pemilih peran adaptif: `Warga` vs `Petugas / Admin`, serta tautan teks transparan tidak mencolok di bawah footer untuk akses langsung ke Warga atau Admin.
    - Login dengan peran Petugas/Admin mengarahkan pengguna langsung ke rute `/admin` (`KerangkaAdminWeb`), sedangkan peran Warga diarahkan ke antarmuka aplikasi warga (`KerangkaWarga`).
 2. **Tata Letak Shell Desktop Responsif (`KerangkaAdminWeb`)**:
    - Sidebar navigasi tetap di sisi kiri (lebar 260px) dengan logo SiagaBanjir, penanda `Portal Komando Petugas`, serta 5 menu navigasi terstruktur.

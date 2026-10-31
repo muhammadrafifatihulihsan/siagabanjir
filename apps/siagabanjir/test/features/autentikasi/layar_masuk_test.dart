@@ -154,6 +154,25 @@ void main() {
       await tester.tap(find.text('Daftar Sekarang'));
       await tester.pumpAndSettle();
       expect(registerTapped, isTrue);
+
+      // 9. Test Direct Access transparent buttons
+      ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(find.text('Masuk sebagai Warga'));
+      await tester.tap(find.text('Masuk sebagai Warga'));
+      await tester.pump();
+      expect(find.text('Masuk sebagai Warga.'), findsOneWidget);
+
+      ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(find.text('Masuk sebagai Admin'));
+      await tester.tap(find.text('Masuk sebagai Admin'));
+      await tester.pump();
+      expect(find.text('Masuk sebagai Petugas Admin.'), findsOneWidget);
+      ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
+      await tester.pumpAndSettle();
     },
   );
 

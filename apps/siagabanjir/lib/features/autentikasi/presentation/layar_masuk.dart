@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../shared/widgets/dialog_siaga.dart';
-
+import '../../../app/kerangka_warga.dart';
 import '../../../shared/theme/siaga_theme.dart';
+import '../../../shared/widgets/dialog_siaga.dart';
+import '../../admin/presentation/kerangka_admin_web.dart';
 import '../domain/peran_pengguna.dart';
 import 'layar_daftar.dart';
-import 'widgets/kartu_masuk.dart';
 import 'widgets/footer_masuk.dart';
 import 'widgets/header_masuk.dart';
+import 'widgets/kartu_masuk.dart';
 
 // Layar Masuk ke Akun (Login) SiagaBanjir sesuai spesifikasi desain auth_login.svg.
 // Memfasilitasi autentikasi pengguna dengan pemisahan peran Warga vs Petugas Admin.
@@ -86,6 +87,34 @@ class _LayarMasukState extends State<LayarMasuk> {
     _showFeedback('Berhasil masuk sebagai $identifier.');
     widget.onLoginWithRole?.call(identifier, _selectedRole);
     widget.onLoginSuccess?.call(identifier);
+  }
+
+  void _handleDirectAccess(PeranPengguna role) {
+    final identifier = role == PeranPengguna.admin
+        ? 'admin.bpbd@padang.go.id'
+        : '081234567890';
+    _showFeedback(
+      role == PeranPengguna.admin
+          ? 'Masuk sebagai Petugas Admin.'
+          : 'Masuk sebagai Warga.',
+    );
+    if (widget.onLoginWithRole != null || widget.onLoginSuccess != null) {
+      widget.onLoginWithRole?.call(identifier, role);
+      widget.onLoginSuccess?.call(identifier);
+      return;
+    }
+
+    if (role == PeranPengguna.admin) {
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (_) => const KerangkaAdminWeb()),
+        (_) => false,
+      );
+    } else {
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+        (_) => false,
+      );
+    }
   }
 
   void _handleForgotPassword() {
@@ -172,6 +201,65 @@ class _LayarMasukState extends State<LayarMasuk> {
                 ),
                 const SizedBox(height: 28),
                 FooterMasuk(onRegister: _handleRegister),
+                const SizedBox(height: 18),
+                // Tombol teks transparan dan tidak mencolok untuk akses langsung ke Warga atau Admin
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  runSpacing: 4,
+                  children: [
+                    Semantics(
+                      button: true,
+                      label: 'Masuk langsung sebagai Warga',
+                      child: InkWell(
+                        onTap: () => _handleDirectAccess(PeranPengguna.warga),
+                        borderRadius: BorderRadius.circular(4),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          child: Text(
+                            'Masuk sebagai Warga',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF64748B),
+                              decoration: TextDecoration.underline,
+                              decorationColor: Color(0xFFCBD5E1),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      '•',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFFCBD5E1),
+                      ),
+                    ),
+                    Semantics(
+                      button: true,
+                      label: 'Masuk langsung sebagai Petugas Admin',
+                      child: InkWell(
+                        onTap: () => _handleDirectAccess(PeranPengguna.admin),
+                        borderRadius: BorderRadius.circular(4),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                          child: Text(
+                            'Masuk sebagai Admin',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF64748B),
+                              decoration: TextDecoration.underline,
+                              decorationColor: Color(0xFFCBD5E1),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
