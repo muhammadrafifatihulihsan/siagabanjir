@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/dialog_siaga.dart';
+import '../../../app/kerangka_warga.dart';
+import '../../autentikasi/domain/peran_pengguna.dart';
+import '../../autentikasi/presentation/layar_masuk.dart';
 import '../domain/state_admin_siaga.dart';
 import 'tabs/tab_dashboard_ringkasan.dart';
 import 'tabs/tab_laporan_individu.dart';
@@ -44,6 +47,54 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
     if (mounted) setState(() {});
   }
 
+  void _switchToCitizenMode() {
+    if (widget.onSwitchToCitizenMode != null) {
+      widget.onSwitchToCitizenMode!();
+    } else {
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+        (_) => false,
+      );
+    }
+  }
+
+  void _performLogout() {
+    if (widget.onLogout != null) {
+      widget.onLogout!();
+    } else {
+      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        MaterialPageRoute<void>(
+          builder: (ctx) => LayarMasuk(
+            initialRole: PeranPengguna.admin,
+            onLoginWithRole: (user, role) {
+              if (role == PeranPengguna.admin) {
+                Navigator.of(ctx).pushAndRemoveUntil(
+                  MaterialPageRoute<void>(
+                    builder: (_) => KerangkaAdminWeb(
+                      onLogout: _performLogout,
+                      onSwitchToCitizenMode: _switchToCitizenMode,
+                    ),
+                  ),
+                  (_) => false,
+                );
+              } else {
+                Navigator.of(ctx).pushAndRemoveUntil(
+                  MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+                  (_) => false,
+                );
+              }
+            },
+            onLoginSuccess: (_) => Navigator.of(ctx).pushAndRemoveUntil(
+              MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+              (_) => false,
+            ),
+          ),
+        ),
+        (_) => false,
+      );
+    }
+  }
+
   void _handleLogout() {
     showDialog<void>(
       context: context,
@@ -63,7 +114,7 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
             ),
             onPressed: () {
               Navigator.pop(ctx);
-              widget.onLogout?.call();
+              _performLogout();
             },
             child: const Text('Keluar'),
           ),
@@ -167,29 +218,28 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                       const SizedBox(width: 14),
 
                       // Tombol Beralih ke Tampilan Warga (Sangat berguna saat demo)
-                      if (widget.onSwitchToCitizenMode != null)
-                        OutlinedButton.icon(
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: const Color(0xFF2563EB),
-                            side: const BorderSide(color: Color(0xFFBFDBFE)),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 10,
-                            ),
+                      OutlinedButton.icon(
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xFF2563EB),
+                          side: const BorderSide(color: Color(0xFFBFDBFE)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          onPressed: widget.onSwitchToCitizenMode,
-                          icon: const Icon(Icons.phone_android_rounded, size: 16),
-                          label: const Text(
-                            'Mode Tampilan Warga',
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
                           ),
                         ),
+                        onPressed: _switchToCitizenMode,
+                        icon: const Icon(Icons.phone_android_rounded, size: 16),
+                        label: const Text(
+                          'Mode Tampilan Warga',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
