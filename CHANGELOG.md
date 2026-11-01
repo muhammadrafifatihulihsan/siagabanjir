@@ -7,6 +7,15 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan modul siaran pesan admin dan kotak masuk inbox warga meliputi
+  POST /admin/messages, GET /admin/messages, GET /admin/messages/{id},
+  PATCH /admin/messages/{id}, POST /admin/messages/{id}/revoke,
+  POST /admin/messages/{id}/expire, GET /me/inbox dan PUT /me/inbox/{id}/read
+  dengan migrasi messages dan message_reads, penegakan aturan unread ulang saat
+  judul/isi berubah (FR-INBOX-002), penyaringan pesan aktif dan kedaluwarsa,
+  ETag optimistik serta idempotensi perintah; seluruh 72 endpoint OpenAPI Fastify
+  selesai diimplementasikan dan diverifikasi pada MySQL nyata.
+
 - Tambahkan alur Pantau publik, manifest konten edukasi, pembacaan bagian konten
   dan CMS admin meliputi GET /public/monitor, GET /public/content/manifest,
   GET /public/content/{revision}/{kind}, GET/POST /admin/content/{kind},

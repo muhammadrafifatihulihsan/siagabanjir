@@ -13,9 +13,9 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 64 endpoint diimplementasikan dan diuji, 8 belum selesai.
+Status saat ini: seluruh 72 endpoint OpenAPI Fastify diimplementasikan dan diuji (100% selesai).
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `8b36482`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `682554a`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
@@ -82,14 +82,14 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [x] `DELETE /api/v1/admin/content/{kind}/{contentId}`: Menghapus draf konten.
 - [x] `POST /api/v1/admin/content/{kind}/{contentId}/publish`: Menerbitkan konten umum.
 - [x] `POST /api/v1/admin/content/{kind}/{contentId}/withdraw`: Menarik konten umum.
-- [ ] `POST /api/v1/admin/messages`: Menerbitkan pesan admin.
-- [ ] `GET /api/v1/admin/messages`: Membaca daftar pesan untuk admin.
-- [ ] `GET /api/v1/admin/messages/{messageId}`: Membaca detail pesan untuk admin.
-- [ ] `PATCH /api/v1/admin/messages/{messageId}`: Memperbarui pesan admin.
-- [ ] `POST /api/v1/admin/messages/{messageId}/revoke`: Mencabut pesan admin.
-- [ ] `POST /api/v1/admin/messages/{messageId}/expire`: Mengakhiri masa berlaku pesan admin.
-- [ ] `GET /api/v1/me/inbox`: Membaca inbox akun sendiri.
-- [ ] `PUT /api/v1/me/inbox/{messageId}/read`: Mencatat versi pesan yang telah dibaca.
+- [x] `POST /api/v1/admin/messages`: Menerbitkan pesan admin.
+- [x] `GET /api/v1/admin/messages`: Membaca daftar pesan untuk admin.
+- [x] `GET /api/v1/admin/messages/{messageId}`: Membaca detail pesan untuk admin.
+- [x] `PATCH /api/v1/admin/messages/{messageId}`: Memperbarui pesan admin.
+- [x] `POST /api/v1/admin/messages/{messageId}/revoke`: Mencabut pesan admin.
+- [x] `POST /api/v1/admin/messages/{messageId}/expire`: Mengakhiri masa berlaku pesan admin.
+- [x] `GET /api/v1/me/inbox`: Membaca inbox akun sendiri.
+- [x] `PUT /api/v1/me/inbox/{messageId}/read`: Mencatat versi pesan yang telah dibaca.
 
 Batas bukti login: akun warga dan login admin (ADMIN_WEB) berhasil diuji;
 seed dua admin demo mandiri masih tertunda.
@@ -106,15 +106,36 @@ pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Langkah berikutnya
 
-Lanjutkan 8 endpoint backend terakhir:
+Seluruh 72 endpoint OpenAPI Fastify selesai diimplementasikan dan diuji. Langkah berikutnya:
 
-1. Unit 7: Pesan Siaran Admin & Kotak Masuk Warga (8 endpoint: broadcast messages admin dan inbox baca pesan warga).
+1. Integrasi aplikasi Flutter warga (Android) dengan endpoint backend server Fastify.
+2. Integrasi aplikasi Flutter admin (Web) dengan endpoint backend server Fastify.
+3. Pengujian end-to-end / demonstrasi aplikasi dan persiapan deployment.
 
 Commit tetap terisolasi per unit perubahan dengan pengujian nyata.
 Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
 Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+Pesan siaran admin dan kotak masuk inbox warga (8 endpoint) tersedia:
+POST /admin/messages, GET /admin/messages, GET /admin/messages/{id}, PATCH /admin/messages/{id},
+POST /admin/messages/{id}/revoke, POST /admin/messages/{id}/expire, GET /me/inbox, dan
+PUT /me/inbox/{id}/read.
+
+Tes HTTP/MySQL membuktikan:
+
+- Menerbitkan pesan siaran oleh admin (`POST /admin/messages`) dengan `Idempotency-Key`, status 201 dan header ETag; replay mengembalikan pesan yang sama, konflik payload ditolak 409, dan warga ditolak 403.
+- Daftar pesan admin (`GET /admin/messages`) mendukung filter pencarian teks `q` dan pagination cursor.
+- Detail pesan admin (`GET /admin/messages/{id}`) mengembalikan objek pesan lengkap dengan header ETag `"1"`.
+- Warga membaca inbox (`GET /me/inbox`) hanya menerima pesan `ACTIVE` yang belum kedaluwarsa (`endsAt` kosong atau di masa depan); status `read: false` tercatat sebelum dibaca.
+- Warga menandai pesan dibaca (`PUT /me/inbox/{id}/read`) dengan versi konten spesifik (`contentVersion`); status inbox segera berubah menjadi `read: true`.
+- Pembaruan pesan admin (`PATCH /admin/messages/{id}`) mewajibkan `If-Match`:
+  - Perubahan batas waktu (`endsAt`) saja hanya menaikkan `version` objek, sehingga status baca warga tetap `read: true`.
+  - Perubahan teks pesan (`body`/`title`) menaikkan `content_version` dan `version`, memicu unread ulang (`read: false`) bagi akun warga yang hanya membaca versi lama (SRS FR-INBOX-002).
+- Pengakhiran masa berlaku (`POST /admin/messages/{id}/expire`) mengubah status menjadi `EXPIRED` dan menghapus pesan dari inbox aktif warga.
+- Pencabutan pesan (`POST /admin/messages/{id}/revoke`) mengubah status menjadi `REVOKED` dan menghapus pesan dari inbox aktif warga.
+- Verifikasi lengkap: format, lint, typecheck, 13 unit tests, build, dan suite database MySQL nyata (`database.integration.ts` mencakup 32 migrasi dan seluruh alur endpoint) PASS.
 
 PATCH /me, POST /me/credentials, POST /me/recovery-code dan POST /auth/reset-password tersedia.
 Tes HTTP/MySQL membuktikan:
