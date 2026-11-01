@@ -86,9 +86,9 @@ export async function resetPassword(
 
     const [rows] = await connection.execute<AccountRecoveryRow[]>(
       `SELECT a.id, a.credential_epoch, a.version, r.verifier, r.generation, r.used_at
-       FROM accounts a
-       JOIN recovery_verifiers r ON r.account_id = a.id
-       WHERE a.email_normalized = ?`,
+        FROM accounts a
+        JOIN recovery_verifiers r ON r.account_id = a.id
+        WHERE a.email_normalized = ?`,
       [normalizedEmail],
     );
     return rows[0];
@@ -122,9 +122,9 @@ export async function resetPassword(
       await checkThrottle(connection, scope);
       const [rows] = await connection.execute<AccountRecoveryRow[]>(
         `SELECT a.id, a.credential_epoch, r.generation, r.used_at
-         FROM accounts a
-         JOIN recovery_verifiers r ON r.account_id = a.id
-         WHERE a.id = ? FOR UPDATE`,
+          FROM accounts a
+          JOIN recovery_verifiers r ON r.account_id = a.id
+          WHERE a.id = ? FOR UPDATE`,
         [row.id],
       );
       const current = rows[0];
@@ -140,9 +140,9 @@ export async function resetPassword(
     async (connection) => {
       await connection.execute(
         `UPDATE accounts
-         SET password_hash = ?, password_salt = ?,
-             credential_epoch = credential_epoch + 1, version = version + 1
-         WHERE id = ?`,
+          SET password_hash = ?, password_salt = ?,
+              credential_epoch = credential_epoch + 1, version = version + 1
+          WHERE id = ?`,
         [newHashed.hash, newHashed.salt, row.id],
       );
       await connection.execute(

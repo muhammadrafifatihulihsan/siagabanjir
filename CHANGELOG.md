@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Perbaiki indentasi kelipatan 2 spasi dan bersihkan trailing whitespace pada
+  berkas TypeScript apps/server/src dan apps/server/test agar mematuhi aturan
+  .editorconfig dan lulus uji editorconfig-checker (114 error terselesaikan).
+
 - Tambahkan Swagger UI dashboard pengujian API interaktif (/docs, /documentation,
   /api/docs), endpoint OpenAPI JSON (/api/v1/openapi.json, /openapi.json), dan
   endpoint kesehatan sistem (/health, /api/v1/health) yang memantau status server,

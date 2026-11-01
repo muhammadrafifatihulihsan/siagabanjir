@@ -65,7 +65,7 @@ export async function runSecretCommand<T>(
     const result = await mutate(connection);
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, ?, ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, ?, ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [
         randomUUID(),
         identity.actorScope,

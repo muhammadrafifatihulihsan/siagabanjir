@@ -10,7 +10,7 @@ async function insertAccount(
 ) {
   await connection.execute(
     `INSERT INTO accounts (id, email_normalized, display_name, password_hash, password_salt, created_at)
-     VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
+      VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
     [id, email, 'Warga Sintetis', randomBytes(64), randomBytes(16)],
   );
 }
@@ -52,7 +52,7 @@ export async function verifyAuthSchema(pool: Pool): Promise<void> {
       const insertSession = (owner: string, digest: Buffer, days: number) =>
         connection.execute(
           `INSERT INTO sessions (id, account_id, token_digest, revoke_digest, epoch, created_at, expires_at)
-         VALUES (?, ?, ?, ?, 1, '2026-11-01 00:00:00.000', DATE_ADD('2026-11-01 00:00:00.000', INTERVAL ? DAY))`,
+          VALUES (?, ?, ?, ?, 1, '2026-11-01 00:00:00.000', DATE_ADD('2026-11-01 00:00:00.000', INTERVAL ? DAY))`,
           [randomUUID(), owner, digest, randomBytes(32), days],
         );
       await insertSession(accountId, token, 7);
@@ -78,13 +78,13 @@ export async function verifyAuthSchema(pool: Pool): Promise<void> {
       );
       await connection.execute(
         `INSERT INTO auth_failures (principal_digest, source_digest, window_start, count)
-         VALUES (?, ?, UTC_TIMESTAMP(3), 5)`,
+          VALUES (?, ?, UTC_TIMESTAMP(3), 5)`,
         [token, revoke],
       );
       await assert.rejects(
         connection.execute(
           `INSERT INTO auth_failures (principal_digest, source_digest, window_start)
-         VALUES (?, ?, UTC_TIMESTAMP(3))`,
+          VALUES (?, ?, UTC_TIMESTAMP(3))`,
           [token, revoke],
         ),
         { code: 'ER_DUP_ENTRY' },

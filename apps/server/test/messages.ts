@@ -32,12 +32,12 @@ export async function verifyMessages(
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Admin Pesan Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Admin Pesan Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [adminId, adminEmail.toLowerCase(), adminSalt, adminHash],
     );
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Warga Pesan Test', 'CITIZEN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Warga Pesan Test', 'CITIZEN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [citizenId, citizenEmail.toLowerCase(), citSalt, citHash],
     );
   });

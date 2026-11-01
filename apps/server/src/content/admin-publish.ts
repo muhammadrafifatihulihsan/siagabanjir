@@ -90,8 +90,8 @@ export async function publishContent(
 
     await connection.execute(
       `UPDATE content_items
-       SET state = 'PUBLISHED', published_json = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
-       WHERE id = ?`,
+        SET state = 'PUBLISHED', published_json = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
+        WHERE id = ?`,
       [JSON.stringify(publishedItem), newVersion, contentId],
     );
 
@@ -101,7 +101,7 @@ export async function publishContent(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'publishContent', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'publishContent', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, contentId],
     );
 
@@ -181,8 +181,8 @@ export async function withdrawContent(
 
     await connection.execute(
       `UPDATE content_items
-       SET state = 'WITHDRAWN', published_json = NULL, version = ?, updated_at = UTC_TIMESTAMP(3)
-       WHERE id = ?`,
+        SET state = 'WITHDRAWN', published_json = NULL, version = ?, updated_at = UTC_TIMESTAMP(3)
+        WHERE id = ?`,
       [newVersion, contentId],
     );
 
@@ -192,7 +192,7 @@ export async function withdrawContent(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'withdrawContent', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'withdrawContent', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, contentId],
     );
 

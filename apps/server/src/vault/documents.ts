@@ -217,7 +217,7 @@ export async function createDocument(
     const docId = randomUUID();
     await connection.execute(
       `INSERT INTO documents (id, owner_id, display_name, upload_id, version, created_at, updated_at)
-       VALUES (?, ?, ?, ?, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, ?, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [docId, accountId, name, input.uploadId],
     );
 
@@ -229,7 +229,7 @@ export async function createDocument(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'createDocument', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'createDocument', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, docId],
     );
 
@@ -418,7 +418,7 @@ export async function deleteDocument(
       const cleanupId = randomUUID();
       await connection.execute(
         `INSERT INTO cleanup_jobs (id, object_type, object_id, owner_id, state, attempt, created_at, updated_at)
-         VALUES (?, 'DOCUMENT', ?, ?, 'PENDING', 0, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+          VALUES (?, 'DOCUMENT', ?, ?, 'PENDING', 0, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
         [cleanupId, documentId, accountId],
       );
     }
@@ -426,7 +426,7 @@ export async function deleteDocument(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'deleteDocument', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'deleteDocument', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, documentId],
     );
 
@@ -625,7 +625,7 @@ export async function checkKtp(
     const consentId = randomUUID();
     await connection.execute(
       `INSERT INTO consents (id, owner_id, purpose, source_id, source_version, text_version, granted_at)
-       VALUES (?, ?, 'KTP', ?, ?, 'ktp-v1', UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'KTP', ?, ?, 'ktp-v1', UTC_TIMESTAMP(3))`,
       [consentId, accountId, input.documentId, input.documentVersion],
     );
 
@@ -633,24 +633,24 @@ export async function checkKtp(
     const jobId = randomUUID();
     await connection.execute(
       `INSERT INTO jobs
-         (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-       VALUES
-         (?, 'KTP_CHECK', ?, ?, ?, 'SUCCEEDED', 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+          (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
+        VALUES
+          (?, 'KTP_CHECK', ?, ?, ?, 'SUCCEEDED', 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [jobId, accountId, input.documentId, input.documentVersion],
     );
 
     // Update latest_job_id pada ktp_states
     await connection.execute(
       `INSERT INTO ktp_states (account_id, active_document_id, version, latest_job_id, updated_at)
-       VALUES (?, NULL, 1, ?, UTC_TIMESTAMP(3))
-       ON DUPLICATE KEY UPDATE latest_job_id = VALUES(latest_job_id), updated_at = UTC_TIMESTAMP(3)`,
+        VALUES (?, NULL, 1, ?, UTC_TIMESTAMP(3))
+        ON DUPLICATE KEY UPDATE latest_job_id = VALUES(latest_job_id), updated_at = UTC_TIMESTAMP(3)`,
       [accountId, jobId],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'checkKtp', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'checkKtp', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, jobId],
     );
 
@@ -741,15 +741,15 @@ export async function confirmKtp(
 
     await connection.execute(
       `INSERT INTO ktp_states (account_id, active_document_id, version, latest_job_id, updated_at)
-       VALUES (?, ?, ?, ?, UTC_TIMESTAMP(3))
-       ON DUPLICATE KEY UPDATE active_document_id = VALUES(active_document_id), version = version + 1, latest_job_id = VALUES(latest_job_id), updated_at = UTC_TIMESTAMP(3)`,
+        VALUES (?, ?, ?, ?, UTC_TIMESTAMP(3))
+        ON DUPLICATE KEY UPDATE active_document_id = VALUES(active_document_id), version = version + 1, latest_job_id = VALUES(latest_job_id), updated_at = UTC_TIMESTAMP(3)`,
       [accountId, input.documentId, currentVersion + 1, input.jobId],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'confirmKtp', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'confirmKtp', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, input.documentId],
     );
 
@@ -893,7 +893,7 @@ export async function updateFamily(
         }
         await connection.execute(
           `INSERT INTO family_members (id, account_id, display_name, age_group, special_needs, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+            VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
           [
             op.clientMemberId,
             accountId,
@@ -905,8 +905,8 @@ export async function updateFamily(
       } else if (op.op === 'UPDATE') {
         await connection.execute(
           `UPDATE family_members
-           SET display_name = ?, age_group = ?, special_needs = ?, updated_at = UTC_TIMESTAMP(3)
-           WHERE id = ? AND account_id = ?`,
+            SET display_name = ?, age_group = ?, special_needs = ?, updated_at = UTC_TIMESTAMP(3)
+            WHERE id = ? AND account_id = ?`,
           [
             op.displayName.trim(),
             op.ageGroup,
@@ -925,15 +925,15 @@ export async function updateFamily(
 
     await connection.execute(
       `INSERT INTO family_profiles (account_id, version, updated_at)
-       VALUES (?, ?, UTC_TIMESTAMP(3))
-       ON DUPLICATE KEY UPDATE version = version + 1, updated_at = UTC_TIMESTAMP(3)`,
+        VALUES (?, ?, UTC_TIMESTAMP(3))
+        ON DUPLICATE KEY UPDATE version = version + 1, updated_at = UTC_TIMESTAMP(3)`,
       [accountId, currentVersion + 1],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'updateFamily', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'updateFamily', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, accountId],
     );
 
@@ -1014,16 +1014,16 @@ export async function extractFamily(
     const consentId = randomUUID();
     await connection.execute(
       `INSERT INTO consents (id, owner_id, purpose, source_id, source_version, text_version, granted_at)
-       VALUES (?, ?, 'FAMILY', ?, ?, 'family-v1', UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'FAMILY', ?, ?, 'family-v1', UTC_TIMESTAMP(3))`,
       [consentId, accountId, firstDoc.id, firstDoc.version],
     );
 
     const jobId = randomUUID();
     await connection.execute(
       `INSERT INTO jobs
-         (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-       VALUES
-         (?, 'FAMILY_EXTRACTION', ?, ?, ?, 'SUCCEEDED', 1, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+          (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
+        VALUES
+          (?, 'FAMILY_EXTRACTION', ?, ?, ?, 'SUCCEEDED', 1, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [
         jobId,
         accountId,
@@ -1038,16 +1038,16 @@ export async function extractFamily(
     const suggestionId = randomUUID();
     await connection.execute(
       `INSERT INTO extraction_suggestions
-         (id, job_id, source_document_id, source_document_version, page, display_name, age_group, special_needs, available_at, expires_at)
-       VALUES
-         (?, ?, ?, ?, 1, 'Anggota Keluarga Saran', 'ADULT', '[]', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3) + INTERVAL 24 HOUR)`,
+          (id, job_id, source_document_id, source_document_version, page, display_name, age_group, special_needs, available_at, expires_at)
+        VALUES
+          (?, ?, ?, ?, 1, 'Anggota Keluarga Saran', 'ADULT', '[]', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3) + INTERVAL 24 HOUR)`,
       [suggestionId, jobId, firstDoc.id, firstDoc.version],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'extractFamily', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'extractFamily', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, jobId],
     );
 
@@ -1154,7 +1154,7 @@ export async function applyFamilySuggestions(
       if (op.op === 'ADD') {
         await connection.execute(
           `INSERT INTO family_members (id, account_id, display_name, age_group, special_needs, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+            VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
           [
             op.clientMemberId,
             accountId,
@@ -1166,8 +1166,8 @@ export async function applyFamilySuggestions(
       } else if (op.op === 'UPDATE') {
         await connection.execute(
           `UPDATE family_members
-           SET display_name = ?, age_group = ?, special_needs = ?, updated_at = UTC_TIMESTAMP(3)
-           WHERE id = ? AND account_id = ?`,
+            SET display_name = ?, age_group = ?, special_needs = ?, updated_at = UTC_TIMESTAMP(3)
+            WHERE id = ? AND account_id = ?`,
           [
             op.displayName.trim(),
             op.ageGroup,
@@ -1181,15 +1181,15 @@ export async function applyFamilySuggestions(
 
     await connection.execute(
       `INSERT INTO family_profiles (account_id, version, updated_at)
-       VALUES (?, ?, UTC_TIMESTAMP(3))
-       ON DUPLICATE KEY UPDATE version = version + 1, updated_at = UTC_TIMESTAMP(3)`,
+        VALUES (?, ?, UTC_TIMESTAMP(3))
+        ON DUPLICATE KEY UPDATE version = version + 1, updated_at = UTC_TIMESTAMP(3)`,
       [accountId, currentVersion + 1],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'applyFamilySuggestions', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'applyFamilySuggestions', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, jobId],
     );
 

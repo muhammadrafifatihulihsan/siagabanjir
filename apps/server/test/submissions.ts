@@ -79,20 +79,20 @@ export async function verifySubmissions(app: FastifyInstance, pool: Pool) {
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Admin Peninjau', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Admin Peninjau', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [adminId, adminEmail.toLowerCase(), salt, hash],
     );
     // Aktifkan KTP untuk warga
     await connection.execute(
       `INSERT INTO ktp_states (account_id, active_document_id, version, updated_at)
-       VALUES (?, ?, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 1, UTC_TIMESTAMP(3))`,
       [citizenId, randomUUID()],
     );
     // Pastikan quota settings galleryEnabled = true untuk testing
     await connection.execute(
       `UPDATE quota_settings
-       SET gallery_enabled = 1, quota_count = 5, quota_hours = 12, version = version + 1, updated_at = UTC_TIMESTAMP(3)
-       WHERE id = 1`,
+        SET gallery_enabled = 1, quota_count = 5, quota_hours = 12, version = version + 1, updated_at = UTC_TIMESTAMP(3)
+        WHERE id = 1`,
     );
   });
 
@@ -385,7 +385,7 @@ export async function verifySubmissions(app: FastifyInstance, pool: Pool) {
     await withBusinessTransaction(pool, async (connection) => {
       await connection.execute(
         `INSERT INTO notes (id, report_id, author_id, body, correction_of, correction_reason, created_at)
-         VALUES (?, ?, ?, 'Tim BPBD telah meninjau lokasi kejadian.', NULL, NULL, UTC_TIMESTAMP(3))`,
+          VALUES (?, ?, ?, 'Tim BPBD telah meninjau lokasi kejadian.', NULL, NULL, UTC_TIMESTAMP(3))`,
         [noteId, createdReportId, adminId],
       );
     });

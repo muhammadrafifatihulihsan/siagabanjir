@@ -73,7 +73,7 @@ export async function listMonitor(
       params.push(lastId);
     }
 
-    sql += ` ORDER BY 
+    sql += ` ORDER BY
       CASE g.level WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 WHEN 'LOW' THEN 3 ELSE 4 END ASC,
       g.updated_at DESC,
       g.id ASC

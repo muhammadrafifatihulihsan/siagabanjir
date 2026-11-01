@@ -78,7 +78,7 @@ export async function publishMessage(
 
     await connection.execute(
       `INSERT INTO messages (id, title, body, published_at, ends_at, state, content_version, version, created_at, updated_at)
-       VALUES (?, ?, ?, UTC_TIMESTAMP(3), ?, 'ACTIVE', 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, UTC_TIMESTAMP(3), ?, 'ACTIVE', 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [messageId, title, body, endsAtSql],
     );
 
@@ -86,7 +86,7 @@ export async function publishMessage(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'publishMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'publishMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, messageId],
     );
 

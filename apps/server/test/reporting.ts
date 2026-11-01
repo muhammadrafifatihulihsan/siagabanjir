@@ -57,7 +57,7 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Admin Pelapor', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Admin Pelapor', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [adminId, adminEmail.toLowerCase(), salt, hash],
     );
   });
@@ -262,7 +262,7 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
       for (let i = 0; i < 5; i++) {
         await connection.execute(
           `INSERT INTO quota_ledger (account_id, report_id, accepted_at)
-           VALUES (?, ?, UTC_TIMESTAMP(3))`,
+            VALUES (?, ?, UTC_TIMESTAMP(3))`,
           [citizenId, randomUUID()],
         );
       }
@@ -374,7 +374,7 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
     await withBusinessTransaction(pool, async (connection) => {
       await connection.execute(
         `INSERT INTO quota_ledger (account_id, report_id, accepted_at)
-         VALUES (?, ?, UTC_TIMESTAMP(3))`,
+          VALUES (?, ?, UTC_TIMESTAMP(3))`,
         [citizenId, randomUUID()],
       );
     });
@@ -413,7 +413,7 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
     await withBusinessTransaction(pool, async (connection) => {
       await connection.execute(
         `INSERT INTO ktp_states (account_id, active_document_id, version, updated_at)
-         VALUES (?, ?, 2, UTC_TIMESTAMP(3))`,
+          VALUES (?, ?, 2, UTC_TIMESTAMP(3))`,
         [citizenId, docId],
       );
     });
@@ -468,8 +468,8 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
       // Kembalikan quota_settings ke default id=1
       await connection.execute(
         `UPDATE quota_settings
-         SET gallery_enabled = 0, quota_count = 3, quota_hours = 6, global_reset_seq = 0, version = 1, updated_at = UTC_TIMESTAMP(3)
-         WHERE id = 1`,
+          SET gallery_enabled = 0, quota_count = 3, quota_hours = 6, global_reset_seq = 0, version = 1, updated_at = UTC_TIMESTAMP(3)
+          WHERE id = 1`,
       );
     });
   }

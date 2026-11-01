@@ -28,7 +28,7 @@ export async function verifyCms(
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Admin CMS Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Admin CMS Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [adminId, adminEmail.toLowerCase(), salt, hash],
     );
   });
@@ -50,7 +50,7 @@ export async function verifyCms(
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO \`groups\` (id, code, state, location_label, level, created_at, updated_at, version)
-       VALUES (?, 'GRP-MONITOR-TEST', 'ACTIVE', 'Kelurahan Lubuk Minturun', 'HIGH', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+        VALUES (?, 'GRP-MONITOR-TEST', 'ACTIVE', 'Kelurahan Lubuk Minturun', 'HIGH', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
       [groupId],
     );
   });

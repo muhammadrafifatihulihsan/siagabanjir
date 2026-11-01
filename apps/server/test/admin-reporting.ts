@@ -61,7 +61,7 @@ export async function verifyAdminReporting(
   await withBusinessTransaction(pool, async (connection) => {
     await connection.execute(
       `INSERT INTO accounts (id, email_normalized, display_name, role, password_salt, password_hash, credential_epoch, version, created_at)
-       VALUES (?, ?, 'Admin Pelapor Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'Admin Pelapor Test', 'ADMIN', ?, ?, 1, 1, UTC_TIMESTAMP(3))`,
       [adminId, adminEmail.toLowerCase(), salt, hash],
     );
   });
@@ -86,35 +86,35 @@ export async function verifyAdminReporting(
     // 3. Group awal
     await connection.execute(
       `INSERT INTO \`groups\` (id, code, state, location_label, level, created_at, updated_at, version)
-       VALUES (?, 'GRP-ADMIN-TEST-1', 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+        VALUES (?, 'GRP-ADMIN-TEST-1', 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
       [groupId1],
     );
 
     // 4. Upload awal
     await connection.execute(
       `INSERT INTO uploads (id, owner_id, purpose, origin, blob_key, digest, mime, bytes, state, expires_at, created_at, updated_at)
-       VALUES (?, ?, 'REPORT', 'CAMERA', ?, 'dummy-digest', 'image/jpeg', 1024, 'ATTACHED', DATE_ADD(UTC_TIMESTAMP(3), INTERVAL 1 DAY), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'REPORT', 'CAMERA', ?, 'dummy-digest', 'image/jpeg', 1024, 'ATTACHED', DATE_ADD(UTC_TIMESTAMP(3), INTERVAL 1 DAY), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [uploadId, citizenId, `uploads/${uploadId}.jpg`],
     );
 
     // 5. Report awal
     await connection.execute(
       `INSERT INTO reports (id, owner_id, group_id, description, latitude, longitude, location_source, occurred_at, accepted_at, applied_time, time_source, accept_seq, version, evidence_version, result_version, needs_review_since, created_at, updated_at)
-       VALUES (?, ?, ?, 'Banjir setinggi 40cm merendam jalan utama', -0.924, 100.362, 'GPS', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 'ACCEPTED', 1, 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'Banjir setinggi 40cm merendam jalan utama', -0.924, 100.362, 'GPS', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 'ACCEPTED', 1, 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [reportId, citizenId, groupId1],
     );
 
     // 6. Report media
     await connection.execute(
       `INSERT INTO report_media (report_id, upload_id, order_index)
-       VALUES (?, ?, 0)`,
+        VALUES (?, ?, 0)`,
       [reportId, uploadId],
     );
 
     // 7. Assessment awal
     await connection.execute(
       `INSERT INTO assessments (id, report_id, source, relevance, level, explanation, result_version, eligible, created_at)
-       VALUES (?, ?, 'AI', 'MATCH', 'LOW', 'Genangan air terdeteksi setinggi lutut', 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'AI', 'MATCH', 'LOW', 'Genangan air terdeteksi setinggi lutut', 1, 1, UTC_TIMESTAMP(3))`,
       [randomUUID(), reportId],
     );
   });

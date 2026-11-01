@@ -263,9 +263,9 @@ export async function createUpload(
 
     await connection.execute(
       `INSERT INTO uploads
-         (id, owner_id, purpose, origin, blob_key, digest, mime, bytes, duration_ms, page_count, state, expires_at, created_at, updated_at)
-       VALUES
-         (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'READY', UTC_TIMESTAMP(3) + INTERVAL 24 HOUR, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+          (id, owner_id, purpose, origin, blob_key, digest, mime, bytes, duration_ms, page_count, state, expires_at, created_at, updated_at)
+        VALUES
+          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'READY', UTC_TIMESTAMP(3) + INTERVAL 24 HOUR, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [
         uploadId,
         accountId,
@@ -283,7 +283,7 @@ export async function createUpload(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'uploadMedia', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'uploadMedia', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, uploadId, hash, uploadId],
     );
 
@@ -494,7 +494,7 @@ export async function submitReport(
       const code = `GR-${randomUUID().slice(0, 8).toUpperCase()}`;
       await connection.execute(
         `INSERT INTO \`groups\` (id, code, state, level, created_at, updated_at, version)
-         VALUES (?, ?, 'ACTIVE', 'UNRATED', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+          VALUES (?, ?, 'ACTIVE', 'UNRATED', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
         [groupId, code],
       );
     }
@@ -504,7 +504,7 @@ export async function submitReport(
       { insertId: number } & RowDataPacket[]
     >(
       `INSERT INTO quota_ledger (account_id, report_id, accepted_at)
-       VALUES (?, ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, UTC_TIMESTAMP(3))`,
       [accountId, reportId],
     );
     const acceptSeq = ledgerResult.insertId;
@@ -516,9 +516,9 @@ export async function submitReport(
 
     await connection.execute(
       `INSERT INTO reports
-         (id, owner_id, group_id, description, latitude, longitude, location_source, occurred_at, accepted_at, applied_time, time_source, accept_seq, version, evidence_version, result_version, created_at, updated_at)
-       VALUES
-         (?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(3), COALESCE(?, UTC_TIMESTAMP(3)), ?, ?, 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+          (id, owner_id, group_id, description, latitude, longitude, location_source, occurred_at, accepted_at, applied_time, time_source, accept_seq, version, evidence_version, result_version, created_at, updated_at)
+        VALUES
+          (?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(3), COALESCE(?, UTC_TIMESTAMP(3)), ?, ?, 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [
         reportId,
         accountId,
@@ -540,7 +540,7 @@ export async function submitReport(
       if (!uId) continue;
       await connection.execute(
         `INSERT INTO report_media (report_id, upload_id, order_index)
-         VALUES (?, ?, ?)`,
+          VALUES (?, ?, ?)`,
         [reportId, uId, i],
       );
       await connection.execute(
@@ -553,14 +553,14 @@ export async function submitReport(
     const assessmentId = randomUUID();
     await connection.execute(
       `INSERT INTO assessments (id, report_id, source, relevance, level, explanation, result_version, eligible, created_at)
-       VALUES (?, ?, 'AI', 'UNASSESSED', 'UNRATED', 'Menunggu pemrosesan analisis', 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'AI', 'UNASSESSED', 'UNRATED', 'Menunggu pemrosesan analisis', 1, 1, UTC_TIMESTAMP(3))`,
       [assessmentId, reportId],
     );
 
     // Simpan submission state
     await connection.execute(
       `INSERT INTO submissions (id, owner_id, report_id, state, accepted_at, error_code, created_at, updated_at)
-       VALUES (?, ?, ?, 'ACCEPTED', UTC_TIMESTAMP(3), NULL, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'ACCEPTED', UTC_TIMESTAMP(3), NULL, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [submissionId, accountId, reportId],
     );
 
@@ -568,7 +568,7 @@ export async function submitReport(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'submitReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'submitReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, submissionId, hash, submissionId],
     );
 
@@ -676,7 +676,7 @@ export async function closeSubmission(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'closeSubmission', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'closeSubmission', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, submissionId],
     );
 
@@ -828,10 +828,10 @@ export async function getOwnReport(
     // Ambil media
     const [mediaRows] = await connection.execute<RowDataPacket[]>(
       `SELECT u.id, u.mime as mediaType, u.bytes as sizeBytes, u.duration_ms as durationMs
-       FROM report_media rm
-       JOIN uploads u ON rm.upload_id = u.id
-       WHERE rm.report_id = ?
-       ORDER BY rm.order_index ASC`,
+        FROM report_media rm
+        JOIN uploads u ON rm.upload_id = u.id
+        WHERE rm.report_id = ?
+        ORDER BY rm.order_index ASC`,
       [reportId],
     );
 

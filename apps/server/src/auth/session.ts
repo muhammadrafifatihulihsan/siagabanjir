@@ -24,9 +24,9 @@ export async function requireSession(
   }
   const [rows] = await connection.execute<SessionRow[]>(
     `SELECT s.id AS session_id, a.id, a.display_name, a.email_normalized, a.role, a.version
-     FROM sessions s JOIN accounts a ON a.id = s.account_id
-     WHERE s.token_digest = ? AND s.revoked_at IS NULL AND s.expires_at > UTC_TIMESTAMP(3)
-       AND s.epoch = a.credential_epoch`,
+      FROM sessions s JOIN accounts a ON a.id = s.account_id
+      WHERE s.token_digest = ? AND s.revoked_at IS NULL AND s.expires_at > UTC_TIMESTAMP(3)
+        AND s.epoch = a.credential_epoch`,
     [digest],
   );
   if (!rows[0]) throw new HttpProblem(401, 'INVALID_SESSION');

@@ -146,14 +146,14 @@ export async function createContentDraft(
     const contentId = randomUUID();
     await connection.execute(
       `INSERT INTO content_items (id, kind, draft_json, published_json, state, version, created_at, updated_at)
-       VALUES (?, ?, ?, NULL, 'DRAFT', 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, NULL, 'DRAFT', 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [contentId, kind, JSON.stringify(input)],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'createContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'createContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, contentId],
     );
 
@@ -239,7 +239,7 @@ export async function updateContentDraft(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'updateContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'updateContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, contentId],
     );
 
@@ -312,7 +312,7 @@ export async function deleteContentDraft(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'deleteContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'deleteContentDraft', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, contentId],
     );
 

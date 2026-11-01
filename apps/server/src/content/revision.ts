@@ -76,7 +76,7 @@ export async function rebuildSnapshotAndPublish(
 
   await connection.execute(
     `INSERT INTO content_revisions (revision, published_at, manifest_json, snapshot_json)
-     VALUES (?, UTC_TIMESTAMP(3), ?, ?)`,
+      VALUES (?, UTC_TIMESTAMP(3), ?, ?)`,
     [nextRev, JSON.stringify(manifest), JSON.stringify(snapshot)],
   );
 

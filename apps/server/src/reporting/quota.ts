@@ -120,12 +120,12 @@ export async function getAccountQuotaState(
 
   const [ledger] = await connection.execute<LedgerRow[]>(
     `SELECT accept_seq, accepted_at
-     FROM quota_ledger
-     WHERE account_id = ?
-       AND accept_seq > ?
-       AND accepted_at > UTC_TIMESTAMP(3) - INTERVAL ? HOUR
-       AND accepted_at <= UTC_TIMESTAMP(3)
-     ORDER BY accepted_at ASC, accept_seq ASC`,
+      FROM quota_ledger
+      WHERE account_id = ?
+        AND accept_seq > ?
+        AND accepted_at > UTC_TIMESTAMP(3) - INTERVAL ? HOUR
+        AND accepted_at <= UTC_TIMESTAMP(3)
+      ORDER BY accepted_at ASC, accept_seq ASC`,
     [accountId, effectiveResetSeq.toString(), settings.quotaHours],
   );
 
@@ -262,16 +262,16 @@ export async function updateReportingSettings(
 
     await connection.execute(
       `UPDATE quota_settings
-       SET gallery_enabled = ?, quota_count = ?, quota_hours = ?,
-           version = version + 1, updated_at = UTC_TIMESTAMP(3)
-       WHERE id = 1 AND version = ?`,
+        SET gallery_enabled = ?, quota_count = ?, quota_hours = ?,
+            version = version + 1, updated_at = UTC_TIMESTAMP(3)
+        WHERE id = 1 AND version = ?`,
       [galleryEnabled, quotaCount, quotaHours, expectedVersion],
     );
 
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'updateReportingSettings', ?, 'COMMITTED', '1', UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'updateReportingSettings', ?, 'COMMITTED', '1', UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash],
     );
 
@@ -336,8 +336,8 @@ export async function resetQuota(
       const maxSeq = maxSeqRows[0]?.max_seq ?? 0;
       await connection.execute(
         `UPDATE quota_settings
-         SET global_reset_seq = ?, version = version + 1, updated_at = UTC_TIMESTAMP(3)
-         WHERE id = 1 AND version = ?`,
+          SET global_reset_seq = ?, version = version + 1, updated_at = UTC_TIMESTAMP(3)
+          WHERE id = 1 AND version = ?`,
         [maxSeq, expectedVersion],
       );
     } else {
@@ -358,15 +358,15 @@ export async function resetQuota(
 
       await connection.execute(
         `INSERT INTO quota_accounts (account_id, reset_seq, updated_at)
-         VALUES (?, ?, UTC_TIMESTAMP(3))
-         ON DUPLICATE KEY UPDATE reset_seq = VALUES(reset_seq), updated_at = UTC_TIMESTAMP(3)`,
+          VALUES (?, ?, UTC_TIMESTAMP(3))
+          ON DUPLICATE KEY UPDATE reset_seq = VALUES(reset_seq), updated_at = UTC_TIMESTAMP(3)`,
         [targetAccountId, maxSeq],
       );
 
       await connection.execute(
         `UPDATE quota_settings
-         SET version = version + 1, updated_at = UTC_TIMESTAMP(3)
-         WHERE id = 1 AND version = ?`,
+          SET version = version + 1, updated_at = UTC_TIMESTAMP(3)
+          WHERE id = 1 AND version = ?`,
         [expectedVersion],
       );
     }
@@ -374,7 +374,7 @@ export async function resetQuota(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'resetQuota', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'resetQuota', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, input.accountId ?? 'all'],
     );
 

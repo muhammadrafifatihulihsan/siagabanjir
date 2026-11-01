@@ -93,7 +93,7 @@ export async function updateProfile(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'updateProfile', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'updateProfile', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, accountId],
     );
 
@@ -197,9 +197,9 @@ export async function updateCredentials(
       if (normalizedEmail && newHashed) {
         await connection.execute(
           `UPDATE accounts
-           SET email_normalized = ?, password_hash = ?, password_salt = ?,
-               credential_epoch = credential_epoch + 1, version = version + 1
-           WHERE id = ? AND version = ?`,
+            SET email_normalized = ?, password_hash = ?, password_salt = ?,
+                credential_epoch = credential_epoch + 1, version = version + 1
+            WHERE id = ? AND version = ?`,
           [
             normalizedEmail,
             newHashed.hash,
@@ -211,17 +211,17 @@ export async function updateCredentials(
       } else if (normalizedEmail) {
         await connection.execute(
           `UPDATE accounts
-           SET email_normalized = ?,
-               credential_epoch = credential_epoch + 1, version = version + 1
-           WHERE id = ? AND version = ?`,
+            SET email_normalized = ?,
+                credential_epoch = credential_epoch + 1, version = version + 1
+            WHERE id = ? AND version = ?`,
           [normalizedEmail, accountId, expectedVersion],
         );
       } else if (newHashed) {
         await connection.execute(
           `UPDATE accounts
-           SET password_hash = ?, password_salt = ?,
-               credential_epoch = credential_epoch + 1, version = version + 1
-           WHERE id = ? AND version = ?`,
+            SET password_hash = ?, password_salt = ?,
+                credential_epoch = credential_epoch + 1, version = version + 1
+            WHERE id = ? AND version = ?`,
           [newHashed.hash, newHashed.salt, accountId, expectedVersion],
         );
       }
@@ -244,7 +244,7 @@ export async function updateCredentials(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'updateCredentials', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'updateCredentials', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, accountId],
     );
 

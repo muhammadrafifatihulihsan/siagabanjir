@@ -112,8 +112,8 @@ export async function editMessage(
 
     await connection.execute(
       `UPDATE messages
-       SET title = ?, body = ?, ends_at = ?, content_version = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
-       WHERE id = ?`,
+        SET title = ?, body = ?, ends_at = ?, content_version = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
+        WHERE id = ?`,
       [newTitle, newBody, endsAtSql, newContentVersion, newVersion, messageId],
     );
 
@@ -121,7 +121,7 @@ export async function editMessage(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'editMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'editMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, messageId],
     );
 
@@ -188,7 +188,7 @@ export async function revokeMessage(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'revokeMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'revokeMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, messageId],
     );
 
@@ -255,7 +255,7 @@ export async function expireMessage(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'expireMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'expireMessage', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, messageId],
     );
 

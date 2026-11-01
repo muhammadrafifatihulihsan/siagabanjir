@@ -150,8 +150,8 @@ export async function markRead(
     // 3. Catat versi baca ke tabel message_reads
     await connection.execute(
       `INSERT INTO message_reads (account_id, message_id, content_version, read_at)
-       VALUES (?, ?, ?, UTC_TIMESTAMP(3))
-       ON DUPLICATE KEY UPDATE read_at = UTC_TIMESTAMP(3)`,
+        VALUES (?, ?, ?, UTC_TIMESTAMP(3))
+        ON DUPLICATE KEY UPDATE read_at = UTC_TIMESTAMP(3)`,
       [userId, messageId, input.contentVersion],
     );
 
@@ -159,7 +159,7 @@ export async function markRead(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'markRead', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'markRead', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, messageId],
     );
 

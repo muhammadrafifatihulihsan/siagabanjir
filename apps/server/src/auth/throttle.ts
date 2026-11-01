@@ -12,7 +12,7 @@ export async function checkThrottle(
 ): Promise<void> {
   const [rows] = await connection.execute<RowDataPacket[]>(
     `SELECT CEIL(TIMESTAMPDIFF(MICROSECOND, UTC_TIMESTAMP(3), blocked_until) / 1000000) AS remaining
-     FROM auth_failures WHERE principal_digest = ? AND source_digest = ? AND blocked_until > UTC_TIMESTAMP(3)`,
+      FROM auth_failures WHERE principal_digest = ? AND source_digest = ? AND blocked_until > UTC_TIMESTAMP(3)`,
     [scope.principal, scope.source],
   );
   if (rows.length)

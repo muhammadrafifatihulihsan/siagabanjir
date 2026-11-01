@@ -236,7 +236,7 @@ async function recordAudit(
   const auditId = randomUUID();
   await connection.execute(
     `INSERT INTO audit_logs (id, actor_id, action, object_id, created_at, reason, outcome, version, cleanup_state)
-     VALUES (?, ?, ?, ?, UTC_TIMESTAMP(3), ?, ?, ?, ?)`,
+      VALUES (?, ?, ?, ?, UTC_TIMESTAMP(3), ?, ?, ?, ?)`,
     [
       auditId,
       entry.actorId,
@@ -317,7 +317,7 @@ export async function retryReportAnalysis(
     const jobId = randomUUID();
     await connection.execute(
       `INSERT INTO jobs (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-       VALUES (?, 'REPORT_ANALYSIS', ?, ?, ?, 'QUEUED', 0, 0, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, 'REPORT_ANALYSIS', ?, ?, ?, 'QUEUED', 0, 0, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [jobId, report.owner_id, reportId, report.version],
     );
 
@@ -329,7 +329,7 @@ export async function retryReportAnalysis(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'retryReportAnalysis', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'retryReportAnalysis', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, jobId],
     );
 
@@ -501,9 +501,9 @@ async function loadReportDetail(
 ): Promise<ReportDetail> {
   const [rows] = await connection.execute<ReportRow[]>(
     `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
-     FROM reports r
-     JOIN \`groups\` g ON r.group_id = g.id
-     WHERE r.id = ? AND r.deleted_at IS NULL`,
+      FROM reports r
+      JOIN \`groups\` g ON r.group_id = g.id
+      WHERE r.id = ? AND r.deleted_at IS NULL`,
     [reportId],
   );
   const report = rows[0];
@@ -514,10 +514,10 @@ async function loadReportDetail(
   // Ambil Media
   const [mediaRows] = await connection.execute<RowDataPacket[]>(
     `SELECT u.id, u.mime, u.bytes, u.duration_ms
-     FROM report_media rm
-     JOIN uploads u ON rm.upload_id = u.id
-     WHERE rm.report_id = ?
-     ORDER BY rm.order_index ASC`,
+      FROM report_media rm
+      JOIN uploads u ON rm.upload_id = u.id
+      WHERE rm.report_id = ?
+      ORDER BY rm.order_index ASC`,
     [reportId],
   );
   const media: MediaItem[] = mediaRows.map((m) => ({
@@ -632,7 +632,7 @@ export async function correctAssessment(
 
     await connection.execute(
       `INSERT INTO assessments (id, report_id, source, relevance, level, explanation, result_version, eligible, created_at)
-       VALUES (?, ?, 'ADMIN', ?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'ADMIN', ?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
       [
         assessId,
         reportId,
@@ -668,7 +668,7 @@ export async function correctAssessment(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'correctAssessment', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'correctAssessment', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, reportId],
     );
 
@@ -748,7 +748,7 @@ export async function reviewReport(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'reviewReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'reviewReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, reportId],
     );
 
@@ -859,7 +859,7 @@ export async function moveReport(
       const code = `GRP-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 1000)}`;
       await connection.execute(
         `INSERT INTO \`groups\` (id, code, state, location_label, source_report_id, level, created_at, updated_at, version)
-         VALUES (?, ?, 'ACTIVE', ?, ?, 'UNRATED', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+          VALUES (?, ?, 'ACTIVE', ?, ?, 'UNRATED', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
         [
           targetGroupId,
           code,
@@ -892,7 +892,7 @@ export async function moveReport(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'moveReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'moveReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, reportId],
     );
 
@@ -980,7 +980,7 @@ export async function appendReportNote(
     const noteId = randomUUID();
     await connection.execute(
       `INSERT INTO notes (id, report_id, author_id, body, correction_of, correction_reason, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
       [noteId, reportId, adminId, body, correctionOf, correctionReason],
     );
 
@@ -994,7 +994,7 @@ export async function appendReportNote(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'appendReportNote', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'appendReportNote', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, noteId],
     );
 
@@ -1082,7 +1082,7 @@ export async function deleteReport(
     const cleanupId = randomUUID();
     await connection.execute(
       `INSERT INTO cleanup_jobs (id, object_type, object_id, owner_id, state, attempt, created_at, updated_at)
-       VALUES (?, 'REPORT', ?, ?, 'PENDING', 0, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+        VALUES (?, 'REPORT', ?, ?, 'PENDING', 0, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
       [cleanupId, reportId, report.owner_id],
     );
 
@@ -1099,7 +1099,7 @@ export async function deleteReport(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'deleteReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'deleteReport', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, reportId],
     );
 
@@ -1208,7 +1208,7 @@ export async function listGroups(
     }
 
     if (query.queue === 'REVIEW_NEEDED') {
-      sql += ` ORDER BY 
+      sql += ` ORDER BY
         CASE g.level WHEN 'HIGH' THEN 1 WHEN 'MEDIUM' THEN 2 WHEN 'LOW' THEN 3 ELSE 4 END ASC,
         min_needs_review_since ASC,
         g.id ASC
@@ -1251,10 +1251,10 @@ export async function getGroup(
       `SELECT g.*,
         COUNT(r.id) as report_count,
         MIN(r.needs_review_since) as min_needs_review_since
-       FROM \`groups\` g
-       LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
-       WHERE g.id = ?
-       GROUP BY g.id`,
+        FROM \`groups\` g
+        LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
+        WHERE g.id = ?
+        GROUP BY g.id`,
       [groupId],
     );
     const groupRow = rows[0];
@@ -1264,11 +1264,11 @@ export async function getGroup(
 
     const [reportRows] = await connection.execute<ReportRow[]>(
       `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
-       FROM reports r
-       JOIN \`groups\` g ON r.group_id = g.id
-       WHERE r.group_id = ? AND r.deleted_at IS NULL
-       ORDER BY r.accepted_at DESC, r.id DESC
-       LIMIT 20`,
+        FROM reports r
+        JOIN \`groups\` g ON r.group_id = g.id
+        WHERE r.group_id = ? AND r.deleted_at IS NULL
+        ORDER BY r.accepted_at DESC, r.id DESC
+        LIMIT 20`,
       [groupId],
     );
 
@@ -1389,10 +1389,10 @@ export async function completeGroup(
       }
       const [gRows] = await connection.execute<GroupRawRow[]>(
         `SELECT g.*, COUNT(r.id) as report_count, MIN(r.needs_review_since) as min_needs_review_since
-         FROM \`groups\` g
-         LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
-         WHERE g.id = ?
-         GROUP BY g.id`,
+          FROM \`groups\` g
+          LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
+          WHERE g.id = ?
+          GROUP BY g.id`,
         [groupId],
       );
       if (gRows[0]) return formatGroup(gRows[0]);
@@ -1430,16 +1430,16 @@ export async function completeGroup(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'completeGroup', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'completeGroup', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, groupId],
     );
 
     const [gRows] = await connection.execute<GroupRawRow[]>(
       `SELECT g.*, COUNT(r.id) as report_count, MIN(r.needs_review_since) as min_needs_review_since
-       FROM \`groups\` g
-       LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
-       WHERE g.id = ?
-       GROUP BY g.id`,
+        FROM \`groups\` g
+        LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
+        WHERE g.id = ?
+        GROUP BY g.id`,
       [groupId],
     );
     return formatGroup(gRows[0]!);
@@ -1560,7 +1560,7 @@ export async function retryReportCleanup(
     const actionId = randomUUID();
     await connection.execute(
       `INSERT INTO commands (id, actor_scope, client_key, operation, fingerprint, state, object_id, committed_at)
-       VALUES (?, ?, ?, 'retryReportCleanup', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, ?, 'retryReportCleanup', ?, 'COMMITTED', ?, UTC_TIMESTAMP(3))`,
       [actionId, scope, clientKey, hash, cleanupId],
     );
 

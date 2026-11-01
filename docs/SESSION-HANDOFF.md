@@ -118,6 +118,8 @@ Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
+Penyelarasan format EditorConfig: 114 temuan error `editorconfig-checker` (`wrong amount of left-padding spaces (want multiple of 2)` dan `trailing whitespace`) pada 23 berkas sumber `apps/server/src` dan `apps/server/test` telah diperbaiki hingga `npx editorconfig-checker` dan Prettier `format:check` menghasilkan 0 error / PASS.
+
 Swagger UI pengujian API interaktif (`/docs`, `/documentation`, `/api/docs`), endpoint spesifikasi OpenAPI (`/api/v1/openapi.json`, `/openapi.json`), dan endpoint kesehatan sistem (`/health`, `/api/v1/health`) tersedia.
 Refaktorisasi Clean Code dan modularisasi submodul backend (messages, CMS, storage) diterapkan dengan panjang kode ~60-160 baris per file dan dokumentasi komentar fungsi lengkap.
 

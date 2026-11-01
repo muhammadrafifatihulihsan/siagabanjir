@@ -52,7 +52,7 @@ export async function signup(
       async (connection) => {
         await connection.execute(
           `INSERT INTO accounts (id, email_normalized, display_name, password_hash, password_salt, created_at)
-         VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
+          VALUES (?, ?, ?, ?, ?, UTC_TIMESTAMP(3))`,
           [
             account.id,
             account.email,
