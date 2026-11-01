@@ -1208,3 +1208,35 @@ menjadi pusat komando tanggap darurat yang fungsional dan estetis selaras `Siaga
 - NOT_RUN: perangkat fisik, backend/provider, UAT dan screen reader.
 
 Dokumentasi DESIGN, DECISIONS, CHANGELOG, handoff dan WORKSPACE diperbarui.
+
+<a id="admin-panels"></a>
+
+## Tema menu mengikuti dashboard komando - 1 November 2026
+
+[WS-DEC-069](DECISIONS.md#admin-panels-069) memakai dashboard pada baseline
+`5088853` sebagai acuan panel dan kontrol admin. Strip status kota statis dan
+stempel instansi di atas dashboard dihapus. Laporan memperoleh satu panel putih
+untuk pencarian/filter/tabel dan tombol detail outline; judul klaster, Pusat
+Aksi dan profil biru tua. Pilihan Pusat Aksi memakai pastel dan ikon yang sudah
+didefinisikan; tema field dan filter dibatasi pada admin.
+
+- PASS: analyzer 0 issues; 114 tes Flutter, termasuk semua tab/dialog pada
+  lebar 390/768/1280 px dengan teks 100%/200%, pencarian, validasi dan navigasi.
+  Setelah perbaikan ikon pilihan, 13 tes admin diulang dan PASS.
+- PASS: perbandingan literal string terhadap baseline, tanpa tambahan teks
+  produk (nama font Inter dikecualikan); hanya dua teks strip status dihapus.
+- PASS: build Web tanpa CDN/wasm dry run. Chrome 156.0.8078.76 menavigasi
+  lima halaman pada 1440/768/390 px, subbagian Pusat Aksi dan modal bukti tanpa
+  pageerror. Screenshot dashboard, laporan, profil, Pusat Aksi dan sampel
+  layar sempit diperiksa. Tumpukan centang/ikon pilihan diperbaiki.
+- PASS: validator link (45 Markdown), metadata delapan skill, Markdownlint
+  enam dokumen, format Dart dan diff whitespace.
+- Artefak lokal `apps/siagabanjir/build/audit/admin-redesign-*.png`,
+  `admin-redesign-tests.log` dan `admin_redesign_visual.py`, tidak dilacak Git.
+- NOT_RUN: HP, backend/provider, UAT dan screen reader. Gap integrasi yang
+  dicatat pada audit admin sebelumnya tetap berlaku.
+
+DESIGN, DECISIONS, CHANGELOG, handoff dan riset skill diperbarui. README/RTM,
+spesifikasi/kontrak serta AGENTS/rules/skills/adapter tidak memerlukan perubahan:
+fitur, data, requirement, path dan prosedur tetap. Tidak ada dependensi atau
+aset baru, instalasi skill, perubahan layar warga maupun mandat push/deploy.

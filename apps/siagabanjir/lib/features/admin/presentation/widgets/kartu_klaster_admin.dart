@@ -33,7 +33,11 @@ class KartuKlasterAdmin extends StatelessWidget {
           children: [
             Text(
               k.namaWilayah,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E3A8A),
+              ),
             ),
             const SizedBox(height: 8),
             Wrap(

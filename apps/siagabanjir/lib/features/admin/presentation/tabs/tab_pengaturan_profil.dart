@@ -111,13 +111,13 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                 children: [
                   CircleAvatar(
                     radius: 32,
-                    backgroundColor: const Color(0xFF2563EB),
+                    backgroundColor: const Color(0xFFD6F0FF),
                     child: Text(
                       _namaController.text.isNotEmpty
                           ? _namaController.text[0]
                           : 'A',
                       style: const TextStyle(
-                        color: Colors.white,
+                        color: Color(0xFF0369A1),
                         fontSize: 24,
                         fontWeight: FontWeight.w800,
                       ),
@@ -133,7 +133,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
-                            color: Color(0xFF0F172A),
+                            color: Color(0xFF1E3A8A),
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -256,9 +256,9 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                 'Kata Sandi',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF1E3A8A),
                 ),
               ),
               const SizedBox(height: 4),

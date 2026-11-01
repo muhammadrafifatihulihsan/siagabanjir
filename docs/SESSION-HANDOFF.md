@@ -8,6 +8,17 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Tema menu admin mengikuti dashboard komando sesuai
+[WS-DEC-069](DECISIONS.md#admin-panels-069): panel laporan putih, tombol outline,
+pilihan Pusat Aksi pastel, judul bagian biru tua dan field dengan fokus biru.
+Strip status kota statis beserta stempel instansi di dashboard dihapus.
+Tidak menambah teks atau mengubah alur. Analyzer 0 issues, 114 tes PASS,
+build Web PASS, pemeriksaan Chrome pada 1440/768/390 px tanpa pageerror.
+[Bukti dan batas](WORKSPACE.md#admin-panels). Branch `branch-rafi`, commit lokal;
+push tidak diminta. HP, backend/provider, UAT dan screen reader NOT_RUN.
+
+### Dashboard komando sebelumnya
+
 Penyempurnaan UI/UX Dashboard Komando Admin pada 1 November 2026 mengikuti
 [WS-DEC-068](DECISIONS.md#admin-dashboard-ux-068). `TabDashboardRingkasan` dirancang
 ulang menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`:

@@ -1357,3 +1357,20 @@ Dashboard ditingkatkan dengan tata letak komando terpadu:
    - Kolom Kiri: Fokus Wilayah dengan Laporan Terbanyak (klaster aktif) dan tautan peninjauan semua wilayah.
    - Kolom Kanan: Panel Agregasi Kebutuhan Darurat (Perahu Karet, Logistik Makanan, dll.), Distribusi Status Laporan visual (Menunggu vs Terverifikasi vs Selesai), Siaran Peringatan Mengudara yang sedang aktif, dan Pintasan Cepat Petugas.
 4. Adaptasi mobile (< 960 px) mengalir vertikal satu kolom dengan pembungkusan dinamis (`Wrap`), bebas overflow pada layar 390 px maupun pembesaran teks 2.0x.
+
+<a id="admin-panels-069"></a>
+
+## 59. Tema menu admin mengikuti dashboard komando - 1 November 2026
+
+**WS-DEC-069 - CURRENT_USER_CONFIRMED.** Pemilik memilih dashboard terkini
+sebagai acuan visual untuk menu/tombol admin lainnya dan meminta perubahan
+hanya desain, tanpa tambahan teks. Strip status kota Siaga 2 (Waspada) di atas
+dashboard diminta dihapus. Ini menggantikan poin strip status WS-DEC-068;
+panel lain dan susunan dashboard tetap berlaku.
+
+Panel laporan, judul bagian, pilihan Pusat Aksi, profil dan kontrol bersama
+diselaraskan dengan [DESIGN](DESIGN.md#konsistensi-panel-dan-kontrol-admin).
+Tidak mengubah callback, data, validasi atau hak akses. Riset find-skills
+meninjau leaderboard skills.sh dan membaca frontend-design dari anthropics/skills;
+prinsip mengikuti brief dan mengurangi ornamen diterapkan tanpa instalasi.
+[Bukti](WORKSPACE.md#admin-panels). Commit lokal, tanpa mandat push.

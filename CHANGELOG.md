@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Selaraskan panel dan tombol menu admin dengan dashboard komando; hapus strip
+  status kota statis. Tanpa tambahan teks atau perubahan alur.
+  [Bukti pemeriksaan](docs/WORKSPACE.md#admin-panels).
+
 - **Penyempurnaan UI/UX Dashboard Komando Admin (Pusdalops BPBD):**
   - Meningkatkan `TabDashboardRingkasan` menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`: strip status kesiagaan operasional Kota Padang, 4 kartu KPI metrik dengan ikon semantik dan keterangan kontekstual.
   - Mengimplementasikan layout 2 kolom responsif (desktop >= 960 px): kolom kiri fokus klaster wilayah aktif berprioritas laporan terbanyak; kolom kanan menyajikan visualisasi distribusi status laporan (proporsional 3 warna), rekapitulasi kebutuhan darurat logistik dari seluruh klaster aktif, feed siaran peringatan aktif yang sedang mengudara, serta pintasan aksi cepat petugas.

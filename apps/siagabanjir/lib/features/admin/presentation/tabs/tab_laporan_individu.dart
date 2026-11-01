@@ -216,7 +216,9 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 maxLines: 2,
                 decoration: const InputDecoration(
                   labelText: 'Alasan penghapusan',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                  ),
                 ),
                 validator: (value) => value == null || value.trim().isEmpty
                     ? 'Isi alasan penghapusan.'
@@ -300,164 +302,176 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
     return HalamanAdmin(
       children: [
         const JudulAdmin('Laporan Warga'),
-        TextField(
-          controller: _searchController,
-          onChanged: (_) => setState(() {}),
-          decoration: const InputDecoration(
-            labelText: 'Cari laporan',
-            hintText: 'ID, pelapor, wilayah, atau deskripsi',
-            prefixIcon: Icon(Icons.search),
-            border: OutlineInputBorder(),
-          ),
-        ),
-        const SizedBox(height: 16),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            _filter('Semua', 'semua'),
-            _filter('Menunggu', 'menunggu'),
-            _filter('Ditinjau', 'diverifikasi'),
-            _filter('Selesai', 'selesai'),
-          ],
-        ),
-        const SizedBox(height: 16),
-        Text(
-          '${list.length} dari ${widget.state.semuaLaporan.length} laporan',
-          style: const TextStyle(fontSize: 14, color: Color(0xFF475569)),
-        ),
-        const SizedBox(height: 12),
-        if (list.isEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32),
-            child: Column(
-              children: [
-                const Text('Tidak ada laporan yang sesuai.'),
-                TextButton(
-                  onPressed: () => setState(() {
-                    _searchController.clear();
-                    _filterStatus = 'semua';
-                  }),
-                  child: const Text('Hapus Pencarian dan Filter'),
-                ),
-              ],
-            ),
-          ),
-        if (list.isNotEmpty)
-          LayoutBuilder(
-            builder: (context, constraints) => SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minWidth: constraints.maxWidth),
-                child: DataTable(
-                  headingRowColor: const WidgetStatePropertyAll(
-                    Color(0xFFE1EDFF),
+        PanelAdmin(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextField(
+                controller: _searchController,
+                onChanged: (_) => setState(() {}),
+                decoration: const InputDecoration(
+                  labelText: 'Cari laporan',
+                  hintText: 'ID, pelapor, wilayah, atau deskripsi',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
-                  dataRowMinHeight: 88,
-                  dataRowMaxHeight: double.infinity,
-                  columnSpacing: 20,
-                  horizontalMargin: 16,
-                  columns: const [
-                    DataColumn(label: Text('Laporan')),
-                    DataColumn(label: Text('Pelapor dan lokasi')),
-                    DataColumn(label: Text('Deskripsi')),
-                    DataColumn(label: Text('Status')),
-                    DataColumn(label: Text('Aksi')),
-                  ],
-                  rows: [
-                    for (final item in list)
-                      DataRow(
-                        cells: [
-                          DataCell(
-                            Row(
-                              children: [
-                                PreviewMediaLaporan(
-                                  item: item,
-                                  size: 48,
-                                  showZoomHint: false,
-                                ),
-                                const SizedBox(width: 12),
-                                SizedBox(
-                                  width: 130,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _filter('Semua', 'semua'),
+                  _filter('Menunggu', 'menunggu'),
+                  _filter('Ditinjau', 'diverifikasi'),
+                  _filter('Selesai', 'selesai'),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                '${list.length} dari ${widget.state.semuaLaporan.length} laporan',
+                style: const TextStyle(fontSize: 14, color: Color(0xFF475569)),
+              ),
+              const SizedBox(height: 12),
+              if (list.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 32),
+                  child: Column(
+                    children: [
+                      const Text('Tidak ada laporan yang sesuai.'),
+                      TextButton(
+                        onPressed: () => setState(() {
+                          _searchController.clear();
+                          _filterStatus = 'semua';
+                        }),
+                        child: const Text('Hapus Pencarian dan Filter'),
+                      ),
+                    ],
+                  ),
+                ),
+              if (list.isNotEmpty)
+                LayoutBuilder(
+                  builder: (context, constraints) => SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minWidth: constraints.maxWidth,
+                      ),
+                      child: DataTable(
+                        headingRowColor: const WidgetStatePropertyAll(
+                          Color(0xFFE1EDFF),
+                        ),
+                        dataRowMinHeight: 88,
+                        dataRowMaxHeight: double.infinity,
+                        columnSpacing: 20,
+                        horizontalMargin: 16,
+                        columns: const [
+                          DataColumn(label: Text('Laporan')),
+                          DataColumn(label: Text('Pelapor dan lokasi')),
+                          DataColumn(label: Text('Deskripsi')),
+                          DataColumn(label: Text('Status')),
+                          DataColumn(label: Text('Aksi')),
+                        ],
+                        rows: [
+                          for (final item in list)
+                            DataRow(
+                              cells: [
+                                DataCell(
+                                  Row(
                                     children: [
-                                      Text(
-                                        item.id,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                      PreviewMediaLaporan(
+                                        item: item,
+                                        size: 48,
+                                        showZoomHint: false,
                                       ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        item.timestamp,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFF475569),
+                                      const SizedBox(width: 12),
+                                      SizedBox(
+                                        width: 130,
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              item.id,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              item.timestamp,
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Color(0xFF475569),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
                                   ),
                                 ),
+                                DataCell(
+                                  SizedBox(
+                                    width: 180,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.namaPelapor,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 4),
+                                        Text(
+                                          item.namaWilayah,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFF475569),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
+                                  SizedBox(
+                                    width: 240,
+                                    child: Text(
+                                      item.deskripsi,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                                DataCell(
+                                  SizedBox(
+                                    width: 140,
+                                    child: Text(item.statusVerifikasi.label),
+                                  ),
+                                ),
+                                DataCell(
+                                  OutlinedButton(
+                                    onPressed: () => _showDetailLaporan(item),
+                                    child: const Text('Lihat Detail'),
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          DataCell(
-                            SizedBox(
-                              width: 180,
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.namaPelapor,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    item.namaWilayah,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Color(0xFF475569),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          DataCell(
-                            SizedBox(
-                              width: 240,
-                              child: Text(
-                                item.deskripsi,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                          DataCell(
-                            SizedBox(
-                              width: 140,
-                              child: Text(item.statusVerifikasi.label),
-                            ),
-                          ),
-                          DataCell(
-                            TextButton(
-                              onPressed: () => _showDetailLaporan(item),
-                              child: const Text('Lihat Detail'),
-                            ),
-                          ),
                         ],
                       ),
-                  ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
+            ],
           ),
+        ),
       ],
     );
   }

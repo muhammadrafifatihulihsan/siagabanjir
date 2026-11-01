@@ -182,10 +182,22 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
 
   Widget _buildSubTabItem(int index, String label, IconData icon) {
     final isSelected = _activeSubIndex == index;
+    const palette = [
+      (Color(0xFFD6F0FF), Color(0xFFBAE6FD), Color(0xFF0369A1)),
+      (Color(0xFFDCF0E2), Color(0xFFBBE5C9), Color(0xFF15803D)),
+      (Color(0xFFEDE9FE), Color(0xFFDDD6FE), Color(0xFF5145CD)),
+    ];
+    final colors = palette[index];
     return ChoiceChip(
       label: Text(label),
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-      selectedColor: const Color(0xFFEFF6FF),
+      avatar: Icon(icon, size: 20, color: colors.$3),
+      showCheckmark: false,
+      labelStyle: TextStyle(color: colors.$3, fontWeight: FontWeight.w600),
+      side: BorderSide(color: isSelected ? colors.$3 : colors.$2),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      backgroundColor: Colors.white,
+      selectedColor: colors.$1,
       checkmarkColor: const Color(0xFF1D4ED8),
       selected: isSelected,
       onSelected: (_) => setState(() => _activeSubIndex = index),
@@ -212,9 +224,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Siaran Baru',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF1E3A8A),
                 ),
               ),
               const SizedBox(height: 4),
@@ -303,7 +315,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                     ),
                   ),
                   onPressed: _kirimSiaran,
-                  icon: const Icon(Icons.send_rounded, size: 16),
+                  icon: const Icon(Icons.send_outlined, size: 18),
                   label: const Text(
                     'Kirim Siaran',
                     style: TextStyle(
@@ -323,9 +335,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           'Siaran Aktif',
           style: TextStyle(
             fontFamily: 'Inter',
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF0F172A),
+            color: Color(0xFF1E3A8A),
           ),
         ),
         const SizedBox(height: 12),
@@ -368,7 +380,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                     fontFamily: 'Inter',
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0F172A),
+                    color: Color(0xFF1E3A8A),
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -439,9 +451,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                 'Tambah Kontak Posko',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0F172A),
+                  color: Color(0xFF1E3A8A),
                 ),
               ),
               const SizedBox(height: 4),
@@ -523,9 +535,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           'Kontak Publik',
           style: TextStyle(
             fontFamily: 'Inter',
-            fontSize: 15,
+            fontSize: 16,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF0F172A),
+            color: Color(0xFF1E3A8A),
           ),
         ),
         const SizedBox(height: 12),
@@ -563,7 +575,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                           fontFamily: 'Inter',
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF0F172A),
+                          color: Color(0xFF1E3A8A),
                         ),
                       ),
                       Text(
@@ -613,9 +625,9 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
               'Pengaturan Laporan',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 15,
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0F172A),
+                color: Color(0xFF1E3A8A),
               ),
             ),
             const SizedBox(height: 4),

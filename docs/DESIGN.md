@@ -349,7 +349,7 @@ Badge dipertahankan hanya untuk status tinjauan pada ringkasan wilayah.
   IndexedStack mempertahankan isian, filter dan posisi halaman selama sesi.
 - **Dashboard:** empat metrik dari state aktual (Menunggu Verifikasi, Total
   Laporan, Wilayah Aktif, Siaran Aktif) diperkuat ikon semantik dan keterangan
-  kontekstual ringkas. Dilengkapi strip status operasional Pusdalops BPBD Padang.
+  kontekstual ringkas. Strip status kota statis dihapus sesuai WS-DEC-069.
   Tata letak 2 kolom di desktop (>= 960 px): kolom kiri memuat tiga klaster wilayah
   aktif dengan laporan terbanyak dan aksi peninjauan bukti; kolom kanan memuat
   distribusi status laporan (bar proporsional), agregasi kebutuhan darurat lapangan
@@ -381,3 +381,16 @@ dibaca melalui gulir, bukan mengecilkan semua teks untuk memuat tabel desktop.
 Ini pratinjau lokal dengan fixture dan state yang sudah ada, bukan penerimaan
 kontrak backend. Keterbatasan autentikasi, reset kuota, sandi, AI, serta lifecycle
 laporan dicatat pada [bukti audit](WORKSPACE.md#admin-ui-audit).
+
+### Konsistensi panel dan kontrol admin
+
+[WS-DEC-069](DECISIONS.md#admin-panels-069) memakai dashboard komando sebagai
+acuan untuk menu lainnya. Judul bagian biru tua, panel putih radius 22 dengan
+padding 20, serta tombol outline biru radius 14 berlaku pada laporan dan
+peninjauan wilayah. Laporan menempatkan pencarian, filter dan tabel dalam satu
+panel, dengan isi/kolom dan gulir horizontal yang sama. Pilihan Pusat Aksi
+memakai aksen pastel biru/hijau/ungu serta satu ikon semantik per pilihan.
+Profil mengikuti judul biru tua dan avatar biru muda. Field memakai tepi netral
+dan fokus biru yang jelas. Tidak menambah teks, metrik atau status baru.
+Strip Status: Siaga 2 (Waspada) beserta stempel instansi di dashboard dihapus;
+panel data dan tata letak dua kolom dashboard tetap.

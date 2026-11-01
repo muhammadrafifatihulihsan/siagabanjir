@@ -88,3 +88,20 @@ class KolomAdaptifAdmin extends StatelessWidget {
     },
   );
 }
+
+/// Permukaan panel mengikuti kartu pada dashboard admin.
+class PanelAdmin extends StatelessWidget {
+  const PanelAdmin({super.key, required this.child});
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(22),
+      border: Border.all(color: const Color(0xFFE2E8F0)),
+    ),
+    child: child,
+  );
+}

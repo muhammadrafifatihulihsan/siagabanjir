@@ -13,6 +13,37 @@ ThemeData temaAdmin(ThemeData base) => base.copyWith(
     surfaceTint: Colors.transparent,
     outline: SiagaTheme.border,
   ),
+  chipTheme: base.chipTheme.copyWith(
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.transparent,
+    side: const BorderSide(color: SiagaTheme.border),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+    labelStyle: const TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 14,
+      fontWeight: FontWeight.w600,
+      color: SiagaTheme.deepBlue,
+    ),
+  ),
+  inputDecorationTheme: base.inputDecorationTheme.copyWith(
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: SiagaTheme.border),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(color: SiagaTheme.blue, width: 2),
+    ),
+  ),
+  dataTableTheme: base.dataTableTheme.copyWith(
+    headingTextStyle: const TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 14,
+      fontWeight: FontWeight.w700,
+      color: SiagaTheme.deepBlue,
+    ),
+    dividerThickness: 1,
+  ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: base.outlinedButtonTheme.style?.copyWith(
       foregroundColor: WidgetStateProperty.resolveWith(

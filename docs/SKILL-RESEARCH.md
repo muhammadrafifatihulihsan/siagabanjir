@@ -149,3 +149,14 @@ sumber itu atau adopsi resep CSS/animasi. Prosedur aktif tetap skill proyek.
 cukup untuk tugas ini: tidak memasang skill/global config, menyalin bundel,
 atau menyimpulkan kualitas dari angka instalasi. Tidak ada pengujian Figma
 atau evaluasi agent eksternal. [Bukti hasil](WORKSPACE.md#admin-ui-audit).
+
+### Penyelarasan menu admin dengan dashboard komando
+
+Pada mandat WS-DEC-069, find-skills kembali meninjau leaderboard
+[skills.sh](https://www.skills.sh/). Sumber
+[frontend-design dari Anthropic](https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/SKILL.md)
+dibaca penuh sebagai referensi: patuhi arah visual pemilik, gunakan hierarki
+secara sengaja, dan hindari teks/ornamen tanpa fungsi. Tidak mengadopsi saran
+hero/font baru karena tema dashboard telah dipilih pengguna. Tidak ada instalasi
+atau rekomendasi paket berdasarkan popularitas saja. Prosedur Flutter/UI proyek
+tetap menjadi acuan eksekusi. [Bukti hasil](WORKSPACE.md#admin-panels).

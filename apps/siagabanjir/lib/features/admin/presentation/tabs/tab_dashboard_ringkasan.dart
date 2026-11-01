@@ -91,64 +91,6 @@ class TabDashboardRingkasan extends StatelessWidget {
           'Dashboard',
           description: 'Ringkasan laporan dan tinjauan wilayah.',
         ),
-        // Strip status kesiagaan komando operasional
-        Container(
-          margin: const EdgeInsets.only(bottom: 24),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
-          child: Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 12,
-            runSpacing: 8,
-            children: [
-              Wrap(
-                spacing: 8,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFD97706),
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  Text(
-                    'Status: ${state.labelSiagaKota}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF0F172A),
-                    ),
-                  ),
-                ],
-              ),
-              const Wrap(
-                spacing: 6,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Icon(
-                    Icons.verified_user_outlined,
-                    size: 16,
-                    color: Color(0xFF64748B),
-                  ),
-                  Text(
-                    'Pusdalops BPBD Kota Padang',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
         // 4 Kartu KPI Metrik
         LayoutBuilder(
           builder: (context, constraints) {
@@ -510,8 +452,9 @@ class TabDashboardRingkasan extends StatelessWidget {
                                           ),
                                           decoration: BoxDecoration(
                                             color: pesan.badgeBackground,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
+                                            borderRadius: BorderRadius.circular(
+                                              4,
+                                            ),
                                           ),
                                           child: Text(
                                             pesan.badgeLabel,
@@ -588,9 +531,8 @@ class TabDashboardRingkasan extends StatelessWidget {
                               label: const Text('Kirim Siaran Baru'),
                             ),
                             OutlinedButton.icon(
-                              onPressed: () => onNavigateToTab(
-                                AdminMenuTab.laporanIndividu,
-                              ),
+                              onPressed: () =>
+                                  onNavigateToTab(AdminMenuTab.laporanIndividu),
                               icon: const Icon(
                                 Icons.format_list_bulleted_outlined,
                                 size: 18,
@@ -619,11 +561,7 @@ class TabDashboardRingkasan extends StatelessWidget {
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                kolomKiri,
-                const SizedBox(height: 24),
-                kolomKanan,
-              ],
+              children: [kolomKiri, const SizedBox(height: 24), kolomKanan],
             );
           },
         ),
