@@ -118,6 +118,8 @@ Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
+Dokumentasi Swagger UI & Health Check: Panduan lengkap pengujian interaktif via Swagger UI (`http://127.0.0.1:3000/docs`) dan pemeriksaan kesehatan sistem (`http://127.0.0.1:3000/health`) ditambahkan ke `apps/server/README.md`. Domain logic health check diselaraskan untuk mengkueri tabel `schema_migrations` secara akurat sehingga mengembalikan status `UP` dengan 32 riwayat migrasi terverifikasi di MySQL.
+
 Penyelarasan format EditorConfig: 114 temuan error `editorconfig-checker` (`wrong amount of left-padding spaces (want multiple of 2)` dan `trailing whitespace`) pada 23 berkas sumber `apps/server/src` dan `apps/server/test` telah diperbaiki hingga `npx editorconfig-checker` dan Prettier `format:check` menghasilkan 0 error / PASS.
 
 Swagger UI pengujian API interaktif (`/docs`, `/documentation`, `/api/docs`), endpoint spesifikasi OpenAPI (`/api/v1/openapi.json`, `/openapi.json`), dan endpoint kesehatan sistem (`/health`, `/api/v1/health`) tersedia.

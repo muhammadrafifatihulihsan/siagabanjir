@@ -73,12 +73,12 @@ export async function checkHealth(pool?: Pool): Promise<HealthCheckResult> {
       // Periksa status riwayat migrasi
       try {
         const [rows] = await connection.execute<RowDataPacket[]>(
-          "SELECT COUNT(*) as count FROM migration_history WHERE state = 'applied'",
+          "SELECT COUNT(*) as count FROM schema_migrations WHERE state = 'applied'",
         );
         appliedCount = Number(rows[0]?.count ?? 0);
         migStatus = 'UP';
       } catch {
-        // Tabel migration_history mungkin belum dibuat di test non-db
+        // Tabel schema_migrations mungkin belum dibuat di test non-db
         migStatus = 'DOWN';
       }
     } finally {

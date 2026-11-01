@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan panduan eksekusi pengujian API interaktif Swagger UI dan endpoint
+  pemeriksaan kesehatan sistem (health check) pada apps/server/README.md serta
+  perbaiki kueri riwayat migrasi health check ke tabel schema_migrations.
+
 - Perbaiki indentasi kelipatan 2 spasi dan bersihkan trailing whitespace pada
   berkas TypeScript apps/server/src dan apps/server/test agar mematuhi aturan
   .editorconfig dan lulus uji editorconfig-checker (114 error terselesaikan).

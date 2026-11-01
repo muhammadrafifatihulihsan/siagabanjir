@@ -2,32 +2,104 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Implementasi saat ini
-`GET /api/v1/meta` dan `POST /api/v1/auth/signup` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
-serta `POST /api/v1/auth/login` dengan throttle dan penerbitan sesi tujuh hari.
-`GET /api/v1/me`, logout dan revoke memakai sesi server, error terstruktur
-dan log minimal. Respons metadata bukan bukti kesiapan DB,
-worker, autentikasi, fitur bisnis atau deployment.
+Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Seluruh 72 operasi endpoint dari
+spesifikasi [OpenAPI](../../docs/openapi.json) telah diimplementasikan lengkap mencakup
+autentikasi akun & profil, pelaporan warga, brankas dokumen privat, peninjauan admin,
+kelompok insiden, Pantau publik, CMS edukasi, siaran pesan, serta kotak masuk warga.
+Server dilengkapi dashboard dokumentasi interaktif Swagger UI dan endpoint pemeriksaan
+kesehatan sistem (health check) server dan MySQL.
 
-## Menjalankan
+## Menjalankan Server
 
-Dari folder `apps/server`, gunakan Node >=24.15.0 <25 dan pnpm 10.34.9.
-Versi dependency persis tersedia pada package.json dan pnpm-lock.yaml.
-TypeScript 5.9.3 dipilih dalam rentang dukungan typescript-eslint; tidak
-mengambil major TypeScript terbaru yang belum didukung linter ini.
+Dari root workspace atau folder `apps/server`, gunakan Node >=24.15.0 <25 dan pnpm 10.34.9:
 
 ```sh
-npx --yes pnpm@10.34.9 install --frozen-lockfile
-npx --yes pnpm@10.34.9 check
-npx --yes pnpm@10.34.9 start
+# Menjalankan server dalam mode pengembangan dengan auto-reload (watch)
+corepack pnpm --dir apps/server dev
+
+# Atau build dan jalankan server hasil kompilasi dist
+corepack pnpm --dir apps/server build
+corepack pnpm --dir apps/server start
 ```
 
-PowerShell dapat memakai `npx.cmd` bila kebijakan mesin menolak `npx.ps1`.
-Tidak perlu instalasi global atau perubahan PATH. `start` memerlukan `build`
-yang sudah dijalankan oleh `check`. `dev` menjalankan source dengan watch.
-Hentikan proses menggunakan Ctrl+C. API default di `http://127.0.0.1:3000`.
+API server aktif secara default di `http://127.0.0.1:3000`.
 
-Salin `.env.example` menjadi `.env` hanya jika ingin mengganti konfigurasi;
+## Pengujian Interaktif via Swagger UI
+
+Server menyediakan antarmuka Swagger UI langsung dari server lokal untuk memudahkan tim menguji seluruh endpoint tanpa memerlukan tool pihak ketiga eksternal seperti Postman:
+
+- **Dashboard Swagger UI:**
+  - `http://127.0.0.1:3000/docs`
+  - `http://127.0.0.1:3000/documentation`
+  - `http://127.0.0.1:3000/api/docs`
+- **Spesifikasi Mentah OpenAPI JSON:**
+  - `http://127.0.0.1:3000/api/v1/openapi.json`
+  - `http://127.0.0.1:3000/openapi.json`
+
+### Cara Menguji Endpoint di Swagger UI
+
+1. Buka peramban ke `http://127.0.0.1:3000/docs`.
+2. Untuk endpoint publik (misalnya `GET /api/v1/meta`, `GET /api/v1/public/monitor`, `GET /health`):
+   - Klik baris endpoint $\rightarrow$ klik tombol **"Try it out"** $\rightarrow$ klik **"Execute"**.
+3. Untuk endpoint terproteksi (misalnya `GET /api/v1/me`, `GET /api/v1/admin/reports`):
+   - Jalankan `POST /api/v1/auth/login` terlebih dahulu untuk mendapatkan token sesi.
+   - Klik tombol hijau **"Authorize"** di bagian atas halaman Swagger UI.
+   - Masukkan token sesi pada field `bearerAuth` lalu klik **"Authorize"**.
+   - Sekarang seluruh request yang membutuhkan otorisasi akan otomatis menyertakan header `Authorization: Bearer <token>`.
+
+## Endpoint Pemeriksaan Kesehatan (Health Check)
+
+Untuk memantau apakah server, proses Node.js, konektivitas database MySQL, dan tabel skema migrasi dalam kondisi sehat dan aman:
+
+- **Endpoint:**
+  - `GET http://127.0.0.1:3000/health`
+  - `GET http://127.0.0.1:3000/api/v1/health`
+
+### Pengujian via CLI / Terminal
+
+```sh
+# Menggunakan cURL
+curl -i http://127.0.0.1:3000/health
+
+# Menggunakan PowerShell
+Invoke-RestMethod http://127.0.0.1:3000/health | ConvertTo-Json -Depth 5
+```
+
+### Contoh Respons Sehat (HTTP 200 OK)
+
+```json
+{
+  "data": {
+    "status": "healthy",
+    "server": {
+      "status": "UP",
+      "uptimeSeconds": 12.5,
+      "nodeVersion": "v24.15.0",
+      "memoryMb": {
+        "rss": 102.5,
+        "heapUsed": 32.7,
+        "heapTotal": 54.4
+      }
+    },
+    "database": {
+      "status": "UP",
+      "latencyMs": 2.8
+    },
+    "migrations": {
+      "status": "UP",
+      "appliedCount": 32
+    }
+  },
+  "requestId": "d358b6f8-629c-4863-baf8-78115b62b88b",
+  "serverTime": "2026-11-01T14:51:25.709Z"
+}
+```
+
+Jika database terputus atau mengalami kegagalan, endpoint mengembalikan status **HTTP 503 Service Unavailable** dengan field `status: "unhealthy"` dan rincian kesalahan yang disanitasi.
+
+## Konfigurasi Environment
+
+Salin `.env.example` menjadi `.env` jika ingin mengubah konfigurasi runtime:
 startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.
 `.env` diabaikan Git. Konfigurasi invalid
 menghentikan startup tanpa mencetak nilainya.
