@@ -10,6 +10,7 @@ import { registerResetPassword } from './http/reset-password.js';
 import { registerSession } from './http/session.js';
 import { registerReporting } from './http/reporting.js';
 import { registerSubmissions } from './http/submissions.js';
+import { registerVault } from './http/vault.js';
 import type { AuthDependencies } from './auth/signup.js';
 
 export function buildApp(
@@ -66,5 +67,6 @@ export function buildApp(
   if (auth) registerSession(app, auth);
   if (auth) registerReporting(app, auth);
   if (auth) registerSubmissions(app, auth);
+  if (auth) registerVault(app, auth);
   return app;
 }

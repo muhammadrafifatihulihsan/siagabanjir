@@ -13,9 +13,9 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 24 endpoint diimplementasikan dan diuji, 48 belum selesai.
+Status saat ini: 39 endpoint diimplementasikan dan diuji, 33 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `f7d1cca`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `7c74c24`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
@@ -61,21 +61,21 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [ ] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
 - [ ] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
 - [ ] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
-- [ ] `GET /api/v1/me/documents`: Membaca daftar dokumen sendiri.
-- [ ] `POST /api/v1/me/documents`: Menyimpan dokumen privat.
-- [ ] `GET /api/v1/me/documents/{documentId}`: Membaca metadata dokumen sendiri.
-- [ ] `POST /api/v1/me/documents/{documentId}/deletions`: Menghapus dokumen dan menjadwalkan pembersihan.
-- [ ] `GET /api/v1/me/cleanup`: Membaca status pembersihan dokumen sendiri.
-- [ ] `POST /api/v1/me/cleanup/{cleanupId}/retry`: Mengulangi pembersihan dokumen sendiri.
-- [ ] `GET /api/v1/me/ktp`: Membaca status kelayakan KTP.
-- [ ] `POST /api/v1/me/ktp-checks`: Meminta pemeriksaan KTP.
-- [ ] `POST /api/v1/me/ktp-confirmations`: Mengonfirmasi KTP yang memenuhi syarat.
-- [ ] `POST /api/v1/me/ktp-checks/{jobId}/retry`: Mengulangi pemeriksaan KTP.
-- [ ] `GET /api/v1/me/family`: Membaca profil keluarga sendiri.
-- [ ] `PATCH /api/v1/me/family`: Memperbarui anggota keluarga.
-- [ ] `POST /api/v1/me/family-extractions`: Meminta saran profil keluarga dari dokumen.
-- [ ] `POST /api/v1/me/family-extractions/{jobId}/retry`: Mengulangi ekstraksi profil keluarga.
-- [ ] `POST /api/v1/me/family-extractions/{jobId}/apply`: Menerapkan saran keluarga yang dipilih.
+- [x] `GET /api/v1/me/documents`: Membaca daftar dokumen sendiri.
+- [x] `POST /api/v1/me/documents`: Menyimpan dokumen privat.
+- [x] `GET /api/v1/me/documents/{documentId}`: Membaca metadata dokumen sendiri.
+- [x] `POST /api/v1/me/documents/{documentId}/deletions`: Menghapus dokumen dan menjadwalkan pembersihan.
+- [x] `GET /api/v1/me/cleanup`: Membaca status pembersihan dokumen sendiri.
+- [x] `POST /api/v1/me/cleanup/{cleanupId}/retry`: Mengulangi pembersihan dokumen sendiri.
+- [x] `GET /api/v1/me/ktp`: Membaca status kelayakan KTP.
+- [x] `POST /api/v1/me/ktp-checks`: Meminta pemeriksaan KTP.
+- [x] `POST /api/v1/me/ktp-confirmations`: Mengonfirmasi KTP yang memenuhi syarat.
+- [x] `POST /api/v1/me/ktp-checks/{jobId}/retry`: Mengulangi pemeriksaan KTP.
+- [x] `GET /api/v1/me/family`: Membaca profil keluarga sendiri.
+- [x] `PATCH /api/v1/me/family`: Memperbarui anggota keluarga.
+- [x] `POST /api/v1/me/family-extractions`: Meminta saran profil keluarga dari dokumen.
+- [x] `POST /api/v1/me/family-extractions/{jobId}/retry`: Mengulangi ekstraksi profil keluarga.
+- [x] `POST /api/v1/me/family-extractions/{jobId}/apply`: Menerapkan saran keluarga yang dipilih.
 - [ ] `GET /api/v1/admin/content/{kind}`: Membaca daftar konten untuk admin.
 - [ ] `POST /api/v1/admin/content/{kind}`: Membuat draf konten.
 - [ ] `PUT /api/v1/admin/content/{kind}/{contentId}`: Memperbarui draf konten.

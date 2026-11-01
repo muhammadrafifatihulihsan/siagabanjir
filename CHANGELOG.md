@@ -7,6 +7,15 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan alur dokumen privat, verifikasi status KTP, ekstraksi profil keluarga
+  dan pembersihan asinkron meliputi GET/POST /me/documents,
+  GET/POST /me/documents/{id}/deletions, GET/POST /me/cleanup, GET /me/ktp,
+  POST /me/ktp-checks, POST /me/ktp-confirmations, POST /me/ktp-checks/{id}/retry,
+  GET/PATCH /me/family, POST /me/family-extractions,
+  POST /me/family-extractions/{id}/retry dan POST /me/family-extractions/{id}/apply
+  dengan consent eksplisit, If-Match optimistik dan isolasi transaksi DB;
+  tes HTTP dan MySQL lulus.
+
 - Tambahkan alur unggah media privat, pengiriman laporan warga, riwayat laporan,
   catatan tindak lanjut dan pengunduhan media dengan rentang bytes (Range 206)
   meliputi PUT/GET /me/uploads, PUT/GET /me/submissions,
