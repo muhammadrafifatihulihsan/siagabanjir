@@ -106,9 +106,12 @@ pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Langkah berikutnya
 
-Lanjutkan endpoint pelaporan: kelayakan pelaporan (`GET /me/reporting-status`), upload media privat (`PUT /me/uploads/{uploadId}`), submission laporan (`PUT /me/submissions/{submissionId}`) dan riwayat laporan warga.
-PATCH profil, perubahan kredensial, rotasi kode pemulihan dan reset sandi telah tersedia dan diuji.
-Commit tetap rinci per unit perubahan.
+Lanjutkan 17 endpoint backend terakhir:
+
+1. Unit 6: Konten Publik, Pantau Publik & Manajemen Konten Admin (9 endpoint: GET /public/monitor, GET /public/content/manifest, GET /public/content/{revision}/{kind}, dan CRUD draf/publish/withdraw konten admin /admin/content/{kind}).
+2. Unit 7: Pesan Siaran Admin & Kotak Masuk Warga (8 endpoint: broadcast messages admin dan inbox baca pesan warga).
+
+Commit tetap terisolasi per unit perubahan dengan pengujian nyata.
 Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
 Push/deploy tidak termasuk mandat commit lokal.
 
