@@ -9,6 +9,8 @@ import { withBusinessTransaction, withConnection } from '../src/db/pool.js';
 import { verifyPassword } from '../src/security/password.js';
 import { recoveryVerifier } from '../src/security/secrets.js';
 import { verifySession } from './session.js';
+import { verifyProfile } from './profile.js';
+import { verifyResetPassword } from './reset-password.js';
 
 export async function verifySignup(pool: Pool) {
   const keys = readSecurityKeys(process.env);
@@ -171,6 +173,8 @@ export async function verifySignup(pool: Pool) {
         recoveryVerifier(result.data.recoveryCode, keys.recovery),
       );
     });
+    await verifyProfile(app, pool);
+    await verifyResetPassword(app, pool);
   } finally {
     await app.close();
     await withBusinessTransaction(pool, async (connection) => {

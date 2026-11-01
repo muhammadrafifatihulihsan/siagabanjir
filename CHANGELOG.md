@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan PATCH /me, POST /me/credentials, POST /me/recovery-code dan
+  POST /auth/reset-password dengan validasi If-Match berkuotasi, VERSION_CONFLICT,
+  mutasi kredensial atomik penutup sesi lama, rotasi verifier kode pemulihan
+  serta pencegahan replay rahasia; tes HTTP dan MySQL lulus.
+
 - Tambahkan GET /me, logout dan revoke dengan pemeriksaan token/expiry/epoch
   serta jurnal pencabutan; tes HTTP/MySQL lulus.
 

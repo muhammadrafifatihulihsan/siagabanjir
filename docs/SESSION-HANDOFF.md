@@ -13,7 +13,7 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 6 endpoint diimplementasikan dan diuji, 66 belum selesai.
+Status saat ini: 10 endpoint diimplementasikan dan diuji, 62 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
 Baseline sebelum unit sesi: `09eee44`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
@@ -24,13 +24,13 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [ ] `GET /api/v1/public/content/{revision}/{kind}`: Membaca bagian konten pada revisi tertentu.
 - [x] `POST /api/v1/auth/signup`: Mendaftarkan akun warga.
 - [x] `POST /api/v1/auth/login`: Membuat sesi login.
-- [ ] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
+- [x] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
 - [x] `POST /api/v1/auth/revoke`: Mencabut sesi setelah logout offline.
 - [x] `POST /api/v1/auth/logout`: Mengakhiri sesi aktif.
 - [x] `GET /api/v1/me`: Membaca profil akun sendiri.
-- [ ] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
-- [ ] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
-- [ ] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
+- [x] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
+- [x] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
+- [x] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
 - [ ] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
 - [ ] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
 - [ ] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
@@ -106,13 +106,23 @@ pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Langkah berikutnya
 
-Lanjutkan PATCH profil berversi, perubahan kredensial dan pemulihan akun.
-GET profil, pemeriksaan token/expiry/epoch serta logout/revoke telah tersedia.
+Lanjutkan endpoint pelaporan: kelayakan pelaporan (`GET /me/reporting-status`), upload media privat (`PUT /me/uploads/{uploadId}`), submission laporan (`PUT /me/submissions/{submissionId}`) dan riwayat laporan warga.
+PATCH profil, perubahan kredensial, rotasi kode pemulihan dan reset sandi telah tersedia dan diuji.
 Commit tetap rinci per unit perubahan.
 Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
 Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+PATCH /me, POST /me/credentials, POST /me/recovery-code dan POST /auth/reset-password tersedia.
+Tes HTTP/MySQL membuktikan:
+
+- PATCH /me: validasi If-Match (428 jika hilang, 400 jika malformed), 409 VERSION_CONFLICT dengan currentVersion jika usang, update display_name atomik menaikkan version, replay aman 200, dan konflik payload ditolak 409 IDEMPOTENCY_CONFLICT.
+- POST /me/credentials: If-Match wajib, sandi lama salah 401, versi usang 409, mutasi email/sandi atomik menaikkan credential_epoch & version serta mencabut seluruh sesi, replay menghasilkan ALREADY_COMMITTED, login sandi lama ditolak, dan login sandi baru berhasil.
+- POST /me/recovery-code: verifikasi sandi, rotasi verifier generasi baru, dan replay 409 RESULT_ALREADY_COMMITTED.
+- POST /auth/reset-password: perlindungan throttle kegagalan, verifikasi kode pemulihan, rotasi verifier kode baru, pencabutan sesi lama, replay 409 RESULT_ALREADY_COMMITTED, kode lama tidak dapat dipakai ulang, dan login sandi baru berhasil.
+
+Verifikasi: format:check, lint, typecheck, 12 unit tests, build, dan suite database MySQL nyata (database.integration.ts) PASS.
 
 GET /me, POST /auth/logout dan POST /auth/revoke tersedia. Tes HTTP/MySQL
 memeriksa profil pemilik, token hilang, expiry, credential epoch, logout,

@@ -9,6 +9,7 @@ export function errorBody(requestId: string, status: number) {
     401: ['INVALID_CREDENTIALS', 'Kredensial atau sesi tidak valid.'],
     403: ['FORBIDDEN', 'Akses tidak diizinkan.'],
     409: ['CONFLICT', 'Aksi berkonflik atau sudah tersimpan.'],
+    428: ['PRECONDITION_REQUIRED', 'Versi resource target wajib disertakan.'],
     429: ['AUTH_THROTTLED', 'Terlalu banyak percobaan; coba kembali nanti.'],
     503: ['SERVICE_UNAVAILABLE', 'Layanan sementara belum tersedia.'],
     404: ['NOT_FOUND', 'Sumber tidak ditemukan.'],
@@ -54,6 +55,8 @@ export function registerErrors(app: FastifyInstance): void {
         code,
         retryAfterSeconds:
           error instanceof HttpProblem ? error.retryAfterSeconds : null,
+        currentVersion:
+          error instanceof HttpProblem ? error.currentVersion : null,
       });
     }
     // Jangan meneruskan message/stack/validation data yang mungkin memuat input privat.
@@ -67,7 +70,7 @@ export function registerErrors(app: FastifyInstance): void {
           ? error.statusCode
           : 500;
     const safeStatus =
-      typeof status === 'number' && [400, 413, 415, 422].includes(status)
+      typeof status === 'number' && [400, 413, 415, 422, 428].includes(status)
         ? status
         : 500;
     if (safeStatus === 500) request.log.error({ event: 'request_failed' });
