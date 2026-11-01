@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan generator token sesi/revoke dan recovery, verifier SHA-256/HMAC,
+  serta validasi key terpisah; integrasi endpoint masih tertunda.
+
 - Tambahkan helper hash/verifikasi scrypt dengan salt acak dan batas dua derivasi
   bersamaan; tes sandi dan kapasitas lulus, integrasi endpoint auth masih tertunda.
 

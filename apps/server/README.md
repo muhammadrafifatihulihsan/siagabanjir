@@ -78,6 +78,13 @@ Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 
 ## Bukti dan pekerjaan berikutnya
 
+Helper keamanan menyediakan scrypt, token/revoke acak, recovery base32 dan
+verifier digest/HMAC. Key RECOVERY_HMAC_KEY, JOURNAL_HMAC_KEY, CURSOR_HMAC_KEY
+berformat hex 64 karakter dan wajib berbeda. Nilai lokal ada di .env/.env.test,
+tidak masuk Git; entry HTTP belum menggunakannya. Pertahankan key antar-restart;
+mengganti key tanpa migrasi dapat membatalkan verifier dan identitas jurnal.
+Jangan memakai key development untuk production.
+
 Pemeriksaan pada Windows, Node 24.15.0: sembilan tes HTTP/config/migrasi/HMAC PASS, mencakup
 OpenAPI metadata/error, request ID, ukuran/format/query invalid, sanitasi log,
 serta socket nyata. Format/lint/typecheck/build PASS. Hasil audit dan validasi
