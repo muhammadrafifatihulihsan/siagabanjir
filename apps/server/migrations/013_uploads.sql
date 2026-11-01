@@ -1,0 +1,22 @@
+CREATE TABLE uploads (
+  id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL PRIMARY KEY,
+  owner_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  purpose VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  origin VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  blob_key VARCHAR(255) NOT NULL,
+  digest CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  mime VARCHAR(80) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  bytes INT UNSIGNED NOT NULL,
+  duration_ms INT UNSIGNED NULL,
+  page_count INT UNSIGNED NULL,
+  state VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'READY',
+  expires_at DATETIME(3) NOT NULL,
+  created_at DATETIME(3) NOT NULL,
+  updated_at DATETIME(3) NOT NULL,
+  KEY uploads_owner_state (owner_id, state),
+  CONSTRAINT uploads_owner_fk FOREIGN KEY (owner_id) REFERENCES accounts (id),
+  CONSTRAINT uploads_purpose CHECK (purpose IN ('REPORT', 'DOCUMENT')),
+  CONSTRAINT uploads_origin CHECK (origin IN ('CAMERA', 'GALLERY', 'FILE')),
+  CONSTRAINT uploads_state CHECK (state IN ('READY', 'ATTACHED', 'EXPIRED', 'DELETED')),
+  CONSTRAINT uploads_bytes CHECK (bytes BETWEEN 1 AND 26214400)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

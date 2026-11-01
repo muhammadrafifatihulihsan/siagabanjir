@@ -13,9 +13,9 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 15 endpoint diimplementasikan dan diuji, 57 belum selesai.
+Status saat ini: 24 endpoint diimplementasikan dan diuji, 48 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `8568350`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `f7d1cca`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
@@ -32,15 +32,15 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [x] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
 - [x] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
 - [x] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
-- [ ] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
-- [ ] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
-- [ ] `PUT /api/v1/me/submissions/{submissionId}`: Mengirim laporan warga.
-- [ ] `GET /api/v1/me/submissions/{submissionId}`: Memeriksa status pengiriman laporan.
-- [ ] `POST /api/v1/me/submissions/{submissionId}/close`: Menutup maksud pengiriman laporan.
-- [ ] `GET /api/v1/me/reports`: Membaca riwayat laporan sendiri.
-- [ ] `GET /api/v1/me/reports/{reportId}`: Membaca detail laporan sendiri.
-- [ ] `GET /api/v1/reports/{reportId}/notes`: Membaca catatan tindak lanjut laporan.
-- [ ] `GET /api/v1/media/{mediaId}`: Mengunduh media yang diizinkan.
+- [x] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
+- [x] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
+- [x] `PUT /api/v1/me/submissions/{submissionId}`: Mengirim laporan warga.
+- [x] `GET /api/v1/me/submissions/{submissionId}`: Memeriksa status pengiriman laporan.
+- [x] `POST /api/v1/me/submissions/{submissionId}/close`: Menutup maksud pengiriman laporan.
+- [x] `GET /api/v1/me/reports`: Membaca riwayat laporan sendiri.
+- [x] `GET /api/v1/me/reports/{reportId}`: Membaca detail laporan sendiri.
+- [x] `GET /api/v1/reports/{reportId}/notes`: Membaca catatan tindak lanjut laporan.
+- [x] `GET /api/v1/media/{mediaId}`: Mengunduh media yang diizinkan.
 - [ ] `GET /api/v1/jobs/{jobId}`: Memeriksa status pekerjaan asinkron.
 - [ ] `POST /api/v1/reports/{reportId}/analysis-retries`: Mengulangi analisis laporan.
 - [ ] `GET /api/v1/admin/reports`: Membaca daftar laporan untuk admin.

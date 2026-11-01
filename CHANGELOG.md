@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan alur unggah media privat, pengiriman laporan warga, riwayat laporan,
+  catatan tindak lanjut dan pengunduhan media dengan rentang bytes (Range 206)
+  meliputi PUT/GET /me/uploads, PUT/GET /me/submissions,
+  POST /me/submissions/{id}/close, GET /me/reports, GET /me/reports/{id},
+  GET /reports/{id}/notes dan GET /media/{id}; tes HTTP dan MySQL lulus.
+
 - Tambahkan GET /me/reporting-status, GET /admin/reporting-settings,
   PATCH /admin/reporting-settings, POST /admin/quota-resets dan
   GET /admin/quotas dengan skema kuota singleton, ledger laporan, reset sequence

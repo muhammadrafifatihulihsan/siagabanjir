@@ -22,6 +22,8 @@ __pycache__/
 *.log
 
 # Data lokal dan virtual environment
+/storage/
+apps/server/storage/
 .venv/
 .DS_Store
 Thumbs.db
