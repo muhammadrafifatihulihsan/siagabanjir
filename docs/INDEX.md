@@ -46,4 +46,6 @@ Instruksi utama ada di [AGENTS](../AGENTS.md), prosedur pada
 [README aplikasi](../apps/README.md) menetapkan tanggung jawab inisialisasi tim.
 [README server](../apps/server/README.md) memuat perintah fondasi HTTP aktual
 dan batas integrasi yang belum tersedia.
+[Persiapan MySQL](../apps/server/MYSQL-SETUP.md) memandu database dev/test
+serta akun runtime/migrasi lokal terpisah.
 Riwayat versi repository tersedia dalam [CHANGELOG](../CHANGELOG.md).

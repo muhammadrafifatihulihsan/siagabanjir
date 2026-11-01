@@ -1402,3 +1402,10 @@ Tidak membuat endpoint bisnis palsu atau worker kosong. MySQL/auth/upload/AI
 dan integrasi Flutter masih berikutnya; production ditolak pada fondasi ini.
 Commit lokal rinci per unit wajib; push/merge/deploy tidak diotorisasi.
 Perintah dan batas aktual ada pada [README server](../apps/server/README.md).
+
+Konfirmasi lanjutan: pemilik menyatakan database/akun belum disiapkan dan
+meminta panduan pemisahan. [Panduan MySQL](../apps/server/MYSQL-SETUP.md)
+menetapkan siagabanjirdev/siagabanjirtest dan akun runtime/migrasi per DB,
+host loopback serta sandi acak MySQL. Pilihan nama/hak adalah rancangan
+implementasi dalam mandat, bukan klaim akun telah dibuat. Provisioning dan
+verifikasi MySQL masih NOT_RUN; API belum membaca credential database.

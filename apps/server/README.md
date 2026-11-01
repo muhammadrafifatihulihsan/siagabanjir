@@ -79,6 +79,8 @@ Linux/macOS, CI remote, MySQL, Flutter terhubung, provider dan HP NOT_RUN.
 Unit berikut: koneksi mysql2 ke Laragon 6/MySQL 8.0.30 yang diverifikasi,
 akun runtime/migrasi terpisah, DB dev/test terpisah, migrasi SQL dan tes
 transaksi. Belum ada DB atau akun dibuat; jangan menjalankan API memakai root.
+Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal
+dan pemeriksaan hak akun tanpa membagikan sandi.
 Lalu auth, berkas privat, worker DeepSeek, laporan/kuota, admin dan fitur
 pendukung mengikuti [SRS](../../docs/SRS.md) serta mandat terbaru pada
 [WS-DEC-070](../../docs/DECISIONS.md#backend-foundation-070).

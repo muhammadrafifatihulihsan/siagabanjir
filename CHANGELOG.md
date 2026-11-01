@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Panduan provisioning MySQL Laragon: database dev/test, empat akun lokal,
+  sandi acak dan verifikasi hak lintas database; eksekusi instance masih tertunda.
+
 - Fondasi server Node 24/TypeScript strict/Fastify 5 dengan pnpm terkunci,
   metadata sesuai OpenAPI, error/log aman, batas input dan tes HTTP.
   Bacaan bertahap mengikuti mandat implementasi terbaru.

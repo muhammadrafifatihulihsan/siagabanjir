@@ -8,6 +8,18 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 ## Perubahan terakhir
 
+[Panduan MySQL Laragon](../apps/server/MYSQL-SETUP.md) tersedia sesuai jawaban
+pemilik: dua database dan empat akun runtime/migrasi, sandi acak di terminal
+lokal, serta verifikasi identitas/grant dan larangan akses lintas DB.
+Belum dijalankan pada instance; tidak membuat akun atau menyimpan credential.
+Pemilik kemudian mengonfirmasi Laragon aktif pada port 3306/80. Probe TCP
+127.0.0.1:3306 PASS; autentikasi, versi instance dan grant belum diuji.
+Port 80 milik web Laragon; API TypeScript tetap 3000.
+Markdownlint enam dokumen, tautan 47 Markdown, format README/panduan server
+dan diff whitespace PASS untuk unit panduan ini.
+Kontrak API, spesifikasi bisnis, DESIGN, Flutter dan adapter tidak berubah
+karena unit ini hanya menyiapkan prosedur provisioning lokal.
+
 Fondasi server sesuai [WS-DEC-070](DECISIONS.md#backend-foundation-070):
 Node 24/TypeScript strict/Fastify 5/pnpm 10.34.9, metadata OpenAPI, konfigurasi,
 error/log minimal dan tes. [README server](../apps/server/README.md) memuat
