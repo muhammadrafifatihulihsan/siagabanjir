@@ -31,6 +31,13 @@ export async function verifySignup(pool: Pool) {
       payload: body,
     });
   try {
+    const unknown = await app.inject({
+      method: 'POST',
+      url: '/api/v1/auth/login',
+      headers: { 'idempotency-key': randomUUID() },
+      payload: { email, password: 'wrong', client: 'ANDROID' },
+    });
+    assert.equal(unknown.statusCode, 401);
     const response = await request(payload);
     assert.equal(response.statusCode, 201, response.body);
     const result = response.json<{
@@ -47,6 +54,36 @@ export async function verifySignup(pool: Pool) {
     assert.equal(result.data.account.role, 'CITIZEN');
     assert.equal(result.data.account.email, email);
     assert.equal(result.data.account.displayName, 'Warga Uji');
+    const loginKey = randomUUID();
+    const loginRequest = (
+      password: string,
+      client = 'ANDROID',
+      id = randomUUID(),
+    ) =>
+      app.inject({
+        method: 'POST',
+        url: '/api/v1/auth/login',
+        headers: { 'idempotency-key': id },
+        payload: { email, password, client },
+      });
+    assert.equal((await loginRequest('wrong')).statusCode, 401);
+    assert.equal(
+      (await loginRequest(payload.password, 'ADMIN_WEB')).statusCode,
+      403,
+    );
+    const session = await loginRequest(payload.password, 'ANDROID', loginKey);
+    assert.equal(session.statusCode, 200, session.body);
+    const sessionData = session.json<{
+      data: { accessToken: string; revokeSecret: string };
+    }>().data;
+    assert.notEqual(sessionData.accessToken, sessionData.revokeSecret);
+    assert.equal(
+      (await loginRequest(payload.password, 'ANDROID', loginKey)).statusCode,
+      409,
+    );
+    for (let attempt = 0; attempt < 5; attempt++)
+      assert.equal((await loginRequest('wrong')).statusCode, 401);
+    assert.equal((await loginRequest(payload.password)).statusCode, 429);
     assert.match(result.data.recoveryCode, /^[A-Z2-7]{32}$/);
     assert.equal(response.headers['cache-control'], 'no-store');
     const replay = await request(payload);
@@ -89,6 +126,14 @@ export async function verifySignup(pool: Pool) {
   } finally {
     await app.close();
     await withBusinessTransaction(pool, async (connection) => {
+      await connection.execute(
+        'DELETE FROM auth_failures WHERE principal_digest = ?',
+        [actorScope(keys.journal, 'public', email)],
+      );
+      await connection.execute(
+        'DELETE FROM sessions WHERE account_id IN (SELECT id FROM accounts WHERE email_normalized = ?)',
+        [email],
+      );
       await connection.execute('DELETE FROM commands WHERE actor_scope = ?', [
         actorScope(keys.journal, 'public', email),
       ]);

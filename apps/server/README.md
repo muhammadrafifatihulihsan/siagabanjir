@@ -4,6 +4,7 @@
 
 Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Implementasi saat ini
 `GET /api/v1/meta` dan `POST /api/v1/auth/signup` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
+serta `POST /api/v1/auth/login` dengan throttle dan penerbitan sesi tujuh hari.
 error terstruktur dan log minimal. Respons metadata bukan bukti kesiapan DB,
 worker, autentikasi, fitur bisnis atau deployment.
 
@@ -79,6 +80,11 @@ pada tool lint; tinjau pencabutannya setelah upstream memakai versi aman.
 Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 
 ## Bukti dan pekerjaan berikutnya
+
+Login sudah memakai dummy hash, pembatasan kegagalan principal/source dan
+pemeriksaan epoch sebelum commit. Tes MySQL mencakup kredensial salah/akun tidak
+ada, pembatasan role ADMIN_WEB, replay dan throttle. Middleware token dan
+logout/revoke belum tersedia; token belum dapat digunakan untuk endpoint privat.
 
 Helper keamanan menyediakan scrypt, token/revoke acak, recovery base32 dan
 verifier digest/HMAC. Key RECOVERY_HMAC_KEY, JOURNAL_HMAC_KEY, CURSOR_HMAC_KEY

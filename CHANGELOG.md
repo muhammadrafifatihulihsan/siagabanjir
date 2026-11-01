@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan login dengan dummy scrypt, throttle, sesi tujuh hari, pemeriksaan
+  epoch/role serta replay aman; middleware sesi dan logout masih tertunda.
+
 - Hubungkan signup warga ke HTTP/MySQL dengan hashing, recovery verifier,
   jurnal atomik dan replay tanpa rahasia; login/sesi masih tertunda.
 

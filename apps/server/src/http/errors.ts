@@ -6,6 +6,11 @@ import { HashCapacityError } from '../security/password.js';
 export function errorBody(requestId: string, status: number) {
   const known: Record<number, [string, string]> = {
     400: ['BAD_REQUEST', 'Format permintaan tidak valid.'],
+    401: ['INVALID_CREDENTIALS', 'Kredensial atau sesi tidak valid.'],
+    403: ['FORBIDDEN', 'Akses tidak diizinkan.'],
+    409: ['CONFLICT', 'Aksi berkonflik atau sudah tersimpan.'],
+    429: ['AUTH_THROTTLED', 'Terlalu banyak percobaan; coba kembali nanti.'],
+    503: ['SERVICE_UNAVAILABLE', 'Layanan sementara belum tersedia.'],
     404: ['NOT_FOUND', 'Sumber tidak ditemukan.'],
     413: ['PAYLOAD_TOO_LARGE', 'Ukuran permintaan melebihi batas.'],
     415: ['UNSUPPORTED_MEDIA_TYPE', 'Format permintaan tidak didukung.'],
@@ -44,9 +49,12 @@ export function registerErrors(app: FastifyInstance): void {
             : 503;
       const code =
         error instanceof HashCapacityError ? 'SERVICE_UNAVAILABLE' : error.code;
-      return reply
-        .code(status)
-        .send({ ...errorBody(request.id, status), code });
+      return reply.code(status).send({
+        ...errorBody(request.id, status),
+        code,
+        retryAfterSeconds:
+          error instanceof HttpProblem ? error.retryAfterSeconds : null,
+      });
     }
     // Jangan meneruskan message/stack/validation data yang mungkin memuat input privat.
     const status =
