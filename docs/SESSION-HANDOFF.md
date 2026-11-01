@@ -6,55 +6,57 @@ Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
 Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
-## Checklist progres backend dan integrasi
+## Checklist progres fitur backend
 
-Checklist ini adalah checkpoint aktif; catatan kronologis di bawah menyimpan
-kondisi lama. Centang hanya setelah implementasi dan pemeriksaan terkait lulus.
-Checkpoint kode sebelum unit jurnal: `94890d3`, branch `branch-rafi`, commit lokal tanpa
-push. Sembilan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
+Checklist aktif mengikuti fitur/endpoint, sesuai arahan pemilik. Detail teknis
+ada pada commit dan catatan bukti, bukan item progres. Centang berarti backend
+fitur tersebut telah diimplementasikan dan diuji; bukan otomatis integrasi Flutter
+atau kelulusan UAT. Semua path berikut memakai prefix `/api/v1`.
+Checkpoint implementasi terakhir: `a30ae6f`, branch `branch-rafi`, belum push.
 
-- [x] Fondasi TypeScript/pnpm/Fastify, metadata OpenAPI, error/log minimal.
-- [x] MySQL Laragon 8.0.30, database dev/test dan akun runtime/migrasi terpisah.
-- [x] Konfigurasi env privat tersimpan lokal dan diabaikan Git.
-- [x] Pool, migrasi guard, checksum/lock serta tes rollback dan batas akses awal.
-- [x] Schema akun, verifier pemulihan, sesi dan bucket kegagalan; tes constraint MySQL.
-- [x] Jurnal respons rahasia auth: mutasi atomik, konflik/replay dan concurrency MySQL.
-- [ ] Integrasi jurnal ke endpoint; state machine submission/close untuk laporan.
-- [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
-- [x] Signup warga HTTP/MySQL, hashing, recovery verifier dan replay aman.
-- [x] Login, dummy hash, sesi tujuh hari dan throttle principal/source.
-- [ ] Middleware token/epoch/expiry dan logout/revoke.
-- [x] Hash/verifikasi scrypt async, salt acak dan batas dua derivasi bersamaan.
-- [x] Generator token sesi/revoke, kode recovery, verifier dan konfigurasi key terpisah.
-- [ ] Dummy verifier login, integrasi sesi/expiry serta endpoint autentikasi.
-- [ ] Integrasi autentikasi Flutter warga/admin dan isolasi state lintas akun.
-- [ ] Berkas privat, KTP/KK, keluarga, ownership serta lifecycle penghapusan.
-- [ ] Worker MySQL dan DeepSeek, retry/lease serta penolakan hasil terlambat.
-- [ ] Laporan, lokasi, idempotensi, kuota dan pengelompokan atomik.
-- [ ] Operasi admin, Pantau publik, konten, inbox dan fitur pendukung.
-- [ ] Integrasi seluruh alur Flutter dengan API nyata dan regresi lintas peran.
-- [ ] Audit keamanan aplikasi menyeluruh, uji beban, UAT dan persiapan deployment.
+- [x] Informasi layanan ? GET /meta.
+- [x] Pendaftaran warga ? POST /auth/signup.
+- [x] Login ? POST /auth/login.
+- [ ] Keluar dan pencabutan sesi ? POST /auth/logout, POST /auth/revoke.
+- [ ] Profil akun ? GET /me, PATCH /me.
+- [ ] Perubahan email/sandi ? POST /me/credentials.
+- [ ] Pemulihan akun ? POST /auth/reset-password, POST /me/recovery-code.
+- [ ] Status kelayakan mengirim laporan ? GET /me/reporting-status.
+- [ ] Unggah dan unduh media privat ? /me/uploads, /media.
+- [ ] Pengiriman laporan dan rekonsiliasi ? /me/submissions.
+- [ ] Riwayat serta detail laporan warga ? /me/reports, /reports/{reportId}/notes.
+- [ ] Analisis AI laporan dan percobaan ulang ? /jobs, /reports/{reportId}/analysis-retries.
+- [ ] Pengelolaan laporan admin ? /admin/reports.
+- [ ] Pengelompokan kejadian ? /admin/groups.
+- [ ] Pengaturan pelaporan dan kuota ? /admin/reporting-settings, /admin/quotas, /admin/quota-resets.
+- [ ] Penghapusan tertunda dan audit admin ? /admin/cleanup, /admin/audit.
+- [ ] Dokumen pribadi dan penghapusannya ? /me/documents, /me/cleanup.
+- [ ] Pemeriksaan serta konfirmasi KTP ? /me/ktp, /me/ktp-checks, /me/ktp-confirmations.
+- [ ] Data keluarga dan ekstraksi KK ? /me/family, /me/family-extractions.
+- [ ] Pantau publik ? GET /public/monitor.
+- [ ] Konten panduan/kontak publik dan pengelolaannya ? /public/content, /admin/content.
+- [ ] Pesan admin dan inbox warga ? /admin/messages, /me/inbox.
 
-### Unit berikut: autentikasi backend
+Path kelompok merujuk seluruh operasi terkait dalam [OpenAPI](openapi.json),
+bukan hanya endpoint daftar. Fitur kelompok baru dicentang setelah seluruh
+operasi yang diperlukan selesai; progres parsial dijelaskan singkat bila ada.
+Login telah diuji dengan akun warga; seed dua admin demo dan pengujian login
+admin sukses masih tertunda. Pemeriksaan akses admin dari akun warga sudah diuji.
 
-Urutan unit kecil; setiap unit selesai wajib diperiksa dan dicommit bersama
-dokumentasi terdampak sebelum berpindah ke unit berikutnya:
+### Integrasi dan penerimaan
 
-1. Schema akun/sesi, credential epoch, recovery verifier dan bucket throttle
-   sudah tersedia dan diuji. Helper jurnal respons rahasia sesuai SRS-IF-004
-   sudah diuji; integrasi endpoint dan algoritme throttle belum diimplementasikan.
-2. Implementasikan hash sandi scrypt, token sesi acak/verifier dan pemulihan
-   dengan batas concurrency; jangan simpan password/token mentah di database.
-3. Signup warga, login, middleware sesi/role, profil dan logout/revoke sesuai
-   kontrak; role ADMIN tidak boleh diberikan lewat signup publik.
-4. Reset/rotasi recovery, perubahan credential dan pencabutan semua sesi secara
-   atomik; ikuti idempotensi respons rahasia serta pembatasan percobaan.
-5. Siapkan dua akun admin demo tanpa credential baku di repo; uji API/MySQL
-   nyata untuk sesi kedaluwarsa/dicabut, role, konflik dan akses lintas akun.
+- [ ] Integrasi fitur warga Flutter dengan backend.
+- [ ] Integrasi fitur admin Flutter dengan backend.
+- [ ] Audit keamanan menyeluruh dan uji beban.
+- [ ] UAT dan persiapan deployment.
 
-Endpoint auth belum diimplementasikan. Bukti kelulusannya harus ditambahkan setelah
-eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik,
-dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
+### Langkah berikutnya
+
+Lanjutkan fitur profil akun serta logout/pencabutan sesi. Pemeriksaan token,
+masa berlaku dan credential epoch dikerjakan sebagai bagian implementasi fitur
+tersebut, bukan checklist terpisah. Commit tetap rinci per unit perubahan.
+Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
+Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
