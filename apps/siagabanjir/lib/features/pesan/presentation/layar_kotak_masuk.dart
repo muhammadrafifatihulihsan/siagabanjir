@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/widgets/citizen_navigation.dart';
+import '../data/pesan_repository.dart';
 import 'models/pesan_siaga.dart';
 import 'widgets/kartu_pesan.dart';
 import 'widgets/dialog_pesan.dart';
@@ -18,12 +19,14 @@ class LayarKotakMasuk extends StatefulWidget {
     required this.onHistory,
     required this.onProfile,
     this.messages,
+    this.pesanRepository,
   });
 
   final VoidCallback onReport;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
   final List<PesanSiaga>? messages;
+  final PesanRepository? pesanRepository;
 
   @override
   State<LayarKotakMasuk> createState() => _LayarKotakMasukState();
@@ -31,8 +34,25 @@ class LayarKotakMasuk extends StatefulWidget {
 
 class _LayarKotakMasukState extends State<LayarKotakMasuk> {
   KategoriPesan _selectedCategory = KategoriPesan.all;
+  List<PesanSiaga>? _serverMessages;
 
-  List<PesanSiaga> get _allMessages => widget.messages ?? kSampleSiagaMessages;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.messages == null) {
+      final repo = widget.pesanRepository ?? PesanRepository();
+      repo.ambilKotakMasuk().then((items) {
+        if (mounted && items.isNotEmpty) {
+          setState(() {
+            _serverMessages = items.map((e) => e.toPesanSiaga()).toList();
+          });
+        }
+      }).catchError((_) {});
+    }
+  }
+
+  List<PesanSiaga> get _allMessages =>
+      widget.messages ?? _serverMessages ?? kSampleSiagaMessages;
 
   // Filter daftar pesan berdasarkan kategori tab terpilih.
   List<PesanSiaga> get _filteredMessages {

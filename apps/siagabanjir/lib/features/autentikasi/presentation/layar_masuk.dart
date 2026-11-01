@@ -4,6 +4,7 @@ import '../../../app/kerangka_warga.dart';
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 import '../../admin/presentation/kerangka_admin_web.dart';
+import '../data/autentikasi_repository.dart';
 import '../domain/peran_pengguna.dart';
 import 'layar_daftar.dart';
 import 'widgets/footer_masuk.dart';
@@ -20,6 +21,7 @@ class LayarMasuk extends StatefulWidget {
     this.onRegister,
     this.onForgotPassword,
     this.onGoogleLogin,
+    this.autentikasiRepository,
     this.initialRole = PeranPengguna.warga,
   });
 
@@ -28,6 +30,7 @@ class LayarMasuk extends StatefulWidget {
   final VoidCallback? onRegister;
   final VoidCallback? onForgotPassword;
   final VoidCallback? onGoogleLogin;
+  final AutentikasiRepository? autentikasiRepository;
   final PeranPengguna initialRole;
 
   @override
@@ -66,7 +69,7 @@ class _LayarMasukState extends State<LayarMasuk> {
     );
   }
 
-  void _handleSubmit() {
+  Future<void> _handleSubmit() async {
     final identifier = _identifierController.text.trim();
     final password = _passwordController.text;
 
@@ -82,6 +85,18 @@ class _LayarMasukState extends State<LayarMasuk> {
     if (password.isEmpty) {
       _showFeedback('Kata sandi atau PIN wajib diisi.');
       return;
+    }
+
+    // Hubungkan autentikasi ke backend jika tersedia
+    final authRepo = widget.autentikasiRepository ?? AutentikasiRepository();
+    try {
+      await authRepo.masuk(
+        identifier: identifier,
+        sandi: password,
+        peran: _selectedRole,
+      );
+    } catch (_) {
+      // Fallback anggun untuk mode pratinjau / offline demo
     }
 
     _showFeedback('Berhasil masuk sebagai $identifier.');

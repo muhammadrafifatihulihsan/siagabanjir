@@ -135,3 +135,23 @@ void test('server membuka socket nyata dan menutupnya tanpa resource tertinggal'
   }
   assert.equal(app.server.listening, false);
 });
+
+void test('preflight CORS OPTIONS mengembalikan 204 dan header CORS lengkap', async (t) => {
+  const app = buildApp(config);
+  t.after(() => app.close());
+  const response = await app.inject({
+    method: 'OPTIONS',
+    url: '/api/v1/auth/login',
+    headers: {
+      origin: 'http://localhost:5000',
+      'access-control-request-method': 'POST',
+      'access-control-request-headers': 'content-type, authorization',
+    },
+  });
+  assert.equal(response.statusCode, 204);
+  assert.equal(response.headers['access-control-allow-origin'], '*');
+  assert.ok(response.headers['access-control-allow-methods']?.includes('POST'));
+  assert.ok(
+    response.headers['access-control-allow-headers']?.includes('Authorization'),
+  );
+});

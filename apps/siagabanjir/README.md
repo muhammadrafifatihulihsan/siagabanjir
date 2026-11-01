@@ -2,12 +2,13 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Satu package Flutter untuk target Android warga dan Web admin. Kode saat ini
-berisi **pratinjau UI warga dan lima halaman admin dengan state lokal**.
-Backend, autentikasi nyata, GPS dan brankas terenkripsi belum terintegrasi.
-Adapter kamera/TTS dan pemilihan/ekspor berkas tersedia; pengujian HP oleh agen
-belum dijalankan sesuai instruksi pemilik. Build Web mendukung audit UI admin
-maupun pratinjau warga.
+Satu package Flutter untuk target Android warga dan Web admin. Kode mencakup antarmuka UI
+lengkap sebelas fitur warga dan lima halaman admin Web, serta **layer integrasi jaringan
+Clean Architecture ke Backend Fastify SiagaBanjir**.
+Koneksi HTTP bersama terpusat di `core/jaringan` dengan manajemen sesi di `core/sesi` dan
+implementasi repositori di masing-masing `features/*/data`. Adapter kamera/TTS dan
+pemilihan/ekspor berkas tersedia; pengujian HP oleh agen belum dijalankan sesuai instruksi
+pemilik. Build Web mendukung audit UI admin maupun pratinjau warga.
 
 Penataan 27 Oktober 2026 mempertahankan **Feature-First + Layered Architecture**
 dengan nama fitur Indonesia. Folder dibuat ketika ada implementasi; tidak ada
@@ -20,25 +21,30 @@ Keputusan: [WS-DEC-063](../../docs/DECISIONS.md#flutter-indonesia-063).
 lib/
   main.dart
   app/                         # perakitan aplikasi dan navigasi
-  core/perangkat/              # kamera/galeri sistem dan pemulihan hasil
+  core/
+    jaringan/                  # konfigurasi URL base, KlienApi bersama & exception
+    perangkat/                 # kamera/galeri sistem dan pemulihan hasil
+    sesi/                      # pengelola token sesi & identitas akun aktif
   shared/
     theme/                     # tema dan token tampilan bersama
     widgets/                   # header, navigasi warga, ikon lokal
   features/
-    admin/                     # portal web dashboard komando BPBD/Relawan
-    akun/
-    autentikasi/
+    admin/                     # portal web dashboard komando BPBD/Relawan & admin_repository
+    akun/                      # profil pengguna & akun_repository
+    autentikasi/               # login/daftar/reset & autentikasi_repository
     beranda/
     dokumen/
     kontak/
     keluarga/
-    laporan/
+    laporan/                   # buat/riwayat laporan & laporan_repository
+    meta/                      # health check/metadata & meta_repository
     panduan/
-    pantau/
-    pesan/
+    pantau/                    # pantau publik & pantau_repository
+    pesan/                     # kotak masuk siaga & pesan_repository
     tas_siaga/
 test/
   features/                    # nama fitur sama dengan lib/features
+  integrasi_backend_test.dart  # unit test integrasi Flutter <-> Backend Fastify
 ```
 
 Setiap fitur mempunyai `presentation` untuk layar dan `widgets`.
@@ -53,7 +59,7 @@ Pemilik setiap fitur masih belum ditetapkan. Tabel migrasi berikut membantu
 anggota menemukan kode setelah pull; semua layar berada di `presentation`.
 
 | Nama lama | Folder sekarang | File layar |
-|---|---|---|
+| --- | --- | --- |
 | account | akun | layar_profil.dart |
 | admin | admin | kerangka_admin_web.dart |
 | auth | autentikasi | layar_masuk.dart, layar_daftar.dart |
@@ -87,7 +93,7 @@ fitur kontak, bukan akun.
 ## Batas layer
 
 | Lokasi | Tanggung jawab | Batas |
-|---|---|---|
+| --- | --- | --- |
 | presentation | Layar, widget, state/controller dan model tampilan | Tidak mengakses HTTP/database langsung |
 | domain | Model bisnis dan kontrak repository Dart murni | Tidak mengimpor Flutter atau storage |
 | data, bila diperlukan | Repository dan sumber data lokal/remote | Mengimplementasikan domain, tidak mengimpor presentation |

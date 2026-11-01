@@ -4,6 +4,7 @@ import '../../../shared/widgets/lingkup_navigasi.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
+import '../data/pantau_repository.dart';
 import 'models/data_pantau_wilayah.dart';
 import 'widgets/kartu_sorotan_pantau.dart';
 import '../../../shared/widgets/header_halaman.dart';
@@ -24,6 +25,7 @@ class LayarPantauWilayah extends StatelessWidget {
     this.onReport,
     this.onHistory,
     this.onProfile,
+    this.pantauRepository,
     this.featuredRiver = kDefaultFeaturedRiver,
     this.riverPosts = kDefaultRiverPosts,
     this.infrastructureItems = kDefaultInfrastructureItems,
@@ -33,6 +35,7 @@ class LayarPantauWilayah extends StatelessWidget {
   final VoidCallback? onReport;
   final VoidCallback? onHistory;
   final VoidCallback? onProfile;
+  final PantauRepository? pantauRepository;
   final StatusSungaiSorotan featuredRiver;
   final List<PosSungai> riverPosts;
   final List<ItemInfrastruktur> infrastructureItems;

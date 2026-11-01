@@ -54,9 +54,22 @@ export function buildApp(
       },
     },
   });
-  app.addHook('onRequest', async (_request, reply) => {
+  app.addHook('onRequest', async (request, reply) => {
     reply.header('Cache-Control', 'no-store');
     reply.header('X-Content-Type-Options', 'nosniff');
+    reply.header('Access-Control-Allow-Origin', '*');
+    reply.header(
+      'Access-Control-Allow-Headers',
+      'Content-Type, Authorization, Idempotency-Key, If-Match, Accept',
+    );
+    reply.header(
+      'Access-Control-Allow-Methods',
+      'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+    );
+    if (request.method === 'OPTIONS') {
+      reply.header('Access-Control-Max-Age', '86400');
+      return reply.status(204).send();
+    }
   });
   app.addHook('onResponse', async (request, reply) => {
     request.log.info({
