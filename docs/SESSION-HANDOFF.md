@@ -6,6 +6,46 @@ Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
 Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
+## Checklist progres backend dan integrasi
+
+Checklist ini adalah checkpoint aktif; catatan kronologis di bawah menyimpan
+kondisi lama. Centang hanya setelah implementasi dan pemeriksaan terkait lulus.
+Checkpoint kode terakhir: `13ebefd`, branch `branch-rafi`, commit lokal tanpa
+push. Delapan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
+
+- [x] Fondasi TypeScript/pnpm/Fastify, metadata OpenAPI, error/log minimal.
+- [x] MySQL Laragon 8.0.30, database dev/test dan akun runtime/migrasi terpisah.
+- [x] Konfigurasi env privat tersimpan lokal dan diabaikan Git.
+- [x] Pool, migrasi guard, checksum/lock serta tes rollback dan batas akses awal.
+- [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
+- [ ] Integrasi autentikasi Flutter warga/admin dan isolasi state lintas akun.
+- [ ] Berkas privat, KTP/KK, keluarga, ownership serta lifecycle penghapusan.
+- [ ] Worker MySQL dan DeepSeek, retry/lease serta penolakan hasil terlambat.
+- [ ] Laporan, lokasi, idempotensi, kuota dan pengelompokan atomik.
+- [ ] Operasi admin, Pantau publik, konten, inbox dan fitur pendukung.
+- [ ] Integrasi seluruh alur Flutter dengan API nyata dan regresi lintas peran.
+- [ ] Audit keamanan aplikasi menyeluruh, uji beban, UAT dan persiapan deployment.
+
+### Unit berikut: autentikasi backend
+
+Urutan unit kecil; setiap unit selesai wajib diperiksa dan dicommit bersama
+dokumentasi terdampak sebelum berpindah ke unit berikutnya:
+
+1. Cocokkan schema akun/sesi, credential epoch, recovery verifier, throttle dan
+   jurnal aksi dengan SRS/OpenAPI; tambah migrasi SQL serta tes constraint.
+2. Implementasikan hash sandi scrypt, token sesi acak/verifier dan pemulihan
+   dengan batas concurrency; jangan simpan password/token mentah di database.
+3. Signup warga, login, middleware sesi/role, profil dan logout/revoke sesuai
+   kontrak; role ADMIN tidak boleh diberikan lewat signup publik.
+4. Reset/rotasi recovery, perubahan credential dan pencabutan semua sesi secara
+   atomik; ikuti idempotensi respons rahasia serta pembatasan percobaan.
+5. Siapkan dua akun admin demo tanpa credential baku di repo; uji API/MySQL
+   nyata untuk sesi kedaluwarsa/dicabut, role, konflik dan akses lintas akun.
+
+Auth belum diimplementasikan. Bukti kelulusannya harus ditambahkan setelah
+eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik,
+dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
+
 ## Perubahan terakhir
 
 Pemilik meminta memakai sandi saat ini dan menyimpannya pada konfigurasi lokal.
