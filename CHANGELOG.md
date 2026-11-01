@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan GET /me/reporting-status, GET /admin/reporting-settings,
+  PATCH /admin/reporting-settings, POST /admin/quota-resets dan
+  GET /admin/quotas dengan skema kuota singleton, ledger laporan, reset sequence
+  global/per-akun, pagination cursor ber-HMAC dan verifikasi status KTP;
+  tes HTTP dan MySQL lulus.
+
 - Tambahkan PATCH /me, POST /me/credentials, POST /me/recovery-code dan
   POST /auth/reset-password dengan validasi If-Match berkuotasi, VERSION_CONFLICT,
   mutasi kredensial atomik penutup sesi lama, rotasi verifier kode pemulihan

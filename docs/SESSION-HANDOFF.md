@@ -13,9 +13,9 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 10 endpoint diimplementasikan dan diuji, 62 belum selesai.
+Status saat ini: 15 endpoint diimplementasikan dan diuji, 57 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `09eee44`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `8568350`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
@@ -31,7 +31,7 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [x] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
 - [x] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
 - [x] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
-- [ ] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
+- [x] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
 - [ ] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
 - [ ] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
 - [ ] `PUT /api/v1/me/submissions/{submissionId}`: Mengirim laporan warga.
@@ -54,10 +54,10 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [ ] `GET /api/v1/admin/groups/{groupId}`: Membaca detail kelompok kejadian.
 - [ ] `GET /api/v1/admin/groups/{groupId}/reports`: Membaca laporan dalam kelompok kejadian.
 - [ ] `POST /api/v1/admin/groups/{groupId}/complete`: Menandai kelompok kejadian selesai.
-- [ ] `GET /api/v1/admin/reporting-settings`: Membaca pengaturan pelaporan.
-- [ ] `PATCH /api/v1/admin/reporting-settings`: Memperbarui pengaturan pelaporan.
-- [ ] `GET /api/v1/admin/quotas`: Membaca pemakaian kuota akun.
-- [ ] `POST /api/v1/admin/quota-resets`: Mereset pemakaian kuota laporan.
+- [x] `GET /api/v1/admin/reporting-settings`: Membaca pengaturan pelaporan.
+- [x] `PATCH /api/v1/admin/reporting-settings`: Memperbarui pengaturan pelaporan.
+- [x] `GET /api/v1/admin/quotas`: Membaca pemakaian kuota akun.
+- [x] `POST /api/v1/admin/quota-resets`: Mereset pemakaian kuota laporan.
 - [ ] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
 - [ ] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
 - [ ] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
@@ -91,8 +91,8 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [ ] `GET /api/v1/me/inbox`: Membaca inbox akun sendiri.
 - [ ] `PUT /api/v1/me/inbox/{messageId}/read`: Mencatat versi pesan yang telah dibaca.
 
-Batas bukti login: akun warga berhasil diuji dan warga ditolak dari ADMIN_WEB;
-seed dua admin demo serta pengujian login admin sukses masih tertunda.
+Batas bukti login: akun warga dan login admin (ADMIN_WEB) berhasil diuji;
+seed dua admin demo mandiri masih tertunda.
 Setiap endpoint baru dicentang setelah implementasi dan tes terkait lulus.
 Perubahan kontrak wajib diselaraskan ke daftar ini tanpa mengubah status
 pengujian berdasarkan keberadaan definisi OpenAPI saja.
