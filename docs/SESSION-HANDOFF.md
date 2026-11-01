@@ -117,6 +117,8 @@ Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
+Kesiapan Produksi & Dukungan CORS: Menambahkan penanganan preflight CORS (HTTP 204 OPTIONS) dan header CORS lengkap (`Access-Control-Allow-Origin`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Methods`) pada server Fastify `apps/server/src/app.ts` dengan unit test khusus di `http.test.ts`. Memvalidasi build Flutter Web (`flutter build web`) untuk portal admin produksi serta memastikan seluruh 121 tes Flutter, 16 tes server, dan pengujian database MySQL nyata (32 migrasi) lulus 100%.
+
 Integrasi Flutter <-> Backend Fastify: Menghubungkan seluruh fitur aplikasi Flutter (Warga Android dan Admin Web) ke endpoint backend Fastify dengan Clean Architecture (KlienApi bersama di `core/jaringan`, PengelolaSesi di `core/sesi`, dan implementasi repositori di masing-masing `features/*/data`: AutentikasiRepository, PantauRepository, LaporanRepository, AkunRepository, PesanRepository, AdminRepository, dan MetaRepository). Seluruh 114 test widget eksisting dan 7 unit test integrasi lulus 100% serta `flutter analyze` menghasilkan 0 issues.
 
 Dokumentasi Swagger UI & Health Check: Panduan lengkap pengujian interaktif via Swagger UI (`http://127.0.0.1:3000/docs`) dan pemeriksaan kesehatan sistem (`http://127.0.0.1:3000/health`) ditambahkan ke `apps/server/README.md`. Domain logic health check diselaraskan untuk mengkueri tabel `schema_migrations` secara akurat sehingga mengembalikan status `UP` dengan 32 riwayat migrasi terverifikasi di MySQL.

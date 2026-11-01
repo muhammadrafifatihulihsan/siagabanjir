@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan penanganan preflight CORS (HTTP 204 OPTIONS) dan header CORS lengkap
+  pada server Fastify apps/server untuk mendukung komunikasi peramban Flutter Web
+  admin dan warga secara aman saat deployment production.
+
 - Integrasikan aplikasi Flutter (warga dan admin) dengan Backend Fastify
   menggunakan Clean Architecture: tambahkan KlienApi dan konfigurasi dinamis di
   core/jaringan, PengelolaSesi di core/sesi, serta repositori terpisah pada
