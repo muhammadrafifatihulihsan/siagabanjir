@@ -202,7 +202,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
           child: Column(
@@ -269,7 +269,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   hintText: 'Contoh: Banjir di Koto Tangah',
                   isDense: true,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
@@ -283,7 +283,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   labelText: 'Isi peringatan',
                   hintText: 'Tuliskan kondisi dan arahan untuk warga.',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
@@ -299,7 +299,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                       vertical: 12,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
                   onPressed: _kirimSiaran,
@@ -352,7 +352,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: const Color(0xFFE2E8F0)),
       ),
       child: Row(
@@ -429,7 +429,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
           child: Column(
@@ -463,7 +463,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                       labelText: 'Nama Posko / Instansi',
                       hintText: 'Contoh: Posko Evakuasi SMPN 13 Koto Tangah',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
@@ -474,7 +474,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                       labelText: 'Nomor Telepon / WhatsApp',
                       hintText: 'Contoh: 0812-9988-7766',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                   ),
@@ -488,7 +488,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   labelText: 'Keterangan Wilayah Layanan',
                   hintText: 'Contoh: Melayani evakuasi dan logistik wilayah Lubuk Buaya sekitarnya',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
               ),
@@ -499,7 +499,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFF2563EB),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
                   onPressed: _tambahKontakPosko,
@@ -535,7 +535,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(22),
               border: Border.all(color: const Color(0xFFE2E8F0)),
             ),
             child: Row(
@@ -601,7 +601,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
     return Material(
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(22),
         side: const BorderSide(color: Color(0xFFE2E8F0)),
       ),
       child: Padding(

@@ -8,6 +8,17 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Tema admin disamakan dengan Beranda warga pada 1 November 2026 sesuai
+[WS-DEC-067](DECISIONS.md#admin-theme-067). Layout, posisi, teks dan ikon tetap;
+kartu ringkasan pastel, kartu isi putih membulat, judul biru tua dan kontrol
+biru muda. Tema khusus admin menjaga tampilan warga tetap sama.
+Analyzer 0 issues, 114 tes PASS, build Web PASS; Chrome tanpa pageerror pada
+1440/768/390 px. [Bukti dan dampak dokumentasi](WORKSPACE.md#admin-theme).
+Branch `branch-rafi`, commit lokal; tidak ada mandat push. Perangkat fisik,
+backend/provider, UAT dan screen reader NOT_RUN.
+
+### Audit layout admin sebelumnya
+
 Audit desain admin 1 November 2026 mengikuti
 [WS-DEC-066](DECISIONS.md#admin-ui-audit-066). Lima halaman, navigasi, tabel,
 form, modal bukti dan foto dirapikan: sidebar/drawer adaptif, tanpa hero/ranking

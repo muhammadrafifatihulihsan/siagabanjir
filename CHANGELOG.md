@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tema admin mengikuti Beranda warga: pastel pada ringkasan, judul biru tua,
+  kartu putih membulat, navigasi dan kontrol biru muda. Layout, posisi dan isi
+  teks tetap. [Bukti pemeriksaan](docs/WORKSPACE.md#admin-theme).
+
 - Audit desain lima halaman admin: sidebar/drawer adaptif, ringkasan tanpa
   hero/ranking/badge AI dekoratif, tabel dengan pencarian ID dan gulir horizontal,
   form adaptif, draf lintas tab, bukti foto utuh dan alasan hapus wajib.

@@ -101,7 +101,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
           padding: const EdgeInsets.all(22),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
           child: Column(
@@ -222,7 +222,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                       vertical: 12,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
                   onPressed: _simpanProfil,
@@ -246,7 +246,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
           padding: const EdgeInsets.all(22),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(22),
             border: Border.all(color: const Color(0xFFE2E8F0)),
           ),
           child: Column(
@@ -295,9 +295,9 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
                 child: OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF2563EB),
-                    side: const BorderSide(color: Color(0xFF93C5FD)),
+                    side: const BorderSide(color: Color(0xFFBFDBFE)),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -343,7 +343,7 @@ class _TabPengaturanProfilState extends State<TabPengaturanProfil> {
             isDense: true,
             labelText: label,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
             ),
             contentPadding: const EdgeInsets.symmetric(

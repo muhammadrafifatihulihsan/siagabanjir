@@ -1160,3 +1160,34 @@ handoff diselaraskan. AGENTS/rules/delapan skill/adapter tetap karena prosedur
 serta path tidak berubah. BRD/PRD/FRD/SRS/OpenAPI/contoh tidak diubah: tidak
 mengganti wire API, hak akses atau requirement layanan. Tidak ada dependensi,
 SDK, instalasi global, push, merge, tag atau deploy baru.
+
+<a id="admin-theme"></a>
+
+## Penyelarasan tema admin - 1 November 2026
+
+Mandat [WS-DEC-067](DECISIONS.md#admin-theme-067) mempertahankan layout hasil
+audit dan hanya menyelaraskan tema dengan Beranda warga setelah login.
+Acuan kode: `kartu_status_beranda.dart`, `akses_cepat_beranda.dart` dan
+`SiagaTheme`. Admin memakai judul biru tua, empat pastel pada metrik, kartu
+radius 22, tombol radius 14, isian radius 12, navigasi/tombol tonal biru muda.
+Tidak menambahkan ikon maupun teks produk; status dan aksi destruktif tetap
+memiliki warna semantik. Tema admin dibatasi oleh widget Theme pada kerangka.
+
+- PASS: analyzer 0 issues; 114 tes Flutter, termasuk regresi admin pada teks
+  100%/200% dan ukuran layar yang tercatat dalam audit sebelumnya.
+- PASS: build Web `--no-pub --no-web-resources-cdn --no-wasm-dry-run`.
+- PASS: Chrome 156.0.8078.76 menavigasi lima halaman pada 1440/768/390 px,
+  tiga subbagian Pusat Aksi dan modal bukti, tanpa pageerror. Screenshot
+  dashboard desktop/390 px, profil dan kuota diperiksa secara visual.
+- PASS: perbandingan seluruh literal string Dart pada file admin yang diubah
+  terhadap `fcb94a8` (import dikecualikan); isi teks identik. Diff mempertahankan
+  padding, ukuran layout, breakpoint, urutan widget dan alur state.
+- Artefak lokal di `apps/siagabanjir/build/audit/admin-theme-*.png`,
+  `admin-theme-tests.log` dan `admin_theme_visual.py`; tidak dilacak Git.
+- NOT_RUN: perangkat fisik, backend/provider, UAT dan screen reader. Batas
+  implementasi audit sebelumnya tetap berlaku.
+
+DESIGN, DECISIONS, CHANGELOG dan handoff diperbarui. README, RTM, spesifikasi,
+kontrak, AGENTS/rules/skills/adapter tidak berubah karena tidak ada perubahan
+fitur, requirement, path kerja atau prosedur. Tidak ada dependensi/aset baru,
+perubahan halaman warga, push atau deploy.

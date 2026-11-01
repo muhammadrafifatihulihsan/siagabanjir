@@ -37,6 +37,13 @@ class TabDashboardRingkasan extends StatelessWidget {
       ('Wilayah Aktif', aktif.length, AdminMenuTab.klasterWilayah),
       ('Siaran Aktif', state.pesanSiaga.length, AdminMenuTab.pusatOperasional),
     ];
+    // Palet akses cepat Beranda warga; urutan metrik tetap sama.
+    const palet = [
+      (Color(0xFFFFEEEE), Color(0xFFFECACA), Color(0xFFB91C1C)),
+      (Color(0xFFD6F0FF), Color(0xFFBAE6FD), Color(0xFF0369A1)),
+      (Color(0xFFEDE9FE), Color(0xFFDDD6FE), Color(0xFF5145CD)),
+      (Color(0xFFDCF0E2), Color(0xFFBBE5C9), Color(0xFF15803D)),
+    ];
     return HalamanAdmin(
       children: [
         const JudulAdmin(
@@ -55,17 +62,17 @@ class TabDashboardRingkasan extends StatelessWidget {
               spacing: 16,
               runSpacing: 16,
               children: [
-                for (final m in metrik)
+                for (final (i, m) in metrik.indexed)
                   SizedBox(
                     width: (constraints.maxWidth - (count - 1) * 16) / count,
                     child: Material(
-                      color: Colors.white,
+                      color: palet[i].$1,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(color: Color(0xFFE2E8F0)),
+                        borderRadius: BorderRadius.circular(22),
+                        side: BorderSide(color: palet[i].$2),
                       ),
                       child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(22),
                         onTap: () => onNavigateToTab(m.$3),
                         child: Padding(
                           padding: const EdgeInsets.all(20),
@@ -82,7 +89,8 @@ class TabDashboardRingkasan extends StatelessWidget {
                               const SizedBox(height: 12),
                               Text(
                                 '${m.$2}',
-                                style: const TextStyle(
+                                style: TextStyle(
+                                  color: palet[i].$3,
                                   fontSize: 28,
                                   fontWeight: FontWeight.w700,
                                 ),

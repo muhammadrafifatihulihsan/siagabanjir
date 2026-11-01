@@ -351,7 +351,7 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
                 constraints: BoxConstraints(minWidth: constraints.maxWidth),
                 child: DataTable(
                   headingRowColor: const WidgetStatePropertyAll(
-                    Color(0xFFF1F5F9),
+                    Color(0xFFE1EDFF),
                   ),
                   dataRowMinHeight: 88,
                   dataRowMaxHeight: double.infinity,

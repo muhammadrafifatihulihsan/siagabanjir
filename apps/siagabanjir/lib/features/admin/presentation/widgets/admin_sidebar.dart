@@ -114,9 +114,9 @@ class AdminSidebar extends StatelessWidget {
       color: Colors.transparent,
       child: ListTile(
         selected: selectedTab == tab,
-        selectedTileColor: const Color(0xFFEFF6FF),
+        selectedTileColor: const Color(0xFFE1EDFF),
         selectedColor: const Color(0xFF1D4ED8),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         leading: Icon(icon, size: 24),
         title: Text(
           label,

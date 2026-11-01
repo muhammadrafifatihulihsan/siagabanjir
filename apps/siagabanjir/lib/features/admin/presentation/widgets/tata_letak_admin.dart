@@ -39,7 +39,11 @@ class JudulAdmin extends StatelessWidget {
         header: true,
         child: Text(
           title,
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF1E3A8A),
+          ),
         ),
       ),
       if (description != null) ...[

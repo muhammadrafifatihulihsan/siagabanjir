@@ -1325,3 +1325,17 @@ lintas tab. Angka menunggu mengecualikan laporan selesai. Penataan ini tidak
 mengganti model backend atau mengesahkan auto-approve lokal sebagai implementasi
 review berversi normatif. Bukti dan gap integrasi ada pada
 [WORKSPACE](WORKSPACE.md#admin-ui-audit). Tidak ada mandat push atau uji HP.
+
+<a id="admin-theme-067"></a>
+
+## 57. Tema admin mengikuti Beranda warga - 1 November 2026
+
+**WS-DEC-067 - CURRENT_USER_CONFIRMED.** Pemilik menyetujui layout/posisi hasil
+WS-DEC-066 dan meminta hanya penyesuaian tema admin terhadap halaman utama warga
+setelah login, tanpa tambahan isi teks atau ikon berlebihan.
+
+Warna, bentuk kartu/kontrol dan bobot judul mengikuti
+[DESIGN](DESIGN.md#antarmuka-web-admin). Tidak mengubah alur, state, urutan,
+breakpoint, konten atau aset warga. Tema kontrol khusus admin mempertahankan
+ukuran interaksi dan menghindari perubahan tampilan warga.
+[Bukti pemeriksaan](WORKSPACE.md#admin-theme). Tidak ada mandat push.

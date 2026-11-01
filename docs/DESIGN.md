@@ -329,8 +329,16 @@ Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
 ## Antarmuka Web Admin
 
 Revisi 1 November 2026 mengikuti [WS-DEC-066](DECISIONS.md#admin-ui-audit-066).
-Lima halaman memakai Inter, judul 22/700, bagian 16/700, isi 14, metadata
-12, jarak 8/16/24/32, permukaan netral dan biru untuk tindakan/pilihan.
+Penyelarasan tema berikutnya mengikuti
+[WS-DEC-067](DECISIONS.md#admin-theme-067): Beranda warga setelah login menjadi
+acuan visual. Lima halaman memakai Inter, judul 22/800 biru tua `#1E3A8A`,
+bagian 16/700, isi 14, metadata 12 dan jarak 8/16/24/32.
+Kartu putih bertepi `#E2E8F0` memakai radius 22; tombol radius 14 dan isian 12.
+Empat metrik memakai pastel akses cepat Beranda: merah muda `#FFEEEE`,
+biru `#D6F0FF`, ungu `#EDE9FE`, hijau `#DCF0E2`, dengan aksen gelap senada.
+Navigasi aktif, header tabel dan tombol tonal memakai biru muda `#E1EDFF`.
+Tema kontrol dibatasi pada admin; warna status/destruktif tetap semantik.
+Susunan, posisi, ukuran layout, isi teks dan ikon yang disetujui dipertahankan.
 Ikon navigasi memakai Material outlined; tindakan tetap dalam set Material. Tidak ada emoji, stiker,
 kilau AI, ranking dekoratif, hero sambutan atau penanda status kota statis.
 Badge dipertahankan hanya untuk status tinjauan pada ringkasan wilayah.

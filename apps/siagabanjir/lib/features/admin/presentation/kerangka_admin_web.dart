@@ -10,6 +10,7 @@ import 'tabs/tab_laporan_individu.dart';
 import 'tabs/tab_pengaturan_profil.dart';
 import 'tabs/tab_pusat_operasional.dart';
 import 'tabs/tab_wilayah_klaster_ai.dart';
+import 'tema_admin.dart';
 import 'widgets/admin_sidebar.dart';
 
 /// Kerangka Dashboard Web Admin SiagaBanjir untuk lingkungan desktop browser.
@@ -155,78 +156,83 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
   );
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, constraints) {
-      final scale = MediaQuery.textScalerOf(context).scale(14) / 14;
-      final sidebarVisible = constraints.maxWidth / scale >= 1100;
-      final sidebar = AdminSidebar(
-        selectedTab: _currentTab,
-        state: _state,
-        onLogout: _handleLogout,
-        onSelectTab: (tab) {
-          if (!sidebarVisible) Navigator.of(context).pop();
-          _selectTab(tab);
-        },
-      );
-      return Scaffold(
-        backgroundColor: const Color(0xFFF8FAFC),
-        drawer: sidebarVisible ? null : Drawer(child: SafeArea(child: sidebar)),
-        body: Row(
-          children: [
-            if (sidebarVisible) sidebar,
-            Expanded(
-              child: Column(
-                children: [
-                  Container(
-                    constraints: const BoxConstraints(minHeight: 64),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      border: Border(
-                        bottom: BorderSide(color: Color(0xFFE2E8F0)),
+  Widget build(BuildContext context) => Theme(
+    data: temaAdmin(Theme.of(context)),
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        final scale = MediaQuery.textScalerOf(context).scale(14) / 14;
+        final sidebarVisible = constraints.maxWidth / scale >= 1100;
+        final sidebar = AdminSidebar(
+          selectedTab: _currentTab,
+          state: _state,
+          onLogout: _handleLogout,
+          onSelectTab: (tab) {
+            if (!sidebarVisible) Navigator.of(context).pop();
+            _selectTab(tab);
+          },
+        );
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8FAFC),
+          drawer: sidebarVisible
+              ? null
+              : Drawer(child: SafeArea(child: sidebar)),
+          body: Row(
+            children: [
+              if (sidebarVisible) sidebar,
+              Expanded(
+                child: Column(
+                  children: [
+                    Container(
+                      constraints: const BoxConstraints(minHeight: 64),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        border: Border(
+                          bottom: BorderSide(color: Color(0xFFE2E8F0)),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          if (!sidebarVisible)
+                            Builder(
+                              builder: (context) => IconButton(
+                                tooltip: 'Buka navigasi',
+                                icon: const Icon(Icons.menu),
+                                onPressed: () =>
+                                    Scaffold.of(context).openDrawer(),
+                              ),
+                            ),
+                          const Expanded(
+                            child: Text(
+                              'Portal Admin',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xFF475569),
+                              ),
+                            ),
+                          ),
+                          TextButton.icon(
+                            onPressed: _switchToCitizenMode,
+                            icon: const Icon(
+                              Icons.phone_android_outlined,
+                              size: 20,
+                            ),
+                            label: const Text('Mode Warga'),
+                          ),
+                        ],
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        if (!sidebarVisible)
-                          Builder(
-                            builder: (context) => IconButton(
-                              tooltip: 'Buka navigasi',
-                              icon: const Icon(Icons.menu),
-                              onPressed: () =>
-                                  Scaffold.of(context).openDrawer(),
-                            ),
-                          ),
-                        const Expanded(
-                          child: Text(
-                            'Portal Admin',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xFF475569),
-                            ),
-                          ),
-                        ),
-                        TextButton.icon(
-                          onPressed: _switchToCitizenMode,
-                          icon: const Icon(
-                            Icons.phone_android_outlined,
-                            size: 20,
-                          ),
-                          label: const Text('Mode Warga'),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(child: _body()),
-                ],
+                    Expanded(child: _body()),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-      );
-    },
+            ],
+          ),
+        );
+      },
+    ),
   );
 }
