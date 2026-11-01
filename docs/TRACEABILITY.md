@@ -2221,3 +2221,13 @@ token unik dan batas tujuh hari, satu recovery verifier per akun serta bucket
 kegagalan unik. Fixture sintetis selalu rollback. PASS hanya untuk constraint;
 TC-AUTH signup/login/reset/logout, pencabutan epoch, throttle dan idempotensi
 masih NOT_RUN karena endpoint/service belum tersedia. Kontrak wire tidak berubah.
+
+## 65. Jurnal respons rahasia auth
+
+SRS-DATA-006/SRS-IF-004: migrasi 007 dan runSecretCommand menyimpan identitas,
+scope digest, HMAC fingerprint serta metadata commit tanpa salinan respons.
+Tes MySQL PASS untuk race dua request, satu efek, replay RESULT_ALREADY_COMMITTED,
+konflik payload/operasi, scope terpisah, authorize sebelum replay dan rollback.
+JSON kanonik/HMAC diuji lokal; fixture Flutter bersama belum diintegrasikan.
+Pemetaan HTTP 409, autentikasi/epoch aktual, kunci permanen dan state laporan
+belum tersedia; hasil helper tidak meluluskan TC auth atau idempotensi laporan.

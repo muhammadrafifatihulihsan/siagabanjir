@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan jurnal transaksi respons rahasia auth dan fingerprint HMAC JSON
+  kanonik; uji MySQL membuktikan satu mutasi untuk dua request bersamaan,
+  penolakan replay/konflik serta rollback. Integrasi endpoint masih tertunda.
+
 - Tambahkan schema akun, recovery verifier, sesi dan bucket kegagalan login
   dengan tes constraint MySQL; endpoint autentikasi masih tahap berikutnya.
 

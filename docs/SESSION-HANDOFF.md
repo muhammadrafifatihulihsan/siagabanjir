@@ -10,15 +10,16 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 Checklist ini adalah checkpoint aktif; catatan kronologis di bawah menyimpan
 kondisi lama. Centang hanya setelah implementasi dan pemeriksaan terkait lulus.
-Checkpoint kode sebelum unit schema auth: `13ebefd`, branch `branch-rafi`, commit lokal tanpa
-push. Delapan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
+Checkpoint kode sebelum unit jurnal: `94890d3`, branch `branch-rafi`, commit lokal tanpa
+push. Sembilan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
 
 - [x] Fondasi TypeScript/pnpm/Fastify, metadata OpenAPI, error/log minimal.
 - [x] MySQL Laragon 8.0.30, database dev/test dan akun runtime/migrasi terpisah.
 - [x] Konfigurasi env privat tersimpan lokal dan diabaikan Git.
 - [x] Pool, migrasi guard, checksum/lock serta tes rollback dan batas akses awal.
 - [x] Schema akun, verifier pemulihan, sesi dan bucket kegagalan; tes constraint MySQL.
-- [ ] Jurnal aksi idempoten untuk autentikasi dan mutasi bisnis.
+- [x] Jurnal respons rahasia auth: mutasi atomik, konflik/replay dan concurrency MySQL.
+- [ ] Integrasi jurnal ke endpoint; state machine submission/close untuk laporan.
 - [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
 - [ ] Integrasi autentikasi Flutter warga/admin dan isolasi state lintas akun.
 - [ ] Berkas privat, KTP/KK, keluarga, ownership serta lifecycle penghapusan.
@@ -34,8 +35,8 @@ Urutan unit kecil; setiap unit selesai wajib diperiksa dan dicommit bersama
 dokumentasi terdampak sebelum berpindah ke unit berikutnya:
 
 1. Schema akun/sesi, credential epoch, recovery verifier dan bucket throttle
-   sudah tersedia dan diuji. Lanjutkan jurnal aksi sesuai SRS-IF-004 sebelum
-   endpoint mutasi; algoritme throttle belum diimplementasikan.
+   sudah tersedia dan diuji. Helper jurnal respons rahasia sesuai SRS-IF-004
+   sudah diuji; integrasi endpoint dan algoritme throttle belum diimplementasikan.
 2. Implementasikan hash sandi scrypt, token sesi acak/verifier dan pemulihan
    dengan batas concurrency; jangan simpan password/token mentah di database.
 3. Signup warga, login, middleware sesi/role, profil dan logout/revoke sesuai
@@ -50,6 +51,18 @@ eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik
 dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+Migrasi 007 menambah commands dengan scope principal berupa digest, kunci UUID
+unik per scope, fingerprint HMAC dan action_seq BIGINT. Helper runSecretCommand
+mengecek authorize sebelum replay di bawah guard, menjalankan mutasi dan jurnal
+dalam transaksi sama, dan tidak menyimpan respons rahasia. State awal hanya
+COMMITTED; ACCEPTED/CLOSED/REJECTED_CLOSED laporan perlu migrasi/alur tersendiri.
+Tes MySQL PASS: dua request bersamaan hanya satu efek, replay termasuk case UUID,
+konflik operasi/payload, scope berbeda, authorize gagal sebelum replay serta
+rollback mutasi gagal tanpa jurnal baru. Tes JSON kanonik/HMAC mencakup Unicode,
+urutan key/array, domain scope dan angka nonfinite. Migrasi development PASS.
+Kunci HMAC permanen serta endpoint belum dihubungkan; tes memakai kunci sintetis.
+Langkah berikut: hash sandi scrypt, token/recovery dan konfigurasi kunci privat.
 
 Migrasi 003–006 menambah accounts, recovery_verifiers, sessions dan auth_failures
 sesuai SRS-DATA-001 sampai 004. Tes MySQL nyata PASS untuk default CITIZEN,

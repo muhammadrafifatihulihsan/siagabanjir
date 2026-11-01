@@ -60,8 +60,9 @@ transaksi dengan guard dan runner migrasi. HTTP metadata belum memakai DB.
 Perintah `db:check`, `db:migrate` dan `test:db` tersedia setelah provisioning;
 ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
 Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
-belum tersedia. Migrasi 001–006 menyediakan guard dan tabel akun, recovery,
-sesi serta bucket kegagalan. Endpoint auth dan jurnal commands menyusul.
+belum tersedia. Migrasi 001–007 menyediakan guard dan tabel akun, recovery,
+sesi, bucket kegagalan serta commands. Helper jurnal khusus respons rahasia
+tersedia; endpoint auth dan state machine laporan menyusul.
 
 JSON dibatasi 512 KiB; query tidak dikenal ditolak, field tidak dibuang atau
 dikonversi diam-diam. Request ID UUID dibuat server. Error tidak mengembalikan
@@ -77,7 +78,7 @@ Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 
 ## Bukti dan pekerjaan berikutnya
 
-Pemeriksaan pada Windows, Node 24.15.0: delapan tes HTTP/config/migrasi PASS, mencakup
+Pemeriksaan pada Windows, Node 24.15.0: sembilan tes HTTP/config/migrasi/HMAC PASS, mencakup
 OpenAPI metadata/error, request ID, ukuran/format/query invalid, sanitasi log,
 serta socket nyata. Format/lint/typecheck/build PASS. Hasil audit dan validasi
 dokumentasi akhir dicatat pada [handoff](../../docs/SESSION-HANDOFF.md).
@@ -86,7 +87,7 @@ PASS (replay, rollback, sesi dan batas akses runtime). Linux/macOS, CI remote,
 Flutter terhubung, provider dan HP NOT_RUN.
 
 mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
-adalah jurnal aksi, hashing dan integrasi HTTP auth. DB/akun sudah dibuat; konfigurasi privat
+adalah hashing, konfigurasi key dan integrasi HTTP auth. DB/akun sudah dibuat; konfigurasi privat
 lokal tersedia dan koneksi serta tes transaksi awal sudah diperiksa.
 Jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal

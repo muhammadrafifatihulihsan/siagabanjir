@@ -10,6 +10,7 @@ import {
 } from '../src/db/pool.js';
 import { migrate } from '../src/db/migrations.js';
 import { verifyAuthSchema } from './auth-schema.js';
+import { verifySecretCommands } from './secret-command.js';
 
 void test('MySQL nyata: migrasi berulang, isolasi, rollback dan batas akses runtime', async () => {
   assert.equal(
@@ -29,6 +30,7 @@ void test('MySQL nyata: migrasi berulang, isolasi, rollback dan batas akses runt
       assert.equal(await migrate(connection, directory), 0);
     });
     await verifyAuthSchema(runtime);
+    await verifySecretCommands(runtime);
     await withConnection(runtime, async (connection) => {
       const [rows] = await connection.query<RowDataPacket[]>(
         'SELECT DATABASE() AS db, @@transaction_isolation AS isolationLevel, @@session.time_zone AS zone, @@autocommit AS autoCommit',

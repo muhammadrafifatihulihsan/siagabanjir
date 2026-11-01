@@ -206,9 +206,10 @@ Periksa `schema_migrations` dan struktur aktual bersama maintainer; jangan
 menghapus marker, mengedit file lama atau mengulang SQL secara buta.
 Migrasi baru harus ditambahkan sebagai file berikutnya.
 
-Migrasi 001–006 menyediakan `business_write_guard` beserta row id=1,
-accounts, recovery_verifiers, sessions dan auth_failures. Tabel laporan/job,
-jurnal commands serta endpoint auth belum dibuat. HTTP belum membuka pool
+Migrasi 001–007 menyediakan `business_write_guard` beserta row id=1,
+accounts, recovery_verifiers, sessions, auth_failures dan commands.
+Jurnal commands saat ini hanya state COMMITTED untuk respons rahasia auth.
+Tabel laporan/job serta endpoint auth belum dibuat. HTTP belum membuka pool
 database; utilitas ini akan dihubungkan bersama implementasi auth.
 
 Untuk tes nyata buat `.env.test` lokal:
@@ -230,6 +231,8 @@ dan target development. Tes menerapkan migrasi pada DB test, memeriksa replay,
 UTC/READ COMMITTED, rollback guard, larangan DDL runtime dan akses lintas DB.
 Tes juga memeriksa constraint schema auth menggunakan fixture sintetis yang
 di-rollback; tidak membuat akun warga/admin permanen.
+Tes jurnal menjalankan transaksi nyata untuk concurrency/replay dan membersihkan
+hanya fixture acak miliknya setelah selesai; tidak mereset tabel atau sequence.
 Tidak melakukan drop/reset database. Jalankan saat DB test tidak dipakai proses
 lain. Kegagalan credential menghasilkan FAIL, bukan skip/PASS palsu.
 
