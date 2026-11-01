@@ -6,6 +6,7 @@ import { registerErrors } from './http/errors.js';
 import { registerMeta } from './http/meta.js';
 import { registerSignup } from './http/signup.js';
 import { registerLogin } from './http/login.js';
+import { registerSession } from './http/session.js';
 import type { AuthDependencies } from './auth/signup.js';
 
 export function buildApp(
@@ -58,5 +59,6 @@ export function buildApp(
   registerMeta(app);
   if (auth) registerSignup(app, auth);
   if (auth) registerLogin(app, auth);
+  if (auth) registerSession(app, auth);
   return app;
 }

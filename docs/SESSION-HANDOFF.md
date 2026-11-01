@@ -13,9 +13,10 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 3 endpoint diimplementasikan dan diuji, 69 belum selesai.
+Status saat ini: 6 endpoint diimplementasikan dan diuji, 66 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Checkpoint implementasi: `a30ae6f`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `09eee44`, branch `branch-rafi`, belum push.
+SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
 - [ ] `GET /api/v1/public/monitor`: Membaca ringkasan Pantau publik.
@@ -24,9 +25,9 @@ Checkpoint implementasi: `a30ae6f`, branch `branch-rafi`, belum push.
 - [x] `POST /api/v1/auth/signup`: Mendaftarkan akun warga.
 - [x] `POST /api/v1/auth/login`: Membuat sesi login.
 - [ ] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
-- [ ] `POST /api/v1/auth/revoke`: Mencabut sesi setelah logout offline.
-- [ ] `POST /api/v1/auth/logout`: Mengakhiri sesi aktif.
-- [ ] `GET /api/v1/me`: Membaca profil akun sendiri.
+- [x] `POST /api/v1/auth/revoke`: Mencabut sesi setelah logout offline.
+- [x] `POST /api/v1/auth/logout`: Mengakhiri sesi aktif.
+- [x] `GET /api/v1/me`: Membaca profil akun sendiri.
 - [ ] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
 - [ ] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
 - [ ] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
@@ -105,13 +106,32 @@ pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Langkah berikutnya
 
-Lanjutkan fitur profil akun serta logout/pencabutan sesi. Pemeriksaan token,
-masa berlaku dan credential epoch dikerjakan sebagai bagian implementasi fitur
-tersebut, bukan checklist terpisah. Commit tetap rinci per unit perubahan.
+Lanjutkan PATCH profil berversi, perubahan kredensial dan pemulihan akun.
+GET profil, pemeriksaan token/expiry/epoch serta logout/revoke telah tersedia.
+Commit tetap rinci per unit perubahan.
 Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
 Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+GET /me, POST /auth/logout dan POST /auth/revoke tersedia. Tes HTTP/MySQL
+memeriksa profil pemilik, token hilang, expiry, credential epoch, logout,
+revoke secret yang salah dan replay revoke. Revoke secret tidak memberi akses
+baca; logout mencabut sesi pada transaksi yang sama dengan jurnal. Logout ulang
+dengan token yang sudah dicabut ditolak 401; rekonsiliasi memakai revoke secret.
+PATCH /me dan integrasi Flutter masih tertunda.
+
+Kelanjutan unit sesi menambah uji revoke sesi aktif, dua request bersamaan
+(dengan satu actionId), UUID berbeda kapital, secret milik sesi lain, konflik
+kunci dan autentikasi ulang sebelum replay. UUID sesi dinormalisasi sebelum
+lookup/fingerprint. Bukti ini mencakup backend FR-AUTH-003/004/008; TC end-to-end
+dan TC-SRS-013 tetap NOT_RUN karena isolasi klien Flutter belum terintegrasi.
+Kontrak/spec, DESIGN, AGENTS/rules/adapter serta RTM tidak berubah: tidak ada
+perubahan requirement atau klaim penerimaan aplikasi menyeluruh.
+Verifikasi kelanjutan: `pnpm check` PASS (format, lint, tipe, 12 tes lokal,
+build); `pnpm test:db` PASS (satu suite MySQL nyata, termasuk kasus sesi).
+Markdownlint tiga dokumen, tautan internal 47 Markdown dan diff whitespace
+PASS. Flutter, HP, provider, audit keamanan menyeluruh dan UAT NOT_RUN.
 
 Login HTTP/MySQL tersedia. Akun tidak ditemukan tetap menjalankan scrypt;
 lima kegagalan per pasangan principal/source dalam 15 menit memblokir 15 menit.

@@ -5,7 +5,8 @@
 Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Implementasi saat ini
 `GET /api/v1/meta` dan `POST /api/v1/auth/signup` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
 serta `POST /api/v1/auth/login` dengan throttle dan penerbitan sesi tujuh hari.
-error terstruktur dan log minimal. Respons metadata bukan bukti kesiapan DB,
+`GET /api/v1/me`, logout dan revoke memakai sesi server, error terstruktur
+dan log minimal. Respons metadata bukan bukti kesiapan DB,
 worker, autentikasi, fitur bisnis atau deployment.
 
 ## Menjalankan
@@ -48,7 +49,7 @@ nilai production sengaja ditolak sampai kontrol tersebut tersedia.
 proses dan shutdown. `src/http` berisi metadata/error; `src/config.ts`
 memvalidasi environment. `src/db` menyediakan konfigurasi mysql2, pool,
 transaksi dengan guard dan runner migrasi. Entry server memeriksa koneksi DB
-dan memasang signup; factory tanpa dependensi DB tetap dipakai tes metadata.
+dan memasang endpoint akun/sesi; factory tanpa dependensi DB tetap dipakai tes metadata.
 
 | Perintah pnpm           | Tujuan                                                                 |
 | ----------------------- | ---------------------------------------------------------------------- |
@@ -65,7 +66,8 @@ ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
 Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
 belum tersedia. Migrasi 001–007 menyediakan guard dan tabel akun, recovery,
 sesi, bucket kegagalan serta commands. Helper jurnal khusus respons rahasia
-tersedia; endpoint auth dan state machine laporan menyusul.
+tersedia; signup/login dan pencabutan sesi memakainya. State machine laporan
+masih menyusul.
 
 JSON dibatasi 512 KiB; query tidak dikenal ditolak, field tidak dibuang atau
 dikonversi diam-diam. Request ID UUID dibuat server. Error tidak mengembalikan
@@ -84,7 +86,8 @@ Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 Login sudah memakai dummy hash, pembatasan kegagalan principal/source dan
 pemeriksaan epoch sebelum commit. Tes MySQL mencakup kredensial salah/akun tidak
 ada, pembatasan role ADMIN_WEB, replay dan throttle. Middleware token dan
-logout/revoke belum tersedia; token belum dapat digunakan untuk endpoint privat.
+GET /me, logout dan revoke kini tersedia dengan tes expiry, epoch serta
+pencabutan sesi. PATCH /me dan integrasi Flutter belum tersedia.
 
 Helper keamanan menyediakan scrypt, token/revoke acak, recovery base32 dan
 verifier digest/HMAC. Key RECOVERY_HMAC_KEY, JOURNAL_HMAC_KEY, CURSOR_HMAC_KEY
@@ -102,7 +105,7 @@ PASS (replay, rollback, sesi dan batas akses runtime). Linux/macOS, CI remote,
 Flutter terhubung, provider dan HP NOT_RUN.
 
 mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
-adalah hashing, konfigurasi key dan integrasi HTTP auth. DB/akun sudah dibuat; konfigurasi privat
+adalah PATCH profil berversi, perubahan kredensial dan pemulihan akun. DB/akun sudah dibuat; konfigurasi privat
 lokal tersedia dan koneksi serta tes transaksi awal sudah diperiksa.
 Jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal

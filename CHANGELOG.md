@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan GET /me, logout dan revoke dengan pemeriksaan token/expiry/epoch
+  serta jurnal pencabutan; tes HTTP/MySQL lulus.
+
 - Tambahkan login dengan dummy scrypt, throttle, sesi tujuh hari, pemeriksaan
   epoch/role serta replay aman; middleware sesi dan logout masih tertunda.
 

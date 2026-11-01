@@ -8,6 +8,7 @@ import { actorScope } from '../src/security/fingerprint.js';
 import { withBusinessTransaction, withConnection } from '../src/db/pool.js';
 import { verifyPassword } from '../src/security/password.js';
 import { recoveryVerifier } from '../src/security/secrets.js';
+import { verifySession } from './session.js';
 
 export async function verifySignup(pool: Pool) {
   const keys = readSecurityKeys(process.env);
@@ -74,9 +75,56 @@ export async function verifySignup(pool: Pool) {
     const session = await loginRequest(payload.password, 'ANDROID', loginKey);
     assert.equal(session.statusCode, 200, session.body);
     const sessionData = session.json<{
-      data: { accessToken: string; revokeSecret: string };
+      data: { sessionId: string; accessToken: string; revokeSecret: string };
     }>().data;
     assert.notEqual(sessionData.accessToken, sessionData.revokeSecret);
+    await verifySession(app, pool, result.data.account.id, sessionData);
+    const active = (await loginRequest(payload.password)).json<{
+      data: { sessionId: string; accessToken: string; revokeSecret: string };
+    }>().data;
+    const revokeKey = randomUUID();
+    const revoke = (id: string, secret = active.revokeSecret) =>
+      app.inject({
+        method: 'POST',
+        url: '/api/v1/auth/revoke',
+        headers: { 'idempotency-key': revokeKey },
+        payload: { sessionId: id, revokeSecret: secret },
+      });
+    assert.equal((await revoke(sessionData.sessionId)).statusCode, 401);
+    const concurrent = await Promise.all([
+      revoke(active.sessionId.toUpperCase()),
+      revoke(active.sessionId),
+    ]);
+    for (const response of concurrent) assert.equal(response.statusCode, 200);
+    const acknowledgements = concurrent.map(
+      (response) =>
+        response.json<{
+          data: { actionId: string; state: string };
+        }>().data,
+    );
+    assert.deepEqual(acknowledgements.map((ack) => ack.state).sort(), [
+      'ALREADY_COMMITTED',
+      'COMMITTED',
+    ]);
+    assert.equal(acknowledgements[0]?.actionId, acknowledgements[1]?.actionId);
+    assert.equal(
+      (
+        await app.inject({
+          url: '/api/v1/me',
+          headers: { authorization: `Bearer ${active.accessToken}` },
+        })
+      ).statusCode,
+      401,
+    );
+    assert.equal(
+      (await revoke(active.sessionId, active.accessToken)).statusCode,
+      401,
+    );
+    assert.equal(
+      (await revoke(sessionData.sessionId, sessionData.revokeSecret))
+        .statusCode,
+      409,
+    );
     assert.equal(
       (await loginRequest(payload.password, 'ANDROID', loginKey)).statusCode,
       409,
@@ -126,6 +174,14 @@ export async function verifySignup(pool: Pool) {
   } finally {
     await app.close();
     await withBusinessTransaction(pool, async (connection) => {
+      const [owners] = await connection.execute<RowDataPacket[]>(
+        'SELECT id FROM accounts WHERE email_normalized = ?',
+        [email],
+      );
+      for (const owner of owners)
+        await connection.execute('DELETE FROM commands WHERE actor_scope = ?', [
+          actorScope(keys.journal, 'account', owner.id as string),
+        ]);
       await connection.execute(
         'DELETE FROM auth_failures WHERE principal_digest = ?',
         [actorScope(keys.journal, 'public', email)],
