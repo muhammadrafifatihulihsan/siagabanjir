@@ -21,6 +21,8 @@ push. Sembilan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
 - [x] Jurnal respons rahasia auth: mutasi atomik, konflik/replay dan concurrency MySQL.
 - [ ] Integrasi jurnal ke endpoint; state machine submission/close untuk laporan.
 - [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
+- [x] Hash/verifikasi scrypt async, salt acak dan batas dua derivasi bersamaan.
+- [ ] Token sesi, kode recovery, kunci privat serta dummy verifier login.
 - [ ] Integrasi autentikasi Flutter warga/admin dan isolasi state lintas akun.
 - [ ] Berkas privat, KTP/KK, keluarga, ownership serta lifecycle penghapusan.
 - [ ] Worker MySQL dan DeepSeek, retry/lease serta penolakan hasil terlambat.
@@ -51,6 +53,13 @@ eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik
 dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+Helper password tersedia sesuai parameter SRS §5.1: scrypt N=131072/r=8/p=1,
+salt 16 byte, hash 64 byte, maxmem 256 MiB. Sandi tidak dinormalisasi/trim;
+verifikasi memakai timingSafeEqual dan kapasitas penuh menghasilkan error khusus.
+Sepuluh tes lokal, format/lint/typecheck/build PASS. Tes baru membuktikan salt
+unik, sandi tepat/salah dan penolakan derivasi ketiga; endpoint 503, dummy
+verifier serta integrasi akun belum diimplementasikan. Kontrak/Flutter tetap.
 
 Migrasi 007 menambah commands dengan scope principal berupa digest, kunci UUID
 unik per scope, fingerprint HMAC dan action_seq BIGINT. Helper runSecretCommand

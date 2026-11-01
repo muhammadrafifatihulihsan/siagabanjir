@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan helper hash/verifikasi scrypt dengan salt acak dan batas dua derivasi
+  bersamaan; tes sandi dan kapasitas lulus, integrasi endpoint auth masih tertunda.
+
 - Tambahkan jurnal transaksi respons rahasia auth dan fingerprint HMAC JSON
   kanonik; uji MySQL membuktikan satu mutasi untuk dua request bersamaan,
   penolakan replay/konflik serta rollback. Integrasi endpoint masih tertunda.
