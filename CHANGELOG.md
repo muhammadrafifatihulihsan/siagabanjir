@@ -7,6 +7,17 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan 16 endpoint operasional admin pelaporan, kelompok insiden, audit log,
+  retry analisis dan pembersihan laporan meliputi GET /jobs/{id},
+  POST /reports/{id}/analysis-retries, GET/POST /admin/reports,
+  PATCH /admin/reports/{id}/assessment, PUT /admin/reports/{id}/review,
+  POST /admin/reports/{id}/moves, POST /admin/reports/{id}/notes,
+  POST /admin/reports/{id}/deletions, GET /admin/groups, GET /admin/groups/{id},
+  GET /admin/groups/{id}/reports, POST /admin/groups/{id}/complete,
+  GET/POST /admin/cleanup dan GET /admin/audit dengan tabel migrasi audit_logs,
+  If-Match optimistik, perakitan agregat antrean review dan catatan audit otomatis;
+  tes HTTP dan MySQL lulus.
+
 - Tambahkan alur dokumen privat, verifikasi status KTP, ekstraksi profil keluarga
   dan pembersihan asinkron meliputi GET/POST /me/documents,
   GET/POST /me/documents/{id}/deletions, GET/POST /me/cleanup, GET /me/ktp,

@@ -13,9 +13,9 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 39 endpoint diimplementasikan dan diuji, 33 belum selesai.
+Status saat ini: 55 endpoint diimplementasikan dan diuji, 17 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `7c74c24`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `195572c`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
@@ -41,26 +41,26 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [x] `GET /api/v1/me/reports/{reportId}`: Membaca detail laporan sendiri.
 - [x] `GET /api/v1/reports/{reportId}/notes`: Membaca catatan tindak lanjut laporan.
 - [x] `GET /api/v1/media/{mediaId}`: Mengunduh media yang diizinkan.
-- [ ] `GET /api/v1/jobs/{jobId}`: Memeriksa status pekerjaan asinkron.
-- [ ] `POST /api/v1/reports/{reportId}/analysis-retries`: Mengulangi analisis laporan.
-- [ ] `GET /api/v1/admin/reports`: Membaca daftar laporan untuk admin.
-- [ ] `GET /api/v1/admin/reports/{reportId}`: Membaca detail laporan untuk admin.
-- [ ] `PATCH /api/v1/admin/reports/{reportId}/assessment`: Mengoreksi penilaian laporan.
-- [ ] `PUT /api/v1/admin/reports/{reportId}/review`: Mencatat tinjauan versi laporan.
-- [ ] `POST /api/v1/admin/reports/{reportId}/moves`: Memindahkan laporan ke kelompok kejadian.
-- [ ] `POST /api/v1/admin/reports/{reportId}/notes`: Menambahkan catatan tindak lanjut.
-- [ ] `POST /api/v1/admin/reports/{reportId}/deletions`: Menghapus laporan dan menjadwalkan pembersihan.
-- [ ] `GET /api/v1/admin/groups`: Membaca daftar kelompok kejadian.
-- [ ] `GET /api/v1/admin/groups/{groupId}`: Membaca detail kelompok kejadian.
-- [ ] `GET /api/v1/admin/groups/{groupId}/reports`: Membaca laporan dalam kelompok kejadian.
-- [ ] `POST /api/v1/admin/groups/{groupId}/complete`: Menandai kelompok kejadian selesai.
+- [x] `GET /api/v1/jobs/{jobId}`: Memeriksa status pekerjaan asinkron.
+- [x] `POST /api/v1/reports/{reportId}/analysis-retries`: Mengulangi analisis laporan.
+- [x] `GET /api/v1/admin/reports`: Membaca daftar laporan untuk admin.
+- [x] `GET /api/v1/admin/reports/{reportId}`: Membaca detail laporan untuk admin.
+- [x] `PATCH /api/v1/admin/reports/{reportId}/assessment`: Mengoreksi penilaian laporan.
+- [x] `PUT /api/v1/admin/reports/{reportId}/review`: Mencatat tinjauan versi laporan.
+- [x] `POST /api/v1/admin/reports/{reportId}/moves`: Memindahkan laporan ke kelompok kejadian.
+- [x] `POST /api/v1/admin/reports/{reportId}/notes`: Menambahkan catatan tindak lanjut.
+- [x] `POST /api/v1/admin/reports/{reportId}/deletions`: Menghapus laporan dan menjadwalkan pembersihan.
+- [x] `GET /api/v1/admin/groups`: Membaca daftar kelompok kejadian.
+- [x] `GET /api/v1/admin/groups/{groupId}`: Membaca detail kelompok kejadian.
+- [x] `GET /api/v1/admin/groups/{groupId}/reports`: Membaca laporan dalam kelompok kejadian.
+- [x] `POST /api/v1/admin/groups/{groupId}/complete`: Menandai kelompok kejadian selesai.
 - [x] `GET /api/v1/admin/reporting-settings`: Membaca pengaturan pelaporan.
 - [x] `PATCH /api/v1/admin/reporting-settings`: Memperbarui pengaturan pelaporan.
 - [x] `GET /api/v1/admin/quotas`: Membaca pemakaian kuota akun.
 - [x] `POST /api/v1/admin/quota-resets`: Mereset pemakaian kuota laporan.
-- [ ] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
-- [ ] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
-- [ ] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
+- [x] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
+- [x] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
+- [x] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
 - [x] `GET /api/v1/me/documents`: Membaca daftar dokumen sendiri.
 - [x] `POST /api/v1/me/documents`: Menyimpan dokumen privat.
 - [x] `GET /api/v1/me/documents/{documentId}`: Membaca metadata dokumen sendiri.

@@ -14,6 +14,7 @@ import { verifyResetPassword } from './reset-password.js';
 import { verifyReporting } from './reporting.js';
 import { verifySubmissions } from './submissions.js';
 import { verifyVault } from './vault.js';
+import { verifyAdminReporting } from './admin-reporting.js';
 
 export async function verifySignup(pool: Pool) {
   const keys = readSecurityKeys(process.env);
@@ -181,6 +182,7 @@ export async function verifySignup(pool: Pool) {
     await verifyReporting(app, pool);
     await verifySubmissions(app, pool);
     await verifyVault(app, pool);
+    await verifyAdminReporting(app, pool);
   } finally {
     await app.close();
     await withBusinessTransaction(pool, async (connection) => {
