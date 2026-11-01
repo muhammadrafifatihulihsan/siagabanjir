@@ -4,8 +4,14 @@ import type { Writable } from 'node:stream';
 import type { ServerConfig } from './config.js';
 import { registerErrors } from './http/errors.js';
 import { registerMeta } from './http/meta.js';
+import { registerSignup } from './http/signup.js';
+import type { AuthDependencies } from './auth/signup.js';
 
-export function buildApp(config: ServerConfig, stream?: Writable) {
+export function buildApp(
+  config: ServerConfig,
+  stream?: Writable,
+  auth?: AuthDependencies,
+) {
   const app = Fastify({
     logger: {
       level: config.logLevel,
@@ -49,5 +55,6 @@ export function buildApp(config: ServerConfig, stream?: Writable) {
   });
   registerErrors(app);
   registerMeta(app);
+  if (auth) registerSignup(app, auth);
   return app;
 }

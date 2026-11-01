@@ -21,6 +21,7 @@ push. Sembilan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
 - [x] Jurnal respons rahasia auth: mutasi atomik, konflik/replay dan concurrency MySQL.
 - [ ] Integrasi jurnal ke endpoint; state machine submission/close untuk laporan.
 - [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
+- [x] Signup warga HTTP/MySQL, hashing, recovery verifier dan replay aman.
 - [x] Hash/verifikasi scrypt async, salt acak dan batas dua derivasi bersamaan.
 - [x] Generator token sesi/revoke, kode recovery, verifier dan konfigurasi key terpisah.
 - [ ] Dummy verifier login, integrasi sesi/expiry serta endpoint autentikasi.
@@ -54,6 +55,13 @@ eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik
 dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+POST /api/v1/auth/signup terhubung ke MySQL melalui entry server. Startup kini
+memerlukan konfigurasi DB/key privat; shutdown menutup pool. Signup menormalisasi
+email/nama, menolak role tambahan, memaksakan CITIZEN, membuat akun/recovery dan
+jurnal dalam satu transaksi. Hash di luar lock. Tes integrasi PASS untuk sukses,
+hash/recovery verifier, replay tanpa rahasia, konflik payload/email dan role ADMIN
+yang ditolak. Login, throttle, middleware sesi dan recovery reset belum tersedia.
 
 Generator token/revoke 32 byte base64url dan recovery 20 byte/32 karakter base32
 tersedia. Token memakai SHA-256, recovery HMAC key terpisah; pembandingan verifier

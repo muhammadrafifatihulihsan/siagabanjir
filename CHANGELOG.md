@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Hubungkan signup warga ke HTTP/MySQL dengan hashing, recovery verifier,
+  jurnal atomik dan replay tanpa rahasia; login/sesi masih tertunda.
+
 - Tambahkan generator token sesi/revoke dan recovery, verifier SHA-256/HMAC,
   serta validasi key terpisah; integrasi endpoint masih tertunda.
 

@@ -1,4 +1,7 @@
 import type { FastifyInstance } from 'fastify';
+import { HttpProblem } from './problem.js';
+import { CommandConflict } from '../db/secret-command.js';
+import { HashCapacityError } from '../security/password.js';
 
 export function errorBody(requestId: string, status: number) {
   const known: Record<number, [string, string]> = {
@@ -28,6 +31,23 @@ export function registerErrors(app: FastifyInstance): void {
     reply.code(404).send(errorBody(request.id, 404)),
   );
   app.setErrorHandler((error, request, reply) => {
+    if (
+      error instanceof HttpProblem ||
+      error instanceof CommandConflict ||
+      error instanceof HashCapacityError
+    ) {
+      const status =
+        error instanceof HttpProblem
+          ? error.status
+          : error instanceof CommandConflict
+            ? 409
+            : 503;
+      const code =
+        error instanceof HashCapacityError ? 'SERVICE_UNAVAILABLE' : error.code;
+      return reply
+        .code(status)
+        .send({ ...errorBody(request.id, status), code });
+    }
     // Jangan meneruskan message/stack/validation data yang mungkin memuat input privat.
     const status =
       error instanceof Error && 'validation' in error

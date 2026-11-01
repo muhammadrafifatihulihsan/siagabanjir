@@ -3,7 +3,7 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
 Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Implementasi saat ini
-hanya `GET /api/v1/meta` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
+`GET /api/v1/meta` dan `POST /api/v1/auth/signup` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
 error terstruktur dan log minimal. Respons metadata bukan bukti kesiapan DB,
 worker, autentikasi, fitur bisnis atau deployment.
 
@@ -26,7 +26,8 @@ yang sudah dijalankan oleh `check`. `dev` menjalankan source dengan watch.
 Hentikan proses menggunakan Ctrl+C. API default di `http://127.0.0.1:3000`.
 
 Salin `.env.example` menjadi `.env` hanya jika ingin mengganti konfigurasi;
-default cukup untuk metadata lokal. `.env` diabaikan Git. Konfigurasi invalid
+startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.
+`.env` diabaikan Git. Konfigurasi invalid
 menghentikan startup tanpa mencetak nilainya.
 
 | Variabel  | Default dan batas                                     |
@@ -45,7 +46,8 @@ nilai production sengaja ditolak sampai kontrol tersebut tersedia.
 `src/app.ts` merakit HTTP tanpa membuka socket; `src/server.ts` menjalankan
 proses dan shutdown. `src/http` berisi metadata/error; `src/config.ts`
 memvalidasi environment. `src/db` menyediakan konfigurasi mysql2, pool,
-transaksi dengan guard dan runner migrasi. HTTP metadata belum memakai DB.
+transaksi dengan guard dan runner migrasi. Entry server memeriksa koneksi DB
+dan memasang signup; factory tanpa dependensi DB tetap dipakai tes metadata.
 
 | Perintah pnpm           | Tujuan                                                                 |
 | ----------------------- | ---------------------------------------------------------------------- |
@@ -81,7 +83,7 @@ Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 Helper keamanan menyediakan scrypt, token/revoke acak, recovery base32 dan
 verifier digest/HMAC. Key RECOVERY_HMAC_KEY, JOURNAL_HMAC_KEY, CURSOR_HMAC_KEY
 berformat hex 64 karakter dan wajib berbeda. Nilai lokal ada di .env/.env.test,
-tidak masuk Git; entry HTTP belum menggunakannya. Pertahankan key antar-restart;
+tidak masuk Git; entry HTTP membacanya untuk signup. Pertahankan key antar-restart;
 mengganti key tanpa migrasi dapat membatalkan verifier dan identitas jurnal.
 Jangan memakai key development untuk production.
 

@@ -1,9 +1,21 @@
 import { buildApp } from './app.js';
 import { readConfig } from './config.js';
+import { readDatabaseConfig } from './db/config.js';
+import {
+  createDatabasePool,
+  verifyDatabase,
+  withConnection,
+} from './db/pool.js';
+import { readSecurityKeys } from './security/keys.js';
 
 async function start(): Promise<void> {
   const config = readConfig(process.env);
-  const app = buildApp(config);
+  const keys = readSecurityKeys(process.env);
+  const pool = createDatabasePool(readDatabaseConfig(process.env, 'app'));
+  const app = buildApp(config, undefined, { pool, keys });
+  app.addHook('onClose', async () => {
+    await pool.end();
+  });
   const stop = () => {
     const deadline = setTimeout(() => process.exit(1), 10_000);
     deadline.unref();
@@ -18,6 +30,7 @@ async function start(): Promise<void> {
   process.once('SIGINT', stop);
   process.once('SIGTERM', stop);
   try {
+    await withConnection(pool, verifyDatabase);
     await app.listen({ host: config.host, port: config.port });
   } catch {
     await app.close();

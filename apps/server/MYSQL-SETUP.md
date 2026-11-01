@@ -209,8 +209,8 @@ Migrasi baru harus ditambahkan sebagai file berikutnya.
 Migrasi 001–007 menyediakan `business_write_guard` beserta row id=1,
 accounts, recovery_verifiers, sessions, auth_failures dan commands.
 Jurnal commands saat ini hanya state COMMITTED untuk respons rahasia auth.
-Tabel laporan/job serta endpoint auth belum dibuat. HTTP belum membuka pool
-database; utilitas ini akan dihubungkan bersama implementasi auth.
+Tabel laporan/job belum dibuat. Entry HTTP kini membuka pool untuk signup;
+login dan endpoint auth lain belum tersedia.
 
 Untuk tes nyata buat `.env.test` lokal:
 
