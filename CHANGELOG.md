@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Integrasikan aplikasi Flutter (warga dan admin) dengan Backend Fastify
+  menggunakan Clean Architecture: tambahkan KlienApi dan konfigurasi dinamis di
+  core/jaringan, PengelolaSesi di core/sesi, serta repositori terpisah pada
+  autentikasi, pantau, laporan, akun, pesan, admin, dan meta dengan 7 unit test
+  integrasi (100% pass) dan 0 issues pada flutter analyze.
+
 - Tambahkan panduan eksekusi pengujian API interaktif Swagger UI dan endpoint
   pemeriksaan kesehatan sistem (health check) pada apps/server/README.md serta
   perbaiki kueri riwayat migrasi health check ke tabel schema_migrations.

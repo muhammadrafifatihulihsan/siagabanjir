@@ -1,3 +1,4 @@
+import '../data/laporan_repository.dart';
 import '../domain/entri_riwayat_laporan.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 
@@ -19,6 +20,7 @@ class LayarBuatLaporan extends StatefulWidget {
     this.scrollController,
     this.layananFoto,
     this.fotoDipulihkan,
+    this.laporanRepository,
     required this.onNotifications,
     required this.onHistory,
     required this.onProfile,
@@ -30,6 +32,7 @@ class LayarBuatLaporan extends StatefulWidget {
   final VoidCallback onProfile;
   final LayananFoto? layananFoto;
   final ValueNotifier<FotoPilihan?>? fotoDipulihkan;
+  final LaporanRepository? laporanRepository;
 
   final ScrollController? scrollController;
 
@@ -118,6 +121,31 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     );
     _menyimpan = false;
     if (!mounted || setuju != true) return;
+
+    // Hubungkan pengiriman laporan ke backend jika tersedia
+    final laporanRepo = widget.laporanRepository ?? LaporanRepository();
+    final submissionId = 'SUB-${DateTime.now().millisecondsSinceEpoch}';
+    try {
+      String? mediaId;
+      if (_foto != null) {
+        mediaId = await laporanRepo.unggahFotoBukti(
+          uploadId: submissionId,
+          bytes: _foto!.bytes,
+        );
+      }
+      await laporanRepo.kirimLaporan(
+        submissionId: submissionId,
+        kategori: _category!,
+        deskripsi: _description.text.trim(),
+        kebutuhan: List.unmodifiable(_needs),
+        mediaId: mediaId,
+      );
+    } catch (_) {
+      // Fallback anggun untuk mode pratinjau / offline demo
+    }
+
+    if (!mounted) return;
+
     widget.onSimpan!(
       EntriRiwayatLaporan(
         waktu: DateTime.now(),

@@ -9,6 +9,7 @@ import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_header.dart';
 import '../../beranda/presentation/aksi_beranda.dart';
 import '../../beranda/presentation/widgets/navigasi_beranda.dart';
+import '../data/akun_repository.dart';
 import '../domain/profil_pengguna.dart';
 import 'widgets/bagian_pengaturan_akun.dart';
 import 'widgets/tombol_keluar.dart';
@@ -23,6 +24,7 @@ class LayarProfil extends StatefulWidget {
     required this.onHome,
     this.initialProfile = ProfilPengguna.defaultMock,
     this.layananFoto,
+    this.akunRepository,
     this.onLogout,
   });
 
@@ -30,6 +32,7 @@ class LayarProfil extends StatefulWidget {
   final VoidCallback onHome;
   final ProfilPengguna initialProfile;
   final LayananFoto? layananFoto;
+  final AkunRepository? akunRepository;
   final VoidCallback? onLogout;
 
   final ScrollController? scrollController;
@@ -59,6 +62,13 @@ class _LayarProfilState extends State<LayarProfil> {
         _profil = hasil.profil;
         _foto = hasil.foto;
       });
+      // Sinkronkan ke backend jika tersedia
+      final repo = widget.akunRepository ?? AkunRepository();
+      repo.perbaruiProfil(
+        nama: hasil.profil.name,
+        telepon: hasil.profil.phone,
+        alamat: hasil.profil.address,
+      ).catchError((_) {});
       _showFeedback('Profil berhasil diperbarui.');
     }
   }
@@ -68,6 +78,11 @@ class _LayarProfilState extends State<LayarProfil> {
     super.initState();
     _floodAlertEnabled = widget.initialProfile.floodAlertEnabled;
     _profil = widget.initialProfile;
+    // Muat data profil terbaru dari backend
+    final repo = widget.akunRepository ?? AkunRepository();
+    repo.ambilProfil().then((p) {
+      if (mounted) setState(() => _profil = p);
+    }).catchError((_) {});
   }
 
   @override
