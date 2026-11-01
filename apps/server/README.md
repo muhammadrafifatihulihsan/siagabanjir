@@ -80,12 +80,14 @@ Pemeriksaan pada Windows, Node 24.15.0: delapan tes HTTP/config/migrasi PASS, me
 OpenAPI metadata/error, request ID, ukuran/format/query invalid, sanitasi log,
 serta socket nyata. Format/lint/typecheck/build PASS. Hasil audit dan validasi
 dokumentasi akhir dicatat pada [handoff](../../docs/SESSION-HANDOFF.md).
-Linux/macOS, CI remote, MySQL, Flutter terhubung, provider dan HP NOT_RUN.
+MySQL 8.0.30: db:check, dua migrasi development dan satu tes integrasi database
+PASS (replay, rollback, sesi dan batas akses runtime). Linux/macOS, CI remote,
+Flutter terhubung, provider dan HP NOT_RUN.
 
 mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
-memerlukan provisioning, verifikasi instance, serta tes transaksi MySQL nyata.
-Pemilik melaporkan DB/akun sudah dibuat; login runtime dan rotasi sandi masih
-perlu diverifikasi. Jangan menjalankan API memakai root.
+adalah schema auth dan integrasi HTTP. DB/akun sudah dibuat; konfigurasi privat
+lokal tersedia dan koneksi serta tes transaksi awal sudah diperiksa.
+Jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal
 dan pemeriksaan hak akun tanpa membagikan sandi.
 Lalu auth, berkas privat, worker DeepSeek, laporan/kuota, admin dan fitur

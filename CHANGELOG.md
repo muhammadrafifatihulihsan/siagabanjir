@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Perbaiki pembacaan hasil GET_LOCK mysql2 bertipe string; koneksi, migrasi awal
+  dan tes integrasi MySQL nyata lulus setelah konfigurasi privat lokal tersedia.
+
 - Tambahkan mysql2, konfigurasi DB sesuai lingkungan/peran, pool/transaksi
   guard, migrasi SQL berurutan dengan checksum/status penerapan, dan runner
   tes integrasi terpisah. Provisioning serta tes MySQL nyata masih tertunda.

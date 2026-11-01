@@ -58,7 +58,8 @@ export async function migrate(connection: PoolConnection, directory: URL) {
     'SELECT GET_LOCK(CONCAT(DATABASE(), ?), 0) AS acquired',
     [':migrations'],
   );
-  if (locks[0]?.acquired !== 1)
+  // BIGINT dari prepared statement dapat berupa string saat bigNumberStrings aktif.
+  if (locks[0]?.acquired !== 1 && locks[0]?.acquired !== '1')
     throw new Error('Migrasi lain sedang berjalan.');
   try {
     await connection.query(`CREATE TABLE IF NOT EXISTS schema_migrations (

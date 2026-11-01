@@ -4,8 +4,8 @@
 
 Keluaran terminal yang dibagikan pemilik menunjukkan MySQL 8.0.30/InnoDB
 pada 3306, login root, serta pembuatan kedua database dan empat akun/grant
-berhasil. Login runtime belum berhasil karena sandi belum diisi.
-Ini bukti eksekusi pemilik; agent belum menjalankan tes database nyata.
+berhasil. Setelah pemilik meminta penyimpanan credential lokal, agent mengisi
+file env privat dan memverifikasi koneksi, migrasi awal serta tes database nyata.
 Port 80 adalah web Laragon, sedangkan API TypeScript tetap memakai 3000.
 Tidak memerlukan perubahan konfigurasi global atau instalasi MySQL baru.
 API metadata saat ini tetap berjalan tanpa database.
@@ -235,8 +235,11 @@ READ COMMITTED dan lock wait lima detik. Koneksi yang gagal dibuang agar state
 transaksi tidak bocor ke peminjam berikut. Mutasi bisnis mengambil guard dahulu;
 callback transaksi tidak boleh melakukan hash/media/panggilan provider.
 
-Status terbaru: **provisioning dilaporkan berhasil oleh pemilik; login runtime,
-rotasi sandi, verifikasi grant efektif dan tes transaksi belum terverifikasi**.
+Status terbaru: **provisioning oleh pemilik; db:check, dua migrasi development
+dan test:db oleh agent PASS**. Tes memverifikasi rollback, replay, konfigurasi
+sesi serta larangan DDL runtime dan akses dev dari akun test. Tidak mengklaim
+seluruh kontrol akses fitur bisnis sudah diuji. File env privat telah diisi
+sesuai permintaan pemilik; tidak perlu mengetik sandi setiap menjalankan pnpm.
 Database terpisah mencegah tes memakai data development, tetapi
 tidak menggantikan backup atau kontrol akses produksi. Tidak ada perubahan
 firewall, bind-address global atau akses LAN dalam langkah ini.

@@ -34,7 +34,7 @@ void test('MySQL nyata: migrasi berulang, isolasi, rollback dan batas akses runt
       assert.equal(rows[0]?.db, 'siagabanjirtest');
       assert.equal(rows[0]?.isolationLevel, 'READ-COMMITTED');
       assert.equal(rows[0]?.zone, '+00:00');
-      assert.equal(rows[0]?.autoCommit, 1);
+      assert.equal(rows[0]?.autoCommit, '1');
       await assert.rejects(connection.query('USE siagabanjirdev'), {
         code: 'ER_DBACCESS_DENIED_ERROR',
       });

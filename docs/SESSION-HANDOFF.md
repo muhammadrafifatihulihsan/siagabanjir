@@ -8,6 +8,18 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 ## Perubahan terakhir
 
+Pemilik meminta memakai sandi saat ini dan menyimpannya pada konfigurasi lokal.
+`.env`, `.env.migrate` dan `.env.test` telah diisi; semuanya ignored oleh Git,
+tanpa menyalin rahasia ke dokumentasi. Credential lokal sudah pernah dibagikan
+di percakapan; jangan menganggapnya credential produksi atau rotasi baru.
+Agent menjalankan db:check PASS, dua migrasi development PASS, serta test:db
+PASS pada MySQL 8.0.30. Tes nyata mencakup replay migrasi, UTC/READ COMMITTED,
+autocommit, rollback guard, larangan DDL runtime dan akses dev dari akun test.
+Eksekusi awal menemukan GET_LOCK mengembalikan string '1' dengan opsi mysql2
+bigNumberStrings; pembandingan diperbaiki tanpa melemahkan hasil lock gagal.
+Ekspektasi tipe autocommit pada tes diselaraskan dengan hasil driver.
+Riwayat sebelum konfigurasi lokal dan pengujian berikut tetap disimpan di bawah.
+
 Keluaran terminal pemilik membuktikan MySQL 8.0.30/InnoDB pada 3306,
 login root dan CREATE DATABASE/USER serta GRANT berhasil. Login sb_dev_app
 gagal dengan using password: NO; sebelumnya perintah PowerShell dimasukkan

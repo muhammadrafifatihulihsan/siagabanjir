@@ -2205,3 +2205,10 @@ dan penolakan riwayat migrasi berubah/terputus. Runner integrasi MySQL mencakup
 replay migrasi, rollback serta batas hak runtime, tetapi **NOT_RUN** karena
 database/akun belum diprovision. Tidak menaikkan TC transaksi/kuota/auth menjadi
 PASS dari tes konfigurasi. [Petunjuk](../apps/server/MYSQL-SETUP.md).
+
+Pembaruan setelah provisioning dan konfigurasi lokal: db:check dan dua migrasi
+development PASS; test:db PASS pada MySQL 8.0.30 membuktikan replay migrasi,
+UTC/READ COMMITTED/autocommit, rollback guard, penolakan DDL akun runtime test
+dan akses development dari akun test. Regresi GET_LOCK string dari mysql2
+ditemukan lalu diperbaiki dan diuji ulang. TC auth/kuota dan concurrency bisnis
+tetap NOT_RUN; satu tes fondasi tidak meluluskan seluruh transaksi produk.
