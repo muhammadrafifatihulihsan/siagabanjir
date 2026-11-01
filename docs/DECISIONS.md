@@ -1374,3 +1374,31 @@ Tidak mengubah callback, data, validasi atau hak akses. Riset find-skills
 meninjau leaderboard skills.sh dan membaca frontend-design dari anthropics/skills;
 prinsip mengikuti brief dan mengurangi ornamen diterapkan tanpa instalasi.
 [Bukti](WORKSPACE.md#admin-panels). Commit lokal, tanpa mandat push.
+
+<a id="backend-foundation-070"></a>
+
+## 60. Implementasi backend bertahap - 1 November 2026
+
+**WS-DEC-070 - CURRENT_USER_CONFIRMED.** Pemilik meminta implementasi backend
+TypeScript/pnpm, MySQL Laragon 6, integrasi seluruh Flutter warga/admin,
+pengujian dan keamanan, lalu mengotorisasi rencana serta kelanjutannya.
+Mandat ini menggantikan batas setup panduan saja untuk pekerjaan tersebut.
+Pemilik kemudian secara eksplisit meminta membaca sambil mengoding untuk
+efisiensi; sumber terkait dibaca sebelum unit yang bergantung padanya.
+Tidak mengklaim bacaan penuh yang tertunda telah selesai.
+
+Konfirmasi terdahulu pada rangkaian ini: lokal dahulu, persiapan deployment
+tanpa hosting yang telah dipilih; pengguna awal tim/dosen, data sintetis dengan
+operasi nyata; DB dev/test dan akun aplikasi non-root terpisah; API key DeepSeek
+disediakan kemudian melalui konfigurasi privat. Pengujian HP dilakukan pemilik.
+Koreksi titik GPS 100 m adalah pilihan asisten dalam delegasi, belum diterapkan
+ke kontrak/kode; wajib diselaraskan bersama unit lokasi. Batas kompresi menjaga
+keterbacaan; biaya provider dicatat dan retry dibatasi tanpa cap nominal rekaan.
+
+Unit pertama memakai Node 24, Fastify 5, TypeScript 5.9.3 strict dan pnpm
+10.34.9 terkunci. Memisahkan factory HTTP dari entry proses, metadata sesuai
+kontrak, konfigurasi loopback lokal, penanganan error/log minimal, serta tes.
+Tidak membuat endpoint bisnis palsu atau worker kosong. MySQL/auth/upload/AI
+dan integrasi Flutter masih berikutnya; production ditolak pada fondasi ini.
+Commit lokal rinci per unit wajib; push/merge/deploy tidak diotorisasi.
+Perintah dan batas aktual ada pada [README server](../apps/server/README.md).

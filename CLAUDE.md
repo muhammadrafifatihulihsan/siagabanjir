@@ -5,7 +5,7 @@
 @AGENTS.md
 
 AGENTS adalah sumber bersama. Wajib tuntaskan pembacaan seluruh sumber aktif
-menurut protokol di sana, termasuk semua rules dan skills, sebelum bekerja.
+menurut protokol di sana, termasuk pengecualian mandat terbaru yang tercatat.
 Perbarui seluruh living documents terdampak dalam perubahan yang sama.
 Terapkan [commit lokal wajib dan gerbang tree bersih](rules/workflow.md#commit-lokal)
 sebelum melanjutkan unit pekerjaan atau menutup sesi.

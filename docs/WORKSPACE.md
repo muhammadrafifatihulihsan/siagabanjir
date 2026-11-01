@@ -2,7 +2,7 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 1 November 2026: panduan kerja lintas OS/IDE, backend kosong,
+Kondisi 1 November 2026: panduan kerja lintas OS/IDE, fondasi HTTP backend,
 sebelas fitur pratinjau warga dan lima halaman admin Flutter dengan state lokal. UI mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
@@ -11,7 +11,9 @@ sebelas fitur pratinjau warga dan lima halaman admin Flutter dengan state lokal.
 
 [Mandat pemeliharaan](DECISIONS.md#workspace-local-commit-009) mencakup
 commit lokal AI, gerbang tree bersih, panduan tim, dan publikasi pembaruan. Backend dan Flutter
-disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
+disiapkan tim. Implementasi backend kini diotorisasi melalui
+[WS-DEC-070](DECISIONS.md#backend-foundation-070), termasuk bacaan bertahap
+sambil mengoding per unit. Living documents mengikuti aturan bersama.
 
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
 dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
@@ -33,7 +35,7 @@ adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend kosong; sebelas fitur warga dan lima halaman admin lokal; [struktur aktual](../apps/siagabanjir/README.md#struktur) |
+| Backend / Flutter | [Fondasi HTTP](../apps/server/README.md); sebelas fitur warga dan lima halaman admin lokal; [struktur Flutter](../apps/siagabanjir/README.md#struktur) |
 | Pengujian | Widget mockup dan build Web diperiksa; TC produk, provider, perangkat, dan UAT tetap NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -54,7 +56,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki sebelas fitur warga dan lima halaman admin; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
+| [apps](../apps/README.md) | [Server HTTP](../apps/server/README.md); [Flutter](../apps/siagabanjir/README.md) memiliki sebelas fitur warga dan lima halaman admin; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -65,7 +67,8 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
 Scaffold aplikasi lama sudah ditarik. Tim kemudian membuat scaffold Flutter
-di apps/siagabanjir; apps/server masih kosong. Root tidak berisi tools/reports/database/cache aktif.
+di apps/siagabanjir; apps/server kini memiliki fondasi HTTP sesuai mandat baru.
+Root tidak berisi tools/reports/database/cache aktif.
 Fungsi baseline BRD/PRD/FRD/SRS tetap. Errata kontrak menyelaraskan replay
 rahasia dengan SRS-IF-004; tidak menambah endpoint atau fitur produk.
 Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.

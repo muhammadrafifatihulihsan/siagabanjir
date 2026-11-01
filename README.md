@@ -59,6 +59,8 @@ TTS perangkat, foto profil dari galeri, dokumen berkategori dan ekspor ZIP terse
 Kontak pribadi berada di Kontak Darurat; Riwayat memuat input yang disimpan untuk sesi demo.
 GPS, autentikasi server, brankas terenkripsi dan pengiriman belum terintegrasi.
 Lihat [README Flutter](apps/siagabanjir/README.md).
+Fondasi [server TypeScript](apps/server/README.md) sudah tersedia untuk metadata
+HTTP lokal dan pengujian; fitur bisnis dan integrasi MySQL masih dikerjakan.
 
 ## Informasi pengembangan
 

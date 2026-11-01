@@ -1,0 +1,10 @@
+packages:
+  - '.'
+engineStrict: true
+strictPeerDependencies: true
+minimumReleaseAge: 1440
+onlyBuiltDependencies:
+  - esbuild
+# GHSA-g3hv-75wg-m249; cabut override setelah ESLint memakai versi aman.
+overrides:
+  'minimatch@10.2.6': 11.0.1

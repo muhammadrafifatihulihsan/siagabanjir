@@ -2176,3 +2176,22 @@ DESIGN. [Bukti audit](WORKSPACE.md#admin-ui-audit) mencakup lima tab, dialog,
 pencarian/filter kosong, retensi draf, lebar 390/768/1280 dan skala teks 200%.
 Tes widget dan browser tidak meluluskan TC layanan: review berversi, ownership,
 kuota, AI, persistensi, penghapusan dan sinkronisasi backend tetap NOT_RUN.
+
+## 62. Fondasi server HTTP - 1 November 2026
+
+[WS-DEC-070](DECISIONS.md#backend-foundation-070) mengotorisasi implementasi
+bertahap dan bacaan terkait sambil bekerja. Fondasi tersedia pada
+[server](../apps/server/README.md), tanpa perubahan wire API baseline.
+
+| Acuan | Bukti aktual dan batas |
+|---|---|
+| SRS-DEC-001/IF-001, getMeta | Tes HTTP memvalidasi metadata/envelope terhadap OpenAPI, UUID korelasi server dan socket nyata |
+| SRS-IF-002/006 | Error malformed JSON, query tidak didukung, schema invalid, 512 KiB dan tipe media diuji; tanpa nilai input/stack |
+| SRS-NFR-005, bagian TC-SRS-024 | Sentinel privat tidak muncul pada respons maupun log dalam kasus fondasi; ownership/auth belum tersedia sehingga TC penuh tetap NOT_RUN |
+| Toolchain | Format, ESLint bertipe, tsc, lima tes node:test dan build pada Windows PASS |
+
+Audit dependency ditemukan pada tool lint lalu diperbaiki dengan override
+minimatch 11.0.1. Hasil akhir serta pemeriksaan dokumentasi dicatat pada
+[handoff](SESSION-HANDOFF.md). Tidak menaikkan TC bisnis, provider, perangkat,
+MySQL atau CI remote menjadi PASS. UI/kontrak/spec bisnis tetap; keputusan
+lokasi dan persiapan production harus diturunkan bersama unit terkait.

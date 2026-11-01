@@ -14,9 +14,11 @@ Prasyarat: [bacaan lengkap dan alur kerja bersama](../../rules/workflow.md#baca-
 Baca [domain](../../rules/domain.md), [mutu](../../rules/quality.md),
 bagian terkait [SRS](../../docs/SRS.md), dan
 [OpenAPI](../../docs/openapi.json).
-Inspeksi `apps/server/`, manifest, README dan tes aktual.
-Jika folder masih hanya penanda kosong, keluaran yang mungkin adalah telaah
-kontrak/rancangan tugas; jangan membuat backend sebagai efek samping.
+Inspeksi [server](../../apps/server/README.md), manifest dan tes aktual.
+Fondasi HTTP sudah tersedia; DB, auth dan worker dilanjutkan dalam mandat
+[WS-DEC-070](../../docs/DECISIONS.md#backend-foundation-070).
+Inisialisasi aplikasi harus bersumber dari mandat eksplisit, bukan efek samping
+perapian workspace. Bacaan bertahap mengikuti pengecualian workflow tersebut.
 
 ## Prosedur
 

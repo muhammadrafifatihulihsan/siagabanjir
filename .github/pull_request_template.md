@@ -27,7 +27,7 @@ Cantumkan branch, SHA commit terbaru, hasil git status, serta status push/CI.
 
 ## Pemeriksaan sebelum merge
 
-- [ ] Jika memakai AI: seluruh dokumen/instruksi aktif sudah dibaca penuh menurut AGENTS; cakupan atau kendala dicatat. Jika tanpa AI, jelaskan N/A.
+- [ ] Jika memakai AI: bacaan mengikuti AGENTS, termasuk pengecualian mandat eksplisit bila ada; cakupan aktual/kendala dicatat tanpa klaim bacaan penuh palsu. Jika tanpa AI, jelaskan N/A.
 - [ ] Living documents terdampak sudah diselaraskan dalam perubahan ini.
 - [ ] File staged/diff, tautan, dan pemeriksaan sesuai dampak sudah ditinjau.
 - [ ] Setiap unit perubahan sudah dicommit; perintah git status --porcelain=v1 --untracked-files=all berhasil tanpa keluaran pada penutupan lokal.

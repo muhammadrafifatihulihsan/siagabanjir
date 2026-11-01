@@ -160,3 +160,14 @@ secara sengaja, dan hindari teks/ornamen tanpa fungsi. Tidak mengadopsi saran
 hero/font baru karena tema dashboard telah dipilih pengguna. Tidak ada instalasi
 atau rekomendasi paket berdasarkan popularitas saja. Prosedur Flutter/UI proyek
 tetap menjadi acuan eksekusi. [Bukti hasil](WORKSPACE.md#admin-panels).
+
+### Fondasi backend
+
+Pada WS-DEC-070, skill-installer/find-skills telah dipakai untuk discovery
+katalog curated dan kandidat Flutter/Fastify. Belum ada skill eksternal
+dipasang atau dinyatakan lolos audit; fondasi memakai prosedur backend dan
+verification proyek. Bacaan bertahap mengikuti mandat terbaru pada AGENTS.
+Dokumentasi primer [Fastify server](https://fastify.dev/docs/latest/Reference/Server/)
+dan [validasi](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/)
+dicocokkan dengan tipe/source package terpasang. Versi dependency diperiksa
+melalui registry npm; pengujian aktual ada pada [README server](../apps/server/README.md).

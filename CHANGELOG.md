@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Fondasi server Node 24/TypeScript strict/Fastify 5 dengan pnpm terkunci,
+  metadata sesuai OpenAPI, error/log aman, batas input dan tes HTTP.
+  Bacaan bertahap mengikuti mandat implementasi terbaru.
+  [Status dan bukti](apps/server/README.md).
+
 - Selaraskan panel dan tombol menu admin dengan dashboard komando; hapus strip
   status kota statis. Tanpa tambahan teks atau perubahan alur.
   [Bukti pemeriksaan](docs/WORKSPACE.md#admin-panels).

@@ -1,0 +1,84 @@
+# Server SiagaBanjir
+
+> **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
+
+Fondasi lokal Node 24, TypeScript strict dan Fastify 5. Implementasi saat ini
+hanya `GET /api/v1/meta` dari [OpenAPI](../../docs/openapi.json), konfigurasi,
+error terstruktur dan log minimal. Respons metadata bukan bukti kesiapan DB,
+worker, autentikasi, fitur bisnis atau deployment.
+
+## Menjalankan
+
+Dari folder `apps/server`, gunakan Node >=24.15.0 <25 dan pnpm 10.34.9.
+Versi dependency persis tersedia pada package.json dan pnpm-lock.yaml.
+TypeScript 5.9.3 dipilih dalam rentang dukungan typescript-eslint; tidak
+mengambil major TypeScript terbaru yang belum didukung linter ini.
+
+```sh
+npx --yes pnpm@10.34.9 install --frozen-lockfile
+npx --yes pnpm@10.34.9 check
+npx --yes pnpm@10.34.9 start
+```
+
+PowerShell dapat memakai `npx.cmd` bila kebijakan mesin menolak `npx.ps1`.
+Tidak perlu instalasi global atau perubahan PATH. `start` memerlukan `build`
+yang sudah dijalankan oleh `check`. `dev` menjalankan source dengan watch.
+Hentikan proses menggunakan Ctrl+C. API default di `http://127.0.0.1:3000`.
+
+Salin `.env.example` menjadi `.env` hanya jika ingin mengganti konfigurasi;
+default cukup untuk metadata lokal. `.env` diabaikan Git. Konfigurasi invalid
+menghentikan startup tanpa mencetak nilainya.
+
+| Variabel  | Default dan batas                                     |
+| --------- | ----------------------------------------------------- |
+| NODE_ENV  | development; hanya development/test pada unit fondasi |
+| HOST      | 127.0.0.1; alternatif ::1, loopback saja              |
+| PORT      | 3000; integer 1–65535                                 |
+| LOG_LEVEL | info; info/warn/error/silent                          |
+
+Saat ini belum dapat diakses langsung dari HP atau origin Flutter Web berbeda.
+Konfigurasi jaringan/TLS/CORS dan production akan ditambahkan bersama integrasi;
+nilai production sengaja ditolak sampai kontrol tersebut tersedia.
+
+## Struktur dan pemeriksaan
+
+`src/app.ts` merakit HTTP tanpa membuka socket; `src/server.ts` menjalankan
+proses dan shutdown. `src/http` berisi metadata/error; `src/config.ts`
+memvalidasi environment. Tidak ada layer repository atau worker kosong.
+
+| Perintah pnpm           | Tujuan                                                                 |
+| ----------------------- | ---------------------------------------------------------------------- |
+| format / format:check   | Tulis/periksa format Prettier                                          |
+| lint                    | ESLint dengan pemeriksaan berbasis tipe                                |
+| typecheck               | TypeScript tanpa emit, termasuk tes                                    |
+| test                    | node:test + Fastify inject, validasi OpenAPI dan socket loopback nyata |
+| build                   | Emit JavaScript ke dist                                                |
+| check                   | Format, lint, tipe, tes lalu build                                     |
+| audit --audit-level low | Advisory dependensi runtime dan pengembangan                           |
+
+JSON dibatasi 512 KiB; query tidak dikenal ditolak, field tidak dibuang atau
+dikonversi diam-diam. Request ID UUID dibuat server. Error tidak mengembalikan
+nilai input/stack; log request hanya event, korelasi dan status. Respons memakai
+no-store/nosniff. Proxy headers tidak dipercaya. Ini kontrol fondasi, belum
+membuktikan keamanan auth/ownership/upload yang belum diimplementasikan.
+
+Lifecycle install hanya mengizinkan esbuild, dependency tsx untuk tes/dev.
+Override minimatch 10.2.6 ke 11.0.1 menutup
+[GHSA-g3hv-75wg-m249](https://github.com/isaacs/minimatch/security/advisories/GHSA-g3hv-75wg-m249)
+pada tool lint; tinjau pencabutannya setelah upstream memakai versi aman.
+Tidak memakai pengecualian audit untuk menyembunyikan advisory.
+
+## Bukti dan pekerjaan berikutnya
+
+Pemeriksaan pada Windows, Node 24.15.0: lima tes HTTP/config PASS, mencakup
+OpenAPI metadata/error, request ID, ukuran/format/query invalid, sanitasi log,
+serta socket nyata. Format/lint/typecheck/build PASS. Hasil audit dan validasi
+dokumentasi akhir dicatat pada [handoff](../../docs/SESSION-HANDOFF.md).
+Linux/macOS, CI remote, MySQL, Flutter terhubung, provider dan HP NOT_RUN.
+
+Unit berikut: koneksi mysql2 ke Laragon 6/MySQL 8.0.30 yang diverifikasi,
+akun runtime/migrasi terpisah, DB dev/test terpisah, migrasi SQL dan tes
+transaksi. Belum ada DB atau akun dibuat; jangan menjalankan API memakai root.
+Lalu auth, berkas privat, worker DeepSeek, laporan/kuota, admin dan fitur
+pendukung mengikuti [SRS](../../docs/SRS.md) serta mandat terbaru pada
+[WS-DEC-070](../../docs/DECISIONS.md#backend-foundation-070).

@@ -4,9 +4,32 @@
 
 Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
-Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong.
+Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 ## Perubahan terakhir
+
+Fondasi server sesuai [WS-DEC-070](DECISIONS.md#backend-foundation-070):
+Node 24/TypeScript strict/Fastify 5/pnpm 10.34.9, metadata OpenAPI, konfigurasi,
+error/log minimal dan tes. [README server](../apps/server/README.md) memuat
+perintah serta batas. Format/lint/tipe/build dan lima tes PASS pada Windows.
+Audit dependency PASS tanpa advisory yang diketahui setelah override minimatch;
+Install frozen-lockfile PASS. Markdownlint 16 dokumen, tautan 46 Markdown, YAML delapan skill dan diff
+whitespace PASS. Audit dependency bukan audit keamanan aplikasi penuh.
+
+Mandat terbaru mengizinkan membaca acuan terkait sambil implementasi; tidak
+melanjutkan bacaan seluruh riwayat sebagai penghalang coding. FRD/SRS,
+WORKSPACE, handoff, DECISIONS dan delapan skill telah dibaca penuh dalam
+rangkaian ini; TRACEABILITY baru sampai baris 690 dan bagian akhir relevan,
+OpenAPI baru operasi/schema terkait. Jangan mengklaim seluruh sumber selesai.
+
+Berikutnya: mysql2, akun runtime/migrasi dan DB dev/test terpisah, migrasi SQL
+serta tes MySQL nyata. Pemilik mengonfirmasi DB/akun belum disiapkan dan meminta
+panduan akun serta database terpisah. Lalu auth dan
+integrasi Flutter, berkas privat, worker/AI, laporan/kuota/admin dan pendukung.
+API key belum tersedia, HP diuji pemilik. Production, MySQL, provider,
+Flutter terhubung dan UAT NOT_RUN. Tidak ada mandat push/deploy.
+
+### Tema menu admin sebelumnya
 
 Tema menu admin mengikuti dashboard komando sesuai
 [WS-DEC-069](DECISIONS.md#admin-panels-069): panel laporan putih, tombol outline,
