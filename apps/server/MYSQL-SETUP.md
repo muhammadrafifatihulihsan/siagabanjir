@@ -2,10 +2,10 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
-Pemilik mengonfirmasi database dan akun belum disiapkan. Panduan ini menyiapkan
-prasyarat unit mysql2/migrasi; belum dijalankan terhadap instance MySQL.
-Pemilik kemudian mengonfirmasi Laragon aktif pada 3306/80. Probe TCP ke
-127.0.0.1:3306 berhasil; login dan versi instance belum diverifikasi.
+Keluaran terminal yang dibagikan pemilik menunjukkan MySQL 8.0.30/InnoDB
+pada 3306, login root, serta pembuatan kedua database dan empat akun/grant
+berhasil. Login runtime belum berhasil karena sandi belum diisi.
+Ini bukti eksekusi pemilik; agent belum menjalankan tes database nyata.
 Port 80 adalah web Laragon, sedangkan API TypeScript tetap memakai 3000.
 Tidak memerlukan perubahan konfigurasi global atau instalasi MySQL baru.
 API metadata saat ini tetap berjalan tanpa database.
@@ -86,13 +86,36 @@ Tidak perlu FLUSH PRIVILEGES setelah CREATE USER/GRANT.
 
 ## 3. Verifikasi batas akun
 
-Keluar dari root dengan `exit`, lalu login runtime development:
+**Password akun baru ada pada kolom `generated password` hasil CREATE USER.**
+Setiap akun mendapat nilai berbeda, bukan sandi root dan bukan sandi kosong.
+Nilainya dibuat saat perintah dijalankan sehingga tidak dicantumkan di Markdown.
+Untuk sb_dev_app, gunakan nilai dari baris sb_dev_app tanpa spasi/batas tabel.
+
+Perhatikan prompt terminal:
+
+- `mysql>` menerima SQL, bukan perintah PowerShell.
+- `PS C:\...>` menerima perintah PowerShell seperti `& $mysqlClient ...`.
+- Jika terjebak pada prompt lanjutan `->`, ketik `\c` lalu Enter untuk
+  membatalkan masukan yang belum dijalankan.
+
+Di prompt `mysql>`, keluar terlebih dahulu:
+
+```sql
+exit
+```
+
+Setelah prompt berubah menjadi `PS C:\...>`, login runtime development:
 
 ```powershell
 & $mysqlClient --protocol=TCP --host=127.0.0.1 --port=3306 --user=sb_dev_app --password --database=siagabanjirdev
 ```
 
-Jalankan:
+Saat `Enter password:` muncul, tempel sandi sb_dev_app lalu Enter. Karakter
+sandi tidak ditampilkan; itu normal. Jangan langsung menekan Enter kosong.
+`using password: NO` berarti sandi tidak dikirim. Jika sudah `YES` tetapi
+ditolak, periksa akun dan sandi yang dipakai; jangan mengganti host/grant dahulu.
+
+Setelah login berhasil dan prompt kembali `mysql>`, jalankan:
 
 ```sql
 SELECT CURRENT_USER(), DATABASE();
@@ -128,6 +151,25 @@ Laporkan hanya versi MySQL, host/port, nama database, dan hasil login/grant/
 penolakan lintas database. Jangan kirim sandi atau keluaran CREATE USER.
 Simpan credential migrator terpisah dari credential runtime menggunakan
 konfigurasi berikut; jangan menaruh sandi pada `.env.example`, kode atau commit.
+
+### Jika sandi hilang atau sudah terkirim ke chat
+
+Jangan ulangi CREATE DATABASE/CREATE USER. Login kembali sebagai root dari
+PowerShell menggunakan perintah langkah 1. Di prompt `mysql>`, ganti sandi
+akun yang terdampak; bila keempatnya terungkap, jalankan keempat perintah ini:
+
+```sql
+ALTER USER 'sb_dev_app'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_dev_migrate'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_test_app'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_test_migrate'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+```
+
+Simpan nilai `generated password` terbaru untuk tiap akun secara lokal; jangan
+kirim hasil tabelnya. Perintah ini mengganti sandi tanpa menghapus database atau
+grant. Keluar dengan `exit`, lalu ulangi login langkah 3 memakai sandi terbaru.
+Perbarui juga file konfigurasi privat jika sudah dibuat. Rotasi belum dianggap
+selesai sebelum dijalankan pemilik dan login ulang berhasil.
 
 <a id="konfigurasi-backend"></a>
 
@@ -193,8 +235,9 @@ READ COMMITTED dan lock wait lima detik. Koneksi yang gagal dibuang agar state
 transaksi tidak bocor ke peminjam berikut. Mutasi bisnis mengambil guard dahulu;
 callback transaksi tidak boleh melakukan hash/media/panggilan provider.
 
-Status saat panduan dibuat: **provisioning, koneksi, grant dan tes transaksi
-NOT_RUN**. Database terpisah mencegah tes memakai data development, tetapi
+Status terbaru: **provisioning dilaporkan berhasil oleh pemilik; login runtime,
+rotasi sandi, verifikasi grant efektif dan tes transaksi belum terverifikasi**.
+Database terpisah mencegah tes memakai data development, tetapi
 tidak menggantikan backup atau kontrol akses produksi. Tidak ada perubahan
 firewall, bind-address global atau akses LAN dalam langkah ini.
 

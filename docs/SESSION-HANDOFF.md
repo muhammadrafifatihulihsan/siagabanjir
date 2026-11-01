@@ -8,6 +8,15 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 ## Perubahan terakhir
 
+Keluaran terminal pemilik membuktikan MySQL 8.0.30/InnoDB pada 3306,
+login root dan CREATE DATABASE/USER serta GRANT berhasil. Login sb_dev_app
+gagal dengan using password: NO; sebelumnya perintah PowerShell dimasukkan
+ke prompt MySQL sehingga terjadi error 1064. Panduan diperjelas mengenai
+generated password, input tersembunyi, perpindahan prompt dan rotasi sandi.
+Credential yang dibagikan tidak disalin ke repo. Rotasi serta login ulang
+belum terverifikasi; tes integrasi agent tetap NOT_RUN. Catatan di bawah
+merepresentasikan kondisi sebelum provisioning oleh pemilik.
+
 Unit mysql2 tersedia: config menolak root/target silang, pool terbatas,
 sesi UTC/READ COMMITTED, transaksi guard, dua migrasi SQL awal dan runner
 berchecksum dengan marker applying serta GET_LOCK. Delapan tes lokal,

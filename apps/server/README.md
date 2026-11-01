@@ -84,7 +84,8 @@ Linux/macOS, CI remote, MySQL, Flutter terhubung, provider dan HP NOT_RUN.
 
 mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
 memerlukan provisioning, verifikasi instance, serta tes transaksi MySQL nyata.
-Belum ada DB atau akun dibuat; jangan menjalankan API memakai root.
+Pemilik melaporkan DB/akun sudah dibuat; login runtime dan rotasi sandi masih
+perlu diverifikasi. Jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal
 dan pemeriksaan hak akun tanpa membagikan sandi.
 Lalu auth, berkas privat, worker DeepSeek, laporan/kuota, admin dan fitur
