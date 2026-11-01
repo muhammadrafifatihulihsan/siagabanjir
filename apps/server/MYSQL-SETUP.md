@@ -206,8 +206,9 @@ Periksa `schema_migrations` dan struktur aktual bersama maintainer; jangan
 menghapus marker, mengedit file lama atau mengulang SQL secara buta.
 Migrasi baru harus ditambahkan sebagai file berikutnya.
 
-Saat ini hanya `business_write_guard` dan satu row id=1 yang disiapkan sesuai
-SRS-DEC-004. Tabel akun, laporan dan job belum dibuat. HTTP belum membuka pool
+Migrasi 001–006 menyediakan `business_write_guard` beserta row id=1,
+accounts, recovery_verifiers, sessions dan auth_failures. Tabel laporan/job,
+jurnal commands serta endpoint auth belum dibuat. HTTP belum membuka pool
 database; utilitas ini akan dihubungkan bersama implementasi auth.
 
 Untuk tes nyata buat `.env.test` lokal:
@@ -227,6 +228,8 @@ Isi kedua sandi test lalu jalankan `npx.cmd --yes pnpm@10.34.9 test:db`.
 Runner menolak lingkungan selain test, akun selain nama/peran yang ditetapkan,
 dan target development. Tes menerapkan migrasi pada DB test, memeriksa replay,
 UTC/READ COMMITTED, rollback guard, larangan DDL runtime dan akses lintas DB.
+Tes juga memeriksa constraint schema auth menggunakan fixture sintetis yang
+di-rollback; tidak membuat akun warga/admin permanen.
 Tidak melakukan drop/reset database. Jalankan saat DB test tidak dipakai proses
 lain. Kegagalan credential menghasilkan FAIL, bukan skip/PASS palsu.
 

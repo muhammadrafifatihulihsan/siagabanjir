@@ -10,13 +10,15 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 Checklist ini adalah checkpoint aktif; catatan kronologis di bawah menyimpan
 kondisi lama. Centang hanya setelah implementasi dan pemeriksaan terkait lulus.
-Checkpoint kode terakhir: `13ebefd`, branch `branch-rafi`, commit lokal tanpa
+Checkpoint kode sebelum unit schema auth: `13ebefd`, branch `branch-rafi`, commit lokal tanpa
 push. Delapan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
 
 - [x] Fondasi TypeScript/pnpm/Fastify, metadata OpenAPI, error/log minimal.
 - [x] MySQL Laragon 8.0.30, database dev/test dan akun runtime/migrasi terpisah.
 - [x] Konfigurasi env privat tersimpan lokal dan diabaikan Git.
 - [x] Pool, migrasi guard, checksum/lock serta tes rollback dan batas akses awal.
+- [x] Schema akun, verifier pemulihan, sesi dan bucket kegagalan; tes constraint MySQL.
+- [ ] Jurnal aksi idempoten untuk autentikasi dan mutasi bisnis.
 - [ ] Autentikasi backend sesuai SRS-FR-AUTH-001 sampai 008 dan OpenAPI.
 - [ ] Integrasi autentikasi Flutter warga/admin dan isolasi state lintas akun.
 - [ ] Berkas privat, KTP/KK, keluarga, ownership serta lifecycle penghapusan.
@@ -31,8 +33,9 @@ push. Delapan tes lokal dan satu tes integrasi MySQL PASS; bukan kelulusan UAT.
 Urutan unit kecil; setiap unit selesai wajib diperiksa dan dicommit bersama
 dokumentasi terdampak sebelum berpindah ke unit berikutnya:
 
-1. Cocokkan schema akun/sesi, credential epoch, recovery verifier, throttle dan
-   jurnal aksi dengan SRS/OpenAPI; tambah migrasi SQL serta tes constraint.
+1. Schema akun/sesi, credential epoch, recovery verifier dan bucket throttle
+   sudah tersedia dan diuji. Lanjutkan jurnal aksi sesuai SRS-IF-004 sebelum
+   endpoint mutasi; algoritme throttle belum diimplementasikan.
 2. Implementasikan hash sandi scrypt, token sesi acak/verifier dan pemulihan
    dengan batas concurrency; jangan simpan password/token mentah di database.
 3. Signup warga, login, middleware sesi/role, profil dan logout/revoke sesuai
@@ -42,11 +45,21 @@ dokumentasi terdampak sebelum berpindah ke unit berikutnya:
 5. Siapkan dua akun admin demo tanpa credential baku di repo; uji API/MySQL
    nyata untuk sesi kedaluwarsa/dicabut, role, konflik dan akses lintas akun.
 
-Auth belum diimplementasikan. Bukti kelulusannya harus ditambahkan setelah
+Endpoint auth belum diimplementasikan. Bukti kelulusannya harus ditambahkan setelah
 eksekusi; kredensial provider DeepSeek belum tersedia, pengujian HP oleh pemilik,
 dan hosting belum dipilih. Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
+
+Migrasi 003–006 menambah accounts, recovery_verifiers, sessions dan auth_failures
+sesuai SRS-DATA-001 sampai 004. Tes MySQL nyata PASS untuk default CITIZEN,
+email unik/normalisasi binary, role/versi/parameter hash, token unik, umur sesi
+maksimum tujuh hari, FK pemilik, satu verifier per akun dan bucket principal/source
+unik. Fixture memakai data sintetis dalam transaksi yang selalu rollback.
+Migrasi development menerapkan empat file; replay pada test tetap tanpa perubahan.
+Ini belum menguji hashing, expiry middleware, pencabutan, throttle atau endpoint.
+Jurnal commands sengaja menjadi unit berikut agar state/idempotensi diturunkan
+bersama alur layanan, tanpa menyatakan seluruh langkah auth sudah selesai.
 
 Pemilik meminta memakai sandi saat ini dan menyimpannya pada konfigurasi lokal.
 `.env`, `.env.migrate` dan `.env.test` telah diisi; semuanya ignored oleh Git,

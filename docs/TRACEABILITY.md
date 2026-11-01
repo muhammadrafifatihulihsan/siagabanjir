@@ -2212,3 +2212,12 @@ UTC/READ COMMITTED/autocommit, rollback guard, penolakan DDL akun runtime test
 dan akses development dari akun test. Regresi GET_LOCK string dari mysql2
 ditemukan lalu diperbaiki dan diuji ulang. TC auth/kuota dan concurrency bisnis
 tetap NOT_RUN; satu tes fondasi tidak meluluskan seluruh transaksi produk.
+
+## 64. Schema autentikasi
+
+SRS-DATA-001–004 diturunkan ke migrasi 003–006. Tes MySQL 8.0.30 memverifikasi
+email ternormalisasi unik, default CITIZEN, pembatasan role/versi/hash, FK sesi,
+token unik dan batas tujuh hari, satu recovery verifier per akun serta bucket
+kegagalan unik. Fixture sintetis selalu rollback. PASS hanya untuk constraint;
+TC-AUTH signup/login/reset/logout, pencabutan epoch, throttle dan idempotensi
+masih NOT_RUN karena endpoint/service belum tersedia. Kontrak wire tidak berubah.

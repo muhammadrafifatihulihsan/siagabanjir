@@ -60,7 +60,8 @@ transaksi dengan guard dan runner migrasi. HTTP metadata belum memakai DB.
 Perintah `db:check`, `db:migrate` dan `test:db` tersedia setelah provisioning;
 ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
 Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
-belum tersedia. Migrasi awal hanya tabel guard; schema auth/bisnis menyusul.
+belum tersedia. Migrasi 001–006 menyediakan guard dan tabel akun, recovery,
+sesi serta bucket kegagalan. Endpoint auth dan jurnal commands menyusul.
 
 JSON dibatasi 512 KiB; query tidak dikenal ditolak, field tidak dibuang atau
 dikonversi diam-diam. Request ID UUID dibuat server. Error tidak mengembalikan
@@ -85,7 +86,7 @@ PASS (replay, rollback, sesi dan batas akses runtime). Linux/macOS, CI remote,
 Flutter terhubung, provider dan HP NOT_RUN.
 
 mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
-adalah schema auth dan integrasi HTTP. DB/akun sudah dibuat; konfigurasi privat
+adalah jurnal aksi, hashing dan integrasi HTTP auth. DB/akun sudah dibuat; konfigurasi privat
 lokal tersedia dan koneksi serta tes transaksi awal sudah diperiksa.
 Jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal

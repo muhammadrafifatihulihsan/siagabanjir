@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan schema akun, recovery verifier, sesi dan bucket kegagalan login
+  dengan tes constraint MySQL; endpoint autentikasi masih tahap berikutnya.
+
 - Perbaiki pembacaan hasil GET_LOCK mysql2 bertipe string; koneksi, migrasi awal
   dan tes integrasi MySQL nyata lulus setelah konfigurasi privat lokal tersedia.
 
