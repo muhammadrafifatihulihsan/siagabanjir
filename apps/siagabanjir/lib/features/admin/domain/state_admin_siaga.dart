@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../../features/kontak/presentation/models/entri_kontak.dart';
 import '../../../features/pantau/presentation/models/data_pantau_wilayah.dart';
 import '../../../features/pesan/presentation/models/pesan_siaga.dart';
+import '../data/admin_repository.dart';
 import 'klaster_wilayah.dart';
 import 'profil_admin.dart';
 
@@ -392,6 +393,13 @@ class StateAdminSiaga extends ChangeNotifier {
   void terbitkanPeringatanBaru(PesanSiaga pesan) {
     _pesanSiaga = [pesan, ..._pesanSiaga];
     notifyListeners();
+
+    // Hubungkan publikasi siaran pesan admin ke backend
+    AdminRepository().terbitkanPesanSiaga(
+      judul: pesan.title,
+      isi: pesan.body,
+      tingkat: pesan.category == KategoriPesan.emergency ? 'CRITICAL' : 'WARNING',
+    ).catchError((_) => <String, dynamic>{});
   }
 
   void cabutPeringatan(String idPesan) {

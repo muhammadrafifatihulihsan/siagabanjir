@@ -7,6 +7,16 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan penanganan preflight CORS (HTTP 204 OPTIONS) dan header CORS lengkap
+  pada server Fastify apps/server untuk mendukung komunikasi peramban Flutter Web
+  admin dan warga secara aman saat deployment production.
+
+- Integrasikan aplikasi Flutter (warga dan admin) dengan Backend Fastify
+  menggunakan Clean Architecture: tambahkan KlienApi dan konfigurasi dinamis di
+  core/jaringan, PengelolaSesi di core/sesi, serta repositori terpisah pada
+  autentikasi, pantau, laporan, akun, pesan, admin, dan meta dengan 7 unit test
+  integrasi (100% pass) dan 0 issues pada flutter analyze.
+
 - Tambahkan panduan eksekusi pengujian API interaktif Swagger UI dan endpoint
   pemeriksaan kesehatan sistem (health check) pada apps/server/README.md serta
   perbaiki kueri riwayat migrasi health check ke tabel schema_migrations.
