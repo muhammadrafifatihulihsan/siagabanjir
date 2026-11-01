@@ -118,6 +118,16 @@ Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
+Swagger UI pengujian API interaktif (`/docs`, `/documentation`, `/api/docs`), endpoint spesifikasi OpenAPI (`/api/v1/openapi.json`, `/openapi.json`), dan endpoint kesehatan sistem (`/health`, `/api/v1/health`) tersedia.
+Refaktorisasi Clean Code dan modularisasi submodul backend (messages, CMS, storage) diterapkan dengan panjang kode ~60-160 baris per file dan dokumentasi komentar fungsi lengkap.
+
+Pengujian dan audit keamanan membuktikan:
+
+- Dashboard Swagger UI interaktif menampilkan seluruh 72 endpoint terkelompok rapi dengan fitur "Authorize" bearer token dan "Try it out" untuk pengujian langsung dari peramban.
+- Endpoint kesehatan `/health` dan `/api/v1/health` memverifikasi status operasional server, uptime, versi Node.js, memori RSS/heap, latensi ping MySQL nyata (`SELECT 1`), dan jumlah riwayat migrasi yang diterapkan (HTTP 200 saat sehat, HTTP 503 jika basis data terputus).
+- Audit keamanan berpedoman pada `security-audit-skill`: 100% kueri database memakai prepared statement (bebas injeksi SQL), proteksi penelusuran path (path traversal) pada penyimpanan blob media, deteksi magic bytes untuk mencegah pemalsuan MIME type, dan perbandingan waktu-konstan (`timingSafeEqual`) pada seluruh secret & idempotency token.
+- Verifikasi lengkap: format, lint (0 error/warning), typecheck, 15 unit tests, build, dan suite database MySQL nyata (`database.integration.ts` mencakup 32 migrasi dan seluruh 72 endpoint) PASS.
+
 Pesan siaran admin dan kotak masuk inbox warga (8 endpoint) tersedia:
 POST /admin/messages, GET /admin/messages, GET /admin/messages/{id}, PATCH /admin/messages/{id},
 POST /admin/messages/{id}/revoke, POST /admin/messages/{id}/expire, GET /me/inbox, dan

@@ -4,6 +4,8 @@ import type { Writable } from 'node:stream';
 import type { ServerConfig } from './config.js';
 import { registerErrors } from './http/errors.js';
 import { registerMeta } from './http/meta.js';
+import { registerHealth } from './http/health.js';
+import { registerDocs } from './http/docs.js';
 import { registerSignup } from './http/signup.js';
 import { registerLogin } from './http/login.js';
 import { registerResetPassword } from './http/reset-password.js';
@@ -64,6 +66,8 @@ export function buildApp(
   });
   registerErrors(app);
   registerMeta(app);
+  registerHealth(app, auth);
+  registerDocs(app);
   if (auth) registerSignup(app, auth);
   if (auth) registerLogin(app, auth);
   if (auth) registerResetPassword(app, auth);

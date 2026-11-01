@@ -7,6 +7,18 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan Swagger UI dashboard pengujian API interaktif (/docs, /documentation,
+  /api/docs), endpoint OpenAPI JSON (/api/v1/openapi.json, /openapi.json), dan
+  endpoint kesehatan sistem (/health, /api/v1/health) yang memantau status server,
+  memori proses, konektivitas MySQL, dan status riwayat migrasi.
+
+- Lakukan refaktorisasi Clean Code dan modularisasi modul backend (messages, CMS,
+  dan storage) ke submodul berukuran ringkas (~60-160 baris) dengan dokumentasi
+  komentar fungsi yang jelas serta audit keamanan menyeluruh berpedoman pada
+  security-audit-skill (proteksi SQL injection 100% prepared statement, mitigasi
+  path traversal pada penyimpanan blob, verifikasi magic bytes berkas, dan
+  perbandingan waktu-konstan).
+
 - Tambahkan modul siaran pesan admin dan kotak masuk inbox warga meliputi
   POST /admin/messages, GET /admin/messages, GET /admin/messages/{id},
   PATCH /admin/messages/{id}, POST /admin/messages/{id}/revoke,
