@@ -10,5 +10,5 @@ void main() {
       'Inter',
     ], await rootBundle.loadString('assets/fonts/inter/OFL.txt'));
   });
-  runApp(const SiagaBanjirApp());
+  runApp(const SiagaBanjirApp(mulaiDariMasuk: true));
 }

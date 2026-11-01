@@ -1,0 +1,23 @@
+CREATE TABLE jobs (
+  id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL PRIMARY KEY,
+  kind VARCHAR(32) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  owner_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+  source_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+  source_version INT UNSIGNED NULL,
+  generation INT UNSIGNED NOT NULL DEFAULT 1,
+  state VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'QUEUED',
+  attempt INT UNSIGNED NOT NULL DEFAULT 0,
+  completed_units INT UNSIGNED NOT NULL DEFAULT 0,
+  total_units INT UNSIGNED NOT NULL DEFAULT 1,
+  available_at DATETIME(3) NULL,
+  lease_token CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+  lease_until DATETIME(3) NULL,
+  safe_error VARCHAR(80) NULL,
+  active_work_key VARCHAR(128) NULL,
+  created_at DATETIME(3) NOT NULL,
+  updated_at DATETIME(3) NOT NULL,
+  KEY jobs_owner (owner_id, kind),
+  CONSTRAINT jobs_owner_fk FOREIGN KEY (owner_id) REFERENCES accounts (id),
+  CONSTRAINT jobs_kind CHECK (kind IN ('REPORT_ANALYSIS', 'KTP_CHECK', 'FAMILY_EXTRACTION')),
+  CONSTRAINT jobs_state CHECK (state IN ('QUEUED', 'RUNNING', 'SUCCEEDED', 'FAILED', 'CANCELLED', 'EXPIRED'))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

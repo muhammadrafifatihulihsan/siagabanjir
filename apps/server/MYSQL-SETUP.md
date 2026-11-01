@@ -1,0 +1,256 @@
+# Persiapan MySQL Laragon lokal
+
+> **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
+
+Keluaran terminal yang dibagikan pemilik menunjukkan MySQL 8.0.30/InnoDB
+pada 3306, login root, serta pembuatan kedua database dan empat akun/grant
+berhasil. Setelah pemilik meminta penyimpanan credential lokal, agent mengisi
+file env privat dan memverifikasi koneksi, migrasi awal serta tes database nyata.
+Port 80 adalah web Laragon, sedangkan API TypeScript tetap memakai 3000.
+Tidak memerlukan perubahan konfigurasi global atau instalasi MySQL baru.
+API metadata saat ini tetap berjalan tanpa database.
+
+## 1. Periksa instance
+
+Buka Laragon 6 dan aktifkan MySQL. Pastikan pilihan versi adalah MySQL 8.0,
+bukan MariaDB. Binary 8.0.30 ditemukan sebelumnya pada mesin ini; versi binary
+tidak membuktikan versi layanan yang sedang berjalan. Gunakan terminal lokal
+PowerShell, dari root repository:
+
+```powershell
+$mysqlClient = 'C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysql.exe'
+& $mysqlClient --protocol=TCP --host=127.0.0.1 --port=3306 --user=root --password
+```
+
+Sesuaikan path/port dengan pilihan Laragon jika berbeda. `--password` meminta
+sandi secara interaktif; jangan menulis sandi pada argumen command atau chat.
+Jika root memang belum memiliki sandi pada instalasi lokal, tekan Enter pada
+prompt. Jangan mereset sandi atau mengubah plugin autentikasi untuk memaksa login.
+Root hanya dipakai untuk provisioning oleh pemilik, tidak oleh API/worker.
+
+Di prompt MySQL jalankan:
+
+```sql
+SELECT VERSION() AS version, @@port AS port, @@hostname AS server_host,
+       @@default_storage_engine AS storage_engine;
+SHOW DATABASES LIKE 'siagabanjirdev';
+SHOW DATABASES LIKE 'siagabanjirtest';
+SELECT User, Host FROM mysql.user
+WHERE User IN ('sb_dev_app', 'sb_dev_migrate', 'sb_test_app', 'sb_test_migrate');
+```
+
+Harus MySQL 8.0/8.4 dan InnoDB sesuai SRS-DEC-002. Jika nama database atau akun
+sudah ada, berhenti sebelum langkah 2 dan periksa kepemilikannya; jangan drop
+atau menimpa. Jika koneksi gagal, catat pesan error tanpa credential. Panduan ini
+mengasumsikan port 3306 hanya sebagai nilai awal yang harus diverifikasi.
+
+## 2. Buat database dan akun
+
+Nama database sengaja tanpa underscore untuk menghindari wildcard pada grant
+database MySQL. Akun hanya untuk host loopback `127.0.0.1`, bukan `%`.
+Empat sandi acak berbeda akan ditampilkan oleh MySQL: simpan langsung di
+password manager lokal, jangan screenshot, redirect output, atau kirim ke chat.
+Jalankan satu per satu; jika ada kegagalan, jangan mengulang seluruh blok.
+DDL akun/database tidak dibungkus transaksi rollback.
+
+```sql
+CREATE DATABASE siagabanjirdev
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE siagabanjirtest
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+
+CREATE USER 'sb_dev_app'@'127.0.0.1'
+  IDENTIFIED WITH caching_sha2_password BY RANDOM PASSWORD;
+CREATE USER 'sb_dev_migrate'@'127.0.0.1'
+  IDENTIFIED WITH caching_sha2_password BY RANDOM PASSWORD;
+CREATE USER 'sb_test_app'@'127.0.0.1'
+  IDENTIFIED WITH caching_sha2_password BY RANDOM PASSWORD;
+CREATE USER 'sb_test_migrate'@'127.0.0.1'
+  IDENTIFIED WITH caching_sha2_password BY RANDOM PASSWORD;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON siagabanjirdev.* TO 'sb_dev_app'@'127.0.0.1';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES
+  ON siagabanjirdev.* TO 'sb_dev_migrate'@'127.0.0.1';
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON siagabanjirtest.* TO 'sb_test_app'@'127.0.0.1';
+GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, ALTER, INDEX, REFERENCES
+  ON siagabanjirtest.* TO 'sb_test_migrate'@'127.0.0.1';
+```
+
+Runtime hanya DML pada satu database. Migrator mendapat tambahan DDL untuk
+migrasi awal; tidak mendapat DROP, FILE, SUPER, CREATE USER, GRANT OPTION atau
+hak global. Migrasi destruktif kelak perlu telaah khusus dan hak terbatas
+sesuai perubahan; jangan memberi ALL PRIVILEGES sebagai jalan pintas.
+Tidak perlu FLUSH PRIVILEGES setelah CREATE USER/GRANT.
+
+## 3. Verifikasi batas akun
+
+**Password akun baru ada pada kolom `generated password` hasil CREATE USER.**
+Setiap akun mendapat nilai berbeda, bukan sandi root dan bukan sandi kosong.
+Nilainya dibuat saat perintah dijalankan sehingga tidak dicantumkan di Markdown.
+Untuk sb_dev_app, gunakan nilai dari baris sb_dev_app tanpa spasi/batas tabel.
+
+Perhatikan prompt terminal:
+
+- `mysql>` menerima SQL, bukan perintah PowerShell.
+- `PS C:\...>` menerima perintah PowerShell seperti `& $mysqlClient ...`.
+- Jika terjebak pada prompt lanjutan `->`, ketik `\c` lalu Enter untuk
+  membatalkan masukan yang belum dijalankan.
+
+Di prompt `mysql>`, keluar terlebih dahulu:
+
+```sql
+exit
+```
+
+Setelah prompt berubah menjadi `PS C:\...>`, login runtime development:
+
+```powershell
+& $mysqlClient --protocol=TCP --host=127.0.0.1 --port=3306 --user=sb_dev_app --password --database=siagabanjirdev
+```
+
+Saat `Enter password:` muncul, tempel sandi sb_dev_app lalu Enter. Karakter
+sandi tidak ditampilkan; itu normal. Jangan langsung menekan Enter kosong.
+`using password: NO` berarti sandi tidak dikirim. Jika sudah `YES` tetapi
+ditolak, periksa akun dan sandi yang dipakai; jangan mengganti host/grant dahulu.
+
+Setelah login berhasil dan prompt kembali `mysql>`, jalankan:
+
+```sql
+SELECT CURRENT_USER(), DATABASE();
+SHOW GRANTS;
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET SESSION time_zone = '+00:00';
+SELECT @@session.transaction_isolation, @@session.time_zone;
+USE siagabanjirtest;
+```
+
+Identitas efektif harus `sb_dev_app@127.0.0.1`, database `siagabanjirdev`,
+isolasi READ-COMMITTED dan zona +00:00. `USE siagabanjirtest` **harus ditolak**
+dengan access denied. Jika berhasil, hak akses terlalu luas dan setup belum
+lulus. SHOW GRANTS boleh menyertakan USAGE global; USAGE tidak memberi hak data.
+Tidak boleh ada role/hak tambahan yang membuka database lain.
+
+Ulangi login dan pemeriksaan berikut untuk tiga akun lainnya:
+
+| Akun            | Database login  | Database yang harus ditolak oleh USE |
+| --------------- | --------------- | ------------------------------------ |
+| sb_dev_migrate  | siagabanjirdev  | siagabanjirtest                      |
+| sb_test_app     | siagabanjirtest | siagabanjirdev                       |
+| sb_test_migrate | siagabanjirtest | siagabanjirdev                       |
+
+Periksa SHOW GRANTS terhadap daftar hak langkah 2. Jangan menguji DROP/DELETE
+pada data pengguna. Tes DML, rollback dan constraint dilakukan kelak melalui
+migrasi/fixture sintetis di database test. SET SESSION di atas hanya berlaku
+untuk koneksi terminal; pool mysql2 wajib mengatur ulang sesi saat implementasi.
+
+## 4. Serah-terima tanpa rahasia
+
+Laporkan hanya versi MySQL, host/port, nama database, dan hasil login/grant/
+penolakan lintas database. Jangan kirim sandi atau keluaran CREATE USER.
+Simpan credential migrator terpisah dari credential runtime menggunakan
+konfigurasi berikut; jangan menaruh sandi pada `.env.example`, kode atau commit.
+
+### Jika sandi hilang atau sudah terkirim ke chat
+
+Jangan ulangi CREATE DATABASE/CREATE USER. Login kembali sebagai root dari
+PowerShell menggunakan perintah langkah 1. Di prompt `mysql>`, ganti sandi
+akun yang terdampak; bila keempatnya terungkap, jalankan keempat perintah ini:
+
+```sql
+ALTER USER 'sb_dev_app'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_dev_migrate'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_test_app'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+ALTER USER 'sb_test_migrate'@'127.0.0.1' IDENTIFIED BY RANDOM PASSWORD;
+```
+
+Simpan nilai `generated password` terbaru untuk tiap akun secara lokal; jangan
+kirim hasil tabelnya. Perintah ini mengganti sandi tanpa menghapus database atau
+grant. Keluar dengan `exit`, lalu ulangi login langkah 3 memakai sandi terbaru.
+Perbarui juga file konfigurasi privat jika sudah dibuat. Rotasi belum dianggap
+selesai sebelum dijalankan pemilik dan login ulang berhasil.
+
+<a id="konfigurasi-backend"></a>
+
+## 5. Konfigurasi privat dan migrasi
+
+Dari `apps/server`, salin `.env.example` menjadi `.env` dan isi DB_PASSWORD
+melalui editor lokal. `db:check` hanya menggunakan sb_dev_app. Untuk migrasi,
+buat `.env.migrate` sendiri berisi:
+
+```dotenv
+NODE_ENV=development
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=siagabanjirdev
+MIGRATION_DB_USER=sb_dev_migrate
+MIGRATION_DB_PASSWORD=
+```
+
+Isi sandi migrator lokal. Semua `.env`/`.env.*` privat diabaikan Git;
+`.env.example` tetap template publik tanpa sandi. Jangan masukkan credential
+migrator ke konfigurasi runtime. Jalankan:
+
+```powershell
+npx.cmd --yes pnpm@10.34.9 db:check
+npx.cmd --yes pnpm@10.34.9 db:migrate
+```
+
+Migrasi menggunakan file SQL berurutan pada `migrations/`, satu pernyataan
+per file, serta checksum SHA-256 dengan EOL dinormalisasi. GET_LOCK mencegah
+dua runner pada DB yang sama berjalan bersamaan. Riwayat berstatus applying
+ditulis sebelum SQL: karena DDL MySQL implicit commit, kegagalan tidak dijanjikan
+rollback seluruh migrasi. Jika terputus, runner berhenti pada eksekusi ulang.
+Periksa `schema_migrations` dan struktur aktual bersama maintainer; jangan
+menghapus marker, mengedit file lama atau mengulang SQL secara buta.
+Migrasi baru harus ditambahkan sebagai file berikutnya.
+
+Migrasi 001–007 menyediakan `business_write_guard` beserta row id=1,
+accounts, recovery_verifiers, sessions, auth_failures dan commands.
+Jurnal commands saat ini hanya state COMMITTED untuk respons rahasia auth.
+Tabel laporan/job belum dibuat. Entry HTTP kini membuka pool untuk signup;
+login dan endpoint auth lain belum tersedia.
+
+Untuk tes nyata buat `.env.test` lokal:
+
+```dotenv
+NODE_ENV=test
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=siagabanjirtest
+DB_USER=sb_test_app
+DB_PASSWORD=
+MIGRATION_DB_USER=sb_test_migrate
+MIGRATION_DB_PASSWORD=
+```
+
+Isi kedua sandi test lalu jalankan `npx.cmd --yes pnpm@10.34.9 test:db`.
+Runner menolak lingkungan selain test, akun selain nama/peran yang ditetapkan,
+dan target development. Tes menerapkan migrasi pada DB test, memeriksa replay,
+UTC/READ COMMITTED, rollback guard, larangan DDL runtime dan akses lintas DB.
+Tes juga memeriksa constraint schema auth menggunakan fixture sintetis yang
+di-rollback; tidak membuat akun warga/admin permanen.
+Tes jurnal menjalankan transaksi nyata untuk concurrency/replay dan membersihkan
+hanya fixture acak miliknya setelah selesai; tidak mereset tabel atau sequence.
+Tidak melakukan drop/reset database. Jalankan saat DB test tidak dipakai proses
+lain. Kegagalan credential menghasilkan FAIL, bukan skip/PASS palsu.
+
+Pool dibatasi empat koneksi dan antrean 16; setiap checkout menyiapkan UTC,
+READ COMMITTED dan lock wait lima detik. Koneksi yang gagal dibuang agar state
+transaksi tidak bocor ke peminjam berikut. Mutasi bisnis mengambil guard dahulu;
+callback transaksi tidak boleh melakukan hash/media/panggilan provider.
+
+Status terbaru: **provisioning oleh pemilik; db:check, dua migrasi development
+dan test:db oleh agent PASS**. Tes memverifikasi rollback, replay, konfigurasi
+sesi serta larangan DDL runtime dan akses dev dari akun test. Tidak mengklaim
+seluruh kontrol akses fitur bisnis sudah diuji. File env privat telah diisi
+sesuai permintaan pemilik; tidak perlu mengetik sandi setiap menjalankan pnpm.
+Database terpisah mencegah tes memakai data development, tetapi
+tidak menggantikan backup atau kontrol akses produksi. Tidak ada perubahan
+firewall, bind-address global atau akses LAN dalam langkah ini.
+
+Rujukan primer: [manajemen akun MySQL](https://dev.mysql.com/doc/refman/8.0/en/creating-accounts.html),
+[password acak](https://dev.mysql.com/doc/refman/8.0/en/password-management.html),
+dan [cakupan GRANT](https://dev.mysql.com/doc/refman/8.0/en/grant.html).
+Kembali ke [README server](README.md).

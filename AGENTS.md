@@ -7,6 +7,14 @@ Komunikasikan hasil dalam bahasa Indonesia secara konkret dan ringkas.
 
 ## Wajib membaca keseluruhan sebelum bekerja
 
+**Pengecualian mandat implementasi backend, 1 November 2026:** pemilik meminta
+membaca acuan terkait sambil mengoding per unit agar efisien. Untuk rangkaian
+tugas ini, baca instruksi dan kontrak terdampak sebelum perubahan terkait;
+bacaan lengkap yang belum selesai tidak diklaim selesai dan tidak menahan
+unit mandiri. [Mandat terbaru](docs/DECISIONS.md#backend-foundation-070)
+juga mengotorisasi inisialisasi server, dependensi lokal dan integrasi Flutter.
+Ketentuan umum di bawah tetap berlaku di luar pengecualian tersebut.
+
 Sebelum merencanakan solusi, mengedit atau mereview, AI **wajib membaca penuh
 seluruh dokumentasi dan instruksi aktif tanpa pengecualian karena ukuran tugas**.
 Ikuti [protokol baca lengkap](rules/workflow.md#baca-lengkap): README, handoff,

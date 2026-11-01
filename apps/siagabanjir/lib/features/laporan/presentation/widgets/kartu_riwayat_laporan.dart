@@ -20,10 +20,23 @@ class KartuRiwayatLaporan extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            const Icon(
-              Icons.description_outlined,
-              size: 24,
-              color: SiagaTheme.blue,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: SizedBox(
+                width: 48,
+                height: 48,
+                child: item.foto != null
+                    ? Image.memory(item.foto!, fit: BoxFit.cover)
+                    : Image.asset(
+                        'assets/images/reports/sample_banjir.jpg',
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => const Icon(
+                          Icons.description_outlined,
+                          size: 24,
+                          color: SiagaTheme.blue,
+                        ),
+                      ),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(

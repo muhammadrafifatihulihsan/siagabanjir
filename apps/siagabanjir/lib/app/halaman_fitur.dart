@@ -2,6 +2,7 @@ import '../features/kontak/domain/kontak_darurat.dart';
 
 import 'package:flutter/material.dart';
 
+import '../features/admin/domain/state_admin_siaga.dart';
 import '../features/keluarga/presentation/layar_keluarga.dart';
 
 import '../features/beranda/presentation/aksi_beranda.dart';
@@ -21,6 +22,8 @@ Widget halamanFitur(
   void laporan() => buka(AksiBeranda.report);
   void riwayat() => buka(AksiBeranda.history);
   void profil() => buka(AksiBeranda.profile);
+  final adminState = StateAdminSiaga.instance;
+
   return switch (aksi) {
     AksiBeranda.family => const LayarKeluarga(),
     AksiBeranda.documents => LayarDokumenSiaga(
@@ -46,6 +49,7 @@ Widget halamanFitur(
       onProfile: profil,
     ),
     AksiBeranda.notifications => LayarKotakMasuk(
+      messages: adminState.pesanSiaga,
       onReport: laporan,
       onHistory: riwayat,
       onProfile: profil,

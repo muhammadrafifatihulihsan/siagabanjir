@@ -6,17 +6,19 @@ Satu wadah kode tim, bernama `apps/`.
 
 | Folder | Tanggung jawab |
 |---|---|
-| server/ | Backend/API/worker yang diinisialisasi tim |
+| [server/](server/README.md) | Fondasi API TypeScript/pnpm; DB dan worker belum tersedia |
 | siagabanjir/ | Flutter warga Android dan admin Web yang diinisialisasi tim |
 
-`server/` masih berisi `.gitkeep`; `siagabanjir/` sudah memiliki scaffold Flutter
+`server/` menyediakan metadata HTTP, konfigurasi dan tes fondasi;
+`siagabanjir/` sudah memiliki scaffold Flutter
 dengan target Android dan Web dari setup tim. Sebelas fitur UI warga memakai
 nama folder Indonesia: akun, autentikasi, beranda, dokumen, kontak, laporan,
 panduan, pantau, pesan, tas_siaga dan keluarga. Folder kosong dan kode dokumen lama yang
 tidak digunakan sudah dihapus; layer dibuat sesuai kebutuhan implementasi.
 Layar memakai state lokal, kamera/galeri profil, TTS perangkat, dokumen berkategori
 dan ekspor ZIP. Kontak pribadi dan riwayat input berada dalam sesi demo.
-Integrasi bisnis, autentikasi server, brankas terenkripsi dan admin belum tersedia.
+Lima halaman admin Web tersedia sebagai pratinjau lokal dengan navigasi adaptif.
+Integrasi bisnis, autentikasi server dan brankas terenkripsi belum tersedia.
 Struktur, batas layer dan pembagian kerja ada pada
 [README Flutter](siagabanjir/README.md). Buka root repository agar panduan bersama terlihat.
 Perubahan sumber dan dokumentasi dikirim mengikuti
@@ -30,7 +32,8 @@ aplikasi sudah diuji di semua OS.
 ## Informasi setelah tim selesai setup
 
 Isi README aplikasi dari manifest dan hasil yang benar-benar diperiksa.
-Proyek Flutter berada di `siagabanjir/`; backend belum memiliki perintah build/run.
+Proyek Flutter berada di `siagabanjir/`; perintah build/run backend tersedia
+pada [README server](server/README.md).
 Pemeriksaan format XML Android mengikuti pengecualian terbatas pada
 [panduan CI](../docs/GITHUB-WORKFLOW.md#otomatisasi-cicd).
 

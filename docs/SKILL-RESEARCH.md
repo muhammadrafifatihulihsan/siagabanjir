@@ -134,3 +134,40 @@ Hasil validasi aktual terdapat pada [WORKSPACE](WORKSPACE.md#audit-final).
 Routing manual melalui AGENTS tersedia. Penempatan native Codex belum tersedia
 dalam lingkungan yang diperiksa; izin tidak diubah. Validasi struktur tidak
 membuktikan pemilihan skill oleh agent terpisah atau pemuatan setiap IDE.
+
+## Referensi audit admin - 1 November 2026
+
+Koleksi SKILLS lokal pemilik: `anti-ui-slop/SKILL.md` dan
+`design-critique-ai-reviewer/SKILL.md` dibaca sebagai referensi hierarki,
+pengurangan ornamen dan temuan berbukti. Instruksi Figma tidak dijalankan karena
+keluarannya perubahan Flutter. `better-interface-ui/SKILL.md` dibaca sebagian
+(bagian awal aksesibilitas/layout/penulisan/tipografi); bukan klaim audit penuh
+sumber itu atau adopsi resep CSS/animasi. Prosedur aktif tetap skill proyek.
+
+`skill-installer` dan `find-skills` dibaca sesuai permintaan; direktori
+[skills.sh](https://www.skills.sh/) diperiksa untuk discovery. Sumber lokal
+cukup untuk tugas ini: tidak memasang skill/global config, menyalin bundel,
+atau menyimpulkan kualitas dari angka instalasi. Tidak ada pengujian Figma
+atau evaluasi agent eksternal. [Bukti hasil](WORKSPACE.md#admin-ui-audit).
+
+### Penyelarasan menu admin dengan dashboard komando
+
+Pada mandat WS-DEC-069, find-skills kembali meninjau leaderboard
+[skills.sh](https://www.skills.sh/). Sumber
+[frontend-design dari Anthropic](https://raw.githubusercontent.com/anthropics/skills/main/skills/frontend-design/SKILL.md)
+dibaca penuh sebagai referensi: patuhi arah visual pemilik, gunakan hierarki
+secara sengaja, dan hindari teks/ornamen tanpa fungsi. Tidak mengadopsi saran
+hero/font baru karena tema dashboard telah dipilih pengguna. Tidak ada instalasi
+atau rekomendasi paket berdasarkan popularitas saja. Prosedur Flutter/UI proyek
+tetap menjadi acuan eksekusi. [Bukti hasil](WORKSPACE.md#admin-panels).
+
+### Fondasi backend
+
+Pada WS-DEC-070, skill-installer/find-skills telah dipakai untuk discovery
+katalog curated dan kandidat Flutter/Fastify. Belum ada skill eksternal
+dipasang atau dinyatakan lolos audit; fondasi memakai prosedur backend dan
+verification proyek. Bacaan bertahap mengikuti mandat terbaru pada AGENTS.
+Dokumentasi primer [Fastify server](https://fastify.dev/docs/latest/Reference/Server/)
+dan [validasi](https://fastify.dev/docs/latest/Reference/Validation-and-Serialization/)
+dicocokkan dengan tipe/source package terpasang. Versi dependency diperiksa
+melalui registry npm; pengujian aktual ada pada [README server](../apps/server/README.md).

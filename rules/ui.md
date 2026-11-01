@@ -21,6 +21,11 @@ Aturan ini berlaku saat merancang, mengimplementasikan atau mereview tampilan.
   pada antarmuka visual (misalnya "mode demo lokal", "sesi demo", "data uji",
   "belum terhubung ke server"). Tampilan UI harus selalu menyajikan visual dan
   salinan teks produk yang bersih, profesional, dan riil untuk pengujian pengguna.
+- Dashboard admin wajib menyajikan *situational awareness at a glance*: satukan
+  indikator volume (KPI), klaster wilayah prioritas dengan bukti foto riil, agregasi
+  kebutuhan logistik lapangan, dan status siaran peringatan aktif dari state aktual
+  tanpa data mock palsu. Susunan desktop memakai 2 kolom responsif (>= 960 px) yang
+  secara anggun turun menjadi 1 kolom vertikal pada mobile dan pembesaran teks 2.0x bebas overflow.
 - Setiap aksi punya tujuan, objek dan hasil yang sesuai labelnya. Periksa
   navigasi, batal/kembali, penyimpanan dan retry, bukan hanya tampilan sukses.
 - Wajib menilai layout sempit/lebar, pembesaran teks, keyboard/fokus,
