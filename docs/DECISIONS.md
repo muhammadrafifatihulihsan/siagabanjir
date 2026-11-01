@@ -1339,3 +1339,21 @@ Warna, bentuk kartu/kontrol dan bobot judul mengikuti
 breakpoint, konten atau aset warga. Tema kontrol khusus admin mempertahankan
 ukuran interaksi dan menghindari perubahan tampilan warga.
 [Bukti pemeriksaan](WORKSPACE.md#admin-theme). Tidak ada mandat push.
+
+<a id="admin-dashboard-ux-068"></a>
+
+## 58. Penyempurnaan UI/UX Dashboard Komando Admin - 1 November 2026
+
+**WS-DEC-068 - CURRENT_USER_CONFIRMED.** Pemilik menginstruksikan audit prinsip
+desain UI/UX admin serta penyempurnaan dashboard agar tampil representatif selayaknya
+pusat kendali operasional komando (*Command Center Pusdalops*), tetap mematuhi tema produk
+(`SiagaTheme`), memaksimalkan data yang tersedia di state, dan menerapkan pembelajaran (/learn).
+
+Dashboard ditingkatkan dengan tata letak komando terpadu:
+
+1. Strip status kesiagaan komando Kota Padang (`state.labelSiagaKota`) dan stempel operasional Pusdalops BPBD.
+2. 4 Kartu KPI Metrik (Menunggu Verifikasi, Total Laporan, Wilayah Aktif, Siaran Aktif) diperkuat ikon semantik dan keterangan kontekstual, tetap menggunakan palet pastel yang disetujui.
+3. Tata letak responsif 2 kolom pada desktop (lebar efektif >= 960 px):
+   - Kolom Kiri: Fokus Wilayah dengan Laporan Terbanyak (klaster aktif) dan tautan peninjauan semua wilayah.
+   - Kolom Kanan: Panel Agregasi Kebutuhan Darurat (Perahu Karet, Logistik Makanan, dll.), Distribusi Status Laporan visual (Menunggu vs Terverifikasi vs Selesai), Siaran Peringatan Mengudara yang sedang aktif, dan Pintasan Cepat Petugas.
+4. Adaptasi mobile (< 960 px) mengalir vertikal satu kolom dengan pembungkusan dinamis (`Wrap`), bebas overflow pada layar 390 px maupun pembesaran teks 2.0x.

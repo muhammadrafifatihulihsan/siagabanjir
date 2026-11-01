@@ -8,6 +8,21 @@ Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong
 
 ## Perubahan terakhir
 
+Penyempurnaan UI/UX Dashboard Komando Admin pada 1 November 2026 mengikuti
+[WS-DEC-068](DECISIONS.md#admin-dashboard-ux-068). `TabDashboardRingkasan` dirancang
+ulang menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`:
+strip status operasional BPBD Kota Padang, 4 kartu KPI metrik dengan ikon semantik dan keterangan kontekstual,
+serta tata letak 2 kolom di desktop (>= 960 px) yang memuat klaster wilayah prioritas di kolom kiri,
+dan panel agregasi kebutuhan darurat logistik, visualisasi bar distribusi status laporan,
+feed siaran peringatan aktif, serta pintasan operasional di kolom kanan.
+Semua elemen membungkus secara adaptif (`Wrap`) sehingga bebas overflow pada layar mobile 390 px
+maupun pembesaran teks 2.0x.
+Analyzer 0 issues, 114 tes Flutter PASS. [Bukti dan dampak dokumentasi](WORKSPACE.md#admin-dashboard-ux).
+Branch `branch-rafi`, commit lokal diwajibkan; tidak ada mandat push. Perangkat fisik,
+backend/provider, UAT dan screen reader NOT_RUN.
+
+### Penyelarasan tema admin sebelumnya
+
 Tema admin disamakan dengan Beranda warga pada 1 November 2026 sesuai
 [WS-DEC-067](DECISIONS.md#admin-theme-067). Layout, posisi, teks dan ikon tetap;
 kartu ringkasan pastel, kartu isi putih membulat, judul biru tua dan kontrol

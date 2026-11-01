@@ -1191,3 +1191,20 @@ DESIGN, DECISIONS, CHANGELOG dan handoff diperbarui. README, RTM, spesifikasi,
 kontrak, AGENTS/rules/skills/adapter tidak berubah karena tidak ada perubahan
 fitur, requirement, path kerja atau prosedur. Tidak ada dependensi/aset baru,
 perubahan halaman warga, push atau deploy.
+
+<a id="admin-dashboard-ux"></a>
+
+## Penyempurnaan UI/UX Dashboard Komando Admin - 1 November 2026
+
+Mandat [WS-DEC-068](DECISIONS.md#admin-dashboard-ux-068) menyempurnakan `TabDashboardRingkasan`
+menjadi pusat komando tanggap darurat yang fungsional dan estetis selaras `SiagaTheme`.
+
+- PASS: `flutter analyze --no-pub` 0 issues.
+- PASS: 114 tes Flutter lulus 100%, mencakup tes responsivitas admin pada 390x844,
+  768x900, 1280x800 dengan text scaler 1.0x dan 2.0x bebas overflow.
+- PASS: Validasi internal links Markdown (`validate_links.py`) dan YAML skill (`validate_skills.py`).
+- PASS: `markdownlint-cli2` 0 errors.
+- Proposal pembelajaran (/learn) dicatat pada artefak `learning_proposal.md`.
+- NOT_RUN: perangkat fisik, backend/provider, UAT dan screen reader.
+
+Dokumentasi DESIGN, DECISIONS, CHANGELOG, handoff dan WORKSPACE diperbarui.

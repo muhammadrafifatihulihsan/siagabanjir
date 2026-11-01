@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- **Penyempurnaan UI/UX Dashboard Komando Admin (Pusdalops BPBD):**
+  - Meningkatkan `TabDashboardRingkasan` menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`: strip status kesiagaan operasional Kota Padang, 4 kartu KPI metrik dengan ikon semantik dan keterangan kontekstual.
+  - Mengimplementasikan layout 2 kolom responsif (desktop >= 960 px): kolom kiri fokus klaster wilayah aktif berprioritas laporan terbanyak; kolom kanan menyajikan visualisasi distribusi status laporan (proporsional 3 warna), rekapitulasi kebutuhan darurat logistik dari seluruh klaster aktif, feed siaran peringatan aktif yang sedang mengudara, serta pintasan aksi cepat petugas.
+  - Mencegah overflow pada seluruh ukuran layar (390 px mobile hingga 1440 px desktop) dan pembesaran teks 2.0x.
+  - Seluruh 114 tes Flutter PASS dan `flutter analyze` 0 issues. [Bukti pemeriksaan](docs/WORKSPACE.md#admin-dashboard-ux).
+
 - Tema admin mengikuti Beranda warga: pastel pada ringkasan, judul biru tua,
   kartu putih membulat, navigasi dan kontrol biru muda. Layout, posisi dan isi
   teks tetap. [Bukti pemeriksaan](docs/WORKSPACE.md#admin-theme).

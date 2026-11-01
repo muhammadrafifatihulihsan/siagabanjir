@@ -347,10 +347,14 @@ Badge dipertahankan hanya untuk status tinjauan pada ringkasan wilayah.
   1100 px; di bawahnya memakai drawer dengan tombol Buka navigasi. Header hanya
   Portal Admin dan Mode Warga. Judul konteks berada sekali pada halaman.
   IndexedStack mempertahankan isian, filter dan posisi halaman selama sesi.
-- **Dashboard:** empat metrik dari state aktual; Menunggu Verifikasi hanya
-  menghitung status menunggu, Wilayah Aktif mengecualikan selesai. Ringkasan
-  maksimal tiga wilayah aktif diurutkan jumlah laporan. Tidak mengklaim urutan
-  volume sebagai prioritas risiko normatif FR-REVIEW-002.
+- **Dashboard:** empat metrik dari state aktual (Menunggu Verifikasi, Total
+  Laporan, Wilayah Aktif, Siaran Aktif) diperkuat ikon semantik dan keterangan
+  kontekstual ringkas. Dilengkapi strip status operasional Pusdalops BPBD Padang.
+  Tata letak 2 kolom di desktop (>= 960 px): kolom kiri memuat tiga klaster wilayah
+  aktif dengan laporan terbanyak dan aksi peninjauan bukti; kolom kanan memuat
+  distribusi status laporan (bar proporsional), agregasi kebutuhan darurat lapangan
+  (seperti perahu karet dan logistik), feed siaran peringatan yang sedang mengudara,
+  dan pintasan cepat operasional. Mengalir ke satu kolom di bawah 960 px tanpa overflow.
 - **Klaster Wilayah:** nama, kecamatan, jumlah laporan, status tinjauan,
   estimasi kedalaman dan kebutuhan. Lihat Bukti menjadi pintu peninjauan;
   verifikasi massal berada dalam dialog bukti, dengan cakupan jumlah laporan.
