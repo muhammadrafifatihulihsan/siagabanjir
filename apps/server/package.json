@@ -17,10 +17,14 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "node --import tsx --test test/*.test.ts",
+    "db:check": "node --env-file=.env --import tsx src/db/cli.ts check",
+    "db:migrate": "node --env-file=.env.migrate --import tsx src/db/cli.ts migrate",
+    "test:db": "node --env-file=.env.test --import tsx --test test/database.integration.ts",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
   },
   "dependencies": {
-    "fastify": "5.12.7"
+    "fastify": "5.12.7",
+    "mysql2": "3.24.6"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

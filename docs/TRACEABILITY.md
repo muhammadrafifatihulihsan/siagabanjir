@@ -2195,3 +2195,13 @@ minimatch 11.0.1. Hasil akhir serta pemeriksaan dokumentasi dicatat pada
 [handoff](SESSION-HANDOFF.md). Tidak menaikkan TC bisnis, provider, perangkat,
 MySQL atau CI remote menjadi PASS. UI/kontrak/spec bisnis tetap; keputusan
 lokasi dan persiapan production harus diturunkan bersama unit terkait.
+
+## 63. Fondasi MySQL - 1 November 2026
+
+SRS-DEC-002/004 dan SRS-DATA-005 diturunkan ke mysql2, konfigurasi lingkungan,
+pool UTC/READ COMMITTED, helper transaksi guard dan dua file migrasi awal.
+Tes lokal memeriksa penolakan target/akun tidak sesuai, kestabilan checksum EOL
+dan penolakan riwayat migrasi berubah/terputus. Runner integrasi MySQL mencakup
+replay migrasi, rollback serta batas hak runtime, tetapi **NOT_RUN** karena
+database/akun belum diprovision. Tidak menaikkan TC transaksi/kuota/auth menjadi
+PASS dari tes konfigurasi. [Petunjuk](../apps/server/MYSQL-SETUP.md).

@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan mysql2, konfigurasi DB sesuai lingkungan/peran, pool/transaksi
+  guard, migrasi SQL berurutan dengan checksum/status penerapan, dan runner
+  tes integrasi terpisah. Provisioning serta tes MySQL nyata masih tertunda.
+
 - Panduan provisioning MySQL Laragon: database dev/test, empat akun lokal,
   sandi acak dan verifikasi hak lintas database; eksekusi instance masih tertunda.
 

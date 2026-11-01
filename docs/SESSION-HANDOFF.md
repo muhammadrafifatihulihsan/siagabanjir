@@ -8,6 +8,18 @@ Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
 ## Perubahan terakhir
 
+Unit mysql2 tersedia: config menolak root/target silang, pool terbatas,
+sesi UTC/READ COMMITTED, transaksi guard, dua migrasi SQL awal dan runner
+berchecksum dengan marker applying serta GET_LOCK. Delapan tes lokal,
+format/lint/tipe/build PASS; tes database nyata NOT_RUN karena pemilik
+mengonfirmasi baru Laragon yang aktif, akun/database belum dibuat.
+Audit dependency PASS tanpa advisory yang diketahui. Pengujian ini belum
+membuktikan keamanan penuh, transaksi MySQL atau integrasi Flutter.
+Lihat [konfigurasi dan perintah](../apps/server/MYSQL-SETUP.md#konfigurasi-backend).
+HTTP belum memakai pool; auth dan schema bisnis belum diimplementasikan.
+Tidak mengubah wire API/spec bisnis atau Flutter/DESIGN/adapter karena unit
+ini menyediakan fondasi persistensi sesuai SRS-DEC-002/004.
+
 [Panduan MySQL Laragon](../apps/server/MYSQL-SETUP.md) tersedia sesuai jawaban
 pemilik: dua database dan empat akun runtime/migrasi, sandi acak di terminal
 lokal, serta verifikasi identitas/grant dan larangan akses lintas DB.

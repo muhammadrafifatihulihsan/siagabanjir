@@ -126,9 +126,72 @@ untuk koneksi terminal; pool mysql2 wajib mengatur ulang sesi saat implementasi.
 
 Laporkan hanya versi MySQL, host/port, nama database, dan hasil login/grant/
 penolakan lintas database. Jangan kirim sandi atau keluaran CREATE USER.
-Simpan credential migrator terpisah dari credential runtime; belum ada variabel
-DB yang dibaca server pada unit ini. Konfigurasi privat akan dipasang bersama
-unit mysql2; jangan menaruh sandi pada `.env.example`, kode atau commit.
+Simpan credential migrator terpisah dari credential runtime menggunakan
+konfigurasi berikut; jangan menaruh sandi pada `.env.example`, kode atau commit.
+
+<a id="konfigurasi-backend"></a>
+
+## 5. Konfigurasi privat dan migrasi
+
+Dari `apps/server`, salin `.env.example` menjadi `.env` dan isi DB_PASSWORD
+melalui editor lokal. `db:check` hanya menggunakan sb_dev_app. Untuk migrasi,
+buat `.env.migrate` sendiri berisi:
+
+```dotenv
+NODE_ENV=development
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=siagabanjirdev
+MIGRATION_DB_USER=sb_dev_migrate
+MIGRATION_DB_PASSWORD=
+```
+
+Isi sandi migrator lokal. Semua `.env`/`.env.*` privat diabaikan Git;
+`.env.example` tetap template publik tanpa sandi. Jangan masukkan credential
+migrator ke konfigurasi runtime. Jalankan:
+
+```powershell
+npx.cmd --yes pnpm@10.34.9 db:check
+npx.cmd --yes pnpm@10.34.9 db:migrate
+```
+
+Migrasi menggunakan file SQL berurutan pada `migrations/`, satu pernyataan
+per file, serta checksum SHA-256 dengan EOL dinormalisasi. GET_LOCK mencegah
+dua runner pada DB yang sama berjalan bersamaan. Riwayat berstatus applying
+ditulis sebelum SQL: karena DDL MySQL implicit commit, kegagalan tidak dijanjikan
+rollback seluruh migrasi. Jika terputus, runner berhenti pada eksekusi ulang.
+Periksa `schema_migrations` dan struktur aktual bersama maintainer; jangan
+menghapus marker, mengedit file lama atau mengulang SQL secara buta.
+Migrasi baru harus ditambahkan sebagai file berikutnya.
+
+Saat ini hanya `business_write_guard` dan satu row id=1 yang disiapkan sesuai
+SRS-DEC-004. Tabel akun, laporan dan job belum dibuat. HTTP belum membuka pool
+database; utilitas ini akan dihubungkan bersama implementasi auth.
+
+Untuk tes nyata buat `.env.test` lokal:
+
+```dotenv
+NODE_ENV=test
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_NAME=siagabanjirtest
+DB_USER=sb_test_app
+DB_PASSWORD=
+MIGRATION_DB_USER=sb_test_migrate
+MIGRATION_DB_PASSWORD=
+```
+
+Isi kedua sandi test lalu jalankan `npx.cmd --yes pnpm@10.34.9 test:db`.
+Runner menolak lingkungan selain test, akun selain nama/peran yang ditetapkan,
+dan target development. Tes menerapkan migrasi pada DB test, memeriksa replay,
+UTC/READ COMMITTED, rollback guard, larangan DDL runtime dan akses lintas DB.
+Tidak melakukan drop/reset database. Jalankan saat DB test tidak dipakai proses
+lain. Kegagalan credential menghasilkan FAIL, bukan skip/PASS palsu.
+
+Pool dibatasi empat koneksi dan antrean 16; setiap checkout menyiapkan UTC,
+READ COMMITTED dan lock wait lima detik. Koneksi yang gagal dibuang agar state
+transaksi tidak bocor ke peminjam berikut. Mutasi bisnis mengambil guard dahulu;
+callback transaksi tidak boleh melakukan hash/media/panggilan provider.
 
 Status saat panduan dibuat: **provisioning, koneksi, grant dan tes transaksi
 NOT_RUN**. Database terpisah mencegah tes memakai data development, tetapi

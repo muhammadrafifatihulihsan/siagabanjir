@@ -44,7 +44,8 @@ nilai production sengaja ditolak sampai kontrol tersebut tersedia.
 
 `src/app.ts` merakit HTTP tanpa membuka socket; `src/server.ts` menjalankan
 proses dan shutdown. `src/http` berisi metadata/error; `src/config.ts`
-memvalidasi environment. Tidak ada layer repository atau worker kosong.
+memvalidasi environment. `src/db` menyediakan konfigurasi mysql2, pool,
+transaksi dengan guard dan runner migrasi. HTTP metadata belum memakai DB.
 
 | Perintah pnpm           | Tujuan                                                                 |
 | ----------------------- | ---------------------------------------------------------------------- |
@@ -55,6 +56,11 @@ memvalidasi environment. Tidak ada layer repository atau worker kosong.
 | build                   | Emit JavaScript ke dist                                                |
 | check                   | Format, lint, tipe, tes lalu build                                     |
 | audit --audit-level low | Advisory dependensi runtime dan pengembangan                           |
+
+Perintah `db:check`, `db:migrate` dan `test:db` tersedia setelah provisioning;
+ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
+Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
+belum tersedia. Migrasi awal hanya tabel guard; schema auth/bisnis menyusul.
 
 JSON dibatasi 512 KiB; query tidak dikenal ditolak, field tidak dibuang atau
 dikonversi diam-diam. Request ID UUID dibuat server. Error tidak mengembalikan
@@ -70,15 +76,15 @@ Tidak memakai pengecualian audit untuk menyembunyikan advisory.
 
 ## Bukti dan pekerjaan berikutnya
 
-Pemeriksaan pada Windows, Node 24.15.0: lima tes HTTP/config PASS, mencakup
+Pemeriksaan pada Windows, Node 24.15.0: delapan tes HTTP/config/migrasi PASS, mencakup
 OpenAPI metadata/error, request ID, ukuran/format/query invalid, sanitasi log,
 serta socket nyata. Format/lint/typecheck/build PASS. Hasil audit dan validasi
 dokumentasi akhir dicatat pada [handoff](../../docs/SESSION-HANDOFF.md).
 Linux/macOS, CI remote, MySQL, Flutter terhubung, provider dan HP NOT_RUN.
 
-Unit berikut: koneksi mysql2 ke Laragon 6/MySQL 8.0.30 yang diverifikasi,
-akun runtime/migrasi terpisah, DB dev/test terpisah, migrasi SQL dan tes
-transaksi. Belum ada DB atau akun dibuat; jangan menjalankan API memakai root.
+mysql2 3.24.6 dan migrasi SQL berurutan sudah tersedia. Unit berikutnya
+memerlukan provisioning, verifikasi instance, serta tes transaksi MySQL nyata.
+Belum ada DB atau akun dibuat; jangan menjalankan API memakai root.
 Ikuti [panduan persiapan MySQL](MYSQL-SETUP.md) untuk provisioning lokal
 dan pemeriksaan hak akun tanpa membagikan sandi.
 Lalu auth, berkas privat, worker DeepSeek, laporan/kuota, admin dan fitur
