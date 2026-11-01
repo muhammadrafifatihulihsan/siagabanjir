@@ -1306,3 +1306,106 @@ Web 1.0) dan pitch 1.0, menolak pemutaran ulang teks yang sedang aktif dan
 melindungi status dari hasil jeda yang terlambat. Kecepatan fisik di HP belum
 diverifikasi. Instruksi tidak menguji HP tetap berlaku; tidak ada mandat push.
 [Checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
+
+<a id="admin-ui-audit-066"></a>
+
+## 56. Audit desain seluruh halaman admin - 1 November 2026
+
+**WS-DEC-066 - CURRENT_USER_CONFIRMED.** Pemilik meminta audit dan perapian
+seluruh desain admin: posisi layout, pengurangan badge/teks berlebih, ikon
+standar tanpa stiker/emoji, pemanfaatan sumber skill eksternal lokal, serta
+commit lokal setiap unit selesai. Pemilik secara eksplisit mengizinkan bacaan
+fokus pada aturan/skill, desain, dokumentasi aplikasi dan spesifikasi/kode admin.
+Ini bukan klaim membaca ulang seluruh baseline dan kontrak panjang.
+
+Lima halaman, shell, tabel serta dialog bukti diselaraskan dengan
+[DESIGN](DESIGN.md#antarmuka-web-admin). Verifikasi ditempatkan setelah membuka
+bukti; selesai tersedia setelah status ditinjau. Isian/filter dipertahankan
+lintas tab. Angka menunggu mengecualikan laporan selesai. Penataan ini tidak
+mengganti model backend atau mengesahkan auto-approve lokal sebagai implementasi
+review berversi normatif. Bukti dan gap integrasi ada pada
+[WORKSPACE](WORKSPACE.md#admin-ui-audit). Tidak ada mandat push atau uji HP.
+
+<a id="admin-theme-067"></a>
+
+## 57. Tema admin mengikuti Beranda warga - 1 November 2026
+
+**WS-DEC-067 - CURRENT_USER_CONFIRMED.** Pemilik menyetujui layout/posisi hasil
+WS-DEC-066 dan meminta hanya penyesuaian tema admin terhadap halaman utama warga
+setelah login, tanpa tambahan isi teks atau ikon berlebihan.
+
+Warna, bentuk kartu/kontrol dan bobot judul mengikuti
+[DESIGN](DESIGN.md#antarmuka-web-admin). Tidak mengubah alur, state, urutan,
+breakpoint, konten atau aset warga. Tema kontrol khusus admin mempertahankan
+ukuran interaksi dan menghindari perubahan tampilan warga.
+[Bukti pemeriksaan](WORKSPACE.md#admin-theme). Tidak ada mandat push.
+
+<a id="admin-dashboard-ux-068"></a>
+
+## 58. Penyempurnaan UI/UX Dashboard Komando Admin - 1 November 2026
+
+**WS-DEC-068 - CURRENT_USER_CONFIRMED.** Pemilik menginstruksikan audit prinsip
+desain UI/UX admin serta penyempurnaan dashboard agar tampil representatif selayaknya
+pusat kendali operasional komando (*Command Center Pusdalops*), tetap mematuhi tema produk
+(`SiagaTheme`), memaksimalkan data yang tersedia di state, dan menerapkan pembelajaran (/learn).
+
+Dashboard ditingkatkan dengan tata letak komando terpadu:
+
+1. Strip status kesiagaan komando Kota Padang (`state.labelSiagaKota`) dan stempel operasional Pusdalops BPBD.
+2. 4 Kartu KPI Metrik (Menunggu Verifikasi, Total Laporan, Wilayah Aktif, Siaran Aktif) diperkuat ikon semantik dan keterangan kontekstual, tetap menggunakan palet pastel yang disetujui.
+3. Tata letak responsif 2 kolom pada desktop (lebar efektif >= 960 px):
+   - Kolom Kiri: Fokus Wilayah dengan Laporan Terbanyak (klaster aktif) dan tautan peninjauan semua wilayah.
+   - Kolom Kanan: Panel Agregasi Kebutuhan Darurat (Perahu Karet, Logistik Makanan, dll.), Distribusi Status Laporan visual (Menunggu vs Terverifikasi vs Selesai), Siaran Peringatan Mengudara yang sedang aktif, dan Pintasan Cepat Petugas.
+4. Adaptasi mobile (< 960 px) mengalir vertikal satu kolom dengan pembungkusan dinamis (`Wrap`), bebas overflow pada layar 390 px maupun pembesaran teks 2.0x.
+
+<a id="admin-panels-069"></a>
+
+## 59. Tema menu admin mengikuti dashboard komando - 1 November 2026
+
+**WS-DEC-069 - CURRENT_USER_CONFIRMED.** Pemilik memilih dashboard terkini
+sebagai acuan visual untuk menu/tombol admin lainnya dan meminta perubahan
+hanya desain, tanpa tambahan teks. Strip status kota Siaga 2 (Waspada) di atas
+dashboard diminta dihapus. Ini menggantikan poin strip status WS-DEC-068;
+panel lain dan susunan dashboard tetap berlaku.
+
+Panel laporan, judul bagian, pilihan Pusat Aksi, profil dan kontrol bersama
+diselaraskan dengan [DESIGN](DESIGN.md#konsistensi-panel-dan-kontrol-admin).
+Tidak mengubah callback, data, validasi atau hak akses. Riset find-skills
+meninjau leaderboard skills.sh dan membaca frontend-design dari anthropics/skills;
+prinsip mengikuti brief dan mengurangi ornamen diterapkan tanpa instalasi.
+[Bukti](WORKSPACE.md#admin-panels). Commit lokal, tanpa mandat push.
+
+<a id="backend-foundation-070"></a>
+
+## 60. Implementasi backend bertahap - 1 November 2026
+
+**WS-DEC-070 - CURRENT_USER_CONFIRMED.** Pemilik meminta implementasi backend
+TypeScript/pnpm, MySQL Laragon 6, integrasi seluruh Flutter warga/admin,
+pengujian dan keamanan, lalu mengotorisasi rencana serta kelanjutannya.
+Mandat ini menggantikan batas setup panduan saja untuk pekerjaan tersebut.
+Pemilik kemudian secara eksplisit meminta membaca sambil mengoding untuk
+efisiensi; sumber terkait dibaca sebelum unit yang bergantung padanya.
+Tidak mengklaim bacaan penuh yang tertunda telah selesai.
+
+Konfirmasi terdahulu pada rangkaian ini: lokal dahulu, persiapan deployment
+tanpa hosting yang telah dipilih; pengguna awal tim/dosen, data sintetis dengan
+operasi nyata; DB dev/test dan akun aplikasi non-root terpisah; API key DeepSeek
+disediakan kemudian melalui konfigurasi privat. Pengujian HP dilakukan pemilik.
+Koreksi titik GPS 100 m adalah pilihan asisten dalam delegasi, belum diterapkan
+ke kontrak/kode; wajib diselaraskan bersama unit lokasi. Batas kompresi menjaga
+keterbacaan; biaya provider dicatat dan retry dibatasi tanpa cap nominal rekaan.
+
+Unit pertama memakai Node 24, Fastify 5, TypeScript 5.9.3 strict dan pnpm
+10.34.9 terkunci. Memisahkan factory HTTP dari entry proses, metadata sesuai
+kontrak, konfigurasi loopback lokal, penanganan error/log minimal, serta tes.
+Tidak membuat endpoint bisnis palsu atau worker kosong. MySQL/auth/upload/AI
+dan integrasi Flutter masih berikutnya; production ditolak pada fondasi ini.
+Commit lokal rinci per unit wajib; push/merge/deploy tidak diotorisasi.
+Perintah dan batas aktual ada pada [README server](../apps/server/README.md).
+
+Konfirmasi lanjutan: pemilik menyatakan database/akun belum disiapkan dan
+meminta panduan pemisahan. [Panduan MySQL](../apps/server/MYSQL-SETUP.md)
+menetapkan siagabanjirdev/siagabanjirtest dan akun runtime/migrasi per DB,
+host loopback serta sandi acak MySQL. Pilihan nama/hak adalah rancangan
+implementasi dalam mandat, bukan klaim akun telah dibuat. Provisioning dan
+verifikasi MySQL masih NOT_RUN; API belum membaca credential database.

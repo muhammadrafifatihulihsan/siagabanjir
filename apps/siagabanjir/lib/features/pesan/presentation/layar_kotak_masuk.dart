@@ -17,11 +17,13 @@ class LayarKotakMasuk extends StatefulWidget {
     required this.onReport,
     required this.onHistory,
     required this.onProfile,
+    this.messages,
   });
 
   final VoidCallback onReport;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
+  final List<PesanSiaga>? messages;
 
   @override
   State<LayarKotakMasuk> createState() => _LayarKotakMasukState();
@@ -30,18 +32,20 @@ class LayarKotakMasuk extends StatefulWidget {
 class _LayarKotakMasukState extends State<LayarKotakMasuk> {
   KategoriPesan _selectedCategory = KategoriPesan.all;
 
+  List<PesanSiaga> get _allMessages => widget.messages ?? kSampleSiagaMessages;
+
   // Filter daftar pesan berdasarkan kategori tab terpilih.
   List<PesanSiaga> get _filteredMessages {
     if (_selectedCategory == KategoriPesan.all) {
-      return kSampleSiagaMessages;
+      return _allMessages;
     }
-    return kSampleSiagaMessages
+    return _allMessages
         .where((msg) => msg.category == _selectedCategory)
         .toList();
   }
 
   // Hitung pesan dengan status baru untuk indikator header.
-  int get _unreadCount => kSampleSiagaMessages.where((msg) => msg.isNew).length;
+  int get _unreadCount => _allMessages.where((msg) => msg.isNew).length;
 
   void _onNavigationSelect(CitizenDestination destination) {
     switch (destination) {

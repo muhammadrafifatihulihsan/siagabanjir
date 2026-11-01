@@ -4,20 +4,365 @@
 
 Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
-Flutter Android/Web di apps/siagabanjir; apps/server masih berisi penanda kosong.
+Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
+
+## Checklist progres endpoint backend
+
+Satu item untuk satu endpoint, lengkap dengan metode HTTP dan path. Daftar
+mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
+atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
+berada pada commit dan bukti pengujian, bukan checklist.
+
+Status saat ini: seluruh 72 endpoint OpenAPI Fastify diimplementasikan dan diuji (100% selesai).
+Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
+Baseline sebelum unit sesi: `682554a`, branch `branch-rafi`, belum push.
+SHA commit penutup unit dilaporkan pada hasil sesi.
+
+- [x] `GET /api/v1/meta`: Membaca metadata layanan.
+- [x] `GET /api/v1/public/monitor`: Membaca ringkasan Pantau publik.
+- [x] `GET /api/v1/public/content/manifest`: Membaca manifest konten publik.
+- [x] `GET /api/v1/public/content/{revision}/{kind}`: Membaca bagian konten pada revisi tertentu.
+- [x] `POST /api/v1/auth/signup`: Mendaftarkan akun warga.
+- [x] `POST /api/v1/auth/login`: Membuat sesi login.
+- [x] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
+- [x] `POST /api/v1/auth/revoke`: Mencabut sesi setelah logout offline.
+- [x] `POST /api/v1/auth/logout`: Mengakhiri sesi aktif.
+- [x] `GET /api/v1/me`: Membaca profil akun sendiri.
+- [x] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
+- [x] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
+- [x] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
+- [x] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
+- [x] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
+- [x] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
+- [x] `PUT /api/v1/me/submissions/{submissionId}`: Mengirim laporan warga.
+- [x] `GET /api/v1/me/submissions/{submissionId}`: Memeriksa status pengiriman laporan.
+- [x] `POST /api/v1/me/submissions/{submissionId}/close`: Menutup maksud pengiriman laporan.
+- [x] `GET /api/v1/me/reports`: Membaca riwayat laporan sendiri.
+- [x] `GET /api/v1/me/reports/{reportId}`: Membaca detail laporan sendiri.
+- [x] `GET /api/v1/reports/{reportId}/notes`: Membaca catatan tindak lanjut laporan.
+- [x] `GET /api/v1/media/{mediaId}`: Mengunduh media yang diizinkan.
+- [x] `GET /api/v1/jobs/{jobId}`: Memeriksa status pekerjaan asinkron.
+- [x] `POST /api/v1/reports/{reportId}/analysis-retries`: Mengulangi analisis laporan.
+- [x] `GET /api/v1/admin/reports`: Membaca daftar laporan untuk admin.
+- [x] `GET /api/v1/admin/reports/{reportId}`: Membaca detail laporan untuk admin.
+- [x] `PATCH /api/v1/admin/reports/{reportId}/assessment`: Mengoreksi penilaian laporan.
+- [x] `PUT /api/v1/admin/reports/{reportId}/review`: Mencatat tinjauan versi laporan.
+- [x] `POST /api/v1/admin/reports/{reportId}/moves`: Memindahkan laporan ke kelompok kejadian.
+- [x] `POST /api/v1/admin/reports/{reportId}/notes`: Menambahkan catatan tindak lanjut.
+- [x] `POST /api/v1/admin/reports/{reportId}/deletions`: Menghapus laporan dan menjadwalkan pembersihan.
+- [x] `GET /api/v1/admin/groups`: Membaca daftar kelompok kejadian.
+- [x] `GET /api/v1/admin/groups/{groupId}`: Membaca detail kelompok kejadian.
+- [x] `GET /api/v1/admin/groups/{groupId}/reports`: Membaca laporan dalam kelompok kejadian.
+- [x] `POST /api/v1/admin/groups/{groupId}/complete`: Menandai kelompok kejadian selesai.
+- [x] `GET /api/v1/admin/reporting-settings`: Membaca pengaturan pelaporan.
+- [x] `PATCH /api/v1/admin/reporting-settings`: Memperbarui pengaturan pelaporan.
+- [x] `GET /api/v1/admin/quotas`: Membaca pemakaian kuota akun.
+- [x] `POST /api/v1/admin/quota-resets`: Mereset pemakaian kuota laporan.
+- [x] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
+- [x] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
+- [x] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
+- [x] `GET /api/v1/me/documents`: Membaca daftar dokumen sendiri.
+- [x] `POST /api/v1/me/documents`: Menyimpan dokumen privat.
+- [x] `GET /api/v1/me/documents/{documentId}`: Membaca metadata dokumen sendiri.
+- [x] `POST /api/v1/me/documents/{documentId}/deletions`: Menghapus dokumen dan menjadwalkan pembersihan.
+- [x] `GET /api/v1/me/cleanup`: Membaca status pembersihan dokumen sendiri.
+- [x] `POST /api/v1/me/cleanup/{cleanupId}/retry`: Mengulangi pembersihan dokumen sendiri.
+- [x] `GET /api/v1/me/ktp`: Membaca status kelayakan KTP.
+- [x] `POST /api/v1/me/ktp-checks`: Meminta pemeriksaan KTP.
+- [x] `POST /api/v1/me/ktp-confirmations`: Mengonfirmasi KTP yang memenuhi syarat.
+- [x] `POST /api/v1/me/ktp-checks/{jobId}/retry`: Mengulangi pemeriksaan KTP.
+- [x] `GET /api/v1/me/family`: Membaca profil keluarga sendiri.
+- [x] `PATCH /api/v1/me/family`: Memperbarui anggota keluarga.
+- [x] `POST /api/v1/me/family-extractions`: Meminta saran profil keluarga dari dokumen.
+- [x] `POST /api/v1/me/family-extractions/{jobId}/retry`: Mengulangi ekstraksi profil keluarga.
+- [x] `POST /api/v1/me/family-extractions/{jobId}/apply`: Menerapkan saran keluarga yang dipilih.
+- [x] `GET /api/v1/admin/content/{kind}`: Membaca daftar konten untuk admin.
+- [x] `POST /api/v1/admin/content/{kind}`: Membuat draf konten.
+- [x] `PUT /api/v1/admin/content/{kind}/{contentId}`: Memperbarui draf konten.
+- [x] `DELETE /api/v1/admin/content/{kind}/{contentId}`: Menghapus draf konten.
+- [x] `POST /api/v1/admin/content/{kind}/{contentId}/publish`: Menerbitkan konten umum.
+- [x] `POST /api/v1/admin/content/{kind}/{contentId}/withdraw`: Menarik konten umum.
+- [x] `POST /api/v1/admin/messages`: Menerbitkan pesan admin.
+- [x] `GET /api/v1/admin/messages`: Membaca daftar pesan untuk admin.
+- [x] `GET /api/v1/admin/messages/{messageId}`: Membaca detail pesan untuk admin.
+- [x] `PATCH /api/v1/admin/messages/{messageId}`: Memperbarui pesan admin.
+- [x] `POST /api/v1/admin/messages/{messageId}/revoke`: Mencabut pesan admin.
+- [x] `POST /api/v1/admin/messages/{messageId}/expire`: Mengakhiri masa berlaku pesan admin.
+- [x] `GET /api/v1/me/inbox`: Membaca inbox akun sendiri.
+- [x] `PUT /api/v1/me/inbox/{messageId}/read`: Mencatat versi pesan yang telah dibaca.
+
+Batas bukti login: akun warga dan login admin (ADMIN_WEB) berhasil diuji;
+seed dua admin demo mandiri masih tertunda.
+Setiap endpoint baru dicentang setelah implementasi dan tes terkait lulus.
+Perubahan kontrak wajib diselaraskan ke daftar ini tanpa mengubah status
+pengujian berdasarkan keberadaan definisi OpenAPI saja.
+
+### Integrasi dan penerimaan
+
+- [ ] Integrasi fitur warga Flutter dengan backend.
+- [ ] Integrasi fitur admin Flutter dengan backend.
+- [ ] Audit keamanan menyeluruh dan uji beban.
+- [ ] UAT dan persiapan deployment.
+
+### Langkah berikutnya
+
+Seluruh 72 endpoint OpenAPI Fastify selesai diimplementasikan dan diuji. Langkah berikutnya:
+
+1. Integrasi aplikasi Flutter warga (Android) dengan endpoint backend server Fastify.
+2. Integrasi aplikasi Flutter admin (Web) dengan endpoint backend server Fastify.
+3. Pengujian end-to-end / demonstrasi aplikasi dan persiapan deployment.
+
+Commit tetap terisolasi per unit perubahan dengan pengujian nyata.
+Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
+Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
-Perbaikan bug TTS Panduan Selamat, upload APK release v0.2.0 (`siagabanjir-v0.2.0-debug.apk`), dan implementasi 100% GitHub Community Standards pada 27 Oktober 2026.
-Kecepatan TTS dipilih 0.5 (setengah kecepatan, lebih lambat dan jelas untuk
-panduan darurat) setelah uji pengguna di HP. `awaitSpeakCompletion(true)` mencegah
-narasi bertumpuk. Release GitHub `v0.2.0` berstatus Latest Release dengan aset APK
-berhasil terpasang. Ditambahkan berkas standar komunitas berstandar industri:
-`CODE_OF_CONDUCT.md` (Contributor Covenant v2.1), `CONTRIBUTING.md`, dan `SECURITY.md`.
-Dokumentasi diselaraskan pada `INDEX.md`, `WORKSPACE.md`, dan `VERSIONING.md`.
-Commit terbaru pada branch `branch-rafi`; 101 tes Flutter PASS.
+Dokumentasi Swagger UI & Health Check: Panduan lengkap pengujian interaktif via Swagger UI (`http://127.0.0.1:3000/docs`) dan pemeriksaan kesehatan sistem (`http://127.0.0.1:3000/health`) ditambahkan ke `apps/server/README.md`. Domain logic health check diselaraskan untuk mengkueri tabel `schema_migrations` secara akurat sehingga mengembalikan status `UP` dengan 32 riwayat migrasi terverifikasi di MySQL.
 
-### Riwayat audit UI/UX lanjutan
+Penyelarasan format EditorConfig: 114 temuan error `editorconfig-checker` (`wrong amount of left-padding spaces (want multiple of 2)` dan `trailing whitespace`) pada 23 berkas sumber `apps/server/src` dan `apps/server/test` telah diperbaiki hingga `npx editorconfig-checker` dan Prettier `format:check` menghasilkan 0 error / PASS.
+
+Swagger UI pengujian API interaktif (`/docs`, `/documentation`, `/api/docs`), endpoint spesifikasi OpenAPI (`/api/v1/openapi.json`, `/openapi.json`), dan endpoint kesehatan sistem (`/health`, `/api/v1/health`) tersedia.
+Refaktorisasi Clean Code dan modularisasi submodul backend (messages, CMS, storage) diterapkan dengan panjang kode ~60-160 baris per file dan dokumentasi komentar fungsi lengkap.
+
+Pengujian dan audit keamanan membuktikan:
+
+- Dashboard Swagger UI interaktif menampilkan seluruh 72 endpoint terkelompok rapi dengan fitur "Authorize" bearer token dan "Try it out" untuk pengujian langsung dari peramban.
+- Endpoint kesehatan `/health` dan `/api/v1/health` memverifikasi status operasional server, uptime, versi Node.js, memori RSS/heap, latensi ping MySQL nyata (`SELECT 1`), dan jumlah riwayat migrasi yang diterapkan (HTTP 200 saat sehat, HTTP 503 jika basis data terputus).
+- Audit keamanan berpedoman pada `security-audit-skill`: 100% kueri database memakai prepared statement (bebas injeksi SQL), proteksi penelusuran path (path traversal) pada penyimpanan blob media, deteksi magic bytes untuk mencegah pemalsuan MIME type, dan perbandingan waktu-konstan (`timingSafeEqual`) pada seluruh secret & idempotency token.
+- Verifikasi lengkap: format, lint (0 error/warning), typecheck, 15 unit tests, build, dan suite database MySQL nyata (`database.integration.ts` mencakup 32 migrasi dan seluruh 72 endpoint) PASS.
+
+Pesan siaran admin dan kotak masuk inbox warga (8 endpoint) tersedia:
+POST /admin/messages, GET /admin/messages, GET /admin/messages/{id}, PATCH /admin/messages/{id},
+POST /admin/messages/{id}/revoke, POST /admin/messages/{id}/expire, GET /me/inbox, dan
+PUT /me/inbox/{id}/read.
+
+Tes HTTP/MySQL membuktikan:
+
+- Menerbitkan pesan siaran oleh admin (`POST /admin/messages`) dengan `Idempotency-Key`, status 201 dan header ETag; replay mengembalikan pesan yang sama, konflik payload ditolak 409, dan warga ditolak 403.
+- Daftar pesan admin (`GET /admin/messages`) mendukung filter pencarian teks `q` dan pagination cursor.
+- Detail pesan admin (`GET /admin/messages/{id}`) mengembalikan objek pesan lengkap dengan header ETag `"1"`.
+- Warga membaca inbox (`GET /me/inbox`) hanya menerima pesan `ACTIVE` yang belum kedaluwarsa (`endsAt` kosong atau di masa depan); status `read: false` tercatat sebelum dibaca.
+- Warga menandai pesan dibaca (`PUT /me/inbox/{id}/read`) dengan versi konten spesifik (`contentVersion`); status inbox segera berubah menjadi `read: true`.
+- Pembaruan pesan admin (`PATCH /admin/messages/{id}`) mewajibkan `If-Match`:
+  - Perubahan batas waktu (`endsAt`) saja hanya menaikkan `version` objek, sehingga status baca warga tetap `read: true`.
+  - Perubahan teks pesan (`body`/`title`) menaikkan `content_version` dan `version`, memicu unread ulang (`read: false`) bagi akun warga yang hanya membaca versi lama (SRS FR-INBOX-002).
+- Pengakhiran masa berlaku (`POST /admin/messages/{id}/expire`) mengubah status menjadi `EXPIRED` dan menghapus pesan dari inbox aktif warga.
+- Pencabutan pesan (`POST /admin/messages/{id}/revoke`) mengubah status menjadi `REVOKED` dan menghapus pesan dari inbox aktif warga.
+- Verifikasi lengkap: format, lint, typecheck, 13 unit tests, build, dan suite database MySQL nyata (`database.integration.ts` mencakup 32 migrasi dan seluruh alur endpoint) PASS.
+
+PATCH /me, POST /me/credentials, POST /me/recovery-code dan POST /auth/reset-password tersedia.
+Tes HTTP/MySQL membuktikan:
+
+- PATCH /me: validasi If-Match (428 jika hilang, 400 jika malformed), 409 VERSION_CONFLICT dengan currentVersion jika usang, update display_name atomik menaikkan version, replay aman 200, dan konflik payload ditolak 409 IDEMPOTENCY_CONFLICT.
+- POST /me/credentials: If-Match wajib, sandi lama salah 401, versi usang 409, mutasi email/sandi atomik menaikkan credential_epoch & version serta mencabut seluruh sesi, replay menghasilkan ALREADY_COMMITTED, login sandi lama ditolak, dan login sandi baru berhasil.
+- POST /me/recovery-code: verifikasi sandi, rotasi verifier generasi baru, dan replay 409 RESULT_ALREADY_COMMITTED.
+- POST /auth/reset-password: perlindungan throttle kegagalan, verifikasi kode pemulihan, rotasi verifier kode baru, pencabutan sesi lama, replay 409 RESULT_ALREADY_COMMITTED, kode lama tidak dapat dipakai ulang, dan login sandi baru berhasil.
+
+Verifikasi: format:check, lint, typecheck, 12 unit tests, build, dan suite database MySQL nyata (database.integration.ts) PASS.
+
+GET /me, POST /auth/logout dan POST /auth/revoke tersedia. Tes HTTP/MySQL
+memeriksa profil pemilik, token hilang, expiry, credential epoch, logout,
+revoke secret yang salah dan replay revoke. Revoke secret tidak memberi akses
+baca; logout mencabut sesi pada transaksi yang sama dengan jurnal. Logout ulang
+dengan token yang sudah dicabut ditolak 401; rekonsiliasi memakai revoke secret.
+PATCH /me dan integrasi Flutter masih tertunda.
+
+Kelanjutan unit sesi menambah uji revoke sesi aktif, dua request bersamaan
+(dengan satu actionId), UUID berbeda kapital, secret milik sesi lain, konflik
+kunci dan autentikasi ulang sebelum replay. UUID sesi dinormalisasi sebelum
+lookup/fingerprint. Bukti ini mencakup backend FR-AUTH-003/004/008; TC end-to-end
+dan TC-SRS-013 tetap NOT_RUN karena isolasi klien Flutter belum terintegrasi.
+Kontrak/spec, DESIGN, AGENTS/rules/adapter serta RTM tidak berubah: tidak ada
+perubahan requirement atau klaim penerimaan aplikasi menyeluruh.
+Verifikasi kelanjutan: `pnpm check` PASS (format, lint, tipe, 12 tes lokal,
+build); `pnpm test:db` PASS (satu suite MySQL nyata, termasuk kasus sesi).
+Markdownlint tiga dokumen, tautan internal 47 Markdown dan diff whitespace
+PASS. Flutter, HP, provider, audit keamanan menyeluruh dan UAT NOT_RUN.
+
+Login HTTP/MySQL tersedia. Akun tidak ditemukan tetap menjalankan scrypt;
+lima kegagalan per pasangan principal/source dalam 15 menit memblokir 15 menit.
+Bucket menyimpan digest, sumber dari request.ip tanpa mempercayai proxy header.
+Sesi menyimpan digest token/revoke dan epoch; transaksi memeriksa ulang epoch
+serta role sebelum replay/commit. Tes nyata mencakup akun tidak ada, sandi salah,
+warga ditolak dari ADMIN_WEB, login berhasil, replay dan blokir setelah lima gagal.
+Middleware sesi, logout/revoke, reset dan pembersihan bucket menyeluruh belum ada.
+
+POST /api/v1/auth/signup terhubung ke MySQL melalui entry server. Startup kini
+memerlukan konfigurasi DB/key privat; shutdown menutup pool. Signup menormalisasi
+email/nama, menolak role tambahan, memaksakan CITIZEN, membuat akun/recovery dan
+jurnal dalam satu transaksi. Hash di luar lock. Tes integrasi PASS untuk sukses,
+hash/recovery verifier, replay tanpa rahasia, konflik payload/email dan role ADMIN
+yang ditolak. Login, throttle, middleware sesi dan recovery reset belum tersedia.
+
+Generator token/revoke 32 byte base64url dan recovery 20 byte/32 karakter base32
+tersedia. Token memakai SHA-256, recovery HMAC key terpisah; pembandingan verifier
+constant-time. Key recovery/journal/cursor dihasilkan lokal berbeda pada .env
+dan .env.test tanpa menampilkan nilainya atau memasukkannya ke Git.
+Dua belas tes lokal serta format/lint/typecheck/build PASS. Key belum dibaca
+entry HTTP; middleware expiry, recovery sekali pakai dan endpoint belum tersedia.
+
+Helper password tersedia sesuai parameter SRS §5.1: scrypt N=131072/r=8/p=1,
+salt 16 byte, hash 64 byte, maxmem 256 MiB. Sandi tidak dinormalisasi/trim;
+verifikasi memakai timingSafeEqual dan kapasitas penuh menghasilkan error khusus.
+Sepuluh tes lokal, format/lint/typecheck/build PASS. Tes baru membuktikan salt
+unik, sandi tepat/salah dan penolakan derivasi ketiga; endpoint 503, dummy
+verifier serta integrasi akun belum diimplementasikan. Kontrak/Flutter tetap.
+
+Migrasi 007 menambah commands dengan scope principal berupa digest, kunci UUID
+unik per scope, fingerprint HMAC dan action_seq BIGINT. Helper runSecretCommand
+mengecek authorize sebelum replay di bawah guard, menjalankan mutasi dan jurnal
+dalam transaksi sama, dan tidak menyimpan respons rahasia. State awal hanya
+COMMITTED; ACCEPTED/CLOSED/REJECTED_CLOSED laporan perlu migrasi/alur tersendiri.
+Tes MySQL PASS: dua request bersamaan hanya satu efek, replay termasuk case UUID,
+konflik operasi/payload, scope berbeda, authorize gagal sebelum replay serta
+rollback mutasi gagal tanpa jurnal baru. Tes JSON kanonik/HMAC mencakup Unicode,
+urutan key/array, domain scope dan angka nonfinite. Migrasi development PASS.
+Kunci HMAC permanen serta endpoint belum dihubungkan; tes memakai kunci sintetis.
+Langkah berikut: hash sandi scrypt, token/recovery dan konfigurasi kunci privat.
+
+Migrasi 003–006 menambah accounts, recovery_verifiers, sessions dan auth_failures
+sesuai SRS-DATA-001 sampai 004. Tes MySQL nyata PASS untuk default CITIZEN,
+email unik/normalisasi binary, role/versi/parameter hash, token unik, umur sesi
+maksimum tujuh hari, FK pemilik, satu verifier per akun dan bucket principal/source
+unik. Fixture memakai data sintetis dalam transaksi yang selalu rollback.
+Migrasi development menerapkan empat file; replay pada test tetap tanpa perubahan.
+Ini belum menguji hashing, expiry middleware, pencabutan, throttle atau endpoint.
+Jurnal commands sengaja menjadi unit berikut agar state/idempotensi diturunkan
+bersama alur layanan, tanpa menyatakan seluruh langkah auth sudah selesai.
+
+Pemilik meminta memakai sandi saat ini dan menyimpannya pada konfigurasi lokal.
+`.env`, `.env.migrate` dan `.env.test` telah diisi; semuanya ignored oleh Git,
+tanpa menyalin rahasia ke dokumentasi. Credential lokal sudah pernah dibagikan
+di percakapan; jangan menganggapnya credential produksi atau rotasi baru.
+Agent menjalankan db:check PASS, dua migrasi development PASS, serta test:db
+PASS pada MySQL 8.0.30. Tes nyata mencakup replay migrasi, UTC/READ COMMITTED,
+autocommit, rollback guard, larangan DDL runtime dan akses dev dari akun test.
+Eksekusi awal menemukan GET_LOCK mengembalikan string '1' dengan opsi mysql2
+bigNumberStrings; pembandingan diperbaiki tanpa melemahkan hasil lock gagal.
+Ekspektasi tipe autocommit pada tes diselaraskan dengan hasil driver.
+Riwayat sebelum konfigurasi lokal dan pengujian berikut tetap disimpan di bawah.
+
+Keluaran terminal pemilik membuktikan MySQL 8.0.30/InnoDB pada 3306,
+login root dan CREATE DATABASE/USER serta GRANT berhasil. Login sb_dev_app
+gagal dengan using password: NO; sebelumnya perintah PowerShell dimasukkan
+ke prompt MySQL sehingga terjadi error 1064. Panduan diperjelas mengenai
+generated password, input tersembunyi, perpindahan prompt dan rotasi sandi.
+Credential yang dibagikan tidak disalin ke repo. Rotasi serta login ulang
+belum terverifikasi; tes integrasi agent tetap NOT_RUN. Catatan di bawah
+merepresentasikan kondisi sebelum provisioning oleh pemilik.
+
+Unit mysql2 tersedia: config menolak root/target silang, pool terbatas,
+sesi UTC/READ COMMITTED, transaksi guard, dua migrasi SQL awal dan runner
+berchecksum dengan marker applying serta GET_LOCK. Delapan tes lokal,
+format/lint/tipe/build PASS; tes database nyata NOT_RUN karena pemilik
+mengonfirmasi baru Laragon yang aktif, akun/database belum dibuat.
+Audit dependency PASS tanpa advisory yang diketahui. Pengujian ini belum
+membuktikan keamanan penuh, transaksi MySQL atau integrasi Flutter.
+Lihat [konfigurasi dan perintah](../apps/server/MYSQL-SETUP.md#konfigurasi-backend).
+HTTP belum memakai pool; auth dan schema bisnis belum diimplementasikan.
+Tidak mengubah wire API/spec bisnis atau Flutter/DESIGN/adapter karena unit
+ini menyediakan fondasi persistensi sesuai SRS-DEC-002/004.
+
+[Panduan MySQL Laragon](../apps/server/MYSQL-SETUP.md) tersedia sesuai jawaban
+pemilik: dua database dan empat akun runtime/migrasi, sandi acak di terminal
+lokal, serta verifikasi identitas/grant dan larangan akses lintas DB.
+Belum dijalankan pada instance; tidak membuat akun atau menyimpan credential.
+Pemilik kemudian mengonfirmasi Laragon aktif pada port 3306/80. Probe TCP
+127.0.0.1:3306 PASS; autentikasi, versi instance dan grant belum diuji.
+Port 80 milik web Laragon; API TypeScript tetap 3000.
+Markdownlint enam dokumen, tautan 47 Markdown, format README/panduan server
+dan diff whitespace PASS untuk unit panduan ini.
+Kontrak API, spesifikasi bisnis, DESIGN, Flutter dan adapter tidak berubah
+karena unit ini hanya menyiapkan prosedur provisioning lokal.
+
+Fondasi server sesuai [WS-DEC-070](DECISIONS.md#backend-foundation-070):
+Node 24/TypeScript strict/Fastify 5/pnpm 10.34.9, metadata OpenAPI, konfigurasi,
+error/log minimal dan tes. [README server](../apps/server/README.md) memuat
+perintah serta batas. Format/lint/tipe/build dan lima tes PASS pada Windows.
+Audit dependency PASS tanpa advisory yang diketahui setelah override minimatch;
+Install frozen-lockfile PASS. Markdownlint 16 dokumen, tautan 46 Markdown, YAML delapan skill dan diff
+whitespace PASS. Audit dependency bukan audit keamanan aplikasi penuh.
+
+Mandat terbaru mengizinkan membaca acuan terkait sambil implementasi; tidak
+melanjutkan bacaan seluruh riwayat sebagai penghalang coding. FRD/SRS,
+WORKSPACE, handoff, DECISIONS dan delapan skill telah dibaca penuh dalam
+rangkaian ini; TRACEABILITY baru sampai baris 690 dan bagian akhir relevan,
+OpenAPI baru operasi/schema terkait. Jangan mengklaim seluruh sumber selesai.
+
+Berikutnya: mysql2, akun runtime/migrasi dan DB dev/test terpisah, migrasi SQL
+serta tes MySQL nyata. Pemilik mengonfirmasi DB/akun belum disiapkan dan meminta
+panduan akun serta database terpisah. Lalu auth dan
+integrasi Flutter, berkas privat, worker/AI, laporan/kuota/admin dan pendukung.
+API key belum tersedia, HP diuji pemilik. Production, MySQL, provider,
+Flutter terhubung dan UAT NOT_RUN. Tidak ada mandat push/deploy.
+
+### Tema menu admin sebelumnya
+
+Tema menu admin mengikuti dashboard komando sesuai
+[WS-DEC-069](DECISIONS.md#admin-panels-069): panel laporan putih, tombol outline,
+pilihan Pusat Aksi pastel, judul bagian biru tua dan field dengan fokus biru.
+Strip status kota statis beserta stempel instansi di dashboard dihapus.
+Tidak menambah teks atau mengubah alur. Analyzer 0 issues, 114 tes PASS,
+build Web PASS, pemeriksaan Chrome pada 1440/768/390 px tanpa pageerror.
+[Bukti dan batas](WORKSPACE.md#admin-panels). Branch `branch-rafi`, commit lokal;
+push tidak diminta. HP, backend/provider, UAT dan screen reader NOT_RUN.
+
+### Dashboard komando sebelumnya
+
+Penyempurnaan UI/UX Dashboard Komando Admin pada 1 November 2026 mengikuti
+[WS-DEC-068](DECISIONS.md#admin-dashboard-ux-068). `TabDashboardRingkasan` dirancang
+ulang menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`:
+strip status operasional BPBD Kota Padang, 4 kartu KPI metrik dengan ikon semantik dan keterangan kontekstual,
+serta tata letak 2 kolom di desktop (>= 960 px) yang memuat klaster wilayah prioritas di kolom kiri,
+dan panel agregasi kebutuhan darurat logistik, visualisasi bar distribusi status laporan,
+feed siaran peringatan aktif, serta pintasan operasional di kolom kanan.
+Semua elemen membungkus secara adaptif (`Wrap`) sehingga bebas overflow pada layar mobile 390 px
+maupun pembesaran teks 2.0x.
+Analyzer 0 issues, 114 tes Flutter PASS. [Bukti dan dampak dokumentasi](WORKSPACE.md#admin-dashboard-ux).
+Branch `branch-rafi`, commit lokal diwajibkan; tidak ada mandat push. Perangkat fisik,
+backend/provider, UAT dan screen reader NOT_RUN.
+
+### Penyelarasan tema admin sebelumnya
+
+Tema admin disamakan dengan Beranda warga pada 1 November 2026 sesuai
+[WS-DEC-067](DECISIONS.md#admin-theme-067). Layout, posisi, teks dan ikon tetap;
+kartu ringkasan pastel, kartu isi putih membulat, judul biru tua dan kontrol
+biru muda. Tema khusus admin menjaga tampilan warga tetap sama.
+Analyzer 0 issues, 114 tes PASS, build Web PASS; Chrome tanpa pageerror pada
+1440/768/390 px. [Bukti dan dampak dokumentasi](WORKSPACE.md#admin-theme).
+Branch `branch-rafi`, commit lokal; tidak ada mandat push. Perangkat fisik,
+backend/provider, UAT dan screen reader NOT_RUN.
+
+### Audit layout admin sebelumnya
+
+Audit desain admin 1 November 2026 mengikuti
+[WS-DEC-066](DECISIONS.md#admin-ui-audit-066). Lima halaman, navigasi, tabel,
+form, modal bukti dan foto dirapikan: sidebar/drawer adaptif, tanpa hero/ranking
+atau badge AI dekoratif, label ringkas, verifikasi melalui bukti dan draf lintas
+tab. Alasan hapus wajib menampilkan error field; metrik menunggu tidak memasukkan
+laporan selesai. [Temuan, bukti dan batas](WORKSPACE.md#admin-ui-audit).
+
+Analyzer 0 issues, 114 tes Flutter PASS, build Web PASS. Chrome memeriksa lima
+halaman pada 1440/768/390 px dan dialog bukti; widget mencakup teks 200%.
+Backend/provider/HP/UAT/screen reader NOT_RUN. Reset kuota, sandi, singleton
+sesi dan review tanpa versi masih gap implementasi awal, bukan layanan produksi.
+Branch `branch-rafi`; commit lokal diwajibkan, push tidak diminta. Dokumentasi
+terdampak diperbarui; kontrak/spec dan aturan/skill/adapter tidak berubah.
+Bacaan fokus admin diizinkan pengguna, bukan klaim seluruh kontrak dibaca ulang.
+
+### Riwayat implementasi admin sebelumnya
+
+Implementasi & Penyempurnaan Dashboard Web Admin SiagaBanjir (`features/admin`) pada 1 November 2026:
+
+- **Aset Sample Foto Banjir Riil untuk Data Dummy Admin & Warga**: Mengintegrasikan foto dokumentasi banjir riil (`assets/images/reports/sample_banjir.jpg`, `report_1.jpeg`, `report_2.jpeg`) sebagai data dummy visual di antarmuka Admin (`PreviewMediaLaporan`, galeri bukti klaster wilayah, pratinjau resolusi tinggi) dan Warga (`BagianBuktiLaporan` panduan visual, `KartuRiwayatLaporan`, dan dialog detail riwayat).
+- **Pembersihan Cakupan & Lingkup**: Menghapus seluruh elemen kontrol sensor sungai Batang Kuranji dan infrastruktur pompa air dari Dashboard Admin Web sesuai instruksi pengguna, memfokuskan dashboard pada agregasi laporan warga, klaster wilayah, siaran peringatan, dan operasional darurat.
+- **Auto-Approve Laporan Individu Berbasis Klaster Wilayah**: Ketika admin memverifikasi suatu klaster wilayah, seluruh laporan individu warga di dalam klaster tersebut otomatis terverifikasi serentak (`diverifikasiOtomatisWilayah: true`). Di tab Laporan Warga, status ditandai secara eksplisit dengan badge `Terverifikasi` dan keterangan `Auto Wilayah` tanpa memerlukan persetujuan ganda perorangan.
+- **Komponen Pratinjau Media Interaktif (`PreviewMediaLaporan`)**: Widget preview foto bukti laporan warga yang terintegrasi di baris tabel Laporan Warga, modal bukti wilayah, serta dialog detail; mendukung thumbnail adaptif dan dialog modal foto beresolusi tinggi dengan indikator AI.
+- **Standarisasi Tipografi & Label Ringkas Standar Praktik**: Seluruh teks menggunakan token `fontFamily: 'Inter'` lokal. Label tombol dan menu sidebar disingkat lugas sesuai standar industri (`Dashboard`, `Klaster Wilayah`, `Laporan Warga`, `Pusat Aksi`, `Profil`, `Keluar`, `Lihat Bukti`, `Verifikasi Wilayah`, `Kirim Siaran`, `Mode Warga`).
+- **Verifikasi**: `flutter analyze --no-pub` PASS (0 issues), 106 tes Flutter PASS (0 failures, termasuk `dashboard_admin_test.dart`). Script validasi link internal dan struktur skill YAML PASS 100%. Branch lokal `branch-rafi`.
+
+### Riwayat perbaikan bug TTS dan standar komunitas
 
 Audit lanjutan mengikuti [WS-DEC-065](DECISIONS.md#flutter-uiux-lanjutan-065).
 [Checklist lengkap](WORKSPACE.md#flutter-uiux-lanjutan) mencatat foto profil

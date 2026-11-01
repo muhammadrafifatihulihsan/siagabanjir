@@ -1,3 +1,6 @@
+import '../features/admin/domain/state_admin_siaga.dart';
+import '../features/admin/presentation/kerangka_admin_web.dart';
+import '../features/autentikasi/domain/peran_pengguna.dart';
 import '../features/laporan/domain/entri_riwayat_laporan.dart';
 import '../features/dokumen/presentation/layar_dokumen_siaga.dart';
 import '../features/kontak/domain/kontak_darurat.dart';
@@ -111,7 +114,15 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
         child: LayarBeranda(onOpen: _buka, scrollController: _scroll[0]),
       ),
       CitizenDestination.report => LayarBuatLaporan(
-        onSimpan: (item) => _riwayat.value = [item, ..._riwayat.value],
+        onSimpan: (item) {
+          _riwayat.value = [item, ..._riwayat.value];
+          StateAdminSiaga.instance.tambahLaporanWarga(
+            kategori: item.kategori,
+            deskripsi: item.deskripsi,
+            kebutuhan: item.kebutuhan,
+            foto: item.foto,
+          );
+        },
         fotoDipulihkan: _fotoDipulihkan,
         scrollController: _scroll[1],
         onNotifications: () => _buka(AksiBeranda.notifications),
@@ -162,6 +173,27 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute<void>(
         builder: (ctx) => LayarMasuk(
+          onLoginWithRole: (user, role) {
+            if (role == PeranPengguna.admin) {
+              Navigator.of(ctx).pushAndRemoveUntil(
+                MaterialPageRoute<void>(
+                  builder: (_) => KerangkaAdminWeb(
+                    onLogout: _keluar,
+                    onSwitchToCitizenMode: () => Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                      MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+                      (_) => false,
+                    ),
+                  ),
+                ),
+                (_) => false,
+              );
+            } else {
+              Navigator.of(ctx).pushAndRemoveUntil(
+                MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+                (_) => false,
+              );
+            }
+          },
           onLoginSuccess: (_) => Navigator.of(ctx).pushAndRemoveUntil(
             MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
             (_) => false,

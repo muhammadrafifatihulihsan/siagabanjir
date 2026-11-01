@@ -325,3 +325,72 @@ Riwayat menampilkan kategori, dua baris deskripsi dan waktu; detail di dialog.
 Rute, rekomendasi posko dan titik evakuasi profil dihapus atas mandat pemilik.
 Panduan memakai keterangan rate normal, putar/jeda/lanjut/stop; teks tetap tersedia.
 Lihat [checklist dan bukti](WORKSPACE.md#flutter-uiux-lanjutan).
+
+## Antarmuka Web Admin
+
+Revisi 1 November 2026 mengikuti [WS-DEC-066](DECISIONS.md#admin-ui-audit-066).
+Penyelarasan tema berikutnya mengikuti
+[WS-DEC-067](DECISIONS.md#admin-theme-067): Beranda warga setelah login menjadi
+acuan visual. Lima halaman memakai Inter, judul 22/800 biru tua `#1E3A8A`,
+bagian 16/700, isi 14, metadata 12 dan jarak 8/16/24/32.
+Kartu putih bertepi `#E2E8F0` memakai radius 22; tombol radius 14 dan isian 12.
+Empat metrik memakai pastel akses cepat Beranda: merah muda `#FFEEEE`,
+biru `#D6F0FF`, ungu `#EDE9FE`, hijau `#DCF0E2`, dengan aksen gelap senada.
+Navigasi aktif, header tabel dan tombol tonal memakai biru muda `#E1EDFF`.
+Tema kontrol dibatasi pada admin; warna status/destruktif tetap semantik.
+Susunan, posisi, ukuran layout, isi teks dan ikon yang disetujui dipertahankan.
+Ikon navigasi memakai Material outlined; tindakan tetap dalam set Material. Tidak ada emoji, stiker,
+kilau AI, ranking dekoratif, hero sambutan atau penanda status kota statis.
+Badge dipertahankan hanya untuk status tinjauan pada ringkasan wilayah.
+
+- **Kerangka:** sidebar 240 px saat lebar efektif (lebar / skala teks) minimal
+  1100 px; di bawahnya memakai drawer dengan tombol Buka navigasi. Header hanya
+  Portal Admin dan Mode Warga. Judul konteks berada sekali pada halaman.
+  IndexedStack mempertahankan isian, filter dan posisi halaman selama sesi.
+- **Dashboard:** empat metrik dari state aktual (Menunggu Verifikasi, Total
+  Laporan, Wilayah Aktif, Siaran Aktif) diperkuat ikon semantik dan keterangan
+  kontekstual ringkas. Strip status kota statis dihapus sesuai WS-DEC-069.
+  Tata letak 2 kolom di desktop (>= 960 px): kolom kiri memuat tiga klaster wilayah
+  aktif dengan laporan terbanyak dan aksi peninjauan bukti; kolom kanan memuat
+  distribusi status laporan (bar proporsional), agregasi kebutuhan darurat lapangan
+  (seperti perahu karet dan logistik), feed siaran peringatan yang sedang mengudara,
+  dan pintasan cepat operasional. Mengalir ke satu kolom di bawah 960 px tanpa overflow.
+- **Klaster Wilayah:** nama, kecamatan, jumlah laporan, status tinjauan,
+  estimasi kedalaman dan kebutuhan. Lihat Bukti menjadi pintu peninjauan;
+  verifikasi massal berada dalam dialog bukti, dengan cakupan jumlah laporan.
+  Sesudah ditinjau tersedia Tandai Selesai; laporan selesai tidak ditawarkan
+  untuk diverifikasi ulang melalui kontrol ini.
+- **Laporan Warga:** pencarian ID/pelapor/wilayah/deskripsi, filter status,
+  jumlah hasil berupa teks dan DataTable dengan gulir horizontal. Lihat Detail
+  memuat isi lengkap, asal verifikasi wilayah dan hapus dengan alasan wajib.
+  Empty state menyediakan pemulihan pencarian/filter. Aksi hapus berada di
+  detail agar tidak sejajar dengan tombol pembacaan setiap baris.
+- **Pusat Aksi:** tiga pilihan Siaran Peringatan, Kontak Posko, Kebijakan Kuota
+  dapat membungkus. Form maksimal 960 px, label menetap, kategori berupa pilihan
+  Material; istilah FRD dan banner teknis dihapus dari antarmuka.
+- **Profil:** form maksimal 880 px, pasangan input berubah menjadi satu kolom
+  ketika lebar efektif kurang dari 640 px. Ikon berulang pada tiap field dihapus.
+- **Dialog/media:** bukti, metadata dan catatan berurutan, tanpa kartu/pill
+  berlapis. Foto terbuka penuh dengan contain dan pembesaran interaktif; gagal
+  memuat memakai indikator netral, bukan ilustrasi banjir atau badge BUKTI AI.
+
+Batas lebar halaman umum 1200 px; padding 24 atau 16 pada ruang di bawah 600 px.
+Teks mengikuti pengaturan pengguna. DataTable mempertahankan kolom yang dapat
+dibaca melalui gulir, bukan mengecilkan semua teks untuk memuat tabel desktop.
+
+Ini pratinjau lokal dengan fixture dan state yang sudah ada, bukan penerimaan
+kontrak backend. Keterbatasan autentikasi, reset kuota, sandi, AI, serta lifecycle
+laporan dicatat pada [bukti audit](WORKSPACE.md#admin-ui-audit).
+
+### Konsistensi panel dan kontrol admin
+
+[WS-DEC-069](DECISIONS.md#admin-panels-069) memakai dashboard komando sebagai
+acuan untuk menu lainnya. Judul bagian biru tua, panel putih radius 22 dengan
+padding 20, serta tombol outline biru radius 14 berlaku pada laporan dan
+peninjauan wilayah. Laporan menempatkan pencarian, filter dan tabel dalam satu
+panel, dengan isi/kolom dan gulir horizontal yang sama. Pilihan Pusat Aksi
+memakai aksen pastel biru/hijau/ungu serta satu ikon semantik per pilihan.
+Profil mengikuti judul biru tua dan avatar biru muda. Field memakai tepi netral
+dan fokus biru yang jelas. Tidak menambah teks, metrik atau status baru.
+Strip Status: Siaga 2 (Waspada) beserta stempel instansi di dashboard dihapus;
+panel data dan tata letak dua kolom dashboard tetap.

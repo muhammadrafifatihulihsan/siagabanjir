@@ -3,11 +3,11 @@
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../../rules/documentation.md#living-documents).
 
 Satu package Flutter untuk target Android warga dan Web admin. Kode saat ini
-berisi **pratinjau UI warga dengan data lokal**, belum integrasi backend,
-autentikasi nyata, GPS, brankas dokumen terenkripsi, atau layanan admin.
-Adapter kamera/TTS perangkat dan pemilihan/ekspor berkas lokal sudah tersedia;
-pengujian HP belum dijalankan sesuai instruksi pemilik.
-Build Web dipakai untuk pemeriksaan UI warga, bukan implementasi admin.
+berisi **pratinjau UI warga dan lima halaman admin dengan state lokal**.
+Backend, autentikasi nyata, GPS dan brankas terenkripsi belum terintegrasi.
+Adapter kamera/TTS dan pemilihan/ekspor berkas tersedia; pengujian HP oleh agen
+belum dijalankan sesuai instruksi pemilik. Build Web mendukung audit UI admin
+maupun pratinjau warga.
 
 Penataan 27 Oktober 2026 mempertahankan **Feature-First + Layered Architecture**
 dengan nama fitur Indonesia. Folder dibuat ketika ada implementasi; tidak ada
@@ -25,6 +25,7 @@ lib/
     theme/                     # tema dan token tampilan bersama
     widgets/                   # header, navigasi warga, ikon lokal
   features/
+    admin/                     # portal web dashboard komando BPBD/Relawan
     akun/
     autentikasi/
     beranda/
@@ -54,6 +55,7 @@ anggota menemukan kode setelah pull; semua layar berada di `presentation`.
 | Nama lama | Folder sekarang | File layar |
 |---|---|---|
 | account | akun | layar_profil.dart |
+| admin | admin | kerangka_admin_web.dart |
 | auth | autentikasi | layar_masuk.dart, layar_daftar.dart |
 | home | beranda | layar_beranda.dart |
 | documents | dokumen | layar_dokumen_siaga.dart |
@@ -122,6 +124,20 @@ pengguna; bukan penyimpanan terenkripsi. Pesan hasil mengikuti efek sebenarnya.
 dan branding. Direktori aset `assets/icons/home` dan `assets/images/reports`
 tetap agar kunci aset dan script desain konsisten. Lisensi Inter ada di
 `assets/fonts/inter/OFL.txt` dan terdaftar pada aplikasi.
+
+## Halaman admin
+
+Rute `/admin` membuka Dashboard, Klaster Wilayah, Laporan Warga, Pusat Aksi dan
+Profil. Sidebar menjadi drawer pada ruang sempit/teks besar. Draf dan filter
+bertahan lintas tab selama shell aktif. Verifikasi wilayah melalui Lihat Bukti;
+foto dapat diperbesar, detail laporan memuat alasan hapus wajib. Tabel lebar
+memakai gulir horizontal. Form dan badge mengikuti [DESIGN](../../docs/DESIGN.md#antarmuka-web-admin).
+
+StateAdminSiaga masih singleton dalam memori: bukan sesi server atau isolasi
+akun produksi. Pengelompokan/AI, reset kuota (notify saja), ganti sandi (umpan
+balik tanpa penyimpanan), audit/versioning dan penghapusan server belum tersedia.
+Fixture foto banjir default tetap aset contoh; bukan bukti tiap laporan nyata.
+[Bukti audit](../../docs/WORKSPACE.md#admin-ui-audit) memisahkan UI dari TC produk.
 
 ## Halaman buat laporan
 

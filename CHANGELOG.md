@@ -7,6 +7,160 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan panduan eksekusi pengujian API interaktif Swagger UI dan endpoint
+  pemeriksaan kesehatan sistem (health check) pada apps/server/README.md serta
+  perbaiki kueri riwayat migrasi health check ke tabel schema_migrations.
+
+- Perbaiki indentasi kelipatan 2 spasi dan bersihkan trailing whitespace pada
+  berkas TypeScript apps/server/src dan apps/server/test agar mematuhi aturan
+  .editorconfig dan lulus uji editorconfig-checker (114 error terselesaikan).
+
+- Tambahkan Swagger UI dashboard pengujian API interaktif (/docs, /documentation,
+  /api/docs), endpoint OpenAPI JSON (/api/v1/openapi.json, /openapi.json), dan
+  endpoint kesehatan sistem (/health, /api/v1/health) yang memantau status server,
+  memori proses, konektivitas MySQL, dan status riwayat migrasi.
+
+- Lakukan refaktorisasi Clean Code dan modularisasi modul backend (messages, CMS,
+  dan storage) ke submodul berukuran ringkas (~60-160 baris) dengan dokumentasi
+  komentar fungsi yang jelas serta audit keamanan menyeluruh berpedoman pada
+  security-audit-skill (proteksi SQL injection 100% prepared statement, mitigasi
+  path traversal pada penyimpanan blob, verifikasi magic bytes berkas, dan
+  perbandingan waktu-konstan).
+
+- Tambahkan modul siaran pesan admin dan kotak masuk inbox warga meliputi
+  POST /admin/messages, GET /admin/messages, GET /admin/messages/{id},
+  PATCH /admin/messages/{id}, POST /admin/messages/{id}/revoke,
+  POST /admin/messages/{id}/expire, GET /me/inbox dan PUT /me/inbox/{id}/read
+  dengan migrasi messages dan message_reads, penegakan aturan unread ulang saat
+  judul/isi berubah (FR-INBOX-002), penyaringan pesan aktif dan kedaluwarsa,
+  ETag optimistik serta idempotensi perintah; seluruh 72 endpoint OpenAPI Fastify
+  selesai diimplementasikan dan diverifikasi pada MySQL nyata.
+
+- Tambahkan alur Pantau publik, manifest konten edukasi, pembacaan bagian konten
+  dan CMS admin meliputi GET /public/monitor, GET /public/content/manifest,
+  GET /public/content/{revision}/{kind}, GET/POST /admin/content/{kind},
+  PUT/DELETE /admin/content/{kind}/{id}, POST /admin/content/{kind}/{id}/publish
+  dan POST /admin/content/{kind}/{id}/withdraw dengan migrasi content_items dan
+  content_revisions, perhitungan SHA-256 kanonik per bagian, atomicity publikasi
+  dan allowlist serializer Pantau publik; tes HTTP dan MySQL lulus.
+
+- Tambahkan 16 endpoint operasional admin pelaporan, kelompok insiden, audit log,
+  retry analisis dan pembersihan laporan meliputi GET /jobs/{id},
+  POST /reports/{id}/analysis-retries, GET/POST /admin/reports,
+  PATCH /admin/reports/{id}/assessment, PUT /admin/reports/{id}/review,
+  POST /admin/reports/{id}/moves, POST /admin/reports/{id}/notes,
+  POST /admin/reports/{id}/deletions, GET /admin/groups, GET /admin/groups/{id},
+  GET /admin/groups/{id}/reports, POST /admin/groups/{id}/complete,
+  GET/POST /admin/cleanup dan GET /admin/audit dengan tabel migrasi audit_logs,
+  If-Match optimistik, perakitan agregat antrean review dan catatan audit otomatis;
+  tes HTTP dan MySQL lulus.
+
+- Tambahkan alur dokumen privat, verifikasi status KTP, ekstraksi profil keluarga
+  dan pembersihan asinkron meliputi GET/POST /me/documents,
+  GET/POST /me/documents/{id}/deletions, GET/POST /me/cleanup, GET /me/ktp,
+  POST /me/ktp-checks, POST /me/ktp-confirmations, POST /me/ktp-checks/{id}/retry,
+  GET/PATCH /me/family, POST /me/family-extractions,
+  POST /me/family-extractions/{id}/retry dan POST /me/family-extractions/{id}/apply
+  dengan consent eksplisit, If-Match optimistik dan isolasi transaksi DB;
+  tes HTTP dan MySQL lulus.
+
+- Tambahkan alur unggah media privat, pengiriman laporan warga, riwayat laporan,
+  catatan tindak lanjut dan pengunduhan media dengan rentang bytes (Range 206)
+  meliputi PUT/GET /me/uploads, PUT/GET /me/submissions,
+  POST /me/submissions/{id}/close, GET /me/reports, GET /me/reports/{id},
+  GET /reports/{id}/notes dan GET /media/{id}; tes HTTP dan MySQL lulus.
+
+- Tambahkan GET /me/reporting-status, GET /admin/reporting-settings,
+  PATCH /admin/reporting-settings, POST /admin/quota-resets dan
+  GET /admin/quotas dengan skema kuota singleton, ledger laporan, reset sequence
+  global/per-akun, pagination cursor ber-HMAC dan verifikasi status KTP;
+  tes HTTP dan MySQL lulus.
+
+- Tambahkan PATCH /me, POST /me/credentials, POST /me/recovery-code dan
+  POST /auth/reset-password dengan validasi If-Match berkuotasi, VERSION_CONFLICT,
+  mutasi kredensial atomik penutup sesi lama, rotasi verifier kode pemulihan
+  serta pencegahan replay rahasia; tes HTTP dan MySQL lulus.
+
+- Tambahkan GET /me, logout dan revoke dengan pemeriksaan token/expiry/epoch
+  serta jurnal pencabutan; tes HTTP/MySQL lulus.
+
+- Tambahkan login dengan dummy scrypt, throttle, sesi tujuh hari, pemeriksaan
+  epoch/role serta replay aman; middleware sesi dan logout masih tertunda.
+
+- Hubungkan signup warga ke HTTP/MySQL dengan hashing, recovery verifier,
+  jurnal atomik dan replay tanpa rahasia; login/sesi masih tertunda.
+
+- Tambahkan generator token sesi/revoke dan recovery, verifier SHA-256/HMAC,
+  serta validasi key terpisah; integrasi endpoint masih tertunda.
+
+- Tambahkan helper hash/verifikasi scrypt dengan salt acak dan batas dua derivasi
+  bersamaan; tes sandi dan kapasitas lulus, integrasi endpoint auth masih tertunda.
+
+- Tambahkan jurnal transaksi respons rahasia auth dan fingerprint HMAC JSON
+  kanonik; uji MySQL membuktikan satu mutasi untuk dua request bersamaan,
+  penolakan replay/konflik serta rollback. Integrasi endpoint masih tertunda.
+
+- Tambahkan schema akun, recovery verifier, sesi dan bucket kegagalan login
+  dengan tes constraint MySQL; endpoint autentikasi masih tahap berikutnya.
+
+- Perbaiki pembacaan hasil GET_LOCK mysql2 bertipe string; koneksi, migrasi awal
+  dan tes integrasi MySQL nyata lulus setelah konfigurasi privat lokal tersedia.
+
+- Tambahkan mysql2, konfigurasi DB sesuai lingkungan/peran, pool/transaksi
+  guard, migrasi SQL berurutan dengan checksum/status penerapan, dan runner
+  tes integrasi terpisah. Provisioning serta tes MySQL nyata masih tertunda.
+
+- Panduan provisioning MySQL Laragon: database dev/test, empat akun lokal,
+  sandi acak dan verifikasi hak lintas database; eksekusi instance masih tertunda.
+
+- Fondasi server Node 24/TypeScript strict/Fastify 5 dengan pnpm terkunci,
+  metadata sesuai OpenAPI, error/log aman, batas input dan tes HTTP.
+  Bacaan bertahap mengikuti mandat implementasi terbaru.
+  [Status dan bukti](apps/server/README.md).
+
+- Selaraskan panel dan tombol menu admin dengan dashboard komando; hapus strip
+  status kota statis. Tanpa tambahan teks atau perubahan alur.
+  [Bukti pemeriksaan](docs/WORKSPACE.md#admin-panels).
+
+- **Penyempurnaan UI/UX Dashboard Komando Admin (Pusdalops BPBD):**
+  - Meningkatkan `TabDashboardRingkasan` menjadi layout pusat komando tanggap darurat yang komprehensif selaras `SiagaTheme`: strip status kesiagaan operasional Kota Padang, 4 kartu KPI metrik dengan ikon semantik dan keterangan kontekstual.
+  - Mengimplementasikan layout 2 kolom responsif (desktop >= 960 px): kolom kiri fokus klaster wilayah aktif berprioritas laporan terbanyak; kolom kanan menyajikan visualisasi distribusi status laporan (proporsional 3 warna), rekapitulasi kebutuhan darurat logistik dari seluruh klaster aktif, feed siaran peringatan aktif yang sedang mengudara, serta pintasan aksi cepat petugas.
+  - Mencegah overflow pada seluruh ukuran layar (390 px mobile hingga 1440 px desktop) dan pembesaran teks 2.0x.
+  - Seluruh 114 tes Flutter PASS dan `flutter analyze` 0 issues. [Bukti pemeriksaan](docs/WORKSPACE.md#admin-dashboard-ux).
+
+- Tema admin mengikuti Beranda warga: pastel pada ringkasan, judul biru tua,
+  kartu putih membulat, navigasi dan kontrol biru muda. Layout, posisi dan isi
+  teks tetap. [Bukti pemeriksaan](docs/WORKSPACE.md#admin-theme).
+
+- Audit desain lima halaman admin: sidebar/drawer adaptif, ringkasan tanpa
+  hero/ranking/badge AI dekoratif, tabel dengan pencarian ID dan gulir horizontal,
+  form adaptif, draf lintas tab, bukti foto utuh dan alasan hapus wajib.
+  Verifikasi wilayah melalui dialog bukti; metrik menunggu tidak menghitung
+  laporan selesai. [Bukti dan batas](docs/WORKSPACE.md#admin-ui-audit).
+
+- **Aset Sample Foto Banjir Riil untuk Data Dummy Admin & Warga:**
+  - Menjadikan foto banjir lapangan riil sebagai aset data dummy default (`assets/images/reports/sample_banjir.jpg`, `report_1.jpeg`, `report_2.jpeg`).
+  - Terintegrasi di sisi Admin (`PreviewMediaLaporan` thumbnail tabel, modal bukti klaster wilayah, dan dialog pratinjau resolusi tinggi) serta di sisi Warga (`BagianBuktiLaporan` panduan visual foto banjir, `KartuRiwayatLaporan`, dan dialog detail riwayat laporan).
+- **Penyempurnaan Dashboard Web Admin SiagaBanjir (`features/admin`):**
+  - *Penyesuaian Cakupan*: Menghapus panel kontrol sensor sungai Batang Kuranji dan infrastruktur pompa air dari Dashboard Admin Web agar fokus sepenuhnya pada penanganan laporan warga dan siaga darurat.
+  - *Auto-Approve Wilayah ke Laporan Individu*: Verifikasi klaster wilayah secara otomatis menyetujui seluruh laporan perorangan di wilayah tersebut (`diverifikasiOtomatisWilayah: true`) tanpa perlu verifikasi ganda.
+  - *Pratinjau Media Foto Laporan (`PreviewMediaLaporan`)*: Widget pratinjau foto bukti warga dengan thumbnail responsif dan modal interaktif beresolusi tinggi dengan indikator AI.
+  - *Standardisasi Tipografi & Label Ringkas*: Penerapan font `Inter` di seluruh antarmuka admin serta peringkasan label navigasi dan tombol sesuai praktik standar (`Dashboard`, `Klaster Wilayah`, `Laporan Warga`, `Pusat Aksi`, `Profil`, `Keluar`, `Lihat Bukti`, `Verifikasi Wilayah`, `Mode Warga`).
+  - *Pengujian Menyeluruh*: 106 tes Flutter PASS 100% dan `flutter analyze` 0 issues.
+- **Dashboard Web Admin SiagaBanjir (`features/admin`):** Implementasi lengkap antarmuka portal
+  komando admin berbasis web desktop responsif untuk petugas BPBD/Relawan:
+  - *Pemisahan Peran Pengguna*: Toggle login Warga vs Petugas/Admin pada `LayarMasuk` dengan pengalihan
+    otomatis ke rute `/admin` atau `/warga`.
+  - *Struktur 5 Menu Sidebar*: Tab 1 Ringkasan Dashboard (KPI & metrik terpadu), Tab 2 Wilayah Klaster AI
+    (ranking wilayah terdampak terbanyak berdasarkan radius $\le$ 1.500 m / 6 jam dan bentang total
+    $\le$ 3.000 m / 12 jam sesuai FRD-DEC-020), Tab 3 Laporan Individu (tabel granular per warga),
+    Tab 4 Pusat Operasional (broadcast siaran darurat, kontak posko, sensor sungai, kebijakan kuota),
+    serta Tab 5 Pengaturan Profil petugas BPBD dan tombol Keluar (logout).
+  - *Modal Bukti Kolektif Wilayah*: Dialog komprehensif kumpulan seluruh foto bukti dan catatan warga
+    dalam satu wilayah klaster untuk verifikasi dan instruksi tim evakuasi serentak.
+  - *Sinkronisasi Dua Arah*: Pelaporan warga dari formulir langsung teragregasi secara reaktif ke klaster
+    wilayah di state admin, dan siaran darurat dari admin seketika muncul pada kotak masuk peringatan warga.
+  - *Pengujian Unit & Widget*: Penambahan suite `dashboard_admin_test.dart` mencakup 104 tes Flutter PASS 100%.
 - **Pembersihan visual UI produk riil:** Menghilangkan seluruh teks, banner, dialog,
   dan feedback snackbar bernuansa disclaimer "mode demo lokal", "sesi demo", "data uji",
   dan teks defensif sejenis di seluruh layar Flutter (`apps/siagabanjir`), mencakup layar masuk,

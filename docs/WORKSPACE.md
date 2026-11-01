@@ -2,8 +2,8 @@
 
 > **Living document:** perbarui bersama setiap perubahan terkait menurut [aturan dokumentasi](../rules/documentation.md#living-documents).
 
-Kondisi 27 Oktober 2026: panduan kerja lintas OS/IDE, backend kosong, dan
-sepuluh fitur pratinjau Flutter warga dengan nama Indonesia. UI mengikuti
+Kondisi 1 November 2026: panduan kerja lintas OS/IDE, fondasi HTTP backend,
+sebelas fitur pratinjau warga dan lima halaman admin Flutter dengan state lokal. UI mengikuti
 [DESIGN](DESIGN.md); setiap perubahan mengikuti
 [sinkronisasi dokumentasi](../rules/documentation.md).
 
@@ -11,7 +11,9 @@ sepuluh fitur pratinjau Flutter warga dengan nama Indonesia. UI mengikuti
 
 [Mandat pemeliharaan](DECISIONS.md#workspace-local-commit-009) mencakup
 commit lokal AI, gerbang tree bersih, panduan tim, dan publikasi pembaruan. Backend dan Flutter
-disiapkan tim. Bacaan lengkap dan living documents mengikuti aturan bersama.
+disiapkan tim. Implementasi backend kini diotorisasi melalui
+[WS-DEC-070](DECISIONS.md#backend-foundation-070), termasuk bacaan bertahap
+sambil mengoding per unit. Living documents mengikuti aturan bersama.
 
 README utama memperkenalkan aplikasi kepada pembaca umum. Navigasi spesifikasi
 dan panduan kerja berada di [indeks dokumentasi](INDEX.md); perintah pemeriksaan
@@ -23,7 +25,8 @@ Urutan praktik anggota baru tersedia dalam [panduan Git pemula](GIT-UNTUK-PEMULA
 ## Status dan versi
 
 Struktur/nama Flutter terbaru mengikuti [audit 27 Oktober](#flutter-indonesia).
-Perilaku UI dan bukti terbaru mengikuti [audit UI/UX](#flutter-uiux).
+Perilaku warga mengikuti [audit UI/UX](#flutter-uiux); admin mengikuti
+[audit desain admin](#admin-ui-audit).
 Path, nama kelas dan jumlah placeholder pada catatan bertanggal sebelumnya
 adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
 
@@ -32,7 +35,7 @@ adalah rekaman historis; gunakan README Flutter untuk lokasi kode sekarang.
 | BRD / PRD | v0.1.0 APPROVED |
 | FRD / SRS / kontrak API | v1.0.0 APPROVED |
 | Workspace | v0.1.0; perubahan sesudah rilis dicatat pada bagian Unreleased di CHANGELOG |
-| Backend / Flutter | Backend kosong; sepuluh fitur UI warga, folder kosong dihapus; [struktur aktual](../apps/siagabanjir/README.md#struktur) |
+| Backend / Flutter | [Fondasi HTTP](../apps/server/README.md); sebelas fitur warga dan lima halaman admin lokal; [struktur Flutter](../apps/siagabanjir/README.md#struktur) |
 | Pengujian | Widget mockup dan build Web diperiksa; TC produk, provider, perangkat, dan UAT tetap NOT_RUN |
 
 Rancangan produk memakai Flutter Android untuk warga, Flutter Web untuk admin,
@@ -53,7 +56,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [Rules](../rules/workflow.md) | Workflow, domain, mutu, UI, portabilitas, dokumentasi dan riset |
 | [Riset skill](SKILL-RESEARCH.md) | Referensi terpilih, adaptasi dan skenario evaluasi |
 | [DESIGN](DESIGN.md) | Token, ikon Material, hierarki, state, kriteria visual/aksesibilitas |
-| [apps](../apps/README.md) | Backend kosong; [Flutter](../apps/siagabanjir/README.md) memiliki sepuluh fitur UI warga; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
+| [apps](../apps/README.md) | [Server HTTP](../apps/server/README.md); [Flutter](../apps/siagabanjir/README.md) memiliki sebelas fitur warga dan lima halaman admin; [aset](../apps/siagabanjir/design/README.md) merujuk SVG pemilik |
 | [Rekomendasi VS Code](../.vscode/extensions.json) | EditorConfig dan Flutter, opsional; tidak memasang ekstensi/SDK |
 | [.editorconfig](../.editorconfig) | Encoding, indentation dan whitespace lintas editor |
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
@@ -64,7 +67,8 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |
 
 Scaffold aplikasi lama sudah ditarik. Tim kemudian membuat scaffold Flutter
-di apps/siagabanjir; apps/server masih kosong. Root tidak berisi tools/reports/database/cache aktif.
+di apps/siagabanjir; apps/server kini memiliki fondasi HTTP sesuai mandat baru.
+Root tidak berisi tools/reports/database/cache aktif.
 Fungsi baseline BRD/PRD/FRD/SRS tetap. Errata kontrak menyelaraskan replay
 rahasia dengan SRS-IF-004; tidak menambah endpoint atau fitur produk.
 Folder archive/tools/contracts sudah dihapus; kontrak aktif berada di docs.
@@ -1089,3 +1093,153 @@ FRD/SRS mencatat mandat tampilan terbaru; wire API dan invariant akses/persisten
 baseline tidak diubah. AGENTS/rules/skills/adapter tidak memerlukan edit karena
 prosedurnya tetap. Sumber SVG disimpan sebagai referensi historis, bukan ditimpa.
 Commit lokal diwajibkan, push belum diminta.
+
+<a id="admin-ui-audit"></a>
+
+## Audit desain admin - 1 November 2026
+
+Mandat [WS-DEC-066](DECISIONS.md#admin-ui-audit-066), baseline `0559703`,
+branch `branch-rafi`, tree awal bersih. Pengguna mengizinkan fokus bacaan admin.
+Seluruh tujuh rules/delapan skills, desain, README aplikasi, shell, lima tab,
+widget/media/dialog, domain/state dan tes admin dibaca; FRD REVIEW/CONTROL,
+CONTENT/INBOX, bagian UI, SRS kelompok/review serta keputusan/bukti terkait
+menjadi acuan. Bukan klaim membaca penuh seluruh BRD/PRD/FRD/SRS/OpenAPI/RTM.
+Referensi eksternal dan batas baca ada pada [riset skill](SKILL-RESEARCH.md#referensi-audit-admin---1-november-2026).
+
+### Temuan dan perbaikan
+
+| Dampak | Bukti baseline | Perbaikan |
+|---|---|---|
+| Tinggi | KerangkaAdminWeb selalu memasang sidebar 260 px; Row tabel/form tidak adaptif | Sidebar 240/drawer berdasarkan ruang dan skala teks, form adaptif, tabel bergulir |
+| Sedang | Dashboard memakai hero gradient, status kota statis di header, ikon/keterangan metrik berulang | Header ringkas, metrik dari state dan ringkasan wilayah tanpa ornamen |
+| Sedang | TabWilayahKlasterAi memakai ranking merah, badge kilau AI dan banner FRD | Satu kartu informasi per wilayah; status tinjauan dipertahankan, detail teknis dihapus |
+| Tinggi | Verifikasi cepat tersedia sebelum bukti dibuka | Lihat Bukti mendahului verifikasi; cakupan massal dijelaskan dalam dialog |
+| Sedang | Metrik menunggu memakai != terverifikasi, sehingga selesai ikut dihitung | Hanya status menunggu; wilayah aktif mengecualikan selesai |
+| Sedang | Pergantian tab membuang controller/isian | IndexedStack mempertahankan draf/filter/scroll selama shell aktif |
+| Sedang | Tabel memakai teks 9-13 dan aksi hapus di setiap baris | Teks isi 14, status teks, Lihat Detail; alasan hapus wajib dengan error dekat field |
+| Sedang | Foto dialog menggunakan cover, fallback ilustrasi banjir dengan BUKTI AI | Foto contain, pembesaran, fallback broken-image netral; hapus badge/ilustrasi rekaan |
+| Rendah | Profil memiliki ikon tiap field; form siaran memuat uraian panjang | Label Material menetap, pasangan field adaptif, isi ringkas dan pilihan biru |
+
+Lokasi temuan pada baseline `0559703`, relatif terhadap
+`apps/siagabanjir/lib/features/admin/presentation/`:
+`kerangka_admin_web.dart:158` (layout, FRD bagian 17),
+`tabs/tab_dashboard_ringkasan.dart:23` (status selesai, FR-REVIEW-007),
+`tabs/tab_dashboard_ringkasan.dart:36` (hierarki, DESIGN),
+`tabs/tab_wilayah_klaster_ai.dart:65` dan `:115` (ornamen/teks, DESIGN),
+`tabs/tab_wilayah_klaster_ai.dart:339` (bukti sebelum review, FR-REVIEW-006),
+`widgets/preview_media_laporan.dart:86` dan `:286` (bukti utuh, FR-REVIEW-001).
+Nomor baris merujuk baseline, bukan letak sesudah perapian.
+
+### Bukti eksekusi
+
+- PASS: `flutter analyze --no-pub`, 0 issues.
+- PASS: `flutter test --no-pub --reporter expanded`, 114 tes; 13 tes admin
+  mencakup lima halaman dan dialog pada 390/768/1280 px, teks 100%/200%,
+  pencarian kosong/reset filter, retensi draf, verifikasi massal lokal,
+  alasan hapus wajib dan batal tanpa mutasi.
+- PASS: build Web tanpa CDN/wasm dry run. Chrome headless 156.0.8078.76
+  menavigasi lima halaman pada 1440/768/390 px, tiga subbagian Pusat Aksi,
+  membuka bukti dan menutup dengan Escape; tanpa pageerror.
+  Screenshot diperiksa pada desktop dan sampel layar sempit; bukan audit
+  pixel-perfect semua state atau pembuktian seluruh alur keyboard/screen reader.
+- PASS: validator tautan internal (45 Markdown), metadata delapan skill,
+  Markdownlint pada 10 dokumen terdampak, format Dart dan diff whitespace.
+- Artefak lokal: `apps/siagabanjir/build/audit/admin-*.png`, log dan script
+  pemeriksaan di build/audit; diabaikan Git sesuai kebijakan yang sudah ada.
+- NOT_RUN: HP, backend/provider, offline/conflict layanan, UAT, screen reader,
+  audit keamanan dan performa. Tidak mengklaim TC produk lulus dari widget.
+
+### Batas implementasi dan dampak dokumentasi
+
+State singleton, fixture AI/foto, auto-approve tanpa versi, catatan massal,
+penghapusan tanpa audit/cleanup, reset kuota yang hanya notify, dan sandi yang
+hanya membersihkan isian masih berasal dari implementasi awal. Auth dan
+lifecycle/isolasi sesi server belum terintegrasi. Ini gap integrasi terhadap
+FR-REVIEW-002/006, FR-CONTROL dan SRS, bukan perubahan baseline approved.
+Tidak menambah banner demo pada produk; keterbatasan dicatat di dokumentasi.
+
+README root/apps/Flutter, DESIGN, DECISIONS, RTM, riset skill, CHANGELOG dan
+handoff diselaraskan. AGENTS/rules/delapan skill/adapter tetap karena prosedur
+serta path tidak berubah. BRD/PRD/FRD/SRS/OpenAPI/contoh tidak diubah: tidak
+mengganti wire API, hak akses atau requirement layanan. Tidak ada dependensi,
+SDK, instalasi global, push, merge, tag atau deploy baru.
+
+<a id="admin-theme"></a>
+
+## Penyelarasan tema admin - 1 November 2026
+
+Mandat [WS-DEC-067](DECISIONS.md#admin-theme-067) mempertahankan layout hasil
+audit dan hanya menyelaraskan tema dengan Beranda warga setelah login.
+Acuan kode: `kartu_status_beranda.dart`, `akses_cepat_beranda.dart` dan
+`SiagaTheme`. Admin memakai judul biru tua, empat pastel pada metrik, kartu
+radius 22, tombol radius 14, isian radius 12, navigasi/tombol tonal biru muda.
+Tidak menambahkan ikon maupun teks produk; status dan aksi destruktif tetap
+memiliki warna semantik. Tema admin dibatasi oleh widget Theme pada kerangka.
+
+- PASS: analyzer 0 issues; 114 tes Flutter, termasuk regresi admin pada teks
+  100%/200% dan ukuran layar yang tercatat dalam audit sebelumnya.
+- PASS: build Web `--no-pub --no-web-resources-cdn --no-wasm-dry-run`.
+- PASS: Chrome 156.0.8078.76 menavigasi lima halaman pada 1440/768/390 px,
+  tiga subbagian Pusat Aksi dan modal bukti, tanpa pageerror. Screenshot
+  dashboard desktop/390 px, profil dan kuota diperiksa secara visual.
+- PASS: perbandingan seluruh literal string Dart pada file admin yang diubah
+  terhadap `fcb94a8` (import dikecualikan); isi teks identik. Diff mempertahankan
+  padding, ukuran layout, breakpoint, urutan widget dan alur state.
+- Artefak lokal di `apps/siagabanjir/build/audit/admin-theme-*.png`,
+  `admin-theme-tests.log` dan `admin_theme_visual.py`; tidak dilacak Git.
+- NOT_RUN: perangkat fisik, backend/provider, UAT dan screen reader. Batas
+  implementasi audit sebelumnya tetap berlaku.
+
+DESIGN, DECISIONS, CHANGELOG dan handoff diperbarui. README, RTM, spesifikasi,
+kontrak, AGENTS/rules/skills/adapter tidak berubah karena tidak ada perubahan
+fitur, requirement, path kerja atau prosedur. Tidak ada dependensi/aset baru,
+perubahan halaman warga, push atau deploy.
+
+<a id="admin-dashboard-ux"></a>
+
+## Penyempurnaan UI/UX Dashboard Komando Admin - 1 November 2026
+
+Mandat [WS-DEC-068](DECISIONS.md#admin-dashboard-ux-068) menyempurnakan `TabDashboardRingkasan`
+menjadi pusat komando tanggap darurat yang fungsional dan estetis selaras `SiagaTheme`.
+
+- PASS: `flutter analyze --no-pub` 0 issues.
+- PASS: 114 tes Flutter lulus 100%, mencakup tes responsivitas admin pada 390x844,
+  768x900, 1280x800 dengan text scaler 1.0x dan 2.0x bebas overflow.
+- PASS: Validasi internal links Markdown (`validate_links.py`) dan YAML skill (`validate_skills.py`).
+- PASS: `markdownlint-cli2` 0 errors.
+- Proposal pembelajaran (/learn) dicatat pada artefak `learning_proposal.md`.
+- NOT_RUN: perangkat fisik, backend/provider, UAT dan screen reader.
+
+Dokumentasi DESIGN, DECISIONS, CHANGELOG, handoff dan WORKSPACE diperbarui.
+
+<a id="admin-panels"></a>
+
+## Tema menu mengikuti dashboard komando - 1 November 2026
+
+[WS-DEC-069](DECISIONS.md#admin-panels-069) memakai dashboard pada baseline
+`5088853` sebagai acuan panel dan kontrol admin. Strip status kota statis dan
+stempel instansi di atas dashboard dihapus. Laporan memperoleh satu panel putih
+untuk pencarian/filter/tabel dan tombol detail outline; judul klaster, Pusat
+Aksi dan profil biru tua. Pilihan Pusat Aksi memakai pastel dan ikon yang sudah
+didefinisikan; tema field dan filter dibatasi pada admin.
+
+- PASS: analyzer 0 issues; 114 tes Flutter, termasuk semua tab/dialog pada
+  lebar 390/768/1280 px dengan teks 100%/200%, pencarian, validasi dan navigasi.
+  Setelah perbaikan ikon pilihan, 13 tes admin diulang dan PASS.
+- PASS: perbandingan literal string terhadap baseline, tanpa tambahan teks
+  produk (nama font Inter dikecualikan); hanya dua teks strip status dihapus.
+- PASS: build Web tanpa CDN/wasm dry run. Chrome 156.0.8078.76 menavigasi
+  lima halaman pada 1440/768/390 px, subbagian Pusat Aksi dan modal bukti tanpa
+  pageerror. Screenshot dashboard, laporan, profil, Pusat Aksi dan sampel
+  layar sempit diperiksa. Tumpukan centang/ikon pilihan diperbaiki.
+- PASS: validator link (45 Markdown), metadata delapan skill, Markdownlint
+  enam dokumen, format Dart dan diff whitespace.
+- Artefak lokal `apps/siagabanjir/build/audit/admin-redesign-*.png`,
+  `admin-redesign-tests.log` dan `admin_redesign_visual.py`, tidak dilacak Git.
+- NOT_RUN: HP, backend/provider, UAT dan screen reader. Gap integrasi yang
+  dicatat pada audit admin sebelumnya tetap berlaku.
+
+DESIGN, DECISIONS, CHANGELOG, handoff dan riset skill diperbarui. README/RTM,
+spesifikasi/kontrak serta AGENTS/rules/skills/adapter tidak memerlukan perubahan:
+fitur, data, requirement, path dan prosedur tetap. Tidak ada dependensi atau
+aset baru, instalasi skill, perubahan layar warga maupun mandat push/deploy.

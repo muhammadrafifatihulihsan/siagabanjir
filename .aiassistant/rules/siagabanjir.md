@@ -4,7 +4,8 @@
 
 Baca dan ikuti [AGENTS.md](../../AGENTS.md) di root repository sebelum bekerja.
 Wajib baca seluruh sumber aktif, termasuk semua rules dan skills, sesuai
-protokol AGENTS. Perbarui living documents terdampak tanpa menunggu pengingat;
+protokol AGENTS beserta pengecualian mandat terbaru yang tercatat.
+Perbarui living documents terdampak tanpa menunggu pengingat;
 pada setiap perubahan,
 ikuti [sinkronisasi dokumentasi](../../rules/documentation.md).
 Terapkan [commit lokal wajib dan gerbang tree bersih](../../rules/workflow.md#commit-lokal)

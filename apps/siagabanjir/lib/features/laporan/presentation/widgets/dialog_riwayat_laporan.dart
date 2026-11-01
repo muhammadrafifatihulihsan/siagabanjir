@@ -21,16 +21,26 @@ Future<void> showReportHistoryDetailDialog(
         Text(
           'Kebutuhan: ${item.kebutuhan.isEmpty ? 'Tidak dipilih' : item.kebutuhan.join(', ')}',
         ),
-        if (item.foto != null) ...[
-          const SizedBox(height: 16),
-          Image.memory(
-            item.foto!,
-            fit: BoxFit.contain,
-            semanticLabel: 'Foto yang Anda lampirkan',
-            errorBuilder: (_, _, _) =>
-                const Text('Pratinjau foto tidak tersedia.'),
-          ),
-        ],
+        const SizedBox(height: 16),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: item.foto != null
+              ? Image.memory(
+                  item.foto!,
+                  fit: BoxFit.contain,
+                  semanticLabel: 'Foto yang Anda lampirkan',
+                  errorBuilder: (_, _, _) =>
+                      const Text('Pratinjau foto tidak tersedia.'),
+                )
+              : Image.asset(
+                  'assets/images/reports/sample_banjir.jpg',
+                  height: 180,
+                  fit: BoxFit.cover,
+                  semanticLabel: 'Foto yang Anda lampirkan',
+                  errorBuilder: (_, _, _) =>
+                      const Text('Pratinjau foto tidak tersedia.'),
+                ),
+        ),
       ],
     ),
     actions: [

@@ -2166,3 +2166,68 @@ FR-READY-006 (rate/pitch dan kontrol TTS), FR-REPORT-001/007 (isian/riwayat
 demo) serta FRD §30.25/30.27 (dokumen). UI riwayat tidak lagi mengarang proses
 atau tindak lanjut. Tes lokal bukan bukti penerimaan laporan, persistensi akun,
 enkripsi, provider atau kompatibilitas suara HP; TC produk tetap NOT_RUN.
+
+## 61. Perapian antarmuka admin - 1 November 2026
+
+[WS-DEC-066](DECISIONS.md#admin-ui-audit-066) ditelusuri ke FRD bagian 17
+(layout/keyboard/teks), FR-REVIEW-001/006/007 (bukti, tinjauan dan selesai),
+FR-CONTROL-004 (alasan hapus dan batal), FR-INBOX-001 (form siaran), serta
+DESIGN. [Bukti audit](WORKSPACE.md#admin-ui-audit) mencakup lima tab, dialog,
+pencarian/filter kosong, retensi draf, lebar 390/768/1280 dan skala teks 200%.
+Tes widget dan browser tidak meluluskan TC layanan: review berversi, ownership,
+kuota, AI, persistensi, penghapusan dan sinkronisasi backend tetap NOT_RUN.
+
+## 62. Fondasi server HTTP - 1 November 2026
+
+[WS-DEC-070](DECISIONS.md#backend-foundation-070) mengotorisasi implementasi
+bertahap dan bacaan terkait sambil bekerja. Fondasi tersedia pada
+[server](../apps/server/README.md), tanpa perubahan wire API baseline.
+
+| Acuan | Bukti aktual dan batas |
+|---|---|
+| SRS-DEC-001/IF-001, getMeta | Tes HTTP memvalidasi metadata/envelope terhadap OpenAPI, UUID korelasi server dan socket nyata |
+| SRS-IF-002/006 | Error malformed JSON, query tidak didukung, schema invalid, 512 KiB dan tipe media diuji; tanpa nilai input/stack |
+| SRS-NFR-005, bagian TC-SRS-024 | Sentinel privat tidak muncul pada respons maupun log dalam kasus fondasi; ownership/auth belum tersedia sehingga TC penuh tetap NOT_RUN |
+| Toolchain | Format, ESLint bertipe, tsc, lima tes node:test dan build pada Windows PASS |
+
+Audit dependency ditemukan pada tool lint lalu diperbaiki dengan override
+minimatch 11.0.1. Hasil akhir serta pemeriksaan dokumentasi dicatat pada
+[handoff](SESSION-HANDOFF.md). Tidak menaikkan TC bisnis, provider, perangkat,
+MySQL atau CI remote menjadi PASS. UI/kontrak/spec bisnis tetap; keputusan
+lokasi dan persiapan production harus diturunkan bersama unit terkait.
+
+## 63. Fondasi MySQL - 1 November 2026
+
+SRS-DEC-002/004 dan SRS-DATA-005 diturunkan ke mysql2, konfigurasi lingkungan,
+pool UTC/READ COMMITTED, helper transaksi guard dan dua file migrasi awal.
+Tes lokal memeriksa penolakan target/akun tidak sesuai, kestabilan checksum EOL
+dan penolakan riwayat migrasi berubah/terputus. Runner integrasi MySQL mencakup
+replay migrasi, rollback serta batas hak runtime, tetapi **NOT_RUN** karena
+database/akun belum diprovision. Tidak menaikkan TC transaksi/kuota/auth menjadi
+PASS dari tes konfigurasi. [Petunjuk](../apps/server/MYSQL-SETUP.md).
+
+Pembaruan setelah provisioning dan konfigurasi lokal: db:check dan dua migrasi
+development PASS; test:db PASS pada MySQL 8.0.30 membuktikan replay migrasi,
+UTC/READ COMMITTED/autocommit, rollback guard, penolakan DDL akun runtime test
+dan akses development dari akun test. Regresi GET_LOCK string dari mysql2
+ditemukan lalu diperbaiki dan diuji ulang. TC auth/kuota dan concurrency bisnis
+tetap NOT_RUN; satu tes fondasi tidak meluluskan seluruh transaksi produk.
+
+## 64. Schema autentikasi
+
+SRS-DATA-001–004 diturunkan ke migrasi 003–006. Tes MySQL 8.0.30 memverifikasi
+email ternormalisasi unik, default CITIZEN, pembatasan role/versi/hash, FK sesi,
+token unik dan batas tujuh hari, satu recovery verifier per akun serta bucket
+kegagalan unik. Fixture sintetis selalu rollback. PASS hanya untuk constraint;
+TC-AUTH signup/login/reset/logout, pencabutan epoch, throttle dan idempotensi
+masih NOT_RUN karena endpoint/service belum tersedia. Kontrak wire tidak berubah.
+
+## 65. Jurnal respons rahasia auth
+
+SRS-DATA-006/SRS-IF-004: migrasi 007 dan runSecretCommand menyimpan identitas,
+scope digest, HMAC fingerprint serta metadata commit tanpa salinan respons.
+Tes MySQL PASS untuk race dua request, satu efek, replay RESULT_ALREADY_COMMITTED,
+konflik payload/operasi, scope terpisah, authorize sebelum replay dan rollback.
+JSON kanonik/HMAC diuji lokal; fixture Flutter bersama belum diintegrasikan.
+Pemetaan HTTP 409, autentikasi/epoch aktual, kunci permanen dan state laporan
+belum tersedia; hasil helper tidak meluluskan TC auth atau idempotensi laporan.

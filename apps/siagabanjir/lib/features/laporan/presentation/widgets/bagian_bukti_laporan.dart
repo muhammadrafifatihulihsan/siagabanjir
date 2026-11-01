@@ -49,15 +49,24 @@ class BagianBuktiLaporan extends StatelessWidget {
                   color: SiagaTheme.selectionBackground,
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    Icon(
-                      Icons.camera_alt_outlined,
-                      size: 32,
-                      color: SiagaTheme.blue,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        'assets/images/reports/sample_banjir.jpg',
+                        height: 140,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, _, _) => const Icon(
+                          Icons.camera_alt_outlined,
+                          size: 32,
+                          color: SiagaTheme.blue,
+                        ),
+                      ),
                     ),
-                    SizedBox(height: 12),
-                    Text(
+                    const SizedBox(height: 12),
+                    const Text(
                       'Ambil Foto Langsung di Lokasi',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -65,8 +74,8 @@ class BagianBuktiLaporan extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'Tampilkan kondisi air dan area di sekitarnya.',
                       textAlign: TextAlign.center,
                       style: TextStyle(

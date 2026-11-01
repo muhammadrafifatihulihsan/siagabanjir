@@ -6,6 +6,12 @@
 
 ## Wajib baca lengkap
 
+Pengecualian untuk rangkaian implementasi backend 1 November 2026:
+[WS-DEC-070](../docs/DECISIONS.md#backend-foundation-070) mengizinkan bacaan
+bertahap sambil implementasi. Baca sumber terdampak sebelum unit terkait,
+lanjutkan pekerjaan mandiri, dan jangan mengklaim seluruh bacaan selesai.
+Ini arahan eksplisit pemilik terbaru, bukan pengecualian karena ukuran tugas.
+
 Pada awal setiap tugas proyek, sebelum analisis solusi, edit atau review,
 selesaikan pembacaan **seluruh isi** sumber aktif berikut, tanpa pengecualian
 untuk typo, pekerjaan kecil, satu skill yang disebut, atau kelanjutan sesi baru:
