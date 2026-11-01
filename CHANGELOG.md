@@ -7,6 +7,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan alur Pantau publik, manifest konten edukasi, pembacaan bagian konten
+  dan CMS admin meliputi GET /public/monitor, GET /public/content/manifest,
+  GET /public/content/{revision}/{kind}, GET/POST /admin/content/{kind},
+  PUT/DELETE /admin/content/{kind}/{id}, POST /admin/content/{kind}/{id}/publish
+  dan POST /admin/content/{kind}/{id}/withdraw dengan migrasi content_items dan
+  content_revisions, perhitungan SHA-256 kanonik per bagian, atomicity publikasi
+  dan allowlist serializer Pantau publik; tes HTTP dan MySQL lulus.
+
 - Tambahkan 16 endpoint operasional admin pelaporan, kelompok insiden, audit log,
   retry analisis dan pembersihan laporan meliputi GET /jobs/{id},
   POST /reports/{id}/analysis-retries, GET/POST /admin/reports,

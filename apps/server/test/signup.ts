@@ -15,6 +15,7 @@ import { verifyReporting } from './reporting.js';
 import { verifySubmissions } from './submissions.js';
 import { verifyVault } from './vault.js';
 import { verifyAdminReporting } from './admin-reporting.js';
+import { verifyCms } from './cms.js';
 
 export async function verifySignup(pool: Pool) {
   const keys = readSecurityKeys(process.env);
@@ -183,6 +184,7 @@ export async function verifySignup(pool: Pool) {
     await verifySubmissions(app, pool);
     await verifyVault(app, pool);
     await verifyAdminReporting(app, pool);
+    await verifyCms(app, pool);
   } finally {
     await app.close();
     await withBusinessTransaction(pool, async (connection) => {

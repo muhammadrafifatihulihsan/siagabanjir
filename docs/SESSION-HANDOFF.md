@@ -13,15 +13,15 @@ mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
 atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
 berada pada commit dan bukti pengujian, bukan checklist.
 
-Status saat ini: 55 endpoint diimplementasikan dan diuji, 17 belum selesai.
+Status saat ini: 64 endpoint diimplementasikan dan diuji, 8 belum selesai.
 Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
-Baseline sebelum unit sesi: `195572c`, branch `branch-rafi`, belum push.
+Baseline sebelum unit sesi: `8b36482`, branch `branch-rafi`, belum push.
 SHA commit penutup unit dilaporkan pada hasil sesi.
 
 - [x] `GET /api/v1/meta`: Membaca metadata layanan.
-- [ ] `GET /api/v1/public/monitor`: Membaca ringkasan Pantau publik.
-- [ ] `GET /api/v1/public/content/manifest`: Membaca manifest konten publik.
-- [ ] `GET /api/v1/public/content/{revision}/{kind}`: Membaca bagian konten pada revisi tertentu.
+- [x] `GET /api/v1/public/monitor`: Membaca ringkasan Pantau publik.
+- [x] `GET /api/v1/public/content/manifest`: Membaca manifest konten publik.
+- [x] `GET /api/v1/public/content/{revision}/{kind}`: Membaca bagian konten pada revisi tertentu.
 - [x] `POST /api/v1/auth/signup`: Mendaftarkan akun warga.
 - [x] `POST /api/v1/auth/login`: Membuat sesi login.
 - [x] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
@@ -76,12 +76,12 @@ SHA commit penutup unit dilaporkan pada hasil sesi.
 - [x] `POST /api/v1/me/family-extractions`: Meminta saran profil keluarga dari dokumen.
 - [x] `POST /api/v1/me/family-extractions/{jobId}/retry`: Mengulangi ekstraksi profil keluarga.
 - [x] `POST /api/v1/me/family-extractions/{jobId}/apply`: Menerapkan saran keluarga yang dipilih.
-- [ ] `GET /api/v1/admin/content/{kind}`: Membaca daftar konten untuk admin.
-- [ ] `POST /api/v1/admin/content/{kind}`: Membuat draf konten.
-- [ ] `PUT /api/v1/admin/content/{kind}/{contentId}`: Memperbarui draf konten.
-- [ ] `DELETE /api/v1/admin/content/{kind}/{contentId}`: Menghapus draf konten.
-- [ ] `POST /api/v1/admin/content/{kind}/{contentId}/publish`: Menerbitkan konten umum.
-- [ ] `POST /api/v1/admin/content/{kind}/{contentId}/withdraw`: Menarik konten umum.
+- [x] `GET /api/v1/admin/content/{kind}`: Membaca daftar konten untuk admin.
+- [x] `POST /api/v1/admin/content/{kind}`: Membuat draf konten.
+- [x] `PUT /api/v1/admin/content/{kind}/{contentId}`: Memperbarui draf konten.
+- [x] `DELETE /api/v1/admin/content/{kind}/{contentId}`: Menghapus draf konten.
+- [x] `POST /api/v1/admin/content/{kind}/{contentId}/publish`: Menerbitkan konten umum.
+- [x] `POST /api/v1/admin/content/{kind}/{contentId}/withdraw`: Menarik konten umum.
 - [ ] `POST /api/v1/admin/messages`: Menerbitkan pesan admin.
 - [ ] `GET /api/v1/admin/messages`: Membaca daftar pesan untuk admin.
 - [ ] `GET /api/v1/admin/messages/{messageId}`: Membaca detail pesan untuk admin.
@@ -106,10 +106,9 @@ pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Langkah berikutnya
 
-Lanjutkan 17 endpoint backend terakhir:
+Lanjutkan 8 endpoint backend terakhir:
 
-1. Unit 6: Konten Publik, Pantau Publik & Manajemen Konten Admin (9 endpoint: GET /public/monitor, GET /public/content/manifest, GET /public/content/{revision}/{kind}, dan CRUD draf/publish/withdraw konten admin /admin/content/{kind}).
-2. Unit 7: Pesan Siaran Admin & Kotak Masuk Warga (8 endpoint: broadcast messages admin dan inbox baca pesan warga).
+1. Unit 7: Pesan Siaran Admin & Kotak Masuk Warga (8 endpoint: broadcast messages admin dan inbox baca pesan warga).
 
 Commit tetap terisolasi per unit perubahan dengan pengujian nyata.
 Kunci DeepSeek belum tersedia, pengujian HP oleh pemilik, hosting belum dipilih.
