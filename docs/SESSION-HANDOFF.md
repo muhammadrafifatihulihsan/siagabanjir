@@ -6,42 +6,95 @@ Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
 Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
-## Checklist progres fitur backend
+## Checklist progres endpoint backend
 
-Checklist aktif mengikuti fitur/endpoint, sesuai arahan pemilik. Detail teknis
-ada pada commit dan catatan bukti, bukan item progres. Centang berarti backend
-fitur tersebut telah diimplementasikan dan diuji; bukan otomatis integrasi Flutter
-atau kelulusan UAT. Semua path berikut memakai prefix `/api/v1`.
-Checkpoint implementasi terakhir: `a30ae6f`, branch `branch-rafi`, belum push.
+Satu item untuk satu endpoint, lengkap dengan metode HTTP dan path. Daftar
+mengikuti seluruh 72 operasi [OpenAPI](openapi.json); tidak ada kelompok path
+atau endpoint yang disembunyikan dalam istilah umum. Detail implementasi
+berada pada commit dan bukti pengujian, bukan checklist.
 
-- [x] Informasi layanan ? GET /meta.
-- [x] Pendaftaran warga ? POST /auth/signup.
-- [x] Login ? POST /auth/login.
-- [ ] Keluar dan pencabutan sesi ? POST /auth/logout, POST /auth/revoke.
-- [ ] Profil akun ? GET /me, PATCH /me.
-- [ ] Perubahan email/sandi ? POST /me/credentials.
-- [ ] Pemulihan akun ? POST /auth/reset-password, POST /me/recovery-code.
-- [ ] Status kelayakan mengirim laporan ? GET /me/reporting-status.
-- [ ] Unggah dan unduh media privat ? /me/uploads, /media.
-- [ ] Pengiriman laporan dan rekonsiliasi ? /me/submissions.
-- [ ] Riwayat serta detail laporan warga ? /me/reports, /reports/{reportId}/notes.
-- [ ] Analisis AI laporan dan percobaan ulang ? /jobs, /reports/{reportId}/analysis-retries.
-- [ ] Pengelolaan laporan admin ? /admin/reports.
-- [ ] Pengelompokan kejadian ? /admin/groups.
-- [ ] Pengaturan pelaporan dan kuota ? /admin/reporting-settings, /admin/quotas, /admin/quota-resets.
-- [ ] Penghapusan tertunda dan audit admin ? /admin/cleanup, /admin/audit.
-- [ ] Dokumen pribadi dan penghapusannya ? /me/documents, /me/cleanup.
-- [ ] Pemeriksaan serta konfirmasi KTP ? /me/ktp, /me/ktp-checks, /me/ktp-confirmations.
-- [ ] Data keluarga dan ekstraksi KK ? /me/family, /me/family-extractions.
-- [ ] Pantau publik ? GET /public/monitor.
-- [ ] Konten panduan/kontak publik dan pengelolaannya ? /public/content, /admin/content.
-- [ ] Pesan admin dan inbox warga ? /admin/messages, /me/inbox.
+Status saat ini: 3 endpoint diimplementasikan dan diuji, 69 belum selesai.
+Centang bukan klaim seluruh skenario keamanan, integrasi Flutter atau UAT lulus.
+Checkpoint implementasi: `a30ae6f`, branch `branch-rafi`, belum push.
 
-Path kelompok merujuk seluruh operasi terkait dalam [OpenAPI](openapi.json),
-bukan hanya endpoint daftar. Fitur kelompok baru dicentang setelah seluruh
-operasi yang diperlukan selesai; progres parsial dijelaskan singkat bila ada.
-Login telah diuji dengan akun warga; seed dua admin demo dan pengujian login
-admin sukses masih tertunda. Pemeriksaan akses admin dari akun warga sudah diuji.
+- [x] `GET /api/v1/meta`: Membaca metadata layanan.
+- [ ] `GET /api/v1/public/monitor`: Membaca ringkasan Pantau publik.
+- [ ] `GET /api/v1/public/content/manifest`: Membaca manifest konten publik.
+- [ ] `GET /api/v1/public/content/{revision}/{kind}`: Membaca bagian konten pada revisi tertentu.
+- [x] `POST /api/v1/auth/signup`: Mendaftarkan akun warga.
+- [x] `POST /api/v1/auth/login`: Membuat sesi login.
+- [ ] `POST /api/v1/auth/reset-password`: Mengganti sandi menggunakan kode pemulihan.
+- [ ] `POST /api/v1/auth/revoke`: Mencabut sesi setelah logout offline.
+- [ ] `POST /api/v1/auth/logout`: Mengakhiri sesi aktif.
+- [ ] `GET /api/v1/me`: Membaca profil akun sendiri.
+- [ ] `PATCH /api/v1/me`: Memperbarui profil akun sendiri.
+- [ ] `POST /api/v1/me/credentials`: Memperbarui email atau sandi.
+- [ ] `POST /api/v1/me/recovery-code`: Mengganti kode pemulihan.
+- [ ] `GET /api/v1/me/reporting-status`: Memeriksa kelayakan pengiriman laporan.
+- [ ] `PUT /api/v1/me/uploads/{uploadId}`: Mengunggah media privat.
+- [ ] `GET /api/v1/me/uploads/{uploadId}`: Memeriksa status unggahan.
+- [ ] `PUT /api/v1/me/submissions/{submissionId}`: Mengirim laporan warga.
+- [ ] `GET /api/v1/me/submissions/{submissionId}`: Memeriksa status pengiriman laporan.
+- [ ] `POST /api/v1/me/submissions/{submissionId}/close`: Menutup maksud pengiriman laporan.
+- [ ] `GET /api/v1/me/reports`: Membaca riwayat laporan sendiri.
+- [ ] `GET /api/v1/me/reports/{reportId}`: Membaca detail laporan sendiri.
+- [ ] `GET /api/v1/reports/{reportId}/notes`: Membaca catatan tindak lanjut laporan.
+- [ ] `GET /api/v1/media/{mediaId}`: Mengunduh media yang diizinkan.
+- [ ] `GET /api/v1/jobs/{jobId}`: Memeriksa status pekerjaan asinkron.
+- [ ] `POST /api/v1/reports/{reportId}/analysis-retries`: Mengulangi analisis laporan.
+- [ ] `GET /api/v1/admin/reports`: Membaca daftar laporan untuk admin.
+- [ ] `GET /api/v1/admin/reports/{reportId}`: Membaca detail laporan untuk admin.
+- [ ] `PATCH /api/v1/admin/reports/{reportId}/assessment`: Mengoreksi penilaian laporan.
+- [ ] `PUT /api/v1/admin/reports/{reportId}/review`: Mencatat tinjauan versi laporan.
+- [ ] `POST /api/v1/admin/reports/{reportId}/moves`: Memindahkan laporan ke kelompok kejadian.
+- [ ] `POST /api/v1/admin/reports/{reportId}/notes`: Menambahkan catatan tindak lanjut.
+- [ ] `POST /api/v1/admin/reports/{reportId}/deletions`: Menghapus laporan dan menjadwalkan pembersihan.
+- [ ] `GET /api/v1/admin/groups`: Membaca daftar kelompok kejadian.
+- [ ] `GET /api/v1/admin/groups/{groupId}`: Membaca detail kelompok kejadian.
+- [ ] `GET /api/v1/admin/groups/{groupId}/reports`: Membaca laporan dalam kelompok kejadian.
+- [ ] `POST /api/v1/admin/groups/{groupId}/complete`: Menandai kelompok kejadian selesai.
+- [ ] `GET /api/v1/admin/reporting-settings`: Membaca pengaturan pelaporan.
+- [ ] `PATCH /api/v1/admin/reporting-settings`: Memperbarui pengaturan pelaporan.
+- [ ] `GET /api/v1/admin/quotas`: Membaca pemakaian kuota akun.
+- [ ] `POST /api/v1/admin/quota-resets`: Mereset pemakaian kuota laporan.
+- [ ] `GET /api/v1/admin/cleanup`: Membaca status pembersihan laporan.
+- [ ] `POST /api/v1/admin/cleanup/{cleanupId}/retry`: Mengulangi pembersihan laporan.
+- [ ] `GET /api/v1/admin/audit`: Membaca audit tindakan admin.
+- [ ] `GET /api/v1/me/documents`: Membaca daftar dokumen sendiri.
+- [ ] `POST /api/v1/me/documents`: Menyimpan dokumen privat.
+- [ ] `GET /api/v1/me/documents/{documentId}`: Membaca metadata dokumen sendiri.
+- [ ] `POST /api/v1/me/documents/{documentId}/deletions`: Menghapus dokumen dan menjadwalkan pembersihan.
+- [ ] `GET /api/v1/me/cleanup`: Membaca status pembersihan dokumen sendiri.
+- [ ] `POST /api/v1/me/cleanup/{cleanupId}/retry`: Mengulangi pembersihan dokumen sendiri.
+- [ ] `GET /api/v1/me/ktp`: Membaca status kelayakan KTP.
+- [ ] `POST /api/v1/me/ktp-checks`: Meminta pemeriksaan KTP.
+- [ ] `POST /api/v1/me/ktp-confirmations`: Mengonfirmasi KTP yang memenuhi syarat.
+- [ ] `POST /api/v1/me/ktp-checks/{jobId}/retry`: Mengulangi pemeriksaan KTP.
+- [ ] `GET /api/v1/me/family`: Membaca profil keluarga sendiri.
+- [ ] `PATCH /api/v1/me/family`: Memperbarui anggota keluarga.
+- [ ] `POST /api/v1/me/family-extractions`: Meminta saran profil keluarga dari dokumen.
+- [ ] `POST /api/v1/me/family-extractions/{jobId}/retry`: Mengulangi ekstraksi profil keluarga.
+- [ ] `POST /api/v1/me/family-extractions/{jobId}/apply`: Menerapkan saran keluarga yang dipilih.
+- [ ] `GET /api/v1/admin/content/{kind}`: Membaca daftar konten untuk admin.
+- [ ] `POST /api/v1/admin/content/{kind}`: Membuat draf konten.
+- [ ] `PUT /api/v1/admin/content/{kind}/{contentId}`: Memperbarui draf konten.
+- [ ] `DELETE /api/v1/admin/content/{kind}/{contentId}`: Menghapus draf konten.
+- [ ] `POST /api/v1/admin/content/{kind}/{contentId}/publish`: Menerbitkan konten umum.
+- [ ] `POST /api/v1/admin/content/{kind}/{contentId}/withdraw`: Menarik konten umum.
+- [ ] `POST /api/v1/admin/messages`: Menerbitkan pesan admin.
+- [ ] `GET /api/v1/admin/messages`: Membaca daftar pesan untuk admin.
+- [ ] `GET /api/v1/admin/messages/{messageId}`: Membaca detail pesan untuk admin.
+- [ ] `PATCH /api/v1/admin/messages/{messageId}`: Memperbarui pesan admin.
+- [ ] `POST /api/v1/admin/messages/{messageId}/revoke`: Mencabut pesan admin.
+- [ ] `POST /api/v1/admin/messages/{messageId}/expire`: Mengakhiri masa berlaku pesan admin.
+- [ ] `GET /api/v1/me/inbox`: Membaca inbox akun sendiri.
+- [ ] `PUT /api/v1/me/inbox/{messageId}/read`: Mencatat versi pesan yang telah dibaca.
+
+Batas bukti login: akun warga berhasil diuji dan warga ditolak dari ADMIN_WEB;
+seed dua admin demo serta pengujian login admin sukses masih tertunda.
+Setiap endpoint baru dicentang setelah implementasi dan tes terkait lulus.
+Perubahan kontrak wajib diselaraskan ke daftar ini tanpa mengubah status
+pengujian berdasarkan keberadaan definisi OpenAPI saja.
 
 ### Integrasi dan penerimaan
 
