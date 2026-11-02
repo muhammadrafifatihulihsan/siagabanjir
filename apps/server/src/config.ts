@@ -1,6 +1,6 @@
 export interface ServerConfig {
-  environment: 'development' | 'test';
-  host: '127.0.0.1' | '::1';
+  environment: 'development' | 'test' | 'production';
+  host: '127.0.0.1' | '::1' | '0.0.0.0';
   port: number;
   logLevel: 'info' | 'warn' | 'error' | 'silent';
 }
@@ -11,14 +11,18 @@ export function readConfig(env: NodeJS.ProcessEnv): ServerConfig {
   const host = env.HOST ?? '127.0.0.1';
   const port = env.PORT ?? '3000';
   const logLevel = env.LOG_LEVEL ?? 'info';
-  if (environment !== 'development' && environment !== 'test') {
+  if (
+    environment !== 'development' &&
+    environment !== 'test' &&
+    environment !== 'production'
+  ) {
     throw new Error(
-      'NODE_ENV belum didukung; fondasi ini hanya untuk lokal/test.',
+      'NODE_ENV belum didukung; hanya development, test, atau production.',
     );
   }
-  if (host !== '127.0.0.1' && host !== '::1') {
+  if (host !== '127.0.0.1' && host !== '::1' && host !== '0.0.0.0') {
     throw new Error(
-      'HOST wajib loopback sampai transport deployment tersedia.',
+      'HOST wajib loopback (127.0.0.1, ::1) atau container bind (0.0.0.0).',
     );
   }
   if (!/^[1-9]\d{0,4}$/.test(port) || Number(port) > 65535) {

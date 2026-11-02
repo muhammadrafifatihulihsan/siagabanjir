@@ -1,6 +1,6 @@
 # Panduan Lengkap & Ringkas Pengujian SiagaBanjir
 
-> **Panduan Pengujian:** Ikuti urutan langkah berikut dari persiapan awal (environment & database), verifikasi server, pengujian Swagger UI, hingga menjalankan aplikasi Flutter (Web & Android).
+> **Panduan Pengujian:** Ikuti urutan langkah berikut dari persiapan awal (environment & database), verifikasi server, pengujian Swagger UI, pengujian via Docker instan, hingga menjalankan aplikasi Flutter (Web & Android).
 
 ---
 
@@ -13,6 +13,7 @@ Sebelum pengujian dimulai, pastikan perangkat lunak berikut telah siap di komput
 | **Node.js** | `>=24.15.0 <25` | Runtime server backend Fastify |
 | **pnpm** | `10.34.9` (via Corepack) | Paket manager dependensi server |
 | **MySQL Server** | `8.0` (Laragon / XAMPP / Native) | Basis data relasional penyimpanan laporan & akun |
+| **Docker & Docker Compose** | Docker v20+ / Compose v2+ | Opsi setup instan sekali jalan (Multi-Container) |
 | **Flutter SDK** | `>=3.47.7` / Dart `>=3.13.5` | SDK antarmuka Warga (Android) dan Admin (Web) |
 | **Peramban Web** | Chrome / Edge | Untuk Swagger UI & Flutter Web Admin |
 
@@ -20,7 +21,7 @@ Sebelum pengujian dimulai, pastikan perangkat lunak berikut telah siap di komput
 
 ## 2. Berkas Konfigurasi yang Wajib Diisi (.env)
 
-Server backend membutuhkan berkas `.env` dan `.env.migrate` di dalam folder `apps/server/`.
+Jika menguji secara langsung tanpa Docker (native host), server backend membutuhkan berkas `.env` dan `.env.migrate` di dalam folder `apps/server/`. *(Jika menggunakan Docker Compose, konfigurasi lingkungan sudah terisi otomatis di `docker-compose.yml`).*
 
 ### A. Berkas `apps/server/.env` (Runtime Server)
 
@@ -176,7 +177,7 @@ cd apps/siagabanjir
 flutter test test/integrasi_backend_test.dart
 ```
 
-*Hasil:* 7 pengujian integrasi HTTP & repository lulus.
+*Hasil:* 7 pengujian integrasi HTTP & repository lulus (100% PASS).
 
 ### B. Menjalankan Flutter Web (Portal Admin & Pratinjau Warga)
 
@@ -213,22 +214,63 @@ flutter run
 
 ---
 
-## 9. Rangkuman Perintah Singkat (Cheatsheet)
+## 9. Langkah 7: Pengujian Instan Menggunakan Docker (One-Command Setup)
+
+Jika Anda ingin menjalankan seluruh backend dan basis data tanpa perlu mengonfigurasi MySQL atau Node.js secara manual di komputer host, gunakan Docker Compose.
+
+### A. Menjalankan Backend & MySQL Secara Instan
+
+Pastikan Docker Desktop sudah aktif, lalu jalankan di root repositori:
 
 ```bash
-# 1. Cek & Migrasi Database
-corepack pnpm --dir apps/server db:check
-corepack pnpm --dir apps/server db:migrate
+docker compose up -d
+```
 
-# 2. Jalankan Server Fastify
-corepack pnpm --dir apps/server dev
+**Alur Otomatis yang Dijalankan Container:**
 
-# 3. Uji Kesehatan Sistem
-curl -i http://127.0.0.1:3000/health
+1. **Container MySQL 8.0:** Otomatis membuat database `siagabanjirdev`, `siagabanjirtest`, serta akun dan hak akses aman melalui `docker/mysql/init.sql`.
+2. **Container Server Fastify:** Menunggu database siap (healthcheck), secara otomatis mengeksekusi 32 migrasi tabel database, lalu menyalakan server di port `3000`.
 
-# 4. Buka Swagger UI di Browser
-start http://127.0.0.1:3000/docs
+### B. Menjalankan Seluruh Sistem Sekaligus (Backend, Database, & Flutter Web)
 
-# 5. Jalankan Aplikasi Flutter
-cd apps/siagabanjir && flutter run -d chrome
+```bash
+docker compose --profile all up -d
+```
+
+- **Backend API & Swagger UI:** `http://localhost:3000/docs`
+- **Health Check:** `http://localhost:3000/health`
+- **Flutter Web (Nginx Production):** `http://localhost:8080` (dilengkapi reverse proxy otomatis ke `/api/`).
+
+### C. Perintah Manajemen Docker yang Berguna
+
+```bash
+# Melihat log aktivitas seluruh container
+docker compose logs -f
+
+# Memeriksa status kesehatan container
+docker compose ps
+
+# Menghentikan seluruh container
+docker compose down
+
+# Menghentikan dan mereset volume data MySQL
+docker compose down -v
+```
+
+---
+
+## 10. Rangkuman Perintah Singkat (Cheatsheet)
+
+```bash
+# --- Pilihan A: Setup Instan Menggunakan Docker ---
+docker compose up -d                        # Jalankan Backend Fastify + MySQL 8.0
+docker compose --profile all up -d          # Jalankan Seluruh Sistem (+ Flutter Web)
+
+# --- Pilihan B: Menjalankan Secara Manual di Komputer Host ---
+corepack pnpm --dir apps/server db:check    # 1. Cek Koneksi DB
+corepack pnpm --dir apps/server db:migrate  # 2. Migrasi Database
+corepack pnpm --dir apps/server dev         # 3. Jalankan Server Fastify
+curl -i http://127.0.0.1:3000/health        # 4. Cek Health Check
+start http://127.0.0.1:3000/docs            # 5. Buka Swagger UI
+cd apps/siagabanjir && flutter run -d chrome # 6. Jalankan Flutter Web
 ```
