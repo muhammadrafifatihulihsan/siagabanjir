@@ -56,6 +56,12 @@ Jangan membuat ulang folder placeholder berdasarkan catatan historis.
 8. Jalankan analyzer/test/build yang ada untuk platform terdampak. Untuk lokasi,
    secure storage, TTS dan izin Android, pisahkan tes mock dari bukti perangkat.
    Gunakan data sintetis pada screenshot dan fixture.
+9. Integritas UI dan Desain Acuan:
+   Saat mengintegrasikan endpoint backend, DILARANG merusak, menghapus, atau mengganti
+   komponen UI, widget turunan SVG, tata letak responsif, atau label aksesibilitas
+   yang sudah sesuai spesifikasi dengan widget mentah / placeholder sementara.
+   Integrasi wajib dilakukan pada layer repository, model, dan controller/state,
+   sehingga UI tetap mempertahankan fidelitas desain sambil menyajikan data nyata.
 
 ## Keluaran
 

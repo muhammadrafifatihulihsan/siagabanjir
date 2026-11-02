@@ -7,7 +7,14 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Terapkan kebijakan pembelajaran integrasi backend dan fidelitas UI pada
+  skills/siagabanjir-flutter/SKILL.md dan rules/ui.md: melarang perusakan,
+  penghapusan, atau penggantian komponen UI acuan/SVG dengan widget mentah demi
+  penyederhanaan API; pemetaan dan adaptasi data wajib dilakukan pada layer
+  repository, model, dan controller/state.
+
 - Tuntaskan integrasi backend ke Flutter secara menyeluruh: hubungkan AutentikasiRepository, LaporanRepository, PantauRepository, PesanRepository, AkunRepository, dan AdminRepository dengan kontrak API Fastify, kunci idempotensi UUID, dan sesi aman; pulihkan fidelitas rancangan desktop web admin (AdminSidebar dan 5 tab) serta seluruh layar warga (LayarKotakMasuk, LayarDokumenSiaga, LayarPantauWilayah, LayarRiwayatLaporan, LayarProfil, KartuStatusBeranda). Seluruh 126 tes unit/widget Flutter dan analyze PASS tanpa isu.
+
 
 
 - Hubungkan analisis laporan/KTP/keluarga ke worker DeepSeek persisten; hapus

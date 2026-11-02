@@ -58,6 +58,7 @@ Perbaikan integrasi:
 5. Backend: 22 pengujian unit PASS, tsc typecheck PASS, eslint PASS.
 6. Validasi workspace CI lokal (validate_links.py & validate_skills.py): PASS.
 7. Disusun proposal pembelajaran /learn (learning_proposal.md) mengenai tata kelola integrasi backend-frontend tanpa merusak desain UI.
+8. Penerapan proposal pembelajaran /learn: aturan integritas UI dan desain acuan resmi diterapkan ke skills/siagabanjir-flutter/SKILL.md (poin 9) dan rules/ui.md (subbagian "Integrasi Backend dan Fidelitas UI"). Skrip validasi skill dan link internal Markdown terverifikasi PASS.
 
 ## Checklist progres endpoint backend
 

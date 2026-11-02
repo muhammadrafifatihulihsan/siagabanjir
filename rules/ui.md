@@ -34,3 +34,9 @@ Aturan ini berlaku saat merancang, mengimplementasikan atau mereview tampilan.
   UI yang berjalan, catat sebagai rancangan/inspeksi, bukan PASS visual.
 - Perubahan keputusan visual memperbarui DESIGN dan semua rujukan terdampak
   menurut [aturan dokumentasi](documentation.md); perubahan fungsi juga ke FRD/SRS.
+
+## Integrasi Backend dan Fidelitas UI
+
+- Jangan mengubah label, tombol bantu, atau hierarki kontrol visual demi menyederhanakan payload API.
+- Lakukan pemetaan data (mapping/adapter) di layer repository atau view model; UI tetap mencerminkan kebutuhan pengguna dan spesifikasi desain.
+
