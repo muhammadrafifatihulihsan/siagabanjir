@@ -64,6 +64,7 @@ Perbaikan integrasi:
 11. Struktur lingkungan terpadu: menyelaraskan format variabel seluruh berkas .env (.env.example, .env, .env.migrate, .env.test) serta memperbarui package.json db:migrate agar otomatis membaca .env secara langsung tanpa mewajibkan berkas migrate terpisah.
 12. Penyederhanaan berkas lingkungan: menghapus variabel path alat biner opsional (FFMPEG/POPPLER) dari berkas template dan env lokal agar konfigurasi lebih bersih dan ringkas.
 13. Penyederhanaan akun pengujian: menambahkan akun admin1 s.d. admin5 (dan warga1 s.d. warga10) dengan kata sandi seragam Password123! pada modul seeding database.
+14. URL jaringan dinamis Flutter: menetapkan domain tunnel https://api.rafitesting.cloud sebagai default remote pada KonfigurasiApi dan KlienApi dengan otomatisasi fallback ke localhost saat tunnel offline. Seluruh 126 pengujian Flutter PASS.
 
 ## Checklist progres endpoint backend
 

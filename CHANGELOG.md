@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Konfigurasi URL terpusat Flutter dengan default domain tunnel https://api.rafitesting.cloud
+  dan otomatisasi fallback ke localhost jika remote tidak aktif; KlienApi mendukung failover
+  otomatis lintas platform tanpa modifikasi manual tiap berkas.
+
 - Sederhanakan format akun pengujian seed (admin1 s.d. admin5 dan warga1 s.d. warga10)
   dengan kata sandi seragam Password123! untuk kemudahan pengujian manual.
 

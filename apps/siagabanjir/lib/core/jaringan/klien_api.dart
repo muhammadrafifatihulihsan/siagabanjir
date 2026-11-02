@@ -10,16 +10,20 @@ import 'pengecualian_api.dart';
 
 /// Klien HTTP bersama untuk berkomunikasi dengan Fastify Backend SiagaBanjir.
 class KlienApi {
-  KlienApi({http.Client? client, String? baseUrl})
-    : _client = client ?? http.Client(),
-      _baseUrl = baseUrl ?? KonfigurasiApi.baseUrl;
+  KlienApi({http.Client? client, this._baseUrl})
+    : _client = client ?? http.Client();
 
   final http.Client _client;
-  final String _baseUrl;
+  final String? _baseUrl;
 
-  Uri _bangunUri(String path, [Map<String, dynamic>? queryParams]) {
+  Uri _bangunUri(
+    String path, [
+    Map<String, dynamic>? queryParams,
+    String? baseUrlOverride,
+  ]) {
     final cleanPath = path.startsWith('/') ? path : '/$path';
-    final urlString = '$_baseUrl$cleanPath';
+    final targetBase = baseUrlOverride ?? _baseUrl ?? KonfigurasiApi.baseUrl;
+    final urlString = '$targetBase$cleanPath';
     final uri = Uri.parse(urlString);
     if (queryParams == null || queryParams.isEmpty) return uri;
 
@@ -37,6 +41,47 @@ class KlienApi {
       if (token != null && token.isNotEmpty) 'Authorization': 'Bearer $token',
       ...?headersTambahan,
     };
+  }
+
+  bool _adalahMasalahKoneksi(Object error) {
+    if (error is TimeoutException) return true;
+    final nama = error.runtimeType.toString();
+    if (nama.contains('SocketException') ||
+        nama.contains('ClientException') ||
+        nama.contains('HttpException')) {
+      return true;
+    }
+    final pesan = error.toString().toLowerCase();
+    return pesan.contains('failed host lookup') ||
+        pesan.contains('connection refused') ||
+        pesan.contains('network is unreachable') ||
+        pesan.contains('clientexception') ||
+        pesan.contains('xmlhttprequest error');
+  }
+
+  Future<http.Response> _eksekusiDenganFallback(
+    Future<http.Response> Function(String base) aksi,
+  ) async {
+    final hostUtama = _baseUrl ?? KonfigurasiApi.baseUrl;
+    final hostLokal = KonfigurasiApi.defaultLocalUrl;
+
+    // Jika baseUrl diset manual di luar default remote (misal test mock), langsung panggil
+    if (_baseUrl != null && _baseUrl != KonfigurasiApi.defaultRemoteUrl) {
+      return await aksi(_baseUrl);
+    }
+    if (hostUtama == hostLokal) {
+      return await aksi(hostUtama);
+    }
+
+    try {
+      return await aksi(hostUtama);
+    } catch (e) {
+      if (_adalahMasalahKoneksi(e)) {
+        KonfigurasiApi.setBaseUrl(hostLokal);
+        return await aksi(hostLokal);
+      }
+      rethrow;
+    }
   }
 
   dynamic _prosesRespons(http.Response res) {
@@ -75,9 +120,14 @@ class KlienApi {
   }) async {
     final generasi = PengelolaSesi.instance.generasi;
     try {
-      final res = await _client
-          .get(_bangunUri(path, query), headers: _bangunHeaders(headers))
-          .timeout(KonfigurasiApi.batasWaktu);
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .get(
+              _bangunUri(path, query, base),
+              headers: _bangunHeaders(headers),
+            )
+            .timeout(KonfigurasiApi.batasWaktu);
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
@@ -91,9 +141,14 @@ class KlienApi {
 
   Future<Uint8List> unduh(String path) async {
     final generasi = PengelolaSesi.instance.generasi;
-    final res = await _client
-        .get(_bangunUri(path), headers: _bangunHeaders({'Accept': '*/*'}))
-        .timeout(KonfigurasiApi.batasWaktu);
+    final res = await _eksekusiDenganFallback((base) {
+      return _client
+          .get(
+            _bangunUri(path, null, base),
+            headers: _bangunHeaders({'Accept': '*/*'}),
+          )
+          .timeout(KonfigurasiApi.batasWaktu);
+    });
     if (generasi != PengelolaSesi.instance.generasi) {
       throw const PengecualianApi(pesan: 'Sesi telah berubah.');
     }
@@ -109,13 +164,15 @@ class KlienApi {
     final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
-      final res = await _client
-          .post(
-            _bangunUri(path),
-            headers: _bangunHeaders(headers),
-            body: payload ?? '{}',
-          )
-          .timeout(KonfigurasiApi.batasWaktu);
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .post(
+              _bangunUri(path, null, base),
+              headers: _bangunHeaders(headers),
+              body: payload ?? '{}',
+            )
+            .timeout(KonfigurasiApi.batasWaktu);
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
@@ -135,13 +192,15 @@ class KlienApi {
     final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
-      final res = await _client
-          .put(
-            _bangunUri(path),
-            headers: _bangunHeaders(headers),
-            body: payload ?? '{}',
-          )
-          .timeout(KonfigurasiApi.batasWaktu);
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .put(
+              _bangunUri(path, null, base),
+              headers: _bangunHeaders(headers),
+              body: payload ?? '{}',
+            )
+            .timeout(KonfigurasiApi.batasWaktu);
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
@@ -161,13 +220,15 @@ class KlienApi {
     final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
-      final res = await _client
-          .patch(
-            _bangunUri(path),
-            headers: _bangunHeaders(headers),
-            body: payload ?? '{}',
-          )
-          .timeout(KonfigurasiApi.batasWaktu);
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .patch(
+              _bangunUri(path, null, base),
+              headers: _bangunHeaders(headers),
+              body: payload ?? '{}',
+            )
+            .timeout(KonfigurasiApi.batasWaktu);
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
@@ -182,9 +243,14 @@ class KlienApi {
   Future<dynamic> delete(String path, {Map<String, String>? headers}) async {
     final generasi = PengelolaSesi.instance.generasi;
     try {
-      final res = await _client
-          .delete(_bangunUri(path), headers: _bangunHeaders(headers))
-          .timeout(KonfigurasiApi.batasWaktu);
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .delete(
+              _bangunUri(path, null, base),
+              headers: _bangunHeaders(headers),
+            )
+            .timeout(KonfigurasiApi.batasWaktu);
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
@@ -208,9 +274,11 @@ class KlienApi {
         'Content-Type': contentType,
         ...?headers,
       });
-      final res = await _client
-          .put(_bangunUri(path), headers: allHeaders, body: bytes)
-          .timeout(const Duration(seconds: 30));
+      final res = await _eksekusiDenganFallback((base) {
+        return _client
+            .put(_bangunUri(path, null, base), headers: allHeaders, body: bytes)
+            .timeout(const Duration(seconds: 30));
+      });
       if (generasi != PengelolaSesi.instance.generasi) {
         throw const PengecualianApi(
           pesan: 'Sesi telah berubah. Silakan muat ulang.',
