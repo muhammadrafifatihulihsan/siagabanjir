@@ -6,6 +6,13 @@ Arahan implementasi di bawah memenuhi mandat UI bersih dan ikon standar.
 Seluruh layar warga tersedia sebagai demo lokal; integrasi bisnis server belum tersedia.
 Fungsi, hak akses dan state tetap mengikuti [FRD](FRD.md) dan [SRS](SRS.md).
 
+## Integrasi data nyata ? 2 November 2026
+
+Alur frontend terhubung ke backend Fastify melalui layer repositori: login/daftar,
+pelaporan dengan titik koordinat dan foto bukti, pantau wilayah publik, kotak masuk pesan,
+dan dokumen siaga. Seluruh tata letak visual tetap mempertahankan fidelitas desain acuan SVG
+dan standar aksesibilitas WCAG, baik pada portal desktop web admin maupun aplikasi Android warga.
+
 ## Arah visual dan isi layar
 
 ### Acuan beranda warga dari pemilik

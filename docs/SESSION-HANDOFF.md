@@ -46,6 +46,19 @@ identitas warga. Lint PASS setelah perbaikan assertion. UAT Flutter, PDF nyata,
 video dan Docker belum dibuktikan pada unit ini. Integrasi Flutter adalah unit
 berikut dan klaim selesai pada checklist lama bukan bukti kesiapan menyeluruh.
 
+## Unit integrasi menyeluruh Flutter & pemulihan UI acuan, 2 November 2026
+
+Mandat pemilik: pahami alur secara utuh, hilangkan data palsu/dummy, dan selesaikan integrasi backend ke Flutter tanpa mengorbankan desain acuan.
+
+Perbaikan integrasi:
+1. Pemulihan fidelitas rancangan desktop web admin (KerangkaAdminWeb, AdminSidebar, 5 tab operasional) dan layar warga (LayarKotakMasuk, LayarDokumenSiaga, LayarPantauWilayah, LayarRiwayatLaporan, LayarProfil, KartuStatusBeranda) sesuai spesifikasi SVG acuan dan aturan aksesibilitas WCAG.
+2. Sinkronisasi API backend Fastify terintegrasi melalui Clean Architecture repositori: AutentikasiRepository, LaporanRepository, PantauRepository, PesanRepository, AkunRepository, dan AdminRepository, dilengkapi header idempotensi UUID (identitasAksi()), isolasi sesi lokal (PengelolaSesi), dan pemetaan aman.
+3. Seluruh 126 pengujian suite Flutter PASS (100% pass), termasuk seluruh tes dashboard admin, autentikasi, laporan, beranda, dokumen, pantau, dan alur pribadi.
+4. flutter analyze: 0 issues (PASS).
+5. Backend: 22 pengujian unit PASS, tsc typecheck PASS, eslint PASS.
+6. Validasi workspace CI lokal (validate_links.py & validate_skills.py): PASS.
+7. Disusun proposal pembelajaran /learn (learning_proposal.md) mengenai tata kelola integrasi backend-frontend tanpa merusak desain UI.
+
 ## Checklist progres endpoint backend
 
 Satu item untuk satu endpoint, lengkap dengan metode HTTP dan path. Daftar

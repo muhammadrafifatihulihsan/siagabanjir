@@ -1,3 +1,4 @@
+import '../core/sesi/pengelola_sesi.dart';
 import '../features/admin/domain/state_admin_siaga.dart';
 import '../features/admin/presentation/kerangka_admin_web.dart';
 import '../features/autentikasi/domain/peran_pengguna.dart';
@@ -169,6 +170,7 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
   }
 
   void _keluar() {
+    PengelolaSesi.instance.hapusSesi();
     ScaffoldMessenger.of(context).clearSnackBars();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute<void>(

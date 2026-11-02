@@ -1,3 +1,4 @@
+import '../../../core/jaringan/identitas_aksi.dart';
 import '../../../core/jaringan/klien_api.dart';
 import '../../../core/sesi/pengelola_sesi.dart';
 import '../domain/peran_pengguna.dart';
@@ -15,71 +16,94 @@ class AutentikasiRepository {
     required PeranPengguna peran,
   }) async {
     final payload = {
-      'identifier': identifier,
+      'email': identifier.trim(),
       'password': sandi,
-      'expectedRole': peran == PeranPengguna.admin ? 'ADMIN_WEB' : 'WARGA',
+      'client': peran == PeranPengguna.admin ? 'ADMIN_WEB' : 'ANDROID',
     };
 
-    final res = await _klien.post('/api/v1/auth/login', body: payload);
+    final res = await _klien.post(
+      '/api/v1/auth/login',
+      body: payload,
+      headers: {'Idempotency-Key': identitasAksi()},
+    );
     final data = res['data'] as Map<String, dynamic>;
-    final token = data['token'] as String;
-    final userMap = data['user'] as Map<String, dynamic>;
+    final token = (data['accessToken'] ?? data['token']) as String;
+    final userMap = (data['account'] ?? data['user']) as Map<String, dynamic>;
+    final roleStr = userMap['role'] as String;
+    final roleMatches = peran == PeranPengguna.admin
+        ? (roleStr == 'ADMIN' || roleStr == 'ADMIN_WEB')
+        : (roleStr == 'CITIZEN' || roleStr == 'WARGA');
+    if (!roleMatches) {
+      throw StateError('Peran akun tidak sesuai halaman masuk.');
+    }
 
     final pengguna = PenggunaSesi(
       id: userMap['id'] as String,
-      nama: userMap['name'] as String,
+      nama: (userMap['displayName'] ?? userMap['name'] ?? 'Warga') as String,
       email: userMap['email'] as String,
       peran: peran,
       nomorTelepon: userMap['phone'] as String?,
     );
 
-    PengelolaSesi.instance.setSesi(
-      token: token,
-      pengguna: pengguna,
-    );
+    PengelolaSesi.instance.setSesi(token: token, pengguna: pengguna);
 
     return pengguna;
   }
 
   /// Mendaftarkan akun baru warga ke `/api/v1/auth/signup`.
-  Future<void> daftar({
+  Future<String> daftar({
     required String nama,
     required String email,
     required String sandi,
     String? nomorTelepon,
   }) async {
     final payload = {
-      'name': nama,
+      'displayName': nama,
       'email': email,
       'password': sandi,
       if (nomorTelepon != null && nomorTelepon.isNotEmpty)
         'phone': nomorTelepon,
     };
 
-    await _klien.post('/api/v1/auth/signup', body: payload);
+    final res = await _klien.post(
+      '/api/v1/auth/signup',
+      body: payload,
+      headers: {'Idempotency-Key': identitasAksi()},
+    );
+    final data = res['data'] as Map<String, dynamic>?;
+    return (data?['recoveryCode'] as String?) ?? '';
   }
 
   /// Keluar dari sesi aktif dan mencabut token di server via `/api/v1/auth/logout`.
   Future<void> keluar() async {
     try {
-      await _klien.post('/api/v1/auth/logout');
+      await _klien.post(
+        '/api/v1/auth/logout',
+        headers: {'Idempotency-Key': identitasAksi()},
+      );
     } finally {
       PengelolaSesi.instance.hapusSesi();
     }
   }
 
   /// Memulihkan kata sandi dengan kode pemulihan via `/api/v1/auth/reset-password`.
-  Future<void> pulihkanSandi({
+  Future<String> pulihkanSandi({
     required String identifier,
     required String kodePemulihan,
     required String sandiBaru,
   }) async {
     final payload = {
-      'identifier': identifier,
-      'recoveryCode': kodePemulihan,
+      'email': identifier.trim(),
+      'code': kodePemulihan,
       'newPassword': sandiBaru,
     };
 
-    await _klien.post('/api/v1/auth/reset-password', body: payload);
+    final res = await _klien.post(
+      '/api/v1/auth/reset-password',
+      body: payload,
+      headers: {'Idempotency-Key': identitasAksi()},
+    );
+    final data = res['data'] as Map<String, dynamic>?;
+    return (data?['recoveryCode'] as String?) ?? '';
   }
 }

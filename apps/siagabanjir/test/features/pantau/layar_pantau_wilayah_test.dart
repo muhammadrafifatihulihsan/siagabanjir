@@ -1,7 +1,7 @@
+import '../../bantuan_sesi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/beranda/presentation/panel_akses_fitur.dart';
 import 'package:siagabanjir/features/pantau/presentation/layar_pantau_wilayah.dart';
 import 'package:siagabanjir/features/pantau/presentation/widgets/kartu_sorotan_pantau.dart';
@@ -177,7 +177,7 @@ void main() {
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
 
-      await tester.pumpWidget(const SiagaBanjirApp());
+      await tester.pumpWidget(aplikasiWargaTerautentikasi());
       await tester.pumpAndSettle();
 
       // Tap "Pantau Wilayah" to open preview sheet

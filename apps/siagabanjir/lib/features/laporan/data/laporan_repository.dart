@@ -17,9 +17,21 @@ class StatusKuotaLaporan {
   final String? alasan;
 
   factory StatusKuotaLaporan.fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('quota') && json['quota'] is Map) {
+      final quota = json['quota'] as Map<String, dynamic>;
+      final remaining = (quota['remaining'] as num?)?.toInt() ?? 0;
+      final used = (quota['used'] as num?)?.toInt() ?? 0;
+      return StatusKuotaLaporan(
+        diizinkan: (json['ktpSatisfied'] == true || json['allowed'] == true) &&
+            remaining > 0,
+        sisaKuota: remaining,
+        laporanAktif: used,
+        alasan: json['reason'] as String?,
+      );
+    }
     return StatusKuotaLaporan(
-      diizinkan: json['allowed'] as bool? ?? true,
-      sisaKuota: (json['remainingQuota'] as num?)?.toInt() ?? 3,
+      diizinkan: json['allowed'] as bool? ?? false,
+      sisaKuota: (json['remainingQuota'] as num?)?.toInt() ?? 0,
       laporanAktif: (json['activeReports'] as num?)?.toInt() ?? 0,
       alasan: json['reason'] as String?,
     );
@@ -49,8 +61,13 @@ class ItemRiwayatLaporanServer {
       id: json['id'] as String? ?? '',
       kategori: json['category'] as String? ?? 'Banjir',
       deskripsi: json['description'] as String? ?? '',
-      status: json['status'] as String? ?? 'SUBMITTED',
-      waktuBuat: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      status:
+          json['analysisState'] as String? ??
+          json['state'] as String? ??
+          json['status'] as String? ??
+          'SUBMITTED',
+      waktuBuat:
+          DateTime.tryParse(json['acceptedAt'] as String? ?? json['createdAt'] as String? ?? '') ??
           DateTime.now(),
       mediaId: json['mediaId'] as String?,
     );
@@ -63,10 +80,16 @@ class LaporanRepository {
 
   final KlienApi _klien;
 
+  Future<Map<String, dynamic>> statusPengiriman(String id) async {
+    final res = await _klien.get('/api/v1/me/submissions/$id');
+    final dynamic data = (res is Map && res['data'] is Map) ? res['data'] : res;
+    return Map<String, dynamic>.from(data as Map);
+  }
+
   /// Memeriksa status kuota dan kelayakan pelaporan warga via `GET /api/v1/me/reporting-status`.
   Future<StatusKuotaLaporan> periksaStatusKuota() async {
     final res = await _klien.get('/api/v1/me/reporting-status');
-    final data = res['data'] as Map<String, dynamic>? ?? res;
+    final data = res['data'] as Map<String, dynamic>? ?? (res is Map<String, dynamic> ? res : <String, dynamic>{});
     return StatusKuotaLaporan.fromJson(data);
   }
 
@@ -81,8 +104,8 @@ class LaporanRepository {
       bytes: bytes,
       contentType: contentType,
     );
-    final data = res['data'] as Map<String, dynamic>? ?? res;
-    return data['mediaId'] as String? ?? uploadId;
+    final data = res['data'] as Map<String, dynamic>? ?? (res is Map<String, dynamic> ? res : <String, dynamic>{});
+    return data['mediaId'] as String? ?? data['id'] as String? ?? uploadId;
   }
 
   /// Mengirim laporan warga ke server via `PUT /api/v1/me/submissions/{submissionId}`.
@@ -95,12 +118,26 @@ class LaporanRepository {
     double? latitude,
     double? longitude,
     String? alamat,
+    String? waktuSinyal,
   }) async {
     final payload = {
       'category': kategori,
-      'description': deskripsi,
       'needs': kebutuhan,
       'mediaId': ?mediaId,
+      if (mediaId != null) 'uploadIds': [mediaId],
+      'description':
+          '$kategori\n$deskripsi${kebutuhan.isEmpty ? '' : '\nKebutuhan: ${kebutuhan.join(', ')}'}',
+      'point': {
+        'latitude': latitude ?? -0.8715,
+        'longitude': longitude ?? 100.3543,
+        'source': 'MANUAL',
+      },
+      'deviceSignals': {
+        'mockLocation': 'UNKNOWN',
+        'developerMode': 'UNKNOWN',
+        'observedAt': waktuSinyal ?? DateTime.now().toUtc().toIso8601String(),
+        'buildId': 'siagabanjir-1.0.0',
+      },
       if (latitude != null && longitude != null)
         'location': {
           'latitude': latitude,
@@ -112,6 +149,7 @@ class LaporanRepository {
     final res = await _klien.put(
       '/api/v1/me/submissions/$submissionId',
       body: payload,
+      headers: {'Idempotency-Key': submissionId},
     );
     return res as Map<String, dynamic>;
   }
@@ -119,9 +157,14 @@ class LaporanRepository {
   /// Membaca riwayat laporan yang dikirimkan akun warga via `GET /api/v1/me/reports`.
   Future<List<ItemRiwayatLaporanServer>> ambilRiwayatLaporan() async {
     final res = await _klien.get('/api/v1/me/reports');
-    final list = (res['items'] as List<dynamic>? ?? []);
+    final dynamic itemsData = (res is Map && res['data'] is Map)
+        ? res['data']['items']
+        : (res is Map ? res['items'] : null);
+    final list = (itemsData as List<dynamic>? ?? []);
     return list
-        .map((e) => ItemRiwayatLaporanServer.fromJson(e as Map<String, dynamic>))
+        .map(
+          (e) => ItemRiwayatLaporanServer.fromJson(e as Map<String, dynamic>),
+        )
         .toList();
   }
 }

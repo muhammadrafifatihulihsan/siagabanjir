@@ -10,11 +10,9 @@ import 'pengecualian_api.dart';
 
 /// Klien HTTP bersama untuk berkomunikasi dengan Fastify Backend SiagaBanjir.
 class KlienApi {
-  KlienApi({
-    http.Client? client,
-    String? baseUrl,
-  })  : _client = client ?? http.Client(),
-        _baseUrl = baseUrl ?? KonfigurasiApi.baseUrl;
+  KlienApi({http.Client? client, String? baseUrl})
+    : _client = client ?? http.Client(),
+      _baseUrl = baseUrl ?? KonfigurasiApi.baseUrl;
 
   final http.Client _client;
   final String _baseUrl;
@@ -75,14 +73,32 @@ class KlienApi {
     Map<String, dynamic>? query,
     Map<String, String>? headers,
   }) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final res = await _client
           .get(_bangunUri(path, query), headers: _bangunHeaders(headers))
           .timeout(KonfigurasiApi.batasWaktu);
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu koneksi habis.');
     }
+  }
+
+  Future<Uint8List> unduh(String path) async {
+    final generasi = PengelolaSesi.instance.generasi;
+    final res = await _client
+        .get(_bangunUri(path), headers: _bangunHeaders({'Accept': '*/*'}))
+        .timeout(KonfigurasiApi.batasWaktu);
+    if (generasi != PengelolaSesi.instance.generasi) {
+      throw const PengecualianApi(pesan: 'Sesi telah berubah.');
+    }
+    if (res.statusCode < 200 || res.statusCode >= 300) _prosesRespons(res);
+    return res.bodyBytes;
   }
 
   Future<dynamic> post(
@@ -90,11 +106,21 @@ class KlienApi {
     dynamic body,
     Map<String, String>? headers,
   }) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
       final res = await _client
-          .post(_bangunUri(path), headers: _bangunHeaders(headers), body: payload)
+          .post(
+            _bangunUri(path),
+            headers: _bangunHeaders(headers),
+            body: payload ?? '{}',
+          )
           .timeout(KonfigurasiApi.batasWaktu);
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu koneksi habis.');
@@ -106,11 +132,21 @@ class KlienApi {
     dynamic body,
     Map<String, String>? headers,
   }) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
       final res = await _client
-          .put(_bangunUri(path), headers: _bangunHeaders(headers), body: payload)
+          .put(
+            _bangunUri(path),
+            headers: _bangunHeaders(headers),
+            body: payload ?? '{}',
+          )
           .timeout(KonfigurasiApi.batasWaktu);
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu koneksi habis.');
@@ -122,25 +158,38 @@ class KlienApi {
     dynamic body,
     Map<String, String>? headers,
   }) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final payload = body != null ? jsonEncode(body) : null;
       final res = await _client
-          .patch(_bangunUri(path), headers: _bangunHeaders(headers), body: payload)
+          .patch(
+            _bangunUri(path),
+            headers: _bangunHeaders(headers),
+            body: payload ?? '{}',
+          )
           .timeout(KonfigurasiApi.batasWaktu);
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu koneksi habis.');
     }
   }
 
-  Future<dynamic> delete(
-    String path, {
-    Map<String, String>? headers,
-  }) async {
+  Future<dynamic> delete(String path, {Map<String, String>? headers}) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final res = await _client
           .delete(_bangunUri(path), headers: _bangunHeaders(headers))
           .timeout(KonfigurasiApi.batasWaktu);
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu koneksi habis.');
@@ -153,6 +202,7 @@ class KlienApi {
     required String contentType,
     Map<String, String>? headers,
   }) async {
+    final generasi = PengelolaSesi.instance.generasi;
     try {
       final allHeaders = _bangunHeaders({
         'Content-Type': contentType,
@@ -161,6 +211,11 @@ class KlienApi {
       final res = await _client
           .put(_bangunUri(path), headers: allHeaders, body: bytes)
           .timeout(const Duration(seconds: 30));
+      if (generasi != PengelolaSesi.instance.generasi) {
+        throw const PengecualianApi(
+          pesan: 'Sesi telah berubah. Silakan muat ulang.',
+        );
+      }
       return _prosesRespons(res);
     } on TimeoutException {
       throw const PengecualianApi(pesan: 'Batas waktu unggah berkas habis.');

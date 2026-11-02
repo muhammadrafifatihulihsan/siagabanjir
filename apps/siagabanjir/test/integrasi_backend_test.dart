@@ -72,17 +72,17 @@ void main() {
       final mock = MockClient((req) async {
         if (req.url.path == '/api/v1/auth/login') {
           final body = jsonDecode(req.body) as Map<String, dynamic>;
-          expect(body['identifier'], '081234567890');
-          expect(body['expectedRole'], 'WARGA');
+          expect(body['email'], '081234567890');
+          expect(body['client'], 'ANDROID');
           return http.Response(
             jsonEncode({
               'data': {
-                'token': 'jwt-session-token-warga-123',
-                'user': {
+                'accessToken': 'jwt-session-token-warga-123',
+                'account': {
                   'id': 'usr-001',
-                  'name': 'Budi Warga',
+                  'displayName': 'Budi Warga',
                   'email': 'budi@padang.go.id',
-                  'role': 'WARGA',
+                  'role': 'CITIZEN',
                   'phone': '081234567890',
                 },
               },
@@ -96,10 +96,14 @@ void main() {
           return http.Response(jsonEncode({'data': {'revoked': true}}), 200);
         }
         if (req.url.path == '/api/v1/auth/signup') {
-          return http.Response(jsonEncode({'data': {'registered': true}}), 201);
+          return http.Response(jsonEncode({'data': {'recoveryCode': 'REC-123'}}), 201);
         }
         if (req.url.path == '/api/v1/auth/reset-password') {
-          return http.Response(jsonEncode({'data': {'reset': true}}), 200);
+          final body = jsonDecode(req.body) as Map<String, dynamic>;
+          expect(body['email'], 'budi@padang.go.id');
+          expect(body['code'], 'REC-CODE-123');
+          expect(body['newPassword'], 'passBaru123');
+          return http.Response(jsonEncode({'data': {'recoveryCode': 'NEW-REC-456'}}), 200);
         }
         return http.Response('Not Found', 404);
       });

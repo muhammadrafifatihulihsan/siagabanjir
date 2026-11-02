@@ -15,7 +15,9 @@ class KonfigurasiApi {
     }
 
     if (kIsWeb) {
-      return 'http://127.0.0.1:3000';
+      return Uri.base.port == 8080 || Uri.base.scheme == 'https'
+          ? Uri.base.origin
+          : 'http://127.0.0.1:3000';
     }
 
     // Android emulator mengakses host OS loopback melalui IP virtual 10.0.2.2

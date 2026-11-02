@@ -1,4 +1,4 @@
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
+import '../../bantuan_sesi.dart';
 import 'package:siagabanjir/features/kontak/presentation/layar_direktori_kontak.dart';
 import 'package:siagabanjir/features/dokumen/presentation/layar_dokumen_siaga.dart';
 import 'package:siagabanjir/features/tas_siaga/presentation/layar_tas_siaga.dart';
@@ -36,7 +36,7 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
-    await tester.pumpWidget(const SiagaBanjirApp());
+    await tester.pumpWidget(aplikasiWargaTerautentikasi());
     await tester.pumpAndSettle();
   }
 

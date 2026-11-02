@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tuntaskan integrasi backend ke Flutter secara menyeluruh: hubungkan AutentikasiRepository, LaporanRepository, PantauRepository, PesanRepository, AkunRepository, dan AdminRepository dengan kontrak API Fastify, kunci idempotensi UUID, dan sesi aman; pulihkan fidelitas rancangan desktop web admin (AdminSidebar dan 5 tab) serta seluruh layar warga (LayarKotakMasuk, LayarDokumenSiaga, LayarPantauWilayah, LayarRiwayatLaporan, LayarProfil, KartuStatusBeranda). Seluruh 126 tes unit/widget Flutter dan analyze PASS tanpa isu.
+
+
 - Hubungkan analisis laporan/KTP/keluarga ke worker DeepSeek persisten; hapus
   hasil simulasi, validasi hasil dan sumber, lindungi koreksi admin, dan baca
   status job aktual. Tambahkan praproses media, cleanup dan volume Docker.

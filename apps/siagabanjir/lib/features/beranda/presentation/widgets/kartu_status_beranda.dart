@@ -2,11 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
 import '../../../../shared/theme/siaga_theme.dart';
+import '../../../pantau/data/pantau_repository.dart';
 
-class KartuStatusBeranda extends StatelessWidget {
-  const KartuStatusBeranda({super.key, required this.onMonitor});
+class KartuStatusBeranda extends StatefulWidget {
+  const KartuStatusBeranda({super.key, required this.onMonitor, this.pantauRepository});
 
   final VoidCallback onMonitor;
+  final PantauRepository? pantauRepository;
+
+  @override
+  State<KartuStatusBeranda> createState() => _KartuStatusBerandaState();
+}
+
+class _KartuStatusBerandaState extends State<KartuStatusBeranda> {
+  String _namaLokasi = 'Sungai Batang Kuranji';
+  String _statusLevel = 'Siaga 2';
+  String _keteranganStatus = 'Potensi luapan air. Amankan barang berharga.';
+
+  @override
+  void initState() {
+    super.initState();
+    final repo = widget.pantauRepository ?? PantauRepository();
+    repo.ambilRingkasanPantau().then((res) {
+      if (mounted && res.items.isNotEmpty) {
+        final pertama = res.items.first;
+        setState(() {
+          _namaLokasi = pertama.namaLokasi;
+          if (pertama.tingkat == 'HIGH') {
+            _statusLevel = 'Siaga 1';
+            _keteranganStatus = 'Banjir meluap ke pemukiman. Segera evakuasi mandiri.';
+          } else if (pertama.tingkat == 'MEDIUM') {
+            _statusLevel = 'Siaga 2';
+            _keteranganStatus = 'Potensi luapan air. Amankan barang berharga.';
+          } else if (pertama.tingkat == 'LOW') {
+            _statusLevel = 'Siaga 3';
+            _keteranganStatus = 'Kondisi air meningkat. Tetap waspada perkiraan hujan.';
+          } else {
+            _statusLevel = 'Normal';
+            _keteranganStatus = 'Tinggi muka air sungai dalam batas aman.';
+          }
+        });
+      }
+    }).catchError((_) {});
+  }
 
   @override
   Widget build(BuildContext context) => Container(
@@ -27,7 +65,7 @@ class KartuStatusBeranda extends StatelessWidget {
             alignment: WrapAlignment.spaceBetween,
             children: [
               _label(
-                'Siaga 2',
+                _statusLevel,
                 const Color(0xFFB45309),
                 Colors.white,
                 dot: true,
@@ -41,9 +79,9 @@ class KartuStatusBeranda extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const Text(
-          'Sungai Batang Kuranji',
-          style: TextStyle(
+        Text(
+          _namaLokasi,
+          style: const TextStyle(
             fontSize: SiagaTheme.judulHalaman,
             height: 1.2,
             fontWeight: FontWeight.w800,
@@ -51,9 +89,9 @@ class KartuStatusBeranda extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 4),
-        const Text(
-          'Potensi luapan air. Amankan barang berharga.',
-          style: TextStyle(
+        Text(
+          _keteranganStatus,
+          style: const TextStyle(
             fontSize: SiagaTheme.judulBagian,
             height: 1.3,
             color: Color(0xFF475569),
@@ -98,7 +136,7 @@ class KartuStatusBeranda extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             OutlinedButton(
-              onPressed: onMonitor,
+              onPressed: widget.onMonitor,
               style: OutlinedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: const Color(0xFF1D4ED8),

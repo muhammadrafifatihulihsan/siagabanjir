@@ -25,6 +25,8 @@ class PengelolaSesi extends ChangeNotifier {
 
   static final PengelolaSesi instance = PengelolaSesi._();
 
+  int _generasi = 0;
+  int get generasi => _generasi;
   String? _tokenSesi;
   PenggunaSesi? _pengguna;
 
@@ -33,10 +35,8 @@ class PengelolaSesi extends ChangeNotifier {
   bool get apakahMasuk => _tokenSesi != null && _tokenSesi!.isNotEmpty;
 
   /// Memperbarui sesi setelah login atau registrasi berhasil.
-  void setSesi({
-    required String token,
-    required PenggunaSesi pengguna,
-  }) {
+  void setSesi({required String token, required PenggunaSesi pengguna}) {
+    _generasi++;
     _tokenSesi = token;
     _pengguna = pengguna;
     notifyListeners();
@@ -44,6 +44,7 @@ class PengelolaSesi extends ChangeNotifier {
 
   /// Menghapus sesi saat logout atau pencabutan sesi oleh backend.
   void hapusSesi() {
+    _generasi++;
     _tokenSesi = null;
     _pengguna = null;
     notifyListeners();

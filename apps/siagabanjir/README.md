@@ -15,6 +15,14 @@ dengan nama fitur Indonesia. Folder dibuat ketika ada implementasi; tidak ada
 lagi layer kosong atau `.gitkeep` dalam `lib`.
 Keputusan: [WS-DEC-063](../../docs/DECISIONS.md#flutter-indonesia-063).
 
+## Status integrasi saat ini
+
+Integrasi backend Fastify ke Flutter telah terhubung penuh via Clean Architecture repositori
+(AutentikasiRepository, LaporanRepository, PantauRepository, PesanRepository, AkunRepository,
+dan AdminRepository) dengan pemetaan kontrak nyata dan proteksi sesi lokal.
+Fidelitas rancangan desktop web admin dan seluruh layar warga dipulihkan sesuai spesifikasi SVG.
+Seluruh 126 pengujian suite Flutter (unit, widget, responsiveness, kontrak) dan flutter analyze PASS tanpa isu.
+
 ## Struktur
 
 ```text

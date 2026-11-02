@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/sesi/pengelola_sesi.dart';
 import '../features/admin/presentation/kerangka_admin_web.dart';
 import '../features/autentikasi/domain/peran_pengguna.dart';
 import '../features/autentikasi/presentation/layar_masuk.dart';
@@ -36,7 +37,8 @@ class SiagaBanjirApp extends StatelessWidget {
       },
       home: routeAwal != null
           ? null
-          : (initialRole == PeranPengguna.admin
+          : (PengelolaSesi.instance.pengguna?.peran == PeranPengguna.admin ||
+                  initialRole == PeranPengguna.admin
               ? const KerangkaAdminWeb()
               : const KerangkaWarga()),
     );

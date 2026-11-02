@@ -1,7 +1,7 @@
+import '../../bantuan_sesi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/tas_siaga/presentation/layar_tas_siaga.dart';
 
 Future<void> _loadTestFonts() async {
@@ -20,7 +20,7 @@ Future<void> _openEmergencyBag(
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
-  await tester.pumpWidget(const SiagaBanjirApp());
+  await tester.pumpWidget(aplikasiWargaTerautentikasi());
   await tester.pumpAndSettle();
 
   // Ketuk kartu "Tas Siaga" pada akses cepat beranda.
@@ -145,7 +145,7 @@ void main() {
       for (final size in testSizes) {
         tester.view.physicalSize = size;
         tester.view.devicePixelRatio = 1;
-        await tester.pumpWidget(const SiagaBanjirApp());
+        await tester.pumpWidget(aplikasiWargaTerautentikasi());
         await tester.pumpAndSettle();
 
         final bagTarget = find.text('Tas Siaga');
@@ -172,7 +172,7 @@ void main() {
     await tester.pumpWidget(
       MediaQuery(
         data: const MediaQueryData(textScaler: TextScaler.linear(2.0)),
-        child: const SiagaBanjirApp(),
+        child: aplikasiWargaTerautentikasi(),
       ),
     );
     await tester.pumpAndSettle();
