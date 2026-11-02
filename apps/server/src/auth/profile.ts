@@ -17,10 +17,29 @@ interface AccountRow extends RowDataPacket {
   password_salt: Buffer;
   credential_epoch: number;
   version: number;
+  phone: string | null;
+  address: string | null;
+  flood_alert_enabled: number;
 }
 
 export interface ProfileUpdateInput {
-  displayName: string;
+  displayName?: string;
+  phone?: string | null;
+  address?: string | null;
+  floodAlertEnabled?: boolean;
+}
+
+function profileView(account: AccountRow) {
+  return {
+    id: account.id,
+    displayName: account.display_name,
+    email: account.email_normalized,
+    role: account.role,
+    version: account.version,
+    phone: account.phone ?? null,
+    address: account.address ?? null,
+    floodAlertEnabled: Number(account.flood_alert_enabled) === 1,
+  };
 }
 
 export interface CredentialsUpdateInput {
@@ -36,15 +55,52 @@ export async function updateProfile(
   expectedVersion: number,
   clientKey: string,
 ) {
-  const displayName = input.displayName.trim();
-  const charCount = [...displayName].length;
-  if (charCount < 2 || charCount > 80) {
+  const displayName =
+    input.displayName === undefined ? undefined : input.displayName.trim();
+  if (displayName !== undefined) {
+    const charCount = [...displayName].length;
+    if (charCount < 2 || charCount > 80) {
+      throw new HttpProblem(422, 'VALIDATION_FAILED');
+    }
+  }
+  const phone =
+    input.phone === undefined
+      ? undefined
+      : input.phone === null
+        ? null
+        : input.phone.trim();
+  if (phone !== undefined && phone !== null) {
+    if (
+      phone.length > 32 ||
+      (phone.length > 0 && !/^[+0-9()\-\s]+$/.test(phone))
+    ) {
+      throw new HttpProblem(422, 'VALIDATION_FAILED');
+    }
+  }
+  const address =
+    input.address === undefined
+      ? undefined
+      : input.address === null
+        ? null
+        : input.address.trim();
+  if (address !== undefined && address !== null && address.length > 200) {
+    throw new HttpProblem(422, 'VALIDATION_FAILED');
+  }
+  if (
+    displayName === undefined &&
+    phone === undefined &&
+    address === undefined &&
+    input.floodAlertEnabled === undefined
+  ) {
     throw new HttpProblem(422, 'VALIDATION_FAILED');
   }
 
   const scope = actorScope(deps.keys.journal, 'account', accountId);
   const hash = fingerprint(deps.keys.journal, {
-    displayName,
+    displayName: displayName ?? null,
+    phone: phone ?? null,
+    address: address ?? null,
+    floodAlertEnabled: input.floodAlertEnabled ?? null,
     ifMatch: expectedVersion,
     operation: 'updateProfile',
   });
@@ -62,21 +118,15 @@ export async function updateProfile(
         throw new HttpProblem(409, 'IDEMPOTENCY_CONFLICT');
       }
       const [accounts] = await connection.execute<AccountRow[]>(
-        'SELECT id, display_name, email_normalized, role, version FROM accounts WHERE id = ?',
+        'SELECT id, display_name, email_normalized, role, version, phone, address, flood_alert_enabled FROM accounts WHERE id = ?',
         [accountId],
       );
       if (!accounts[0]) throw new HttpProblem(404, 'NOT_FOUND');
-      return {
-        id: accounts[0].id,
-        displayName: accounts[0].display_name,
-        email: accounts[0].email_normalized,
-        role: accounts[0].role,
-        version: accounts[0].version,
-      };
+      return profileView(accounts[0]);
     }
 
     const [rows] = await connection.execute<AccountRow[]>(
-      'SELECT id, display_name, email_normalized, role, version FROM accounts WHERE id = ? FOR UPDATE',
+      'SELECT id, display_name, email_normalized, role, version, phone, address, flood_alert_enabled FROM accounts WHERE id = ? FOR UPDATE',
       [accountId],
     );
     const current = rows[0];
@@ -85,9 +135,24 @@ export async function updateProfile(
       throw new HttpProblem(409, 'VERSION_CONFLICT', null, current.version);
     }
 
+    const nextDisplayName = displayName ?? current.display_name;
+    const nextPhone = phone === undefined ? current.phone : phone;
+    const nextAddress = address === undefined ? current.address : address;
+    const nextFloodAlert =
+      input.floodAlertEnabled === undefined
+        ? Number(current.flood_alert_enabled) === 1
+        : input.floodAlertEnabled;
+
     await connection.execute(
-      'UPDATE accounts SET display_name = ?, version = version + 1 WHERE id = ? AND version = ?',
-      [displayName, accountId, expectedVersion],
+      'UPDATE accounts SET display_name = ?, phone = ?, address = ?, flood_alert_enabled = ?, version = version + 1 WHERE id = ? AND version = ?',
+      [
+        nextDisplayName,
+        nextPhone,
+        nextAddress,
+        nextFloodAlert ? 1 : 0,
+        accountId,
+        expectedVersion,
+      ],
     );
 
     const actionId = randomUUID();
@@ -99,10 +164,13 @@ export async function updateProfile(
 
     return {
       id: current.id,
-      displayName,
+      displayName: nextDisplayName,
       email: current.email_normalized,
       role: current.role,
       version: current.version + 1,
+      phone: nextPhone,
+      address: nextAddress,
+      floodAlertEnabled: nextFloodAlert,
     };
   });
 }

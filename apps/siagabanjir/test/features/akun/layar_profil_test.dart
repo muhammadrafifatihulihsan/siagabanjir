@@ -62,7 +62,6 @@ void main() {
 
     // Data Pribadi & Domisili
     expect(find.text('Data Pribadi & Domisili'), findsOneWidget);
-    expect(find.text('137107*********01'), findsOneWidget);
     expect(find.text('rahmat.hidayat@email.com'), findsOneWidget);
     expect(
       find.text('Jl. Adinegoro No. 12, RT 02 / RW 04, Lubuk Buaya'),

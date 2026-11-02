@@ -69,7 +69,7 @@ class LayananLokasi {
     try {
       final posisi = await Geolocator.getCurrentPosition(
         locationSettings: LocationSettings(
-          accuracy: LocationAccuracy.high,
+          accuracy: LocationAccuracy.best,
           timeLimit: batasWaktu,
         ),
       );

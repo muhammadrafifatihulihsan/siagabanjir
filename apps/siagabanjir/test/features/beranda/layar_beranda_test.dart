@@ -242,7 +242,7 @@ void main() {
     }
     for (final description in [
       'Scan KK, KTP & berkas penting',
-      'Kamera AI Vision deteksi ketinggian genangan',
+      'Kirim foto dan lokasi titik banjir',
     ]) {
       final text = find.text(description);
       await tester.ensureVisible(text);

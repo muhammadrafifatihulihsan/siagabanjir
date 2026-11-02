@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
+import '../../../core/jaringan/pengecualian_api.dart';
 import '../domain/entri_riwayat_laporan.dart';
 
 /// Status kelayakan dan kuota pelaporan warga dari server.
@@ -187,13 +188,20 @@ class LaporanRepository {
       description = description.substring(0, 2000);
     }
 
+    if (latitude == null || longitude == null) {
+      throw const PengecualianApi(
+        pesan:
+            'Titik GPS belum tersedia. Tekan Perbarui Lokasi sebelum mengirim laporan.',
+      );
+    }
+
     final payload = {
       'uploadIds': uploadIds,
       'description': description,
       'point': {
-        'latitude': latitude ?? -0.9471,
-        'longitude': longitude ?? 100.4172,
-        'source': (latitude != null && longitude != null) ? 'GPS' : 'MANUAL',
+        'latitude': latitude,
+        'longitude': longitude,
+        'source': 'GPS',
       },
       'occurredAt': waktuSinyal ?? nowIso,
       'deviceSignals': {

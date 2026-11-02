@@ -10,6 +10,7 @@ import 'models/entri_kontak.dart';
 import 'widgets/kartu_kontak.dart';
 import 'widgets/tab_filter_kontak.dart';
 import '../../../shared/widgets/header_halaman.dart';
+import '../data/kontak_repository.dart';
 import '../domain/kontak_darurat.dart';
 import 'widgets/kontak_pribadi.dart';
 
@@ -19,12 +20,14 @@ class LayarDirektoriKontak extends StatefulWidget {
   const LayarDirektoriKontak({
     super.key,
     this.kontakPribadi,
+    this.kontakRepository,
     required this.onReport,
     required this.onHistory,
     required this.onProfile,
   });
 
   final ValueNotifier<List<KontakDarurat>>? kontakPribadi;
+  final KontakRepository? kontakRepository;
   final VoidCallback onReport;
   final VoidCallback onHistory;
   final VoidCallback onProfile;
@@ -36,6 +39,29 @@ class LayarDirektoriKontak extends StatefulWidget {
 class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
   late final _pribadi =
       widget.kontakPribadi ?? ValueNotifier<List<KontakDarurat>>([]);
+
+  /// Direktori dari CMS; data lokal hanya dipakai bila CMS belum terbit.
+  List<EntriKontak> _kontak = kPublicContacts;
+
+  @override
+  void initState() {
+    super.initState();
+    _muatKontak();
+  }
+
+  Future<void> _muatKontak() async {
+    try {
+      final hasil =
+          await (widget.kontakRepository ?? KontakRepository())
+              .ambilKontakPublik();
+      if (mounted && hasil.isNotEmpty) {
+        setState(() => _kontak = hasil.map((e) => e.toEntri()).toList());
+      }
+    } catch (_) {
+      // Direktori lokal tetap tampil bila CMS belum tersedia.
+    }
+  }
+
   @override
   void dispose() {
     if (widget.kontakPribadi == null) _pribadi.dispose();
@@ -46,16 +72,14 @@ class _LayarDirektoriKontakState extends State<LayarDirektoriKontak> {
   KategoriKontak? _selectedCategory;
 
   List<EntriKontak> get _filteredContacts {
-    if (_selectedCategory == null) return kPublicContacts;
-    return kPublicContacts
-        .where((c) => c.category == _selectedCategory)
-        .toList();
+    if (_selectedCategory == null) return _kontak;
+    return _kontak.where((c) => c.category == _selectedCategory).toList();
   }
 
   Map<KategoriKontak?, int> get _counts => {
-    null: kPublicContacts.length,
+    null: _kontak.length,
     for (final cat in KategoriKontak.values)
-      cat: kPublicContacts.where((c) => c.category == cat).length,
+      cat: _kontak.where((c) => c.category == cat).length,
   };
 
   void _onNavigationSelect(CitizenDestination destination) {

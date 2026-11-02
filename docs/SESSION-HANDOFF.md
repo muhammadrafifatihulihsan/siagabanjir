@@ -833,6 +833,41 @@ Rilis mengikuti [prosedur versioning](VERSIONING.md): tag hanya dibuat setelah
 CI berhasil pada commit yang sama. Rilis dokumentasi tidak menyatakan
 backend, Flutter, provider, perangkat, atau UAT telah lulus pengujian.
 
+## Unit verifikasi otomatis AI & sinkronisasi data, 3 November 2026
+
+Mandat pemilik: laporan baru harus tampil tanpa refresh, penanda tinjauan tidak
+boleh basi, GPS harus akurat, kontak harus benar-benar tersimpan, foto tidak
+boleh dikarang, admin tidak meninjau laporan satu per satu, profil harus
+tersinkron, dan istilah "AI Vision" dihapus.
+
+Perubahan yang selesai:
+1. Migrasi `038_account_profile.sql` menambah `accounts.phone`,
+   `accounts.address`, `accounts.flood_alert_enabled`. `GET /api/v1/me` membuka
+   ketiganya; `PATCH /api/v1/me` menerima subset field dengan `If-Match` dan
+   `Idempotency-Key`. Flutter memakai `displayName` (bukan `name`), mengirim
+   header versi/idempotensi, dan tidak lagi menampilkan nama, nomor, NIK, atau
+domisili contoh. Baris NIK dihapus dari UI.
+2. `finishJob` `REPORT_ANALYSIS` mengosongkan `needs_review_since`, sehingga
+   seluruh hasil AI langsung menjadi status laporan. Admin tidak lagi punya
+tombol tinjauan per laporan; tindak lanjut dilakukan per klaster.
+3. Direktori kontak warga membaca CMS terbit; admin membuat draf lalu
+   menerbitkannya sehingga tambah/hapus kontak bertahan di database.
+4. Dashboard admin menyegarkan laporan, klaster, dan kontak setiap 20 detik dan
+   memakai nama wilayah serta level dari tabel `groups`.
+5. GPS memakai `LocationAccuracy.best` tanpa koordinat cadangan; unggahan hanya
+   memakai foto asli warga (laporan tanpa foto dikirim tanpa `uploadIds`).
+6. Istilah "AI Vision" diganti "Lapor Banjir" pada kartu dan deskripsi fitur.
+7. `siagabanjirdev` dikosongkan atas mandat pemilik lalu diisi ulang
+   `pnpm db:seed` (16 akun demo). Akun migrasi tidak memiliki hak `DROP`, jadi
+   pengosongan memakai `DELETE` seluruh tabel data dengan
+   `schema_migrations` dipertahankan.
+
+Bukti: 23 tes unit server PASS, `pnpm test:db` PASS, 135 tes Flutter PASS,
+`flutter analyze` bersih, migrasi 038 diterapkan (38 migrasi), `reports` dan
+`groups` kosong setelah reset. Belum dijalankan pada unit ini: `flutter build web`,
+UAT perangkat, worker/`DEEPSEEK_API_KEY` nyata, dan push/deploy. Tanpa worker,
+penanda tinjauan berarti "menunggu analisis AI" dan bukan tugas admin.
+
 ## Pekerjaan berikutnya
 
 Publikasi baseline selesai. Ekspor session lokal sudah tidak ditemukan pada

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/dialog_siaga.dart';
@@ -31,16 +33,24 @@ class KerangkaAdminWeb extends StatefulWidget {
 class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
   AdminMenuTab _currentTab = AdminMenuTab.dashboard;
   final _state = StateAdminSiaga.instance;
+  Timer? _timerSinkron;
 
   @override
   void initState() {
     super.initState();
     _state.addListener(_onStateChanged);
     _state.sinkronkanDariBackend();
+    _state.sinkronkanKontak();
+    // Laporan/kontak baru langsung tampil tanpa perlu memuat ulang halaman.
+    _timerSinkron = Timer.periodic(const Duration(seconds: 20), (_) {
+      _state.sinkronkanDariBackend();
+      _state.sinkronkanKontak();
+    });
   }
 
   @override
   void dispose() {
+    _timerSinkron?.cancel();
     _state.removeListener(_onStateChanged);
     super.dispose();
   }

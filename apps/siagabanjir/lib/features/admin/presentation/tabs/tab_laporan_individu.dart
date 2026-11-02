@@ -144,20 +144,8 @@ class _TabLaporanIndividuState extends State<TabLaporanIndividu> {
           ),
         ),
         actions: [
-          if (item.statusVerifikasi == StatusVerifikasiWilayah.menungguTinjauan)
-            FilledButton(
-              onPressed: () {
-                widget.state.verifikasiLaporanIndividu(item.id);
-                Navigator.pop(ctx);
-              },
-              child: const Text(
-                'Verifikasi',
-                style: TextStyle(
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
+          // Laporan individu tidak ditinjau manual: hasil analisis AI langsung
+          // menjadi status laporan, dan tindak lanjut dilakukan per klaster.
           OutlinedButton(
             onPressed: () {
               Navigator.pop(ctx);

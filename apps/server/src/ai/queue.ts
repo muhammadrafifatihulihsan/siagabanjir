@@ -82,9 +82,11 @@ export async function finishJob(
           analysis.relevance === 'MATCH' ? 1 : 0,
         ],
       );
+      // Verifikasi otomatis: hasil AI (MATCH/MISMATCH/INSUFFICIENT) langsung
+      // menutup antrean tinjauan sehingga admin tidak menindak laporan individu.
       if (!admins.length)
         await c.execute(
-          'UPDATE reports SET result_version=?,version=version+1,needs_review_since=COALESCE(needs_review_since,UTC_TIMESTAMP(3)),updated_at=UTC_TIMESTAMP(3) WHERE id=?',
+          'UPDATE reports SET result_version=?,version=version+1,needs_review_since=NULL,updated_at=UTC_TIMESTAMP(3) WHERE id=?',
           [version, job.source_id],
         );
       await refreshGroup(c, String(reports[0]?.group_id));

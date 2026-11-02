@@ -7,6 +7,24 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Verifikasi otomatis AI, sinkronisasi profil/kontak, dan perbaikan alur admin:
+  tambah migrasi `038_account_profile.sql` (`accounts.phone`, `accounts.address`,
+  `accounts.flood_alert_enabled`); `finishJob` `REPORT_ANALYSIS` mengosongkan
+  `reports.needs_review_since` sehingga seluruh hasil AI (`MATCH`/`MISMATCH`/
+  `INSUFFICIENT`) langsung menjadi status laporan dan ditindaklanjuti per klaster,
+  bukan per laporan; `GET /api/v1/me` membuka `phone`, `address`, `floodAlertEnabled`
+  dan `PATCH /api/v1/me` menerima subset field dengan `If-Match`/`Idempotency-Key`;
+  Flutter menyinkronkan profil nyata (tanpa NIK/nomor/domisili contoh), memakai
+  `LocationAccuracy.best` tanpa koordinat cadangan, tidak lagi mengunggah foto bukti
+  contoh, menghapus istilah "AI Vision", memuat direktori kontak dari CMS
+  (`/public/content/{revision}/contacts`) dan menulis tambah/hapus kontak admin ke
+  `/admin/content/contacts`, serta menyegarkan laporan/klaster/kontak dashboard admin
+  setiap 20 detik dengan nama wilayah dan level dari tabel `groups`.
+  Bukti lokal: 23 tes unit server, `pnpm test:db` PASS, 135 tes Flutter,
+  `flutter analyze` bersih; migrasi 038 diterapkan ke `siagabanjirdev` (38 migrasi)
+  dan database pengembangan diisi ulang `pnpm db:seed`. `flutter build web`, UAT
+  perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
+
 - Tinjauan AI deskripsi, kesimpulan klaster wilayah, GPS riil, dan penataan penyimpanan:
   tambah migrasi `035_group_summary.sql` (ringkasan/centroid klaster), `036_assessment_mismatch.sql`,
   dan `037_cluster_summary_job.sql`; ubah prompt laporan menjadi `report-v2` dengan `descriptionMismatch`

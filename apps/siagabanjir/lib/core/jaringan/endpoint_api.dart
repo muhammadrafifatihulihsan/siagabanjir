@@ -148,6 +148,21 @@ abstract final class EndpointApi {
   /// Menerbitkan siaran peringatan darurat baru (`POST /api/v1/admin/messages`).
   static const String adminMessages = '/api/v1/admin/messages';
 
+  /// Daftar/pembuatan konten admin per jenis (`GET, POST /api/v1/admin/content/{kind}`).
+  static String adminContent(String kind) => '/api/v1/admin/content/$kind';
+
+  /// Draf konten admin tertentu (`PUT, DELETE /api/v1/admin/content/{kind}/{contentId}`).
+  static String adminContentItem(String kind, String contentId) =>
+      '/api/v1/admin/content/$kind/$contentId';
+
+  /// Menerbitkan draf konten (`POST /api/v1/admin/content/{kind}/{contentId}/publish`).
+  static String adminContentPublish(String kind, String contentId) =>
+      '/api/v1/admin/content/$kind/$contentId/publish';
+
+  /// Menarik konten terbit (`POST /api/v1/admin/content/{kind}/{contentId}/withdraw`).
+  static String adminContentWithdraw(String kind, String contentId) =>
+      '/api/v1/admin/content/$kind/$contentId/withdraw';
+
   /// Pengaturan pelaporan admin (`GET, PATCH /api/v1/admin/reporting-settings`).
   static const String adminReportingSettings =
       '/api/v1/admin/reporting-settings';

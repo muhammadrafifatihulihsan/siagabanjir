@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/widgets.dart';
 
 import '../../../core/jaringan/identitas_aksi.dart';
+import '../../../features/kontak/data/kontak_repository.dart';
 import '../../../features/kontak/presentation/models/entri_kontak.dart';
 import '../../../features/pantau/presentation/models/data_pantau_wilayah.dart';
 import '../../../features/pesan/presentation/models/pesan_siaga.dart';
@@ -50,9 +51,10 @@ class StateAdminSiaga extends ChangeNotifier {
   String? _galatSinkronisasiLaporan;
   String? get galatSinkronisasiLaporan => _galatSinkronisasiLaporan;
 
-  // 3. Data Kontak Darurat Posko Publik
+  // 3. Data Kontak Darurat Posko Publik (CMS)
   List<EntriKontak> _kontakDarurat = List.from(kPublicContacts);
   List<EntriKontak> get kontakDarurat => List.unmodifiable(_kontakDarurat);
+  final Map<String, String> _idKontak = {};
 
   // 4. Kebijakan Kuota & Sakelar Galeri
   bool _izinkanGaleri = true;
@@ -449,14 +451,53 @@ class StateAdminSiaga extends ChangeNotifier {
 
   // --- AKSI KONTAK DARURAT POSKO ---
 
-  void tambahKontakPosko(EntriKontak kontak) {
-    _kontakDarurat = [kontak, ..._kontakDarurat];
-    notifyListeners();
+  /// Memuat kontak posko dari CMS agar perubahan admin bertahan di server.
+  Future<void> sinkronkanKontak() async {
+    try {
+      final items = await KontakRepository().ambilKontakAdmin();
+      final terbit = items
+          .where((e) => e.state == 'PUBLISHED' || e.state == 'DRAFT')
+          .toList();
+      if (terbit.isEmpty) return;
+      _idKontak
+        ..clear()
+        ..addEntries(terbit.map((e) => MapEntry(e.nama, e.id)));
+      _kontakDarurat = terbit.map((e) => e.toEntri()).toList();
+      notifyListeners();
+    } catch (_) {
+      // Direktori lokal tetap dipakai bila CMS belum tersedia.
+    }
   }
 
-  void hapusKontakPosko(String name) {
+  Future<void> tambahKontakPosko(EntriKontak kontak) async {
+    _kontakDarurat = [kontak, ..._kontakDarurat];
+    notifyListeners();
+    try {
+      final dibuat = await KontakRepository().tambahDanTerbitkan(
+        nama: kontak.name,
+        telepon: kontak.phone,
+        deskripsi: kontak.agency,
+      );
+      if (dibuat != null) _idKontak[kontak.name] = dibuat.id;
+      await sinkronkanKontak();
+    } catch (e) {
+      _galatSinkronisasiLaporan = 'Kontak gagal disimpan ke server: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> hapusKontakPosko(String name) async {
+    final id = _idKontak.remove(name);
     _kontakDarurat = _kontakDarurat.where((k) => k.name != name).toList();
     notifyListeners();
+    if (id == null) return;
+    try {
+      await KontakRepository().hapusKontak(id);
+      await sinkronkanKontak();
+    } catch (e) {
+      _galatSinkronisasiLaporan = 'Kontak gagal dihapus di server: $e';
+      notifyListeners();
+    }
   }
 
   // --- AKSI KEBIJAKAN & KUOTA ---
@@ -498,55 +539,88 @@ class StateAdminSiaga extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Menyinkronkan daftar laporan warga aktual dari Fastify Backend.
+  /// Menyinkronkan laporan dan klaster aktual dari Fastify Backend.
+  ///
+  /// Nama wilayah serta tingkat siaga berasal dari tabel `groups` yang
+  /// diperbarui otomatis oleh analisis AI, bukan teks generik.
   Future<void> sinkronkanDariBackend() async {
+    final repo = AdminRepository();
     try {
-      final repo = AdminRepository();
-      final laporanServer = await repo.ambilDaftarLaporan();
-      // Bersihkan data dummy saat berhasil berkomunikasi dengan database server
+      final hasil = await Future.wait([
+        repo.ambilDaftarLaporan(),
+        repo.ambilKlasterWilayah(),
+      ]);
+      final laporanServer = hasil[0] as List<LaporanAdminServer>;
+      final klasterServer = hasil[1] as List<KlasterAdminServer>;
+      final petaKlaster = {for (final k in klasterServer) k.id: k};
+
       _klasterList.clear();
-      if (laporanServer.isNotEmpty) {
-        final items = laporanServer.map((ls) {
-          return LaporanAdminItem(
-            id: ls.id,
-            namaPelapor: ls.namaPelapor,
-            waktu: ls.waktu,
-            namaWilayah: 'Kota Padang',
-            kategori: ls.kategori,
-            deskripsi: ls.deskripsi,
-            kebutuhan: const [],
-            idKlaster: ls.idKlaster ?? 'klaster-terbaru',
-            statusVerifikasi: ls.status == 'REVIEWED'
+      final items = laporanServer.map((ls) {
+        final terverifikasi = ls.status == 'REVIEWED';
+        return LaporanAdminItem(
+          id: ls.id,
+          namaPelapor: ls.namaPelapor,
+          waktu: ls.waktu,
+          namaWilayah: petaKlaster[ls.idKlaster]?.namaLokasi ?? 'Kota Padang',
+          kategori: ls.kategori,
+          deskripsi: ls.deskripsi,
+          kebutuhan: const [],
+          idKlaster: ls.idKlaster ?? 'klaster-terbaru',
+          statusVerifikasi: terverifikasi
+              ? StatusVerifikasiWilayah.terverifikasi
+              : StatusVerifikasiWilayah.menungguTinjauan,
+          diverifikasiOtomatisWilayah: terverifikasi,
+        );
+      }).toList();
+
+      final Map<String, List<LaporanAdminItem>> grup = {};
+      for (final item in items) {
+        grup.putIfAbsent(item.idKlaster, () => []).add(item);
+      }
+      // Klaster tanpa laporan aktif tetap ditampilkan agar wilayah terpantau.
+      for (final klaster in klasterServer) {
+        grup.putIfAbsent(klaster.id, () => []);
+      }
+
+      for (final entry in grup.entries) {
+        final klaster = petaKlaster[entry.key];
+        final laporan = entry.value;
+        final tingkat = _tingkatDari(klaster?.tingkat);
+        final selesai = klaster?.status == 'COMPLETED';
+        final semuaDitinjau =
+            laporan.isNotEmpty &&
+            laporan.every(
+              (l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi,
+            );
+        _klasterList.add(
+          KlasterWilayahAi(
+            id: entry.key,
+            namaWilayah:
+                klaster?.namaLokasi ??
+                'Wilayah Laporan Masuk (${laporan.length} Laporan)',
+            kecamatan: 'Kota Padang',
+            radiusKeterangan: klaster == null
+                ? 'Laporan terkini warga dari database'
+                : 'Klaster ${klaster.jumlahLaporan} laporan • diperbarui otomatis',
+            tingkatTinggiAir: tingkat,
+            estimasiKedalaman: switch (tingkat) {
+              StatusTinggiAir.bahaya => '> 80 cm',
+              StatusTinggiAir.siaga2 => '40 - 80 cm',
+              StatusTinggiAir.siaga3 => '10 - 40 cm',
+              StatusTinggiAir.normal => 'Tidak ada genangan',
+            },
+            statusVerifikasi: selesai
+                ? StatusVerifikasiWilayah.selesai
+                : semuaDitinjau
                 ? StatusVerifikasiWilayah.terverifikasi
                 : StatusVerifikasiWilayah.menungguTinjauan,
-          );
-        }).toList();
-
-        final Map<String, List<LaporanAdminItem>> grup = {};
-        for (final item in items) {
-          final idK = item.idKlaster;
-          grup.putIfAbsent(idK, () => []).add(item);
-        }
-
-        for (final entry in grup.entries) {
-          _klasterList.add(
-            KlasterWilayahAi(
-              id: entry.key,
-              namaWilayah: 'Wilayah Laporan Masuk (${entry.value.length} Laporan)',
-              kecamatan: 'Kota Padang',
-              radiusKeterangan: 'Laporan terkini warga dari database',
-              tingkatTinggiAir: StatusTinggiAir.siaga2,
-              estimasiKedalaman: '40 - 80 cm',
-              statusVerifikasi: entry.value.any((l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi)
-                  ? StatusVerifikasiWilayah.terverifikasi
-                  : StatusVerifikasiWilayah.menungguTinjauan,
-              indikatorAi: const ['Laporan Terkini Warga'],
-              kebutuhanDominan: const ['Evakuasi', 'Logistik'],
-              laporan: entry.value,
-            ),
-          );
-        }
+            indikatorAi: const ['Analisis AI otomatis'],
+            kebutuhanDominan: const ['Evakuasi', 'Logistik'],
+            laporan: laporan,
+          ),
+        );
       }
+      _klasterList.sort((a, b) => b.totalLaporan.compareTo(a.totalLaporan));
       _galatSinkronisasiLaporan = null;
     } catch (e) {
       // Kegagalan tidak lagi disembunyikan; panel dapat menampilkan galat.
@@ -555,4 +629,11 @@ class StateAdminSiaga extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  static StatusTinggiAir _tingkatDari(String? level) => switch (level) {
+    'HIGH' => StatusTinggiAir.bahaya,
+    'MEDIUM' => StatusTinggiAir.siaga2,
+    'LOW' => StatusTinggiAir.siaga3,
+    _ => StatusTinggiAir.normal,
+  };
 }

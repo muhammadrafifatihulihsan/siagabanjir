@@ -362,6 +362,14 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-AI-003-01](FRD.md#ac-ai-003-01), [AC-AI-003-02](FRD.md#ac-ai-003-02); [TC-AI-003-01](FRD.md#tc-ai-003-01), [TC-AI-003-02](FRD.md#tc-ai-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
+> **Kebijakan demo, 3 November 2026 (WS-DEC-074):** verifikasi per laporan kini
+> otomatis. Hasil `REPORT_ANALYSIS` yang berhasil mengosongkan
+> `reports.needs_review_since`, sehingga `MATCH`, `MISMATCH`, dan `INSUFFICIENT`
+> langsung menjadi status laporan. Admin tidak meninjau laporan satu per satu;
+> tindak lanjut, termasuk menandai klaster selesai, dilakukan pada tingkat
+> klaster. FR-REVIEW di bawah tetap baseline `v1.0.0` dan tidak diubah; endpoint
+> koreksi manual tetap tersedia untuk kebutuhan audit.
+
 <a id="srs-fr-review-001"></a>
 
 #### SRS-FR-REVIEW-001 — mengelompokkan laporan terkait tanpa mengganti atau menghilangkan laporan individual

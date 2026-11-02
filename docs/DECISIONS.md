@@ -1499,3 +1499,43 @@ Batas yang belum selesai: sinkronisasi kontak Pusat Aksi ke CMS dan penataan
 kuota admin belum dikerjakan dalam rangkaian ini; kamera tetap memakai alur
 `image_picker` yang ada dengan permintaan izin saat tombol kamera ditekan.
 
+**WS-DEC-074 - CURRENT_USER_CONFIRMED.** Pemilik menetapkan hasil analisis AI
+menjadi keputusan akhir per laporan: admin tidak lagi meninjau laporan satu per
+satu. Verifikasi tindak lanjut dilakukan pada tingkat klaster wilayah.
+
+1. `finishJob` untuk `REPORT_ANALYSIS` menyimpan `assessments` lalu mengosongkan
+   `reports.needs_review_since` dan menaikkan `version`. Semua hasil `MATCH`,
+   `MISMATCH`, dan `INSUFFICIENT` tercatat pada klaster; `eligible=1` tetap hanya
+   untuk `MATCH` agar level klaster tidak dinaikkan klaim yang tidak cocok dengan
+   bukti. `POST /api/v1/admin/reports/{id}/review` tetap tersedia untuk koreksi
+   manual, tetapi Flutter tidak lagi menampilkan tombol tinjauan per laporan;
+   `TabLaporanIndividu` hanya menampilkan detail.
+2. Tanpa worker atau `DEEPSEEK_API_KEY` valid, `needs_review_since` tetap terisi.
+   Kondisi itu berarti "menunggu analisis AI", bukan tugas tinjauan admin;
+   README server menyebut syarat menjalankan `pnpm worker`.
+3. Profil akun disinkronkan nyata: migrasi `038_account_profile.sql` menambah
+   `accounts.phone`, `accounts.address`, dan `accounts.flood_alert_enabled`.
+   `GET /api/v1/me` membuka ketiganya dan `PATCH /api/v1/me` menerima subset
+   field (minimal satu) dengan `If-Match` serta `Idempotency-Key`. Flutter tidak
+   lagi memakai nama, nomor, NIK, atau domisili contoh; baris NIK dihapus karena
+   backend tidak menyimpan NIK. Telepon dan alamat bersifat opsional.
+4. Direktori kontak memakai CMS: warga membaca
+   `GET /api/v1/public/content/{revision}/contacts`, admin membuat draf lalu
+   menerbitkannya melalui `/api/v1/admin/content/contacts`. Tambah/hapus kontak
+   pada Pusat Aksi kini menulis ke server dan kegagalannya dilaporkan.
+5. Dashboard admin memuat ulang laporan, klaster, dan kontak setiap 20 detik agar
+   laporan baru terlihat tanpa refresh, memakai nama wilayah serta level dari
+   tabel `groups` alih-alih label generik.
+6. Bukti foto tidak dikarang: unggahan hanya memakai foto asli warga, dan
+   laporan tanpa foto dikirim tanpa `uploadIds`. GPS memakai
+   `LocationAccuracy.best` tanpa koordinat cadangan. Istilah "AI Vision" dihapus
+   dari UI warga dan diganti "Lapor Banjir".
+7. Database pengembangan `siagabanjirdev` dikosongkan atas mandat pemilik lalu
+   diisi ulang `pnpm db:seed`. Akun `sb_dev_migrate` tidak memiliki hak `DROP`,
+   sehingga pengosongan dilakukan dengan `DELETE` seluruh tabel data sambil
+   mempertahankan riwayat `schema_migrations`.
+
+Bukti lokal: 23 tes unit server, 135 tes Flutter, `flutter analyze` bersih,
+`pnpm test:db` PASS, migrasi 038 diterapkan (38 migrasi di `siagabanjirdev`).
+UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
+

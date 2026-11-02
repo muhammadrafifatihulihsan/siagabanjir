@@ -128,7 +128,10 @@ Worker memerlukan FFmpeg/ffprobe; PDF memerlukan Poppler pdfinfo/pdftoppm.
 Isi path executable pada `.env` jika belum tersedia di PATH. Docker memasang
 binary ini dalam image dan menjalankan worker dengan volume media bersama.
 Tanpa worker, job tetap menunggu; kegagalan provider ditampilkan sebagai gagal,
-bukan keberhasilan simulasi. Pengujian provider eksplisit (menggunakan kredit)
+bukan keberhasilan simulasi. Hasil `REPORT_ANALYSIS` yang berhasil langsung
+menutup antrean tinjauan (`reports.needs_review_since` dikosongkan), sehingga
+laporan tidak perlu disetujui admin satu per satu; bila worker belum berjalan,
+penanda tinjauan berarti laporan masih menunggu analisis AI. Pengujian provider eksplisit (menggunakan kredit)
 memakai database test: dari apps/server jalankan
 `node --env-file=.env --env-file=.env.test --import tsx test/provider.integration.ts`.
 Hasil dan keterbatasan ada pada [handoff](../../docs/SESSION-HANDOFF.md).

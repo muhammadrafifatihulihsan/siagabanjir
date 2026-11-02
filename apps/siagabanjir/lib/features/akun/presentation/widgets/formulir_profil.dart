@@ -25,7 +25,6 @@ class _FormulirProfilState extends State<FormulirProfil> {
   late final _nama = TextEditingController(text: widget.profil.name);
   late final _telepon = TextEditingController(text: widget.profil.phone);
   late final _alamat = TextEditingController(text: widget.profil.address);
-  late final _domisili = TextEditingController(text: widget.profil.location);
   late FotoPilihan? _foto = widget.foto;
   bool _sibuk = false;
   String? _error;
@@ -53,7 +52,7 @@ class _FormulirProfilState extends State<FormulirProfil> {
 
   @override
   void dispose() {
-    for (final c in [_nama, _telepon, _alamat, _domisili]) {
+    for (final c in [_nama, _telepon, _alamat]) {
       c.dispose();
     }
     super.dispose();
@@ -74,7 +73,7 @@ class _FormulirProfilState extends State<FormulirProfil> {
         name: nama,
         phone: _telepon.text.trim(),
         address: _alamat.text.trim(),
-        location: _domisili.text.trim(),
+        location: _alamat.text.trim(),
         initials: inisial,
       ),
     ));
@@ -89,7 +88,7 @@ class _FormulirProfilState extends State<FormulirProfil> {
         mainAxisSize: MainAxisSize.min,
         children: [
           const Text(
-            'Email dan NIK tidak dapat diubah melalui formulir ini.',
+            'Email tidak dapat diubah melalui formulir ini.',
           ),
           const SizedBox(height: 20),
           if (_foto != null)
@@ -129,10 +128,16 @@ class _FormulirProfilState extends State<FormulirProfil> {
             'Nomor ponsel',
             keyboard: TextInputType.phone,
             telepon: true,
+            wajib: false,
             maxLength: 24,
           ),
-          _isian(_domisili, 'Domisili', maxLength: 100),
-          _isian(_alamat, 'Alamat tempat tinggal', lines: 3, maxLength: 250),
+          _isian(
+            _alamat,
+            'Alamat tempat tinggal',
+            lines: 3,
+            maxLength: 250,
+            wajib: false,
+          ),
         ],
       ),
     ),
@@ -154,6 +159,7 @@ class _FormulirProfilState extends State<FormulirProfil> {
     int lines = 1,
     TextInputType? keyboard,
     bool telepon = false,
+    bool wajib = true,
     required int maxLength,
   }) => Padding(
     padding: const EdgeInsets.only(bottom: 16),
@@ -164,10 +170,11 @@ class _FormulirProfilState extends State<FormulirProfil> {
       keyboardType: keyboard,
       decoration: InputDecoration(labelText: label),
       validator: (value) {
-        if (value == null || value.trim().isEmpty) return '$label wajib diisi.';
+        final isi = value?.trim() ?? '';
+        if (isi.isEmpty) return wajib ? '$label wajib diisi.' : null;
         if (telepon &&
             !RegExp(r'^\+?(?:[ ()-]*[0-9]){8,15}[ ()-]*$')
-                .hasMatch(value.trim())) {
+                .hasMatch(isi)) {
           return 'Masukkan nomor ponsel yang valid.';
         }
         return null;

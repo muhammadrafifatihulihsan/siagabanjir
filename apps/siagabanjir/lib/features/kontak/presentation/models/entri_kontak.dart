@@ -107,3 +107,43 @@ const List<EntriKontak> kPublicContacts = [
     accentColor: Color(0xFF2563EB),
   ),
 ];
+
+/// Membentuk entri direktori dari konten CMS publik. Kategori ditebak dari
+/// nama/deskripsi karena kontrak CMS hanya menyimpan nama, deskripsi, telepon.
+EntriKontak entriKontakDariKonten({
+  required String nama,
+  required String deskripsi,
+  required String telepon,
+}) {
+  final teks = '$nama $deskripsi'.toLowerCase();
+  final KategoriKontak kategori;
+  if (teks.contains('rumah sakit') ||
+      teks.contains('klinik') ||
+      teks.contains('ambulans') ||
+      teks.contains('pmi') ||
+      teks.contains('kesehatan') ||
+      teks.contains('medis')) {
+    kategori = KategoriKontak.health;
+  } else if (teks.contains('pln') ||
+      teks.contains('pdam') ||
+      teks.contains('listrik') ||
+      teks.contains('air') ||
+      teks.contains('infrastruktur')) {
+    kategori = KategoriKontak.infrastructure;
+  } else {
+    kategori = KategoriKontak.emergency;
+  }
+  final accent = switch (kategori) {
+    KategoriKontak.emergency => const Color(0xFFDC2626),
+    KategoriKontak.health => const Color(0xFF059669),
+    KategoriKontak.infrastructure => const Color(0xFF2563EB),
+  };
+  return EntriKontak(
+    name: nama,
+    agency: deskripsi.isEmpty ? 'Kontak Posko Siaga' : deskripsi,
+    phone: telepon,
+    category: kategori,
+    description: deskripsi.isEmpty ? null : deskripsi,
+    accentColor: accent,
+  );
+}

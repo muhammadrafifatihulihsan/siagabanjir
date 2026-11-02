@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import '../../../core/jaringan/identitas_aksi.dart';
 import '../../../core/perangkat/layanan_lokasi.dart';
 import '../data/laporan_repository.dart';
@@ -191,19 +189,13 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     String? pesanGalat;
     try {
       final uploadIds = <String>[];
-      Uint8List? bytesToUpload = _foto?.bytes;
-      if (bytesToUpload == null) {
-        try {
-          final byteData = await DefaultAssetBundle.of(context)
-              .load('assets/images/reports/sample_banjir.jpg');
-          bytesToUpload = byteData.buffer.asUint8List();
-        } catch (_) {}
-      }
-      if (bytesToUpload != null) {
-        final uploadId = identitasAksi();
+      // Hanya foto asli warga yang diunggah; tidak ada lagi bukti contoh
+      // bawaan yang bisa membuat laporan tampak terverifikasi.
+      final foto = _foto;
+      if (foto != null) {
         final idUnggahan = await laporanRepo.unggahFotoBukti(
-          uploadId: uploadId,
-          bytes: bytesToUpload,
+          uploadId: identitasAksi(),
+          bytes: foto.bytes,
         );
         uploadIds.add(idUnggahan);
       }

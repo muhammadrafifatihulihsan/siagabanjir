@@ -277,6 +277,8 @@ void main() {
         kategori: 'Banjir Pemukiman',
         deskripsi: 'Air 50cm',
         uploadIds: [uploadId],
+        latitude: -0.9471,
+        longitude: 100.4172,
       );
       expect(
         ((submission['data'] as Map)['state'] as Map)['state'],

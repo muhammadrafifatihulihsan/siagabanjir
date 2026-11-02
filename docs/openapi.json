@@ -5465,6 +5465,17 @@
           "version": {
             "type": "integer",
             "minimum": 1
+          },
+          "phone": {
+            "type": ["string", "null"],
+            "maxLength": 32
+          },
+          "address": {
+            "type": ["string", "null"],
+            "maxLength": 200
+          },
+          "floodAlertEnabled": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -5654,11 +5665,20 @@
             "type": "string",
             "minLength": 2,
             "maxLength": 80
+          },
+          "phone": {
+            "type": ["string", "null"],
+            "maxLength": 32
+          },
+          "address": {
+            "type": ["string", "null"],
+            "maxLength": 200
+          },
+          "floodAlertEnabled": {
+            "type": "boolean"
           }
         },
-        "required": [
-          "displayName"
-        ],
+        "minProperties": 1,
         "additionalProperties": false
       },
       "CredentialsUpdate": {

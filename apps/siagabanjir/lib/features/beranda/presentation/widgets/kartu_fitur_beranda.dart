@@ -60,7 +60,7 @@ class KartuFiturBeranda extends StatelessWidget {
                     const SizedBox(width: 5),
                     Flexible(
                       child: Text(
-                        documents ? 'Dokumen Siaga' : 'AI Vision',
+                        documents ? 'Dokumen Siaga' : 'Lapor Banjir',
                         style: TextStyle(
                           fontSize: SiagaTheme.keterangan,
                           height: 1.3,
