@@ -1,0 +1,10 @@
+.dart_tool
+.pub-cache
+.pub
+build
+ios
+android
+windows
+linux
+macos
+*.log

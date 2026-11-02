@@ -7,6 +7,20 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan konfigurasi containerisasi Docker multi-container (docker-compose.yml,
+  apps/server/Dockerfile, apps/server/docker-entrypoint.sh, docker/mysql/init.sql,
+  dan apps/siagabanjir/Dockerfile) berbasis versi stabil LTS (Node 24 Alpine,
+  MySQL 8.0, dan Nginx 1.27 Alpine) dengan otomatisasi migrasi database 32 skema
+  saat booting container, reverse proxy API, serta dokumentasi instruksi setup
+  menyeluruh pada README.md, apps/server/README.md, docs/GITHUB-WORKFLOW.md,
+  docs/WORKSPACE.md, dan docs/PANDUAN-PENGUJIAN.md.
+
+- Tambahkan dokumen panduan pengujian menyeluruh sistem SiagaBanjir
+  (docs/PANDUAN-PENGUJIAN.md dan salinan di direktori Documents) yang mencakup
+  persiapan environment .env, verifikasi database MySQL, pengujian interaktif
+  Swagger UI dan health check, hingga pengujian dan eksekusi aplikasi Flutter
+  (Web & Android).
+
 - Tambahkan penanganan preflight CORS (HTTP 204 OPTIONS) dan header CORS lengkap
   pada server Fastify apps/server untuk mendukung komunikasi peramban Flutter Web
   admin dan warga secara aman saat deployment production.

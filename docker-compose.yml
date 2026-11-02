@@ -1,0 +1,75 @@
+# SiagaBanjir - Multi-Container Docker Compose
+# Menjalankan MySQL 8.0, Backend Fastify, dan Web Flutter (Nginx)
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: siagabanjir-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: siagabanjirdev
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-prootpassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: siagabanjir-server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      HOST: "0.0.0.0"
+      PORT: 3000
+      LOG_LEVEL: info
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: siagabanjirdev
+      DB_USER: sb_dev_app
+      DB_PASSWORD: devappsecret
+      MIGRATION_DB_HOST: mysql
+      MIGRATION_DB_PORT: 3306
+      MIGRATION_DB_USER: sb_dev_migrate
+      MIGRATION_DB_PASSWORD: devmigratesecret
+      RECOVERY_HMAC_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      JOURNAL_HMAC_KEY: abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789
+      CURSOR_HMAC_KEY: 456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  web:
+    build:
+      context: apps/siagabanjir
+      dockerfile: Dockerfile
+    container_name: siagabanjir-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+    profiles:
+      - all
+      - web
+
+volumes:
+  mysql_data:
+    driver: local
