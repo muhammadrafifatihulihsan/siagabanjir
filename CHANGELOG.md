@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Bersihkan variabel path alat biner opsional (FFMPEG/POPPLER) dari berkas template .env.example
+  dan konfigurasi lokal untuk merapikan berkas dan mengandalkan fallback bawaan sistem.
+
 - Seragamkan seluruh struktur berkas konfigurasi lingkungan (.env.example, .env, .env.migrate,
   dan .env.test) agar memiliki urutan dan kunci variabel yang identik; perbarui perintah
   db:migrate agar otomatis membaca .env secara langsung tanpa mewajibkan file .env.migrate
