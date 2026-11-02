@@ -1,23 +1,20 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
-import '../../../shared/widgets/lingkup_navigasi.dart';
-
+import '../../../core/perangkat/buka_peta.dart';
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/citizen_navigation.dart';
-import '../data/pantau_repository.dart';
-import 'models/data_pantau_wilayah.dart';
-import 'widgets/kartu_sorotan_pantau.dart';
 import '../../../shared/widgets/header_halaman.dart';
-import 'widgets/kartu_infrastruktur_pantau.dart';
-import 'widgets/bagian_pos_sungai.dart';
+import '../../../shared/widgets/lingkup_navigasi.dart';
+import '../data/pantau_repository.dart';
+import 'widgets/kartu_pantau_wilayah.dart';
 
-/// Halaman Pantau Wilayah sesuai desain spesifikasi monitor_public.svg.
-/// Menampilkan data pemantauan publik:
-/// 1. Status tinggi air sungai utama yang disorot (Sungai Batang Kuranji) dengan
-///    indikator batas normal, waspada, bahaya, dan sisa jarak ke batas luapan tanggul.
-/// 2. Daftar pos pantau sungai lainnya (Sungai Lubuk Kilangan, Sungai Batang Arau).
-/// 3. Status kesiapan operasional infrastruktur (Pintu Air dan Pompa Air Bergerak).
-/// 4. Navigasi bawah terintegrasi (Beranda, Lapor, Riwayat, Profil).
+/// Umpan peringatan banjir warga: daftar klaster wilayah aktif beserta
+/// kesimpulan agregasi, narasi AI (bila tersedia), dan tautan peta.
+///
+/// Data disegarkan otomatis setiap [selangPembaruan] (default 20 detik) dan
+/// dapat ditarik manual lewat pull-to-refresh.
 class LayarPantauWilayah extends StatefulWidget {
   const LayarPantauWilayah({
     super.key,
@@ -26,9 +23,8 @@ class LayarPantauWilayah extends StatefulWidget {
     this.onHistory,
     this.onProfile,
     this.pantauRepository,
-    this.featuredRiver = kDefaultFeaturedRiver,
-    this.riverPosts = kDefaultRiverPosts,
-    this.infrastructureItems = kDefaultInfrastructureItems,
+    this.selangPembaruan = const Duration(seconds: 20),
+    this.bukaPeta,
   });
 
   final VoidCallback? onHome;
@@ -36,9 +32,8 @@ class LayarPantauWilayah extends StatefulWidget {
   final VoidCallback? onHistory;
   final VoidCallback? onProfile;
   final PantauRepository? pantauRepository;
-  final StatusSungaiSorotan featuredRiver;
-  final List<PosSungai> riverPosts;
-  final List<ItemInfrastruktur> infrastructureItems;
+  final Duration selangPembaruan;
+  final Future<bool> Function(double latitude, double longitude)? bukaPeta;
 
   @override
   State<LayarPantauWilayah> createState() => _LayarPantauWilayahState();
@@ -46,26 +41,67 @@ class LayarPantauWilayah extends StatefulWidget {
 
 class _LayarPantauWilayahState extends State<LayarPantauWilayah> {
   late bool _isTest;
+  Timer? _timer;
   bool _memuat = false;
-  List<ItemPantauPublik> _serverItems = [];
+  String? _galat;
+  List<ItemPantauPublik> _items = const [];
+  DateTime? _diperbarui;
+
+  PantauRepository get _repo => widget.pantauRepository ?? PantauRepository();
 
   @override
   void initState() {
     super.initState();
     _isTest = WidgetsBinding.instance.runtimeType.toString().contains('Test');
-    if (!_isTest) {
+    final bolehMemuat = !_isTest || widget.pantauRepository != null;
+    if (bolehMemuat) {
       _memuat = true;
-      final repo = widget.pantauRepository ?? PantauRepository();
-      repo.ambilRingkasanPantau().then((res) {
-        if (mounted) {
-          setState(() {
-            _serverItems = res.items;
-            _memuat = false;
-          });
-        }
-      }).catchError((_) {
-        if (mounted) setState(() => _memuat = false);
+      WidgetsBinding.instance.addPostFrameCallback((_) => _muat());
+    }
+    // Polling dimatikan pada widget test agar tidak ada timer menggantung.
+    if (!_isTest) {
+      _timer = Timer.periodic(widget.selangPembaruan, (_) => _muat());
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _muat() async {
+    if (!mounted) return;
+    try {
+      final hasil = await _repo.ambilRingkasanPantau();
+      if (!mounted) return;
+      setState(() {
+        _items = hasil.items;
+        _diperbarui = hasil.serverTime;
+        _galat = null;
+        _memuat = false;
       });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _galat = 'Umpan peringatan belum dapat dimuat. Periksa koneksi lalu tarik untuk menyegarkan.';
+        _memuat = false;
+      });
+    }
+  }
+
+  Future<void> _bukaPeta(ItemPantauPublik item) async {
+    final latitude = item.latitude;
+    final longitude = item.longitude;
+    if (latitude == null || longitude == null) return;
+    final buka = widget.bukaPeta ?? bukaPetaGoogle;
+    final berhasil = await buka(latitude, longitude);
+    if (!berhasil && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Tautan peta tidak dapat dibuka pada perangkat ini.'),
+        ),
+      );
     }
   }
 
@@ -91,8 +127,6 @@ class _LayarPantauWilayahState extends State<LayarPantauWilayah> {
 
   @override
   Widget build(BuildContext context) {
-    final bool tampilkanEmptyState = !_isTest && !_memuat && _serverItems.isEmpty;
-
     return Scaffold(
       backgroundColor: SiagaTheme.background,
       body: SafeArea(
@@ -101,7 +135,6 @@ class _LayarPantauWilayahState extends State<LayarPantauWilayah> {
             constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               children: [
-                // Header atas dengan tombol kembali dan judul halaman
                 HeaderHalaman(
                   judul: 'Pantau Wilayah',
                   onBack: () {
@@ -112,62 +145,38 @@ class _LayarPantauWilayahState extends State<LayarPantauWilayah> {
                     }
                   },
                 ),
-
-                // Area konten pemantauan yang dapat di-scroll
                 Expanded(
-                  child: SingleChildScrollView(
-                    key: const PageStorageKey('region-monitor-scroll'),
-                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-                    child: tampilkanEmptyState
-                        ? const Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 48, horizontal: 24),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.waves_outlined, size: 64, color: Color(0xFF94A3B8)),
-                                  SizedBox(height: 16),
-                                  Text(
-                                    'Belum Ada Pos Pantau Aktif',
-                                    style: TextStyle(
-                                      fontSize: SiagaTheme.judulHalaman,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xFF1E293B),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    'Saat ini belum ada sensor pemantauan sungai atau data pos pantau yang terdaftar di sistem.',
-                                    style: TextStyle(
-                                      fontSize: SiagaTheme.isi,
-                                      color: Color(0xFF64748B),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ],
-                              ),
-                            ),
+                  child: RefreshIndicator(
+                    onRefresh: _muat,
+                    child: ListView(
+                      key: const PageStorageKey('region-monitor-scroll'),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                      children: [
+                        _ringkasanUmpan(),
+                        const SizedBox(height: 16),
+                        if (_memuat && _items.isEmpty)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 48),
+                            child: Center(child: CircularProgressIndicator()),
                           )
-                        : Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // Kartu utama pemantauan tinggi air sungai yang disorot
-                              KartuSorotanPantau(featuredRiver: widget.featuredRiver),
-                              const SizedBox(height: 20),
-
-                              // Bagian daftar pos pantau sungai
-                              BagianPosSungai(riverPosts: widget.riverPosts),
-                              const SizedBox(height: 16),
-
-                              // Kartu status infrastruktur pompa & pintu air
-                              KartuInfrastrukturPantau(items: widget.infrastructureItems),
-                            ],
-                          ),
+                        else if (_items.isEmpty)
+                          _pesanKosong()
+                        else ...[
+                          if (_galat != null) _bannerGalat(),
+                          for (final item in _items)
+                            KartuPantauWilayah(
+                              item: item,
+                              sekarang: _diperbarui,
+                              onBukaPeta: item.punyaKoordinat
+                                  ? () => _bukaPeta(item)
+                                  : null,
+                            ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
-
-                // Navigasi bawah bersama
                 if (!LingkupNavigasi.aktif(context))
                   CitizenNavigation(
                     selected: CitizenDestination.home,
@@ -180,4 +189,91 @@ class _LayarPantauWilayahState extends State<LayarPantauWilayah> {
       ),
     );
   }
+
+  Widget _ringkasanUmpan() {
+    final jumlah = _items.length;
+    final tinggi = _items.where((item) => item.tingkat == 'HIGH').length;
+    final keterangan = _diperbarui == null
+        ? 'Menghubungkan ke umpan peringatan…'
+        : 'Diperbarui ${labelWaktuRelatif(_diperbarui!)} · otomatis setiap '
+              '${widget.selangPembaruan.inSeconds} detik';
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFEFF6FF),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFBFDBFE)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$jumlah klaster terpantau${tinggi > 0 ? ' · $tinggi berstatus TINGGI' : ''}',
+            style: const TextStyle(
+              fontSize: SiagaTheme.judulBagian,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF1E3A8A),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            keterangan,
+            style: const TextStyle(
+              fontSize: SiagaTheme.keterangan,
+              height: 1.4,
+              color: Color(0xFF1D4ED8),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _bannerGalat() => Container(
+    margin: const EdgeInsets.only(bottom: 12),
+    padding: const EdgeInsets.all(12),
+    decoration: BoxDecoration(
+      color: const Color(0xFFFEF3C7),
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Text(
+      _galat!,
+      style: const TextStyle(
+        fontSize: SiagaTheme.keterangan,
+        color: Color(0xFF92400E),
+      ),
+    ),
+  );
+
+  Widget _pesanKosong() => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 24),
+    child: Column(
+      children: [
+        const Icon(Icons.waves_outlined, size: 64, color: Color(0xFF94A3B8)),
+        const SizedBox(height: 16),
+        Text(
+          _galat == null
+              ? 'Belum Ada Peringatan Aktif'
+              : 'Umpan Belum Tersedia',
+          style: const TextStyle(
+            fontSize: SiagaTheme.judulHalaman,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF1E293B),
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          _galat ??
+              'Belum ada klaster banjir aktif yang dilaporkan warga. '
+                  'Tarik ke bawah untuk menyegarkan.',
+          style: const TextStyle(
+            fontSize: SiagaTheme.isi,
+            color: Color(0xFF64748B),
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
 }

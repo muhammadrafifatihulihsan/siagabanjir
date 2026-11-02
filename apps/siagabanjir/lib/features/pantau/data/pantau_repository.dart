@@ -4,24 +4,57 @@ import '../../../core/jaringan/klien_api.dart';
 /// Item pantau wilayah publik yang diterima dari endpoint Fastify Backend.
 class ItemPantauPublik {
   const ItemPantauPublik({
+    required this.id,
     required this.namaLokasi,
     required this.tingkat,
     required this.waktuPembaruan,
     required this.statusReview,
+    this.jumlahLaporan = 0,
+    this.ringkasan,
+    this.ringkasanAi,
+    this.latitude,
+    this.longitude,
   });
 
+  final String id;
   final String namaLokasi;
   final String tingkat;
   final DateTime waktuPembaruan;
   final String statusReview;
+  final int jumlahLaporan;
+
+  /// Kesimpulan agregasi deterministik dari backend.
+  final String? ringkasan;
+
+  /// Narasi AI best-effort; null bila job ringkasan belum selesai.
+  final String? ringkasanAi;
+  final double? latitude;
+  final double? longitude;
+
+  bool get punyaKoordinat => latitude != null && longitude != null;
 
   factory ItemPantauPublik.fromJson(Map<String, dynamic> json) {
+    double? koordinat(Object? value, double batas) {
+      if (value is num) {
+        final angka = value.toDouble();
+        return angka.abs() <= batas ? angka : null;
+      }
+      return null;
+    }
+
     return ItemPantauPublik(
+      id: json['id'] as String? ?? '',
       namaLokasi: json['locationName'] as String? ?? 'Lokasi Kejadian',
       tingkat: json['level'] as String? ?? 'UNRATED',
-      waktuPembaruan: DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
+      waktuPembaruan:
+          DateTime.tryParse(json['updatedAt'] as String? ?? '') ??
           DateTime.now(),
       statusReview: json['reviewState'] as String? ?? 'REVIEWED',
+      jumlahLaporan: (json['reportCount'] as num?)?.toInt() ?? 0,
+      ringkasan: json['summary'] as String?,
+      ringkasanAi: json['aiSummary'] as String?,
+      latitude: koordinat(json['latitude'], 90),
+      longitude: koordinat(json['longitude'], 180),
     );
   }
 }
@@ -77,8 +110,8 @@ class PantauRepository {
     return HasilPantauPublik(
       items: items,
       nextCursor: nextCursorData as String?,
-      serverTime: DateTime.tryParse(serverTimeData as String? ?? '') ??
-          DateTime.now(),
+      serverTime:
+          DateTime.tryParse(serverTimeData as String? ?? '') ?? DateTime.now(),
     );
   }
 

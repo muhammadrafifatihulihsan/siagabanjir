@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +39,8 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
   List<PesanSiaga>? _serverMessages;
   bool _memuat = false;
   String? _galat;
+  Timer? _timer;
+  static const _selangSegarkan = Duration(seconds: 20);
 
   @override
   void initState() {
@@ -47,7 +51,17 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
         (!_adalahLingkunganTest || widget.pesanRepository != null);
     if (perluMuat) {
       _muatPesan();
+      // Sinkronisasi pesan siaran admin tanpa perlu membuka ulang layar.
+      if (!_adalahLingkunganTest) {
+        _timer = Timer.periodic(_selangSegarkan, (_) => _muatPesan());
+      }
     }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   Future<void> _muatPesan() async {
@@ -76,7 +90,9 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
       WidgetsBinding.instance.runtimeType.toString().contains('Test');
 
   List<PesanSiaga> get _allMessages =>
-      widget.messages ?? _serverMessages ?? (_adalahLingkunganTest ? kSampleSiagaMessages : const []);
+      widget.messages ??
+      _serverMessages ??
+      (_adalahLingkunganTest ? kSampleSiagaMessages : const []);
 
   // Filter daftar pesan berdasarkan kategori tab terpilih.
   List<PesanSiaga> get _filteredMessages {
@@ -166,23 +182,28 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                           ),
                         ),
                       )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
-                        itemCount: _filteredMessages.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 14),
-                        itemBuilder: (context, index) {
-                          final msg = _filteredMessages[index];
-                          return KartuPesan(
-                            message: msg,
-                            onAction: (action) => showMessageActionExplanation(
-                              context,
-                              action,
-                              msg,
-                            ),
-                            onTap: () => showMessageDetail(context, msg),
-                          );
-                        },
+                    : RefreshIndicator(
+                        onRefresh: _muatPesan,
+                        child: ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 16),
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          itemCount: _filteredMessages.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 14),
+                          itemBuilder: (context, index) {
+                            final msg = _filteredMessages[index];
+                            return KartuPesan(
+                              message: msg,
+                              onAction: (action) =>
+                                  showMessageActionExplanation(
+                                    context,
+                                    action,
+                                    msg,
+                                  ),
+                              onTap: () => showMessageDetail(context, msg),
+                            );
+                          },
+                        ),
                       ),
               ),
               if (!LingkupNavigasi.aktif(context))

@@ -23,8 +23,8 @@ class FormulirLaporan extends StatelessWidget {
     required this.onSubmit,
     this.foto,
     this.memuatFoto = false,
-    this.lokasi = 'Jl. Dr. Moh. Hatta No. 42, Koto Tangah, Padang',
-    this.keteranganLokasi = 'Lokasi terdeteksi otomatis melalui GPS',
+    this.lokasi = 'Menunggu lokasi GPS…',
+    this.keteranganLokasi = 'Aktifkan GPS agar titik laporan terverifikasi',
   });
 
   final TextEditingController description;

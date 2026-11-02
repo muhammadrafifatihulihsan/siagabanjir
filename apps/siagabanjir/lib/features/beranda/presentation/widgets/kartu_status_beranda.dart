@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:siagabanjir/shared/widgets/local_icon.dart';
 
@@ -5,7 +7,11 @@ import '../../../../shared/theme/siaga_theme.dart';
 import '../../../pantau/data/pantau_repository.dart';
 
 class KartuStatusBeranda extends StatefulWidget {
-  const KartuStatusBeranda({super.key, required this.onMonitor, this.pantauRepository});
+  const KartuStatusBeranda({
+    super.key,
+    required this.onMonitor,
+    this.pantauRepository,
+  });
 
   final VoidCallback onMonitor;
   final PantauRepository? pantauRepository;
@@ -16,6 +22,7 @@ class KartuStatusBeranda extends StatefulWidget {
 
 class _KartuStatusBerandaState extends State<KartuStatusBeranda> {
   late bool _isTest;
+  Timer? _timer;
   String _namaLokasi = 'Sungai Batang Kuranji';
   String _statusLevel = 'Siaga 2';
   String _keteranganStatus = 'Potensi luapan air. Amankan barang berharga.';
@@ -29,47 +36,66 @@ class _KartuStatusBerandaState extends State<KartuStatusBeranda> {
     if (!_isTest) {
       _namaLokasi = 'Belum Ada Pos Pantau Aktif';
       _statusLevel = 'Normal';
-      _keteranganStatus = 'Belum ada data pemantauan pos sungai di wilayah Anda.';
+      _keteranganStatus =
+          'Belum ada data pemantauan pos sungai di wilayah Anda.';
       _tinggiAir = '-';
       _waktuStatus = 'Terkini';
       _muatDataServer();
+      // Ringkasan beranda ikut umpan publik agar tidak tertinggal dari Pantau.
+      _timer = Timer.periodic(
+        const Duration(seconds: 20),
+        (_) => _muatDataServer(),
+      );
     }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   void _muatDataServer() {
     final repo = widget.pantauRepository ?? PantauRepository();
-    repo.ambilRingkasanPantau().then((res) {
-      if (!mounted) return;
-      if (res.items.isNotEmpty) {
-        final pertama = res.items.first;
-        setState(() {
-          _namaLokasi = pertama.namaLokasi;
-          if (pertama.tingkat == 'HIGH') {
-            _statusLevel = 'Siaga 1';
-            _keteranganStatus = 'Banjir meluap ke pemukiman. Segera evakuasi mandiri.';
-          } else if (pertama.tingkat == 'MEDIUM') {
-            _statusLevel = 'Siaga 2';
-            _keteranganStatus = 'Potensi luapan air. Amankan barang berharga.';
-          } else if (pertama.tingkat == 'LOW') {
-            _statusLevel = 'Siaga 3';
-            _keteranganStatus = 'Kondisi air meningkat. Tetap waspada perkiraan hujan.';
+    repo
+        .ambilRingkasanPantau()
+        .then((res) {
+          if (!mounted) return;
+          if (res.items.isNotEmpty) {
+            final pertama = res.items.first;
+            setState(() {
+              _namaLokasi = pertama.namaLokasi;
+              if (pertama.tingkat == 'HIGH') {
+                _statusLevel = 'Siaga 1';
+                _keteranganStatus =
+                    'Banjir meluap ke pemukiman. Segera evakuasi mandiri.';
+              } else if (pertama.tingkat == 'MEDIUM') {
+                _statusLevel = 'Siaga 2';
+                _keteranganStatus =
+                    'Potensi luapan air. Amankan barang berharga.';
+              } else if (pertama.tingkat == 'LOW') {
+                _statusLevel = 'Siaga 3';
+                _keteranganStatus =
+                    'Kondisi air meningkat. Tetap waspada perkiraan hujan.';
+              } else {
+                _statusLevel = 'Normal';
+                _keteranganStatus = 'Tinggi muka air sungai dalam batas aman.';
+              }
+              _tinggiAir = 'Tinggi Air Terpantau';
+              _waktuStatus = 'Diperbarui';
+            });
           } else {
-            _statusLevel = 'Normal';
-            _keteranganStatus = 'Tinggi muka air sungai dalam batas aman.';
+            setState(() {
+              _namaLokasi = 'Belum Ada Pos Pantau Aktif';
+              _statusLevel = 'Normal';
+              _keteranganStatus =
+                  'Belum ada data pemantauan pos sungai di wilayah Anda.';
+              _tinggiAir = '-';
+              _waktuStatus = 'Terkini';
+            });
           }
-          _tinggiAir = 'Tinggi Air Terpantau';
-          _waktuStatus = 'Diperbarui';
-        });
-      } else {
-        setState(() {
-          _namaLokasi = 'Belum Ada Pos Pantau Aktif';
-          _statusLevel = 'Normal';
-          _keteranganStatus = 'Belum ada data pemantauan pos sungai di wilayah Anda.';
-          _tinggiAir = '-';
-          _waktuStatus = 'Terkini';
-        });
-      }
-    }).catchError((_) {});
+        })
+        .catchError((_) {});
   }
 
   Color _warnaBadge(String level) {

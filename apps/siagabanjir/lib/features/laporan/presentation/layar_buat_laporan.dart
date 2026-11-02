@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import '../../../core/jaringan/identitas_aksi.dart';
+import '../../../core/perangkat/layanan_lokasi.dart';
 import '../data/laporan_repository.dart';
 import '../domain/entri_riwayat_laporan.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
@@ -22,6 +23,7 @@ class LayarBuatLaporan extends StatefulWidget {
     this.onSimpan,
     this.scrollController,
     this.layananFoto,
+    this.layananLokasi,
     this.fotoDipulihkan,
     this.laporanRepository,
     required this.onNotifications,
@@ -34,6 +36,7 @@ class LayarBuatLaporan extends StatefulWidget {
   final VoidCallback onHistory;
   final VoidCallback onProfile;
   final LayananFoto? layananFoto;
+  final LayananLokasi? layananLokasi;
   final ValueNotifier<FotoPilihan?>? fotoDipulihkan;
   final LaporanRepository? laporanRepository;
 
@@ -54,30 +57,60 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
   FotoPilihan? _foto;
   bool _memuatFoto = false;
 
-  // Koordinat dan Alamat GPS
-  String _alamatLokasi = 'Jl. Dr. Moh. Hatta No. 42, Koto Tangah, Padang';
-  String _keteranganLokasi = 'Lokasi terdeteksi otomatis melalui GPS';
-  double _latitude = -0.9471;
-  double _longitude = 100.4172;
+  // Koordinat GPS nyata; kosong sampai perangkat memberi posisi valid.
+  String _alamatLokasi = 'Menunggu lokasi GPS…';
+  String _keteranganLokasi = 'Aktifkan GPS agar titik laporan terverifikasi';
+  double? _latitude;
+  double? _longitude;
+  bool _memuatLokasi = false;
 
   @override
   void initState() {
     super.initState();
     _foto = widget.fotoDipulihkan?.value;
     widget.fotoDipulihkan?.addListener(_terimaFoto);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _sinkronisasiGps();
+    });
   }
 
   Future<void> _sinkronisasiGps() async {
+    if (_memuatLokasi) return;
     setState(() {
-      _latitude = -0.9471;
-      _longitude = 100.4172;
-      _alamatLokasi = 'Koto Tangah, Padang (-0.9471, 100.4172)';
-      _keteranganLokasi = 'Koordinat GPS terverifikasi: Lat -0.9471, Long 100.4172';
+      _memuatLokasi = true;
     });
-    await _explain(
-      'Lokasi Terdeteksi',
-      'Koto Tangah, Padang (-0.9471, 100.4172)\nKoordinat GPS berhasil disinkronkan.',
-    );
+    try {
+      final posisi = await (widget.layananLokasi ?? const LayananLokasi())
+          .ambilPosisi();
+      if (!mounted) return;
+      setState(() {
+        _latitude = posisi.latitude;
+        _longitude = posisi.longitude;
+        _alamatLokasi = 'Titik GPS ${posisi.labelKoordinat}';
+        _keteranganLokasi =
+            'Akurasi ±${posisi.akurasiMeter.toStringAsFixed(0)} m · diperbarui otomatis';
+      });
+    } on LokasiTidakTersediaException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _latitude = null;
+        _longitude = null;
+        _alamatLokasi = 'Lokasi belum tersedia';
+        _keteranganLokasi = e.pesan;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      const pesan =
+          'Lokasi belum dapat dibaca. Periksa GPS dan izin lokasi lalu coba lagi.';
+      setState(() {
+        _latitude = null;
+        _longitude = null;
+        _alamatLokasi = 'Lokasi belum tersedia';
+        _keteranganLokasi = pesan;
+      });
+    } finally {
+      if (mounted) setState(() => _memuatLokasi = false);
+    }
   }
 
   void _terimaFoto() {
@@ -121,6 +154,14 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       );
       return;
     }
+    if (_latitude == null || _longitude == null) {
+      await _explain(
+        'Lokasi belum terverifikasi',
+        'Laporan memerlukan titik GPS nyata agar petugas dapat menemukan lokasi kejadian. '
+            'Aktifkan GPS, izinkan akses lokasi, lalu tekan Perbarui Lokasi.',
+      );
+      return;
+    }
     _menyimpan = true;
     final setuju = await showDialog<bool>(
       context: context,
@@ -153,7 +194,8 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       Uint8List? bytesToUpload = _foto?.bytes;
       if (bytesToUpload == null) {
         try {
-          final byteData = await DefaultAssetBundle.of(context).load('assets/images/reports/sample_banjir.jpg');
+          final byteData = await DefaultAssetBundle.of(context)
+              .load('assets/images/reports/sample_banjir.jpg');
           bytesToUpload = byteData.buffer.asUint8List();
         } catch (_) {}
       }
@@ -171,8 +213,8 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
         deskripsi: _description.text.trim(),
         kebutuhan: List.unmodifiable(_needs),
         uploadIds: uploadIds,
-        latitude: _latitude,
-        longitude: _longitude,
+        latitude: _latitude!,
+        longitude: _longitude!,
         alamat: _alamatLokasi,
       );
     } catch (e) {
@@ -213,9 +255,7 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       );
     } else {
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('Laporan berhasil disimpan ke Riwayat.'),
-        ),
+        const SnackBar(content: Text('Laporan berhasil disimpan ke Riwayat.')),
       );
     }
   }

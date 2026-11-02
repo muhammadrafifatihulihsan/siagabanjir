@@ -13,8 +13,8 @@ class BagianBuktiLaporan extends StatelessWidget {
     required this.onLocation,
     this.foto,
     this.memuatFoto = false,
-    this.lokasi = 'Jl. Dr. Moh. Hatta No. 42, Koto Tangah, Padang',
-    this.keteranganLokasi = 'Lokasi terdeteksi otomatis melalui GPS',
+    this.lokasi = 'Menunggu lokasi GPS…',
+    this.keteranganLokasi = 'Aktifkan GPS agar titik laporan terverifikasi',
   });
 
   final VoidCallback onCamera;
@@ -158,7 +158,7 @@ class BagianBuktiLaporan extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             _action(
-              'Sinkronisasi Lokasi GPS',
+              'Perbarui Lokasi GPS',
               Icons.my_location_outlined,
               onLocation,
             ),

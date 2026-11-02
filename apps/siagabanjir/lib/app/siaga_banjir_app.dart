@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/perangkat/layanan_lokasi.dart';
 import '../core/sesi/pengelola_sesi.dart';
 import '../features/admin/presentation/kerangka_admin_web.dart';
 import '../features/autentikasi/domain/peran_pengguna.dart';
@@ -14,11 +15,15 @@ class SiagaBanjirApp extends StatelessWidget {
     this.initialRole,
     this.initialRoute,
     this.mulaiDariMasuk = false,
+    this.layananLokasi,
   });
 
   final PeranPengguna? initialRole;
   final String? initialRoute;
   final bool mulaiDariMasuk;
+
+  /// Layanan GPS yang dapat diganti pada pengujian widget.
+  final LayananLokasi? layananLokasi;
 
   @override
   Widget build(BuildContext context) {
@@ -33,14 +38,14 @@ class SiagaBanjirApp extends StatelessWidget {
       routes: {
         '/masuk': (_) => const LayarMasukGerbang(),
         '/admin': (_) => const KerangkaAdminWeb(),
-        '/warga': (_) => const KerangkaWarga(),
+        '/warga': (_) => KerangkaWarga(layananLokasi: layananLokasi),
       },
       home: routeAwal != null
           ? null
           : (PengelolaSesi.instance.pengguna?.peran == PeranPengguna.admin ||
-                  initialRole == PeranPengguna.admin
-              ? const KerangkaAdminWeb()
-              : const KerangkaWarga()),
+                    initialRole == PeranPengguna.admin
+                ? const KerangkaAdminWeb()
+                : KerangkaWarga(layananLokasi: layananLokasi)),
     );
   }
 }
@@ -55,24 +60,21 @@ class LayarMasukGerbang extends StatelessWidget {
       onLoginWithRole: (user, role) {
         if (role == PeranPengguna.admin) {
           Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-            MaterialPageRoute<void>(
-              builder: (_) => const KerangkaAdminWeb(),
-            ),
+            MaterialPageRoute<void>(builder: (_) => const KerangkaAdminWeb()),
             (_) => false,
           );
         } else {
           Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-            MaterialPageRoute<void>(
-              builder: (_) => const KerangkaWarga(),
-            ),
+            MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
             (_) => false,
           );
         }
       },
-      onLoginSuccess: (_) => Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-        MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
-        (_) => false,
-      ),
+      onLoginSuccess: (_) =>
+          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+            MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
+            (_) => false,
+          ),
     );
   }
 }
