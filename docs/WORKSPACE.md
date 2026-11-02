@@ -62,6 +62,7 @@ menyediakan catatan rilis dan arsip repository pada tag terkait.
 | [.gitattributes](../.gitattributes) | EOL teks bersama dan pengecualian binary |
 | [.gitignore](../.gitignore) | Rahasia, artefak lokal dan seluruh archive/ dikecualikan Git; tidak ada indeks arsip publik |
 | [Standar Komunitas](../CODE_OF_CONDUCT.md) | [Kode Etik](../CODE_OF_CONDUCT.md), [Panduan Kontribusi](../CONTRIBUTING.md), dan [Kebijakan Keamanan](../SECURITY.md) |
+| [Docker](../docker-compose.yml) | Multi-container setup otomatis untuk Fastify, MySQL 8.0, dan Nginx Web |
 | [GitHub](GITHUB-WORKFLOW.md) dan [versioning](VERSIONING.md) | Commit/push/PR dan identitas repo; bukti pada audit final/handoff |
 | [.github](../.github/) | CI, rilis, validator, dan template pull request |
 | [CI](../.github/workflows/ci.yml), [validator](../.github/scripts/) dan [dependensi](../.github/requirements-validation.txt) | Gate dokumentasi, format, kontrak/contoh dan regresi validator |

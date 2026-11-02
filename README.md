@@ -63,6 +63,23 @@ Fondasi [server TypeScript](apps/server/README.md) menyediakan seluruh 72 endpoi
 OpenAPI Fastify, dokumentasi interaktif Swagger UI (/docs), dan endpoint kesehatan sistem
 (/health); integrasi Flutter dan UAT menyusul.
 
+## Menjalankan dengan Docker (Sekali Setup)
+
+Pengembang atau penguji dapat menjalankan seluruh backend dan basis data MySQL 8.0 secara instan tanpa perlu instalasi database atau runtime manual di komputer host:
+
+```bash
+# Menjalankan Backend Fastify & MySQL 8.0 (otomatis migrasi 32 skema database):
+docker compose up -d
+
+# Atau jalankan seluruh sistem termasuk Flutter Web (Nginx production):
+docker compose --profile all up -d
+```
+
+- **Swagger UI API Testing:** `http://localhost:3000/docs`
+- **Health Check Status:** `http://localhost:3000/health`
+- **Web Admin & Warga (Nginx):** `http://localhost:8080`
+- Panduan pengujian sistem lengkap: [docs/PANDUAN-PENGUJIAN.md](docs/PANDUAN-PENGUJIAN.md).
+
 ## Informasi pengembangan
 
 Rincian perencanaan tersedia di [indeks dokumentasi](docs/INDEX.md).

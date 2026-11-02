@@ -11,8 +11,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   apps/server/Dockerfile, apps/server/docker-entrypoint.sh, docker/mysql/init.sql,
   dan apps/siagabanjir/Dockerfile) berbasis versi stabil LTS (Node 24 Alpine,
   MySQL 8.0, dan Nginx 1.27 Alpine) dengan otomatisasi migrasi database 32 skema
-  saat booting container, reverse proxy API, serta panduan pengujian instan pada
-  docs/PANDUAN-PENGUJIAN.md.
+  saat booting container, reverse proxy API, serta dokumentasi instruksi setup
+  menyeluruh pada README.md, apps/server/README.md, docs/GITHUB-WORKFLOW.md,
+  docs/WORKSPACE.md, dan docs/PANDUAN-PENGUJIAN.md.
 
 - Tambahkan dokumen panduan pengujian menyeluruh sistem SiagaBanjir
   (docs/PANDUAN-PENGUJIAN.md dan salinan di direktori Documents) yang mencakup

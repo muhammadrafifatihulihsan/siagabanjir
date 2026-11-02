@@ -11,6 +11,18 @@ kesehatan sistem (health check) server dan MySQL.
 
 ## Menjalankan Server
 
+### A. Menggunakan Docker Compose (Instan Sekali Jalan)
+
+Dari root workspace, jalankan satu perintah:
+
+```bash
+docker compose up -d
+```
+
+Perintah ini secara otomatis menjalankan MySQL 8.0, membuat database & akun aman melalui `docker/mysql/init.sql`, mengeksekusi 32 migrasi skema tabel, dan menjalankan Fastify server pada port `3000`.
+
+### B. Menjalankan Manual di Komputer Host
+
 Dari root workspace atau folder `apps/server`, gunakan Node >=24.15.0 <25 dan pnpm 10.34.9:
 
 ```sh

@@ -70,6 +70,10 @@ versi alat tetap bersumber pada dokumen ini.
 5. Saat push pertama memerlukan autentikasi, selesaikan login melalui mekanisme
    Git yang tersedia pada komputer tersebut. Jangan menaruh token, kata sandi,
    atau credential di chat, berkas proyek, maupun pesan commit.
+6. Untuk menjalankan backend Fastify dan MySQL 8.0 secara instan tanpa setup manual
+   pada komputer lokal, gunakan Docker Compose: `docker compose up -d`.
+   Panduan lengkap pengujian dan opsi profil Web tersedia pada
+   [PANDUAN-PENGUJIAN.md](PANDUAN-PENGUJIAN.md#9-langkah-7-pengujian-instan-menggunakan-docker-one-command-setup).
 
 ### Meminta bantuan AI
 
