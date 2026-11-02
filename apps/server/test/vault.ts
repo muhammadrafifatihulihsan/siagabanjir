@@ -1,3 +1,5 @@
+import { claimJob } from '../src/ai/queue.js';
+import { processJob } from '../src/ai/process.js';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
@@ -177,7 +179,39 @@ export async function verifyVault(app: FastifyInstance, pool: Pool) {
     assert.equal(ktpCheckRes.statusCode, 200);
     const ktpJob = ktpCheckRes.json<{ data: Job }>().data;
     assert.equal(ktpJob.kind, 'KTP_CHECK');
-    assert.equal(ktpJob.state, 'SUCCEEDED');
+    assert.equal(ktpJob.state, 'QUEUED');
+    const pendingConfirm = await app.inject({
+      method: 'POST',
+      url: '/api/v1/me/ktp-confirmations',
+      headers: {
+        authorization: `Bearer ${citizenToken}`,
+        'idempotency-key': randomUUID(),
+        'if-match': `"${ktpVersion}"`,
+      },
+      payload: {
+        documentId: createdDocId,
+        documentVersion: 1,
+        jobId: ktpJob.id,
+        nameConfirmed: true,
+      },
+    });
+    assert.equal(pendingConfirm.statusCode, 422);
+    const claimedKtp = await claimJob(pool);
+    assert.equal(claimedKtp?.id, ktpJob.id);
+    await processJob(
+      pool,
+      claimedKtp,
+      { apiKey: 'test-only', model: 'deepseek-flash', timeoutMs: 60000 },
+      () =>
+        Promise.resolve({
+          documentType: 'KTP',
+          nameReadable: true,
+          extractedName: 'Warga Sintetis',
+          explanation: 'Fixture pengujian',
+        }),
+      () =>
+        Promise.resolve([{ mime: 'image/png', data: Buffer.from('fixture') }]),
+    );
     const ktpJobId = ktpJob.id;
 
     // 8. POST /api/v1/me/ktp-confirmations
@@ -208,8 +242,7 @@ export async function verifyVault(app: FastifyInstance, pool: Pool) {
       url: `/api/v1/me/ktp-checks/${ktpJobId}/retry`,
       headers: { authorization: `Bearer ${citizenToken}` },
     });
-    assert.equal(retryKtpRes.statusCode, 200);
-    assert.equal(retryKtpRes.json<{ data: Job }>().data.id, ktpJobId);
+    assert.equal(retryKtpRes.statusCode, 409);
 
     // 10. GET /api/v1/me/family
     const initialFamilyRes = await app.inject({
@@ -266,7 +299,7 @@ export async function verifyVault(app: FastifyInstance, pool: Pool) {
     assert.equal(extractRes.statusCode, 200);
     const extractionJob = extractRes.json<{ data: Job }>().data;
     assert.equal(extractionJob.kind, 'FAMILY_EXTRACTION');
-    assert.equal(extractionJob.state, 'SUCCEEDED');
+    assert.equal(extractionJob.state, 'QUEUED');
     const familyJobId = extractionJob.id;
 
     // 13. POST /api/v1/me/family-extractions/:jobId/retry
@@ -276,6 +309,29 @@ export async function verifyVault(app: FastifyInstance, pool: Pool) {
       headers: { authorization: `Bearer ${citizenToken}` },
     });
     assert.equal(retryExtractionRes.statusCode, 200);
+
+    const claimedFamily = await claimJob(pool);
+    assert.equal(claimedFamily?.id, familyJobId);
+    await processJob(
+      pool,
+      claimedFamily,
+      { apiKey: 'test-only', model: 'deepseek-flash', timeoutMs: 60000 },
+      () =>
+        Promise.resolve({
+          members: [{ name: 'Anak Sintetis', ageGroup: 'CHILD', page: 1 }],
+          incomplete: false,
+        }),
+      () =>
+        Promise.resolve([{ mime: 'image/png', data: Buffer.from('fixture') }]),
+    );
+    const resultResponse = await app.inject({
+      method: 'GET',
+      url: `/api/v1/jobs/${familyJobId}`,
+      headers: { authorization: `Bearer ${citizenToken}` },
+    });
+    const suggestionId = resultResponse.json<{ data: Job }>().data
+      .suggestions?.[0]?.id;
+    assert.ok(suggestionId);
 
     // 14. POST /api/v1/me/family-extractions/:jobId/apply
     const childMemberId = randomUUID();
@@ -290,7 +346,7 @@ export async function verifyVault(app: FastifyInstance, pool: Pool) {
         familyVersion: 2,
         selections: [
           {
-            suggestionId: randomUUID(),
+            suggestionId,
             operation: {
               op: 'ADD',
               clientMemberId: childMemberId,

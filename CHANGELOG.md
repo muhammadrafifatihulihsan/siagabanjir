@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Hubungkan analisis laporan/KTP/keluarga ke worker DeepSeek persisten; hapus
+  hasil simulasi, validasi hasil dan sumber, lindungi koreksi admin, dan baca
+  status job aktual. Tambahkan praproses media, cleanup dan volume Docker.
+  Integrasi database dan worker provider sintetis telah dijalankan.
+
+
 - Tambahkan transport DeepSeek dengan konfigurasi key backend, alias DEEPSEEKAPI,
   timeout dan validasi envelope; uji gambar sintetis nyata berhasil. Worker dan
   integrasi alur analisis masih berlangsung, belum siap UAT menyeluruh.

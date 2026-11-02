@@ -27,6 +27,25 @@ corepack pnpm. Konfigurasi/template dan transport belum tersambung ke worker.
 Tidak ada push. Bacaan mengikuti pengecualian backend secara bertahap;
 seluruh dokumentasi belum diklaim dibaca ulang.
 
+## Unit worker nyata, 2 November 2026
+
+KTP/keluarga kini masuk QUEUED dan tidak lagi menulis SUCCEEDED atau anggota
+simulasi. Worker terpisah membaca media privat, menjalankan praproses,
+memanggil DeepSeek, memvalidasi hasil, dan memeriksa lease/generation/sumber
+sebelum commit. Laporan membuat job dalam transaksi penerimaan; riwayat
+membaca status job aktual. Konfirmasi KTP memerlukan hasil layak pada sumber
+versi yang sama. Saran keluarga wajib berasal dari job berhasil milik akun.
+Admin tidak dapat membaca job KTP/keluarga warga lain. Hapus membatalkan job.
+Cleanup fisik tersedia pada worker; Docker berbagi volume media API/worker.
+
+PASS: migrasi 033 pada MySQL lokal, integrasi database test (termasuk pending
+KTP ditolak, worker fixture, saran nyata tersimpan), 22 tes unit, typecheck dan
+build. Provider nyata: unggahan PNG biru sintetis ? jobs MySQL ? FFmpeg ?
+DeepSeek ? hasil bukan KTP tersimpan, PASS. Tes memakai data sintetis, bukan
+identitas warga. Lint PASS setelah perbaikan assertion. UAT Flutter, PDF nyata,
+video dan Docker belum dibuktikan pada unit ini. Integrasi Flutter adalah unit
+berikut dan klaim selesai pada checklist lama bukan bukti kesiapan menyeluruh.
+
 ## Checklist progres endpoint backend
 
 Satu item untuk satu endpoint, lengkap dengan metode HTTP dan path. Daftar

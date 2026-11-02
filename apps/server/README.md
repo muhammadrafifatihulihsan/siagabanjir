@@ -111,12 +111,27 @@ Jika database terputus atau mengalami kegagalan, endpoint mengembalikan status *
 
 ## Konfigurasi Environment
 
-Adapter DeepSeek memakai `DEEPSEEK_API_KEY` dari `.env` backend; nama lama
-`DEEPSEEKAPI` juga diterima. Model kontrak adalah `deepseek-flash`.
-Jangan memasukkan key ke Flutter. Transport gambar telah diuji dengan PNG
-sintetis, tetapi worker dan integrasi analisis belum selesai; konfigurasi ini
-belum membuat endpoint KTP/keluarga menjalankan provider. Status terverifikasi
-dan koreksi klaim kesiapan ada pada [handoff](../../docs/SESSION-HANDOFF.md).
+DeepSeek memakai `DEEPSEEK_API_KEY` (alias `DEEPSEEKAPI`) dari `.env`
+backend. Model `deepseek-flash`, key tidak dimasukkan ke Flutter.
+Setelah migrasi, jalankan API dan worker pada dua terminal dari root:
+
+```powershell
+corepack pnpm --dir apps/server db:migrate
+corepack pnpm --dir apps/server dev
+```
+
+```powershell
+corepack pnpm --dir apps/server worker
+```
+
+Worker memerlukan FFmpeg/ffprobe; PDF memerlukan Poppler pdfinfo/pdftoppm.
+Isi path executable pada `.env` jika belum tersedia di PATH. Docker memasang
+binary ini dalam image dan menjalankan worker dengan volume media bersama.
+Tanpa worker, job tetap menunggu; kegagalan provider ditampilkan sebagai gagal,
+bukan keberhasilan simulasi. Pengujian provider eksplisit (menggunakan kredit)
+memakai database test: dari apps/server jalankan
+`node --env-file=.env --env-file=.env.test --import tsx test/provider.integration.ts`.
+Hasil dan keterbatasan ada pada [handoff](../../docs/SESSION-HANDOFF.md).
 
 Salin `.env.example` menjadi `.env` jika ingin mengubah konfigurasi runtime:
 startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.

@@ -852,6 +852,14 @@ Polling Pantau/antrean/inbox: pada buka/resume/online kembali/manual dan sukses 
 
 ### 3.5 Worker, retry dan penghapusan
 
+**Penyesuaian implementasi 2 November 2026:** mengikuti
+[WS-DEC-071](DECISIONS.md#functional-integration-071), manifest sumber disimpan
+pada `jobs.input_sources` JSON immutable dan hasil allowlist pada
+`jobs.result_json`, tanpa tabel job_sources tambahan. Worker satu job aktif;
+praproses JPEG FFmpeg qscale 3/5/8 menggantikan persentase quality pada ?5.3,
+dengan batas dimensi/byte dan bukti asli tetap dipertahankan.
+
+
 Job durable dibuat bersama transaksi sumber, dengan `kind, source_id, source_version, generation, state, attempt, available_at, lease_token, lease_until`. Worker mengklaim row melalui transaksi singkat; gunakan SKIP LOCKED hanya untuk antrean. Lease 90 detik, heartbeat 15 detik; klaim ulang sesudah lease berakhir mengganti token. Callback harus cocok lease_token/generation sebelum commit. Panggilan luar tidak pernah berada dalam transaksi database. Tidak menjanjikan panggilan provider exactly-once saat proses mati; hasil bisnis hanya satu, dan kemungkinan biaya upaya ulang dicatat.
 
 Manifest sumber disimpan sejak job dibuat dalam `job_sources(job_id, source_id, source_version, order_index)`, termasuk saat hasil belum tersedia atau gagal. REPORT/KTP mempunyai satu sumber; FAMILY mempunyai daftar dokumen terpilih. Untuk FAMILY, `sourceId` pada respons menunjuk ID permintaan ekstraksi induk yang stabil; untuk REPORT/KTP menunjuk laporan/dokumen. Semua sumber diperiksa kembali sebelum unit dimulai dan hasil diterapkan. Kunci kerja aktif unik mengikat pemilik, tujuan dan daftar sumber/versi kanonik; permintaan untuk pekerjaan yang sama saat QUEUED/RUNNING mengembalikan pekerjaan aktif. Generation membedakan upaya, tidak mengizinkan dua pekerjaan aktif untuk sumber logis yang sama.

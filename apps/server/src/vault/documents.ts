@@ -1,3 +1,11 @@
+import {
+  enqueue,
+  formatJob,
+  retryJob,
+  resultOf,
+  type JobRow,
+} from '../ai/jobs.js';
+import type { KtpResult } from '../ai/results.js';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import type { AuthDependencies } from '../auth/signup.js';
@@ -67,6 +75,18 @@ export interface Job {
   totalUnits: number;
   updatedAt: string;
   errorCode: string | null;
+  expiresAt?: string | null;
+  ktpResult?: KtpResult | null;
+  suggestions?:
+    | {
+        id: string;
+        documentId: string;
+        page: number;
+        displayName: string | null;
+        ageGroup: string;
+      }[]
+    | null;
+  incomplete?: boolean | null;
 }
 
 export interface FamilyMember {
@@ -122,19 +142,6 @@ interface KtpRow extends RowDataPacket {
   active_document_id: string | null;
   version: number;
   latest_job_id: string | null;
-}
-
-interface JobRow extends RowDataPacket {
-  id: string;
-  kind: Job['kind'];
-  owner_id: string;
-  source_id: string | null;
-  state: Job['state'];
-  attempt: number;
-  completed_units: number;
-  total_units: number;
-  updated_at: string;
-  safe_error: string | null;
 }
 
 interface CleanupRow extends RowDataPacket {
@@ -414,6 +421,10 @@ export async function deleteDocument(
         [accountId, documentId],
       );
 
+      await connection.execute(
+        "UPDATE jobs SET state='CANCELLED',generation=generation+1,result_json=NULL,lease_token=NULL,lease_until=NULL WHERE owner_id=? AND (source_id=? OR JSON_SEARCH(input_sources,'one',?,NULL,'$[*].id') IS NOT NULL)",
+        [accountId, documentId, documentId],
+      );
       // Buat cleanup job
       const cleanupId = randomUUID();
       await connection.execute(
@@ -598,17 +609,7 @@ export async function checkKtp(
       );
       const j = jobs[0];
       if (!j) throw new HttpProblem(404, 'NOT_FOUND');
-      return {
-        id: j.id,
-        kind: j.kind,
-        state: j.state,
-        sourceId: j.source_id ?? input.documentId,
-        attempt: j.attempt,
-        completedUnits: j.completed_units,
-        totalUnits: j.total_units,
-        updatedAt: new Date(j.updated_at).toISOString(),
-        errorCode: j.safe_error,
-      };
+      return formatJob(j);
     }
 
     // Verifikasi dokumen
@@ -629,15 +630,10 @@ export async function checkKtp(
       [consentId, accountId, input.documentId, input.documentVersion],
     );
 
-    // Buat Job KTP
-    const jobId = randomUUID();
-    await connection.execute(
-      `INSERT INTO jobs
-          (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-        VALUES
-          (?, 'KTP_CHECK', ?, ?, ?, 'SUCCEEDED', 1, 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [jobId, accountId, input.documentId, input.documentVersion],
-    );
+    const queued = await enqueue(connection, 'KTP_CHECK', accountId, [
+      { id: input.documentId, version: input.documentVersion },
+    ]);
+    const jobId = queued.id;
 
     // Update latest_job_id pada ktp_states
     await connection.execute(
@@ -654,17 +650,7 @@ export async function checkKtp(
       [actionId, scope, clientKey, hash, jobId],
     );
 
-    return {
-      id: jobId,
-      kind: 'KTP_CHECK',
-      state: 'SUCCEEDED',
-      sourceId: input.documentId,
-      attempt: 1,
-      completedUnits: 1,
-      totalUnits: 1,
-      updatedAt: new Date().toISOString(),
-      errorCode: null,
-    };
+    return formatJob(queued);
   });
 }
 
@@ -725,7 +711,16 @@ export async function confirmKtp(
       [input.jobId, accountId],
     );
     const job = jobRows[0];
-    if (!job || job.state !== 'SUCCEEDED') {
+    const result = job ? resultOf(job)?.ktpResult : null;
+    if (
+      !job ||
+      job.state !== 'SUCCEEDED' ||
+      job.source_id !== input.documentId ||
+      job.source_version !== input.documentVersion ||
+      result?.documentType !== 'KTP' ||
+      !result.nameReadable ||
+      !result.extractedName
+    ) {
       throw new HttpProblem(422, 'VALIDATION_FAILED');
     }
 
@@ -767,31 +762,9 @@ export async function retryKtp(
   accountId: string,
   jobId: string,
 ): Promise<Job> {
-  return withBusinessTransaction(deps.pool, async (connection) => {
-    const [rows] = await connection.execute<JobRow[]>(
-      "SELECT * FROM jobs WHERE id = ? AND owner_id = ? AND kind = 'KTP_CHECK' FOR UPDATE",
-      [jobId, accountId],
-    );
-    const job = rows[0];
-    if (!job) throw new HttpProblem(404, 'NOT_FOUND');
-
-    await connection.execute(
-      "UPDATE jobs SET attempt = attempt + 1, state = 'SUCCEEDED', updated_at = UTC_TIMESTAMP(3) WHERE id = ?",
-      [jobId],
-    );
-
-    return {
-      id: job.id,
-      kind: job.kind,
-      state: 'SUCCEEDED',
-      sourceId: job.source_id ?? '',
-      attempt: job.attempt + 1,
-      completedUnits: job.completed_units,
-      totalUnits: job.total_units,
-      updatedAt: new Date().toISOString(),
-      errorCode: null,
-    };
-  });
+  return withBusinessTransaction(deps.pool, (connection) =>
+    retryJob(connection, accountId, jobId, 'KTP_CHECK'),
+  );
 }
 
 // 3. KELUARGA
@@ -984,17 +957,7 @@ export async function extractFamily(
       );
       const j = jobs[0];
       if (!j) throw new HttpProblem(404, 'NOT_FOUND');
-      return {
-        id: j.id,
-        kind: j.kind,
-        state: j.state,
-        sourceId: j.source_id ?? '',
-        attempt: j.attempt,
-        completedUnits: j.completed_units,
-        totalUnits: j.total_units,
-        updatedAt: new Date(j.updated_at).toISOString(),
-        errorCode: j.safe_error,
-      };
+      return formatJob(j);
     }
 
     for (const d of input.documents) {
@@ -1018,31 +981,13 @@ export async function extractFamily(
       [consentId, accountId, firstDoc.id, firstDoc.version],
     );
 
-    const jobId = randomUUID();
-    await connection.execute(
-      `INSERT INTO jobs
-          (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-        VALUES
-          (?, 'FAMILY_EXTRACTION', ?, ?, ?, 'SUCCEEDED', 1, ?, ?, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [
-        jobId,
-        accountId,
-        firstDoc.id,
-        firstDoc.version,
-        input.documents.length,
-        input.documents.length,
-      ],
+    const queued = await enqueue(
+      connection,
+      'FAMILY_EXTRACTION',
+      accountId,
+      input.documents,
     );
-
-    // Buat saran simulasi di extraction_suggestions
-    const suggestionId = randomUUID();
-    await connection.execute(
-      `INSERT INTO extraction_suggestions
-          (id, job_id, source_document_id, source_document_version, page, display_name, age_group, special_needs, available_at, expires_at)
-        VALUES
-          (?, ?, ?, ?, 1, 'Anggota Keluarga Saran', 'ADULT', '[]', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3) + INTERVAL 24 HOUR)`,
-      [suggestionId, jobId, firstDoc.id, firstDoc.version],
-    );
+    const jobId = queued.id;
 
     const actionId = randomUUID();
     await connection.execute(
@@ -1051,17 +996,7 @@ export async function extractFamily(
       [actionId, scope, clientKey, hash, jobId],
     );
 
-    return {
-      id: jobId,
-      kind: 'FAMILY_EXTRACTION',
-      state: 'SUCCEEDED',
-      sourceId: firstDoc.id,
-      attempt: 1,
-      completedUnits: input.documents.length,
-      totalUnits: input.documents.length,
-      updatedAt: new Date().toISOString(),
-      errorCode: null,
-    };
+    return formatJob(queued);
   });
 }
 
@@ -1070,31 +1005,9 @@ export async function retryFamilyExtraction(
   accountId: string,
   jobId: string,
 ): Promise<Job> {
-  return withBusinessTransaction(deps.pool, async (connection) => {
-    const [rows] = await connection.execute<JobRow[]>(
-      "SELECT * FROM jobs WHERE id = ? AND owner_id = ? AND kind = 'FAMILY_EXTRACTION' FOR UPDATE",
-      [jobId, accountId],
-    );
-    const job = rows[0];
-    if (!job) throw new HttpProblem(404, 'NOT_FOUND');
-
-    await connection.execute(
-      "UPDATE jobs SET attempt = attempt + 1, state = 'SUCCEEDED', updated_at = UTC_TIMESTAMP(3) WHERE id = ?",
-      [jobId],
-    );
-
-    return {
-      id: job.id,
-      kind: job.kind,
-      state: 'SUCCEEDED',
-      sourceId: job.source_id ?? '',
-      attempt: job.attempt + 1,
-      completedUnits: job.completed_units,
-      totalUnits: job.total_units,
-      updatedAt: new Date().toISOString(),
-      errorCode: null,
-    };
-  });
+  return withBusinessTransaction(deps.pool, (connection) =>
+    retryJob(connection, accountId, jobId, 'FAMILY_EXTRACTION'),
+  );
 }
 
 export async function applyFamilySuggestions(
@@ -1144,12 +1057,29 @@ export async function applyFamilySuggestions(
     }
 
     const [jobRows] = await connection.execute<JobRow[]>(
-      "SELECT id FROM jobs WHERE id = ? AND owner_id = ? AND kind = 'FAMILY_EXTRACTION'",
+      "SELECT * FROM jobs WHERE id = ? AND owner_id = ? AND kind = 'FAMILY_EXTRACTION'",
       [jobId, accountId],
     );
-    if (!jobRows[0]) throw new HttpProblem(404, 'NOT_FOUND');
-
+    const job = jobRows[0];
+    if (!job) throw new HttpProblem(404, 'NOT_FOUND');
+    const result = formatJob(job);
+    if (result.state !== 'SUCCEEDED' || !result.suggestions)
+      throw new HttpProblem(409, 'CONFLICT');
+    if (
+      new Set(input.selections.map((s) => s.suggestionId)).size !==
+      input.selections.length
+    )
+      throw new HttpProblem(422, 'VALIDATION_FAILED');
     for (const sel of input.selections) {
+      const suggestion = result.suggestions.find(
+        (s) => s.id === sel.suggestionId,
+      );
+      if (!suggestion) throw new HttpProblem(422, 'VALIDATION_FAILED');
+      const [live] = await connection.execute<RowDataPacket[]>(
+        'SELECT id FROM documents WHERE id=? AND owner_id=? AND deleted_at IS NULL',
+        [suggestion.documentId, accountId],
+      );
+      if (!live.length) throw new HttpProblem(410, 'GONE');
       const op = sel.operation;
       if (op.op === 'ADD') {
         await connection.execute(

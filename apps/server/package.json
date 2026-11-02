@@ -20,7 +20,9 @@
     "db:check": "node --env-file=.env --import tsx src/db/cli.ts check",
     "db:migrate": "node --env-file=.env.migrate --import tsx src/db/cli.ts migrate",
     "test:db": "node --env-file=.env.test --import tsx --test test/database.integration.ts",
-    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "worker": "node --env-file-if-exists=.env --import tsx src/worker.ts",
+    "worker:start": "node --env-file-if-exists=.env dist/worker.js"
   },
   "dependencies": {
     "fastify": "5.12.7",

@@ -1,3 +1,5 @@
+import { refreshGroup } from './group-state.js';
+import { formatJob, retryJob, type JobRow } from '../ai/jobs.js';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import type { AuthDependencies } from '../auth/signup.js';
@@ -157,19 +159,6 @@ interface AssessmentRow extends RowDataPacket {
   result_version: number;
 }
 
-interface JobRow extends RowDataPacket {
-  id: string;
-  kind: Job['kind'];
-  owner_id: string;
-  source_id: string | null;
-  state: Job['state'];
-  attempt: number;
-  completed_units: number;
-  total_units: number;
-  updated_at: string | Date;
-  safe_error: string | null;
-}
-
 interface CleanupRow extends RowDataPacket {
   id: string;
   object_id: string;
@@ -194,20 +183,6 @@ interface AuditRow extends RowDataPacket {
 function formatDate(val: string | Date | null | undefined): string | null {
   if (!val) return null;
   return new Date(val).toISOString();
-}
-
-function formatJob(row: JobRow): Job {
-  return {
-    id: row.id,
-    kind: row.kind,
-    state: row.state,
-    sourceId: row.source_id ?? '',
-    attempt: Number(row.attempt),
-    completedUnits: Number(row.completed_units),
-    totalUnits: Number(row.total_units),
-    updatedAt: new Date(row.updated_at).toISOString(),
-    errorCode: row.safe_error,
-  };
 }
 
 function formatCleanup(row: CleanupRow): Cleanup {
@@ -265,7 +240,10 @@ export async function getJob(
     );
     const row = rows[0];
     if (!row) throw new HttpProblem(404, 'NOT_FOUND');
-    if (userRole !== 'ADMIN' && row.owner_id !== userId) {
+    if (
+      row.owner_id !== userId &&
+      !(userRole === 'ADMIN' && row.kind === 'REPORT_ANALYSIS')
+    ) {
       throw new HttpProblem(403, 'FORBIDDEN');
     }
     return formatJob(row);
@@ -314,17 +292,13 @@ export async function retryReportAnalysis(
       throw new HttpProblem(403, 'FORBIDDEN');
     }
 
-    const jobId = randomUUID();
-    await connection.execute(
-      `INSERT INTO jobs (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-        VALUES (?, 'REPORT_ANALYSIS', ?, ?, ?, 'QUEUED', 0, 0, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [jobId, report.owner_id, reportId, report.version],
-    );
-
-    await connection.execute(
-      'UPDATE reports SET needs_review_since = UTC_TIMESTAMP(3), updated_at = UTC_TIMESTAMP(3) WHERE id = ?',
+    const [latest] = await connection.execute<JobRow[]>(
+      "SELECT * FROM jobs WHERE source_id=? AND kind='REPORT_ANALYSIS' ORDER BY created_at DESC LIMIT 1",
       [reportId],
     );
+    if (!latest[0]) throw new HttpProblem(409, 'CONFLICT');
+    const jobId = latest[0].id;
+    await retryJob(connection, report.owner_id, jobId, 'REPORT_ANALYSIS');
 
     const actionId = randomUUID();
     await connection.execute(
@@ -370,7 +344,7 @@ async function loadReportSummary(
     [report.id],
   );
   const jobState = (jobRows[0]?.state ??
-    'SUCCEEDED') as ReportSummary['analysisState'];
+    'QUEUED') as ReportSummary['analysisState'];
 
   const review: ReviewState = {
     evidenceVersion: report.evidence_version,
@@ -649,12 +623,7 @@ export async function correctAssessment(
       [newResultVersion, newVersion, reportId],
     );
 
-    if (input.level !== 'UNRATED') {
-      await connection.execute(
-        'UPDATE `groups` SET level = ?, updated_at = UTC_TIMESTAMP(3) WHERE id = ?',
-        [input.level, report.group_id],
-      );
-    }
+    await refreshGroup(connection, report.group_id);
 
     await recordAudit(connection, {
       actorId: adminId,
@@ -1079,6 +1048,11 @@ export async function deleteReport(
       [newVersion, reportId],
     );
 
+    await refreshGroup(connection, report.group_id);
+    await connection.execute(
+      "UPDATE jobs SET state='CANCELLED',generation=generation+1,result_json=NULL,lease_token=NULL,lease_until=NULL WHERE source_id=? AND kind='REPORT_ANALYSIS'",
+      [reportId],
+    );
     const cleanupId = randomUUID();
     await connection.execute(
       `INSERT INTO cleanup_jobs (id, object_type, object_id, owner_id, state, attempt, created_at, updated_at)

@@ -1409,3 +1409,25 @@ menetapkan siagabanjirdev/siagabanjirtest dan akun runtime/migrasi per DB,
 host loopback serta sandi acak MySQL. Pilihan nama/hak adalah rancangan
 implementasi dalam mandat, bukan klaim akun telah dibuat. Provisioning dan
 verifikasi MySQL masih NOT_RUN; API belum membaca credential database.
+
+
+<a id="functional-integration-071"></a>
+
+## WS-DEC-071 ? Alur nyata tanpa keberhasilan simulasi (2 November 2026)
+
+Pemilik meminta seluruh fitur utama berfungsi sesuai kontrak, tanpa mode demo,
+serta database tidak dibuat rumit tanpa kebutuhan. Implementasi mempertahankan
+MySQL dan tabel yang sudah ada. Manifest sumber immutable disimpan sebagai JSON
+`jobs.input_sources`, hasil tervalidasi pada `jobs.result_json`, menggantikan
+rencana tabel job_sources terpisah; tidak menambah broker atau database baru.
+Antrean satu worker dengan lease/generation, provider di luar transaksi, serta
+konfirmasi KTP berdasarkan hasil nyata tetap wajib. Gambar sintetis hanya untuk
+tes, bukan hasil yang disisipkan dalam alur aplikasi. Kompresi FFmpeg memakai
+qscale 3/5/8 dengan batas byte dan dimensi; angka ini tidak disamakan dengan
+quality persentase rancangan awal. PDF memakai Poppler. Worker berjalan satu
+job aktif (di bawah batas dua), dengan retry 5/15 detik maksimal tiga upaya.
+
+Mandat mencakup perbaikan backend, Flutter, konfigurasi lokal dan panduan;
+commit lokal wajib. Push, deploy dan pengujian HP tetap terpisah. Bukti terbaru
+ada pada [handoff](SESSION-HANDOFF.md); tidak menganggap seluruh fitur selesai
+berdasarkan keberadaan endpoint atau hasil tes transport saja.

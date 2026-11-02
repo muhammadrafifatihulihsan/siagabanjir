@@ -1,5 +1,6 @@
+import { enqueue } from '../ai/jobs.js';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
-import type { RowDataPacket } from 'mysql2/promise';
+import type { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import type { AuthDependencies } from '../auth/signup.js';
 import { withBusinessTransaction, withConnection } from '../db/pool.js';
 import { actorScope, fingerprint } from '../security/fingerprint.js';
@@ -553,8 +554,16 @@ export async function submitReport(
     const assessmentId = randomUUID();
     await connection.execute(
       `INSERT INTO assessments (id, report_id, source, relevance, level, explanation, result_version, eligible, created_at)
-        VALUES (?, ?, 'AI', 'UNASSESSED', 'UNRATED', 'Menunggu pemrosesan analisis', 1, 1, UTC_TIMESTAMP(3))`,
+        VALUES (?, ?, 'NONE', 'UNASSESSED', 'UNRATED', 'Menunggu pemrosesan analisis', 1, 1, UTC_TIMESTAMP(3))`,
       [assessmentId, reportId],
+    );
+
+    await enqueue(connection, 'REPORT_ANALYSIS', accountId, [
+      { id: reportId, version: 1 },
+    ]);
+    await connection.execute(
+      'UPDATE reports SET needs_review_since=UTC_TIMESTAMP(3) WHERE id=?',
+      [reportId],
     );
 
     // Simpan submission state
@@ -749,7 +758,7 @@ export async function listOwnReports(
 
       // Ambil assessment aktif
       const [asmRows] = await connection.execute<AssessmentRow[]>(
-        'SELECT * FROM assessments WHERE report_id = ? ORDER BY result_version DESC LIMIT 1',
+        "SELECT * FROM assessments WHERE report_id = ? ORDER BY (source='ADMIN') DESC, result_version DESC, created_at DESC LIMIT 1",
         [r.id],
       );
       const asm = asmRows[0];
@@ -775,7 +784,7 @@ export async function listOwnReports(
         id: r.id,
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
-        analysisState: 'QUEUED',
+        analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {
           evidenceVersion: r.evidence_version,
@@ -859,7 +868,7 @@ export async function getOwnReport(
 
     // Ambil assessment
     const [asmRows] = await connection.execute<AssessmentRow[]>(
-      'SELECT * FROM assessments WHERE report_id = ? ORDER BY result_version DESC LIMIT 1',
+      "SELECT * FROM assessments WHERE report_id = ? ORDER BY (source='ADMIN') DESC, result_version DESC, created_at DESC LIMIT 1",
       [reportId],
     );
     const asm = asmRows[0];
@@ -886,7 +895,7 @@ export async function getOwnReport(
         id: r.id,
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
-        analysisState: 'QUEUED',
+        analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {
           evidenceVersion: r.evidence_version,
@@ -1061,4 +1070,15 @@ export async function getMediaStream(
       ...(range ? { rangeStart: range.start, rangeEnd: range.end } : {}),
     };
   });
+}
+
+async function reportAnalysisState(
+  c: PoolConnection,
+  reportId: string,
+): Promise<ReportSummary['analysisState']> {
+  const [jobs] = await c.execute<RowDataPacket[]>(
+    "SELECT state FROM jobs WHERE source_id=? AND kind='REPORT_ANALYSIS' ORDER BY created_at DESC LIMIT 1",
+    [reportId],
+  );
+  return (jobs[0]?.state ?? 'QUEUED') as ReportSummary['analysisState'];
 }

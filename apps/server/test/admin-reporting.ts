@@ -1,3 +1,4 @@
+import { enqueue } from '../src/ai/jobs.js';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
@@ -210,6 +211,13 @@ export async function verifyAdminReporting(
     assert.equal(noteData.authorId, adminId);
     assert.ok(noteData.body.includes('BPBD regu 2'));
 
+    const sourceGroupResponse = await app.inject({
+      method: 'GET',
+      url: `/api/v1/admin/groups/${groupId1}`,
+      headers: { authorization: `Bearer ${adminToken}` },
+    });
+    const sourceGroupVersion = sourceGroupResponse.json<{ data: GroupDetail }>()
+      .data.group.version;
     // 6. POST /api/v1/admin/reports/:reportId/moves (Pindahkan ke kelompok baru NEW_ACTIVE)
     const moveRes = await app.inject({
       method: 'POST',
@@ -220,7 +228,7 @@ export async function verifyAdminReporting(
         'if-match': '"3"', // version naik setelah patch(2) dan review(3)
       },
       payload: {
-        sourceGroupVersion: 1,
+        sourceGroupVersion,
         destination: { kind: 'NEW_ACTIVE' },
         reason: 'Titik genangan berada di DAS berbeda dari kelompok awal',
       },
@@ -281,6 +289,11 @@ export async function verifyAdminReporting(
     assert.ok(completedGroup.completedAt);
 
     // 11. POST /api/v1/reports/:reportId/analysis-retries (Retry analisis asinkron)
+    await withBusinessTransaction(pool, async (c) => {
+      await enqueue(c, 'REPORT_ANALYSIS', citizenId, [
+        { id: reportId, version: 1 },
+      ]);
+    });
     const retryAnalysisRes = await app.inject({
       method: 'POST',
       url: `/api/v1/reports/${reportId}/analysis-retries`,

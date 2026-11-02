@@ -445,6 +445,9 @@ export async function verifySubmissions(app: FastifyInstance, pool: Pool) {
   } finally {
     // Cleanup data test
     await withBusinessTransaction(pool, async (connection) => {
+      await connection.execute('DELETE FROM jobs WHERE owner_id=?', [
+        citizenId,
+      ]);
       await connection.execute('DELETE FROM submissions WHERE owner_id = ?', [
         citizenId,
       ]);
