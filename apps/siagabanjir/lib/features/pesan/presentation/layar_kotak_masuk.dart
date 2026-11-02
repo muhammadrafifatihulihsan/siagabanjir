@@ -35,19 +35,40 @@ class LayarKotakMasuk extends StatefulWidget {
 class _LayarKotakMasukState extends State<LayarKotakMasuk> {
   KategoriPesan _selectedCategory = KategoriPesan.all;
   List<PesanSiaga>? _serverMessages;
+  bool _memuat = false;
+  String? _galat;
 
   @override
   void initState() {
     super.initState();
-    if (widget.messages == null) {
-      final repo = widget.pesanRepository ?? PesanRepository();
-      repo.ambilKotakMasuk().then((items) {
-        if (mounted) {
-          setState(() {
-            _serverMessages = items.map((e) => e.toPesanSiaga()).toList();
-          });
-        }
-      }).catchError((_) {});
+    // Widget test memakai sampel lokal; repository eksplisit tetap dihormati.
+    final perluMuat =
+        widget.messages == null &&
+        (!_adalahLingkunganTest || widget.pesanRepository != null);
+    if (perluMuat) {
+      _muatPesan();
+    }
+  }
+
+  Future<void> _muatPesan() async {
+    final repo = widget.pesanRepository ?? PesanRepository();
+    setState(() {
+      _memuat = true;
+      _galat = null;
+    });
+    try {
+      final items = await repo.ambilKotakMasuk();
+      if (!mounted) return;
+      setState(() {
+        _serverMessages = items.map((e) => e.toPesanSiaga()).toList();
+        _memuat = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _galat = 'Gagal memuat pesan siaga: $e';
+        _memuat = false;
+      });
     }
   }
 
@@ -109,7 +130,33 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                     .length,
               ),
               Expanded(
-                child: _filteredMessages.isEmpty
+                child: _memuat
+                    ? const Center(child: CircularProgressIndicator())
+                    : _galat != null
+                    ? Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                _galat!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: SiagaTheme.isi,
+                                  color: Color(0xFFB91C1C),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              OutlinedButton(
+                                onPressed: _muatPesan,
+                                child: const Text('Coba lagi'),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : _filteredMessages.isEmpty
                     ? const Center(
                         child: Text(
                           'Tidak ada pesan pada kategori ini.',

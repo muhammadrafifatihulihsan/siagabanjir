@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import '../../../core/jaringan/endpoint_api.dart';
@@ -59,17 +60,30 @@ class ItemRiwayatLaporanServer {
   final String? mediaId;
 
   factory ItemRiwayatLaporanServer.fromJson(Map<String, dynamic> json) {
+    final deskripsiMentah = (json['description'] as String? ?? '').trim();
+    final baris = deskripsiMentah.split('\n');
+    // Deskripsi dikirim sebagai "Kategori\nDeskripsi..." agar riwayat dapat
+    // memisahkan kategori tanpa field tambahan pada kontrak.
+    final kategoriMentah = baris.length > 1 ? baris.first.trim() : '';
+    final deskripsiBersih = baris.length > 1
+        ? baris.skip(1).join('\n').trim()
+        : deskripsiMentah;
+
     return ItemRiwayatLaporanServer(
       id: json['id'] as String? ?? '',
-      kategori: json['category'] as String? ?? 'Banjir',
-      deskripsi: json['description'] as String? ?? '',
+      kategori: kategoriMentah.isEmpty ? 'Laporan Warga' : kategoriMentah,
+      deskripsi: deskripsiBersih.isEmpty ? deskripsiMentah : deskripsiBersih,
       status:
           json['analysisState'] as String? ??
           json['state'] as String? ??
           json['status'] as String? ??
           'SUBMITTED',
       waktuBuat:
-          DateTime.tryParse(json['acceptedAt'] as String? ?? json['createdAt'] as String? ?? '') ??
+          DateTime.tryParse(
+            json['acceptedAt'] as String? ??
+                json['createdAt'] as String? ??
+                '',
+          ) ??
           DateTime.now(),
       mediaId: json['mediaId'] as String?,
     );
@@ -106,45 +120,80 @@ class LaporanRepository {
   }
 
   /// Mengunggah berkas foto bukti laporan warga via `PUT /api/v1/me/uploads/{uploadId}`.
+  ///
+  /// Backend menerima `multipart/form-data` dengan field `purpose`/`origin`
+  /// serta berkas pada field `file`. `purpose=REPORT` menolak `origin=FILE`,
+  /// sehingga unggahan laporan memakai `CAMERA` secara default.
   Future<String> unggahFotoBukti({
     required String uploadId,
     required Uint8List bytes,
     String contentType = 'image/jpeg',
+    String asal = 'CAMERA',
   }) async {
+    final boundary = 'siaga-$uploadId';
+    final data = BytesBuilder();
+    for (final field in {'purpose': 'REPORT', 'origin': asal}.entries) {
+      data.add(
+        utf8.encode(
+          '--$boundary\r\nContent-Disposition: form-data; name="${field.key}"\r\n\r\n${field.value}\r\n',
+        ),
+      );
+    }
+    data.add(
+      utf8.encode(
+        '--$boundary\r\nContent-Disposition: form-data; name="file"; filename="bukti.jpg"\r\nContent-Type: $contentType\r\n\r\n',
+      ),
+    );
+    data.add(bytes);
+    data.add(utf8.encode('\r\n--$boundary--\r\n'));
+
     final res = await _klien.uploadBytes(
       EndpointApi.meUpload(uploadId),
-      bytes: bytes,
-      contentType: contentType,
+      bytes: data.toBytes(),
+      contentType: 'multipart/form-data; boundary=$boundary',
+      headers: {'Idempotency-Key': uploadId},
     );
-    final data = res['data'] as Map<String, dynamic>? ?? (res is Map<String, dynamic> ? res : <String, dynamic>{});
-    return data['mediaId'] as String? ?? data['id'] as String? ?? uploadId;
+    final dataRes =
+        res['data'] as Map<String, dynamic>? ??
+        (res is Map<String, dynamic> ? res : <String, dynamic>{});
+    return dataRes['id'] as String? ?? uploadId;
   }
 
   /// Mengirim laporan warga ke server via `PUT /api/v1/me/submissions/{submissionId}`.
+  ///
+  /// Payload mengikuti kontrak `SubmissionInput`: `uploadIds`, `description`,
+  /// `point`, `occurredAt` dan `deviceSignals` saja.
   Future<Map<String, dynamic>> kirimLaporan({
     required String submissionId,
     required String kategori,
     required String deskripsi,
     List<String> kebutuhan = const [],
-    String? mediaId,
+    List<String> uploadIds = const [],
     double? latitude,
     double? longitude,
     String? alamat,
     String? waktuSinyal,
   }) async {
     final nowIso = DateTime.now().toUtc().toIso8601String();
-    final effectiveMediaId = mediaId ?? submissionId;
+    final bagian = <String>[kategori, deskripsi];
+    if (kebutuhan.isNotEmpty) {
+      bagian.add('Kebutuhan: ${kebutuhan.join(', ')}');
+    }
+    if (alamat != null && alamat.trim().isNotEmpty) {
+      bagian.add('Lokasi: ${alamat.trim()}');
+    }
+    var description = bagian.join('\n').trim();
+    if (description.length > 2000) {
+      description = description.substring(0, 2000);
+    }
+
     final payload = {
-      'category': kategori,
-      'needs': kebutuhan,
-      'mediaId': effectiveMediaId,
-      'uploadIds': [effectiveMediaId],
-      'description':
-          '$kategori\n$deskripsi${kebutuhan.isEmpty ? '' : '\nKebutuhan: ${kebutuhan.join(', ')}'}${alamat != null ? '\nLokasi: $alamat' : ''}',
+      'uploadIds': uploadIds,
+      'description': description,
       'point': {
         'latitude': latitude ?? -0.9471,
         'longitude': longitude ?? 100.4172,
-        'source': 'GPS',
+        'source': (latitude != null && longitude != null) ? 'GPS' : 'MANUAL',
       },
       'occurredAt': waktuSinyal ?? nowIso,
       'deviceSignals': {
@@ -172,8 +221,10 @@ class LaporanRepository {
     final list = (itemsData as List<dynamic>? ?? []);
     return list
         .map(
-          (e) => ItemRiwayatLaporanServer.fromJson(e as Map<String, dynamic>),
+          (e) => e as Map<String, dynamic>,
         )
+        .where((item) => item['state'] != 'DELETED')
+        .map((item) => ItemRiwayatLaporanServer.fromJson(item))
         .toList();
   }
 }

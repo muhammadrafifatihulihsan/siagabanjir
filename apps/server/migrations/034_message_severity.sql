@@ -1,0 +1,3 @@
+ALTER TABLE messages
+  ADD COLUMN severity VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'INFO' AFTER body,
+  ADD CONSTRAINT messages_severity CHECK (severity IN ('INFO', 'WARNING', 'CRITICAL'));

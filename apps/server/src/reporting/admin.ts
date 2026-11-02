@@ -44,6 +44,8 @@ export interface ReportSummary {
   id: string;
   acceptedAt: string;
   groupId: string;
+  reporterName: string;
+  description: string;
   analysisState: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
   assessment: Assessment;
   review: ReviewState;
@@ -145,6 +147,8 @@ interface ReportRow extends RowDataPacket {
   needs_review_since: string | Date | null;
   deleted_at: string | Date | null;
   location_label: string | null;
+  location_source: 'GPS' | 'MANUAL';
+  reporter_name: string | null;
   group_state: 'ACTIVE' | 'COMPLETED';
   group_level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
 }
@@ -357,6 +361,8 @@ async function loadReportSummary(
     id: report.id,
     acceptedAt: new Date(report.accepted_at).toISOString(),
     groupId: report.group_id,
+    reporterName: report.reporter_name || 'Warga Pelapor',
+    description: report.description,
     analysisState: jobState,
     assessment,
     review,
@@ -393,9 +399,11 @@ export async function listAdminReports(
   return withConnection(deps.pool, async (connection) => {
     const params: (string | number)[] = [];
     let sql = `
-      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.deleted_at IS NULL
     `;
 
@@ -474,9 +482,11 @@ async function loadReportDetail(
   reportId: string,
 ): Promise<ReportDetail> {
   const [rows] = await connection.execute<ReportRow[]>(
-    `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+    `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.id = ? AND r.deleted_at IS NULL`,
     [reportId],
   );
@@ -1237,9 +1247,11 @@ export async function getGroup(
     const group = formatGroup(groupRow);
 
     const [reportRows] = await connection.execute<ReportRow[]>(
-      `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+          a.display_name as reporter_name
         FROM reports r
         JOIN \`groups\` g ON r.group_id = g.id
+        LEFT JOIN accounts a ON a.id = r.owner_id
         WHERE r.group_id = ? AND r.deleted_at IS NULL
         ORDER BY r.accepted_at DESC, r.id DESC
         LIMIT 20`,
@@ -1288,9 +1300,11 @@ export async function listGroupReports(
 
     const params: (string | number)[] = [groupId];
     let sql = `
-      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.group_id = ? AND r.deleted_at IS NULL
     `;
 

@@ -23,14 +23,23 @@ class ItemPesanInbox {
   final DateTime waktuBuat;
 
   factory ItemPesanInbox.fromJson(Map<String, dynamic> json) {
+    // Backend mengirim item inbox berbentuk `{message: {...}, read: bool}`.
+    // Bentuk datar tetap didukung agar kompatibel dengan data lama.
+    final pesan = json['message'] as Map<String, dynamic>? ?? json;
+    final sudahDibaca =
+        json['read'] as bool? ?? pesan['read'] as bool? ?? false;
+    final waktuTerbit = pesan['publishedAt'] as String? ??
+        pesan['createdAt'] as String? ??
+        '';
+
     return ItemPesanInbox(
-      id: json['id'] as String? ?? '',
-      judul: json['title'] as String? ?? 'Peringatan Siaga',
-      isi: json['body'] as String? ?? '',
-      tingkat: json['severity'] as String? ?? 'INFO',
-      sudahDibaca: json['isRead'] as bool? ?? false,
-      waktuBuat: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
-          DateTime.now(),
+      id: pesan['id'] as String? ?? '',
+      judul: pesan['title'] as String? ?? 'Peringatan Siaga',
+      isi: pesan['body'] as String? ?? '',
+      tingkat: pesan['severity'] as String? ?? 'INFO',
+      sudahDibaca: sudahDibaca,
+      waktuBuat:
+          DateTime.tryParse(waktuTerbit)?.toLocal() ?? DateTime.now(),
     );
   }
 
@@ -42,18 +51,18 @@ class ItemPesanInbox {
 
     return PesanSiaga(
       id: id,
-      category: isCritical || isWarning
+      category: isCritical
           ? KategoriPesan.emergency
-          : KategoriPesan.weather,
+          : (isWarning ? KategoriPesan.weather : KategoriPesan.all),
       badgeLabel: isCritical
           ? 'Bahaya (Siaga 1)'
           : (isWarning ? 'Waspada (Siaga 2)' : 'Informasi'),
       badgeBackground: isCritical
           ? const Color(0xFFFEE2E2)
-          : const Color(0xFFFEF3C7),
+          : (isWarning ? const Color(0xFFFEF3C7) : const Color(0xFFF1F5F9)),
       badgeTextColor: isCritical
           ? const Color(0xFFDC2626)
-          : const Color(0xFFD97706),
+          : (isWarning ? const Color(0xFFD97706) : const Color(0xFF475569)),
       timestamp: jamMenit,
       agency: 'Pusdalops BPBD Padang',
       title: judul,
@@ -72,7 +81,10 @@ class PesanRepository {
   /// Membaca daftar pesan masuk akun warga via `GET /api/v1/me/inbox`.
   Future<List<ItemPesanInbox>> ambilKotakMasuk() async {
     final res = await _klien.get(EndpointApi.meInbox);
-    final list = (res['items'] as List<dynamic>? ?? []);
+    final dynamic itemsData = (res is Map && res['data'] is Map)
+        ? res['data']['items']
+        : (res is Map ? res['items'] : null);
+    final list = (itemsData as List<dynamic>? ?? []);
     return list
         .map((e) => ItemPesanInbox.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -80,7 +92,7 @@ class PesanRepository {
 
   /// Menandai pesan telah dibaca warga via `PUT /api/v1/me/inbox/{messageId}/read`.
   Future<void> tandaiDibaca(String messageId, {int versi = 1}) async {
-    final payload = {'version': versi};
+    final payload = {'contentVersion': versi};
     await _klien.put(EndpointApi.meInboxRead(messageId), body: payload);
   }
 }

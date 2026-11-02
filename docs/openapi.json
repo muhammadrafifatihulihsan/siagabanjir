@@ -6451,6 +6451,16 @@
             "format": "uuid",
             "maxLength": 36
           },
+          "reporterName": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000
+          },
           "analysisState": {
             "enum": [
               "QUEUED",
@@ -6475,6 +6485,8 @@
           "id",
           "acceptedAt",
           "groupId",
+          "reporterName",
+          "description",
           "analysisState",
           "assessment",
           "review",
@@ -8266,6 +8278,13 @@
             "minLength": 1,
             "maxLength": 3000
           },
+          "severity": {
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ]
+          },
           "endsAt": {
             "anyOf": [
               {
@@ -8298,6 +8317,13 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 3000
+          },
+          "severity": {
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ]
           },
           "endsAt": {
             "anyOf": [
@@ -8334,6 +8360,13 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 3000
+          },
+          "severity": {
+            "enum": [
+              "INFO",
+              "WARNING",
+              "CRITICAL"
+            ]
           },
           "publishedAt": {
             "type": "string",
@@ -8377,6 +8410,7 @@
           "id",
           "title",
           "body",
+          "severity",
           "publishedAt",
           "updatedAt",
           "endsAt",

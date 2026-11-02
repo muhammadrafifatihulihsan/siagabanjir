@@ -42,7 +42,7 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
     super.dispose();
   }
 
-  void _kirimSiaran() {
+  void _kirimSiaran() async {
     final judul = _judulPesanController.text.trim();
     final isi = _isiPesanController.text.trim();
     final instansi = _instansiController.text.trim();
@@ -101,7 +101,22 @@ class _TabPusatOperasionalState extends State<TabPusatOperasional> {
       isNew: true,
     );
 
-    widget.state.terbitkanPeringatanBaru(pesanBaru);
+    final berhasil = await widget.state.terbitkanPeringatanBaru(pesanBaru);
+    if (!mounted) return;
+    if (!berhasil) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            widget.state.galatSiaran ??
+                'Siaran gagal dikirim ke server. Periksa koneksi backend.',
+          ),
+          backgroundColor: const Color(0xFFB91C1C),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 6),
+        ),
+      );
+      return;
+    }
     _judulPesanController.clear();
     _isiPesanController.clear();
 

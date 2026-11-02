@@ -429,6 +429,30 @@
     "scope": "SCHEMA_ONLY"
   },
   {
+    "name": "message-severity-critical",
+    "schema": "MessageCreate",
+    "payload": {
+      "title": "Siaga 1 Batang Kuranji",
+      "body": "Air meluap, warga diminta evakuasi mandiri.",
+      "severity": "CRITICAL",
+      "endsAt": null
+    },
+    "expectedValid": true,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
+    "name": "message-severity-unknown",
+    "schema": "MessageCreate",
+    "payload": {
+      "title": "Tingkat tidak dikenal",
+      "body": "Pesan sintetis",
+      "severity": "DANGER",
+      "endsAt": null
+    },
+    "expectedValid": false,
+    "scope": "SCHEMA_ONLY"
+  },
+  {
     "name": "report-upload-file-origin-forbidden",
     "schema": "UploadInput",
     "payload": {

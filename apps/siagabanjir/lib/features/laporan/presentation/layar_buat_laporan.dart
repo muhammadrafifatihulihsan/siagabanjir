@@ -147,8 +147,9 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
     // Hubungkan pengiriman laporan ke backend jika tersedia
     final laporanRepo = widget.laporanRepository ?? LaporanRepository();
     final submissionId = identitasAksi();
+    String? pesanGalat;
     try {
-      String? mediaId;
+      final uploadIds = <String>[];
       Uint8List? bytesToUpload = _foto?.bytes;
       if (bytesToUpload == null) {
         try {
@@ -158,23 +159,26 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       }
       if (bytesToUpload != null) {
         final uploadId = identitasAksi();
-        mediaId = await laporanRepo.unggahFotoBukti(
+        final idUnggahan = await laporanRepo.unggahFotoBukti(
           uploadId: uploadId,
           bytes: bytesToUpload,
         );
+        uploadIds.add(idUnggahan);
       }
       await laporanRepo.kirimLaporan(
         submissionId: submissionId,
         kategori: _category!,
         deskripsi: _description.text.trim(),
         kebutuhan: List.unmodifiable(_needs),
-        mediaId: mediaId,
+        uploadIds: uploadIds,
         latitude: _latitude,
         longitude: _longitude,
         alamat: _alamatLokasi,
       );
     } catch (e) {
-      // Catat kegagalan jika offline, namun tetap pertahankan data untuk antrean lokal
+      // Kegagalan server tidak lagi ditelan diam-diam; catatan tetap disimpan
+      // lokal agar isian warga tidak hilang, disertai pemberitahuan jujur.
+      pesanGalat = e.toString();
       debugPrint('Pengiriman laporan ke server: $e');
     }
 
@@ -196,11 +200,24 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       _foto = null;
     });
     widget.fotoDipulihkan?.value = null;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Laporan berhasil disimpan ke Riwayat.'),
-      ),
-    );
+    final messenger = ScaffoldMessenger.of(context);
+    if (pesanGalat != null) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Laporan tersimpan lokal, tetapi gagal dikirim ke server: $pesanGalat',
+          ),
+          backgroundColor: const Color(0xFFB91C1C),
+          duration: const Duration(seconds: 6),
+        ),
+      );
+    } else {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Laporan berhasil disimpan ke Riwayat.'),
+        ),
+      );
+    }
   }
 
   // Membatalkan semua isian mengembalikan form ke kondisi bersih.

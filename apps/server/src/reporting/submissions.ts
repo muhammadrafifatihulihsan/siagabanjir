@@ -80,6 +80,7 @@ export interface ReportSummary {
   id: string;
   acceptedAt: string;
   groupId: string;
+  description: string;
   analysisState: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
   assessment: Assessment;
   review: ReviewState;
@@ -444,14 +445,9 @@ export async function submitReport(
       throw new HttpProblem(422, 'VALIDATION_FAILED');
     }
 
-    // 5. Periksa KTP terverifikasi
-    const [ktpRows] = await connection.execute<RowDataPacket[]>(
-      'SELECT active_document_id FROM ktp_states WHERE account_id = ?',
-      [accountId],
-    );
-    if (!ktpRows[0] || !ktpRows[0].active_document_id) {
-      throw new HttpProblem(422, 'VALIDATION_FAILED');
-    }
+    // 5. Syarat KTP dilonggarkan untuk demo: verifikasi KTP tidak lagi
+    //    memblokir pengiriman laporan. Kembalikan pemeriksaan
+    //    `ktp_states.active_document_id` bila mode demo dimatikan.
 
     // 6. Periksa aturan galeri
     const settings = await getSettings(connection);
@@ -784,6 +780,7 @@ export async function listOwnReports(
         id: r.id,
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
+        description: r.description,
         analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {
@@ -895,6 +892,7 @@ export async function getOwnReport(
         id: r.id,
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
+        description: r.description,
         analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {

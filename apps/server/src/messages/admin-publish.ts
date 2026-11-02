@@ -26,12 +26,16 @@ export async function publishMessage(
 ): Promise<Message> {
   const title = input.title.normalize('NFC').trim();
   const body = input.body.normalize('NFC').trim();
+  const severity = input.severity ?? 'INFO';
 
   // Validasi batas panjang teks judul dan isi pesan
   if (!title || title.length < 1 || title.length > 120) {
     throw new HttpProblem(422, 'VALIDATION_FAILED');
   }
   if (!body || body.length < 1 || body.length > 3000) {
+    throw new HttpProblem(422, 'VALIDATION_FAILED');
+  }
+  if (!['INFO', 'WARNING', 'CRITICAL'].includes(severity)) {
     throw new HttpProblem(422, 'VALIDATION_FAILED');
   }
   if (input.endsAt) {
@@ -47,6 +51,7 @@ export async function publishMessage(
     action: 'publishMessage',
     title,
     body,
+    severity,
     endsAt: input.endsAt ?? null,
   });
 
@@ -77,9 +82,9 @@ export async function publishMessage(
       : null;
 
     await connection.execute(
-      `INSERT INTO messages (id, title, body, published_at, ends_at, state, content_version, version, created_at, updated_at)
-        VALUES (?, ?, ?, UTC_TIMESTAMP(3), ?, 'ACTIVE', 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [messageId, title, body, endsAtSql],
+      `INSERT INTO messages (id, title, body, severity, published_at, ends_at, state, content_version, version, created_at, updated_at)
+        VALUES (?, ?, ?, ?, UTC_TIMESTAMP(3), ?, 'ACTIVE', 1, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
+      [messageId, title, body, severity, endsAtSql],
     );
 
     // 3. Catat bukti transaksi ke tabel commands

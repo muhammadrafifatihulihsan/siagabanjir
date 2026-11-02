@@ -363,8 +363,13 @@ export async function verifySubmissions(app: FastifyInstance, pool: Pool) {
     });
     assert.equal(listReportsRes.statusCode, 200);
     const reportsPage = listReportsRes.json<{ data: HistoryItemPage }>().data;
+    const listedReport = reportsPage.items.find(
+      (i: { id: string }) => i.id === createdReportId,
+    );
+    assert.ok(listedReport);
     assert.ok(
-      reportsPage.items.some((i: { id: string }) => i.id === createdReportId),
+      typeof (listedReport as { description?: unknown }).description ===
+        'string',
     );
 
     // 9. GET /api/v1/me/reports/:reportId

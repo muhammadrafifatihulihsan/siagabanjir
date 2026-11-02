@@ -183,6 +183,30 @@ Push/deploy tidak termasuk mandat commit lokal.
 
 ## Perubahan terakhir
 
+Penyelarasan kontrak backend ↔ Flutter (3 November 2026): memperbaiki
+ketidaksinkronan yang membuat siaran admin tidak pernah sampai ke kotak masuk
+warga dan laporan warga tidak tampil di portal admin. Migrasi
+`034_message_severity.sql` menambah `messages.severity` (`INFO|WARNING|CRITICAL`)
+dan rute `POST/PATCH /api/v1/admin/messages` menerima/menyimpan field tersebut;
+`ReportSummary` admin kini memuat `reporterName` dan `description` (JOIN
+`accounts.display_name`) dan `ReportSummary` warga memuat `description`.
+Sesuai [WS-DEC-072](DECISIONS.md#contract-sync-072), syarat KTP dilonggarkan
+untuk demo sehingga `getReportingStatus` mengembalikan `ktpSatisfied=true` dan
+`submitReport` tidak lagi menolak tanpa KTP aktif. Di Flutter:
+`AdminRepository.terbitkanPesanSiaga` mengirim `{title, body, severity, endsAt}`;
+`PesanRepository.ambilKotakMasuk` membaca `data.items` berobjek
+`{message, read}`; `LaporanRepository.unggahFotoBukti` memakai
+`multipart/form-data` (`purpose=REPORT`, `origin=CAMERA`) dan `kirimLaporan`
+hanya mengirim field kontrak; notifikasi beranda memuat dari `/api/v1/me/inbox`;
+kegagalan siaran/sinkronisasi/pengiriman kini ditampilkan, bukan ditelan.
+Bukti lokal: `tsc --noEmit`, ESLint dan Prettier server PASS; 22 tes unit server
+PASS; `test/messages.ts`, `test/reporting.ts`, `test/submissions.ts`,
+`test/admin-reporting.ts`, `test/cms.ts`, `test/profile.ts`, `test/vault.ts`
+PASS pada MySQL uji (migrasi 034 diterapkan); `python
+.github/scripts/validate_contracts.py` PASS (165 skema, 56 contoh);
+`flutter analyze` 0 isu; 126 tes Flutter PASS; `flutter build web` PASS.
+UAT perangkat, provider AI dan push/deploy tetap NOT_RUN.
+
 Kesiapan Produksi & Dukungan CORS: Menambahkan penanganan preflight CORS (HTTP 204 OPTIONS) dan header CORS lengkap (`Access-Control-Allow-Origin`, `Access-Control-Allow-Headers`, `Access-Control-Allow-Methods`) pada server Fastify `apps/server/src/app.ts` dengan unit test khusus di `http.test.ts`. Memvalidasi build Flutter Web (`flutter build web`) untuk portal admin produksi serta memastikan seluruh 121 tes Flutter, 16 tes server, dan pengujian database MySQL nyata (32 migrasi) lulus 100%.
 
 Integrasi Flutter <-> Backend Fastify: Menghubungkan seluruh fitur aplikasi Flutter (Warga Android dan Admin Web) ke endpoint backend Fastify dengan Clean Architecture (KlienApi bersama di `core/jaringan`, PengelolaSesi di `core/sesi`, dan implementasi repositori di masing-masing `features/*/data`: AutentikasiRepository, PantauRepository, LaporanRepository, AkunRepository, PesanRepository, AdminRepository, dan MetaRepository). Seluruh 114 test widget eksisting dan 7 unit test integrasi lulus 100% serta `flutter analyze` menghasilkan 0 issues.

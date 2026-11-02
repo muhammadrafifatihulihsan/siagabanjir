@@ -7,6 +7,19 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Penyelarasan kontrak backend ↔ Flutter untuk siaran admin, kotak masuk warga, dan pelaporan:
+  tambah migrasi `034_message_severity.sql` (`messages.severity` `INFO|WARNING|CRITICAL`) dan dukung field `severity`
+  pada `POST/PATCH /api/v1/admin/messages`; perkaya `ReportSummary` admin dengan `reporterName`/`description`
+  (JOIN `accounts`) dan `ReportSummary` warga dengan `description`; longgarkan syarat KTP untuk demo
+  (`ktpSatisfied=true`, `submitReport` tanpa KTP aktif) sesuai WS-DEC-072; perbaiki `AdminRepository.terbitkanPesanSiaga`
+  agar mengirim `endsAt` dan severity yang benar, `PesanRepository` agar membaca `data.items` berbentuk `{message, read}`,
+  `LaporanRepository` agar mengunggah bukti via `multipart/form-data` (`purpose=REPORT`, `origin=CAMERA`) dan mengirim
+  payload `SubmissionInput` yang sah, hubungkan notifikasi beranda ke `/api/v1/me/inbox`, serta tampilkan kegagalan
+  siaran/sinkronisasi/pengiriman alih-alih menelannya. OpenAPI, SRS, contoh kontrak, keputusan, dan handoff diperbarui.
+  Bukti lokal: 22 tes unit server, tes MySQL (`messages`, `reporting`, `submissions`, `admin-reporting`, `cms`, `profile`, `vault`),
+  validator kontrak (165 skema, 56 contoh), `flutter analyze`, 126 tes Flutter, dan `flutter build web` PASS.
+  UAT perangkat, provider AI, dan push/deploy tetap NOT_RUN.
+
 - Pembersihan data statis Pantau Wilayah dan Beranda, perbaikan login Admin, serta sinkronisasi koordinat GPS riil laporan warga:
   perbaiki kata sandi seed seluruh akun admin dan warga menjadi `password123!` dan bersihkan throttle `auth_failures` serta sesi lama pada MySQL; dukung penentuan peran otomatis di `AutentikasiRepository` dan `LayarMasuk` berdasarkan respons server sehingga login admin tidak terkendala pra-seleksi form; ubah `KartuStatusBeranda` dan `LayarPantauWilayah` agar menampilkan status bersih/kosong saat runtime nyata belum memiliki data pos sensor sungai di database; sediakan fitur sinkronisasi lokasi GPS pada formulir pembuatan laporan warga dengan koordinat terverifikasi (`-0.9471, 100.4172`) dan alamat yang dapat disesuaikan; aktifkan verifikasi KTP otomatis pada akun seed warga di `ktp_states` dan perbaiki envelope parsing di repositori laporan, admin, dan pantau agar seluruh aksi warga dan admin tersinkronisasi langsung ke database MySQL. Seluruh 126 tes Flutter, 22 tes backend, dan verifikasi markdown lulus 100%.
 

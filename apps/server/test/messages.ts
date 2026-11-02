@@ -94,6 +94,7 @@ export async function verifyMessages(
       payload: {
         title: 'Peringatan Banjir Siaga 2',
         body: 'Warga bantaran kali harap mengamankan barang berharga.',
+        severity: 'CRITICAL',
         endsAt: null,
       },
     });
@@ -101,6 +102,7 @@ export async function verifyMessages(
     assert.equal(pubRes1.headers.etag, '"1"');
     const msg1 = pubRes1.json<{ data: Message }>().data;
     assert.equal(msg1.title, 'Peringatan Banjir Siaga 2');
+    assert.equal(msg1.severity, 'CRITICAL');
     assert.equal(msg1.contentVersion, 1);
     assert.equal(msg1.version, 1);
     assert.equal(msg1.state, 'ACTIVE');
@@ -116,6 +118,7 @@ export async function verifyMessages(
       payload: {
         title: 'Peringatan Banjir Siaga 2',
         body: 'Warga bantaran kali harap mengamankan barang berharga.',
+        severity: 'CRITICAL',
         endsAt: null,
       },
     });
@@ -137,6 +140,23 @@ export async function verifyMessages(
       },
     });
     assert.equal(conflictRes.statusCode, 409);
+
+    // Severity tidak dikenal ditolak 422
+    const invalidSeverityRes = await app.inject({
+      method: 'POST',
+      url: '/api/v1/admin/messages',
+      headers: {
+        authorization: `Bearer ${adminToken}`,
+        'idempotency-key': randomUUID(),
+      },
+      payload: {
+        title: 'Severity tidak valid',
+        body: 'Isi pesan',
+        severity: 'DANGER',
+        endsAt: null,
+      },
+    });
+    assert.equal(invalidSeverityRes.statusCode, 422);
 
     // Admin terbitkan pesan 2 (Aktif dengan batas waktu masa depan)
     const futureDate = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();

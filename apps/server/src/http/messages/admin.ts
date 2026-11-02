@@ -34,6 +34,10 @@ export function registerAdminMessages(
           properties: {
             title: { type: 'string', minLength: 1, maxLength: 120 },
             body: { type: 'string', minLength: 1, maxLength: 3000 },
+            severity: {
+              type: 'string',
+              enum: ['INFO', 'WARNING', 'CRITICAL'],
+            },
             endsAt: {
               anyOf: [
                 { type: 'string', minLength: 0, format: 'date-time' },
@@ -140,6 +144,10 @@ export function registerAdminMessages(
           properties: {
             title: { type: 'string', minLength: 1, maxLength: 120 },
             body: { type: 'string', minLength: 1, maxLength: 3000 },
+            severity: {
+              type: 'string',
+              enum: ['INFO', 'WARNING', 'CRITICAL'],
+            },
             endsAt: {
               anyOf: [
                 { type: 'string', minLength: 0, format: 'date-time' },

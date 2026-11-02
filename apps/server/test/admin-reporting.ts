@@ -138,6 +138,11 @@ export async function verifyAdminReporting(
     assert.ok(foundReport);
     assert.equal(foundReport.groupId, groupId1);
     assert.equal(foundReport.version, 1);
+    assert.equal(
+      foundReport.description,
+      'Banjir setinggi 40cm merendam jalan utama',
+    );
+    assert.ok(foundReport.reporterName.length > 0);
 
     // 2. GET /api/v1/admin/reports/:reportId
     const getReportRes = await app.inject({

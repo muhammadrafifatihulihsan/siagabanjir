@@ -47,6 +47,12 @@ export async function editMessage(
     if (Number.isNaN(d.getTime()))
       throw new HttpProblem(422, 'VALIDATION_FAILED');
   }
+  if (
+    input.severity !== undefined &&
+    !['INFO', 'WARNING', 'CRITICAL'].includes(input.severity)
+  ) {
+    throw new HttpProblem(422, 'VALIDATION_FAILED');
+  }
 
   const scope = actorScope(deps.keys.journal, 'account', adminId);
   const hash = fingerprint(deps.keys.journal, {
@@ -110,11 +116,21 @@ export async function editMessage(
           ? new Date(row.ends_at).toISOString().slice(0, 23).replace('T', ' ')
           : null;
 
+    const newSeverity = input.severity ?? row.severity;
+
     await connection.execute(
       `UPDATE messages
-        SET title = ?, body = ?, ends_at = ?, content_version = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
+        SET title = ?, body = ?, severity = ?, ends_at = ?, content_version = ?, version = ?, updated_at = UTC_TIMESTAMP(3)
         WHERE id = ?`,
-      [newTitle, newBody, endsAtSql, newContentVersion, newVersion, messageId],
+      [
+        newTitle,
+        newBody,
+        newSeverity,
+        endsAtSql,
+        newContentVersion,
+        newVersion,
+        messageId,
+      ],
     );
 
     // 4. Catat riwayat perintah idempotensi

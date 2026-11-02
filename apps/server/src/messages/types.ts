@@ -4,10 +4,13 @@
  */
 import type { RowDataPacket } from 'mysql2/promise';
 
+export type MessageSeverity = 'INFO' | 'WARNING' | 'CRITICAL';
+
 export interface Message {
   id: string;
   title: string;
   body: string;
+  severity: MessageSeverity;
   publishedAt: string;
   updatedAt: string;
   endsAt: string | null;
@@ -19,12 +22,14 @@ export interface Message {
 export interface MessageCreate {
   title: string;
   body: string;
+  severity?: MessageSeverity;
   endsAt: string | null;
 }
 
 export interface MessageUpdate {
   title?: string;
   body?: string;
+  severity?: MessageSeverity;
   endsAt?: string | null;
 }
 
@@ -58,6 +63,7 @@ export interface MessageRow extends RowDataPacket {
   id: string;
   title: string;
   body: string;
+  severity: MessageSeverity;
   published_at: string | Date;
   ends_at: string | Date | null;
   state: 'ACTIVE' | 'REVOKED' | 'EXPIRED';
@@ -86,6 +92,7 @@ export function formatMessage(row: MessageRow): Message {
     id: row.id,
     title: row.title,
     body: row.body,
+    severity: row.severity,
     publishedAt: new Date(row.published_at).toISOString(),
     updatedAt: new Date(row.updated_at).toISOString(),
     endsAt: formatDate(row.ends_at),

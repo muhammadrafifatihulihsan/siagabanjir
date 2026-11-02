@@ -231,7 +231,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 - **Sumber / tujuan:** [FR-KTP-001](FRD.md#fr-ktp-001); [PRD-F-011](PRD.md#prd-f-011).
 - **Aktor / pemicu:** Warga pemilik. Pemicu: Membuat draf atau mencoba pengiriman baru.
-- **Kewajiban:** Penerimaan wajib membaca rujukan KTP aktif pemilik dalam transaksi penerimaan; status dari draf/klien tidak memberi hak kirim.
+- **Kewajiban:** Penerimaan wajib membaca rujukan KTP aktif pemilik dalam transaksi penerimaan; status dari draf/klien tidak memberi hak kirim. **Pengecualian demo (DECISIONS.md#contract-sync-072):** syarat KTP dilonggarkan sehingga `submitReport` dan `getReportingStatus` mengembalikan `ktpSatisfied=true` tanpa KTP aktif; aktifkan kembali bila demo berakhir.
 - **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-001-01](FRD.md#ac-ktp-001-01), [AC-KTP-001-02](FRD.md#ac-ktp-001-02); [TC-KTP-001-01](FRD.md#tc-ktp-001-01), [TC-KTP-001-02](FRD.md#tc-ktp-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
@@ -753,7 +753,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 - **Sumber / tujuan:** [FR-INBOX-001](FRD.md#fr-inbox-001); [PRD-F-054](PRD.md#prd-f-054).
 - **Aktor / pemicu:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi. Pemicu: Menerbitkan pesan peringatan.
-- **Kewajiban:** Query inbox wajib mengambil semua pesan aktif pada waktu server bagi setiap warga, termasuk akun baru; tanpa targeting atau push eksternal.
+- **Kewajiban:** Query inbox wajib mengambil semua pesan aktif pada waktu server bagi setiap warga, termasuk akun baru; tanpa targeting atau push eksternal. Setiap pesan membawa `severity` (INFO/WARNING/CRITICAL) yang dipakai UI warga untuk memilih tingkat tampilan.
 - **Kontrak input/output dan izin:** [publishMessage](#srs-api-publishmessage), [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [listInbox](#srs-api-listinbox).
 - **Verifikasi / penerimaan:** [AC-INBOX-001-01](FRD.md#ac-inbox-001-01), [AC-INBOX-001-02](FRD.md#ac-inbox-001-02); [TC-INBOX-001-01](FRD.md#tc-inbox-001-01), [TC-INBOX-001-02](FRD.md#tc-inbox-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -793,7 +793,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 Klien membuat `submissionId` UUIDv4 dan membekukan isi pada Kirim, termasuk identitas media. Upload dilakukan per file ke staging privat; ini belum menerima laporan atau mengonsumsi kuota. Sinyal perangkat diobservasi ulang sebelum penerimaan baru; perubahan snapshot sinyal tidak membuat payload bisnis baru. Fingerprint bisnis terdiri dari deskripsi/titik/waktu dan urutan ID upload immutable; tidak memasukkan token, requestId, timestamp pengamatan sinyal atau header retry. ID upload mengikat digest bytes pada penciptaan dan tidak pernah digunakan ulang walau bytes kemudian dibersihkan. Fingerprint retry dapat dihitung dari request tanpa perlu membuka kembali media terhapus.
 
-Di bawah guard transaksi: autentikasi/ownership → lookup journal ID → bila belum terminal, validasi input/berkas → KTP aktif → sinyal perangkat → galeri terbaru → kuota → commit laporan, ledger, kelompok/proyeksi dan job bersama-sama. Fingerprint memakai HMAC-SHA256 key backend terhadap JSON kanonik dengan urutan field tetap; verifier minimal disimpan, bukan salinan keterangan/koordinat. ID upload/path tidak dapat diganti diam-diam pada revisi yang sama.
+Di bawah guard transaksi: autentikasi/ownership → lookup journal ID → bila belum terminal, validasi input/berkas → sinyal perangkat → galeri terbaru → kuota → commit laporan, ledger, kelompok/proyeksi dan job bersama-sama. Pemeriksaan KTP aktif dilonggarkan pada mode demo (lihat SRS-FR-KTP-001). Fingerprint memakai HMAC-SHA256 key backend terhadap JSON kanonik dengan urutan field tetap; verifier minimal disimpan, bukan salinan keterangan/koordinat. ID upload/path tidak dapat diganti diam-diam pada revisi yang sama.
 
 | Keadaan | Hasil |
 |---|---|
@@ -974,7 +974,7 @@ erDiagram
 | SRS-DATA-020 | family_profiles: account_id, version; family_members: id, account_id, display_name, age_group, needs | ≤20; hanya field minimum; profile update atomik, no cascade delete dari sumber dokumen |
 | SRS-DATA-021 | extraction_suggestions: id, job_id, source_document_id/version, page, display_name, age_group, available_at, expires_at | ≤20 hasil per dokumen, total ≤400; tidak persisten DOB/NIK; parent all units valid, expiry 24 jam; deleted source membatalkan parent/apply |
 | SRS-DATA-022 | content_items: id, kind, draft_json, published_json, version, state; content_revisions: revision, snapshot/hash/count, published_at | Payload per kind tervalidasi; publish atomik snapshot semua jenis; current dan previous seperti §3.7 |
-| SRS-DATA-023 | messages: id, title/body, published_at, ends_at, ended_at, state, content_version, version | Server time menentukan ACTIVE; terminal 90 hari; ubah metadata tidak menaikkan content_version |
+| SRS-DATA-023 | messages: id, title/body, severity, published_at, ends_at, ended_at, state, content_version, version | Server time menentukan ACTIVE; terminal 90 hari; severity INFO/WARNING/CRITICAL untuk tampilan warga; ubah metadata tidak menaikkan content_version |
 | SRS-DATA-024 | message_reads: account_id, message_id, content_version, read_at | UNIQUE(account_id,message_id,content_version); no admin readership API; purge mengikuti pesan |
 | SRS-DATA-025 | deletion_markers: report_id, owner_id, deleted_at, visible_until | Hanya ID/waktu/label; 30 hari, tidak menjadi anggota kelompok atau sumber level |
 | SRS-DATA-026 | admin_audit: id, actor_id, object_id, action, version, time, reason, outcome, cleanup_id | Hanya aksi admin, minimal tanpa isi/kredensial/koordinat; 90 hari |

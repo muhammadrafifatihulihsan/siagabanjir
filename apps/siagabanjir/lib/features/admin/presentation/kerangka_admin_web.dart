@@ -226,6 +226,38 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                         ],
                       ),
                     ),
+                    if (_state.galatSinkronisasiLaporan != null)
+                      Container(
+                        width: double.infinity,
+                        color: const Color(0xFFFEE2E2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              size: 18,
+                              color: Color(0xFFB91C1C),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _state.galatSinkronisasiLaporan!,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Color(0xFFB91C1C),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: _state.sinkronkanDariBackend,
+                              child: const Text('Muat ulang'),
+                            ),
+                          ],
+                        ),
+                      ),
                     Expanded(child: _body()),
                   ],
                 ),

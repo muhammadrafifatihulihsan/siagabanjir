@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/widgets.dart';
 
+import '../../../core/jaringan/identitas_aksi.dart';
 import '../../../features/kontak/presentation/models/entri_kontak.dart';
 import '../../../features/pantau/presentation/models/data_pantau_wilayah.dart';
 import '../../../features/pesan/presentation/models/pesan_siaga.dart';
@@ -41,6 +42,13 @@ class StateAdminSiaga extends ChangeNotifier {
   List<PesanSiaga> get pesanSiaga => _pesanSiaga.isNotEmpty || !_adalahLingkunganTest
       ? List.unmodifiable(_pesanSiaga)
       : kSampleSiagaMessages;
+
+  // Galat terakhir agar kegagalan server tidak lagi ditelan diam-diam.
+  String? _galatSiaran;
+  String? get galatSiaran => _galatSiaran;
+
+  String? _galatSinkronisasiLaporan;
+  String? get galatSinkronisasiLaporan => _galatSinkronisasiLaporan;
 
   // 3. Data Kontak Darurat Posko Publik
   List<EntriKontak> _kontakDarurat = List.from(kPublicContacts);
@@ -399,16 +407,39 @@ class StateAdminSiaga extends ChangeNotifier {
 
   // --- AKSI BROADCAST SIARAN PERINGATAN ---
 
-  void terbitkanPeringatanBaru(PesanSiaga pesan) {
-    _pesanSiaga = [pesan, ..._pesanSiaga];
-    notifyListeners();
-
-    // Hubungkan publikasi siaran pesan admin ke backend
-    AdminRepository().terbitkanPesanSiaga(
-      judul: pesan.title,
-      isi: pesan.body,
-      tingkat: pesan.category == KategoriPesan.emergency ? 'CRITICAL' : 'WARNING',
-    ).catchError((_) => <String, dynamic>{});
+  /// Menerbitkan siaran peringatan ke backend lalu menambahkannya ke daftar.
+  ///
+  /// Mengembalikan `true` bila server menerima pesan. Kegagalan disimpan pada
+  /// [galatSiaran] agar UI menampilkan pesan jujur, bukan sukses palsu.
+  Future<bool> terbitkanPeringatanBaru(PesanSiaga pesan) async {
+    final tingkat = switch (pesan.category) {
+      KategoriPesan.emergency => 'CRITICAL',
+      KategoriPesan.weather => 'WARNING',
+      KategoriPesan.all => 'INFO',
+    };
+    // Widget test tidak memanggil backend; tambahkan langsung ke daftar lokal.
+    if (_adalahLingkunganTest) {
+      _pesanSiaga = [pesan, ..._pesanSiaga];
+      _galatSiaran = null;
+      notifyListeners();
+      return true;
+    }
+    try {
+      await AdminRepository().terbitkanPesanSiaga(
+        judul: pesan.title,
+        isi: pesan.body,
+        tingkat: tingkat,
+        idempotencyKey: identitasAksi(),
+      );
+      _pesanSiaga = [pesan, ..._pesanSiaga];
+      _galatSiaran = null;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _galatSiaran = 'Siaran gagal dikirim ke server: $e';
+      notifyListeners();
+      return false;
+    }
   }
 
   void cabutPeringatan(String idPesan) {
@@ -485,7 +516,7 @@ class StateAdminSiaga extends ChangeNotifier {
             deskripsi: ls.deskripsi,
             kebutuhan: const [],
             idKlaster: ls.idKlaster ?? 'klaster-terbaru',
-            statusVerifikasi: ls.status == 'APPROVED'
+            statusVerifikasi: ls.status == 'REVIEWED'
                 ? StatusVerifikasiWilayah.terverifikasi
                 : StatusVerifikasiWilayah.menungguTinjauan,
           );
@@ -516,7 +547,12 @@ class StateAdminSiaga extends ChangeNotifier {
           );
         }
       }
+      _galatSinkronisasiLaporan = null;
+    } catch (e) {
+      // Kegagalan tidak lagi disembunyikan; panel dapat menampilkan galat.
+      _galatSinkronisasiLaporan = 'Gagal memuat laporan dari server: $e';
+    } finally {
       notifyListeners();
-    } catch (_) {}
+    }
   }
 }

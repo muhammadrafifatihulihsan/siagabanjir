@@ -24,13 +24,25 @@ class LaporanAdminServer {
   final String? mediaId;
 
   factory LaporanAdminServer.fromJson(Map<String, dynamic> json) {
+    final deskripsiMentah = (json['description'] as String? ?? '').trim();
+    final baris = deskripsiMentah.split('\n');
+    // Warga mengirim deskripsi berformat "Kategori\nDeskripsi..." sehingga
+    // baris pertama dipakai sebagai kategori bila ada lebih dari satu baris.
+    final kategoriMentah = baris.length > 1 ? baris.first.trim() : '';
+    final deskripsiBersih = baris.length > 1
+        ? baris.skip(1).join('\n').trim()
+        : deskripsiMentah;
+    final review = json['review'] as Map<String, dynamic>?;
+    final sudahDitinjau =
+        review?['reviewed'] as bool? ?? review?['needsReviewSince'] == null;
+
     return LaporanAdminServer(
       id: json['id'] as String? ?? '',
       namaPelapor: json['reporterName'] as String? ?? 'Warga Pelapor',
-      kategori: json['category'] as String? ?? 'Banjir',
-      deskripsi: json['description'] as String? ?? '',
-      status: json['status'] as String? ?? 'SUBMITTED',
-      waktu: DateTime.tryParse(json['createdAt'] as String? ?? '') ??
+      kategori: kategoriMentah.isEmpty ? 'Laporan Warga' : kategoriMentah,
+      deskripsi: deskripsiBersih.isEmpty ? deskripsiMentah : deskripsiBersih,
+      status: sudahDitinjau ? 'REVIEWED' : 'NEEDS_REVIEW',
+      waktu: DateTime.tryParse(json['acceptedAt'] as String? ?? '') ??
           DateTime.now(),
       idKlaster: json['groupId'] as String?,
       mediaId: json['mediaId'] as String?,
@@ -74,12 +86,10 @@ class AdminRepository {
   /// Membaca daftar seluruh laporan masuk untuk ditinjau via `GET /api/v1/admin/reports`.
   Future<List<LaporanAdminServer>> ambilDaftarLaporan({
     String? status,
-    String? groupId,
     String? query,
   }) async {
     final queryParams = <String, dynamic>{
       'status': ?status,
-      'groupId': ?groupId,
       'q': ?query,
     };
 
@@ -106,16 +116,21 @@ class AdminRepository {
   }
 
   /// Menerbitkan pesan siaran peringatan banjir baru via `POST /api/v1/admin/messages`.
+  ///
+  /// Backend mewajibkan field `endsAt` (boleh `null`) dan `severity`
+  /// bertipe `INFO|WARNING|CRITICAL`.
   Future<Map<String, dynamic>> terbitkanPesanSiaga({
     required String judul,
     required String isi,
     required String tingkat, // 'CRITICAL' | 'WARNING' | 'INFO'
+    DateTime? berakhirPada,
     String? idempotencyKey,
   }) async {
     final payload = {
       'title': judul,
       'body': isi,
       'severity': tingkat,
+      'endsAt': berakhirPada?.toUtc().toIso8601String(),
     };
 
     final headers = <String, String>{

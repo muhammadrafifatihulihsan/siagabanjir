@@ -1431,3 +1431,27 @@ Mandat mencakup perbaikan backend, Flutter, konfigurasi lokal dan panduan;
 commit lokal wajib. Push, deploy dan pengujian HP tetap terpisah. Bukti terbaru
 ada pada [handoff](SESSION-HANDOFF.md); tidak menganggap seluruh fitur selesai
 berdasarkan keberadaan endpoint atau hasil tes transport saja.
+
+<a id="contract-sync-072"></a>
+
+## 61. Penyelarasan kontrak backend-Flutter (3 November 2026)
+
+**WS-DEC-072 - CURRENT_USER_CONFIRMED.** Pemilik menyetujui rencana perbaikan
+ketidaksinkronan backend-Flutter dengan dua keputusan eksplisit:
+
+1. Cakupan perbaikan mencakup backend dan Flutter sekaligus, dan syarat KTP
+   **dilonggarkan untuk demo** (pengguna demo tetap dapat mengirim laporan tanpa
+   KTP aktif). Ini adalah pengecualian terbatas yang disetujui pemilik, bukan
+   klaim bahwa WS-DEC-071 dibatalkan untuk produksi; aktifkan kembali pemeriksaan
+   `ktp_states.active_document_id` sebelum penggunaan nyata.
+2. Pesan siaran memakai `severity` bertipe `INFO|WARNING|CRITICAL`, disimpan pada
+   kolom `messages.severity` (migrasi `034_message_severity.sql`). Klien tidak
+   lagi mengirim tingkat sebagai kategori bebas.
+
+Perbaikan lain dalam rangkaian ini: `ReportSummary` admin memuat `reporterName`
+dan `description`; `ReportSummary` warga memuat `description`; unggah bukti
+laporan memakai `multipart/form-data` dengan `purpose=REPORT` dan `origin=CAMERA`;
+kotak masuk warga membaca `data.items` dan objek `{message, read}`; kegagalan
+sinkronisasi tidak lagi ditelan diam-diam. Kontrak terdampak diperbarui pada
+[openapi.json](openapi.json), [SRS](SRS.md) dan [contoh](examples.json).
+Commit lokal wajib; push/merge/deploy tetap tidak diotorisasi.

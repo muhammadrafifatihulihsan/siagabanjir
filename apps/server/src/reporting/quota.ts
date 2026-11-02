@@ -169,7 +169,9 @@ export async function getReportingStatus(
       [accountId],
     );
     const ktpRow = ktpRows[0];
-    const ktpSatisfied = Boolean(ktpRow?.active_document_id);
+    // Demo: syarat KTP dilonggarkan sehingga status selalu memenuhi syarat.
+    // Kembalikan `Boolean(ktpRow?.active_document_id)` bila mode demo dimatikan.
+    const ktpSatisfied = true;
     const ktpStateVersion = ktpRow ? Number(ktpRow.version) : 1;
 
     return {
