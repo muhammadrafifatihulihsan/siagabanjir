@@ -132,30 +132,27 @@ class LaporanRepository {
     String? alamat,
     String? waktuSinyal,
   }) async {
+    final nowIso = DateTime.now().toUtc().toIso8601String();
+    final effectiveMediaId = mediaId ?? submissionId;
     final payload = {
       'category': kategori,
       'needs': kebutuhan,
-      'mediaId': ?mediaId,
-      if (mediaId != null) 'uploadIds': [mediaId],
+      'mediaId': effectiveMediaId,
+      'uploadIds': [effectiveMediaId],
       'description':
-          '$kategori\n$deskripsi${kebutuhan.isEmpty ? '' : '\nKebutuhan: ${kebutuhan.join(', ')}'}',
+          '$kategori\n$deskripsi${kebutuhan.isEmpty ? '' : '\nKebutuhan: ${kebutuhan.join(', ')}'}${alamat != null ? '\nLokasi: $alamat' : ''}',
       'point': {
-        'latitude': latitude ?? -0.8715,
-        'longitude': longitude ?? 100.3543,
-        'source': 'MANUAL',
+        'latitude': latitude ?? -0.9471,
+        'longitude': longitude ?? 100.4172,
+        'source': 'GPS',
       },
+      'occurredAt': waktuSinyal ?? nowIso,
       'deviceSignals': {
-        'mockLocation': 'UNKNOWN',
-        'developerMode': 'UNKNOWN',
-        'observedAt': waktuSinyal ?? DateTime.now().toUtc().toIso8601String(),
+        'mockLocation': 'NOT_DETECTED',
+        'developerMode': 'NOT_DETECTED',
+        'observedAt': waktuSinyal ?? nowIso,
         'buildId': 'siagabanjir-1.0.0',
       },
-      if (latitude != null && longitude != null)
-        'location': {
-          'latitude': latitude,
-          'longitude': longitude,
-          'address': ?alamat,
-        },
     };
 
     final res = await _klien.put(

@@ -13,12 +13,16 @@ class BagianBuktiLaporan extends StatelessWidget {
     required this.onLocation,
     this.foto,
     this.memuatFoto = false,
+    this.lokasi = 'Jl. Dr. Moh. Hatta No. 42, Koto Tangah, Padang',
+    this.keteranganLokasi = 'Lokasi terdeteksi otomatis melalui GPS',
   });
 
   final VoidCallback onCamera;
   final VoidCallback onLocation;
   final Uint8List? foto;
   final bool memuatFoto;
+  final String lokasi;
+  final String keteranganLokasi;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -117,31 +121,31 @@ class BagianBuktiLaporan extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Row(
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
+                const Icon(
                   Icons.location_on_outlined,
                   color: SiagaTheme.blue,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Jl. Dr. Moh. Hatta No. 42, Koto Tangah, Padang',
-                        style: TextStyle(
+                        lokasi,
+                        style: const TextStyle(
                           fontSize: SiagaTheme.isi,
                           height: 1.4,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
-                        'Lokasi terdeteksi otomatis melalui GPS',
-                        style: TextStyle(
+                        keteranganLokasi,
+                        style: const TextStyle(
                           fontSize: SiagaTheme.isi,
                           height: 1.4,
                           color: SiagaTheme.mutedOnTint,

@@ -19,7 +19,9 @@ class AutentikasiRepository {
     final payload = {
       'email': identifier.trim(),
       'password': sandi,
-      'client': peran == PeranPengguna.admin ? 'ADMIN_WEB' : 'ANDROID',
+      'client': (peran == PeranPengguna.admin || identifier.trim().toLowerCase().contains('admin'))
+          ? 'ADMIN_WEB'
+          : 'ANDROID',
     };
 
     final res = await _klien.post(
@@ -30,19 +32,16 @@ class AutentikasiRepository {
     final data = res['data'] as Map<String, dynamic>;
     final token = (data['accessToken'] ?? data['token']) as String;
     final userMap = (data['account'] ?? data['user']) as Map<String, dynamic>;
-    final roleStr = userMap['role'] as String;
-    final roleMatches = peran == PeranPengguna.admin
-        ? (roleStr == 'ADMIN' || roleStr == 'ADMIN_WEB')
-        : (roleStr == 'CITIZEN' || roleStr == 'WARGA');
-    if (!roleMatches) {
-      throw StateError('Peran akun tidak sesuai halaman masuk.');
-    }
+    final roleStr = (userMap['role'] as String?)?.toUpperCase() ?? 'CITIZEN';
+    final actualRole = (roleStr == 'ADMIN' || roleStr == 'ADMIN_WEB')
+        ? PeranPengguna.admin
+        : PeranPengguna.warga;
 
     final pengguna = PenggunaSesi(
       id: userMap['id'] as String,
-      nama: (userMap['displayName'] ?? userMap['name'] ?? 'Warga') as String,
+      nama: (userMap['displayName'] ?? userMap['name'] ?? (actualRole == PeranPengguna.admin ? 'Petugas Admin' : 'Warga')) as String,
       email: userMap['email'] as String,
-      peran: peran,
+      peran: actualRole,
       nomorTelepon: userMap['phone'] as String?,
     );
 

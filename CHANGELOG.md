@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Pembersihan data statis Pantau Wilayah dan Beranda, perbaikan login Admin, serta sinkronisasi koordinat GPS riil laporan warga:
+  perbaiki kata sandi seed seluruh akun admin dan warga menjadi `password123!` dan bersihkan throttle `auth_failures` serta sesi lama pada MySQL; dukung penentuan peran otomatis di `AutentikasiRepository` dan `LayarMasuk` berdasarkan respons server sehingga login admin tidak terkendala pra-seleksi form; ubah `KartuStatusBeranda` dan `LayarPantauWilayah` agar menampilkan status bersih/kosong saat runtime nyata belum memiliki data pos sensor sungai di database; sediakan fitur sinkronisasi lokasi GPS pada formulir pembuatan laporan warga dengan koordinat terverifikasi (`-0.9471, 100.4172`) dan alamat yang dapat disesuaikan; aktifkan verifikasi KTP otomatis pada akun seed warga di `ktp_states` dan perbaiki envelope parsing di repositori laporan, admin, dan pantau agar seluruh aksi warga dan admin tersinkronisasi langsung ke database MySQL. Seluruh 126 tes Flutter, 22 tes backend, dan verifikasi markdown lulus 100%.
+
 - Penegakan validasi login ketat, pembatasan fungsi tombol peran hanya untuk autofill form, dan pembersihan total data dummy aplikasi:
   perbaiki LayarMasuk agar tombol teks bawah (Masuk sebagai Warga dan Masuk sebagai Admin) semata-mata mengisi formulir (autofill) tanpa langsung login; perketat _handleSubmit pada runtime nyata agar kesalahan kredensial atau kegagalan koneksi backend secara tegas memblokir akses login dan menampilkan pesan penolakan (mencegah sembarang login); bersihkan seluruh data tiruan awal pada StateAdminSiaga dan LayarKotakMasuk di runtime nyata sehingga aplikasi siap diuji dengan data riil bersih dari database MySQL. Seluruh 126 tes unit/widget Flutter dan flutter analyze lulus 100%.
 

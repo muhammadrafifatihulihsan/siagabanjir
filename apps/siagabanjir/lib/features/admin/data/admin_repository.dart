@@ -84,7 +84,10 @@ class AdminRepository {
     };
 
     final res = await _klien.get(EndpointApi.adminReports, query: queryParams);
-    final list = (res['items'] as List<dynamic>? ?? []);
+    final dynamic itemsData = (res is Map && res['data'] is Map)
+        ? res['data']['items']
+        : (res is Map ? res['items'] : null);
+    final list = (itemsData as List<dynamic>? ?? []);
     return list
         .map((e) => LaporanAdminServer.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -93,7 +96,10 @@ class AdminRepository {
   /// Membaca daftar klaster kelompok kejadian via `GET /api/v1/admin/groups`.
   Future<List<KlasterAdminServer>> ambilKlasterWilayah() async {
     final res = await _klien.get(EndpointApi.adminGroups);
-    final list = (res['items'] as List<dynamic>? ?? []);
+    final dynamic itemsData = (res is Map && res['data'] is Map)
+        ? res['data']['items']
+        : (res is Map ? res['items'] : null);
+    final list = (itemsData as List<dynamic>? ?? []);
     return list
         .map((e) => KlasterAdminServer.fromJson(e as Map<String, dynamic>))
         .toList();

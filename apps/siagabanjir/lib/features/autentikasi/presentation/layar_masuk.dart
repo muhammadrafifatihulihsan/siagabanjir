@@ -100,12 +100,14 @@ class _LayarMasukState extends State<LayarMasuk> {
     }
 
     final authRepo = widget.autentikasiRepository ?? AutentikasiRepository();
+    PeranPengguna peranAktif = _selectedRole;
     try {
-      await authRepo.masuk(
+      final pengguna = await authRepo.masuk(
         identifier: identifier,
         sandi: password,
         peran: _selectedRole,
       );
+      peranAktif = pengguna.peran;
     } catch (e) {
       final isTest = WidgetsBinding.instance.runtimeType.toString().contains('Test');
       if (isTest) {
@@ -130,14 +132,14 @@ class _LayarMasukState extends State<LayarMasuk> {
     if (!mounted) return;
     _showFeedback('Berhasil masuk sebagai $identifier.');
     if (widget.onLoginWithRole != null) {
-      widget.onLoginWithRole!(identifier, _selectedRole);
+      widget.onLoginWithRole!(identifier, peranAktif);
       return;
     }
     if (widget.onLoginSuccess != null) {
       widget.onLoginSuccess!(identifier);
       return;
     }
-    if (_selectedRole == PeranPengguna.admin) {
+    if (peranAktif == PeranPengguna.admin) {
       Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute<void>(builder: (_) => const KerangkaAdminWeb()),
         (_) => false,

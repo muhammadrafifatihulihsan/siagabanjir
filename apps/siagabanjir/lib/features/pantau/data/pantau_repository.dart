@@ -58,15 +58,26 @@ class PantauRepository {
     };
 
     final res = await _klien.get(EndpointApi.monitorPublik, query: queryParams);
-    final list = (res['items'] as List<dynamic>? ?? []);
+    final dynamic itemsData = (res is Map && res['data'] is Map)
+        ? res['data']['items']
+        : (res is Map ? res['items'] : null);
+    final list = (itemsData as List<dynamic>? ?? []);
     final items = list
         .map((e) => ItemPantauPublik.fromJson(e as Map<String, dynamic>))
         .toList();
 
+    final dynamic nextCursorData = (res is Map && res['data'] is Map)
+        ? res['data']['nextCursor']
+        : (res is Map ? res['nextCursor'] : null);
+
+    final dynamic serverTimeData = (res is Map && res['data'] is Map)
+        ? res['data']['serverTime']
+        : (res is Map ? res['serverTime'] : null);
+
     return HasilPantauPublik(
       items: items,
-      nextCursor: res['nextCursor'] as String?,
-      serverTime: DateTime.tryParse(res['serverTime'] as String? ?? '') ??
+      nextCursor: nextCursorData as String?,
+      serverTime: DateTime.tryParse(serverTimeData as String? ?? '') ??
           DateTime.now(),
     );
   }

@@ -169,6 +169,9 @@ export function registerSubmissions(
             occurredAt: {
               anyOf: [{ type: 'string' }, { type: 'null' }],
             },
+            category: { type: 'string' },
+            needs: { type: 'array', items: { type: 'string' } },
+            mediaId: { type: 'string' },
             deviceSignals: {
               type: 'object',
               additionalProperties: false,
