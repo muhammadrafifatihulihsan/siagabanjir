@@ -4,8 +4,18 @@ import 'package:flutter/foundation.dart';
 class KonfigurasiApi {
   const KonfigurasiApi._();
 
-  /// URL domain tunnel remote publik (prioritas utama jika aktif).
-  static const String defaultRemoteUrl = 'https://api.rafitesting.cloud';
+  /// URL cadangan jika environment API_BASE_URL belum didefinisikan sama sekali.
+  static const String _fallbackRemoteUrl = 'https://api.rafitesting.cloud';
+
+  /// URL domain remote publik. Diambil langsung dari variabel environment `API_BASE_URL`
+  /// (misal dari file `.env` via flag `--dart-define-from-file=.env`).
+  static String get defaultRemoteUrl {
+    const dariEnv = String.fromEnvironment('API_BASE_URL');
+    if (dariEnv.isNotEmpty) {
+      return _normalisasiUrl(dariEnv);
+    }
+    return _fallbackRemoteUrl;
+  }
 
   /// URL fallback lokal tergantung pada platform yang berjalan:
   /// - Web & Desktop: `http://127.0.0.1:3000`
@@ -49,16 +59,9 @@ class KonfigurasiApi {
   }
 
   /// Menentukan Base URL yang tepat:
-  /// 1. Prioritas tertinggi: Nilai flag kompilasi `--dart-define=API_BASE_URL=...`
-  /// 2. Jika ada override aktif di runtime, gunakan itu
-  /// 3. Bawaan utama: Domain tunnel remote `https://api.rafitesting.cloud`
-  /// 4. Fallback jika remote offline: `defaultLocalUrl` (localhost / 10.0.2.2)
+  /// 1. Jika ada override aktif di runtime (misal fallback localhost saat offline), gunakan itu.
+  /// 2. Gunakan `defaultRemoteUrl` (yang membaca dari environment .env `API_BASE_URL`).
   static String get baseUrl {
-    const dariEnv = String.fromEnvironment('API_BASE_URL');
-    if (dariEnv.isNotEmpty) {
-      return _normalisasiUrl(dariEnv);
-    }
-
     if (_activeBaseUrl != null && _activeBaseUrl!.isNotEmpty) {
       return _activeBaseUrl!;
     }

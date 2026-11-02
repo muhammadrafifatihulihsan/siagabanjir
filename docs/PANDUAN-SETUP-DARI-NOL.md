@@ -203,11 +203,12 @@ flutter pub get
 # 2. Jalankan rangkaian pengujian otomatis (126 unit & widget tests)
 flutter test
 
-# 3. Jalankan aplikasi pada peramban Chrome (Rekomendasi Utama)
-flutter run -d chrome
+# 3. Jalankan aplikasi (membaca URL dari apps/siagabanjir/.env secara otomatis)
+flutter run --dart-define-from-file=.env -d chrome
 ```
 
-*(Opsi target lain: `-d edge` untuk Microsoft Edge, `-d windows` untuk aplikasi desktop Windows, atau `flutter run` untuk emulator Android).*
+> **Catatan Konfigurasi URL (.env):** File `apps/siagabanjir/.env` berisi `API_BASE_URL=https://api.rafitesting.cloud`. Jika ingin mengarahkan tujuan API ke server lain atau testing via HP fisik, cukup ubah nilai `API_BASE_URL` di file `.env` tersebut. Parameter `--dart-define-from-file=.env` membaca file tersebut tanpa meng-hardcode URL ke source code.
+> *(Opsi target perangkat lain: `-d edge` untuk Microsoft Edge, `-d windows` untuk desktop Windows, `-d <id_hp>` untuk HP fisik Android via kabel USB, atau `flutter run` untuk emulator Android).*
 
 Peramban akan otomatis terbuka dan menampilkan antarmuka aplikasi **SiagaBanjir**.
 

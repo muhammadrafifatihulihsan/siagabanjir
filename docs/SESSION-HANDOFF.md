@@ -66,6 +66,7 @@ Perbaikan integrasi:
 13. Penyederhanaan akun pengujian: menambahkan akun admin1 s.d. admin5 (dan warga1 s.d. warga10) dengan kata sandi seragam Password123! pada modul seeding database.
 14. URL jaringan dinamis Flutter: menetapkan domain tunnel https://api.rafitesting.cloud sebagai default remote pada KonfigurasiApi dan KlienApi dengan otomatisasi fallback ke localhost saat tunnel offline. Seluruh 126 pengujian Flutter PASS.
 15. Penguatan keamanan jaringan Android dan HTTPS: menambahkan deklarasi izin android.permission.INTERNET dan android.permission.ACCESS_NETWORK_STATE serta usesCleartextTraffic pada AndroidManifest.xml utama; menambahkan fungsi normalisasi URL pada KonfigurasiApi untuk secara otomatis memaksa HTTPS (TLS) pada semua domain internet publik. Seluruh 126 pengujian Flutter PASS.
+16. Standarisasi berkas konfigurasi Flutter .env: menambahkan template apps/siagabanjir/.env.example dan file lokal .env yang berisi variabel API_BASE_URL; memperbarui KonfigurasiApi untuk mengikat defaultRemoteUrl dan baseUrl langsung ke String.fromEnvironment('API_BASE_URL') yang dibaca lewat --dart-define-from-file=.env; mengaudit seluruh repositori dan memastikan 0 hardcoded URL di seluruh layer layanan/fitur. Seluruh 126 pengujian Flutter PASS.
 
 ## Checklist progres endpoint backend
 

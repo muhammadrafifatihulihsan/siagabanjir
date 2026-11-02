@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Dukung berkas konfigurasi lingkungan Flutter tanpa hardcoded URL: tambahkan
+  apps/siagabanjir/.env.example dan .env (terabaikan git) dengan variabel API_BASE_URL;
+  perbarui KonfigurasiApi agar membaca nilai defaultRemoteUrl dan baseUrl langsung
+  dari environment kompilasi (--dart-define-from-file=.env) tanpa hardcoding pada layer
+  layanan atau repositori manapun.
+
 - Perkuat izin jaringan Android dan penegakan HTTPS: deklarasikan izin
   android.permission.INTERNET dan ACCESS_NETWORK_STATE pada AndroidManifest.xml
   utama serta aktifkan usesCleartextTraffic agar fallback lokal diizinkan di
