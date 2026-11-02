@@ -30,7 +30,22 @@ class KonfigurasiApi {
 
   /// Mengatur secara manual atau mencatat fallback URL aktif saat runtime.
   static void setBaseUrl(String url) {
-    _activeBaseUrl = url.trim().replaceAll(RegExp(r'/+$'), '');
+    _activeBaseUrl = _normalisasiUrl(url);
+  }
+
+  /// Memastikan URL dinormalisasi dan mengenkripsi komunikasi remote dengan HTTPS.
+  static String _normalisasiUrl(String url) {
+    var bersih = url.trim().replaceAll(RegExp(r'/+$'), '');
+    final uri = Uri.tryParse(bersih);
+    if (uri != null) {
+      final host = uri.host.toLowerCase();
+      final isLocal =
+          host == '127.0.0.1' || host == 'localhost' || host == '10.0.2.2';
+      if (!isLocal && uri.scheme == 'http') {
+        bersih = bersih.replaceFirst('http://', 'https://');
+      }
+    }
+    return bersih;
   }
 
   /// Menentukan Base URL yang tepat:
@@ -41,7 +56,7 @@ class KonfigurasiApi {
   static String get baseUrl {
     const dariEnv = String.fromEnvironment('API_BASE_URL');
     if (dariEnv.isNotEmpty) {
-      return dariEnv.trim().replaceAll(RegExp(r'/+$'), '');
+      return _normalisasiUrl(dariEnv);
     }
 
     if (_activeBaseUrl != null && _activeBaseUrl!.isNotEmpty) {

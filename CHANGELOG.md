@@ -7,6 +7,12 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Perkuat izin jaringan Android dan penegakan HTTPS: deklarasikan izin
+  android.permission.INTERNET dan ACCESS_NETWORK_STATE pada AndroidManifest.xml
+  utama serta aktifkan usesCleartextTraffic agar fallback lokal diizinkan di
+  Android 9+; tambahkan fungsi normalisasi URL pada KonfigurasiApi Flutter
+  yang secara ketat memaksa protokol HTTPS untuk seluruh domain remote publik.
+
 - Konfigurasi URL terpusat Flutter dengan default domain tunnel https://api.rafitesting.cloud
   dan otomatisasi fallback ke localhost jika remote tidak aktif; KlienApi mendukung failover
   otomatis lintas platform tanpa modifikasi manual tiap berkas.
