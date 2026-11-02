@@ -1,3 +1,4 @@
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 
 /// Data hasil pemeriksaan kesehatan server dan basis data.
@@ -43,13 +44,13 @@ class MetaRepository {
 
   /// Memeriksa status kesehatan server dan konektivitas MySQL via `GET /health`.
   Future<StatusKesehatanSistem> periksaKesehatan() async {
-    final res = await _klien.get('/health');
+    final res = await _klien.get(EndpointApi.health);
     return StatusKesehatanSistem.fromJson(res as Map<String, dynamic>);
   }
 
   /// Membaca metadata resmi layanan Fastify via `GET /api/v1/meta`.
   Future<Map<String, dynamic>> ambilMetadata() async {
-    final res = await _klien.get('/api/v1/meta');
+    final res = await _klien.get(EndpointApi.meta);
     return res as Map<String, dynamic>;
   }
 }

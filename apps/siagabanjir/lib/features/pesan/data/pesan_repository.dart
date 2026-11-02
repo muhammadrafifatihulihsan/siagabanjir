@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 import '../presentation/models/pesan_siaga.dart';
 
@@ -70,7 +71,7 @@ class PesanRepository {
 
   /// Membaca daftar pesan masuk akun warga via `GET /api/v1/me/inbox`.
   Future<List<ItemPesanInbox>> ambilKotakMasuk() async {
-    final res = await _klien.get('/api/v1/me/inbox');
+    final res = await _klien.get(EndpointApi.meInbox);
     final list = (res['items'] as List<dynamic>? ?? []);
     return list
         .map((e) => ItemPesanInbox.fromJson(e as Map<String, dynamic>))
@@ -80,6 +81,6 @@ class PesanRepository {
   /// Menandai pesan telah dibaca warga via `PUT /api/v1/me/inbox/{messageId}/read`.
   Future<void> tandaiDibaca(String messageId, {int versi = 1}) async {
     final payload = {'version': versi};
-    await _klien.put('/api/v1/me/inbox/$messageId/read', body: payload);
+    await _klien.put(EndpointApi.meInboxRead(messageId), body: payload);
   }
 }

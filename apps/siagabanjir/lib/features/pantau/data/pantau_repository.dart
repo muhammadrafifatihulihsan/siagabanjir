@@ -1,3 +1,4 @@
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 
 /// Item pantau wilayah publik yang diterima dari endpoint Fastify Backend.
@@ -56,7 +57,7 @@ class PantauRepository {
       if (cursor != null && cursor.isNotEmpty) 'cursor': cursor,
     };
 
-    final res = await _klien.get('/api/v1/public/monitor', query: queryParams);
+    final res = await _klien.get(EndpointApi.monitorPublik, query: queryParams);
     final list = (res['items'] as List<dynamic>? ?? []);
     final items = list
         .map((e) => ItemPantauPublik.fromJson(e as Map<String, dynamic>))
@@ -72,7 +73,7 @@ class PantauRepository {
 
   /// Membaca manifest konten edukasi publik dari `GET /api/v1/public/content/manifest`.
   Future<Map<String, dynamic>> ambilManifestKonten() async {
-    final res = await _klien.get('/api/v1/public/content/manifest');
+    final res = await _klien.get(EndpointApi.contentManifest);
     return res as Map<String, dynamic>;
   }
 }

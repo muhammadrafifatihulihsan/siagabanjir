@@ -1,3 +1,4 @@
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 
 /// Item laporan warga yang dikelola oleh admin dari server.
@@ -82,7 +83,7 @@ class AdminRepository {
       'q': ?query,
     };
 
-    final res = await _klien.get('/api/v1/admin/reports', query: queryParams);
+    final res = await _klien.get(EndpointApi.adminReports, query: queryParams);
     final list = (res['items'] as List<dynamic>? ?? []);
     return list
         .map((e) => LaporanAdminServer.fromJson(e as Map<String, dynamic>))
@@ -91,7 +92,7 @@ class AdminRepository {
 
   /// Membaca daftar klaster kelompok kejadian via `GET /api/v1/admin/groups`.
   Future<List<KlasterAdminServer>> ambilKlasterWilayah() async {
-    final res = await _klien.get('/api/v1/admin/groups');
+    final res = await _klien.get(EndpointApi.adminGroups);
     final list = (res['items'] as List<dynamic>? ?? []);
     return list
         .map((e) => KlasterAdminServer.fromJson(e as Map<String, dynamic>))
@@ -116,7 +117,7 @@ class AdminRepository {
     };
 
     final res = await _klien.post(
-      '/api/v1/admin/messages',
+      EndpointApi.adminMessages,
       body: payload,
       headers: headers,
     );
@@ -126,6 +127,6 @@ class AdminRepository {
   /// Mencatat tinjauan versi laporan warga via `PUT /api/v1/admin/reports/{reportId}/review`.
   Future<void> tinjauLaporan(String reportId, {required int version}) async {
     final payload = {'version': version};
-    await _klien.put('/api/v1/admin/reports/$reportId/review', body: payload);
+    await _klien.put(EndpointApi.adminReportReview(reportId), body: payload);
   }
 }

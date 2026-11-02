@@ -1,3 +1,4 @@
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/identitas_aksi.dart';
 import '../../../core/jaringan/klien_api.dart';
 import '../../../core/sesi/pengelola_sesi.dart';
@@ -22,7 +23,7 @@ class AutentikasiRepository {
     };
 
     final res = await _klien.post(
-      '/api/v1/auth/login',
+      EndpointApi.login,
       body: payload,
       headers: {'Idempotency-Key': identitasAksi()},
     );
@@ -66,7 +67,7 @@ class AutentikasiRepository {
     };
 
     final res = await _klien.post(
-      '/api/v1/auth/signup',
+      EndpointApi.signup,
       body: payload,
       headers: {'Idempotency-Key': identitasAksi()},
     );
@@ -78,7 +79,7 @@ class AutentikasiRepository {
   Future<void> keluar() async {
     try {
       await _klien.post(
-        '/api/v1/auth/logout',
+        EndpointApi.logout,
         headers: {'Idempotency-Key': identitasAksi()},
       );
     } finally {
@@ -99,7 +100,7 @@ class AutentikasiRepository {
     };
 
     final res = await _klien.post(
-      '/api/v1/auth/reset-password',
+      EndpointApi.resetPassword,
       body: payload,
       headers: {'Idempotency-Key': identitasAksi()},
     );

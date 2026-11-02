@@ -62,6 +62,13 @@ Jangan membuat ulang folder placeholder berdasarkan catatan historis.
    yang sudah sesuai spesifikasi dengan widget mentah / placeholder sementara.
    Integrasi wajib dilakukan pada layer repository, model, dan controller/state,
    sehingga UI tetap mempertahankan fidelitas desain sambil menyajikan data nyata.
+10. Tata Kelola Endpoint API Terpusat:
+    - Seluruh path endpoint API wajib didefinisikan melalui konstanta terstruktur (`EndpointApi`)
+      pada direktori jaringan bersama (`core/jaringan/endpoint_api.dart`), bukan ditulis sebagai
+      string mentah tercecer di dalam metode repositori atau widget.
+    - Hindari pemecahan berkas mikro 1 file untuk 1 endpoint tunggal demi mencegah *file bloat*;
+      kelompokkan konstanta endpoint per domain fitur (Autentikasi, Laporan, Pantau, Akun, Admin)
+      dalam katalog sentral `EndpointApi` yang konsisten dan bertipe.
 
 ## Keluaran
 

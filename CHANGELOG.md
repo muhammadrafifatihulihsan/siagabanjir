@@ -7,6 +7,13 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Sentralisasi katalog endpoint API Flutter (EndpointApi) dan penerapan proposal /learn:
+  buat kelas sentral apps/siagabanjir/lib/core/jaringan/endpoint_api.dart yang memetakan
+  seluruh 72 endpoint ke konstanta bertipe; refactor seluruh repositori (autentikasi,
+  laporan, pantau, pesan, akun, admin, meta, media) agar mengonsumsi EndpointApi tanpa
+  string path mentah; terapkan aturan tata kelola endpoint terpusat pada
+  skills/siagabanjir-flutter/SKILL.md.
+
 - Dukung berkas konfigurasi lingkungan Flutter tanpa hardcoded URL: tambahkan
   apps/siagabanjir/.env.example dan .env (terabaikan git) dengan variabel API_BASE_URL;
   perbarui KonfigurasiApi agar membaca nilai defaultRemoteUrl dan baseUrl langsung

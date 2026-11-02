@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'endpoint_api.dart';
 import 'identitas_aksi.dart';
 import 'klien_api.dart';
 
@@ -53,7 +54,7 @@ class LayananRepository {
     data.add(bytes);
     data.add(utf8.encode('\r\n--$boundary--\r\n'));
     final res = await klien.uploadBytes(
-      '/api/v1/me/uploads/$uploadId',
+      EndpointApi.meUpload(uploadId),
       bytes: data.toBytes(),
       contentType: 'multipart/form-data; boundary=$boundary',
       headers: {'Idempotency-Key': uploadId},

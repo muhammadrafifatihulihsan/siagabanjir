@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/jaringan/endpoint_api.dart';
 import '../../core/jaringan/klien_api.dart';
 
 /// Media selalu diambil dengan sesi aktif; URL tidak berisi token akses.
@@ -26,7 +27,7 @@ class _MediaPrivatState extends State<MediaPrivat> {
     });
     try {
       final data = await KlienApi().unduh(
-        '/api/v1/media/${Uri.encodeComponent(widget.id)}',
+        EndpointApi.media(widget.id),
       );
       if (!mounted) return;
       if (widget.jenis.startsWith('image/')) {

@@ -1,3 +1,4 @@
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 import '../domain/profil_pengguna.dart';
 
@@ -9,7 +10,7 @@ class AkunRepository {
 
   /// Membaca data profil akun sendiri via `GET /api/v1/me`.
   Future<ProfilPengguna> ambilProfil() async {
-    final res = await _klien.get('/api/v1/me');
+    final res = await _klien.get(EndpointApi.me);
     final data = res['data'] as Map<String, dynamic>? ?? res;
 
     final namaLengkap = data['name'] as String? ?? 'Warga Siaga';
@@ -42,7 +43,7 @@ class AkunRepository {
       'floodAlertEnabled': ?peringatanBanjir,
     };
 
-    await _klien.patch('/api/v1/me', body: payload);
+    await _klien.patch(EndpointApi.me, body: payload);
   }
 
   /// Memperbarui kata sandi atau email akun via `POST /api/v1/me/credentials`.
@@ -57,12 +58,12 @@ class AkunRepository {
       'newPassword': ?sandiBaru,
     };
 
-    await _klien.post('/api/v1/me/credentials', body: payload);
+    await _klien.post(EndpointApi.meCredentials, body: payload);
   }
 
   /// Menghasilkan kode pemulihan akun baru via `POST /api/v1/me/recovery-code`.
   Future<String> buatKodePemulihan() async {
-    final res = await _klien.post('/api/v1/me/recovery-code');
+    final res = await _klien.post(EndpointApi.meRecoveryCode);
     final data = res['data'] as Map<String, dynamic>? ?? res;
     return data['recoveryCode'] as String? ?? '';
   }

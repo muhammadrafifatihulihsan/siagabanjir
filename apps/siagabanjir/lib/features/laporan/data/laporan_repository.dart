@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
 
 /// Status kelayakan dan kuota pelaporan warga dari server.
@@ -81,14 +82,14 @@ class LaporanRepository {
   final KlienApi _klien;
 
   Future<Map<String, dynamic>> statusPengiriman(String id) async {
-    final res = await _klien.get('/api/v1/me/submissions/$id');
+    final res = await _klien.get(EndpointApi.meSubmission(id));
     final dynamic data = (res is Map && res['data'] is Map) ? res['data'] : res;
     return Map<String, dynamic>.from(data as Map);
   }
 
   /// Memeriksa status kuota dan kelayakan pelaporan warga via `GET /api/v1/me/reporting-status`.
   Future<StatusKuotaLaporan> periksaStatusKuota() async {
-    final res = await _klien.get('/api/v1/me/reporting-status');
+    final res = await _klien.get(EndpointApi.meReportingStatus);
     final data = res['data'] as Map<String, dynamic>? ?? (res is Map<String, dynamic> ? res : <String, dynamic>{});
     return StatusKuotaLaporan.fromJson(data);
   }
@@ -100,7 +101,7 @@ class LaporanRepository {
     String contentType = 'image/jpeg',
   }) async {
     final res = await _klien.uploadBytes(
-      '/api/v1/me/uploads/$uploadId',
+      EndpointApi.meUpload(uploadId),
       bytes: bytes,
       contentType: contentType,
     );
@@ -147,7 +148,7 @@ class LaporanRepository {
     };
 
     final res = await _klien.put(
-      '/api/v1/me/submissions/$submissionId',
+      EndpointApi.meSubmission(submissionId),
       body: payload,
       headers: {'Idempotency-Key': submissionId},
     );
@@ -156,7 +157,7 @@ class LaporanRepository {
 
   /// Membaca riwayat laporan yang dikirimkan akun warga via `GET /api/v1/me/reports`.
   Future<List<ItemRiwayatLaporanServer>> ambilRiwayatLaporan() async {
-    final res = await _klien.get('/api/v1/me/reports');
+    final res = await _klien.get(EndpointApi.meReports);
     final dynamic itemsData = (res is Map && res['data'] is Map)
         ? res['data']['items']
         : (res is Map ? res['items'] : null);
