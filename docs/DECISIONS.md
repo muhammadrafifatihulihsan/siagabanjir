@@ -1522,7 +1522,11 @@ satu. Verifikasi tindak lanjut dilakukan pada tingkat klaster wilayah.
 4. Direktori kontak memakai CMS: warga membaca
    `GET /api/v1/public/content/{revision}/contacts`, admin membuat draf lalu
    menerbitkannya melalui `/api/v1/admin/content/contacts`. Tambah/hapus kontak
-   pada Pusat Aksi kini menulis ke server dan kegagalannya dilaporkan.
+   pada Pusat Aksi kini menulis ke server dan kegagalannya dilaporkan. Akar
+   masalah hapus kontak yang selalu gagal ditemukan pada `KlienApi.delete`:
+   klien mengirim `Content-Type: application/json` tanpa body sehingga Fastify
+   menolak dengan HTTP 400. Header itu kini dihilangkan untuk permintaan tanpa
+   body.
 5. Dashboard admin memuat ulang laporan, klaster, dan kontak setiap 20 detik agar
    laporan baru terlihat tanpa refresh, memakai nama wilayah serta level dari
    tabel `groups` alih-alih label generik.
@@ -1532,10 +1536,18 @@ satu. Verifikasi tindak lanjut dilakukan pada tingkat klaster wilayah.
    dari UI warga dan diganti "Lapor Banjir".
 7. Database pengembangan `siagabanjirdev` dikosongkan atas mandat pemilik lalu
    diisi ulang `pnpm db:seed`. Akun `sb_dev_migrate` tidak memiliki hak `DROP`,
-   sehingga pengosongan dilakukan dengan `DELETE` seluruh tabel data sambil
-   mempertahankan riwayat `schema_migrations`.
+   sehingga pengosongan memakai `DELETE` seluruh tabel data sambil
+   mempertahankan riwayat `schema_migrations` **dan baris infrastruktur hasil
+   migrasi** `business_write_guard` (id 1) serta `quota_settings` (id 1). Baris
+   tersebut wajib ada: tanpanya seluruh transaksi bisnis gagal dengan pesan
+   "Guard transaksi belum tersedia" dan kuota laporan tidak terbaca.
 
 Bukti lokal: 23 tes unit server, 135 tes Flutter, `flutter analyze` bersih,
-`pnpm test:db` PASS, migrasi 038 diterapkan (38 migrasi di `siagabanjirdev`).
-UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
+`pnpm test:db` PASS, migrasi 038 diterapkan (38 migrasi di `siagabanjirdev`),
+`flutter build web` PASS. Uji HTTP nyata terhadap `siagabanjirdev`: login admin,
+`GET /api/v1/me` mengembalikan `phone`, `address`, `floodAlertEnabled`,
+`PATCH /api/v1/me` menyimpan lalu dibalikkan; alur kontak CMS
+create -> publish -> baca publik -> withdraw -> delete PASS dan data uji
+dibersihkan kembali. UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN
+pada unit ini.
 

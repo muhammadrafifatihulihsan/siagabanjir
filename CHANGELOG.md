@@ -19,11 +19,17 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
   contoh, menghapus istilah "AI Vision", memuat direktori kontak dari CMS
   (`/public/content/{revision}/contacts`) dan menulis tambah/hapus kontak admin ke
   `/admin/content/contacts`, serta menyegarkan laporan/klaster/kontak dashboard admin
-  setiap 20 detik dengan nama wilayah dan level dari tabel `groups`.
+  setiap 20 detik dengan nama wilayah dan level dari tabel `groups`. Perbaiki
+  `KlienApi.delete` yang mengirim `Content-Type: application/json` tanpa body
+  sehingga Fastify menolak dengan HTTP 400 (akar masalah hapus kontak mati).
   Bukti lokal: 23 tes unit server, `pnpm test:db` PASS, 135 tes Flutter,
-  `flutter analyze` bersih; migrasi 038 diterapkan ke `siagabanjirdev` (38 migrasi)
-  dan database pengembangan diisi ulang `pnpm db:seed`. `flutter build web`, UAT
-  perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
+  `flutter analyze` bersih, `flutter build web` PASS; migrasi 038 diterapkan ke
+  `siagabanjirdev` (38 migrasi) dan database pengembangan diisi ulang
+  `pnpm db:seed` dengan `business_write_guard` serta `quota_settings`
+  dipertahankan agar transaksi dan kuota tetap berfungsi. Uji HTTP nyata:
+  `GET`/`PATCH /api/v1/me` menyimpan `phone`, `address`, `floodAlertEnabled`,
+  serta alur kontak CMS create -> publish -> publik -> withdraw -> delete PASS.
+  UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
 
 - Tinjauan AI deskripsi, kesimpulan klaster wilayah, GPS riil, dan penataan penyimpanan:
   tambah migrasi `035_group_summary.sql` (ringkasan/centroid klaster), `036_assessment_mismatch.sql`,

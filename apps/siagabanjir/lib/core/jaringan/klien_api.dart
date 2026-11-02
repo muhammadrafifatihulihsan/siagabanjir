@@ -243,12 +243,13 @@ class KlienApi {
   Future<dynamic> delete(String path, {Map<String, String>? headers}) async {
     final generasi = PengelolaSesi.instance.generasi;
     try {
+      // DELETE tanpa body tidak boleh mengirim Content-Type JSON: Fastify
+      // menolaknya sebagai body JSON kosong yang tidak valid (HTTP 400),
+      // sehingga penghapusan kontak/dokumen selalu gagal.
+      final headerAksi = _bangunHeaders(headers)..remove('Content-Type');
       final res = await _eksekusiDenganFallback((base) {
         return _client
-            .delete(
-              _bangunUri(path, null, base),
-              headers: _bangunHeaders(headers),
-            )
+            .delete(_bangunUri(path, null, base), headers: headerAksi)
             .timeout(KonfigurasiApi.batasWaktu);
       });
       if (generasi != PengelolaSesi.instance.generasi) {

@@ -851,7 +851,10 @@ domisili contoh. Baris NIK dihapus dari UI.
    seluruh hasil AI langsung menjadi status laporan. Admin tidak lagi punya
 tombol tinjauan per laporan; tindak lanjut dilakukan per klaster.
 3. Direktori kontak warga membaca CMS terbit; admin membuat draf lalu
-   menerbitkannya sehingga tambah/hapus kontak bertahan di database.
+   menerbitkannya sehingga tambah/hapus kontak bertahan di database. Hapus
+   kontak sebelumnya selalu gagal karena `KlienApi.delete` mengirim
+   `Content-Type: application/json` tanpa body dan Fastify menolak HTTP 400;
+   header kini dihilangkan untuk permintaan tanpa body.
 4. Dashboard admin menyegarkan laporan, klaster, dan kontak setiap 20 detik dan
    memakai nama wilayah serta level dari tabel `groups`.
 5. GPS memakai `LocationAccuracy.best` tanpa koordinat cadangan; unggahan hanya
@@ -859,14 +862,20 @@ tombol tinjauan per laporan; tindak lanjut dilakukan per klaster.
 6. Istilah "AI Vision" diganti "Lapor Banjir" pada kartu dan deskripsi fitur.
 7. `siagabanjirdev` dikosongkan atas mandat pemilik lalu diisi ulang
    `pnpm db:seed` (16 akun demo). Akun migrasi tidak memiliki hak `DROP`, jadi
-   pengosongan memakai `DELETE` seluruh tabel data dengan
-   `schema_migrations` dipertahankan.
+   pengosongan memakai `DELETE` seluruh tabel data dengan `schema_migrations`
+   dipertahankan. Baris infrastruktur hasil migrasi `business_write_guard` dan
+   `quota_settings` juga dipertahankan; tanpa keduanya semua transaksi bisnis
+   gagal ("Guard transaksi belum tersedia").
 
 Bukti: 23 tes unit server PASS, `pnpm test:db` PASS, 135 tes Flutter PASS,
-`flutter analyze` bersih, migrasi 038 diterapkan (38 migrasi), `reports` dan
-`groups` kosong setelah reset. Belum dijalankan pada unit ini: `flutter build web`,
-UAT perangkat, worker/`DEEPSEEK_API_KEY` nyata, dan push/deploy. Tanpa worker,
-penanda tinjauan berarti "menunggu analisis AI" dan bukan tugas admin.
+`flutter analyze` bersih, `flutter build web` PASS, migrasi 038 diterapkan (38
+migrasi), validator link/skill/kontrak PASS, `reports` serta `groups` kosong dan
+kontak publik 0 setelah reset. Uji HTTP nyata pada `siagabanjirdev`: login admin,
+`GET /api/v1/me` memuat `phone`/`address`/`floodAlertEnabled`, `PATCH` menyimpan
+lalu dibalikkan, dan alur kontak CMS create -> publish -> publik -> withdraw ->
+delete PASS dengan data uji dibersihkan. Belum dijalankan: UAT perangkat,
+worker/`DEEPSEEK_API_KEY` nyata, dan push/deploy. Tanpa worker, penanda tinjauan
+berarti "menunggu analisis AI" dan bukan tugas admin.
 
 ## Pekerjaan berikutnya
 
