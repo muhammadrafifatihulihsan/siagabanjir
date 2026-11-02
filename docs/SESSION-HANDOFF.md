@@ -6,6 +6,27 @@ Kondisi baseline **v0.1.0 — 20 Oktober 2026; Release telah terbit**.
 Repository menyediakan spesifikasi dan panduan kerja. Tim sudah membuat scaffold
 Flutter Android/Web di apps/siagabanjir; apps/server kini memiliki fondasi HTTP.
 
+## Koreksi kesiapan, 2 November 2026
+
+Mandat pemilik: perbaiki keseluruhan integrasi dan panduan pengujian. Klaim
+siap tes menyeluruh pada catatan sebelumnya belum terbukti. Inspeksi menemukan
+KTP langsung SUCCEEDED dan ekstraksi keluarga membuat saran simulasi tanpa
+provider; worker belum tersedia. Perbaikan alur tersebut masih berlangsung.
+
+Unit transport DeepSeek menyediakan konfigurasi DEEPSEEK_API_KEY (alias lokal
+DEEPSEEKAPI), inline gambar, timeout dan penolakan output terpotong/invalid.
+Key lokal telah diuji tanpa dicetak: autentikasi HTTP 200, deepseek-flash
+menerima PNG biru sintetis 256x256 dari FFmpeg dan mengembalikan JSON warna
+biru (HTTP 200). Ini bukti transport gambar, bukan mutu KTP/KK/banjir atau UAT.
+PNG 1x1 awal ditolak HTTP 400; tidak dihitung lulus.
+
+Windows Node 24.15.0: format, lint, typecheck, build PASS; 19 tes unit PASS
+(tsx perlu berjalan di luar sandbox karena uv_os_get_passwd ENOMEM).
+Script check terhalang pnpm tidak ada pada PATH; tiap tahap dijalankan melalui
+corepack pnpm. Konfigurasi/template dan transport belum tersambung ke worker.
+Tidak ada push. Bacaan mengikuti pengecualian backend secara bertahap;
+seluruh dokumentasi belum diklaim dibaca ulang.
+
 ## Checklist progres endpoint backend
 
 Satu item untuk satu endpoint, lengkap dengan metode HTTP dan path. Daftar

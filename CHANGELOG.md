@@ -7,6 +7,10 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan transport DeepSeek dengan konfigurasi key backend, alias DEEPSEEKAPI,
+  timeout dan validasi envelope; uji gambar sintetis nyata berhasil. Worker dan
+  integrasi alur analisis masih berlangsung, belum siap UAT menyeluruh.
+
 - Tambahkan konfigurasi containerisasi Docker multi-container (docker-compose.yml,
   apps/server/Dockerfile, apps/server/docker-entrypoint.sh, docker/mysql/init.sql,
   dan apps/siagabanjir/Dockerfile) berbasis versi stabil LTS (Node 24 Alpine,

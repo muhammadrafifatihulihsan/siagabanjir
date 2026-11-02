@@ -111,6 +111,13 @@ Jika database terputus atau mengalami kegagalan, endpoint mengembalikan status *
 
 ## Konfigurasi Environment
 
+Adapter DeepSeek memakai `DEEPSEEK_API_KEY` dari `.env` backend; nama lama
+`DEEPSEEKAPI` juga diterima. Model kontrak adalah `deepseek-flash`.
+Jangan memasukkan key ke Flutter. Transport gambar telah diuji dengan PNG
+sintetis, tetapi worker dan integrasi analisis belum selesai; konfigurasi ini
+belum membuat endpoint KTP/keluarga menjalankan provider. Status terverifikasi
+dan koreksi klaim kesiapan ada pada [handoff](../../docs/SESSION-HANDOFF.md).
+
 Salin `.env.example` menjadi `.env` jika ingin mengubah konfigurasi runtime:
 startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.
 `.env` diabaikan Git. Konfigurasi invalid
