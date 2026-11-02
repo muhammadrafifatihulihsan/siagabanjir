@@ -68,9 +68,12 @@ export function registerSession(
         body: {
           type: 'object',
           additionalProperties: false,
-          required: ['displayName'],
+          minProperties: 1,
           properties: {
             displayName: { type: 'string', minLength: 2, maxLength: 80 },
+            phone: { type: ['string', 'null'], maxLength: 32 },
+            address: { type: ['string', 'null'], maxLength: 200 },
+            floodAlertEnabled: { type: 'boolean' },
           },
         },
       },

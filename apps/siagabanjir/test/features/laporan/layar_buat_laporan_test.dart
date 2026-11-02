@@ -6,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'bantuan_tes_laporan.dart';
 
 import 'package:siagabanjir/features/laporan/presentation/layar_buat_laporan.dart';
+import 'package:siagabanjir/core/perangkat/layanan_lokasi.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -28,13 +29,15 @@ void main() {
   testWidgets(
     'Selections, unavailable services and discard preserve honest state',
     (tester) async {
-      await openReport(tester);
-      await tester.ensureVisible(find.text('Sinkronisasi Lokasi GPS'));
-      await tester.tap(find.text('Sinkronisasi Lokasi GPS'));
+      await openReport(tester, layananLokasi: gpsSiap());
+      await tester.ensureVisible(find.text('Perbarui Lokasi GPS'));
+      await tester.tap(find.text('Perbarui Lokasi GPS'));
       await tester.pumpAndSettle();
-      expect(find.text('Lokasi Terdeteksi'), findsOneWidget);
-      await tester.tap(find.text('Mengerti'));
-      await tester.pumpAndSettle();
+      expect(
+        find.textContaining('Titik GPS -0.94710, 100.41720'),
+        findsOneWidget,
+      );
+      expect(find.textContaining('Akurasi ±8 m'), findsOneWidget);
       await tester.ensureVisible(find.text('Genangan Hujan'));
       await tester.tap(find.text('Genangan Hujan'));
       await tester.pumpAndSettle();
@@ -79,4 +82,32 @@ void main() {
       expect(tester.takeException(), isNull);
     },
   );
+
+  // Laporan tanpa titik GPS nyata tidak boleh dikirim seolah terverifikasi.
+  testWidgets('Lokasi gagal memblokir pengiriman dengan pesan jujur', (
+    tester,
+  ) async {
+    await openReport(
+      tester,
+      layananLokasi: LayananLokasi(
+        pengambil: () async =>
+            throw const LokasiTidakTersediaException('Izin lokasi ditolak.'),
+      ),
+    );
+
+    expect(find.text('Lokasi belum tersedia'), findsOneWidget);
+    expect(find.textContaining('Izin lokasi ditolak'), findsOneWidget);
+
+    await tester.ensureVisible(find.text('Genangan Hujan'));
+    await tester.tap(find.text('Genangan Hujan'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byType(TextField));
+    await tester.enterText(find.byType(TextField), 'Air naik cepat.');
+    await tester.ensureVisible(find.text('Simpan ke Riwayat'));
+    await tester.tap(find.text('Simpan ke Riwayat'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Lokasi belum terverifikasi'), findsOneWidget);
+    expect(find.text('Simpan Laporan?'), findsNothing);
+  });
 }

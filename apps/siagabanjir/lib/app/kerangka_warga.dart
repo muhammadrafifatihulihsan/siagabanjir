@@ -1,6 +1,8 @@
+import '../core/sesi/pengelola_sesi.dart';
 import '../features/admin/domain/state_admin_siaga.dart';
 import '../features/admin/presentation/kerangka_admin_web.dart';
 import '../features/autentikasi/domain/peran_pengguna.dart';
+import '../features/laporan/data/laporan_repository.dart';
 import '../features/laporan/domain/entri_riwayat_laporan.dart';
 import '../features/dokumen/presentation/layar_dokumen_siaga.dart';
 import '../features/kontak/domain/kontak_darurat.dart';
@@ -8,6 +10,7 @@ import '../features/kontak/domain/kontak_darurat.dart';
 import 'package:flutter/material.dart';
 
 import '../core/perangkat/layanan_foto.dart';
+import '../core/perangkat/layanan_lokasi.dart';
 import '../shared/widgets/dialog_siaga.dart';
 
 import '../features/akun/presentation/layar_profil.dart';
@@ -25,7 +28,10 @@ import 'pengamat_halaman.dart';
 
 /// Empat tab dibuat saat pertama dibuka, lalu mempertahankan state dan scroll.
 class KerangkaWarga extends StatefulWidget {
-  const KerangkaWarga({super.key});
+  const KerangkaWarga({super.key, this.layananLokasi});
+
+  /// Layanan GPS yang dapat diganti pada pengujian widget.
+  final LayananLokasi? layananLokasi;
 
   @override
   State<KerangkaWarga> createState() => _KerangkaWargaState();
@@ -50,7 +56,20 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _pulihkanKamera());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pulihkanKamera();
+      _muatRiwayatDariBackend();
+    });
+  }
+
+  void _muatRiwayatDariBackend() {
+    LaporanRepository()
+        .ambilRiwayatLaporan()
+        .then((items) {
+          if (!mounted || items.isEmpty) return;
+          _riwayat.value = items.map((e) => e.toEntri()).toList();
+        })
+        .catchError((_) {});
   }
 
   Future<void> _pulihkanKamera() async {
@@ -124,6 +143,7 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
           );
         },
         fotoDipulihkan: _fotoDipulihkan,
+        layananLokasi: widget.layananLokasi,
         scrollController: _scroll[1],
         onNotifications: () => _buka(AksiBeranda.notifications),
         onHistory: () => _pilih(CitizenDestination.history),
@@ -169,6 +189,7 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
   }
 
   void _keluar() {
+    PengelolaSesi.instance.hapusSesi();
     ScaffoldMessenger.of(context).clearSnackBars();
     Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
       MaterialPageRoute<void>(
@@ -179,10 +200,16 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
                 MaterialPageRoute<void>(
                   builder: (_) => KerangkaAdminWeb(
                     onLogout: _keluar,
-                    onSwitchToCitizenMode: () => Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-                      MaterialPageRoute<void>(builder: (_) => const KerangkaWarga()),
-                      (_) => false,
-                    ),
+                    onSwitchToCitizenMode: () =>
+                        Navigator.of(
+                          context,
+                          rootNavigator: true,
+                        ).pushAndRemoveUntil(
+                          MaterialPageRoute<void>(
+                            builder: (_) => const KerangkaWarga(),
+                          ),
+                          (_) => false,
+                        ),
                   ),
                 ),
                 (_) => false,

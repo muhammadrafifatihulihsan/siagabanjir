@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/perangkat/layanan_foto.dart';
+import '../../../core/sesi/pengelola_sesi.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 import 'widgets/formulir_profil.dart';
 import '../../../shared/widgets/lingkup_navigasi.dart';
@@ -45,6 +46,7 @@ class _LayarProfilState extends State<LayarProfil> {
   late final _scroll = widget.scrollController ?? ScrollController();
   late bool _floodAlertEnabled;
   late ProfilPengguna _profil;
+  late final AkunRepository _repo = widget.akunRepository ?? AkunRepository();
   FotoPilihan? _foto;
 
   Future<void> _editProfil() async {
@@ -62,8 +64,8 @@ class _LayarProfilState extends State<LayarProfil> {
         _profil = hasil.profil;
         _foto = hasil.foto;
       });
-      // Sinkronkan ke backend jika tersedia
-      final repo = widget.akunRepository ?? AkunRepository();
+      // Sinkronkan ke backend dengan repositori yang sama seperti saat memuat.
+      final repo = _repo;
       repo.perbaruiProfil(
         nama: hasil.profil.name,
         telepon: hasil.profil.phone,
@@ -77,11 +79,35 @@ class _LayarProfilState extends State<LayarProfil> {
   void initState() {
     super.initState();
     _floodAlertEnabled = widget.initialProfile.floodAlertEnabled;
-    _profil = widget.initialProfile;
-    // Muat data profil terbaru dari backend
-    final repo = widget.akunRepository ?? AkunRepository();
-    repo.ambilProfil().then((p) {
-      if (mounted) setState(() => _profil = p);
+    final sesiUser = PengelolaSesi.instance.pengguna;
+    if (sesiUser != null) {
+      final nama = sesiUser.nama.trim();
+      final parts = nama.split(RegExp(r'\s+'));
+      final inisial = parts
+          .map((e) => e.isNotEmpty ? e[0] : '')
+          .take(2)
+          .join()
+          .toUpperCase();
+      _profil = ProfilPengguna(
+        name: nama.isEmpty ? 'Warga Siaga' : nama,
+        email: sesiUser.email,
+        phone: sesiUser.nomorTelepon ?? '',
+        location: '',
+        initials: inisial.isEmpty ? 'WS' : inisial,
+        address: '',
+        floodAlertEnabled: widget.initialProfile.floodAlertEnabled,
+      );
+    } else {
+      _profil = widget.initialProfile;
+    }
+    // Muat data profil terbaru dari backend agar tampilan selalu sinkron.
+    _repo.ambilProfil().then((p) {
+      if (mounted) {
+        setState(() {
+          _profil = p;
+          _floodAlertEnabled = p.floodAlertEnabled;
+        });
+      }
     }).catchError((_) {});
   }
 

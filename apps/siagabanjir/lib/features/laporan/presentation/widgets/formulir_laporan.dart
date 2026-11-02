@@ -23,6 +23,8 @@ class FormulirLaporan extends StatelessWidget {
     required this.onSubmit,
     this.foto,
     this.memuatFoto = false,
+    this.lokasi = 'Menunggu lokasi GPS…',
+    this.keteranganLokasi = 'Aktifkan GPS agar titik laporan terverifikasi',
   });
 
   final TextEditingController description;
@@ -37,6 +39,8 @@ class FormulirLaporan extends StatelessWidget {
   final VoidCallback onSubmit;
   final Uint8List? foto;
   final bool memuatFoto;
+  final String lokasi;
+  final String keteranganLokasi;
 
   @override
   Widget build(BuildContext context) => Column(
@@ -69,6 +73,8 @@ class FormulirLaporan extends StatelessWidget {
         onLocation: onLocation,
         foto: foto,
         memuatFoto: memuatFoto,
+        lokasi: lokasi,
+        keteranganLokasi: keteranganLokasi,
       ),
       // Pilihan tunggal dan jamak diberi petunjuk berbeda untuk mencegah salah isi.
       BagianPilihanLaporan(

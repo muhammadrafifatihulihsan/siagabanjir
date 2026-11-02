@@ -50,7 +50,7 @@ class CitizenHeader extends StatelessWidget {
                   SizedBox(width: 4),
                   Flexible(
                     child: Text(
-                      'Koto Tangah, Padang',
+                      'Kesiapsiagaan warga',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -65,7 +65,7 @@ class CitizenHeader extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         Semantics(
-          label: 'Notifikasi, 3 pemberitahuan',
+          label: 'Kotak masuk',
           button: true,
           onTap: onNotifications,
           child: Tooltip(
@@ -88,30 +88,6 @@ class CitizenHeader extends StatelessWidget {
                           onTap: onNotifications,
                           child: const Center(
                             child: LocalIcon('notifications'),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: IgnorePointer(
-                        child: Container(
-                          width: 19,
-                          height: 19,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEF4444),
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: const Text(
-                            '3',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                            ),
                           ),
                         ),
                       ),

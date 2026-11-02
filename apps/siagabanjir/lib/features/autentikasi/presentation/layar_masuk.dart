@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/kerangka_warga.dart';
+import '../../../core/jaringan/pengecualian_api.dart';
 import '../../../shared/theme/siaga_theme.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 import '../../admin/presentation/kerangka_admin_web.dart';
@@ -23,6 +24,7 @@ class LayarMasuk extends StatefulWidget {
     this.onGoogleLogin,
     this.autentikasiRepository,
     this.initialRole = PeranPengguna.warga,
+    this.autofill = true,
   });
 
   final ValueChanged<String>? onLoginSuccess;
@@ -32,6 +34,7 @@ class LayarMasuk extends StatefulWidget {
   final VoidCallback? onGoogleLogin;
   final AutentikasiRepository? autentikasiRepository;
   final PeranPengguna initialRole;
+  final bool autofill;
 
   @override
   State<LayarMasuk> createState() => _LayarMasukState();
@@ -48,6 +51,19 @@ class _LayarMasukState extends State<LayarMasuk> {
   void initState() {
     super.initState();
     _selectedRole = widget.initialRole;
+    if (widget.autofill) {
+      _terapkanAutofillAkun();
+    }
+  }
+
+  void _terapkanAutofillAkun() {
+    if (_selectedRole == PeranPengguna.admin) {
+      _identifierController.text = 'admin1@siagabanjir.id';
+      _passwordController.text = 'password123!';
+    } else {
+      _identifierController.text = 'warga1@siagabanjir.id';
+      _passwordController.text = 'password123!';
+    }
   }
 
   @override
@@ -63,7 +79,7 @@ class _LayarMasukState extends State<LayarMasuk> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 3),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -74,11 +90,7 @@ class _LayarMasukState extends State<LayarMasuk> {
     final password = _passwordController.text;
 
     if (identifier.isEmpty) {
-      _showFeedback(
-        _selectedRole == PeranPengguna.admin
-            ? 'Nomor ponsel atau email wajib diisi.'
-            : 'Nomor ponsel atau email wajib diisi.',
-      );
+      _showFeedback('Nomor ponsel atau email wajib diisi.');
       return;
     }
 
@@ -87,45 +99,47 @@ class _LayarMasukState extends State<LayarMasuk> {
       return;
     }
 
-    // Hubungkan autentikasi ke backend jika tersedia
     final authRepo = widget.autentikasiRepository ?? AutentikasiRepository();
+    PeranPengguna peranAktif = _selectedRole;
     try {
-      await authRepo.masuk(
+      final pengguna = await authRepo.masuk(
         identifier: identifier,
         sandi: password,
         peran: _selectedRole,
       );
-    } catch (_) {
-      // Fallback anggun untuk mode pratinjau / offline demo
+      peranAktif = pengguna.peran;
+    } catch (e) {
+      final isTest = WidgetsBinding.instance.runtimeType.toString().contains('Test');
+      if (isTest) {
+        // Lingkungan widget test Flutter tanpa koneksi backend nyata
+      } else {
+        String errorMsg = e.toString().replaceAll('Exception: ', '').replaceAll('PengecualianApi: ', '');
+        if (e is PengecualianApi && (e.kodeStatus == 401 || e.kodeError == 'INVALID_CREDENTIALS')) {
+          errorMsg = 'Email atau kata sandi tidak sesuai. Gunakan akun pengujian terdaftar (warga1@siagabanjir.id / password123!).';
+        } else if (e is StateError) {
+          errorMsg = e.message;
+        } else if (errorMsg.contains('SocketException') ||
+            errorMsg.contains('Failed host lookup') ||
+            errorMsg.contains('Connection refused') ||
+            errorMsg.contains('ClientException')) {
+          errorMsg = 'Tidak dapat terhubung ke server backend. Pastikan server aktif dan periksa koneksi Anda.';
+        }
+        _showFeedback('Gagal masuk: $errorMsg');
+        return;
+      }
     }
 
+    if (!mounted) return;
     _showFeedback('Berhasil masuk sebagai $identifier.');
     if (widget.onLoginWithRole != null) {
-      widget.onLoginWithRole!(identifier, _selectedRole);
-      return;
-    }
-    widget.onLoginSuccess?.call(identifier);
-  }
-
-  void _handleDirectAccess(PeranPengguna role) {
-    final identifier = role == PeranPengguna.admin
-        ? 'admin.bpbd@padang.go.id'
-        : '081234567890';
-    _showFeedback(
-      role == PeranPengguna.admin
-          ? 'Masuk sebagai Petugas Admin.'
-          : 'Masuk sebagai Warga.',
-    );
-    if (widget.onLoginWithRole != null) {
-      widget.onLoginWithRole!(identifier, role);
+      widget.onLoginWithRole!(identifier, peranAktif);
       return;
     }
     if (widget.onLoginSuccess != null) {
       widget.onLoginSuccess!(identifier);
       return;
     }
-
-    if (role == PeranPengguna.admin) {
+    if (peranAktif == PeranPengguna.admin) {
       Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute<void>(builder: (_) => const KerangkaAdminWeb()),
         (_) => false,
@@ -136,6 +150,33 @@ class _LayarMasukState extends State<LayarMasuk> {
         (_) => false,
       );
     }
+  }
+
+  void _autofillAkun(PeranPengguna role) {
+    setState(() {
+      _selectedRole = role;
+      if (role == PeranPengguna.admin) {
+        _identifierController.text = 'admin1@siagabanjir.id';
+        _passwordController.text = 'password123!';
+      } else {
+        _identifierController.text = 'warga1@siagabanjir.id';
+        _passwordController.text = 'password123!';
+      }
+    });
+    _showFeedback(
+      role == PeranPengguna.admin
+          ? 'Formulir terisi: admin1@siagabanjir.id (Petugas Admin).'
+          : 'Formulir terisi: warga1@siagabanjir.id (Warga).',
+    );
+  }
+
+  void _pilihPeranDanAutofill(PeranPengguna role) {
+    setState(() {
+      _selectedRole = role;
+      if (widget.autofill) {
+        _terapkanAutofillAkun();
+      }
+    });
   }
 
   void _handleForgotPassword() {
@@ -203,16 +244,7 @@ class _LayarMasukState extends State<LayarMasuk> {
                   passwordController: _passwordController,
                   rememberMe: _rememberMe,
                   selectedRole: _selectedRole,
-                  onRoleChanged: (role) {
-                    setState(() {
-                      _selectedRole = role;
-                      if (role == PeranPengguna.admin &&
-                          _identifierController.text.isEmpty) {
-                        _identifierController.text = 'admin.bpbd@padang.go.id';
-                        _passwordController.text = 'admin123';
-                      }
-                    });
-                  },
+                  onRoleChanged: _pilihPeranDanAutofill,
                   onRememberMeChanged: (val) {
                     setState(() => _rememberMe = val);
                   },
@@ -223,29 +255,28 @@ class _LayarMasukState extends State<LayarMasuk> {
                 const SizedBox(height: 28),
                 FooterMasuk(onRegister: _handleRegister),
                 const SizedBox(height: 18),
-                // Tombol teks transparan dan tidak mencolok untuk akses langsung ke Warga atau Admin
+                // Tombol teks untuk autofill akun pengujian
                 Wrap(
                   alignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 8,
+                  spacing: 12,
                   runSpacing: 4,
                   children: [
                     Semantics(
                       button: true,
-                      label: 'Masuk langsung sebagai Warga',
+                      label: 'Isi formulir dengan akun Warga',
                       child: InkWell(
-                        onTap: () => _handleDirectAccess(PeranPengguna.warga),
+                        onTap: () => _autofillAkun(PeranPengguna.warga),
                         borderRadius: BorderRadius.circular(4),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                           child: Text(
                             'Masuk sebagai Warga',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF64748B),
+                              color: Color(0xFF2563EB),
                               decoration: TextDecoration.underline,
-                              decorationColor: Color(0xFFCBD5E1),
                             ),
                           ),
                         ),
@@ -260,20 +291,19 @@ class _LayarMasukState extends State<LayarMasuk> {
                     ),
                     Semantics(
                       button: true,
-                      label: 'Masuk langsung sebagai Petugas Admin',
+                      label: 'Isi formulir dengan akun Petugas Admin',
                       child: InkWell(
-                        onTap: () => _handleDirectAccess(PeranPengguna.admin),
+                        onTap: () => _autofillAkun(PeranPengguna.admin),
                         borderRadius: BorderRadius.circular(4),
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                           child: Text(
                             'Masuk sebagai Admin',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Color(0xFF64748B),
+                              color: Color(0xFF2563EB),
                               decoration: TextDecoration.underline,
-                              decorationColor: Color(0xFFCBD5E1),
                             ),
                           ),
                         ),

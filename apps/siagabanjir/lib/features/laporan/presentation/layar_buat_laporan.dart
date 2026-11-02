@@ -1,3 +1,5 @@
+import '../../../core/jaringan/identitas_aksi.dart';
+import '../../../core/perangkat/layanan_lokasi.dart';
 import '../data/laporan_repository.dart';
 import '../domain/entri_riwayat_laporan.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
@@ -19,6 +21,7 @@ class LayarBuatLaporan extends StatefulWidget {
     this.onSimpan,
     this.scrollController,
     this.layananFoto,
+    this.layananLokasi,
     this.fotoDipulihkan,
     this.laporanRepository,
     required this.onNotifications,
@@ -31,6 +34,7 @@ class LayarBuatLaporan extends StatefulWidget {
   final VoidCallback onHistory;
   final VoidCallback onProfile;
   final LayananFoto? layananFoto;
+  final LayananLokasi? layananLokasi;
   final ValueNotifier<FotoPilihan?>? fotoDipulihkan;
   final LaporanRepository? laporanRepository;
 
@@ -51,11 +55,60 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
   FotoPilihan? _foto;
   bool _memuatFoto = false;
 
+  // Koordinat GPS nyata; kosong sampai perangkat memberi posisi valid.
+  String _alamatLokasi = 'Menunggu lokasi GPS…';
+  String _keteranganLokasi = 'Aktifkan GPS agar titik laporan terverifikasi';
+  double? _latitude;
+  double? _longitude;
+  bool _memuatLokasi = false;
+
   @override
   void initState() {
     super.initState();
     _foto = widget.fotoDipulihkan?.value;
     widget.fotoDipulihkan?.addListener(_terimaFoto);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _sinkronisasiGps();
+    });
+  }
+
+  Future<void> _sinkronisasiGps() async {
+    if (_memuatLokasi) return;
+    setState(() {
+      _memuatLokasi = true;
+    });
+    try {
+      final posisi = await (widget.layananLokasi ?? const LayananLokasi())
+          .ambilPosisi();
+      if (!mounted) return;
+      setState(() {
+        _latitude = posisi.latitude;
+        _longitude = posisi.longitude;
+        _alamatLokasi = 'Titik GPS ${posisi.labelKoordinat}';
+        _keteranganLokasi =
+            'Akurasi ±${posisi.akurasiMeter.toStringAsFixed(0)} m · diperbarui otomatis';
+      });
+    } on LokasiTidakTersediaException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _latitude = null;
+        _longitude = null;
+        _alamatLokasi = 'Lokasi belum tersedia';
+        _keteranganLokasi = e.pesan;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      const pesan =
+          'Lokasi belum dapat dibaca. Periksa GPS dan izin lokasi lalu coba lagi.';
+      setState(() {
+        _latitude = null;
+        _longitude = null;
+        _alamatLokasi = 'Lokasi belum tersedia';
+        _keteranganLokasi = pesan;
+      });
+    } finally {
+      if (mounted) setState(() => _memuatLokasi = false);
+    }
   }
 
   void _terimaFoto() {
@@ -99,6 +152,14 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       );
       return;
     }
+    if (_latitude == null || _longitude == null) {
+      await _explain(
+        'Lokasi belum terverifikasi',
+        'Laporan memerlukan titik GPS nyata agar petugas dapat menemukan lokasi kejadian. '
+            'Aktifkan GPS, izinkan akses lokasi, lalu tekan Perbarui Lokasi.',
+      );
+      return;
+    }
     _menyimpan = true;
     final setuju = await showDialog<bool>(
       context: context,
@@ -124,24 +185,35 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
 
     // Hubungkan pengiriman laporan ke backend jika tersedia
     final laporanRepo = widget.laporanRepository ?? LaporanRepository();
-    final submissionId = 'SUB-${DateTime.now().millisecondsSinceEpoch}';
+    final submissionId = identitasAksi();
+    String? pesanGalat;
     try {
-      String? mediaId;
-      if (_foto != null) {
-        mediaId = await laporanRepo.unggahFotoBukti(
-          uploadId: submissionId,
-          bytes: _foto!.bytes,
+      final uploadIds = <String>[];
+      // Hanya foto asli warga yang diunggah; tidak ada lagi bukti contoh
+      // bawaan yang bisa membuat laporan tampak terverifikasi.
+      final foto = _foto;
+      if (foto != null) {
+        final idUnggahan = await laporanRepo.unggahFotoBukti(
+          uploadId: identitasAksi(),
+          bytes: foto.bytes,
         );
+        uploadIds.add(idUnggahan);
       }
       await laporanRepo.kirimLaporan(
         submissionId: submissionId,
         kategori: _category!,
         deskripsi: _description.text.trim(),
         kebutuhan: List.unmodifiable(_needs),
-        mediaId: mediaId,
+        uploadIds: uploadIds,
+        latitude: _latitude!,
+        longitude: _longitude!,
+        alamat: _alamatLokasi,
       );
-    } catch (_) {
-      // Fallback anggun untuk mode pratinjau / offline demo
+    } catch (e) {
+      // Kegagalan server tidak lagi ditelan diam-diam; catatan tetap disimpan
+      // lokal agar isian warga tidak hilang, disertai pemberitahuan jujur.
+      pesanGalat = e.toString();
+      debugPrint('Pengiriman laporan ke server: $e');
     }
 
     if (!mounted) return;
@@ -162,11 +234,22 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
       _foto = null;
     });
     widget.fotoDipulihkan?.value = null;
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Laporan berhasil disimpan ke Riwayat.'),
-      ),
-    );
+    final messenger = ScaffoldMessenger.of(context);
+    if (pesanGalat != null) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(
+            'Laporan tersimpan lokal, tetapi gagal dikirim ke server: $pesanGalat',
+          ),
+          backgroundColor: const Color(0xFFB91C1C),
+          duration: const Duration(seconds: 6),
+        ),
+      );
+    } else {
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Laporan berhasil disimpan ke Riwayat.')),
+      );
+    }
   }
 
   // Membatalkan semua isian mengembalikan form ke kondisi bersih.
@@ -274,10 +357,9 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
                           }
                         }),
                         onCamera: _ambilFoto,
-                        onLocation: () => _explain(
-                          'Lokasi Terdeteksi',
-                          'Koto Tangah, Padang (Akurasi GPS terverifikasi)',
-                        ),
+                        onLocation: _sinkronisasiGps,
+                        lokasi: _alamatLokasi,
+                        keteranganLokasi: _keteranganLokasi,
                         onSubmit: _simpan,
                       ),
                     ),

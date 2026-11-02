@@ -301,24 +301,21 @@ void main() {
       await tester.pumpAndSettle();
 
       // 1. Role Warga default
-      expect(find.text('Warga'), findsOneWidget);
-      expect(find.text('Petugas / Admin'), findsOneWidget);
       expect(find.text('Nomor Ponsel atau Email'), findsOneWidget);
       expect(find.text('Masuk ke SiagaBanjir'), findsOneWidget);
+      expect(find.text('Masuk sebagai Admin'), findsOneWidget);
 
-      // 2. Ganti peran ke Petugas / Admin
-      await tester.tap(find.text('Petugas / Admin'));
+      // 2. Isi otomatis akun Admin melalui tombol tautan teks bawah
+      await tester.ensureVisible(find.text('Masuk sebagai Admin'));
+      await tester.tap(find.text('Masuk sebagai Admin'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Email Dinas Petugas BPBD'), findsOneWidget);
-      expect(find.text('Masuk ke Dashboard Admin'), findsOneWidget);
-
-      // 3. Submit login Admin
+      // 3. Tekan tombol submit login Masuk ke Dashboard Admin
       await tester.tap(find.text('Masuk ke Dashboard Admin'));
       await tester.pumpAndSettle();
 
       expect(loggedRole, PeranPengguna.admin);
-      expect(loggedIdentifier, 'admin.bpbd@padang.go.id');
+      expect(loggedIdentifier, 'admin1@siagabanjir.id');
     },
   );
 
@@ -387,10 +384,13 @@ void main() {
       expect(find.text('Masuk ke Akun'), findsOneWidget);
       expect(find.text('Masuk sebagai Admin'), findsOneWidget);
 
-      // 2. Click Masuk sebagai Admin -> goes to KerangkaAdminWeb
+      // 2. Click Masuk sebagai Admin to autofill -> then submit to go to KerangkaAdminWeb
       await tester.ensureVisible(find.text('Masuk sebagai Admin'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Masuk sebagai Admin'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Masuk ke Dashboard Admin'));
       await tester.pumpAndSettle();
 
       expect(find.text('Portal Admin'), findsOneWidget);

@@ -49,7 +49,9 @@ export async function listMonitor(
     const params: (string | number)[] = [];
     let sql = `
       SELECT g.id, g.location_label, g.level, g.updated_at,
-        MIN(r.needs_review_since) as min_needs_review_since
+        g.summary, g.ai_summary, g.latitude, g.longitude,
+        MIN(r.needs_review_since) as min_needs_review_since,
+        COUNT(r.id) as report_count
       FROM \`groups\` g
       LEFT JOIN reports r ON g.id = r.group_id AND r.deleted_at IS NULL
       WHERE g.state = 'ACTIVE'
@@ -86,10 +88,16 @@ export async function listMonitor(
     const items: MonitorItem[] = pageRows.map((r) => {
       const needsReview = r.min_needs_review_since !== null;
       return {
+        id: String(r.id),
         locationName: (r.location_label as string) || 'Lokasi Kejadian',
         level: r.level as MonitorItem['level'],
         updatedAt: new Date(r.updated_at as string).toISOString(),
         reviewState: needsReview ? 'NEEDS_REVIEW' : 'REVIEWED',
+        reportCount: Number(r.report_count ?? 0),
+        summary: (r.summary as string) ?? null,
+        aiSummary: (r.ai_summary as string) ?? null,
+        latitude: r.latitude == null ? null : Number(r.latitude),
+        longitude: r.longitude == null ? null : Number(r.longitude),
       };
     });
 

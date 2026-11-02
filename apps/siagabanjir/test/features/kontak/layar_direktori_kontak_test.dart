@@ -1,7 +1,7 @@
+import '../../bantuan_sesi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/kontak/presentation/models/entri_kontak.dart';
 import 'package:siagabanjir/features/kontak/presentation/layar_direktori_kontak.dart';
 
@@ -21,7 +21,7 @@ Future<void> _openContactsDirectory(
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.resetPhysicalSize);
   addTearDown(tester.view.resetDevicePixelRatio);
-  await tester.pumpWidget(const SiagaBanjirApp());
+  await tester.pumpWidget(aplikasiWargaTerautentikasi());
   await tester.pumpAndSettle();
 
   // Ketuk kartu "Kontak Darurat" pada akses cepat beranda.

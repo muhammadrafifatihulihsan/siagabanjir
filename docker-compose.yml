@@ -27,6 +27,8 @@ services:
       dockerfile: apps/server/Dockerfile
     container_name: siagabanjir-server
     restart: unless-stopped
+    volumes:
+      - media_data:/app/storage
     ports:
       - "3000:3000"
     environment:
@@ -56,6 +58,32 @@ services:
       retries: 5
       start_period: 10s
 
+  worker:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    restart: unless-stopped
+    entrypoint: ["node", "dist/worker.js"]
+    env_file:
+      - apps/server/.env
+    environment:
+      NODE_ENV: development
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_NAME: siagabanjirdev
+      DB_USER: sb_dev_app
+      DB_PASSWORD: devappsecret
+      STORAGE_DIR: /app/storage
+      FFMPEG_PATH: ffmpeg
+      FFPROBE_PATH: ffprobe
+      PDFINFO_PATH: pdfinfo
+      PDFTOPPM_PATH: pdftoppm
+    volumes:
+      - media_data:/app/storage
+    depends_on:
+      server:
+        condition: service_healthy
+
   web:
     build:
       context: apps/siagabanjir
@@ -71,5 +99,7 @@ services:
       - web
 
 volumes:
+  media_data:
+    driver: local
   mysql_data:
     driver: local

@@ -1409,3 +1409,145 @@ menetapkan siagabanjirdev/siagabanjirtest dan akun runtime/migrasi per DB,
 host loopback serta sandi acak MySQL. Pilihan nama/hak adalah rancangan
 implementasi dalam mandat, bukan klaim akun telah dibuat. Provisioning dan
 verifikasi MySQL masih NOT_RUN; API belum membaca credential database.
+
+
+<a id="functional-integration-071"></a>
+
+## WS-DEC-071 ? Alur nyata tanpa keberhasilan simulasi (2 November 2026)
+
+Pemilik meminta seluruh fitur utama berfungsi sesuai kontrak, tanpa mode demo,
+serta database tidak dibuat rumit tanpa kebutuhan. Implementasi mempertahankan
+MySQL dan tabel yang sudah ada. Manifest sumber immutable disimpan sebagai JSON
+`jobs.input_sources`, hasil tervalidasi pada `jobs.result_json`, menggantikan
+rencana tabel job_sources terpisah; tidak menambah broker atau database baru.
+Antrean satu worker dengan lease/generation, provider di luar transaksi, serta
+konfirmasi KTP berdasarkan hasil nyata tetap wajib. Gambar sintetis hanya untuk
+tes, bukan hasil yang disisipkan dalam alur aplikasi. Kompresi FFmpeg memakai
+qscale 3/5/8 dengan batas byte dan dimensi; angka ini tidak disamakan dengan
+quality persentase rancangan awal. PDF memakai Poppler. Worker berjalan satu
+job aktif (di bawah batas dua), dengan retry 5/15 detik maksimal tiga upaya.
+
+Mandat mencakup perbaikan backend, Flutter, konfigurasi lokal dan panduan;
+commit lokal wajib. Push, deploy dan pengujian HP tetap terpisah. Bukti terbaru
+ada pada [handoff](SESSION-HANDOFF.md); tidak menganggap seluruh fitur selesai
+berdasarkan keberadaan endpoint atau hasil tes transport saja.
+
+<a id="contract-sync-072"></a>
+
+## 61. Penyelarasan kontrak backend-Flutter (3 November 2026)
+
+**WS-DEC-072 - CURRENT_USER_CONFIRMED.** Pemilik menyetujui rencana perbaikan
+ketidaksinkronan backend-Flutter dengan dua keputusan eksplisit:
+
+1. Cakupan perbaikan mencakup backend dan Flutter sekaligus, dan syarat KTP
+   **dilonggarkan untuk demo** (pengguna demo tetap dapat mengirim laporan tanpa
+   KTP aktif). Ini adalah pengecualian terbatas yang disetujui pemilik, bukan
+   klaim bahwa WS-DEC-071 dibatalkan untuk produksi; aktifkan kembali pemeriksaan
+   `ktp_states.active_document_id` sebelum penggunaan nyata.
+2. Pesan siaran memakai `severity` bertipe `INFO|WARNING|CRITICAL`, disimpan pada
+   kolom `messages.severity` (migrasi `034_message_severity.sql`). Klien tidak
+   lagi mengirim tingkat sebagai kategori bebas.
+
+Perbaikan lain dalam rangkaian ini: `ReportSummary` admin memuat `reporterName`
+dan `description`; `ReportSummary` warga memuat `description`; unggah bukti
+laporan memakai `multipart/form-data` dengan `purpose=REPORT` dan `origin=CAMERA`;
+kotak masuk warga membaca `data.items` dan objek `{message, read}`; kegagalan
+sinkronisasi tidak lagi ditelan diam-diam. Kontrak terdampak diperbarui pada
+[openapi.json](openapi.json), [SRS](SRS.md) dan [contoh](examples.json).
+Commit lokal wajib; push/merge/deploy tetap tidak diotorisasi.
+
+<a id="ai-review-cluster-073"></a>
+
+## 62. Tinjauan AI dan kesimpulan klaster wilayah (3 November 2026)
+
+**WS-DEC-073 - CURRENT_USER_CONFIRMED.** Pemilik meminta AI memeriksa
+kesesuaian deskripsi warga dengan bukti gambar dan menyimpulkan kondisi klaster
+wilayah, dengan pembaruan realtime diterima sebagai polling berkala.
+
+1. `REPORT_ANALYSIS` memakai prompt `report-v2` dan mengembalikan
+   `descriptionMismatch`. Deskripsi warga dikirim sebagai data pada user message
+   (dibatasi 2000 karakter) dan tidak pernah dijadikan instruksi sistem. Hasil
+   disimpan pada `assessments.description_mismatch` (migrasi
+   `036_assessment_mismatch.sql`) sehingga admin dapat melihat penanda tanpa
+   membaca ulang gambar. Penanda ini bahan tinjauan, bukan keputusan otomatis:
+   admin tetap dapat mengoreksi penilaian.
+2. Kesimpulan klaster bersifat dua lapis. Lapisan dasar dihitung sinkron oleh
+   `refreshGroup` (`groups.summary`, `groups.latitude/longitude`) sehingga
+   selalu tersedia. Lapisan naratif memakai job `CLUSTER_SUMMARY`
+   (`cluster-v1`) yang bersifat best-effort: kegagalan provider hanya
+   meninggalkan `ai_summary` lama/kosong dan tidak menahan laporan maupun
+   perubahan level klaster. `jobs_kind` diperluas pada
+   `037_cluster_summary_job.sql`.
+3. `GET /public/monitor` kini membuka `id`, `reportCount`, `summary`,
+   `aiSummary`, dan centroid klaster. Koordinat yang dibuka adalah rata-rata
+   klaster, bukan titik laporan individual; deskripsi, identitas pelapor, dan
+   media tetap privat sesuai SRS-IF-007.
+4. Realtime warga memakai polling 20 detik plus pull-to-refresh pada Pantau
+   Wilayah, Kotak Masuk, dan kartu status beranda. Tidak ada WebSocket/SSE baru;
+   polling dimatikan pada widget test agar tidak meninggalkan timer.
+5. Lokasi laporan memakai GPS perangkat nyata melalui `geolocator` dengan izin
+   bertahap. Formulir menolak pengiriman bila titik belum terverifikasi dan
+   menampilkan pesan jujur; tidak ada lagi koordinat hardcoded. Tautan peta
+   memakai `https://www.google.com/maps/search/?api=1&query=lat,lon` melalui
+   `url_launcher`.
+6. Penyimpanan media memakai `storage/uploads/REPORT|DOCUMENT/<tahun>/<bulan>/`
+   dengan `blob_key` relatif dan `resolveBlobPath` berpenjaga traversal. Kunci
+   datar lama tetap dapat dibaca sehingga data pengembangan tidak hilang; tidak
+   ada migrasi berkas paksa.
+
+Batas yang belum selesai: sinkronisasi kontak Pusat Aksi ke CMS dan penataan
+kuota admin belum dikerjakan dalam rangkaian ini; kamera tetap memakai alur
+`image_picker` yang ada dengan permintaan izin saat tombol kamera ditekan.
+
+**WS-DEC-074 - CURRENT_USER_CONFIRMED.** Pemilik menetapkan hasil analisis AI
+menjadi keputusan akhir per laporan: admin tidak lagi meninjau laporan satu per
+satu. Verifikasi tindak lanjut dilakukan pada tingkat klaster wilayah.
+
+1. `finishJob` untuk `REPORT_ANALYSIS` menyimpan `assessments` lalu mengosongkan
+   `reports.needs_review_since` dan menaikkan `version`. Semua hasil `MATCH`,
+   `MISMATCH`, dan `INSUFFICIENT` tercatat pada klaster; `eligible=1` tetap hanya
+   untuk `MATCH` agar level klaster tidak dinaikkan klaim yang tidak cocok dengan
+   bukti. `POST /api/v1/admin/reports/{id}/review` tetap tersedia untuk koreksi
+   manual, tetapi Flutter tidak lagi menampilkan tombol tinjauan per laporan;
+   `TabLaporanIndividu` hanya menampilkan detail.
+2. Tanpa worker atau `DEEPSEEK_API_KEY` valid, `needs_review_since` tetap terisi.
+   Kondisi itu berarti "menunggu analisis AI", bukan tugas tinjauan admin;
+   README server menyebut syarat menjalankan `pnpm worker`.
+3. Profil akun disinkronkan nyata: migrasi `038_account_profile.sql` menambah
+   `accounts.phone`, `accounts.address`, dan `accounts.flood_alert_enabled`.
+   `GET /api/v1/me` membuka ketiganya dan `PATCH /api/v1/me` menerima subset
+   field (minimal satu) dengan `If-Match` serta `Idempotency-Key`. Flutter tidak
+   lagi memakai nama, nomor, NIK, atau domisili contoh; baris NIK dihapus karena
+   backend tidak menyimpan NIK. Telepon dan alamat bersifat opsional.
+4. Direktori kontak memakai CMS: warga membaca
+   `GET /api/v1/public/content/{revision}/contacts`, admin membuat draf lalu
+   menerbitkannya melalui `/api/v1/admin/content/contacts`. Tambah/hapus kontak
+   pada Pusat Aksi kini menulis ke server dan kegagalannya dilaporkan. Akar
+   masalah hapus kontak yang selalu gagal ditemukan pada `KlienApi.delete`:
+   klien mengirim `Content-Type: application/json` tanpa body sehingga Fastify
+   menolak dengan HTTP 400. Header itu kini dihilangkan untuk permintaan tanpa
+   body.
+5. Dashboard admin memuat ulang laporan, klaster, dan kontak setiap 20 detik agar
+   laporan baru terlihat tanpa refresh, memakai nama wilayah serta level dari
+   tabel `groups` alih-alih label generik.
+6. Bukti foto tidak dikarang: unggahan hanya memakai foto asli warga, dan
+   laporan tanpa foto dikirim tanpa `uploadIds`. GPS memakai
+   `LocationAccuracy.best` tanpa koordinat cadangan. Istilah "AI Vision" dihapus
+   dari UI warga dan diganti "Lapor Banjir".
+7. Database pengembangan `siagabanjirdev` dikosongkan atas mandat pemilik lalu
+   diisi ulang `pnpm db:seed`. Akun `sb_dev_migrate` tidak memiliki hak `DROP`,
+   sehingga pengosongan memakai `DELETE` seluruh tabel data sambil
+   mempertahankan riwayat `schema_migrations` **dan baris infrastruktur hasil
+   migrasi** `business_write_guard` (id 1) serta `quota_settings` (id 1). Baris
+   tersebut wajib ada: tanpanya seluruh transaksi bisnis gagal dengan pesan
+   "Guard transaksi belum tersedia" dan kuota laporan tidak terbaca.
+
+Bukti lokal: 23 tes unit server, 135 tes Flutter, `flutter analyze` bersih,
+`pnpm test:db` PASS, migrasi 038 diterapkan (38 migrasi di `siagabanjirdev`),
+`flutter build web` PASS. Uji HTTP nyata terhadap `siagabanjirdev`: login admin,
+`GET /api/v1/me` mengembalikan `phone`, `address`, `floodAlertEnabled`,
+`PATCH /api/v1/me` menyimpan lalu dibalikkan; alur kontak CMS
+create -> publish -> baca publik -> withdraw -> delete PASS dan data uji
+dibersihkan kembali. UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN
+pada unit ini.
+

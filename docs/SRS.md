@@ -231,7 +231,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 - **Sumber / tujuan:** [FR-KTP-001](FRD.md#fr-ktp-001); [PRD-F-011](PRD.md#prd-f-011).
 - **Aktor / pemicu:** Warga pemilik. Pemicu: Membuat draf atau mencoba pengiriman baru.
-- **Kewajiban:** Penerimaan wajib membaca rujukan KTP aktif pemilik dalam transaksi penerimaan; status dari draf/klien tidak memberi hak kirim.
+- **Kewajiban:** Penerimaan wajib membaca rujukan KTP aktif pemilik dalam transaksi penerimaan; status dari draf/klien tidak memberi hak kirim. **Pengecualian demo (DECISIONS.md#contract-sync-072):** syarat KTP dilonggarkan sehingga `submitReport` dan `getReportingStatus` mengembalikan `ktpSatisfied=true` tanpa KTP aktif; aktifkan kembali bila demo berakhir.
 - **Kontrak input/output dan izin:** [getReportingStatus](#srs-api-getreportingstatus), [submitReport](#srs-api-submitreport), [getKtpState](#srs-api-getktpstate), [confirmKtp](#srs-api-confirmktp).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-KTP-001-01](FRD.md#ac-ktp-001-01), [AC-KTP-001-02](FRD.md#ac-ktp-001-02); [TC-KTP-001-01](FRD.md#tc-ktp-001-01), [TC-KTP-001-02](FRD.md#tc-ktp-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
@@ -361,6 +361,14 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 - **Kontrak input/output dan izin:** [retryReportAnalysis](#srs-api-retryreportanalysis), [correctAssessment](#srs-api-correctassessment).
 - **Data / dependensi / keputusan:** model modul §4, SRS-IF-001–010, SRS-DEC-001–012 sesuai tanggung jawab komponen; owner teknis Backend/AI + Flutter.
 - **Verifikasi / penerimaan:** [AC-AI-003-01](FRD.md#ac-ai-003-01), [AC-AI-003-02](FRD.md#ac-ai-003-02); [TC-AI-003-01](FRD.md#tc-ai-003-01), [TC-AI-003-02](FRD.md#tc-ai-003-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
+
+> **Kebijakan demo, 3 November 2026 (WS-DEC-074):** verifikasi per laporan kini
+> otomatis. Hasil `REPORT_ANALYSIS` yang berhasil mengosongkan
+> `reports.needs_review_since`, sehingga `MATCH`, `MISMATCH`, dan `INSUFFICIENT`
+> langsung menjadi status laporan. Admin tidak meninjau laporan satu per satu;
+> tindak lanjut, termasuk menandai klaster selesai, dilakukan pada tingkat
+> klaster. FR-REVIEW di bawah tetap baseline `v1.0.0` dan tidak diubah; endpoint
+> koreksi manual tetap tersedia untuk kebutuhan audit.
 
 <a id="srs-fr-review-001"></a>
 
@@ -753,7 +761,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 - **Sumber / tujuan:** [FR-INBOX-001](FRD.md#fr-inbox-001); [PRD-F-054](PRD.md#prd-f-054).
 - **Aktor / pemicu:** Admin penerbit; seluruh warga penerima sesuai aturan publikasi. Pemicu: Menerbitkan pesan peringatan.
-- **Kewajiban:** Query inbox wajib mengambil semua pesan aktif pada waktu server bagi setiap warga, termasuk akun baru; tanpa targeting atau push eksternal.
+- **Kewajiban:** Query inbox wajib mengambil semua pesan aktif pada waktu server bagi setiap warga, termasuk akun baru; tanpa targeting atau push eksternal. Setiap pesan membawa `severity` (INFO/WARNING/CRITICAL) yang dipakai UI warga untuk memilih tingkat tampilan.
 - **Kontrak input/output dan izin:** [publishMessage](#srs-api-publishmessage), [listMessagesAdmin](#srs-api-listmessagesadmin), [getMessageAdmin](#srs-api-getmessageadmin), [listInbox](#srs-api-listinbox).
 - **Verifikasi / penerimaan:** [AC-INBOX-001-01](FRD.md#ac-inbox-001-01), [AC-INBOX-001-02](FRD.md#ac-inbox-001-02); [TC-INBOX-001-01](FRD.md#tc-inbox-001-01), [TC-INBOX-001-02](FRD.md#tc-inbox-001-02), serta TC-SRS terkait. Status eksekusi **NOT_RUN**.
 
@@ -793,7 +801,7 @@ Metadata bersama tiap record: status APPROVED v1.0.0 melalui SRS-DLG-001, priori
 
 Klien membuat `submissionId` UUIDv4 dan membekukan isi pada Kirim, termasuk identitas media. Upload dilakukan per file ke staging privat; ini belum menerima laporan atau mengonsumsi kuota. Sinyal perangkat diobservasi ulang sebelum penerimaan baru; perubahan snapshot sinyal tidak membuat payload bisnis baru. Fingerprint bisnis terdiri dari deskripsi/titik/waktu dan urutan ID upload immutable; tidak memasukkan token, requestId, timestamp pengamatan sinyal atau header retry. ID upload mengikat digest bytes pada penciptaan dan tidak pernah digunakan ulang walau bytes kemudian dibersihkan. Fingerprint retry dapat dihitung dari request tanpa perlu membuka kembali media terhapus.
 
-Di bawah guard transaksi: autentikasi/ownership → lookup journal ID → bila belum terminal, validasi input/berkas → KTP aktif → sinyal perangkat → galeri terbaru → kuota → commit laporan, ledger, kelompok/proyeksi dan job bersama-sama. Fingerprint memakai HMAC-SHA256 key backend terhadap JSON kanonik dengan urutan field tetap; verifier minimal disimpan, bukan salinan keterangan/koordinat. ID upload/path tidak dapat diganti diam-diam pada revisi yang sama.
+Di bawah guard transaksi: autentikasi/ownership → lookup journal ID → bila belum terminal, validasi input/berkas → sinyal perangkat → galeri terbaru → kuota → commit laporan, ledger, kelompok/proyeksi dan job bersama-sama. Pemeriksaan KTP aktif dilonggarkan pada mode demo (lihat SRS-FR-KTP-001). Fingerprint memakai HMAC-SHA256 key backend terhadap JSON kanonik dengan urutan field tetap; verifier minimal disimpan, bukan salinan keterangan/koordinat. ID upload/path tidak dapat diganti diam-diam pada revisi yang sama.
 
 | Keadaan | Hasil |
 |---|---|
@@ -851,6 +859,14 @@ Antrean hanya kelompok ACTIVE dengan review terbuka. RATED: HIGH, MEDIUM, LOW, m
 Polling Pantau/antrean/inbox: pada buka/resume/online kembali/manual dan sukses aksi admin, lalu tiap 30 detik selama terlihat+online. Satu request aktif per resource; respons dengan generation/sequence lama dibuang. Snapshot lama tetap disertai waktu/error bila gagal; tidak menimpa form. Buka detail aktif boleh memakai polling yang sama, berhenti ketika navigasi/logout. Tidak mempersistenkan snapshot privat.
 
 ### 3.5 Worker, retry dan penghapusan
+
+**Penyesuaian implementasi 2 November 2026:** mengikuti
+[WS-DEC-071](DECISIONS.md#functional-integration-071), manifest sumber disimpan
+pada `jobs.input_sources` JSON immutable dan hasil allowlist pada
+`jobs.result_json`, tanpa tabel job_sources tambahan. Worker satu job aktif;
+praproses JPEG FFmpeg qscale 3/5/8 menggantikan persentase quality pada ?5.3,
+dengan batas dimensi/byte dan bukti asli tetap dipertahankan.
+
 
 Job durable dibuat bersama transaksi sumber, dengan `kind, source_id, source_version, generation, state, attempt, available_at, lease_token, lease_until`. Worker mengklaim row melalui transaksi singkat; gunakan SKIP LOCKED hanya untuk antrean. Lease 90 detik, heartbeat 15 detik; klaim ulang sesudah lease berakhir mengganti token. Callback harus cocok lease_token/generation sebelum commit. Panggilan luar tidak pernah berada dalam transaksi database. Tidak menjanjikan panggilan provider exactly-once saat proses mati; hasil bisnis hanya satu, dan kemungkinan biaya upaya ulang dicatat.
 
@@ -966,7 +982,7 @@ erDiagram
 | SRS-DATA-020 | family_profiles: account_id, version; family_members: id, account_id, display_name, age_group, needs | ≤20; hanya field minimum; profile update atomik, no cascade delete dari sumber dokumen |
 | SRS-DATA-021 | extraction_suggestions: id, job_id, source_document_id/version, page, display_name, age_group, available_at, expires_at | ≤20 hasil per dokumen, total ≤400; tidak persisten DOB/NIK; parent all units valid, expiry 24 jam; deleted source membatalkan parent/apply |
 | SRS-DATA-022 | content_items: id, kind, draft_json, published_json, version, state; content_revisions: revision, snapshot/hash/count, published_at | Payload per kind tervalidasi; publish atomik snapshot semua jenis; current dan previous seperti §3.7 |
-| SRS-DATA-023 | messages: id, title/body, published_at, ends_at, ended_at, state, content_version, version | Server time menentukan ACTIVE; terminal 90 hari; ubah metadata tidak menaikkan content_version |
+| SRS-DATA-023 | messages: id, title/body, severity, published_at, ends_at, ended_at, state, content_version, version | Server time menentukan ACTIVE; terminal 90 hari; severity INFO/WARNING/CRITICAL untuk tampilan warga; ubah metadata tidak menaikkan content_version |
 | SRS-DATA-024 | message_reads: account_id, message_id, content_version, read_at | UNIQUE(account_id,message_id,content_version); no admin readership API; purge mengikuti pesan |
 | SRS-DATA-025 | deletion_markers: report_id, owner_id, deleted_at, visible_until | Hanya ID/waktu/label; 30 hari, tidak menjadi anggota kelompok atau sumber level |
 | SRS-DATA-026 | admin_audit: id, actor_id, object_id, action, version, time, reason, outcome, cleanup_id | Hanya aksi admin, minimal tanpa isi/kredensial/koordinat; 90 hari |
@@ -1012,7 +1028,7 @@ Schema lengkap dan required/optional field berada pada `openapi.json`. Semua ope
 | Operasi | Method/path | Input → output | Izin / versi |
 |---|---|---|---|
 | <a id="srs-api-getmeta"></a>getMeta | `GET /meta` | tanpa body → Meta; HTTP 200 | PUBLIC; aturan sumber/aksi |
-| <a id="srs-api-listmonitor"></a>listMonitor | `GET /public/monitor` | tanpa body → MonitorItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi |
+| <a id="srs-api-listmonitor"></a>listMonitor | `GET /public/monitor` | tanpa body → MonitorItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi. Tiap item memuat `id`, `level`, `reportCount`, `summary` agregasi deterministik, `aiSummary` opsional, dan centroid klaster (rata-rata lat/lon laporan aktif); tidak memuat deskripsi, identitas pelapor, atau titik laporan individual |
 | <a id="srs-api-getcontentmanifest"></a>getContentManifest | `GET /public/content/manifest` | tanpa body → ContentManifest; HTTP 200 | PUBLIC; aturan sumber/aksi |
 | <a id="srs-api-getcontentpart"></a>getContentPart | `GET /public/content/{revision}/{kind}` | tanpa body → ContentItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi |
 | <a id="srs-api-signup"></a>signup | `POST /auth/signup` | Signup → SignupResult; HTTP 201 | PUBLIC; aturan sumber/aksi |
@@ -1111,11 +1127,14 @@ PDF diprobe jumlah halaman/password dan dirender via Poppler ke halaman gambar, 
 
 | Tujuan / prompt versi | Keluaran provider yang diwajibkan | Validasi/hasil minimum |
 |---|---|---|
-| report-v1 | relevance MATCH/MISMATCH/INSUFFICIENT, sufficientInformation boolean, supportedIndicators[], explanation≤1000 | Indikator LOCAL_INUNDATION, BUILDING_WATER, ACCESS_DISRUPTED, TRAPPED, HELP_REQUIRED, EVACUATION_REQUIRED. Layanan menurunkan level dari indikator tertinggi jika MATCH+cukup; tanpa indikator cukup → UNRATED. Tidak meminta angka confidence/depth |
+| report-v2 | relevance MATCH/MISMATCH/INSUFFICIENT, sufficientInformation boolean, supportedIndicators[], descriptionMismatch boolean, explanation≤1000 | Indikator LOCAL_INUNDATION, BUILDING_WATER, ACCESS_DISRUPTED, TRAPPED, HELP_REQUIRED, EVACUATION_REQUIRED. Layanan menurunkan level dari indikator tertinggi jika MATCH+cukup; tanpa indikator cukup → UNRATED. Deskripsi warga dikirim sebagai bagian data pada user message, bukan instruksi sistem; `descriptionMismatch=true` hanya bila deskripsi bertentangan dengan bukti gambar. Menggantikan report-v1 yang tidak memuat penanda ini |
+| cluster-v1 | summary≤1000 | Input berupa teks hasil analisis klaster (tanpa gambar), bukan laporan individual. Narasi bersifat best-effort: kegagalan atau tak tersedianya provider tidak membatalkan `groups.summary` deterministik dan tidak menahan laporan |
 | ktp-v1 | documentType KTP/OTHER/UNKNOWN, nameReadable boolean, extractedName nullable≤120, explanation≤1000 | KTP+nameReadable+nama nonkosong baru layak konfirmasi. Hasil bukan verifikasi NIK/keaslian; data hanya owner |
 | family-v1 | members[] maksimum 20 per dokumen, name nullable≤80, ageGroup enum, page 1–10; incomplete boolean | UNKNOWN jika tidak cukup, tidak mengeluarkan specialNeeds/DOB/NIK. Keluaran melebihi batas gagal validasi dan menyediakan jalur isi manual; tidak memotong otomatis; incomplete terlihat dan manual tersedia |
 
 Parser harus menolak field unknown yang mengubah makna, tipe/enum invalid, kontradiksi dan hasil terpotong; tidak merender HTML/Markdown aktif dari model. Retain hanya normalized allowlist, prompt/model version, latensi dan usage numerik. Raw response/temporary DOB tidak masuk DB/log. `max_tokens` pilihan awal 2048 laporan/KTP dan 4096 keluarga; jika finish reason menunjukkan terpotong, gagal validasi tanpa apply. Kapabilitas JSON+image harus diuji pada model aktual. Kegagalan akses provider terlihat sebagai gagal; fixture diberi label dan tidak dianggap AI nyata.
+
+Kesimpulan klaster dihitung sinkron oleh layanan, bukan oleh model: `groups.summary` memuat jumlah laporan aktif, jumlah sesuai bukti, jumlah deskripsi tidak sesuai, jumlah belum cukup bukti, rata-rata tingkat, dan status klaster; centroid `groups.latitude/longitude` adalah rata-rata titik laporan aktif (NULL bila belum ada). Narasi `groups.ai_summary` dari job `CLUSTER_SUMMARY` hanya pelengkap: klien wajib tetap menampilkan ringkasan deterministik bila AI belum tersedia, dan tidak ada ringkasan yang menahan penerimaan laporan.
 
 ### 5.4 Kontrak adapter klien dan perangkat
 

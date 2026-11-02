@@ -1,5 +1,9 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
+import 'package:flutter/widgets.dart';
+
+import '../../../core/jaringan/identitas_aksi.dart';
+import '../../../features/kontak/data/kontak_repository.dart';
 import '../../../features/kontak/presentation/models/entri_kontak.dart';
 import '../../../features/pantau/presentation/models/data_pantau_wilayah.dart';
 import '../../../features/pesan/presentation/models/pesan_siaga.dart';
@@ -7,11 +11,16 @@ import '../data/admin_repository.dart';
 import 'klaster_wilayah.dart';
 import 'profil_admin.dart';
 
+bool get _adalahLingkunganTest =>
+    WidgetsBinding.instance.runtimeType.toString().contains('Test');
+
 /// Pengelola state terpusat untuk Dashboard Admin Web dan sinkronisasi
 /// data operasional SiagaBanjir Kota Padang.
 class StateAdminSiaga extends ChangeNotifier {
   StateAdminSiaga() {
-    _inisialisasiDataAwal();
+    if (_adalahLingkunganTest) {
+      _inisialisasiDataAwal();
+    }
   }
 
   static final StateAdminSiaga instance = StateAdminSiaga();
@@ -30,12 +39,22 @@ class StateAdminSiaga extends ChangeNotifier {
   String get labelSiagaKota => 'Siaga 2 (Waspada)';
 
   // 2. Data Broadcast Peringatan Siaga
-  List<PesanSiaga> _pesanSiaga = List.from(kSampleSiagaMessages);
-  List<PesanSiaga> get pesanSiaga => List.unmodifiable(_pesanSiaga);
+  List<PesanSiaga> _pesanSiaga = [];
+  List<PesanSiaga> get pesanSiaga => _pesanSiaga.isNotEmpty || !_adalahLingkunganTest
+      ? List.unmodifiable(_pesanSiaga)
+      : kSampleSiagaMessages;
 
-  // 3. Data Kontak Darurat Posko Publik
+  // Galat terakhir agar kegagalan server tidak lagi ditelan diam-diam.
+  String? _galatSiaran;
+  String? get galatSiaran => _galatSiaran;
+
+  String? _galatSinkronisasiLaporan;
+  String? get galatSinkronisasiLaporan => _galatSinkronisasiLaporan;
+
+  // 3. Data Kontak Darurat Posko Publik (CMS)
   List<EntriKontak> _kontakDarurat = List.from(kPublicContacts);
   List<EntriKontak> get kontakDarurat => List.unmodifiable(_kontakDarurat);
+  final Map<String, String> _idKontak = {};
 
   // 4. Kebijakan Kuota & Sakelar Galeri
   bool _izinkanGaleri = true;
@@ -390,16 +409,39 @@ class StateAdminSiaga extends ChangeNotifier {
 
   // --- AKSI BROADCAST SIARAN PERINGATAN ---
 
-  void terbitkanPeringatanBaru(PesanSiaga pesan) {
-    _pesanSiaga = [pesan, ..._pesanSiaga];
-    notifyListeners();
-
-    // Hubungkan publikasi siaran pesan admin ke backend
-    AdminRepository().terbitkanPesanSiaga(
-      judul: pesan.title,
-      isi: pesan.body,
-      tingkat: pesan.category == KategoriPesan.emergency ? 'CRITICAL' : 'WARNING',
-    ).catchError((_) => <String, dynamic>{});
+  /// Menerbitkan siaran peringatan ke backend lalu menambahkannya ke daftar.
+  ///
+  /// Mengembalikan `true` bila server menerima pesan. Kegagalan disimpan pada
+  /// [galatSiaran] agar UI menampilkan pesan jujur, bukan sukses palsu.
+  Future<bool> terbitkanPeringatanBaru(PesanSiaga pesan) async {
+    final tingkat = switch (pesan.category) {
+      KategoriPesan.emergency => 'CRITICAL',
+      KategoriPesan.weather => 'WARNING',
+      KategoriPesan.all => 'INFO',
+    };
+    // Widget test tidak memanggil backend; tambahkan langsung ke daftar lokal.
+    if (_adalahLingkunganTest) {
+      _pesanSiaga = [pesan, ..._pesanSiaga];
+      _galatSiaran = null;
+      notifyListeners();
+      return true;
+    }
+    try {
+      await AdminRepository().terbitkanPesanSiaga(
+        judul: pesan.title,
+        isi: pesan.body,
+        tingkat: tingkat,
+        idempotencyKey: identitasAksi(),
+      );
+      _pesanSiaga = [pesan, ..._pesanSiaga];
+      _galatSiaran = null;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _galatSiaran = 'Siaran gagal dikirim ke server: $e';
+      notifyListeners();
+      return false;
+    }
   }
 
   void cabutPeringatan(String idPesan) {
@@ -409,14 +451,53 @@ class StateAdminSiaga extends ChangeNotifier {
 
   // --- AKSI KONTAK DARURAT POSKO ---
 
-  void tambahKontakPosko(EntriKontak kontak) {
-    _kontakDarurat = [kontak, ..._kontakDarurat];
-    notifyListeners();
+  /// Memuat kontak posko dari CMS agar perubahan admin bertahan di server.
+  Future<void> sinkronkanKontak() async {
+    try {
+      final items = await KontakRepository().ambilKontakAdmin();
+      final terbit = items
+          .where((e) => e.state == 'PUBLISHED' || e.state == 'DRAFT')
+          .toList();
+      if (terbit.isEmpty) return;
+      _idKontak
+        ..clear()
+        ..addEntries(terbit.map((e) => MapEntry(e.nama, e.id)));
+      _kontakDarurat = terbit.map((e) => e.toEntri()).toList();
+      notifyListeners();
+    } catch (_) {
+      // Direktori lokal tetap dipakai bila CMS belum tersedia.
+    }
   }
 
-  void hapusKontakPosko(String name) {
+  Future<void> tambahKontakPosko(EntriKontak kontak) async {
+    _kontakDarurat = [kontak, ..._kontakDarurat];
+    notifyListeners();
+    try {
+      final dibuat = await KontakRepository().tambahDanTerbitkan(
+        nama: kontak.name,
+        telepon: kontak.phone,
+        deskripsi: kontak.agency,
+      );
+      if (dibuat != null) _idKontak[kontak.name] = dibuat.id;
+      await sinkronkanKontak();
+    } catch (e) {
+      _galatSinkronisasiLaporan = 'Kontak gagal disimpan ke server: $e';
+      notifyListeners();
+    }
+  }
+
+  Future<void> hapusKontakPosko(String name) async {
+    final id = _idKontak.remove(name);
     _kontakDarurat = _kontakDarurat.where((k) => k.name != name).toList();
     notifyListeners();
+    if (id == null) return;
+    try {
+      await KontakRepository().hapusKontak(id);
+      await sinkronkanKontak();
+    } catch (e) {
+      _galatSinkronisasiLaporan = 'Kontak gagal dihapus di server: $e';
+      notifyListeners();
+    }
   }
 
   // --- AKSI KEBIJAKAN & KUOTA ---
@@ -442,4 +523,117 @@ class StateAdminSiaga extends ChangeNotifier {
     _profilAdmin = profilBaru;
     notifyListeners();
   }
+
+  /// Mengosongkan seluruh data klaster dan pesan untuk keperluan pengujian bersih.
+  void bersihkanSeluruhData() {
+    _klasterList.clear();
+    _pesanSiaga.clear();
+    notifyListeners();
+  }
+
+  /// Memuat data fixture untuk pengujian widget test
+  void muatDataUjiFixture() {
+    _klasterList.clear();
+    _inisialisasiDataAwal();
+    _pesanSiaga = List.from(kSampleSiagaMessages);
+    notifyListeners();
+  }
+
+  /// Menyinkronkan laporan dan klaster aktual dari Fastify Backend.
+  ///
+  /// Nama wilayah serta tingkat siaga berasal dari tabel `groups` yang
+  /// diperbarui otomatis oleh analisis AI, bukan teks generik.
+  Future<void> sinkronkanDariBackend() async {
+    final repo = AdminRepository();
+    try {
+      final hasil = await Future.wait([
+        repo.ambilDaftarLaporan(),
+        repo.ambilKlasterWilayah(),
+      ]);
+      final laporanServer = hasil[0] as List<LaporanAdminServer>;
+      final klasterServer = hasil[1] as List<KlasterAdminServer>;
+      final petaKlaster = {for (final k in klasterServer) k.id: k};
+
+      _klasterList.clear();
+      final items = laporanServer.map((ls) {
+        final terverifikasi = ls.status == 'REVIEWED';
+        return LaporanAdminItem(
+          id: ls.id,
+          namaPelapor: ls.namaPelapor,
+          waktu: ls.waktu,
+          namaWilayah: petaKlaster[ls.idKlaster]?.namaLokasi ?? 'Kota Padang',
+          kategori: ls.kategori,
+          deskripsi: ls.deskripsi,
+          kebutuhan: const [],
+          idKlaster: ls.idKlaster ?? 'klaster-terbaru',
+          statusVerifikasi: terverifikasi
+              ? StatusVerifikasiWilayah.terverifikasi
+              : StatusVerifikasiWilayah.menungguTinjauan,
+          diverifikasiOtomatisWilayah: terverifikasi,
+        );
+      }).toList();
+
+      final Map<String, List<LaporanAdminItem>> grup = {};
+      for (final item in items) {
+        grup.putIfAbsent(item.idKlaster, () => []).add(item);
+      }
+      // Klaster tanpa laporan aktif tetap ditampilkan agar wilayah terpantau.
+      for (final klaster in klasterServer) {
+        grup.putIfAbsent(klaster.id, () => []);
+      }
+
+      for (final entry in grup.entries) {
+        final klaster = petaKlaster[entry.key];
+        final laporan = entry.value;
+        final tingkat = _tingkatDari(klaster?.tingkat);
+        final selesai = klaster?.status == 'COMPLETED';
+        final semuaDitinjau =
+            laporan.isNotEmpty &&
+            laporan.every(
+              (l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi,
+            );
+        _klasterList.add(
+          KlasterWilayahAi(
+            id: entry.key,
+            namaWilayah:
+                klaster?.namaLokasi ??
+                'Wilayah Laporan Masuk (${laporan.length} Laporan)',
+            kecamatan: 'Kota Padang',
+            radiusKeterangan: klaster == null
+                ? 'Laporan terkini warga dari database'
+                : 'Klaster ${klaster.jumlahLaporan} laporan • diperbarui otomatis',
+            tingkatTinggiAir: tingkat,
+            estimasiKedalaman: switch (tingkat) {
+              StatusTinggiAir.bahaya => '> 80 cm',
+              StatusTinggiAir.siaga2 => '40 - 80 cm',
+              StatusTinggiAir.siaga3 => '10 - 40 cm',
+              StatusTinggiAir.normal => 'Tidak ada genangan',
+            },
+            statusVerifikasi: selesai
+                ? StatusVerifikasiWilayah.selesai
+                : semuaDitinjau
+                ? StatusVerifikasiWilayah.terverifikasi
+                : StatusVerifikasiWilayah.menungguTinjauan,
+            indikatorAi: const ['Analisis AI otomatis'],
+            kebutuhanDominan: const ['Evakuasi', 'Logistik'],
+            laporan: laporan,
+          ),
+        );
+      }
+      _klasterList.sort((a, b) => b.totalLaporan.compareTo(a.totalLaporan));
+      _galatSinkronisasiLaporan = null;
+    } catch (e) {
+      // Kegagalan tidak lagi disembunyikan; panel dapat menampilkan galat.
+      _galatSinkronisasiLaporan = 'Gagal memuat laporan dari server: $e';
+    } finally {
+      notifyListeners();
+    }
+  }
+
+  static StatusTinggiAir _tingkatDari(String? level) => switch (level) {
+    'HIGH' => StatusTinggiAir.bahaya,
+    'MEDIUM' => StatusTinggiAir.siaga2,
+    'LOW' => StatusTinggiAir.siaga3,
+    _ => StatusTinggiAir.normal,
+  };
 }

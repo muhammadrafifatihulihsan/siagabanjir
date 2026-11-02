@@ -1,8 +1,8 @@
+import 'bantuan_sesi.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/core/perangkat/layanan_foto.dart';
 import 'package:siagabanjir/features/akun/presentation/layar_profil.dart';
 import 'package:siagabanjir/features/akun/presentation/widgets/kartu_header_profil.dart';
@@ -69,7 +69,7 @@ void main() {
   testWidgets(
     'Kontak pribadi bertahan saat buka ulang, dapat diedit dan dihapus dengan konfirmasi',
     (t) async {
-      await t.pumpWidget(const SiagaBanjirApp());
+      await t.pumpWidget(aplikasiWargaTerautentikasi());
       await t.pumpAndSettle();
       await t.ensureVisible(find.text('Kontak Darurat'));
       await t.tap(find.text('Kontak Darurat'));

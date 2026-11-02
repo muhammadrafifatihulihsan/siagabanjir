@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/laporan/presentation/widgets/kartu_riwayat_laporan.dart';
 
+import 'bantuan_tes_laporan.dart';
+
 void main() {
   testWidgets(
     'Riwayat hanya menampilkan catatan yang disimpan; detail dibuka dengan ketuk',
@@ -11,7 +13,7 @@ void main() {
       t.view.devicePixelRatio = 1;
       addTearDown(t.view.resetPhysicalSize);
       addTearDown(t.view.resetDevicePixelRatio);
-      await t.pumpWidget(const SiagaBanjirApp());
+      await t.pumpWidget(SiagaBanjirApp(layananLokasi: gpsSiap()));
       await t.pumpAndSettle();
       await t.tap(find.text('Riwayat'));
       await t.pumpAndSettle();

@@ -103,7 +103,7 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
     assert.equal(initialStatusRes.statusCode, 200);
     const initialStatus = initialStatusRes.json<{ data: ReportingStatus }>()
       .data;
-    assert.equal(initialStatus.ktpSatisfied, false);
+    assert.equal(initialStatus.ktpSatisfied, true);
     assert.equal(initialStatus.ktpStateVersion, 1);
     assert.equal(initialStatus.quota.used, 0);
     assert.ok(initialStatus.quota.remaining >= 1);
@@ -408,7 +408,8 @@ export async function verifyReporting(app: FastifyInstance, pool: Pool) {
       0,
     );
 
-    // 11. Simulasi KTP satisfied
+    // 11. Simulasi status KTP tersimpan (demo: ktpSatisfied selalu true,
+    //     versi state tetap mengikuti baris ktp_states)
     const docId = randomUUID();
     await withBusinessTransaction(pool, async (connection) => {
       await connection.execute(

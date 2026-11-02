@@ -26,6 +26,7 @@ void main() {
     Size size = const Size(390, 844),
     double scale = 1,
     double bottomInset = 0,
+    bool autofill = false,
     ValueChanged<String>? onLoginSuccess,
     VoidCallback? onRegister,
     VoidCallback? onForgotPassword,
@@ -44,6 +45,7 @@ void main() {
       MaterialApp(
         theme: SiagaTheme.light,
         home: LayarMasuk(
+          autofill: autofill,
           onLoginSuccess: onLoginSuccess,
           onRegister: onRegister,
           onForgotPassword: onForgotPassword,
@@ -155,14 +157,14 @@ void main() {
       await tester.pumpAndSettle();
       expect(registerTapped, isTrue);
 
-      // 9. Test Direct Access transparent buttons
+      // 9. Test autofill buttons
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
 
       await tester.ensureVisible(find.text('Masuk sebagai Warga'));
       await tester.tap(find.text('Masuk sebagai Warga'));
       await tester.pump();
-      expect(find.text('Masuk sebagai Warga.'), findsOneWidget);
+      expect(find.text('Formulir terisi: warga1@siagabanjir.id (Warga).'), findsOneWidget);
 
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
@@ -170,7 +172,7 @@ void main() {
       await tester.ensureVisible(find.text('Masuk sebagai Admin'));
       await tester.tap(find.text('Masuk sebagai Admin'));
       await tester.pump();
-      expect(find.text('Masuk sebagai Petugas Admin.'), findsOneWidget);
+      expect(find.text('Formulir terisi: admin1@siagabanjir.id (Petugas Admin).'), findsOneWidget);
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
     },

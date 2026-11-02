@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../../shared/widgets/dialog_siaga.dart';
@@ -31,15 +33,24 @@ class KerangkaAdminWeb extends StatefulWidget {
 class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
   AdminMenuTab _currentTab = AdminMenuTab.dashboard;
   final _state = StateAdminSiaga.instance;
+  Timer? _timerSinkron;
 
   @override
   void initState() {
     super.initState();
     _state.addListener(_onStateChanged);
+    _state.sinkronkanDariBackend();
+    _state.sinkronkanKontak();
+    // Laporan/kontak baru langsung tampil tanpa perlu memuat ulang halaman.
+    _timerSinkron = Timer.periodic(const Duration(seconds: 20), (_) {
+      _state.sinkronkanDariBackend();
+      _state.sinkronkanKontak();
+    });
   }
 
   @override
   void dispose() {
+    _timerSinkron?.cancel();
     _state.removeListener(_onStateChanged);
     super.dispose();
   }
@@ -225,6 +236,38 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
                         ],
                       ),
                     ),
+                    if (_state.galatSinkronisasiLaporan != null)
+                      Container(
+                        width: double.infinity,
+                        color: const Color(0xFFFEE2E2),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              size: 18,
+                              color: Color(0xFFB91C1C),
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _state.galatSinkronisasiLaporan!,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  color: Color(0xFFB91C1C),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: _state.sinkronkanDariBackend,
+                              child: const Text('Muat ulang'),
+                            ),
+                          ],
+                        ),
+                      ),
                     Expanded(child: _body()),
                   ],
                 ),

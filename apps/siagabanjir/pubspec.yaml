@@ -40,6 +40,8 @@ dependencies:
   archive: ^4.5.2
   file_saver: ^0.7.0
   http: 1.6.0
+  geolocator: ^14.0.2
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

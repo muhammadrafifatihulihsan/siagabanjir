@@ -1,7 +1,7 @@
+import '../../bantuan_sesi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/dokumen/presentation/layar_dokumen_siaga.dart';
 import 'package:siagabanjir/shared/theme/siaga_theme.dart';
 
@@ -76,7 +76,7 @@ void main() {
       addTearDown(tester.view.resetPhysicalSize);
       addTearDown(tester.view.resetDevicePixelRatio);
 
-      await tester.pumpWidget(const SiagaBanjirApp());
+      await tester.pumpWidget(aplikasiWargaTerautentikasi());
       await tester.pumpAndSettle();
 
       // Verifikasi berada di Beranda

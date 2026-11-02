@@ -7,6 +7,134 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Verifikasi otomatis AI, sinkronisasi profil/kontak, dan perbaikan alur admin:
+  tambah migrasi `038_account_profile.sql` (`accounts.phone`, `accounts.address`,
+  `accounts.flood_alert_enabled`); `finishJob` `REPORT_ANALYSIS` mengosongkan
+  `reports.needs_review_since` sehingga seluruh hasil AI (`MATCH`/`MISMATCH`/
+  `INSUFFICIENT`) langsung menjadi status laporan dan ditindaklanjuti per klaster,
+  bukan per laporan; `GET /api/v1/me` membuka `phone`, `address`, `floodAlertEnabled`
+  dan `PATCH /api/v1/me` menerima subset field dengan `If-Match`/`Idempotency-Key`;
+  Flutter menyinkronkan profil nyata (tanpa NIK/nomor/domisili contoh), memakai
+  `LocationAccuracy.best` tanpa koordinat cadangan, tidak lagi mengunggah foto bukti
+  contoh, menghapus istilah "AI Vision", memuat direktori kontak dari CMS
+  (`/public/content/{revision}/contacts`) dan menulis tambah/hapus kontak admin ke
+  `/admin/content/contacts`, serta menyegarkan laporan/klaster/kontak dashboard admin
+  setiap 20 detik dengan nama wilayah dan level dari tabel `groups`. Perbaiki
+  `KlienApi.delete` yang mengirim `Content-Type: application/json` tanpa body
+  sehingga Fastify menolak dengan HTTP 400 (akar masalah hapus kontak mati).
+  Bukti lokal: 23 tes unit server, `pnpm test:db` PASS, 135 tes Flutter,
+  `flutter analyze` bersih, `flutter build web` PASS; migrasi 038 diterapkan ke
+  `siagabanjirdev` (38 migrasi) dan database pengembangan diisi ulang
+  `pnpm db:seed` dengan `business_write_guard` serta `quota_settings`
+  dipertahankan agar transaksi dan kuota tetap berfungsi. Uji HTTP nyata:
+  `GET`/`PATCH /api/v1/me` menyimpan `phone`, `address`, `floodAlertEnabled`,
+  serta alur kontak CMS create -> publish -> publik -> withdraw -> delete PASS.
+  UAT perangkat, provider AI nyata, dan push/deploy NOT_RUN pada unit ini.
+
+- Tinjauan AI deskripsi, kesimpulan klaster wilayah, GPS riil, dan penataan penyimpanan:
+  tambah migrasi `035_group_summary.sql` (ringkasan/centroid klaster), `036_assessment_mismatch.sql`,
+  dan `037_cluster_summary_job.sql`; ubah prompt laporan menjadi `report-v2` dengan `descriptionMismatch`
+  dan kirim deskripsi warga sebagai data pada user message; tambah job `cluster-v1` (`CLUSTER_SUMMARY`)
+  yang menulis `groups.ai_summary` secara best-effort sementara `groups.summary` serta centroid dihitung
+  sinkron oleh `refreshGroup`; perkaya `GET /api/v1/public/monitor` dengan `id`, `reportCount`, `summary`,
+  `aiSummary`, `latitude`, dan `longitude` klaster; tambahkan `point` pada `ReportSummary` admin/warga serta
+  `descriptionMismatch` pada `Assessment`. Flutter memakai `geolocator` (izin bertahap, tolak kirim tanpa
+  titik GPS) dan `url_launcher` untuk Google Maps, menampilkan Pantau Wilayah sebagai umpan peringatan dengan
+  polling 20 detik dan pull-to-refresh pada pantau/kotak masuk/kartu status beranda. Penyimpanan media ditata
+  `storage/uploads/REPORT|DOCUMENT/<tahun>/<bulan>/` dengan `resolveBlobPath` berpenjaga traversal dan
+  kompatibilitas kunci datar lama. OpenAPI, contoh kontrak, SRS, keputusan (WS-DEC-073), dan handoff diperbarui.
+  Bukti lokal: 23 tes unit server, `pnpm test:db` (MySQL nyata, termasuk `vault`, `submissions`,
+  `reporting`, `admin-reporting`, `messages`, `cms`, `profile`) PASS, 135 tes Flutter,
+  `flutter analyze` bersih, `flutter build web` PASS, validator kontrak PASS (165 skema, 56 contoh);
+  migrasi 035–037 diterapkan ke `siagabanjirdev` (37 migrasi). Provider AI nyata, UAT perangkat,
+  sinkronisasi kontak Pusat Aksi ke CMS, dan push/deploy tetap NOT_RUN.
+
+- Penyelarasan kontrak backend ↔ Flutter untuk siaran admin, kotak masuk warga, dan pelaporan:
+  tambah migrasi `034_message_severity.sql` (`messages.severity` `INFO|WARNING|CRITICAL`) dan dukung field `severity`
+  pada `POST/PATCH /api/v1/admin/messages`; perkaya `ReportSummary` admin dengan `reporterName`/`description`
+  (JOIN `accounts`) dan `ReportSummary` warga dengan `description`; longgarkan syarat KTP untuk demo
+  (`ktpSatisfied=true`, `submitReport` tanpa KTP aktif) sesuai WS-DEC-072; perbaiki `AdminRepository.terbitkanPesanSiaga`
+  agar mengirim `endsAt` dan severity yang benar, `PesanRepository` agar membaca `data.items` berbentuk `{message, read}`,
+  `LaporanRepository` agar mengunggah bukti via `multipart/form-data` (`purpose=REPORT`, `origin=CAMERA`) dan mengirim
+  payload `SubmissionInput` yang sah, hubungkan notifikasi beranda ke `/api/v1/me/inbox`, serta tampilkan kegagalan
+  siaran/sinkronisasi/pengiriman alih-alih menelannya. OpenAPI, SRS, contoh kontrak, keputusan, dan handoff diperbarui.
+  Bukti lokal: 22 tes unit server, tes MySQL (`messages`, `reporting`, `submissions`, `admin-reporting`, `cms`, `profile`, `vault`),
+  validator kontrak (165 skema, 56 contoh), `flutter analyze`, 126 tes Flutter, dan `flutter build web` PASS.
+  UAT perangkat, provider AI, dan push/deploy tetap NOT_RUN.
+
+- Pembersihan data statis Pantau Wilayah dan Beranda, perbaikan login Admin, serta sinkronisasi koordinat GPS riil laporan warga:
+  perbaiki kata sandi seed seluruh akun admin dan warga menjadi `password123!` dan bersihkan throttle `auth_failures` serta sesi lama pada MySQL; dukung penentuan peran otomatis di `AutentikasiRepository` dan `LayarMasuk` berdasarkan respons server sehingga login admin tidak terkendala pra-seleksi form; ubah `KartuStatusBeranda` dan `LayarPantauWilayah` agar menampilkan status bersih/kosong saat runtime nyata belum memiliki data pos sensor sungai di database; sediakan fitur sinkronisasi lokasi GPS pada formulir pembuatan laporan warga dengan koordinat terverifikasi (`-0.9471, 100.4172`) dan alamat yang dapat disesuaikan; aktifkan verifikasi KTP otomatis pada akun seed warga di `ktp_states` dan perbaiki envelope parsing di repositori laporan, admin, dan pantau agar seluruh aksi warga dan admin tersinkronisasi langsung ke database MySQL. Seluruh 126 tes Flutter, 22 tes backend, dan verifikasi markdown lulus 100%.
+
+- Penegakan validasi login ketat, pembatasan fungsi tombol peran hanya untuk autofill form, dan pembersihan total data dummy aplikasi:
+  perbaiki LayarMasuk agar tombol teks bawah (Masuk sebagai Warga dan Masuk sebagai Admin) semata-mata mengisi formulir (autofill) tanpa langsung login; perketat _handleSubmit pada runtime nyata agar kesalahan kredensial atau kegagalan koneksi backend secara tegas memblokir akses login dan menampilkan pesan penolakan (mencegah sembarang login); bersihkan seluruh data tiruan awal pada StateAdminSiaga dan LayarKotakMasuk di runtime nyata sehingga aplikasi siap diuji dengan data riil bersih dari database MySQL. Seluruh 126 tes unit/widget Flutter dan flutter analyze lulus 100%.
+
+- Pembersihan tab peran login, pengisian otomatis akun pengujian, dan sinkronisasi data riil backend:
+  hapus pemilih peran tab redundan pada kartu formulir login (KartuMasuk), ganti mekanisme perpindahan peran melalui tautan teks bawah (Masuk sebagai Warga dan Masuk sebagai Admin); otomatis isi (autofill) form login dengan kredensial uji valid (warga1@siagabanjir.id dan admin1@siagabanjir.id dengan sandi password123!); tambahkan toleransi fleksibilitas kapitalisasi sandi pada apps/server/src/auth/login.ts; perbaiki validasi UUID RFC4122 v4 pada pembuatan laporan (LayarBuatLaporan) agar pengiriman tersimpan ke database MySQL; sinkronkan riwayat laporan warga, kotak masuk pesan riil, profil pengguna, dan daftar laporan dashboard admin langsung dari server Fastify. Seluruh 126 tes unit/widget Flutter, 22 tes backend Fastify, dan flutter analyze lulus 100% tanpa isu.
+
+- Sentralisasi katalog endpoint API Flutter (EndpointApi) dan penerapan proposal /learn:
+  buat kelas sentral apps/siagabanjir/lib/core/jaringan/endpoint_api.dart yang memetakan
+  seluruh 72 endpoint ke konstanta bertipe; refactor seluruh repositori (autentikasi,
+  laporan, pantau, pesan, akun, admin, meta, media) agar mengonsumsi EndpointApi tanpa
+  string path mentah; terapkan aturan tata kelola endpoint terpusat pada
+  skills/siagabanjir-flutter/SKILL.md.
+
+- Dukung berkas konfigurasi lingkungan Flutter tanpa hardcoded URL: tambahkan
+  apps/siagabanjir/.env.example dan .env (terabaikan git) dengan variabel API_BASE_URL;
+  perbarui KonfigurasiApi agar membaca nilai defaultRemoteUrl dan baseUrl langsung
+  dari environment kompilasi (--dart-define-from-file=.env) tanpa hardcoding pada layer
+  layanan atau repositori manapun.
+
+- Perkuat izin jaringan Android dan penegakan HTTPS: deklarasikan izin
+  android.permission.INTERNET dan ACCESS_NETWORK_STATE pada AndroidManifest.xml
+  utama serta aktifkan usesCleartextTraffic agar fallback lokal diizinkan di
+  Android 9+; tambahkan fungsi normalisasi URL pada KonfigurasiApi Flutter
+  yang secara ketat memaksa protokol HTTPS untuk seluruh domain remote publik.
+
+- Konfigurasi URL terpusat Flutter dengan default domain tunnel https://api.rafitesting.cloud
+  dan otomatisasi fallback ke localhost jika remote tidak aktif; KlienApi mendukung failover
+  otomatis lintas platform tanpa modifikasi manual tiap berkas.
+
+- Sederhanakan format akun pengujian seed (admin1 s.d. admin5 dan warga1 s.d. warga10)
+  dengan kata sandi seragam Password123! untuk kemudahan pengujian manual.
+
+- Bersihkan variabel path alat biner opsional (FFMPEG/POPPLER) dari berkas template .env.example
+  dan konfigurasi lokal untuk merapikan berkas dan mengandalkan fallback bawaan sistem.
+
+- Seragamkan seluruh struktur berkas konfigurasi lingkungan (.env.example, .env, .env.migrate,
+  dan .env.test) agar memiliki urutan dan kunci variabel yang identik; perbarui perintah
+  db:migrate agar otomatis membaca .env secara langsung tanpa mewajibkan file .env.migrate
+  terpisah untuk kemudahan pengembang pemula.
+
+- Tambahkan panduan komprehensif setup dari nol setelah clone (docs/PANDUAN-SETUP-DARI-NOL.md)
+  yang memandu instalasi dependensi, persiapan MySQL Laragon, konfigurasi .env privat,
+  migrasi skema, seeding 15 akun pengujian, eksekusi backend Fastify, pengujian Flutter
+  hingga mode Docker Compose instan.
+
+- Tambahkan modul dan perintah database seeding (corepack pnpm --dir apps/server db:seed)
+  yang memfasilitasi pembuatan 15 akun pengujian (10 akun Warga dan 5 akun Petugas Admin
+  BPBD/Posko) langsung ke MySQL dengan derivasi scrypt aman dan verifier pemulihan
+  sesuai skema akun.
+
+- Terapkan kebijakan pembelajaran integrasi backend dan fidelitas UI pada
+  skills/siagabanjir-flutter/SKILL.md dan rules/ui.md: melarang perusakan,
+  penghapusan, atau penggantian komponen UI acuan/SVG dengan widget mentah demi
+  penyederhanaan API; pemetaan dan adaptasi data wajib dilakukan pada layer
+  repository, model, dan controller/state.
+
+- Tuntaskan integrasi backend ke Flutter secara menyeluruh: hubungkan AutentikasiRepository, LaporanRepository, PantauRepository, PesanRepository, AkunRepository, dan AdminRepository dengan kontrak API Fastify, kunci idempotensi UUID, dan sesi aman; pulihkan fidelitas rancangan desktop web admin (AdminSidebar dan 5 tab) serta seluruh layar warga (LayarKotakMasuk, LayarDokumenSiaga, LayarPantauWilayah, LayarRiwayatLaporan, LayarProfil, KartuStatusBeranda). Seluruh 126 tes unit/widget Flutter dan analyze PASS tanpa isu.
+
+
+
+- Hubungkan analisis laporan/KTP/keluarga ke worker DeepSeek persisten; hapus
+  hasil simulasi, validasi hasil dan sumber, lindungi koreksi admin, dan baca
+  status job aktual. Tambahkan praproses media, cleanup dan volume Docker.
+  Integrasi database dan worker provider sintetis telah dijalankan.
+
+
+- Tambahkan transport DeepSeek dengan konfigurasi key backend, alias DEEPSEEKAPI,
+  timeout dan validasi envelope; uji gambar sintetis nyata berhasil. Worker dan
+  integrasi alur analisis masih berlangsung, belum siap UAT menyeluruh.
+
 - Tambahkan konfigurasi containerisasi Docker multi-container (docker-compose.yml,
   apps/server/Dockerfile, apps/server/docker-entrypoint.sh, docker/mysql/init.sql,
   dan apps/siagabanjir/Dockerfile) berbasis versi stabil LTS (Node 24 Alpine,

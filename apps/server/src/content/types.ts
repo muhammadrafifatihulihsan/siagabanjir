@@ -99,10 +99,16 @@ export interface ContentManifest {
 }
 
 export interface MonitorItem {
+  id: string;
   locationName: string;
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   updatedAt: string;
   reviewState: 'NEEDS_REVIEW' | 'REVIEWED';
+  reportCount: number;
+  summary: string | null;
+  aiSummary: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export interface MonitorItemPage {

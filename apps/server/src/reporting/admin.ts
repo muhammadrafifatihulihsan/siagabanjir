@@ -1,3 +1,5 @@
+import { refreshGroup } from './group-state.js';
+import { formatJob, retryJob, type JobRow } from '../ai/jobs.js';
 import { randomUUID, timingSafeEqual } from 'node:crypto';
 import type { PoolConnection, RowDataPacket } from 'mysql2/promise';
 import type { AuthDependencies } from '../auth/signup.js';
@@ -17,6 +19,11 @@ export interface Point {
   locationName: string;
 }
 
+// Ringkasan laporan ikut membawa sumber lokasi agar admin bisa menilai akurasi.
+export interface ReportSummaryPoint extends Point {
+  source: 'GPS' | 'MANUAL';
+}
+
 export interface MediaItem {
   id: string;
   mediaType: string;
@@ -29,6 +36,7 @@ export interface Assessment {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  descriptionMismatch: boolean;
 }
 
 export interface ReviewState {
@@ -42,6 +50,9 @@ export interface ReportSummary {
   id: string;
   acceptedAt: string;
   groupId: string;
+  reporterName: string;
+  description: string;
+  point: ReportSummaryPoint;
   analysisState: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
   assessment: Assessment;
   review: ReviewState;
@@ -88,6 +99,10 @@ export interface Group {
   version: number;
   reportCount: number;
   completedAt: string | null;
+  summary: string | null;
+  aiSummary: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export interface GroupDetail {
@@ -143,6 +158,8 @@ interface ReportRow extends RowDataPacket {
   needs_review_since: string | Date | null;
   deleted_at: string | Date | null;
   location_label: string | null;
+  location_source: 'GPS' | 'MANUAL';
+  reporter_name: string | null;
   group_state: 'ACTIVE' | 'COMPLETED';
   group_level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
 }
@@ -154,20 +171,8 @@ interface AssessmentRow extends RowDataPacket {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  description_mismatch: number | boolean;
   result_version: number;
-}
-
-interface JobRow extends RowDataPacket {
-  id: string;
-  kind: Job['kind'];
-  owner_id: string;
-  source_id: string | null;
-  state: Job['state'];
-  attempt: number;
-  completed_units: number;
-  total_units: number;
-  updated_at: string | Date;
-  safe_error: string | null;
 }
 
 interface CleanupRow extends RowDataPacket {
@@ -194,20 +199,6 @@ interface AuditRow extends RowDataPacket {
 function formatDate(val: string | Date | null | undefined): string | null {
   if (!val) return null;
   return new Date(val).toISOString();
-}
-
-function formatJob(row: JobRow): Job {
-  return {
-    id: row.id,
-    kind: row.kind,
-    state: row.state,
-    sourceId: row.source_id ?? '',
-    attempt: Number(row.attempt),
-    completedUnits: Number(row.completed_units),
-    totalUnits: Number(row.total_units),
-    updatedAt: new Date(row.updated_at).toISOString(),
-    errorCode: row.safe_error,
-  };
 }
 
 function formatCleanup(row: CleanupRow): Cleanup {
@@ -265,7 +256,10 @@ export async function getJob(
     );
     const row = rows[0];
     if (!row) throw new HttpProblem(404, 'NOT_FOUND');
-    if (userRole !== 'ADMIN' && row.owner_id !== userId) {
+    if (
+      row.owner_id !== userId &&
+      !(userRole === 'ADMIN' && row.kind === 'REPORT_ANALYSIS')
+    ) {
       throw new HttpProblem(403, 'FORBIDDEN');
     }
     return formatJob(row);
@@ -314,17 +308,13 @@ export async function retryReportAnalysis(
       throw new HttpProblem(403, 'FORBIDDEN');
     }
 
-    const jobId = randomUUID();
-    await connection.execute(
-      `INSERT INTO jobs (id, kind, owner_id, source_id, source_version, state, attempt, completed_units, total_units, created_at, updated_at)
-        VALUES (?, 'REPORT_ANALYSIS', ?, ?, ?, 'QUEUED', 0, 0, 1, UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [jobId, report.owner_id, reportId, report.version],
-    );
-
-    await connection.execute(
-      'UPDATE reports SET needs_review_since = UTC_TIMESTAMP(3), updated_at = UTC_TIMESTAMP(3) WHERE id = ?',
+    const [latest] = await connection.execute<JobRow[]>(
+      "SELECT * FROM jobs WHERE source_id=? AND kind='REPORT_ANALYSIS' ORDER BY created_at DESC LIMIT 1",
       [reportId],
     );
+    if (!latest[0]) throw new HttpProblem(409, 'CONFLICT');
+    const jobId = latest[0].id;
+    await retryJob(connection, report.owner_id, jobId, 'REPORT_ANALYSIS');
 
     const actionId = randomUUID();
     await connection.execute(
@@ -357,12 +347,14 @@ async function loadReportSummary(
         relevance: activeAssess.relevance,
         level: activeAssess.level,
         explanation: activeAssess.explanation,
+        descriptionMismatch: Number(activeAssess.description_mismatch) === 1,
       }
     : {
         source: 'NONE',
         relevance: 'UNASSESSED',
         level: 'UNRATED',
         explanation: '',
+        descriptionMismatch: false,
       };
 
   const [jobRows] = await connection.execute<JobRow[]>(
@@ -370,7 +362,7 @@ async function loadReportSummary(
     [report.id],
   );
   const jobState = (jobRows[0]?.state ??
-    'SUCCEEDED') as ReportSummary['analysisState'];
+    'QUEUED') as ReportSummary['analysisState'];
 
   const review: ReviewState = {
     evidenceVersion: report.evidence_version,
@@ -383,6 +375,14 @@ async function loadReportSummary(
     id: report.id,
     acceptedAt: new Date(report.accepted_at).toISOString(),
     groupId: report.group_id,
+    reporterName: report.reporter_name || 'Warga Pelapor',
+    description: report.description,
+    point: {
+      latitude: Number(report.latitude),
+      longitude: Number(report.longitude),
+      source: report.location_source,
+      locationName: report.location_label || 'Lokasi Laporan',
+    },
     analysisState: jobState,
     assessment,
     review,
@@ -419,9 +419,11 @@ export async function listAdminReports(
   return withConnection(deps.pool, async (connection) => {
     const params: (string | number)[] = [];
     let sql = `
-      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.deleted_at IS NULL
     `;
 
@@ -500,9 +502,11 @@ async function loadReportDetail(
   reportId: string,
 ): Promise<ReportDetail> {
   const [rows] = await connection.execute<ReportRow[]>(
-    `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+    `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.id = ? AND r.deleted_at IS NULL`,
     [reportId],
   );
@@ -553,6 +557,7 @@ async function loadReportDetail(
         relevance: aiAssess.relevance,
         level: aiAssess.level,
         explanation: aiAssess.explanation,
+        descriptionMismatch: Number(aiAssess.description_mismatch) === 1,
       }
     : null;
 
@@ -649,12 +654,7 @@ export async function correctAssessment(
       [newResultVersion, newVersion, reportId],
     );
 
-    if (input.level !== 'UNRATED') {
-      await connection.execute(
-        'UPDATE `groups` SET level = ?, updated_at = UTC_TIMESTAMP(3) WHERE id = ?',
-        [input.level, report.group_id],
-      );
-    }
+    await refreshGroup(connection, report.group_id);
 
     await recordAudit(connection, {
       actorId: adminId,
@@ -1079,6 +1079,11 @@ export async function deleteReport(
       [newVersion, reportId],
     );
 
+    await refreshGroup(connection, report.group_id);
+    await connection.execute(
+      "UPDATE jobs SET state='CANCELLED',generation=generation+1,result_json=NULL,lease_token=NULL,lease_until=NULL WHERE source_id=? AND kind='REPORT_ANALYSIS'",
+      [reportId],
+    );
     const cleanupId = randomUUID();
     await connection.execute(
       `INSERT INTO cleanup_jobs (id, object_type, object_id, owner_id, state, attempt, created_at, updated_at)
@@ -1131,6 +1136,10 @@ interface GroupRawRow extends RowDataPacket {
   version: number;
   report_count: number | string;
   min_needs_review_since: string | Date | null;
+  summary: string | null;
+  ai_summary: string | null;
+  latitude: number | string | null;
+  longitude: number | string | null;
 }
 
 function formatGroup(row: GroupRawRow): Group {
@@ -1147,6 +1156,10 @@ function formatGroup(row: GroupRawRow): Group {
     version: Number(row.version),
     reportCount: Number(row.report_count ?? 0),
     completedAt: formatDate(row.completed_at),
+    summary: row.summary ?? null,
+    aiSummary: row.ai_summary ?? null,
+    latitude: row.latitude == null ? null : Number(row.latitude),
+    longitude: row.longitude == null ? null : Number(row.longitude),
   };
 }
 
@@ -1263,9 +1276,11 @@ export async function getGroup(
     const group = formatGroup(groupRow);
 
     const [reportRows] = await connection.execute<ReportRow[]>(
-      `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      `SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+          a.display_name as reporter_name
         FROM reports r
         JOIN \`groups\` g ON r.group_id = g.id
+        LEFT JOIN accounts a ON a.id = r.owner_id
         WHERE r.group_id = ? AND r.deleted_at IS NULL
         ORDER BY r.accepted_at DESC, r.id DESC
         LIMIT 20`,
@@ -1314,9 +1329,11 @@ export async function listGroupReports(
 
     const params: (string | number)[] = [groupId];
     let sql = `
-      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level
+      SELECT r.*, g.location_label, g.state as group_state, g.level as group_level,
+        a.display_name as reporter_name
       FROM reports r
       JOIN \`groups\` g ON r.group_id = g.id
+      LEFT JOIN accounts a ON a.id = r.owner_id
       WHERE r.group_id = ? AND r.deleted_at IS NULL
     `;
 

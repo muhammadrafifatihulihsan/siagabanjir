@@ -1,3 +1,4 @@
+import { enqueue } from '../src/ai/jobs.js';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import type { FastifyInstance } from 'fastify';
@@ -83,18 +84,19 @@ export async function verifyAdminReporting(
 
   // Setup data test
   await withBusinessTransaction(pool, async (connection) => {
-    // 3. Group awal
+    // 3. Group awal. Kode unik per jalannya tes agar tidak bentrok bila
+    //    eksekusi sebelumnya gagal dan menyisakan data.
     await connection.execute(
       `INSERT INTO \`groups\` (id, code, state, location_label, level, created_at, updated_at, version)
-        VALUES (?, 'GRP-ADMIN-TEST-1', 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
-      [groupId1],
+        VALUES (?, ?, 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+      [groupId1, `GRP-ADMIN-${groupId1.slice(0, 8)}`],
     );
 
     // 4. Upload awal
     await connection.execute(
       `INSERT INTO uploads (id, owner_id, purpose, origin, blob_key, digest, mime, bytes, state, expires_at, created_at, updated_at)
         VALUES (?, ?, 'REPORT', 'CAMERA', ?, 'dummy-digest', 'image/jpeg', 1024, 'ATTACHED', DATE_ADD(UTC_TIMESTAMP(3), INTERVAL 1 DAY), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [uploadId, citizenId, `uploads/${uploadId}.jpg`],
+      [uploadId, citizenId, `REPORT/2026/01/${uploadId}.jpg`],
     );
 
     // 5. Report awal
@@ -137,6 +139,11 @@ export async function verifyAdminReporting(
     assert.ok(foundReport);
     assert.equal(foundReport.groupId, groupId1);
     assert.equal(foundReport.version, 1);
+    assert.equal(
+      foundReport.description,
+      'Banjir setinggi 40cm merendam jalan utama',
+    );
+    assert.ok(foundReport.reporterName.length > 0);
 
     // 2. GET /api/v1/admin/reports/:reportId
     const getReportRes = await app.inject({
@@ -210,6 +217,13 @@ export async function verifyAdminReporting(
     assert.equal(noteData.authorId, adminId);
     assert.ok(noteData.body.includes('BPBD regu 2'));
 
+    const sourceGroupResponse = await app.inject({
+      method: 'GET',
+      url: `/api/v1/admin/groups/${groupId1}`,
+      headers: { authorization: `Bearer ${adminToken}` },
+    });
+    const sourceGroupVersion = sourceGroupResponse.json<{ data: GroupDetail }>()
+      .data.group.version;
     // 6. POST /api/v1/admin/reports/:reportId/moves (Pindahkan ke kelompok baru NEW_ACTIVE)
     const moveRes = await app.inject({
       method: 'POST',
@@ -220,7 +234,7 @@ export async function verifyAdminReporting(
         'if-match': '"3"', // version naik setelah patch(2) dan review(3)
       },
       payload: {
-        sourceGroupVersion: 1,
+        sourceGroupVersion,
         destination: { kind: 'NEW_ACTIVE' },
         reason: 'Titik genangan berada di DAS berbeda dari kelompok awal',
       },
@@ -281,6 +295,11 @@ export async function verifyAdminReporting(
     assert.ok(completedGroup.completedAt);
 
     // 11. POST /api/v1/reports/:reportId/analysis-retries (Retry analisis asinkron)
+    await withBusinessTransaction(pool, async (c) => {
+      await enqueue(c, 'REPORT_ANALYSIS', citizenId, [
+        { id: reportId, version: 1 },
+      ]);
+    });
     const retryAnalysisRes = await app.inject({
       method: 'POST',
       url: `/api/v1/reports/${reportId}/analysis-retries`,
@@ -408,6 +427,11 @@ export async function verifyAdminReporting(
         'DELETE FROM recovery_verifiers WHERE account_id = ?',
         [citizenId],
       );
+      // Job CLUSTER_SUMMARY dimiliki pelapor, jadi harus dibersihkan sebelum akun.
+      await connection.execute('DELETE FROM jobs WHERE owner_id IN (?, ?)', [
+        adminId,
+        citizenId,
+      ]);
       await connection.execute('DELETE FROM accounts WHERE id IN (?, ?)', [
         adminId,
         citizenId,

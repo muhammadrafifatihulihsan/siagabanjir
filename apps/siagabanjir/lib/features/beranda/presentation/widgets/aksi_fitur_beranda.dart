@@ -22,7 +22,7 @@ class AksiFiturBeranda extends StatelessWidget {
     final description = Text(
       documents
           ? 'Scan KK, KTP & berkas penting'
-          : 'Kamera AI Vision deteksi ketinggian genangan',
+          : 'Kirim foto dan lokasi titik banjir',
       style: const TextStyle(
         fontSize: SiagaTheme.isi,
         height: 1.4,

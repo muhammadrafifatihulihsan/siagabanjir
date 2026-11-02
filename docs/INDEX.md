@@ -35,6 +35,8 @@ Persetujuan tersebut berlaku untuk spesifikasi; pengujian aplikasi tetap NOT_RUN
 | [GITHUB-AUDIT](GITHUB-AUDIT.md) | Fakta audit GitHub, gap, matriks akses dan rancangan Settings yang belum diterapkan |
 | [GITHUB-WORKFLOW](GITHUB-WORKFLOW.md) | Panduan Git untuk pemula, commit lokal AI, kendala umum, validasi, push dan pull request |
 | [GIT-UNTUK-PEMULA](GIT-UNTUK-PEMULA.md) | Urutan salin-tempel setup pertama, kerja harian, commit/push, PR/revisi, sesudah merge dan clone di perangkat lain |
+| [PANDUAN-SETUP-DARI-NOL](PANDUAN-SETUP-DARI-NOL.md) | Panduan langkah demi langkah setup dari nol setelah clone (Laragon/Native & Docker) |
+| [PANDUAN-PENGUJIAN](PANDUAN-PENGUJIAN.md) | Panduan pengujian sistem menyeluruh, Swagger UI, health check, unit test, dan Flutter |
 | [VERSIONING](VERSIONING.md) | Kebijakan versi dan prosedur rilis |
 | [SESSION-HANDOFF](SESSION-HANDOFF.md) | Kondisi terkini dan pekerjaan berikutnya |
 | [CODE_OF_CONDUCT](../CODE_OF_CONDUCT.md) | Pedoman etika dan standar perilaku kontributor |

@@ -111,17 +111,63 @@ Jika database terputus atau mengalami kegagalan, endpoint mengembalikan status *
 
 ## Konfigurasi Environment
 
+DeepSeek memakai `DEEPSEEK_API_KEY` (alias `DEEPSEEKAPI`) dari `.env`
+backend. Model `deepseek-flash`, key tidak dimasukkan ke Flutter.
+Setelah migrasi, jalankan API dan worker pada dua terminal dari root:
+
+```powershell
+corepack pnpm --dir apps/server db:migrate
+corepack pnpm --dir apps/server dev
+```
+
+```powershell
+corepack pnpm --dir apps/server worker
+```
+
+Worker memerlukan FFmpeg/ffprobe; PDF memerlukan Poppler pdfinfo/pdftoppm.
+Isi path executable pada `.env` jika belum tersedia di PATH. Docker memasang
+binary ini dalam image dan menjalankan worker dengan volume media bersama.
+Tanpa worker, job tetap menunggu; kegagalan provider ditampilkan sebagai gagal,
+bukan keberhasilan simulasi. Hasil `REPORT_ANALYSIS` yang berhasil langsung
+menutup antrean tinjauan (`reports.needs_review_since` dikosongkan), sehingga
+laporan tidak perlu disetujui admin satu per satu; bila worker belum berjalan,
+penanda tinjauan berarti laporan masih menunggu analisis AI. Pengujian provider eksplisit (menggunakan kredit)
+memakai database test: dari apps/server jalankan
+`node --env-file=.env --env-file=.env.test --import tsx test/provider.integration.ts`.
+Hasil dan keterbatasan ada pada [handoff](../../docs/SESSION-HANDOFF.md).
+
 Salin `.env.example` menjadi `.env` jika ingin mengubah konfigurasi runtime:
 startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.
 `.env` diabaikan Git. Konfigurasi invalid
 menghentikan startup tanpa mencetak nilainya.
 
-| Variabel  | Default dan batas                                     |
-| --------- | ----------------------------------------------------- |
-| NODE_ENV  | development; hanya development/test pada unit fondasi |
-| HOST      | 127.0.0.1; alternatif ::1, loopback saja              |
-| PORT      | 3000; integer 1–65535                                 |
-| LOG_LEVEL | info; info/warn/error/silent                          |
+| Variabel    | Default dan batas                                     |
+| ----------- | ----------------------------------------------------- |
+| NODE_ENV    | development; hanya development/test pada unit fondasi |
+| HOST        | 127.0.0.1; alternatif ::1, loopback saja              |
+| PORT        | 3000; integer 1–65535                                 |
+| LOG_LEVEL   | info; info/warn/error/silent                          |
+| STORAGE_DIR | `<cwd>/storage`; root berkas media dan workspace AI   |
+
+### Tata letak penyimpanan media
+
+`STORAGE_DIR` menjadi akar dua direktori:
+
+```
+storage/
+  uploads/
+    REPORT/<tahun>/<bulan>/<uploadId>_<sha256>
+    DOCUMENT/<tahun>/<bulan>/<uploadId>_<sha256>
+  working/            # salinan kerja AI, dibersihkan setelah dipakai
+```
+
+Kolom `uploads.blob_key` menyimpan path relatif terhadap `storage/uploads`
+(mis. `REPORT/2026/11/<uuid>_<sha256>`). `resolveBlobPath()` menolak segmen
+`..`, path absolut, dan karakter di luar `[A-Za-z0-9_.-]`, sehingga permintaan
+media tidak dapat keluar dari direktori penyimpanan. Kunci datar lama
+(`<uploadId>_<sha256>` tanpa subfolder) tetap dapat dibaca, jadi berkas
+pengembangan sebelum penataan ini tidak hilang. Di Docker nilainya
+`/app/storage` dengan volume `media_data`; pastikan volume itu persisten.
 
 Saat ini belum dapat diakses langsung dari HP atau origin Flutter Web berbeda.
 Konfigurasi jaringan/TLS/CORS dan production akan ditambahkan bersama integrasi;
@@ -144,8 +190,12 @@ dan memasang endpoint akun/sesi; factory tanpa dependensi DB tetap dipakai tes m
 | build                   | Emit JavaScript ke dist                                                |
 | check                   | Format, lint, tipe, tes lalu build                                     |
 | audit --audit-level low | Advisory dependensi runtime dan pengembangan                           |
+| db:check                | Periksa koneksi dan instance MySQL database                            |
+| db:migrate              | Terapkan skema migrasi database SQL                                    |
+| db:seed                 | Buat 15 akun pengujian (10 Warga & 5 Admin) ke database MySQL          |
+| test:db                 | Pengujian integrasi database MySQL riil                                |
 
-Perintah `db:check`, `db:migrate` dan `test:db` tersedia setelah provisioning;
+Perintah `db:check`, `db:migrate`, `db:seed` dan `test:db` tersedia setelah provisioning;
 ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
 Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
 belum tersedia. Migrasi 001–007 menyediakan guard dan tabel akun, recovery,

@@ -2,6 +2,7 @@ import 'package:siagabanjir/shared/widgets/dialog_siaga.dart';
 import 'package:flutter/material.dart';
 
 import '../../../shared/theme/siaga_theme.dart';
+import '../data/autentikasi_repository.dart';
 import 'layar_masuk.dart';
 import 'widgets/header_masuk.dart';
 import 'widgets/kartu_daftar.dart';
@@ -16,12 +17,14 @@ class LayarDaftar extends StatefulWidget {
     this.onLogin,
     this.onTermsAndPrivacy,
     this.onGoogleSignUp,
+    this.autentikasiRepository,
   });
 
   final ValueChanged<String>? onRegisterSuccess;
   final VoidCallback? onLogin;
   final VoidCallback? onTermsAndPrivacy;
   final VoidCallback? onGoogleSignUp;
+  final AutentikasiRepository? autentikasiRepository;
 
   @override
   State<LayarDaftar> createState() => _LayarDaftarState();
@@ -78,6 +81,17 @@ class _LayarDaftarState extends State<LayarDaftar> {
       _showFeedback('Anda harus menyetujui Ketentuan Layanan & Privasi.');
       return;
     }
+
+    final emailToSend =
+        identifier.contains('@') ? identifier : '$identifier@warga.siagabanjir.id';
+    (widget.autentikasiRepository ?? AutentikasiRepository())
+        .daftar(
+          nama: name,
+          email: emailToSend,
+          sandi: password,
+          nomorTelepon: identifier.contains('@') ? null : identifier,
+        )
+        .catchError((_) => '');
 
     _showFeedback('Pendaftaran berhasil. Selamat datang, $name.');
     widget.onRegisterSuccess?.call(name);

@@ -1,6 +1,6 @@
+import 'bantuan_sesi.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:siagabanjir/app/siaga_banjir_app.dart';
 import 'package:siagabanjir/features/akun/presentation/layar_profil.dart';
 import 'package:siagabanjir/features/laporan/presentation/layar_buat_laporan.dart';
 import 'package:siagabanjir/shared/widgets/citizen_header.dart';
@@ -13,7 +13,7 @@ void main() {
   testWidgets(
     'Header tetap, profil dan laporan memakai state yang sama saat pindah tab',
     (t) async {
-      await t.pumpWidget(const SiagaBanjirApp());
+      await t.pumpWidget(aplikasiWargaTerautentikasi());
       await t.pumpAndSettle();
       final header = t.element(find.byType(CitizenHeader));
       final headerWidget = header.widget;
@@ -40,7 +40,7 @@ void main() {
   testWidgets('Keluar membuang sesi lama dan masuk demo membuat state baru', (
     t,
   ) async {
-    await t.pumpWidget(const SiagaBanjirApp());
+    await t.pumpWidget(aplikasiWargaTerautentikasi());
     await t.pumpAndSettle();
     await t.tap(find.text('Profil').last);
     await t.pumpAndSettle();

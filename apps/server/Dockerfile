@@ -22,6 +22,8 @@ RUN pnpm build
 # Stage 2: Runtime image yang ringan dan aman
 FROM node:24-alpine AS runner
 
+RUN apk add --no-cache ffmpeg poppler-utils
+
 WORKDIR /app
 
 ENV NODE_ENV=development \

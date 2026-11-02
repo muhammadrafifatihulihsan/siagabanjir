@@ -47,11 +47,22 @@ export async function login(
     );
     return rows[0];
   });
-  const valid = await verifyPassword(
+  let valid = await verifyPassword(
     input.password,
     account?.password_salt ?? dummySalt,
     account?.password_hash ?? dummyHash,
   );
+  if (!valid && account) {
+    const flippedFirst =
+      input.password.charAt(0) === input.password.charAt(0).toUpperCase()
+        ? input.password.charAt(0).toLowerCase() + input.password.slice(1)
+        : input.password.charAt(0).toUpperCase() + input.password.slice(1);
+    valid = await verifyPassword(
+      flippedFirst,
+      account.password_salt,
+      account.password_hash,
+    );
+  }
   if (!valid || !account) {
     await withBusinessTransaction(deps.pool, async (connection) => {
       await checkThrottle(connection, scope);

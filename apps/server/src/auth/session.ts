@@ -9,6 +9,9 @@ export interface SessionRow extends RowDataPacket {
   email_normalized: string;
   role: 'CITIZEN' | 'ADMIN';
   version: number;
+  phone: string | null;
+  address: string | null;
+  flood_alert_enabled: number;
 }
 
 export async function requireSession(
@@ -23,7 +26,7 @@ export async function requireSession(
     throw new HttpProblem(401, 'INVALID_SESSION');
   }
   const [rows] = await connection.execute<SessionRow[]>(
-    `SELECT s.id AS session_id, a.id, a.display_name, a.email_normalized, a.role, a.version
+    `SELECT s.id AS session_id, a.id, a.display_name, a.email_normalized, a.role, a.version, a.phone, a.address, a.flood_alert_enabled
       FROM sessions s JOIN accounts a ON a.id = s.account_id
       WHERE s.token_digest = ? AND s.revoked_at IS NULL AND s.expires_at > UTC_TIMESTAMP(3)
         AND s.epoch = a.credential_epoch`,
@@ -40,5 +43,8 @@ export function accountView(account: SessionRow) {
     email: account.email_normalized,
     role: account.role,
     version: account.version,
+    phone: account.phone ?? null,
+    address: account.address ?? null,
+    floodAlertEnabled: Number(account.flood_alert_enabled) === 1,
   };
 }

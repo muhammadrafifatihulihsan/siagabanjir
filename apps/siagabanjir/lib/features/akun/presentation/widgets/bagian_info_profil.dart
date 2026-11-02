@@ -37,12 +37,6 @@ class BagianInfoProfil extends StatelessWidget {
         child: Column(
           children: [
             _BarisInfo(
-              icon: Icons.credit_card_outlined,
-              label: 'NIK KTP',
-              value: profile.nik,
-            ),
-            const Divider(height: 1, color: Color(0xFFF1F5F9), indent: 64),
-            _BarisInfo(
               icon: Icons.mail_outline_rounded,
               label: 'Alamat Email',
               value: profile.email,
