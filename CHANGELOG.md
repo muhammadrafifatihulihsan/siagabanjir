@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan modul dan perintah database seeding (corepack pnpm --dir apps/server db:seed)
+  yang memfasilitasi pembuatan 15 akun pengujian (10 akun Warga dan 5 akun Petugas Admin
+  BPBD/Posko) langsung ke MySQL dengan derivasi scrypt aman dan verifier pemulihan
+  sesuai skema akun.
+
 - Terapkan kebijakan pembelajaran integrasi backend dan fidelitas UI pada
   skills/siagabanjir-flutter/SKILL.md dan rules/ui.md: melarang perusakan,
   penghapusan, atau penggantian komponen UI acuan/SVG dengan widget mentah demi

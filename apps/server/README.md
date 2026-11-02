@@ -166,8 +166,12 @@ dan memasang endpoint akun/sesi; factory tanpa dependensi DB tetap dipakai tes m
 | build                   | Emit JavaScript ke dist                                                |
 | check                   | Format, lint, tipe, tes lalu build                                     |
 | audit --audit-level low | Advisory dependensi runtime dan pengembangan                           |
+| db:check                | Periksa koneksi dan instance MySQL database                            |
+| db:migrate              | Terapkan skema migrasi database SQL                                    |
+| db:seed                 | Buat 15 akun pengujian (10 Warga & 5 Admin) ke database MySQL          |
+| test:db                 | Pengujian integrasi database MySQL riil                                |
 
-Perintah `db:check`, `db:migrate` dan `test:db` tersedia setelah provisioning;
+Perintah `db:check`, `db:migrate`, `db:seed` dan `test:db` tersedia setelah provisioning;
 ikuti [konfigurasi privat dan migrasi](MYSQL-SETUP.md#konfigurasi-backend).
 Tes MySQL sengaja terpisah dari `check`, bukan dianggap lulus saat credential
 belum tersedia. Migrasi 001–007 menyediakan guard dan tabel akun, recovery,

@@ -84,6 +84,35 @@ Buka terminal di root proyek SiagaBanjir, lalu jalankan:
 
    *Indikator Berhasil:* `Migrasi selesai: ... diterapkan.` (semua 32 tabel/tampilan berhasil dibuat).
 
+4. **Seeding Akun Pengujian (10 Warga & 5 Petugas Admin):**
+
+   ```bash
+   corepack pnpm --dir apps/server db:seed
+   ```
+
+   *Indikator Berhasil:* `Berhasil melakukan seeding seluruh 15 akun pengujian!`
+
+   **Daftar Akun Pengujian Siap Pakai (Kata Sandi: `Password123!`):**
+
+   | No | Peran | Nama Lengkap | Email / Identifier | Kata Sandi |
+   |---|---|---|---|---|
+   | 1 | `ADMIN` | Admin BPBD Utama | `admin.bpbd@padang.go.id` | `Password123!` |
+   | 2 | `ADMIN` | Petugas Posko Kuranji | `admin.kuranji@padang.go.id` | `Password123!` |
+   | 3 | `ADMIN` | Petugas Posko Koto Tangah | `admin.koto@padang.go.id` | `Password123!` |
+   | 4 | `ADMIN` | Petugas Posko Nanggalo | `admin.nanggalo@padang.go.id` | `Password123!` |
+   | 5 | `ADMIN` | Operator Pusdalops PB | `admin.pusdalops@padang.go.id` | `Password123!` |
+   | 6 | `CITIZEN` | Budi Santoso | `warga1@siagabanjir.id` | `Password123!` |
+   | 7 | `CITIZEN` | Siti Rahmawati | `warga2@siagabanjir.id` | `Password123!` |
+   | 8 | `CITIZEN` | Ahmad Fauzi | `warga3@siagabanjir.id` | `Password123!` |
+   | 9 | `CITIZEN` | Dewi Lestari | `warga4@siagabanjir.id` | `Password123!` |
+   | 10 | `CITIZEN` | Rizky Pratama | `warga5@siagabanjir.id` | `Password123!` |
+   | 11 | `CITIZEN` | Nurul Hidayah | `warga6@siagabanjir.id` | `Password123!` |
+   | 12 | `CITIZEN` | Hendra Wijaya | `warga7@siagabanjir.id` | `Password123!` |
+   | 13 | `CITIZEN` | Fitri Handayani | `warga8@siagabanjir.id` | `Password123!` |
+   | 14 | `CITIZEN` | Eko Prasetyo | `warga9@siagabanjir.id` | `Password123!` |
+   | 15 | `CITIZEN` | Rina Marlina | `warga10@siagabanjir.id` | `Password123!` |
+
+
 ---
 
 ## 4. Langkah 2: Menjalankan Server Backend
