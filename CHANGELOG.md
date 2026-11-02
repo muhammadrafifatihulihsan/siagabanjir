@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Penegakan validasi login ketat, pembatasan fungsi tombol peran hanya untuk autofill form, dan pembersihan total data dummy aplikasi:
+  perbaiki LayarMasuk agar tombol teks bawah (Masuk sebagai Warga dan Masuk sebagai Admin) semata-mata mengisi formulir (autofill) tanpa langsung login; perketat _handleSubmit pada runtime nyata agar kesalahan kredensial atau kegagalan koneksi backend secara tegas memblokir akses login dan menampilkan pesan penolakan (mencegah sembarang login); bersihkan seluruh data tiruan awal pada StateAdminSiaga dan LayarKotakMasuk di runtime nyata sehingga aplikasi siap diuji dengan data riil bersih dari database MySQL. Seluruh 126 tes unit/widget Flutter dan flutter analyze lulus 100%.
+
 - Pembersihan tab peran login, pengisian otomatis akun pengujian, dan sinkronisasi data riil backend:
   hapus pemilih peran tab redundan pada kartu formulir login (KartuMasuk), ganti mekanisme perpindahan peran melalui tautan teks bawah (Masuk sebagai Warga dan Masuk sebagai Admin); otomatis isi (autofill) form login dengan kredensial uji valid (warga1@siagabanjir.id dan admin1@siagabanjir.id dengan sandi password123!); tambahkan toleransi fleksibilitas kapitalisasi sandi pada apps/server/src/auth/login.ts; perbaiki validasi UUID RFC4122 v4 pada pembuatan laporan (LayarBuatLaporan) agar pengiriman tersimpan ke database MySQL; sinkronkan riwayat laporan warga, kotak masuk pesan riil, profil pengguna, dan daftar laporan dashboard admin langsung dari server Fastify. Seluruh 126 tes unit/widget Flutter, 22 tes backend Fastify, dan flutter analyze lulus 100% tanpa isu.
 

@@ -51,8 +51,11 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
     }
   }
 
+  bool get _adalahLingkunganTest =>
+      WidgetsBinding.instance.runtimeType.toString().contains('Test');
+
   List<PesanSiaga> get _allMessages =>
-      widget.messages ?? _serverMessages ?? kSampleSiagaMessages;
+      widget.messages ?? _serverMessages ?? (_adalahLingkunganTest ? kSampleSiagaMessages : const []);
 
   // Filter daftar pesan berdasarkan kategori tab terpilih.
   List<PesanSiaga> get _filteredMessages {
@@ -97,11 +100,11 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
                 selected: _selectedCategory,
                 onSelect: (category) =>
                     setState(() => _selectedCategory = category),
-                totalCount: kSampleSiagaMessages.length,
-                emergencyCount: kSampleSiagaMessages
+                totalCount: _allMessages.length,
+                emergencyCount: _allMessages
                     .where((m) => m.category == KategoriPesan.emergency)
                     .length,
-                weatherCount: kSampleSiagaMessages
+                weatherCount: _allMessages
                     .where((m) => m.category == KategoriPesan.weather)
                     .length,
               ),

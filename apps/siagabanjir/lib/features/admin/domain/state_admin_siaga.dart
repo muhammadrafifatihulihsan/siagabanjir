@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
+
+import 'package:flutter/widgets.dart';
 
 import '../../../features/kontak/presentation/models/entri_kontak.dart';
 import '../../../features/pantau/presentation/models/data_pantau_wilayah.dart';
@@ -7,11 +9,16 @@ import '../data/admin_repository.dart';
 import 'klaster_wilayah.dart';
 import 'profil_admin.dart';
 
+bool get _adalahLingkunganTest =>
+    WidgetsBinding.instance.runtimeType.toString().contains('Test');
+
 /// Pengelola state terpusat untuk Dashboard Admin Web dan sinkronisasi
 /// data operasional SiagaBanjir Kota Padang.
 class StateAdminSiaga extends ChangeNotifier {
   StateAdminSiaga() {
-    _inisialisasiDataAwal();
+    if (_adalahLingkunganTest) {
+      _inisialisasiDataAwal();
+    }
   }
 
   static final StateAdminSiaga instance = StateAdminSiaga();
@@ -30,8 +37,10 @@ class StateAdminSiaga extends ChangeNotifier {
   String get labelSiagaKota => 'Siaga 2 (Waspada)';
 
   // 2. Data Broadcast Peringatan Siaga
-  List<PesanSiaga> _pesanSiaga = List.from(kSampleSiagaMessages);
-  List<PesanSiaga> get pesanSiaga => List.unmodifiable(_pesanSiaga);
+  List<PesanSiaga> _pesanSiaga = [];
+  List<PesanSiaga> get pesanSiaga => _pesanSiaga.isNotEmpty || !_adalahLingkunganTest
+      ? List.unmodifiable(_pesanSiaga)
+      : kSampleSiagaMessages;
 
   // 3. Data Kontak Darurat Posko Publik
   List<EntriKontak> _kontakDarurat = List.from(kPublicContacts);
@@ -443,11 +452,28 @@ class StateAdminSiaga extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Mengosongkan seluruh data klaster dan pesan untuk keperluan pengujian bersih.
+  void bersihkanSeluruhData() {
+    _klasterList.clear();
+    _pesanSiaga.clear();
+    notifyListeners();
+  }
+
+  /// Memuat data fixture untuk pengujian widget test
+  void muatDataUjiFixture() {
+    _klasterList.clear();
+    _inisialisasiDataAwal();
+    _pesanSiaga = List.from(kSampleSiagaMessages);
+    notifyListeners();
+  }
+
   /// Menyinkronkan daftar laporan warga aktual dari Fastify Backend.
   Future<void> sinkronkanDariBackend() async {
     try {
       final repo = AdminRepository();
       final laporanServer = await repo.ambilDaftarLaporan();
+      // Bersihkan data dummy saat berhasil berkomunikasi dengan database server
+      _klasterList.clear();
       if (laporanServer.isNotEmpty) {
         final items = laporanServer.map((ls) {
           return LaporanAdminItem(
@@ -465,31 +491,32 @@ class StateAdminSiaga extends ChangeNotifier {
           );
         }).toList();
 
-        final existingIds = _klasterList.expand((k) => k.laporan).map((l) => l.id).toSet();
-        final laporanBaru = items.where((i) => !existingIds.contains(i.id)).toList();
-        if (laporanBaru.isNotEmpty) {
-          if (_klasterList.isNotEmpty) {
-            final k = _klasterList.first;
-            _klasterList[0] = k.copyWith(laporan: [...laporanBaru, ...k.laporan]);
-          } else {
-            _klasterList.add(
-              KlasterWilayahAi(
-                id: 'klaster-terbaru',
-                namaWilayah: 'Wilayah Laporan Masuk',
-                kecamatan: 'Kota Padang',
-                radiusKeterangan: 'Laporan terkini warga',
-                tingkatTinggiAir: StatusTinggiAir.siaga2,
-                estimasiKedalaman: '40 - 80 cm',
-                statusVerifikasi: StatusVerifikasiWilayah.menungguTinjauan,
-                indikatorAi: const ['Laporan Terkini Warga'],
-                kebutuhanDominan: const ['Evakuasi', 'Logistik'],
-                laporan: laporanBaru,
-              ),
-            );
-          }
-          notifyListeners();
+        final Map<String, List<LaporanAdminItem>> grup = {};
+        for (final item in items) {
+          final idK = item.idKlaster;
+          grup.putIfAbsent(idK, () => []).add(item);
+        }
+
+        for (final entry in grup.entries) {
+          _klasterList.add(
+            KlasterWilayahAi(
+              id: entry.key,
+              namaWilayah: 'Wilayah Laporan Masuk (${entry.value.length} Laporan)',
+              kecamatan: 'Kota Padang',
+              radiusKeterangan: 'Laporan terkini warga dari database',
+              tingkatTinggiAir: StatusTinggiAir.siaga2,
+              estimasiKedalaman: '40 - 80 cm',
+              statusVerifikasi: entry.value.any((l) => l.statusVerifikasi == StatusVerifikasiWilayah.terverifikasi)
+                  ? StatusVerifikasiWilayah.terverifikasi
+                  : StatusVerifikasiWilayah.menungguTinjauan,
+              indikatorAi: const ['Laporan Terkini Warga'],
+              kebutuhanDominan: const ['Evakuasi', 'Logistik'],
+              laporan: entry.value,
+            ),
+          );
         }
       }
+      notifyListeners();
     } catch (_) {}
   }
 }

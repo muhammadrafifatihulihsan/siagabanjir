@@ -157,14 +157,14 @@ void main() {
       await tester.pumpAndSettle();
       expect(registerTapped, isTrue);
 
-      // 9. Test Direct Access transparent buttons
+      // 9. Test autofill buttons
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
 
       await tester.ensureVisible(find.text('Masuk sebagai Warga'));
       await tester.tap(find.text('Masuk sebagai Warga'));
       await tester.pump();
-      expect(find.text('Masuk sebagai Warga.'), findsOneWidget);
+      expect(find.text('Formulir terisi: warga1@siagabanjir.id (Warga).'), findsOneWidget);
 
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
@@ -172,7 +172,7 @@ void main() {
       await tester.ensureVisible(find.text('Masuk sebagai Admin'));
       await tester.tap(find.text('Masuk sebagai Admin'));
       await tester.pump();
-      expect(find.text('Masuk sebagai Petugas Admin.'), findsOneWidget);
+      expect(find.text('Formulir terisi: admin1@siagabanjir.id (Petugas Admin).'), findsOneWidget);
       ScaffoldMessenger.of(tester.element(find.byType(LayarMasuk))).clearSnackBars();
       await tester.pumpAndSettle();
     },

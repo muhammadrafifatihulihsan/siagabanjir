@@ -305,9 +305,13 @@ void main() {
       expect(find.text('Masuk ke SiagaBanjir'), findsOneWidget);
       expect(find.text('Masuk sebagai Admin'), findsOneWidget);
 
-      // 2. Masuk sebagai Admin melalui tombol tautan teks bawah
+      // 2. Isi otomatis akun Admin melalui tombol tautan teks bawah
       await tester.ensureVisible(find.text('Masuk sebagai Admin'));
       await tester.tap(find.text('Masuk sebagai Admin'));
+      await tester.pumpAndSettle();
+
+      // 3. Tekan tombol submit login Masuk ke Dashboard Admin
+      await tester.tap(find.text('Masuk ke Dashboard Admin'));
       await tester.pumpAndSettle();
 
       expect(loggedRole, PeranPengguna.admin);
@@ -380,10 +384,13 @@ void main() {
       expect(find.text('Masuk ke Akun'), findsOneWidget);
       expect(find.text('Masuk sebagai Admin'), findsOneWidget);
 
-      // 2. Click Masuk sebagai Admin -> goes to KerangkaAdminWeb
+      // 2. Click Masuk sebagai Admin to autofill -> then submit to go to KerangkaAdminWeb
       await tester.ensureVisible(find.text('Masuk sebagai Admin'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Masuk sebagai Admin'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Masuk ke Dashboard Admin'));
       await tester.pumpAndSettle();
 
       expect(find.text('Portal Admin'), findsOneWidget);
