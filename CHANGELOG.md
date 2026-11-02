@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Seragamkan seluruh struktur berkas konfigurasi lingkungan (.env.example, .env, .env.migrate,
+  dan .env.test) agar memiliki urutan dan kunci variabel yang identik; perbarui perintah
+  db:migrate agar otomatis membaca .env secara langsung tanpa mewajibkan file .env.migrate
+  terpisah untuk kemudahan pengembang pemula.
+
 - Tambahkan panduan komprehensif setup dari nol setelah clone (docs/PANDUAN-SETUP-DARI-NOL.md)
   yang memandu instalasi dependensi, persiapan MySQL Laragon, konfigurasi .env privat,
   migrasi skema, seeding 15 akun pengujian, eksekusi backend Fastify, pengujian Flutter

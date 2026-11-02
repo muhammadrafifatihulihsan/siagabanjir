@@ -94,54 +94,55 @@ FLUSH PRIVILEGES;
 
 Karena berkas `.env` privat tidak di-push ke GitHub demi standar keamanan informasi, buatlah 3 berkas berikut di dalam direktori `apps/server/`:
 
-#### A. Berkas `apps/server/.env` (Konfigurasi Runtime Server Harian)
-Salin dari `apps/server/.env.example` atau buat berkas baru bernama `.env`:
+#### A. Berkas `apps/server/.env` (Konfigurasi Terpadu Server & Migrasi Dev)
+Cukup salin dari `apps/server/.env.example` ke `apps/server/.env`:
 
 ```env
+# 1. Konfigurasi Lingkungan Server
 NODE_ENV=development
 HOST=127.0.0.1
 PORT=3000
 LOG_LEVEL=info
 
-# Kredensial MySQL Runtime
+# 2. Basis Data Runtime (DML - Digunakan oleh server & signup)
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_NAME=siagabanjirdev
 DB_USER=sb_dev_app
 DB_PASSWORD=sb_dev_app
 
-# Kunci Kriptografi HMAC (Wajib 64 Karakter Hex Unik)
+# 3. Basis Data Migrasi Skema (DDL - Digunakan oleh db:migrate)
+MIGRATION_DB_HOST=127.0.0.1
+MIGRATION_DB_PORT=3306
+MIGRATION_DB_USER=sb_dev_migrate
+MIGRATION_DB_PASSWORD=sb_dev_migrate
+
+# 4. Kunci Kriptografi Keamanan (Wajib 64 Karakter Hex Unik)
 RECOVERY_HMAC_KEY=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 JOURNAL_HMAC_KEY=abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789
 CURSOR_HMAC_KEY=456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123
 ```
 
 > [!TIP]
-> Jika ingin menghasilkan 64-karakter Hex acak baru, jalankan perintah ini di terminal:
-> `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+> Berkas `.env` di atas telah disatukan strukturnya memuat kredensial aplikasi (`DB_*`) dan migrasi (`MIGRATION_DB_*`). Perintah `db:migrate` otomatis membaca konfigurasi dari berkas `.env` ini secara langsung, sehingga Anda **cukup menyalin satu berkas `.env` saja** untuk kebutuhan pengembangan dan pengujian lokal!
 
-#### B. Berkas `apps/server/.env.migrate` (Konfigurasi Migrator Skema)
-Buat berkas bernama `.env.migrate` di `apps/server/`:
-
-```env
-NODE_ENV=development
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_NAME=siagabanjirdev
-MIGRATION_DB_USER=sb_dev_migrate
-MIGRATION_DB_PASSWORD=sb_dev_migrate
-```
-
-#### C. Berkas `apps/server/.env.test` (Konfigurasi Testing Otomatis)
-Buat berkas bernama `.env.test` di `apps/server/`:
+#### B. Berkas `apps/server/.env.test` (Opsional - Khusus Pengujian Otomatis `test:db`)
+Jika ingin menjalankan tes integrasi otomatis (`corepack pnpm --dir apps/server test:db`), buat berkas `.env.test` dengan struktur yang sama persis:
 
 ```env
 NODE_ENV=test
+HOST=127.0.0.1
+PORT=3000
+LOG_LEVEL=silent
+
 DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_NAME=siagabanjirtest
 DB_USER=sb_test_app
 DB_PASSWORD=sb_test_app
+
+MIGRATION_DB_HOST=127.0.0.1
+MIGRATION_DB_PORT=3306
 MIGRATION_DB_USER=sb_test_migrate
 MIGRATION_DB_PASSWORD=sb_test_migrate
 

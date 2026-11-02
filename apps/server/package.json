@@ -18,7 +18,7 @@
     "format:check": "prettier --check .",
     "test": "node --import tsx --test test/*.test.ts",
     "db:check": "node --env-file=.env --import tsx src/db/cli.ts check",
-    "db:migrate": "node --env-file=.env.migrate --import tsx src/db/cli.ts migrate",
+    "db:migrate": "node --env-file-if-exists=.env.migrate --env-file-if-exists=.env --import tsx src/db/cli.ts migrate",
     "db:seed": "node --env-file=.env --import tsx src/db/seed.ts",
     "test:db": "node --env-file=.env.test --import tsx --test test/database.integration.ts",
     "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
