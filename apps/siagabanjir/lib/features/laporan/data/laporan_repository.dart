@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import '../../../core/jaringan/endpoint_api.dart';
 import '../../../core/jaringan/klien_api.dart';
+import '../domain/entri_riwayat_laporan.dart';
 
 /// Status kelayakan dan kuota pelaporan warga dari server.
 class StatusKuotaLaporan {
@@ -71,6 +72,16 @@ class ItemRiwayatLaporanServer {
           DateTime.tryParse(json['acceptedAt'] as String? ?? json['createdAt'] as String? ?? '') ??
           DateTime.now(),
       mediaId: json['mediaId'] as String?,
+    );
+  }
+
+  EntriRiwayatLaporan toEntri() {
+    return EntriRiwayatLaporan(
+      waktu: waktuBuat,
+      kategori: kategori,
+      deskripsi: deskripsi,
+      kebutuhan: const [],
+      foto: null,
     );
   }
 }

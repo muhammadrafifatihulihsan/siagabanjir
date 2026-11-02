@@ -42,7 +42,7 @@ class _LayarKotakMasukState extends State<LayarKotakMasuk> {
     if (widget.messages == null) {
       final repo = widget.pesanRepository ?? PesanRepository();
       repo.ambilKotakMasuk().then((items) {
-        if (mounted && items.isNotEmpty) {
+        if (mounted) {
           setState(() {
             _serverMessages = items.map((e) => e.toPesanSiaga()).toList();
           });

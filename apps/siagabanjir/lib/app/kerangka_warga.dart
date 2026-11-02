@@ -2,6 +2,7 @@ import '../core/sesi/pengelola_sesi.dart';
 import '../features/admin/domain/state_admin_siaga.dart';
 import '../features/admin/presentation/kerangka_admin_web.dart';
 import '../features/autentikasi/domain/peran_pengguna.dart';
+import '../features/laporan/data/laporan_repository.dart';
 import '../features/laporan/domain/entri_riwayat_laporan.dart';
 import '../features/dokumen/presentation/layar_dokumen_siaga.dart';
 import '../features/kontak/domain/kontak_darurat.dart';
@@ -51,7 +52,17 @@ class _KerangkaWargaState extends State<KerangkaWarga> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _pulihkanKamera());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _pulihkanKamera();
+      _muatRiwayatDariBackend();
+    });
+  }
+
+  void _muatRiwayatDariBackend() {
+    LaporanRepository().ambilRiwayatLaporan().then((items) {
+      if (!mounted || items.isEmpty) return;
+      _riwayat.value = items.map((e) => e.toEntri()).toList();
+    }).catchError((_) {});
   }
 
   Future<void> _pulihkanKamera() async {

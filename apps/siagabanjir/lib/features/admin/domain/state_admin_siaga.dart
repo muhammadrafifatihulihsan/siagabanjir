@@ -442,4 +442,54 @@ class StateAdminSiaga extends ChangeNotifier {
     _profilAdmin = profilBaru;
     notifyListeners();
   }
+
+  /// Menyinkronkan daftar laporan warga aktual dari Fastify Backend.
+  Future<void> sinkronkanDariBackend() async {
+    try {
+      final repo = AdminRepository();
+      final laporanServer = await repo.ambilDaftarLaporan();
+      if (laporanServer.isNotEmpty) {
+        final items = laporanServer.map((ls) {
+          return LaporanAdminItem(
+            id: ls.id,
+            namaPelapor: ls.namaPelapor,
+            waktu: ls.waktu,
+            namaWilayah: 'Kota Padang',
+            kategori: ls.kategori,
+            deskripsi: ls.deskripsi,
+            kebutuhan: const [],
+            idKlaster: ls.idKlaster ?? 'klaster-terbaru',
+            statusVerifikasi: ls.status == 'APPROVED'
+                ? StatusVerifikasiWilayah.terverifikasi
+                : StatusVerifikasiWilayah.menungguTinjauan,
+          );
+        }).toList();
+
+        final existingIds = _klasterList.expand((k) => k.laporan).map((l) => l.id).toSet();
+        final laporanBaru = items.where((i) => !existingIds.contains(i.id)).toList();
+        if (laporanBaru.isNotEmpty) {
+          if (_klasterList.isNotEmpty) {
+            final k = _klasterList.first;
+            _klasterList[0] = k.copyWith(laporan: [...laporanBaru, ...k.laporan]);
+          } else {
+            _klasterList.add(
+              KlasterWilayahAi(
+                id: 'klaster-terbaru',
+                namaWilayah: 'Wilayah Laporan Masuk',
+                kecamatan: 'Kota Padang',
+                radiusKeterangan: 'Laporan terkini warga',
+                tingkatTinggiAir: StatusTinggiAir.siaga2,
+                estimasiKedalaman: '40 - 80 cm',
+                statusVerifikasi: StatusVerifikasiWilayah.menungguTinjauan,
+                indikatorAi: const ['Laporan Terkini Warga'],
+                kebutuhanDominan: const ['Evakuasi', 'Logistik'],
+                laporan: laporanBaru,
+              ),
+            );
+          }
+          notifyListeners();
+        }
+      }
+    } catch (_) {}
+  }
 }

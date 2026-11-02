@@ -26,6 +26,7 @@ void main() {
     Size size = const Size(390, 844),
     double scale = 1,
     double bottomInset = 0,
+    bool autofill = false,
     ValueChanged<String>? onLoginSuccess,
     VoidCallback? onRegister,
     VoidCallback? onForgotPassword,
@@ -44,6 +45,7 @@ void main() {
       MaterialApp(
         theme: SiagaTheme.light,
         home: LayarMasuk(
+          autofill: autofill,
           onLoginSuccess: onLoginSuccess,
           onRegister: onRegister,
           onForgotPassword: onForgotPassword,

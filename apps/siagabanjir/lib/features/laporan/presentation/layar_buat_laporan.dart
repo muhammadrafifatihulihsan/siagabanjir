@@ -1,3 +1,4 @@
+import '../../../core/jaringan/identitas_aksi.dart';
 import '../data/laporan_repository.dart';
 import '../domain/entri_riwayat_laporan.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
@@ -124,12 +125,13 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
 
     // Hubungkan pengiriman laporan ke backend jika tersedia
     final laporanRepo = widget.laporanRepository ?? LaporanRepository();
-    final submissionId = 'SUB-${DateTime.now().millisecondsSinceEpoch}';
+    final submissionId = identitasAksi();
     try {
       String? mediaId;
       if (_foto != null) {
+        final uploadId = identitasAksi();
         mediaId = await laporanRepo.unggahFotoBukti(
-          uploadId: submissionId,
+          uploadId: uploadId,
           bytes: _foto!.bytes,
         );
       }
@@ -140,8 +142,9 @@ class _LayarBuatLaporanState extends State<LayarBuatLaporan> {
         kebutuhan: List.unmodifiable(_needs),
         mediaId: mediaId,
       );
-    } catch (_) {
-      // Fallback anggun untuk mode pratinjau / offline demo
+    } catch (e) {
+      // Catat kegagalan jika offline, namun tetap pertahankan data untuk antrean lokal
+      debugPrint('Pengiriman laporan ke server: $e');
     }
 
     if (!mounted) return;

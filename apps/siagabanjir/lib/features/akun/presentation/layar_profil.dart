@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/perangkat/layanan_foto.dart';
+import '../../../core/sesi/pengelola_sesi.dart';
 import '../../../shared/widgets/dialog_siaga.dart';
 import 'widgets/formulir_profil.dart';
 import '../../../shared/widgets/lingkup_navigasi.dart';
@@ -77,7 +78,24 @@ class _LayarProfilState extends State<LayarProfil> {
   void initState() {
     super.initState();
     _floodAlertEnabled = widget.initialProfile.floodAlertEnabled;
-    _profil = widget.initialProfile;
+    final sesiUser = PengelolaSesi.instance.pengguna;
+    if (sesiUser != null) {
+      final nama = sesiUser.nama;
+      final parts = nama.split(' ');
+      final inisial = parts.map((e) => e.isNotEmpty ? e[0] : '').take(2).join().toUpperCase();
+      _profil = ProfilPengguna(
+        name: nama,
+        email: sesiUser.email,
+        phone: sesiUser.nomorTelepon ?? '081234567890',
+        location: 'Kota Padang',
+        initials: inisial.isNotEmpty ? inisial : 'WS',
+        nik: '137107*********01',
+        address: 'Kota Padang',
+        floodAlertEnabled: true,
+      );
+    } else {
+      _profil = widget.initialProfile;
+    }
     // Muat data profil terbaru dari backend
     final repo = widget.akunRepository ?? AkunRepository();
     repo.ambilProfil().then((p) {

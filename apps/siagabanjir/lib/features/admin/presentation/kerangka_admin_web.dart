@@ -36,6 +36,7 @@ class _KerangkaAdminWebState extends State<KerangkaAdminWeb> {
   void initState() {
     super.initState();
     _state.addListener(_onStateChanged);
+    _state.sinkronkanDariBackend();
   }
 
   @override
