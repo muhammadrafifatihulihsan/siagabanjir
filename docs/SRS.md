@@ -1020,7 +1020,7 @@ Schema lengkap dan required/optional field berada pada `openapi.json`. Semua ope
 | Operasi | Method/path | Input → output | Izin / versi |
 |---|---|---|---|
 | <a id="srs-api-getmeta"></a>getMeta | `GET /meta` | tanpa body → Meta; HTTP 200 | PUBLIC; aturan sumber/aksi |
-| <a id="srs-api-listmonitor"></a>listMonitor | `GET /public/monitor` | tanpa body → MonitorItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi |
+| <a id="srs-api-listmonitor"></a>listMonitor | `GET /public/monitor` | tanpa body → MonitorItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi. Tiap item memuat `id`, `level`, `reportCount`, `summary` agregasi deterministik, `aiSummary` opsional, dan centroid klaster (rata-rata lat/lon laporan aktif); tidak memuat deskripsi, identitas pelapor, atau titik laporan individual |
 | <a id="srs-api-getcontentmanifest"></a>getContentManifest | `GET /public/content/manifest` | tanpa body → ContentManifest; HTTP 200 | PUBLIC; aturan sumber/aksi |
 | <a id="srs-api-getcontentpart"></a>getContentPart | `GET /public/content/{revision}/{kind}` | tanpa body → ContentItemPage; HTTP 200 | PUBLIC; aturan sumber/aksi |
 | <a id="srs-api-signup"></a>signup | `POST /auth/signup` | Signup → SignupResult; HTTP 201 | PUBLIC; aturan sumber/aksi |
@@ -1119,11 +1119,14 @@ PDF diprobe jumlah halaman/password dan dirender via Poppler ke halaman gambar, 
 
 | Tujuan / prompt versi | Keluaran provider yang diwajibkan | Validasi/hasil minimum |
 |---|---|---|
-| report-v1 | relevance MATCH/MISMATCH/INSUFFICIENT, sufficientInformation boolean, supportedIndicators[], explanation≤1000 | Indikator LOCAL_INUNDATION, BUILDING_WATER, ACCESS_DISRUPTED, TRAPPED, HELP_REQUIRED, EVACUATION_REQUIRED. Layanan menurunkan level dari indikator tertinggi jika MATCH+cukup; tanpa indikator cukup → UNRATED. Tidak meminta angka confidence/depth |
+| report-v2 | relevance MATCH/MISMATCH/INSUFFICIENT, sufficientInformation boolean, supportedIndicators[], descriptionMismatch boolean, explanation≤1000 | Indikator LOCAL_INUNDATION, BUILDING_WATER, ACCESS_DISRUPTED, TRAPPED, HELP_REQUIRED, EVACUATION_REQUIRED. Layanan menurunkan level dari indikator tertinggi jika MATCH+cukup; tanpa indikator cukup → UNRATED. Deskripsi warga dikirim sebagai bagian data pada user message, bukan instruksi sistem; `descriptionMismatch=true` hanya bila deskripsi bertentangan dengan bukti gambar. Menggantikan report-v1 yang tidak memuat penanda ini |
+| cluster-v1 | summary≤1000 | Input berupa teks hasil analisis klaster (tanpa gambar), bukan laporan individual. Narasi bersifat best-effort: kegagalan atau tak tersedianya provider tidak membatalkan `groups.summary` deterministik dan tidak menahan laporan |
 | ktp-v1 | documentType KTP/OTHER/UNKNOWN, nameReadable boolean, extractedName nullable≤120, explanation≤1000 | KTP+nameReadable+nama nonkosong baru layak konfirmasi. Hasil bukan verifikasi NIK/keaslian; data hanya owner |
 | family-v1 | members[] maksimum 20 per dokumen, name nullable≤80, ageGroup enum, page 1–10; incomplete boolean | UNKNOWN jika tidak cukup, tidak mengeluarkan specialNeeds/DOB/NIK. Keluaran melebihi batas gagal validasi dan menyediakan jalur isi manual; tidak memotong otomatis; incomplete terlihat dan manual tersedia |
 
 Parser harus menolak field unknown yang mengubah makna, tipe/enum invalid, kontradiksi dan hasil terpotong; tidak merender HTML/Markdown aktif dari model. Retain hanya normalized allowlist, prompt/model version, latensi dan usage numerik. Raw response/temporary DOB tidak masuk DB/log. `max_tokens` pilihan awal 2048 laporan/KTP dan 4096 keluarga; jika finish reason menunjukkan terpotong, gagal validasi tanpa apply. Kapabilitas JSON+image harus diuji pada model aktual. Kegagalan akses provider terlihat sebagai gagal; fixture diberi label dan tidak dianggap AI nyata.
+
+Kesimpulan klaster dihitung sinkron oleh layanan, bukan oleh model: `groups.summary` memuat jumlah laporan aktif, jumlah sesuai bukti, jumlah deskripsi tidak sesuai, jumlah belum cukup bukti, rata-rata tingkat, dan status klaster; centroid `groups.latitude/longitude` adalah rata-rata titik laporan aktif (NULL bila belum ada). Narasi `groups.ai_summary` dari job `CLUSTER_SUMMARY` hanya pelengkap: klien wajib tetap menampilkan ringkasan deterministik bila AI belum tersedia, dan tidak ada ringkasan yang menahan penerimaan laporan.
 
 ### 5.4 Kontrak adapter klien dan perangkat
 

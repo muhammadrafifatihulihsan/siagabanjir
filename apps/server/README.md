@@ -138,12 +138,33 @@ startup server kini memerlukan DB runtime dan tiga key keamanan yang valid.
 `.env` diabaikan Git. Konfigurasi invalid
 menghentikan startup tanpa mencetak nilainya.
 
-| Variabel  | Default dan batas                                     |
-| --------- | ----------------------------------------------------- |
-| NODE_ENV  | development; hanya development/test pada unit fondasi |
-| HOST      | 127.0.0.1; alternatif ::1, loopback saja              |
-| PORT      | 3000; integer 1–65535                                 |
-| LOG_LEVEL | info; info/warn/error/silent                          |
+| Variabel    | Default dan batas                                     |
+| ----------- | ----------------------------------------------------- |
+| NODE_ENV    | development; hanya development/test pada unit fondasi |
+| HOST        | 127.0.0.1; alternatif ::1, loopback saja              |
+| PORT        | 3000; integer 1–65535                                 |
+| LOG_LEVEL   | info; info/warn/error/silent                          |
+| STORAGE_DIR | `<cwd>/storage`; root berkas media dan workspace AI   |
+
+### Tata letak penyimpanan media
+
+`STORAGE_DIR` menjadi akar dua direktori:
+
+```
+storage/
+  uploads/
+    REPORT/<tahun>/<bulan>/<uploadId>_<sha256>
+    DOCUMENT/<tahun>/<bulan>/<uploadId>_<sha256>
+  working/            # salinan kerja AI, dibersihkan setelah dipakai
+```
+
+Kolom `uploads.blob_key` menyimpan path relatif terhadap `storage/uploads`
+(mis. `REPORT/2026/11/<uuid>_<sha256>`). `resolveBlobPath()` menolak segmen
+`..`, path absolut, dan karakter di luar `[A-Za-z0-9_.-]`, sehingga permintaan
+media tidak dapat keluar dari direktori penyimpanan. Kunci datar lama
+(`<uploadId>_<sha256>` tanpa subfolder) tetap dapat dibaca, jadi berkas
+pengembangan sebelum penataan ini tidak hilang. Di Docker nilainya
+`/app/storage` dengan volume `media_data`; pastikan volume itu persisten.
 
 Saat ini belum dapat diakses langsung dari HP atau origin Flutter Web berbeda.
 Konfigurasi jaringan/TLS/CORS dan production akan ditambahkan bersama integrasi;

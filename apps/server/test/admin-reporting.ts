@@ -84,11 +84,12 @@ export async function verifyAdminReporting(
 
   // Setup data test
   await withBusinessTransaction(pool, async (connection) => {
-    // 3. Group awal
+    // 3. Group awal. Kode unik per jalannya tes agar tidak bentrok bila
+    //    eksekusi sebelumnya gagal dan menyisakan data.
     await connection.execute(
       `INSERT INTO \`groups\` (id, code, state, location_label, level, created_at, updated_at, version)
-        VALUES (?, 'GRP-ADMIN-TEST-1', 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
-      [groupId1],
+        VALUES (?, ?, 'ACTIVE', 'Kecamatan Kuranji', 'LOW', UTC_TIMESTAMP(3), UTC_TIMESTAMP(3), 1)`,
+      [groupId1, `GRP-ADMIN-${groupId1.slice(0, 8)}`],
     );
 
     // 4. Upload awal
@@ -426,6 +427,11 @@ export async function verifyAdminReporting(
         'DELETE FROM recovery_verifiers WHERE account_id = ?',
         [citizenId],
       );
+      // Job CLUSTER_SUMMARY dimiliki pelapor, jadi harus dibersihkan sebelum akun.
+      await connection.execute('DELETE FROM jobs WHERE owner_id IN (?, ?)', [
+        adminId,
+        citizenId,
+      ]);
       await connection.execute('DELETE FROM accounts WHERE id IN (?, ?)', [
         adminId,
         citizenId,

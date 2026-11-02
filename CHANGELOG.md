@@ -7,6 +7,24 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tinjauan AI deskripsi, kesimpulan klaster wilayah, GPS riil, dan penataan penyimpanan:
+  tambah migrasi `035_group_summary.sql` (ringkasan/centroid klaster), `036_assessment_mismatch.sql`,
+  dan `037_cluster_summary_job.sql`; ubah prompt laporan menjadi `report-v2` dengan `descriptionMismatch`
+  dan kirim deskripsi warga sebagai data pada user message; tambah job `cluster-v1` (`CLUSTER_SUMMARY`)
+  yang menulis `groups.ai_summary` secara best-effort sementara `groups.summary` serta centroid dihitung
+  sinkron oleh `refreshGroup`; perkaya `GET /api/v1/public/monitor` dengan `id`, `reportCount`, `summary`,
+  `aiSummary`, `latitude`, dan `longitude` klaster; tambahkan `point` pada `ReportSummary` admin/warga serta
+  `descriptionMismatch` pada `Assessment`. Flutter memakai `geolocator` (izin bertahap, tolak kirim tanpa
+  titik GPS) dan `url_launcher` untuk Google Maps, menampilkan Pantau Wilayah sebagai umpan peringatan dengan
+  polling 20 detik dan pull-to-refresh pada pantau/kotak masuk/kartu status beranda. Penyimpanan media ditata
+  `storage/uploads/REPORT|DOCUMENT/<tahun>/<bulan>/` dengan `resolveBlobPath` berpenjaga traversal dan
+  kompatibilitas kunci datar lama. OpenAPI, contoh kontrak, SRS, keputusan (WS-DEC-073), dan handoff diperbarui.
+  Bukti lokal: 23 tes unit server, `pnpm test:db` (MySQL nyata, termasuk `vault`, `submissions`,
+  `reporting`, `admin-reporting`, `messages`, `cms`, `profile`) PASS, 135 tes Flutter,
+  `flutter analyze` bersih, `flutter build web` PASS, validator kontrak PASS (165 skema, 56 contoh);
+  migrasi 035–037 diterapkan ke `siagabanjirdev` (37 migrasi). Provider AI nyata, UAT perangkat,
+  sinkronisasi kontak Pusat Aksi ke CMS, dan push/deploy tetap NOT_RUN.
+
 - Penyelarasan kontrak backend ↔ Flutter untuk siaran admin, kotak masuk warga, dan pelaporan:
   tambah migrasi `034_message_severity.sql` (`messages.severity` `INFO|WARNING|CRITICAL`) dan dukung field `severity`
   pada `POST/PATCH /api/v1/admin/messages`; perkaya `ReportSummary` admin dengan `reporterName`/`description`

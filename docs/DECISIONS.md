@@ -1455,3 +1455,47 @@ kotak masuk warga membaca `data.items` dan objek `{message, read}`; kegagalan
 sinkronisasi tidak lagi ditelan diam-diam. Kontrak terdampak diperbarui pada
 [openapi.json](openapi.json), [SRS](SRS.md) dan [contoh](examples.json).
 Commit lokal wajib; push/merge/deploy tetap tidak diotorisasi.
+
+<a id="ai-review-cluster-073"></a>
+
+## 62. Tinjauan AI dan kesimpulan klaster wilayah (3 November 2026)
+
+**WS-DEC-073 - CURRENT_USER_CONFIRMED.** Pemilik meminta AI memeriksa
+kesesuaian deskripsi warga dengan bukti gambar dan menyimpulkan kondisi klaster
+wilayah, dengan pembaruan realtime diterima sebagai polling berkala.
+
+1. `REPORT_ANALYSIS` memakai prompt `report-v2` dan mengembalikan
+   `descriptionMismatch`. Deskripsi warga dikirim sebagai data pada user message
+   (dibatasi 2000 karakter) dan tidak pernah dijadikan instruksi sistem. Hasil
+   disimpan pada `assessments.description_mismatch` (migrasi
+   `036_assessment_mismatch.sql`) sehingga admin dapat melihat penanda tanpa
+   membaca ulang gambar. Penanda ini bahan tinjauan, bukan keputusan otomatis:
+   admin tetap dapat mengoreksi penilaian.
+2. Kesimpulan klaster bersifat dua lapis. Lapisan dasar dihitung sinkron oleh
+   `refreshGroup` (`groups.summary`, `groups.latitude/longitude`) sehingga
+   selalu tersedia. Lapisan naratif memakai job `CLUSTER_SUMMARY`
+   (`cluster-v1`) yang bersifat best-effort: kegagalan provider hanya
+   meninggalkan `ai_summary` lama/kosong dan tidak menahan laporan maupun
+   perubahan level klaster. `jobs_kind` diperluas pada
+   `037_cluster_summary_job.sql`.
+3. `GET /public/monitor` kini membuka `id`, `reportCount`, `summary`,
+   `aiSummary`, dan centroid klaster. Koordinat yang dibuka adalah rata-rata
+   klaster, bukan titik laporan individual; deskripsi, identitas pelapor, dan
+   media tetap privat sesuai SRS-IF-007.
+4. Realtime warga memakai polling 20 detik plus pull-to-refresh pada Pantau
+   Wilayah, Kotak Masuk, dan kartu status beranda. Tidak ada WebSocket/SSE baru;
+   polling dimatikan pada widget test agar tidak meninggalkan timer.
+5. Lokasi laporan memakai GPS perangkat nyata melalui `geolocator` dengan izin
+   bertahap. Formulir menolak pengiriman bila titik belum terverifikasi dan
+   menampilkan pesan jujur; tidak ada lagi koordinat hardcoded. Tautan peta
+   memakai `https://www.google.com/maps/search/?api=1&query=lat,lon` melalui
+   `url_launcher`.
+6. Penyimpanan media memakai `storage/uploads/REPORT|DOCUMENT/<tahun>/<bulan>/`
+   dengan `blob_key` relatif dan `resolveBlobPath` berpenjaga traversal. Kunci
+   datar lama tetap dapat dibaca sehingga data pengembangan tidak hilang; tidak
+   ada migrasi berkas paksa.
+
+Batas yang belum selesai: sinkronisasi kontak Pusat Aksi ke CMS dan penataan
+kuota admin belum dikerjakan dalam rangkaian ini; kamera tetap memakai alur
+`image_picker` yang ada dengan permintaan izin saat tombol kamera ditekan.
+
