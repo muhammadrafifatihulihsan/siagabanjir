@@ -78,6 +78,7 @@ docker compose --profile all up -d
 - **Swagger UI API Testing:** `http://localhost:3000/docs`
 - **Health Check Status:** `http://localhost:3000/health`
 - **Web Admin & Warga (Nginx):** `http://localhost:8080`
+- Panduan setup dari nol (fresh clone): [docs/PANDUAN-SETUP-DARI-NOL.md](docs/PANDUAN-SETUP-DARI-NOL.md).
 - Panduan pengujian sistem lengkap: [docs/PANDUAN-PENGUJIAN.md](docs/PANDUAN-PENGUJIAN.md).
 
 ## Informasi pengembangan

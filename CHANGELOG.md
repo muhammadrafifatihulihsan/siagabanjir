@@ -7,6 +7,11 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Tambahkan panduan komprehensif setup dari nol setelah clone (docs/PANDUAN-SETUP-DARI-NOL.md)
+  yang memandu instalasi dependensi, persiapan MySQL Laragon, konfigurasi .env privat,
+  migrasi skema, seeding 15 akun pengujian, eksekusi backend Fastify, pengujian Flutter
+  hingga mode Docker Compose instan.
+
 - Tambahkan modul dan perintah database seeding (corepack pnpm --dir apps/server db:seed)
   yang memfasilitasi pembuatan 15 akun pengujian (10 akun Warga dan 5 akun Petugas Admin
   BPBD/Posko) langsung ke MySQL dengan derivasi scrypt aman dan verifier pemulihan

@@ -1,6 +1,6 @@
 # Panduan Lengkap & Ringkas Pengujian SiagaBanjir
 
-> **Panduan Pengujian:** Ikuti urutan langkah berikut dari persiapan awal (environment & database), verifikasi server, pengujian Swagger UI, pengujian via Docker instan, hingga menjalankan aplikasi Flutter (Web & Android).
+> **Panduan Pengujian:** Ikuti urutan langkah berikut dari persiapan awal (environment & database), verifikasi server, pengujian Swagger UI, pengujian via Docker instan, hingga menjalankan aplikasi Flutter (Web & Android). Untuk panduan lengkap dari awal kroscek clone repositori bersih, lihat [PANDUAN-SETUP-DARI-NOL.md](PANDUAN-SETUP-DARI-NOL.md).
 
 ---
 

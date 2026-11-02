@@ -60,6 +60,7 @@ Perbaikan integrasi:
 7. Disusun proposal pembelajaran /learn (learning_proposal.md) mengenai tata kelola integrasi backend-frontend tanpa merusak desain UI.
 8. Penerapan proposal pembelajaran /learn: aturan integritas UI dan desain acuan resmi diterapkan ke skills/siagabanjir-flutter/SKILL.md (poin 9) dan rules/ui.md (subbagian "Integrasi Backend dan Fidelitas UI"). Skrip validasi skill dan link internal Markdown terverifikasi PASS.
 9. Database seeding akun pengujian: ditambahkan script dan perintah corepack pnpm --dir apps/server db:seed untuk membuat 15 akun pengujian (10 Warga dan 5 Admin BPBD) langsung ke MySQL siagabanjirdev. Seluruh 15 akun berhasil dibuat dan terverifikasi.
+10. Ditambahkan dokumen panduan setup dari nol (docs/PANDUAN-SETUP-DARI-NOL.md) mencakup persiapan pnpm corepack, MySQL Laragon, konfigurasi .env privat, migrasi, seeding, server Fastify, testing Flutter, dan Docker Compose.
 
 ## Checklist progres endpoint backend
 
