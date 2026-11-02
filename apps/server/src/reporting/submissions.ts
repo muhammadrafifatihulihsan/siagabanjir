@@ -37,6 +37,11 @@ export interface Point {
   source: 'GPS' | 'MANUAL';
 }
 
+// Ringkasan riwayat membawa label lokasi klaster untuk tautan peta.
+export interface ReportSummaryPoint extends Point {
+  locationName: string;
+}
+
 export interface DeviceSignals {
   mockLocation: 'DETECTED' | 'NOT_DETECTED' | 'UNKNOWN';
   developerMode: 'DETECTED' | 'NOT_DETECTED' | 'UNKNOWN';
@@ -65,6 +70,7 @@ export interface Assessment {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  descriptionMismatch: boolean;
   resultVersion: number;
   eligible: boolean;
 }
@@ -81,6 +87,7 @@ export interface ReportSummary {
   acceptedAt: string;
   groupId: string;
   description: string;
+  point: ReportSummaryPoint;
   analysisState: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
   assessment: Assessment;
   review: ReviewState;
@@ -175,6 +182,7 @@ interface ReportRow extends RowDataPacket {
   needs_review_since: string | null;
   deleted_at: string | null;
   group_state: 'ACTIVE' | 'COMPLETED';
+  location_label: string | null;
 }
 
 interface AssessmentRow extends RowDataPacket {
@@ -184,6 +192,7 @@ interface AssessmentRow extends RowDataPacket {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  description_mismatch: number | boolean;
   result_version: number;
   eligible: number | boolean;
 }
@@ -261,7 +270,11 @@ export async function createUpload(
       return { upload: rowToUpload(rows[0]), isReplay: true };
     }
 
-    const { digest, blobKey } = await saveMediaBlob(uploadId, fileData);
+    const { digest, blobKey } = await saveMediaBlob(
+      uploadId,
+      fileData,
+      input.purpose,
+    );
 
     await connection.execute(
       `INSERT INTO uploads
@@ -718,7 +731,7 @@ export async function listOwnReports(
 
   return withConnection(deps.pool, async (connection) => {
     let sql =
-      'SELECT r.*, g.state as group_state FROM reports r JOIN `groups` g ON r.group_id = g.id WHERE r.owner_id = ?';
+      'SELECT r.*, g.state as group_state, g.location_label FROM reports r JOIN `groups` g ON r.group_id = g.id WHERE r.owner_id = ?';
     const params: (string | number)[] = [accountId];
 
     if (filter) {
@@ -764,6 +777,7 @@ export async function listOwnReports(
             relevance: asm.relevance,
             level: asm.level,
             explanation: asm.explanation,
+            descriptionMismatch: Number(asm.description_mismatch) === 1,
             resultVersion: asm.result_version,
             eligible: Boolean(asm.eligible),
           }
@@ -772,6 +786,7 @@ export async function listOwnReports(
             relevance: 'UNASSESSED',
             level: 'UNRATED',
             explanation: '',
+            descriptionMismatch: false,
             resultVersion: 1,
             eligible: true,
           };
@@ -781,6 +796,12 @@ export async function listOwnReports(
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
         description: r.description,
+        point: {
+          latitude: Number(r.latitude),
+          longitude: Number(r.longitude),
+          source: r.location_source,
+          locationName: r.location_label || 'Lokasi Laporan',
+        },
         analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {
@@ -824,7 +845,7 @@ export async function getOwnReport(
 ): Promise<ReportDetail> {
   return withConnection(deps.pool, async (connection) => {
     const [rows] = await connection.execute<ReportRow[]>(
-      'SELECT r.*, g.state as group_state FROM reports r JOIN `groups` g ON r.group_id = g.id WHERE r.id = ? AND r.owner_id = ?',
+      'SELECT r.*, g.state as group_state, g.location_label FROM reports r JOIN `groups` g ON r.group_id = g.id WHERE r.id = ? AND r.owner_id = ?',
       [reportId, accountId],
     );
     const r = rows[0];
@@ -875,6 +896,7 @@ export async function getOwnReport(
           relevance: asm.relevance,
           level: asm.level,
           explanation: asm.explanation,
+          descriptionMismatch: Number(asm.description_mismatch) === 1,
           resultVersion: asm.result_version,
           eligible: Boolean(asm.eligible),
         }
@@ -883,6 +905,7 @@ export async function getOwnReport(
           relevance: 'UNASSESSED',
           level: 'UNRATED',
           explanation: '',
+          descriptionMismatch: false,
           resultVersion: 1,
           eligible: true,
         };
@@ -893,6 +916,12 @@ export async function getOwnReport(
         acceptedAt: new Date(r.accepted_at).toISOString(),
         groupId: r.group_id,
         description: r.description,
+        point: {
+          latitude: Number(r.latitude),
+          longitude: Number(r.longitude),
+          source: r.location_source,
+          locationName: r.location_label || 'Lokasi Laporan',
+        },
         analysisState: await reportAnalysisState(connection, r.id),
         assessment,
         review: {

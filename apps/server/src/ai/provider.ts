@@ -21,14 +21,23 @@ export async function callDeepSeek(
   images: AnalysisImage[],
   maxTokens: number,
   request: typeof fetch = fetch,
+  text?: string,
 ): Promise<unknown> {
   if (
-    !images.length ||
+    (!images.length && !text) ||
     images.length > 10 ||
     images.some((i) => !i.data.length || i.data.length > 2 * 1024 * 1024)
   ) {
     throw new AnalysisError('PREPROCESS_FAILED');
   }
+  const content: unknown[] = images.map((image) => ({
+    type: 'image_url',
+    image_url: {
+      url: `data:${image.mime};base64,${image.data.toString('base64')}`,
+    },
+  }));
+  if (text) content.push({ type: 'text', text });
+
   const body = JSON.stringify({
     model: config.model,
     stream: false,
@@ -36,15 +45,7 @@ export async function callDeepSeek(
     max_tokens: maxTokens,
     messages: [
       { role: 'system', content: prompt },
-      {
-        role: 'user',
-        content: images.map((image) => ({
-          type: 'image_url',
-          image_url: {
-            url: `data:${image.mime};base64,${image.data.toString('base64')}`,
-          },
-        })),
-      },
+      { role: 'user', content },
     ],
   });
   if (Buffer.byteLength(body) > 40 * 1024 * 1024)

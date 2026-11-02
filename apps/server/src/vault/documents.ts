@@ -66,7 +66,8 @@ export interface KtpState {
 
 export interface Job {
   id: string;
-  kind: 'REPORT_ANALYSIS' | 'KTP_CHECK' | 'FAMILY_EXTRACTION';
+  kind:
+    'REPORT_ANALYSIS' | 'KTP_CHECK' | 'FAMILY_EXTRACTION' | 'CLUSTER_SUMMARY';
   state:
     'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'EXPIRED';
   sourceId: string;

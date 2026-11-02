@@ -385,23 +385,35 @@
     "name": "public-monitor-valid",
     "schema": "MonitorItem",
     "payload": {
+      "id": "3f1c1f2e-8f1f-4a5b-9e8e-1b2c3d4e5f60",
       "locationName": "Lokasi laporan DEMO",
       "level": "UNRATED",
       "updatedAt": "2026-10-18T01:00:00.000Z",
-      "reviewState": "NEEDS_REVIEW"
+      "reviewState": "NEEDS_REVIEW",
+      "reportCount": 3,
+      "summary": "3 laporan aktif · 1 sesuai bukti. Status klaster: BELUM DINILAI.",
+      "aiSummary": null,
+      "latitude": -0.924,
+      "longitude": 100.362
     },
     "expectedValid": true,
     "scope": "SCHEMA_ONLY"
   },
   {
-    "name": "public-monitor-coordinate-forbidden",
+    "name": "public-monitor-extra-field-forbidden",
     "schema": "MonitorItem",
     "payload": {
+      "id": "3f1c1f2e-8f1f-4a5b-9e8e-1b2c3d4e5f60",
       "locationName": "Lokasi laporan DEMO",
       "level": "HIGH",
       "updatedAt": "2026-10-18T01:00:00.000Z",
       "reviewState": "NEEDS_REVIEW",
-      "latitude": -0.95
+      "reportCount": 2,
+      "summary": null,
+      "aiSummary": null,
+      "latitude": -0.95,
+      "longitude": 100.36,
+      "internalNotes": "tidak boleh tampil di publik"
     },
     "expectedValid": false,
     "scope": "SCHEMA_ONLY"

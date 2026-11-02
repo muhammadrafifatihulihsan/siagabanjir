@@ -71,6 +71,7 @@ void test('AI: level diturunkan hanya dari indikator sah yang cukup', () => {
     sufficientInformation: true,
     supportedIndicators: ['LOCAL_INUNDATION', 'TRAPPED'],
     explanation: 'Terlihat',
+    descriptionMismatch: false,
   };
   assert.equal(
     reportLevel(parseResult('REPORT_ANALYSIS', raw) as ReportResult),
@@ -93,5 +94,33 @@ void test('AI: level diturunkan hanya dari indikator sah yang cukup', () => {
       }) as ReportResult,
     ),
     'UNRATED',
+  );
+  assert.throws(() =>
+    parseResult('REPORT_ANALYSIS', { ...raw, descriptionMismatch: 'tidak' }),
+  );
+  assert.throws(() =>
+    parseResult('REPORT_ANALYSIS', {
+      relevance: raw.relevance,
+      sufficientInformation: raw.sufficientInformation,
+      supportedIndicators: raw.supportedIndicators,
+      explanation: raw.explanation,
+    }),
+  );
+});
+
+void test('AI: ringkasan klaster hanya menerima teks ringkasan yang wajar', () => {
+  assert.deepEqual(
+    parseResult('CLUSTER_SUMMARY', {
+      summary: 'Lima laporan, dua sesuai bukti.',
+    }),
+    { summary: 'Lima laporan, dua sesuai bukti.' },
+  );
+  assert.throws(() => parseResult('CLUSTER_SUMMARY', { summary: '' }));
+  assert.throws(() => parseResult('CLUSTER_SUMMARY', { summary: '   ' }));
+  assert.throws(() =>
+    parseResult('CLUSTER_SUMMARY', { summary: 'x', confidence: 0.9 }),
+  );
+  assert.throws(() =>
+    parseResult('CLUSTER_SUMMARY', { summary: 'x'.repeat(1001) }),
   );
 });

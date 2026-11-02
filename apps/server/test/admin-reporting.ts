@@ -95,7 +95,7 @@ export async function verifyAdminReporting(
     await connection.execute(
       `INSERT INTO uploads (id, owner_id, purpose, origin, blob_key, digest, mime, bytes, state, expires_at, created_at, updated_at)
         VALUES (?, ?, 'REPORT', 'CAMERA', ?, 'dummy-digest', 'image/jpeg', 1024, 'ATTACHED', DATE_ADD(UTC_TIMESTAMP(3), INTERVAL 1 DAY), UTC_TIMESTAMP(3), UTC_TIMESTAMP(3))`,
-      [uploadId, citizenId, `uploads/${uploadId}.jpg`],
+      [uploadId, citizenId, `REPORT/2026/01/${uploadId}.jpg`],
     );
 
     // 5. Report awal

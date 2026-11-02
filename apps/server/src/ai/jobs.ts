@@ -18,7 +18,9 @@ export interface StoredResult {
   ktpResult?: KtpResult;
   suggestions?: Suggestion[];
   incomplete?: boolean;
+  summary?: string;
 }
+
 export interface JobRow extends RowDataPacket {
   id: string;
   kind: Kind;
@@ -74,6 +76,15 @@ export async function sourcesValid(
   connection: PoolConnection,
   job: JobRow,
 ): Promise<boolean> {
+  if (job.kind === 'CLUSTER_SUMMARY') {
+    const source = sourcesOf(job)[0];
+    if (!source) return false;
+    const [rows] = await connection.execute<RowDataPacket[]>(
+      "SELECT id FROM `groups` WHERE id = ? AND state = 'ACTIVE'",
+      [source.id],
+    );
+    return rows.length > 0;
+  }
   for (const source of sourcesOf(job)) {
     const table = job.kind === 'REPORT_ANALYSIS' ? 'reports' : 'documents';
     const version =

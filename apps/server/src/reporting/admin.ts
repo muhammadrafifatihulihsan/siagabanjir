@@ -19,6 +19,11 @@ export interface Point {
   locationName: string;
 }
 
+// Ringkasan laporan ikut membawa sumber lokasi agar admin bisa menilai akurasi.
+export interface ReportSummaryPoint extends Point {
+  source: 'GPS' | 'MANUAL';
+}
+
 export interface MediaItem {
   id: string;
   mediaType: string;
@@ -31,6 +36,7 @@ export interface Assessment {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  descriptionMismatch: boolean;
 }
 
 export interface ReviewState {
@@ -46,6 +52,7 @@ export interface ReportSummary {
   groupId: string;
   reporterName: string;
   description: string;
+  point: ReportSummaryPoint;
   analysisState: 'QUEUED' | 'RUNNING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED';
   assessment: Assessment;
   review: ReviewState;
@@ -92,6 +99,10 @@ export interface Group {
   version: number;
   reportCount: number;
   completedAt: string | null;
+  summary: string | null;
+  aiSummary: string | null;
+  latitude: number | null;
+  longitude: number | null;
 }
 
 export interface GroupDetail {
@@ -160,6 +171,7 @@ interface AssessmentRow extends RowDataPacket {
   relevance: 'MATCH' | 'MISMATCH' | 'INSUFFICIENT' | 'UNASSESSED';
   level: 'LOW' | 'MEDIUM' | 'HIGH' | 'UNRATED';
   explanation: string;
+  description_mismatch: number | boolean;
   result_version: number;
 }
 
@@ -335,12 +347,14 @@ async function loadReportSummary(
         relevance: activeAssess.relevance,
         level: activeAssess.level,
         explanation: activeAssess.explanation,
+        descriptionMismatch: Number(activeAssess.description_mismatch) === 1,
       }
     : {
         source: 'NONE',
         relevance: 'UNASSESSED',
         level: 'UNRATED',
         explanation: '',
+        descriptionMismatch: false,
       };
 
   const [jobRows] = await connection.execute<JobRow[]>(
@@ -363,6 +377,12 @@ async function loadReportSummary(
     groupId: report.group_id,
     reporterName: report.reporter_name || 'Warga Pelapor',
     description: report.description,
+    point: {
+      latitude: Number(report.latitude),
+      longitude: Number(report.longitude),
+      source: report.location_source,
+      locationName: report.location_label || 'Lokasi Laporan',
+    },
     analysisState: jobState,
     assessment,
     review,
@@ -537,6 +557,7 @@ async function loadReportDetail(
         relevance: aiAssess.relevance,
         level: aiAssess.level,
         explanation: aiAssess.explanation,
+        descriptionMismatch: Number(aiAssess.description_mismatch) === 1,
       }
     : null;
 
@@ -1115,6 +1136,10 @@ interface GroupRawRow extends RowDataPacket {
   version: number;
   report_count: number | string;
   min_needs_review_since: string | Date | null;
+  summary: string | null;
+  ai_summary: string | null;
+  latitude: number | string | null;
+  longitude: number | string | null;
 }
 
 function formatGroup(row: GroupRawRow): Group {
@@ -1131,6 +1156,10 @@ function formatGroup(row: GroupRawRow): Group {
     version: Number(row.version),
     reportCount: Number(row.report_count ?? 0),
     completedAt: formatDate(row.completed_at),
+    summary: row.summary ?? null,
+    aiSummary: row.ai_summary ?? null,
+    latitude: row.latitude == null ? null : Number(row.latitude),
+    longitude: row.longitude == null ? null : Number(row.longitude),
   };
 }
 

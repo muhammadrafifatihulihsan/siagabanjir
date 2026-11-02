@@ -1,8 +1,7 @@
 import { unlink } from 'node:fs/promises';
-import { join } from 'node:path';
 import type { Pool, RowDataPacket } from 'mysql2/promise';
 import { withBusinessTransaction } from '../db/pool.js';
-import { getStorageDirectory } from './vault.js';
+import { resolveBlobPath } from './vault.js';
 
 // Satu worker menjalankan cleanup; akses HTTP telah dicabut melalui deleted_at.
 export async function cleanupOne(pool: Pool): Promise<boolean> {
@@ -21,9 +20,8 @@ export async function cleanupOne(pool: Pool): Promise<boolean> {
     const [media] = await pool.execute<RowDataPacket[]>(sql, [objectId]);
     for (const item of media) {
       const key = String(item.blob_key);
-      if (!/^[a-z0-9_-]+$/i.test(key)) throw new Error('Invalid blob');
       try {
-        await unlink(join(getStorageDirectory(), 'uploads', key));
+        await unlink(resolveBlobPath(key));
       } catch (e) {
         if (!(e && typeof e === 'object' && 'code' in e && e.code === 'ENOENT'))
           throw e;

@@ -6271,6 +6271,9 @@
             "minLength": 0,
             "maxLength": 1000
           },
+          "descriptionMismatch": {
+            "type": "boolean"
+          },
           "resultVersion": {
             "type": "integer",
             "minimum": 1
@@ -6284,6 +6287,7 @@
           "relevance",
           "level",
           "explanation",
+          "descriptionMismatch",
           "resultVersion",
           "eligible"
         ],
@@ -6461,6 +6465,39 @@
             "minLength": 1,
             "maxLength": 2000
           },
+          "point": {
+            "type": "object",
+            "properties": {
+              "latitude": {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              "longitude": {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              "source": {
+                "enum": [
+                  "GPS",
+                  "MANUAL"
+                ]
+              },
+              "locationName": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 120
+              }
+            },
+            "required": [
+              "latitude",
+              "longitude",
+              "source",
+              "locationName"
+            ],
+            "additionalProperties": false
+          },
           "analysisState": {
             "enum": [
               "QUEUED",
@@ -6487,6 +6524,7 @@
           "groupId",
           "reporterName",
           "description",
+          "point",
           "analysisState",
           "assessment",
           "review",
@@ -6845,6 +6883,54 @@
             "type": "integer",
             "minimum": 0
           },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aiSummary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "completedAt": {
             "anyOf": [
               {
@@ -6869,6 +6955,10 @@
           "updatedAt",
           "version",
           "reportCount",
+          "summary",
+          "aiSummary",
+          "latitude",
+          "longitude",
           "completedAt"
         ],
         "additionalProperties": false
@@ -6910,6 +7000,12 @@
       "MonitorItem": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 36,
+            "format": "uuid",
+            "maxLength": 36
+          },
           "locationName": {
             "type": "string",
             "minLength": 1,
@@ -6933,13 +7029,71 @@
               "NEEDS_REVIEW",
               "REVIEWED"
             ]
+          },
+          "reportCount": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "aiSummary": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 0,
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "latitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -90,
+                "maximum": 90
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "longitude": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": -180,
+                "maximum": 180
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
+          "id",
           "locationName",
           "level",
           "updatedAt",
-          "reviewState"
+          "reviewState",
+          "reportCount",
+          "summary",
+          "aiSummary",
+          "latitude",
+          "longitude"
         ],
         "additionalProperties": false
       },

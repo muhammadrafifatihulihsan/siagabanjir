@@ -1,7 +1,12 @@
 import { randomUUID } from 'node:crypto';
 import type { Pool } from 'mysql2/promise';
 import { withConnection, withBusinessTransaction } from '../db/pool.js';
-import { sourcesValid, type JobRow, type StoredResult } from './jobs.js';
+import {
+  sourcesOf,
+  sourcesValid,
+  type JobRow,
+  type StoredResult,
+} from './jobs.js';
 import { reportLevel, type ReportResult } from './results.js';
 import { refreshGroup } from '../reporting/group-state.js';
 
@@ -65,13 +70,14 @@ export async function finishJob(
       const version =
         Number(reports[0]?.result_version) + (admins.length ? 0 : 1);
       await c.execute(
-        "INSERT INTO assessments (id,report_id,source,relevance,level,explanation,result_version,eligible,created_at) VALUES (?,?,'AI',?,?,?,?,?,UTC_TIMESTAMP(3))",
+        "INSERT INTO assessments (id,report_id,source,relevance,level,explanation,description_mismatch,result_version,eligible,created_at) VALUES (?,?,'AI',?,?,?,?,?,?,UTC_TIMESTAMP(3))",
         [
           randomUUID(),
           job.source_id,
           analysis.relevance,
           reportLevel(analysis),
           analysis.explanation,
+          analysis.descriptionMismatch ? 1 : 0,
           version,
           analysis.relevance === 'MATCH' ? 1 : 0,
         ],
@@ -82,6 +88,15 @@ export async function finishJob(
           [version, job.source_id],
         );
       await refreshGroup(c, String(reports[0]?.group_id));
+    }
+    if (valid && !error && job.kind === 'CLUSTER_SUMMARY' && result) {
+      const summary = (result as { summary?: string }).summary;
+      const groupId = sourcesOf(job)[0]?.id ?? job.source_id;
+      if (summary)
+        await c.execute(
+          'UPDATE `groups` SET ai_summary=?,ai_summary_at=UTC_TIMESTAMP(3),version=version+1,updated_at=UTC_TIMESTAMP(3) WHERE id=?',
+          [summary, groupId],
+        );
     }
     await c.execute(
       "UPDATE jobs SET state=?,result_json=?,safe_error=?,completed_units=?,model_name=?,prompt_version=?,elapsed_ms=?,expires_at=IF(kind='FAMILY_EXTRACTION' AND ?='SUCCEEDED',UTC_TIMESTAMP(3)+INTERVAL 24 HOUR,NULL),lease_token=NULL,lease_until=NULL,updated_at=UTC_TIMESTAMP(3) WHERE id=?",
@@ -96,8 +111,10 @@ export async function finishJob(
         job.kind === 'KTP_CHECK'
           ? 'ktp-v1'
           : job.kind === 'REPORT_ANALYSIS'
-            ? 'report-v1'
-            : 'family-v1',
+            ? 'report-v2'
+            : job.kind === 'CLUSTER_SUMMARY'
+              ? 'cluster-v1'
+              : 'family-v1',
         elapsed,
         state,
         job.id,
