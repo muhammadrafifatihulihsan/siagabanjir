@@ -96,21 +96,22 @@ Buka terminal di root proyek SiagaBanjir, lalu jalankan:
 
    | No | Peran | Nama Lengkap | Email / Identifier | Kata Sandi |
    |---|---|---|---|---|
-   | 1 | `ADMIN` | Admin BPBD Utama | `admin.bpbd@padang.go.id` | `Password123!` |
-   | 2 | `ADMIN` | Petugas Posko Kuranji | `admin.kuranji@padang.go.id` | `Password123!` |
-   | 3 | `ADMIN` | Petugas Posko Koto Tangah | `admin.koto@padang.go.id` | `Password123!` |
-   | 4 | `ADMIN` | Petugas Posko Nanggalo | `admin.nanggalo@padang.go.id` | `Password123!` |
-   | 5 | `ADMIN` | Operator Pusdalops PB | `admin.pusdalops@padang.go.id` | `Password123!` |
-   | 6 | `CITIZEN` | Budi Santoso | `warga1@siagabanjir.id` | `Password123!` |
-   | 7 | `CITIZEN` | Siti Rahmawati | `warga2@siagabanjir.id` | `Password123!` |
-   | 8 | `CITIZEN` | Ahmad Fauzi | `warga3@siagabanjir.id` | `Password123!` |
-   | 9 | `CITIZEN` | Dewi Lestari | `warga4@siagabanjir.id` | `Password123!` |
-   | 10 | `CITIZEN` | Rizky Pratama | `warga5@siagabanjir.id` | `Password123!` |
-   | 11 | `CITIZEN` | Nurul Hidayah | `warga6@siagabanjir.id` | `Password123!` |
-   | 12 | `CITIZEN` | Hendra Wijaya | `warga7@siagabanjir.id` | `Password123!` |
-   | 13 | `CITIZEN` | Fitri Handayani | `warga8@siagabanjir.id` | `Password123!` |
-   | 14 | `CITIZEN` | Eko Prasetyo | `warga9@siagabanjir.id` | `Password123!` |
-   | 15 | `CITIZEN` | Rina Marlina | `warga10@siagabanjir.id` | `Password123!` |
+   | 1 | `ADMIN` | Admin 1 | `admin1@siagabanjir.id` | `Password123!` |
+   | 2 | `ADMIN` | Admin 2 | `admin2@siagabanjir.id` | `Password123!` |
+   | 3 | `ADMIN` | Admin 3 | `admin3@siagabanjir.id` | `Password123!` |
+   | 4 | `ADMIN` | Admin 4 | `admin4@siagabanjir.id` | `Password123!` |
+   | 5 | `ADMIN` | Admin 5 | `admin5@siagabanjir.id` | `Password123!` |
+   | 6 | `ADMIN` | Admin BPBD Utama | `admin.bpbd@padang.go.id` | `Password123!` |
+   | 7 | `CITIZEN` | Warga 1 | `warga1@siagabanjir.id` | `Password123!` |
+   | 8 | `CITIZEN` | Warga 2 | `warga2@siagabanjir.id` | `Password123!` |
+   | 9 | `CITIZEN` | Warga 3 | `warga3@siagabanjir.id` | `Password123!` |
+   | 10 | `CITIZEN` | Warga 4 | `warga4@siagabanjir.id` | `Password123!` |
+   | 11 | `CITIZEN` | Warga 5 | `warga5@siagabanjir.id` | `Password123!` |
+   | 12 | `CITIZEN` | Warga 6 | `warga6@siagabanjir.id` | `Password123!` |
+   | 13 | `CITIZEN` | Warga 7 | `warga7@siagabanjir.id` | `Password123!` |
+   | 14 | `CITIZEN` | Warga 8 | `warga8@siagabanjir.id` | `Password123!` |
+   | 15 | `CITIZEN` | Warga 9 | `warga9@siagabanjir.id` | `Password123!` |
+   | 16 | `CITIZEN` | Warga 10 | `warga10@siagabanjir.id` | `Password123!` |
 
 
 ---

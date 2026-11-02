@@ -219,11 +219,8 @@ Gunakan salah satu dari 15 akun pengujian yang telah di-seed (semua akun menggun
 
 #### A. Akun Petugas Admin BPBD (Dashboard Web Admin)
 Pilih tab **Petugas Admin** pada layar masuk, lalu gunakan salah satu kredensial:
+- `admin1@siagabanjir.id` s.d. `admin5@siagabanjir.id` | Sandi: `Password123!`
 - `admin.bpbd@padang.go.id` | Sandi: `Password123!`
-- `admin.kuranji@padang.go.id` | Sandi: `Password123!`
-- `admin.koto@padang.go.id` | Sandi: `Password123!`
-- `admin.nanggalo@padang.go.id` | Sandi: `Password123!`
-- `admin.pusdalops@padang.go.id` | Sandi: `Password123!`
 - *Atau klik tombol cepat:* **"Masuk sebagai Petugas Admin"**.
 
 #### B. Akun Warga Terdaftar (Aplikasi Warga)

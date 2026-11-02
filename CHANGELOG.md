@@ -7,6 +7,9 @@ Catatan ini mengikuti versi repository. Versi spesifikasi mengikuti
 
 ## [Unreleased]
 
+- Sederhanakan format akun pengujian seed (admin1 s.d. admin5 dan warga1 s.d. warga10)
+  dengan kata sandi seragam Password123! untuk kemudahan pengujian manual.
+
 - Bersihkan variabel path alat biner opsional (FFMPEG/POPPLER) dari berkas template .env.example
   dan konfigurasi lokal untuk merapikan berkas dan mengandalkan fallback bawaan sistem.
 

@@ -14,95 +14,101 @@ export interface SeedAccount {
 }
 
 export const SEED_ACCOUNTS: SeedAccount[] = [
-  // 5 Akun Petugas Admin BPBD / Posko Lapangan
+  // Akun Petugas Admin (Format Simpel: admin1 s.d. admin5 & admin.bpbd)
+  {
+    displayName: 'Admin 1',
+    email: 'admin1@siagabanjir.id',
+    role: 'ADMIN',
+    password: 'Password123!',
+  },
+  {
+    displayName: 'Admin 2',
+    email: 'admin2@siagabanjir.id',
+    role: 'ADMIN',
+    password: 'Password123!',
+  },
+  {
+    displayName: 'Admin 3',
+    email: 'admin3@siagabanjir.id',
+    role: 'ADMIN',
+    password: 'Password123!',
+  },
+  {
+    displayName: 'Admin 4',
+    email: 'admin4@siagabanjir.id',
+    role: 'ADMIN',
+    password: 'Password123!',
+  },
+  {
+    displayName: 'Admin 5',
+    email: 'admin5@siagabanjir.id',
+    role: 'ADMIN',
+    password: 'Password123!',
+  },
   {
     displayName: 'Admin BPBD Utama',
     email: 'admin.bpbd@padang.go.id',
     role: 'ADMIN',
     password: 'Password123!',
   },
-  {
-    displayName: 'Petugas Posko Kuranji',
-    email: 'admin.kuranji@padang.go.id',
-    role: 'ADMIN',
-    password: 'Password123!',
-  },
-  {
-    displayName: 'Petugas Posko Koto Tangah',
-    email: 'admin.koto@padang.go.id',
-    role: 'ADMIN',
-    password: 'Password123!',
-  },
-  {
-    displayName: 'Petugas Posko Nanggalo',
-    email: 'admin.nanggalo@padang.go.id',
-    role: 'ADMIN',
-    password: 'Password123!',
-  },
-  {
-    displayName: 'Operator Pusdalops PB',
-    email: 'admin.pusdalops@padang.go.id',
-    role: 'ADMIN',
-    password: 'Password123!',
-  },
 
-  // 10 Akun Warga Terdaftar
+  // 10 Akun Warga (Format Simpel: warga1 s.d. warga10)
   {
-    displayName: 'Budi Santoso',
+    displayName: 'Warga 1',
     email: 'warga1@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Siti Rahmawati',
+    displayName: 'Warga 2',
     email: 'warga2@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Ahmad Fauzi',
+    displayName: 'Warga 3',
     email: 'warga3@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Dewi Lestari',
+    displayName: 'Warga 4',
     email: 'warga4@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Rizky Pratama',
+    displayName: 'Warga 5',
     email: 'warga5@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Nurul Hidayah',
+    displayName: 'Warga 6',
     email: 'warga6@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Hendra Wijaya',
+    displayName: 'Warga 7',
     email: 'warga7@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Fitri Handayani',
+    displayName: 'Warga 8',
     email: 'warga8@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Eko Prasetyo',
+    displayName: 'Warga 9',
     email: 'warga9@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
   },
   {
-    displayName: 'Rina Marlina',
+    displayName: 'Warga 10',
     email: 'warga10@siagabanjir.id',
     role: 'CITIZEN',
     password: 'Password123!',
@@ -117,7 +123,7 @@ export async function seedAccounts() {
   try {
     await withConnection(pool, async (connection) => {
       process.stdout.write(
-        `Menyiapkan ${SEED_ACCOUNTS.length} akun pengujian (10 Warga & 5 Admin)...\n`,
+        `Menyiapkan ${SEED_ACCOUNTS.length} akun pengujian (Warga & Admin)...\n`,
       );
       for (const account of SEED_ACCOUNTS) {
         const emailNormalized = account.email.trim().toLowerCase();
@@ -172,7 +178,7 @@ export async function seedAccounts() {
         }
       }
       process.stdout.write(
-        '\nBerhasil melakukan seeding seluruh 15 akun pengujian!\n',
+        '\nBerhasil melakukan seeding seluruh akun pengujian!\n',
       );
     });
   } finally {
